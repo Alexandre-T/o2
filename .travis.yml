@@ -66,6 +66,13 @@ script:
   - composer functional-test
   # Acceptance test
   - composer acceptance-test
+  # Is code source valid?
+  - composer phpmd
+  - composer phpmd-test
+  - composer phpcs
+  - composer phpcs-test
+  - composer phpcsfixer
+  - composer phpcsfixer-test
 
 after_success:
   # - cp tests/_output/coverage.xml build/logs/clover.xml
