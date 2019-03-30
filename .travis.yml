@@ -18,17 +18,15 @@ cache:
 
 # Base versions to test raw with the Symfony latest version.
 php:
-  - 7.1
-  - 7.2
-  - 7.3
+  - "7.1"
+  - "7.2"
+  - "7.3"
   - "7.4snapshot"
-  - nightly
 
 matrix:
   fast_finish: true
   allow_failures:
     - php: "7.4snapshot"
-    - php: nightly
 
 before_install:
   - mkdir -p build/logs
@@ -66,15 +64,17 @@ script:
   - composer functional-test
   # Acceptance test
   - composer acceptance-test
-  # Is code source valid?
+  # PHP MASS DETECTOR valid?
   - composer phpmd
   - composer phpmd-test
+  # PHP CODE SNIFFER valid?
   - composer phpcs
   - composer phpcs-test
-  - composer phpcsfixer
-  - composer phpcsfixer-test
+  # PHP CS FIXER valid?
+  - if [ "$TRAVIS_PHP_VERSION" != "7.4snapshot" ]; then composer phpcsfixer ; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "7.4snapshot" ]; then composer phpcsfixer-test ; fi
 
-after_success:
+#after_success:
   # - cp tests/_output/coverage.xml build/logs/clover.xml
   # - php vendor/bin/php-coveralls -v
 
