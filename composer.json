@@ -29,13 +29,14 @@
         "symfony/yaml": "4.2.*"
     },
     "require-dev": {
+        "codeception/codeception": "^2.5",
         "friendsofphp/php-cs-fixer": "^2.14",
         "phpmd/phpmd": "2.*",
         "squizlabs/php_codesniffer": "*",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.11",
         "symfony/profiler-pack": "*",
-        "symfony/test-pack": "*",
+        "symfony/test-pack": "^1.0",
         "symfony/web-server-bundle": "4.2.*"
     },
     "config": {
@@ -63,9 +64,15 @@
         "symfony/polyfill-php56": "*"
     },
     "scripts": {
-        "php-cs-fixer": "php-cs-fixer fix src --config=.php_cs.dist --allow-risky yes",
-        "phpmd": "phpmd  src/ xml phpmd.xml --suffixes php",
         "phpcs": "phpcs src --standard=phpcs.xml -s",
+        "phpcsfixer": "php-cs-fixer fix src --config=.php_cs.dist --allow-risky yes",
+        "phpmd": "phpmd  src/ xml phpmd.xml --suffixes php",
+        "phpcs-test": "phpcs tests --standard=phpcs.xml -s",
+        "phpcsfixer-test": "php-cs-fixer fix tests --config=.php_cs.dist --allow-risky yes",
+        "phpmd-test": "phpmd  tests/ xml phpmd.xml --suffixes php --exclude _generated",
+        "unit-test": "codecept run unit",
+        "functional-test": "codecept run functional",
+        "acceptance-test": "codecept run acceptance",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
