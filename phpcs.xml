@@ -327,6 +327,12 @@
         <!-- AT excludes: Missing @return tag in function comment -->
         <exclude name="Squiz.Commenting.FunctionComment.MissingReturn" />
 
+        <!-- AT excludes: throws tag comment must start with a capital letter -->
+        <exclude name="Squiz.Commenting.FunctionComment.ThrowsNotCapital" />
+
+        <!-- AT excludes: throws tag comment must end with a full stop -->
+        <exclude name="Squiz.Commenting.FunctionComment.ThrowsNoFullStop" />
+
     </rule>
 
     <rule ref="Squiz.Commenting.VariableComment.IncorrectVarType">

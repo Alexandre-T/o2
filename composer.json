@@ -30,7 +30,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14",
-        "phpmd/phpmd": "^2.6",
+        "phpmd/phpmd": "2.*",
         "squizlabs/php_codesniffer": "*",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.11",
@@ -63,8 +63,9 @@
         "symfony/polyfill-php56": "*"
     },
     "scripts": {
-        "phpcs": "phpcs --standard=phpcs.xml",
-        "php-cs-fixer": "php-cs-fixer --config=.php_cs.dist",
+        "php-cs-fixer": "php-cs-fixer fix src --config=.php_cs.dist --allow-risky yes",
+        "phpmd": "phpmd  src/ xml phpmd.xml --suffixes php",
+        "phpcs": "phpcs src --standard=phpcs.xml -s",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
