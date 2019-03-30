@@ -9,6 +9,9 @@
     <!-- Exclude git -->
     <exclude-pattern>*/.git/*</exclude-pattern>
 
+    <!-- Exclude tests output -->
+    <exclude-pattern>tests/_output/*</exclude-pattern>
+
     <!-- Exclude third party code -->
     <exclude-pattern>*/vendor/*</exclude-pattern>
 
@@ -28,6 +31,11 @@
     <rule ref="Zend.NamingConventions.ValidVariableName"/>
 
     <rule ref="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Accept $I -->
+    <rule ref="Zend.NamingConventions.ValidVariableName.NotCamelCaps">
         <severity>0</severity>
     </rule>
 
@@ -326,6 +334,12 @@
 
         <!-- AT excludes: Missing @return tag in function comment -->
         <exclude name="Squiz.Commenting.FunctionComment.MissingReturn" />
+
+        <!-- AT excludes: throws tag comment must start with a capital letter -->
+        <exclude name="Squiz.Commenting.FunctionComment.ThrowsNotCapital" />
+
+        <!-- AT excludes: throws tag comment must end with a full stop -->
+        <exclude name="Squiz.Commenting.FunctionComment.ThrowsNoFullStop" />
 
     </rule>
 

@@ -48,8 +48,10 @@ install:
   # Install assets
   # - yarn install
   # - yarn encore dev
+  # Warm-up cache to avoid maximum execution time errors.
+  - php bin/console cache:warmup
   # directories for coveralls
-  # - mkdir tests/_output/coveralls -p
+  - mkdir tests/_output/coveralls -p
 
 
 # Run script and log coverage in the "build" directory
@@ -58,12 +60,8 @@ script:
   - composer validate --no-interaction --ansi --verbose
   # Launch server
   - php bin/console server:start --no-interaction
-  # Unit test
-  - composer unit-test
-  # Functional test
-  - composer functional-test
-  # Acceptance test
-  - composer acceptance-test
+  # Coverall tests
+  - composer coverall-test
   # PHP MASS DETECTOR valid?
   - composer phpmd
   - composer phpmd-test
@@ -74,9 +72,9 @@ script:
   - if [ "$TRAVIS_PHP_VERSION" != "7.4snapshot" ]; then composer phpcsfixer ; fi
   - if [ "$TRAVIS_PHP_VERSION" != "7.4snapshot" ]; then composer phpcsfixer-test ; fi
 
-#after_success:
-  # - cp tests/_output/coverage.xml build/logs/clover.xml
-  # - php vendor/bin/php-coveralls -v
+after_success:
+  - cp tests/_output/coverage.xml build/logs/clover.xml
+  - php vendor/bin/php-coveralls -v
 
 # After a build, sends a notification to this e-mail with the build results.
 notifications:

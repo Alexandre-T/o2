@@ -304,8 +304,8 @@
     -->
     <rule ref="Squiz.Commenting.FunctionComment">
         <!-- we don't want spacing with alignment -->
-<!--        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>-->
-<!--        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/>-->
+        <!--        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>-->
+        <!--        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/>-->
 
         <exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName"/>
 

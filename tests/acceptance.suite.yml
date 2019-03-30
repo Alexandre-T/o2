@@ -8,5 +8,7 @@ actor: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://localhost:8000
+            url: http://127.0.0.1:8000
+            curl:
+                CURLOPT_PROXY: ''
         - \App\Tests\Helper\Acceptance

@@ -2,6 +2,7 @@ namespace: App\Tests
 coverage:
     enabled: true
     remote: false
+    c3_url: 'http://127.0.0.1:8000'
     include:
         - src/*
 paths:
