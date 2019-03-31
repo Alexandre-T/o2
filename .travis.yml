@@ -64,7 +64,8 @@ script:
   # Launch server
   - php bin/console server:start --no-interaction
   # Coverall tests
-  - composer coverall-test
+  - if [ "$TRAVIS_PHP_VERSION" == "7.4snapshot" ]; then composer test ; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "7.4snapshot" ]; then composer coverall-test ; fi
   # PHP MASS DETECTOR valid?
   - composer phpmd
   - composer phpmd-test

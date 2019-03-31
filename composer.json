@@ -74,6 +74,7 @@
         "phpcs-test": "phpcs tests --standard=phpcs-test.xml -s",
         "phpcsfixer-test": "php-cs-fixer fix tests --config=.php_cs.dist --allow-risky yes",
         "phpmd-test": "phpmd  tests/ xml phpmd-test.xml --suffixes php --exclude _generated",
+        "all-test": "codecept run",
         "coverall-test": "codecept run --coverage --coverage-html --coverage-xml",
         "unit-test": "codecept run unit",
         "functional-test": "codecept run functional",
