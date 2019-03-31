@@ -4,6 +4,8 @@ security:
             algorithm: argon2i
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    # https://knpuniversity.com/screencast/symfony2-ep2/user-provider
+    # https://symfony.com/doc/current/security/user_provider.html
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
