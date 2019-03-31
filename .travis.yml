@@ -7,7 +7,7 @@ addons:
   postgresql: "9.6"
 
 # Allows using containers
-sudo: false
+sudo: true
 
 # Cache composer packages so "composer install" is faster
 cache:
@@ -31,6 +31,7 @@ matrix:
 before_install:
   - mkdir -p build/logs
   # Libsodium pecl installation
+  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo apt-get install -y libsodium ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then pecl install -f libsodium ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then echo "extension=libsodium.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
 install:
