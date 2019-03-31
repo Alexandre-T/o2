@@ -36,7 +36,6 @@ before_install:
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo sudo apt-get update ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo apt-get install -y libsodium-dev ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then pecl install -f libsodium ; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then echo "extension=libsodium.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
 install:
   # Database creation
   - psql -c 'create database symfony;' -U postgres
