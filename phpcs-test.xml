@@ -481,7 +481,10 @@
     <!--
       Ensures that there is one blank lines between each member declaration.
     -->
-    <rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
+    <rule ref="Squiz.WhiteSpace.MemberVarSpacing">
+        <exclude name="Squiz.WhiteSpace.MemberVarSpacing.FirstIncorrect" />
+    </rule>
+
 
     <!--
       Ensures there is no whitespace around a ObjectOperator ( -> )
@@ -510,5 +513,7 @@
     <!--
       Ensures that there is no whitespace before a semicolon.
     -->
-    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing">
+        <severity>0</severity>
+    </rule>
 </ruleset>
