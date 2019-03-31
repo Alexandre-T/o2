@@ -129,7 +129,7 @@ class User implements GedmoInterface, UserInterface, Serializable
      *
      * @var string
      *
-     * @ORM\Column(type="string", length=64, name="usr_password", options={"comment": "Encrypted password"})
+     * @ORM\Column(type="string", length=128, name="usr_password", options={"comment": "Encrypted password"})
      * @Gedmo\Versioned
      */
     private $password;
