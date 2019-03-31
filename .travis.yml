@@ -31,8 +31,8 @@ matrix:
 before_install:
   - mkdir -p build/logs
   # Libsodium pecl installation
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then phpenv config-add travis.php.ini ; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then pecl install libsodium ; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then pecl install -f libsodium ; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then echo "extension=libsodium.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; fi
 install:
   # Database creation
   - psql -c 'create database symfony;' -U postgres
