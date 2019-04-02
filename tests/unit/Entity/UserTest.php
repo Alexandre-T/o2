@@ -179,12 +179,10 @@ class UserTest extends Unit
         $user = new User();
         $user->unserialize($serialize);
         self::assertNotEquals($this->user, $user);
-        self::assertNotEquals($this->user->getPassword(), $user->getPassword());
         self::assertNotEquals($this->user->getPlainPassword(), $user->getPlainPassword());
 
-        $this->tester->wantToTest('password are never serialized');
+        $this->tester->wantToTest('plain-password are never serialized');
         self::assertNotContains('bar', $serialize);
-        self::assertNotContains('foo', $serialize);
     }
 
     /**

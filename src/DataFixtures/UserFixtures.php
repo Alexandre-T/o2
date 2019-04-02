@@ -88,8 +88,8 @@ class UserFixtures extends Fixture
                 ->setCredit(320)
                 ->setGivenName('Johannie')
                 ->setName('The Customer')
-                ->setMail('user@example.org')
-                ->setPlainPassword('user')
+                ->setMail('customer@example.org')
+                ->setPlainPassword('customer')
             ;
 
             //We add a lot of user

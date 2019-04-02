@@ -27,8 +27,8 @@ class UserCest
      */
     public function tryToTest(FunctionalTester $I): void
     {
-        $I->wantToTest('I see Symfony');
+        $I->wantToTest('I see title');
         $I->amOnPage('/');
-        $I->see('Symfony');
+        $I->see('O2 files');
     }
 }
