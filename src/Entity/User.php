@@ -60,7 +60,7 @@ class User implements GedmoInterface, UserInterface, Serializable
      * Each available roles.
      */
     public const ROLE_ADMIN = 'ROLE_ADMIN';
-    public const ROLE_COMPTABLE = 'ROLE_COMPTABLE';
+    public const ROLE_ACCOUNTANT = 'ROLE_ACCOUNTANT';
     public const ROLE_PROGRAMMER = 'ROLE_PROGRAMMER';
     public const ROLE_USER = 'ROLE_USER';
 
@@ -416,8 +416,9 @@ class User implements GedmoInterface, UserInterface, Serializable
     }
 
     /**
-     * Return the username of user.
+     * A visual identifier that represents this user.
      * Username is the mail in this application.
+     * TODO Change with getLabel()?
      *
      * @return string
      */
@@ -518,23 +519,23 @@ class User implements GedmoInterface, UserInterface, Serializable
     }
 
     /**
-     * Is this user a client.
+     * Is this user a customer.
      *
      * @return bool
      */
-    public function isClient(): bool
+    public function isCustomer(): bool
     {
         return $this->hasRole(self::ROLE_USER);
     }
 
     /**
-     * Is this user a comptable.
+     * Is this user a accountant.
      *
      * @return bool
      */
-    public function isComptable(): bool
+    public function isAccountant(): bool
     {
-        return $this->hasRole(self::ROLE_COMPTABLE);
+        return $this->hasRole(self::ROLE_ACCOUNTANT);
     }
 
     /**
@@ -564,6 +565,7 @@ class User implements GedmoInterface, UserInterface, Serializable
                 $this->givenName,
                 $this->mail,
                 $this->name,
+                $this->password,
                 $this->roles,
                 $this->society,
                 $this->type,
@@ -600,6 +602,7 @@ class User implements GedmoInterface, UserInterface, Serializable
             $this->givenName,
             $this->mail,
             $this->name,
+            $this->password,
             $this->roles,
             $this->society,
             $this->type

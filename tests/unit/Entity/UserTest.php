@@ -82,8 +82,8 @@ class UserTest extends Unit
         self::assertNotNull($this->user->getRoles());
         self::assertEquals(['ROLE_USER'], $this->user->getRoles());
         self::assertFalse($this->user->isAdmin());
-        self::assertTrue($this->user->isClient());
-        self::assertFalse($this->user->isComptable());
+        self::assertTrue($this->user->isCustomer());
+        self::assertFalse($this->user->isAccountant());
         self::assertFalse($this->user->isProgrammer());
     }
 
@@ -198,24 +198,24 @@ class UserTest extends Unit
         //Set ROLE_ADMIN and test.
         self::assertEquals($this->user, $this->user->setRoles([User::ROLE_ADMIN]));
         self::assertTrue($this->user->isAdmin());
-        self::assertTrue($this->user->isClient());
+        self::assertTrue($this->user->isCustomer());
 
-        //Set ROLE_COMPTABLE and test.
-        self::assertEquals($this->user, $this->user->setRoles([User::ROLE_COMPTABLE]));
-        self::assertTrue($this->user->isComptable());
-        self::assertTrue($this->user->isClient());
+        //Set ROLE_ACCOUNTANT and test.
+        self::assertEquals($this->user, $this->user->setRoles([User::ROLE_ACCOUNTANT]));
+        self::assertTrue($this->user->isAccountant());
+        self::assertTrue($this->user->isCustomer());
 
         //Add ROLE_PROGRAMMER and test.
         self::assertEquals($this->user, $this->user->addRole(User::ROLE_PROGRAMMER));
-        self::assertTrue($this->user->isComptable());
+        self::assertTrue($this->user->isAccountant());
         self::assertTrue($this->user->isProgrammer());
-        self::assertTrue($this->user->isClient());
+        self::assertTrue($this->user->isCustomer());
 
         //Remove ALL roles and test.
         self::assertEquals($this->user, $this->user->setRoles([]));
         self::assertFalse($this->user->isAdmin());
-        self::assertTrue($this->user->isClient());
-        self::assertFalse($this->user->isComptable());
+        self::assertTrue($this->user->isCustomer());
+        self::assertFalse($this->user->isAccountant());
         self::assertFalse($this->user->isProgrammer());
     }
 }

@@ -36,6 +36,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Login form authenticator class.
+ *
+ * TODO: https://symfonycasts.com/screencast/symfony-security/remember-me#play
  */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {

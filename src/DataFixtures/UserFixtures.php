@@ -19,12 +19,17 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * UserFixtures class.
+ *
+ * TODO: https://symfonycasts.com/screencast/symfony-security/user-entity#play
+ */
 class UserFixtures extends Fixture
 {
     /**
-     * Quantity of clients to load.
+     * Quantity of customers to load.
      */
-    public const CLIENTS = 30;
+    public const CUSTOMERS = 30;
 
     /**
      * Load users.
@@ -51,21 +56,21 @@ class UserFixtures extends Fixture
                 ->setMail('all@example.org')
                 ->setPlainPassword('all')
                 ->addRole(User::ROLE_ADMIN)
-                ->addRole(User::ROLE_COMPTABLE)
+                ->addRole(User::ROLE_ACCOUNTANT)
                 ->addRole(User::ROLE_PROGRAMMER)
                 ->setSociety('All power')
                 ->setType(User::MORAL)
             ;
 
             //Reader
-            $userComptable = new User();
-            $userComptable
+            $userAccountant = new User();
+            $userAccountant
                 ->setCredit(210)
                 ->setGivenName('Johanna')
-                ->setName('Comptable')
-                ->setMail('comptable@example.org')
-                ->setPlainPassword('comptable')
-                ->addRole(User::ROLE_COMPTABLE)
+                ->setName('Accountant')
+                ->setMail('accountant@example.org')
+                ->setPlainPassword('accountant')
+                ->addRole(User::ROLE_ACCOUNTANT)
             ;
 
             //Programmer
@@ -78,23 +83,23 @@ class UserFixtures extends Fixture
             ;
 
             //User
-            $userClient = new User();
-            $userClient
+            $userCustomer = new User();
+            $userCustomer
                 ->setCredit(320)
                 ->setGivenName('Johannie')
-                ->setName('The Client')
+                ->setName('The Customer')
                 ->setMail('user@example.org')
                 ->setPlainPassword('user')
             ;
 
             //We add a lot of user
-            foreach (range(0, self::CLIENTS) as $index) {
+            foreach (range(0, self::CUSTOMERS) as $index) {
                 $user = new User();
-                $user->setMail("client-${index}@example.org")
+                $user->setMail("customer-${index}@example.org")
                     ->setCredit($index)
                     ->setGivenName("John${index}")
                     ->setName('Doe')
-                    ->setPlainPassword("client-${index}")
+                    ->setPlainPassword("customer-${index}")
                     ->setSociety("Society ${index}")
                     ->setType(0 === $index % 2)
                 ;
@@ -103,15 +108,15 @@ class UserFixtures extends Fixture
 
             //These references are perhaps unused.
             $this->addReference('user_all', $userAll);
-            $this->addReference('user_client', $userClient);
-            $this->addReference('user_comptable', $userComptable);
+            $this->addReference('user_customer', $userCustomer);
+            $this->addReference('user_accountant', $userAccountant);
             $this->addReference('user_programmer', $userProgrammer);
             $this->addReference('user_admin', $userAdministrator);
 
             //Persist dev and test data
             $manager->persist($userAll);
-            $manager->persist($userClient);
-            $manager->persist($userComptable);
+            $manager->persist($userCustomer);
+            $manager->persist($userAccountant);
             $manager->persist($userProgrammer);
             $manager->persist($userAdministrator);
 

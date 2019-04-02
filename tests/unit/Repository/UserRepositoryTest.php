@@ -71,7 +71,7 @@ class UserRepositoryTest extends KernelTestCase
      */
     public function testFindByMail(): void
     {
-        $user = $this->userRepository->findOneByMail('client-1@example.org');
+        $user = $this->userRepository->findOneByMail('customer-1@example.org');
         self::assertNotNull($user);
         self::assertInstanceOf(User::class, $user);
     }
