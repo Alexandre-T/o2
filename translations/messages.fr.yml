@@ -21,28 +21,6 @@ action:
       text: 'Consulter'
       title: 'Consulter la fiche'
   next: 'Suivant'
-  organization:
-    create:
-      text: 'Créer'
-      title: 'Créer une nouvelle organisation'
-    edit:
-      text: 'Éditer'
-      title: 'Éditer l’organisation'
-    show:
-      text: 'Consulter'
-      title: 'Consulter la fiche de l’organisation'
-    list:
-      text: 'Lister'
-  person:
-    create:
-      title: 'Créer un nouveau contact'
-    show:
-      title: 'Consulter la fiche de ce contact'
-    edit:
-      title: 'Modifier la fiche de ce contact'
-  service:
-    create:
-      title: 'Créer un nouveau service pour cette organisation'
   previous: 'Précédent'
   save:
     text: 'Enregistrer'
@@ -135,20 +113,6 @@ entity:
     created %name%: 'L’utilisateur « %name% » a été créé avec succès.'
     deleted %name%: 'L’utilisateur « %name% » a été supprimé avec succès.'
     updated %name%: 'L’utilisateur « %name% » a été modifié avec succès.'
-  organization:
-    deleted %name%: 'Cette organisation n’est plus référencée dans l’application.'
-    updated %name%: 'Les modifications sur cette organisation ont été correctement enregistrées.'
-    created %name%: 'Cette nouvelle organisation a été correctement enregistrée.'
-  addressLog:
-    title: 'Changements d’adresse'
-  person:
-    created %name%: 'Le contact « %name% » a été créé avec succès.'
-    deleted %name%: 'Le contact « %name% » a été supprimé avec succès.'
-    updated %name%: 'Le contact « %name% » a été modifié avec succès.'
-  service:
-    created %name%: 'Le service « %name% » a été créé avec succès.'
-    deleted %name%: 'Le service « %name% » a été supprimé avec succès.'
-    updated %name%: 'Le service « %name% » a été modifié avec succès.'
 
 form:
   address:
@@ -282,9 +246,23 @@ modal:
       yes: 'Oui, supprimer !'
 
 nav:
-  comptable:
-    title: 'Actions du comptable'
+  admin:
+    title: 'Fonctions d’administration'
+    text: 'Administrateur'
+    submenu:
+      settings:
+        text: 'Paramètres'
+        title: 'Configuration de l’application'
+      users:
+        text: 'Utilisateurs'
+        title: 'Gestion des utilisateurs'
+  accountant:
+    title: 'Outils du comptable'
     text: 'Comptable'
+    submenu:
+      bill:
+        text: 'Factures'
+        title: 'Consultation des factures'
   home:
     text: 'Accueil'
     title: 'Retour à l’accueil'
@@ -294,19 +272,37 @@ nav:
   logout:
     text: 'Déconnexion'
     title: 'Déconnectez-vous de l’application'
-  organizations:
-    text: 'Organisations'
-    title: 'Consulter la liste des organisations'
+  programmer:
+    text: 'Programmateur'
+    title: 'Outils du programmateur'
+    submenu:
+      command:
+        text: 'Fichiers en cours'
+        title: 'Consultation des commandes de fichiers en cours'
   register:
     text: 'Inscription'
     title: 'Accès à la procédure d’inscription'
   user:
     text: 'Utilisateurs'
     title: 'Gestion des utilisateurs'
+  customer:
+    submenu:
+      credit:
+        text: 'Acheter des crédits'
+        title: 'Acheter de nouveaux crédits'
+      order:
+        text: 'Commande de fichier'
+        title: 'Commander un nouveau fichier'
+      bills:
+        text: 'Mes factures'
+        title: 'Consulter toutes vos factures'
+      files:
+        text: 'Mes fichiers'
+        title: 'Consulter tous vos fichiers'
 
 ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
-ROLE_CLIENT: 'Client.'
-ROLE_COMPTABLE: 'Comptable pouvant gérer les factures et les crédits.'
+ROLE_CUSTOMER: 'Client.'
+ROLE_ACCOUNTANT: 'Comptable pouvant gérer les factures et les crédits.'
 ROLE_PROGRAMMER: 'Programmateur pouvant renvoyer les fichiers réponses aux clients.'
 
 security:

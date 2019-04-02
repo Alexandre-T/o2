@@ -1,7 +1,7 @@
 {% set route = app.request.get('_route') %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-0">
     <div class="container">
-        <a class="navbar-brand" href="#" style="background-color: white; padding-left: 10px; padding-right: 10px;">
+        <a class="navbar-brand" href="{{ path('home') }}" style="background-color: white; padding-left: 10px; padding-right: 10px;">
             <img src="{{ asset('img/o2programmation.png') }}" width="50" height="30" alt="O2 logo">
             <span class="text-primary"><strong>O2 Files</strong></span>
         </a>
@@ -10,64 +10,114 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link {{ route == 'home' ? 'active' }}" href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}"
-                    data-toggle="tooltip" data-placement="bottom">
-                    <span class="fa fa-home"></span>&nbsp;{{ 'nav.home.text' | trans }}
-                </a>
-                {% if is_granted('ROLE_COMPTABLE') %}
-                <a class="nav-item nav-link {{ route starts with 'comptable' ? 'active' }}" href="{{ '#' }}"
-                   data-toggle="tooltip" data-placement="bottom" title="{{ 'nav.comptable.title' | trans }}">
-                    <span class="far fa-address-book"></span>
-                    {{ 'nav.comptable.text' | trans }}
-                </a>
+            <div class="navbar-nav mx-auto">
+                {% if is_granted('ROLE_ACCOUNTANT') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="fas fa-fw fa-comment-dollar"></span> {{ 'nav.accountant.text' | trans }}
+                        </a>
+                        {# BILL #}
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#" data-placement="left" data-toggle="tooltip"
+                            title="{{ 'nav.accountant.submenu.bill.title' | trans }}">
+                                <span class="fas fa-fw fa-file-invoice-dollar"></span>
+                                {{ 'nav.accountant.submenu.bill.text' | trans }}
+                            </a>
+                        </div>
+                    </li>
                 {% endif %}
-                {% if is_granted('ROLE_READ_ORGANIZATION') %}
-                <a class="nav-item nav-link {{ route starts with 'organization' ? 'active' }}"
-                   data-toggle="tooltip" data-placement="bottom" href="{{ path('organization_index') }}"
-                   title="{{ 'nav.organizations.title' | trans }}">
-                    <span class="fa fa-building"></span>
-                    {{ 'nav.organizations.text' | trans }}
-                </a>
+                {% if is_granted('ROLE_PROGRAMMER') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarProgrammerDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="fas fa-fw fa-tachometer-alt"></span> {{ 'nav.programmer.text' | trans }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarProgrammerDropdown">
+                            <a class="dropdown-item" href="#"
+                            title="{{ 'nav.programmer.submenu.command.text' | trans }}" data-placement="right"
+                            data-toggle="tooltip">
+                                <span class="fas fa-fw fa-car-alt"></span>
+                                {{ 'nav.programmer.submenu.command.text' | trans }}
+                            </a>
+                        </div>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarAdminDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="fas fa-fw fa-user-shield"></span> {{ 'nav.admin.text' | trans }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarAdminDropdown">
+                            {# Users #}
+                            <a class="dropdown-item" href="#" data-placement="right"
+                               data-toggle="tooltip" title="{{ 'nav.admin.submenu.users.title' | trans }}" data-placement="bottom">
+                                <span class="fas fa-fw fa-users-cog"></span>
+                                {{ 'nav.admin.submenu.users.text' | trans }}</a>
+                            {# Settings #}
+                            <a class="dropdown-item" href="#" data-placement="right"
+                               data-toggle="tooltip" title="{{ 'nav.admin.submenu.settings.title' | trans }}" >
+                                <span class="fas fa-fw fa-cogs"></span>
+                                {{ 'nav.admin.submenu.settings.text' | trans }}
+                            </a>
+                        </div>
+                    </li>
                 {% endif %}
             </div>
-            {% if is_granted('ROLE_READER') %}
-            <form class="form-inline" action="{{ path('search') }}" method="get">
-                <div class="input-group mr-sm-1">
-                    <input type="text" class="form-control" name="search_form[search]" placeholder="Recherche&hellip;">
-                    <div class="input-group-append">
-                        <button class="btn btn-secondary my-0" type="submit">
-                            <span class="fas fa-search"></span>
-                            <span class="sr-only">{{ 'action.search' | trans }}</span>
-                        </button>
-                    </div>
-                </div>
-            </form>
-            {% endif %}
             <div class="navbar-nav ml-auto">
-                {% if is_granted('ROLE_MANAGE_USER') %}
-                <a class="nav-item nav-link" href="{{ path('administration_user_index') }}" data-toggle="tooltip"
-                   data-placement="bottom" title="{{ 'nav.user.title' | trans }}">
-                    <span class="fa fa-users"></span>
-                    {{ 'nav.user.text' | trans}}
-                </a>
-                {% endif %}
                 {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                    <a class="nav-item nav-link" href="{{ path('security_logout') }}" title="{{ 'nav.logout.title' | trans }}"
-                       data-toggle="tooltip" data-placement="bottom">
-                        <span class="fa fa-sign-out-alt"></span>
-                        {{ 'nav.logout.text' | trans}}
-                    </a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="fas fa-fw fa-user"></span> {{ app.user.username }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {# Credits #}
+                            <a class="dropdown-item" href="#" data-toggle="tooltip"
+                               data-placement="left" title="{{ 'nav.customer.submenu.credit.title' | trans }}">
+                                <span class="fas fa-fw fa-coins"></span>
+                                {{ 'nav.customer.submenu.credit.text' | trans }}
+                            </a>
+                            {# Order #}
+                            <a class="dropdown-item" href="#" data-toggle="tooltip"
+                               data-placement="left" title="{{ 'nav.customer.submenu.order.title' | trans }}">
+                                <span class="fas fa-fw fa-car"></span>
+                                {{ 'nav.customer.submenu.order.text' | trans }}
+                            </a>
+                            {# User bills #}
+                            <a class="dropdown-item" href="#" data-toggle="tooltip"
+                               data-placement="left" title="{{ 'nav.customer.submenu.bills.title' | trans }}">
+                                <span class="fas fa-fw fa-file-invoice-dollar"></span>
+                                {{ 'nav.customer.submenu.bills.text' | trans }}
+                            </a>
+                            {# User files #}
+                            <a class="dropdown-item" href="#" data-toggle="tooltip"
+                               data-placement="left" title="{{ 'nav.customer.submenu.files.title' | trans }}">
+                                <span class="fas fa-fw fa-tachometer-alt"></span>
+                                {{ 'nav.customer.submenu.files.text' | trans }}
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            {# Logout #}
+                            <a class="dropdown-item" href="{{ path('security_logout') }}" data-toggle="tooltip"
+                               data-placement="left" title="{{ 'nav.logout.title' | trans }}">
+                                <span class="fas fa-fw fa-sign-out-alt"></span>
+                                {{ 'nav.logout.text' | trans }}
+                            </a>
+                        </div>
+                    </li>
                 {% else %}
                     <a class="nav-item nav-link {{ route == 'security_register' ? 'active' }}" data-toggle="tooltip"
-                       data-placement="bottom" href="{{ path('security_register') }}" title="{{ 'nav.register.title' | trans }}">
-                        <span class="fa fa-sign-in-alt fa-rotate-270"></span>
-                        {{ 'nav.register.text' | trans}}
+                       data-placement="bottom" href="{{ path('security_register') }}"
+                       title="{{ 'nav.register.title' | trans }}">
+                        <span class="fa fa-fw fa-sign-in-alt fa-fw fa-rotate-270"></span>
+                        {{ 'nav.register.text' | trans }}
                     </a>
-                    <a class="nav-item nav-link {{ route == 'security_login' ? 'active' }}" href="{{ path('security_login') }}"
+                    <a class="nav-item nav-link {{ route == 'security_login' ? 'active' }}"
+                       href="{{ path('security_login') }}"
                        data-toggle="tooltip" data-placement="bottom" title="{{ 'nav.login.title' | trans }}">
-                        <span class="fa fa-sign-in-alt"></span>
-                        {{ 'nav.login.text' | trans}}
+                        <span class="fa fa-fw fa-sign-in-alt"></span>
+                        {{ 'nav.login.text' | trans }}
                     </a>
                 {% endif %}
             </div>
