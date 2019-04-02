@@ -29,8 +29,8 @@ class HomeCest
      */
     public function tryToTestHomePage(AcceptanceTester $I): void
     {
-        $I->wantToTest('I see Symfony');
+        $I->wantToTest('I see O2 files');
         $I->amOnPage('/');
-        $I->see('Symfony');
+        $I->see('O2 files');
     }
 }

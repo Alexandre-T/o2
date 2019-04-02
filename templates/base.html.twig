@@ -1,12 +1,32 @@
+{# templates/base.html.twig #}
 <!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="{{ app.request.locale }}">
+<head>
+    {% block stylesheets %}
+        {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+        {{ encore_entry_link_tags('app') }}
+
+        <!-- Renders a link tag (if your module requires any CSS)
+             <link rel="stylesheet" href="/build/app.css"> -->
+    {% endblock %}
+    <title>{% block title %}Contacts{% endblock title %}</title>
+
+
+</head>
+{% block body %}
+<body>
+    {% include '_navbar.html.twig' %}
+    {% include '_flash.html.twig' %}
+    <div class="container mt-3">
+        {% block headline %}{% endblock headline %}
+        {% block content_breadcrumb %}{% endblock content_breadcrumb %}
+        {% block container %}{% endblock container %}
+    </div>
+    {% block modal %}{% endblock modal %}
+
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
 </html>

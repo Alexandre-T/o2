@@ -1,0 +1,6 @@
+error:
+  user:
+    label:
+      unique: 'Il existe déjà un utilisateur avec ce libellé.'
+    mail:
+      unique: 'Il existe déjà un utilisateur avec cette adresse email.'

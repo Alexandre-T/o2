@@ -1,4 +1,6 @@
+#http://symfony.com/doc/current/reference/configuration/security.html#full-default-configuration
 security:
+    # This is my password encoder
     encoders:
         App\Entity\User:
             algorithm: argon2i
@@ -9,16 +11,20 @@ security:
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
-            entity:
-                class: App\Security\UserProvider
-                property: email
+            id: App\Security\UserProvider
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
-
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            #The logout path
+            logout:
+                path: /logout
             # activate different ways to authenticate
 
             # http_basic: true
@@ -30,5 +36,6 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # We must be Anonymous to register or to login
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register$, role: IS_AUTHENTICATED_ANONYMOUSLY }

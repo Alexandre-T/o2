@@ -1,0 +1,325 @@
+action:
+  close: 'Fermer'
+  email:
+    title: 'Envoyer un email'
+  export-mail:
+    text: 'Adresses email'
+    title: 'Exporter toutes leurs adresses email.'
+  entity:
+    create:
+      text: 'Créer'
+    delete:
+      text: 'Supprimer'
+      title: 'Supprimer'
+    edit:
+      text: 'Éditer'
+      title: 'Éditer'
+    list:
+      text: 'Lister'
+      title: 'Retourner à la liste complète'
+    show:
+      text: 'Consulter'
+      title: 'Consulter la fiche'
+  next: 'Suivant'
+  organization:
+    create:
+      text: 'Créer'
+      title: 'Créer une nouvelle organisation'
+    edit:
+      text: 'Éditer'
+      title: 'Éditer l’organisation'
+    show:
+      text: 'Consulter'
+      title: 'Consulter la fiche de l’organisation'
+    list:
+      text: 'Lister'
+  person:
+    create:
+      title: 'Créer un nouveau contact'
+    show:
+      title: 'Consulter la fiche de ce contact'
+    edit:
+      title: 'Modifier la fiche de ce contact'
+  service:
+    create:
+      title: 'Créer un nouveau service pour cette organisation'
+  previous: 'Précédent'
+  save:
+    text: 'Enregistrer'
+  search: 'Rechercher'
+  user:
+    create:
+      text: 'Créer'
+      title: 'Créer un nouvel utilisateur'
+    delete:
+      text: 'Supprimer'
+      title: 'Supprimer cet utilisateur'
+    edit:
+      text: 'Éditer'
+      title: 'Éditer l’utilisateur'
+    list:
+      text: 'Lister'
+      title: 'Accéder à la liste des utilisateurs'
+    show:
+      text: 'Consulter'
+      title: 'Consulter la fiche de l’utilisateur'
+  url:
+    title: 'Consulter ce site web (dans une nouvelle fenêtre)'
+
+administration:
+  created:
+    at: 'Création'
+    by: 'Créé·e par'
+  updated:
+    at: 'Dernière modification'
+  user:
+    title %name%: 'Fiche de l’utilisateur %name%'
+    updated %name%: 'Modification de l’utilisateur %name%'
+
+Address: 'Adresse'
+
+entity:
+  global-information: 'Généralités'
+  information: 'Informations'
+  log:
+    action: 'Action'
+    actions:
+      create: 'Création'
+      delete: 'Suppression'
+      update: 'Modification'
+    data:
+      acronym-definition: 'Nouvelle définition'
+      alumnus: 'Nouvelle école'
+      birth-name: 'Nouveau nom de naissance'
+      category: 'Nouvelle rubrique'
+      country: 'Nouveau pays'
+      email: 'Nouvel email'
+      facebook: 'Nouveau Facebook'
+      family-name: 'Nouveau nom de famille'
+      gender: 'Nouveau genre'
+      given-name: 'Nouveau prénom'
+      instagram: 'Nouvel Instagram'
+      job-title: 'Nouvelle profession'
+      label: 'Nouveau libellé'
+      legal-name: 'Nouveau nom juridique'
+      'linked-in': 'Nouveau Linked-In'
+      locality: 'Nouvelle ville'
+      mail: 'Nouvel email'
+      member-of: 'Nouvelle organisation'
+      name: 'Nouveau nom'
+      nationality: 'Nouvelle nationalité'
+      password: 'Nouveau mot de passe'
+      post-office-box-number: 'Nouveau complément'
+      postal-code: 'Nouveau code postal'
+      roles: 'Nouveaux privilèges'
+      service: 'Nouveau service'
+      smartphone: 'Nouveau mobile'
+      street-address: 'Nouvelle rue'
+      telephone: 'Nouveau fixe'
+      twitter: 'Nouveau Twitter'
+      youtube: 'Nouveau Youtube'
+      url: 'Nouveau site web'
+    date: 'Date'
+    explanation: 'Cet onglet rassemble toutes les modifications qui ont eu lieu pour la fiche en cours.'
+    new-value: 'Nouvelle(s) valeur(s)'
+    title: 'Suivi des modifications'
+    user: 'Auteur'
+    version: 'Version'
+  tab:
+    address-logs: 'Changements d’adresse'
+    general: 'Généralités'
+    logs: 'Historique'
+    informations: 'Informations'
+    contacts: 'Contacts'
+  user:
+    created %name%: 'L’utilisateur « %name% » a été créé avec succès.'
+    deleted %name%: 'L’utilisateur « %name% » a été supprimé avec succès.'
+    updated %name%: 'L’utilisateur « %name% » a été modifié avec succès.'
+  organization:
+    deleted %name%: 'Cette organisation n’est plus référencée dans l’application.'
+    updated %name%: 'Les modifications sur cette organisation ont été correctement enregistrées.'
+    created %name%: 'Cette nouvelle organisation a été correctement enregistrée.'
+  addressLog:
+    title: 'Changements d’adresse'
+  person:
+    created %name%: 'Le contact « %name% » a été créé avec succès.'
+    deleted %name%: 'Le contact « %name% » a été supprimé avec succès.'
+    updated %name%: 'Le contact « %name% » a été modifié avec succès.'
+  service:
+    created %name%: 'Le service « %name% » a été créé avec succès.'
+    deleted %name%: 'Le service « %name% » a été supprimé avec succès.'
+    updated %name%: 'Le service « %name% » a été modifié avec succès.'
+
+form:
+  address:
+    field:
+      box: 'Complément'
+      code: 'Code postal'
+      country: 'Pays'
+      locality: 'Ville'
+      street: 'Adresse'
+    help:
+      box: 'Entrez le complément d’adresse'
+      code: 'Entrez le code postal'
+      country: 'Choisissez le pays parmi cette liste'
+      locality: 'Entrez la ville'
+      street: 'Entrez l’adresse'
+  error:
+    country: 'Le pays sélectionné n’est pas valide, veuillez sélectionner un pays dans la liste'
+    loading:
+      service: 'Une erreur est survenue en chargeant les services de cette organisation.'
+  field:
+    acronym-definition: 'Nom complet'
+    address: 'Adresse'
+    alumnus: 'Ancien élève de'
+    birth-name: 'Nom de naissance'
+    category: 'Rubrique'
+    department: 'Département'
+    email: 'Adresse email'
+    facebook: 'Facebook'
+    family-name: 'Nom de famille'
+    gender: 'Genre'
+    given-name: 'Prénom'
+    instagram: 'Instagram'
+    linked-in: 'LinkedIn'
+    job-title: 'Profession'
+    label: 'Nom'
+    legal-name: 'Nom juridique'
+    member-of: 'Membre de'
+    nationality: 'Nationalité'
+    organization: 'Organisation'
+    region: 'Région'
+    search: 'Recherche'
+    service: 'Service'
+    smartphone: 'Mobile'
+    tel: 'Fixe'
+    telephone: 'Fixe'
+    twitter: 'Twitter'
+    url: 'Site web'
+    youtube: 'Youtube'
+    thematics: 'Thématiques'
+  help:
+    acronym-definition: 'Entrez la signification de l’acronyme de l’organisation.'
+    alumnus: 'Choisissez l’école de ce contact pour faire des recherches sur les anciens élèves d’une école'
+    birth-name: 'Entrez le nom de famille de naissance de ce contact'
+    category: 'Cette rubrique obligatoire vous aidera dans les recherches avancées'
+    department: 'Cette recherche se base sur le code postal du contact OU le code postal de son organisation'
+    email: 'Entrez l’adresse email de ce contact'
+    facebook: 'Entrez le lien complet vers la page Facebook'
+    family-name: 'Entrez son nom de famille'
+    instagram: 'Entrez le lien complet vers le compte Instagram'
+    gender: 'Sélectionnez son genre'
+    given-name: 'Entrez son prénom'
+    job-title: 'Entrez sa profession'
+    label: 'Entrez le nom de l’organisation'
+    legal-name: 'Entrez le nom juridique de l’organisation, pour une entreprise il s’agit du nom de la SA.'
+    linked-in: 'Entrez le lien complet vers le profil Linked'
+    member-of: 'Entrez l’organisation à laquelle ce contact est principalement rattaché'
+    region: 'Cette recherche se base sur le code postal du contact OU le code postal de son organisation'
+    service: 'Sélectionnez l’organisation puis le service auquel ce contact est rattaché'
+    nationality: 'Sélectionnez le pays dans la liste.'
+    smartphone: 'Entrez le numéro de mobile'
+    telephone: 'Entrez le numéro de fixe'
+    thematics: 'Sélectionnez les thématiques sur lesquelles ce contact travaille'
+    twitter: 'Entrez le lien complet vers le compte Twitter'
+    url: 'Entrez le site web de ce contact'
+    youtube: 'Entrez le lien complet vers la chaîne Youtube'
+  loading:
+    service: 'Chargement des services de cette organisation'
+  placeholder:
+    member-of: 'Sélectionnez une organisation'
+    service: 'Sélectionnez d’abord une organisation'
+    new-service ${organization}: 'Sélectionnez un service de « ${organization} »'
+  login:
+    field:
+      mail: 'Adresse email'
+      password: 'Mot de passe'
+      submit: 'Se connecter'
+    help:
+      mail: 'Entrez votre adresse email'
+      password: 'Entrez votre mot de passe'
+  service:
+    field:
+      name: 'Service'
+    help:
+      name: 'Entrez le nom du service'
+  submit:
+    search: 'Recherche'
+    export-mail: 'Exporter les emails'
+  user:
+    field:
+      username: 'Nom de l’utilisateur'
+      mail: 'Adresse email'
+      gravatar: 'Gravatar de l’utilisateur'
+      role:
+        option:
+          admin: 'Administrateur pouvant gérer les privilèges des utilisateurs.'
+          organiser: 'Utilisateur avec droit de lecture et d’écriture.'
+          reader: 'Utilisateur avec droit de lecture uniquement.'
+          user: 'Utilisateur sans aucun privilège.'
+
+      roles: 'Privilèges de l’utilisateur'
+    help:
+      username: 'Entrez le prénom et le nom de l’utilisateur'
+      mail: 'Entrez l’adresse email de l’utilisateur'
+      roles: 'Sélectionnez le rôle de l’utilisateur'
+
+message:
+  security:
+    register:
+      intro: 'Pour avoir accès à l’application « Contact », veuillez envoyer votre demande à votre RSSI en lui fournissant :'
+      email: 'votre adresse email,'
+      application-name: 'le nom de l’application : « Contact »,'
+      reasons: 'les raison de votre demande.'
+      final: ' Si votre demande est validée, il contactera l’un des administrateurs de l’application qui créera votre compte avant de vous contacter.'
+
+modal:
+  entity:
+    delete:
+      cancel: 'Annuler'
+      confirm: 'Demande de confirmation'
+      core: 'Vous êtes sur le point de supprimer cette fiche de l’application. Êtes-vous sûr de vouloir poursuivre ?'
+      yes: 'Oui, supprimer !'
+
+nav:
+  comptable:
+    title: 'Actions du comptable'
+    text: 'Comptable'
+  home:
+    text: 'Accueil'
+    title: 'Retour à l’accueil'
+  login:
+    text: 'Connexion'
+    title: 'Connectez-vous à l’application'
+  logout:
+    text: 'Déconnexion'
+    title: 'Déconnectez-vous de l’application'
+  organizations:
+    text: 'Organisations'
+    title: 'Consulter la liste des organisations'
+  register:
+    text: 'Inscription'
+    title: 'Accès à la procédure d’inscription'
+  user:
+    text: 'Utilisateurs'
+    title: 'Gestion des utilisateurs'
+
+ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
+ROLE_CLIENT: 'Client.'
+ROLE_COMPTABLE: 'Comptable pouvant gérer les factures et les crédits.'
+ROLE_PROGRAMMER: 'Programmateur pouvant renvoyer les fichiers réponses aux clients.'
+
+security:
+  connection:
+    successful %username%: "Authentification réussie. Bienvenue %username% !"
+    failed: 'Cette adresse email n’est pas référencée dans l’application ou bien le mot de passe est erroné.'
+
+title:
+  security:
+    login: Connexion
+    user:
+      create: 'Création d’un nouvel utilisateur'
+      edit %name%: 'Modification de l’utilisateur « %name% »'
+      list: 'Liste des utilisateurs'
+      show %name%: 'Fiche de l’utilisateur « %name% »'
+    register: 'Inscription'

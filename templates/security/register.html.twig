@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.security.register' | trans ~ ' · ' ~ parent() }}
+{% endblock %}
+
+{% block headline %}{% endblock %}
+
+{% block container %}
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h1>
+                        <span class="fa fa-rotate-270 fa-sign-in-alt"></span>
+                        {{ 'title.security.register' | trans }}
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <p class="text-justify">
+                        {{ 'message.security.register.intro' | trans }}
+                    </p>
+                    <ol>
+                        <li>{{ 'message.security.register.email' | trans }}votre adresse email,</li>
+                        <li>{{ 'message.security.register.application-name' | trans }}le nom de l'application :
+                            « Contact »,
+                        </li>
+                        <li>{{ 'message.security.register.reasons' | trans }}les raisons de votre besoin.</li>
+                    </ol>
+                    <p class="text-justify">
+                        {{ 'message.security.register.final' | trans }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock container %}
+

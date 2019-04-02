@@ -59,7 +59,7 @@ class UserProvider implements UserProviderInterface
         // it is whatever value is being returned by the getUsername()
         // method in your User class.
         $user = $this->entityManager
-            ->getRepository('App:User')
+            ->getRepository(User::class)
             ->findOneBy(['mail' => $username])
         ;
 

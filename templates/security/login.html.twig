@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.security.login' | trans }} &bull; {{ parent() }}{% endblock %}
+
+{% block headline %}{% endblock headline %}
+
+{% block container %}
+
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    {{ form_start(form) }}
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h1>
+                        <span class="fa fa-sign-in-alt"></span>
+                        {{ 'title.security.login' | trans }}
+                    </h1>
+                </div>
+                <div class="card-body">
+                    {{ form_widget(form) }}
+                </div>
+                <div class="card-footer text-right">
+                    <button class="btn btn-primary" type="submit">
+                        <span class="fa fa-lock"></span>&nbsp;{{ 'form.login.field.submit' | trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}
