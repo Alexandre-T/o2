@@ -29,7 +29,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -42,13 +41,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
     use TargetPathTrait;
-
-    /**
-     * Token manager.
-     *
-     * @var CsrfTokenManagerInterface
-     */
-    private $csrfTokenManager;
 
     /**
      * Flash bag.
@@ -95,17 +87,21 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * LoginFormAuthenticator constructor.
      *
-     * @param FormFactoryInterface         $formFactory
-     * @param FlashBagInterface            $flashBag
-     * @param LoggerInterface              $logger
-     * @param UrlGeneratorInterface        $urlGenerator
-     * @param CsrfTokenManagerInterface    $csrfTokenManager
-     * @param TranslatorInterface          $translator
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param FormFactoryInterface         $formFactory     the form factory
+     * @param FlashBagInterface            $flashBag        the flash bag to send notification to user
+     * @param LoggerInterface              $logger          the logger interface to log connections
+     * @param UrlGeneratorInterface        $urlGenerator    the url generator to redirect user
+     * @param TranslatorInterface          $translator      the translator interface to translate notifications
+     * @param UserPasswordEncoderInterface $passwordEncoder the password encoder to test password sent with encrypted
      */
-    public function __construct(FormFactoryInterface $formFactory, FlashBagInterface $flashBag, LoggerInterface $logger, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, TranslatorInterface $translator, UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $this->csrfTokenManager = $csrfTokenManager;
+    public function __construct(
+     FormFactoryInterface         $formFactory,
+     FlashBagInterface            $flashBag,
+     LoggerInterface              $logger,
+     UrlGeneratorInterface        $urlGenerator,
+     TranslatorInterface          $translator,
+     UserPasswordEncoderInterface $passwordEncoder
+    ) {
         $this->flashBag = $flashBag;
         $this->formFactory = $formFactory;
         $this->logger = $logger;
@@ -133,7 +129,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * Get credentials.
      *
-     * @param Request $request the request submitted by form.
+     * @param Request $request the request submitted by form
      *
      * @return array
      */
@@ -153,16 +149,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         );
 
         return $credentials;
-    }
-
-    /**
-     * Return the login url.
-     *
-     * @return string
-     */
-    protected function getLoginUrl()
-    {
-        return $this->urlGenerator->generate('security_login');
     }
 
     /**
@@ -188,8 +174,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * If you return null, the request will continue, but the user will
      * not be authenticated. This is probably not what you want to do.
      *
-     * @param Request                 $request
-     * @param AuthenticationException $exception
+     * @param Request                 $request   the request is not use here
+     * @param AuthenticationException $exception the exception to log credentials error
      *
      * @return RedirectResponse
      */
@@ -199,7 +185,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $mail = $credentials['mail'] ?? 'none provided';
 
         //We log connection.
-        $this->logger->notice("Connection failed with mail(%$mail%) Reason: %{$exception->getMessage()}%");
+        $this->logger->notice("Connection failed with mail(%{$mail}%) Reason: %{$exception->getMessage()}%");
 
         $this->flashBag->add('error', 'security.connection.failed');
 
@@ -215,8 +201,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * If you return null, the current request will continue, and the user
      * will be authenticated. This makes sense, for example, with an API.
      *
-     * @param Request        $request
-     * @param TokenInterface $token
+     * @param Request        $request     the request to redirect user
+     * @param TokenInterface $token       the token to extract username
      * @param string         $providerKey The provider (i.e. firewall) key
      *
      * @return Response|null
@@ -225,7 +211,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         //We log connection.
         $this->logger->notice('Connection successful: %username%', [
-            '%username%' => $token->getUser()->getUsername()
+            '%username%' => $token->getUser()->getUsername(),
         ]);
 
         //Message for interface.
@@ -253,7 +239,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      *
      * @see https://symfonycasts.com/screencast/symfony4-upgrade/sf34-deprecations#deprecation-guardauthenticator-supports
      *
-     * @param Request $request
+     * @param Request $request the request to test if route is login page
      *
      * @return bool
      */
@@ -261,5 +247,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         return 'security_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
+    }
+
+    /**
+     * Return the login url.
+     *
+     * @return string
+     */
+    protected function getLoginUrl()
+    {
+        return $this->urlGenerator->generate('security_login');
     }
 }

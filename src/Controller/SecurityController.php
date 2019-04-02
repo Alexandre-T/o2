@@ -51,7 +51,7 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', [
             'form' => $form->createView(),
-            'error' => $error
+            'error' => $error,
         ]);
     }
 
@@ -62,7 +62,7 @@ class SecurityController extends AbstractController
      *
      * @throws Exception This route cannot be reached
      */
-    public function logoutAction()
+    public function logoutAction(): void
     {
         throw new Exception('this should not be reached!');
     }

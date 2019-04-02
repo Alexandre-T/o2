@@ -1,4 +1,17 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
+
+declare(strict_types=1);
 
 namespace App\Tests;
 
@@ -12,16 +25,16 @@ class SecurityCest
     /**
      * Test administrator access.
      *
-     * @param AcceptanceTester $I
+     * @param AcceptanceTester $I the acceptance tester
      */
-    public function tryToTestAdministratorAccess(AcceptanceTester $I)
+    public function tryToTestAdministratorAccess(AcceptanceTester $I): void
     {
         $I->wantTo('be connected as administrator.');
         $I->amOnPage('/login');
         $I->seeResponseCodeIsSuccessful();
         $I->fillField('Adresse email', 'administrator@example.org');
         $I->fillField('Mot de passe', 'administrator');
-        $I->click(' Se connecter'); //Be careful Se connecter began with ALT+0160 character
+        $I->click("\u{a0}Se connecter"); //Be careful Se connecter began with ALT+0160 character
         $I->seeCookie('PHPSESSID');
         $I->seeCurrentUrlEquals('/');
 
@@ -40,17 +53,14 @@ class SecurityCest
 
         $I->wantToTest('Administrator cannot access register page.');
         $I->amOnPage('/register');
-        //$I->seeResponseCodeIsRedirection();
         $I->seeCurrentUrlEquals('/');
 
         $I->wantToTest('Administrator cannot access login page.');
         $I->amOnPage('/login');
-        //$I->seeResponseCodeIsRedirection();
         $I->seeCurrentUrlEquals('/');
 
         $I->wantToTest('Administrator can access logout page.');
         $I->click('Déconnexion');
-        //$I->seeResponseCodeIsRedirection();
         $I->amOnPage('/');
         $I->seeLink('Connexion');
         $I->seeLink('Inscription');
@@ -59,9 +69,9 @@ class SecurityCest
     /**
      * Test anonymous user access.
      *
-     * @param AcceptanceTester $I
+     * @param AcceptanceTester $I the acceptance tester
      */
-    public function tryToTestAnonymousAccess(AcceptanceTester $I)
+    public function tryToTestAnonymousAccess(AcceptanceTester $I): void
     {
         $I->wantToTest('Anonymous user can access home page.');
         $I->amOnPage('/');
@@ -80,25 +90,23 @@ class SecurityCest
         $I->dontSeeLink('Administrateur');
         $I->dontSeeLink('Acheter des crédits');
 
-        $I->wantToTest('Anonymous user cannot access contact pages.');
-        //$I->amOnPage('/person');
-        //$I->seeResponseCodeIsSuccessful();
-        //$I->seeCurrentUrlEquals('/login');
+        $I->wantToTest('Anonymous user cannot access secured pages.');
+        //Complete it
     }
 
     /**
      * Test accountant access.
      *
-     * @param AcceptanceTester $I
+     * @param AcceptanceTester $I the acceptance test
      */
-    public function tryToTestAccountantAccess(AcceptanceTester $I)
+    public function tryToTestAccountantAccess(AcceptanceTester $I): void
     {
         $I->wantTo('be connected as accountant.');
         $I->amOnPage('/login');
         $I->seeResponseCodeIsSuccessful();
         $I->fillField('Adresse email', 'accountant@example.org');
         $I->fillField('Mot de passe', 'accountant');
-        $I->click(' Se connecter'); //Be careful "Se connecter" began with ALT+0160 character
+        $I->click("\u{a0}Se connecter"); //Be careful "Se connecter" began with ALT+0160 character
         $I->seeCookie('PHPSESSID');
         $I->seeCurrentUrlEquals('/');
 
@@ -129,20 +137,20 @@ class SecurityCest
         $I->seeLink('Connexion');
         $I->seeLink('Inscription');
     }
-    
+
     /**
      * Test customer access.
      *
-     * @param AcceptanceTester $I
+     * @param AcceptanceTester $I the acceptance tester
      */
-    public function tryToTestCustomerAccess(AcceptanceTester $I)
+    public function tryToTestCustomerAccess(AcceptanceTester $I): void
     {
         $I->wantTo('be connected as customer.');
         $I->amOnPage('/login');
         $I->seeResponseCodeIsSuccessful();
         $I->fillField('Adresse email', 'customer@example.org');
         $I->fillField('Mot de passe', 'customer');
-        $I->click(' Se connecter'); //Be careful "Se connecter" began with ALT+0160 character
+        $I->click("\u{a0}Se connecter"); //Be careful "Se connecter" began with ALT+0160 character
         $I->seeCookie('PHPSESSID');
         $I->seeCurrentUrlEquals('/');
 
@@ -177,16 +185,16 @@ class SecurityCest
     /**
      * Test programmer access.
      *
-     * @param AcceptanceTester $I
+     * @param AcceptanceTester $I the acceptance tester
      */
-    public function tryToTestProgrammerAccess(AcceptanceTester $I)
+    public function tryToTestProgrammerAccess(AcceptanceTester $I): void
     {
         $I->wantTo('be connected as programmer.');
         $I->amOnPage('/login');
         $I->seeResponseCodeIsSuccessful();
         $I->fillField('Adresse email', 'programmer@example.org');
         $I->fillField('Mot de passe', 'programmer');
-        $I->click(' Se connecter'); //Be careful "Se connecter" began with ALT+0160 character
+        $I->click("\u{a0}Se connecter"); //Be careful "Se connecter" began with ALT+0160 character
         $I->seeCookie('PHPSESSID');
         $I->seeCurrentUrlEquals('/');
 

@@ -64,7 +64,10 @@
     <!--
       No unused function parameters are allowed.
     -->
-    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
+        <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassBeforeLastUsed" />
+        <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter.FoundInExtendedClassAfterLastUsed" />
+    </rule>
 
     <!--
       There may not be any 'TODO' comments
@@ -124,7 +127,10 @@
       The function brace is on the line following the function declaration and
       is indented to the same column as the start of the function declaration.
     -->
-    <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+    <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman">
+        <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman.BraceOnSameLine" />
+    </rule>
+
 
     <!--
       Disallows to complex function determined by the cyclomatic complexity
