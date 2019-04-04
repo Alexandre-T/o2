@@ -15,12 +15,18 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\LoginFormType;
+use App\Form\RegisterFormType;
+use App\Security\LoginFormAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -72,14 +78,42 @@ class SecurityController extends AbstractController
      *
      * @Route("/register", name="security_register")
      *
+     * @param Request                   $request              Request
+     * @param EntityManagerInterface    $entityManager        Entity manager to save user
+     * @param GuardAuthenticatorHandler $authenticatorHandler Guard authenticator handler
+     * @param LoginFormAuthenticator    $loginAuthenticator   login form authenticator
+     *
      * @return Response
      */
-    public function registerAction(): Response
-    {
+    public function registerAction(
+     Request $request,
+     EntityManagerInterface $entityManager,
+     GuardAuthenticatorHandler $authenticatorHandler,
+     LoginFormAuthenticator $loginAuthenticator
+    ): Response {
         if ($this->getUser()) {
             return new RedirectResponse('/');
         }
 
-        return $this->render('security/register.html.twig');
+        $form = $this->createForm(RegisterFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $form->getData();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $authenticatorHandler->authenticateUserAndHandleSuccess(
+                $user,
+                $request,
+                $loginAuthenticator,
+                'main'
+            );
+        }
+
+        return $this->render('security/register.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

@@ -4,3 +4,7 @@ error:
       unique: 'Il existe déjà un utilisateur avec ce libellé.'
     mail:
       unique: 'Il existe déjà un utilisateur avec cette adresse email.'
+form:
+  error:
+    field:
+      repeated: 'Les mots de passe sont différents.'

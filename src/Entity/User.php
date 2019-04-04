@@ -37,10 +37,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @Gedmo\Loggable
  *
- * @UniqueEntity("mail",  message="error.user.mail.unique")
+ * @UniqueEntity(fields={"mail"},  message="error.user.mail.unique")
  */
 class User implements GedmoInterface, UserInterface, Serializable
 {
+    /*
+     * Postal address trait.
+     */
+    use PostalAddressTrait;
+
     /**
      * This is a moral person.
      */
@@ -136,6 +141,8 @@ class User implements GedmoInterface, UserInterface, Serializable
 
     /**
      * A non-persisted field that's used to create the encoded password.
+     *
+     * @Assert\NotBlank(groups={"Registration"})
      *
      * @var string
      */
