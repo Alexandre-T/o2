@@ -9,7 +9,7 @@
         <!-- Renders a link tag (if your module requires any CSS)
              <link rel="stylesheet" href="/build/app.css"> -->
     {% endblock %}
-    <title>{% block title %}Contacts{% endblock title %}</title>
+    <title>{% block title %}O2-Files{% endblock title %}</title>
 
 
 </head>
@@ -18,8 +18,8 @@
     {% include '_navbar.html.twig' %}
     {% include '_flash.html.twig' %}
     <div class="container mt-3">
-        {% block headline %}{% endblock headline %}
         {% block content_breadcrumb %}{% endblock content_breadcrumb %}
+        {% block headline %}{% endblock headline %}
         {% block container %}{% endblock container %}
     </div>
     {% block modal %}{% endblock modal %}

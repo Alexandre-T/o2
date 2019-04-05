@@ -1,4 +1,13 @@
 {% extends 'base.html.twig' %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">{{ 'nav.home.text' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
 {% block container %}
     Home page.
 {% endblock %}

@@ -21,6 +21,7 @@ use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Entity User.
@@ -99,6 +100,8 @@ class User implements GedmoInterface, UserInterface, Serializable
      *
      * @var string
      *
+     * @Assert\Length(max=32)
+     *
      * @ORM\Column(type="string", length=32, nullable=true, name="usr_given", options={"comment": "User given name"})
      */
     private $givenName;
@@ -107,10 +110,10 @@ class User implements GedmoInterface, UserInterface, Serializable
      * User mail and identifier.
      *
      * @var string
-     * @Assert\Length(max="255")
      *
-     * @Assert\NotBlank
-     * @Assert\NotNull
+     * @Assert\NotBlank(message="error.mail.blank")
+     * @Assert\Length(max=255)
+     *
      * @Assert\Email
      *
      * @ORM\Column(type="string", unique=true, length=255, name="usr_mail", options={"comment": "User mail"})
@@ -123,7 +126,7 @@ class User implements GedmoInterface, UserInterface, Serializable
      *
      * @var string
      *
-     * @Assert\Length(max="32")
+     * @Assert\Length(max=32)
      *
      * @ORM\Column(type="string", length=32, nullable=true, name="usr_name", options={"comment": "User name"}))
      */
@@ -142,7 +145,8 @@ class User implements GedmoInterface, UserInterface, Serializable
     /**
      * A non-persisted field that's used to create the encoded password.
      *
-     * @Assert\NotBlank(groups={"Registration"})
+     * @Assert\Length(min=6, max=4096)
+     * @Assert\NotBlank(groups={"Registration"}, message="error.plain-password.blank")
      *
      * @var string
      */
@@ -169,10 +173,29 @@ class User implements GedmoInterface, UserInterface, Serializable
      *
      * @var string
      *
-     * @Assert\Length(max="64")
+     * @Assert\Length(max=64)
+     *
      * @ORM\Column(type="string", length=64, nullable=true, name="usr_society", options={"comment": "User society"})
      */
     private $society;
+
+    /**
+     * Telephone number.
+     *
+     * @Assert\Length(max=21)
+     *
+     * @ORM\Column(type="string", name="usr_phone", length=21, nullable=true, options={"comment": "User phone"})
+     */
+    private $telephone;
+
+    /**
+     * Terms of services.
+     *
+     * @Assert\IsTrue(message="error.tos.blank")
+     *
+     * @ORM\Column(type="boolean", name="usr_tos", options={"comment": "TOS accepted"})
+     */
+    private $tos = false;
 
     /**
      * Moral or physic person.
@@ -180,11 +203,19 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @var bool
      *
      * @Assert\Choice(choices=User::TYPES, message="form.error.types.choices")
-     * @Assert\NotNull
      *
      * @ORM\Column(type="boolean", name="usr_type", options={"comment": "User mail"})
      */
     private $type = self::PHYSIC;
+
+    /**
+     * TVA Number.
+     *
+     * @Assert\Length(max=32)
+     *
+     * @ORM\Column(type="string", name="usr_tva", length=32, nullable=true, options={"comment": "VAT number"})
+     */
+    private $tvaNumber;
 
     /**
      * Erase Credentials.
@@ -286,6 +317,16 @@ class User implements GedmoInterface, UserInterface, Serializable
     public function isMoral(): bool
     {
         return self::MORAL === $this->type;
+    }
+
+    /**
+     * Is this a physic person?
+     *
+     * @return bool
+     */
+    public function isPhysic(): bool
+    {
+        return self::PHYSIC === $this->type;
     }
 
     /**
@@ -403,7 +444,7 @@ class User implements GedmoInterface, UserInterface, Serializable
      *
      * @return bool|null
      */
-    public function getType(): bool
+    public function getType(): ?bool
     {
         return $this->type;
     }
@@ -415,7 +456,7 @@ class User implements GedmoInterface, UserInterface, Serializable
      *
      * @return User
      */
-    public function setType(bool $type): self
+    public function setType(?bool $type): self
     {
         $this->type = $type;
 
@@ -451,9 +492,33 @@ class User implements GedmoInterface, UserInterface, Serializable
      *
      * @return User
      */
-    public function setMail(string $mail): User
+    public function setMail(?string $mail): User
     {
         $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Terms of service getter.
+     *
+     * @return bool
+     */
+    public function getTos(): bool
+    {
+        return $this->tos;
+    }
+
+    /**
+     * Terms of service fluent setter.
+     *
+     * @param bool $tos the new TOS value
+     *
+     * @return User
+     */
+    public function setTos(bool $tos): self
+    {
+        $this->tos = $tos;
 
         return $this;
     }
@@ -526,16 +591,6 @@ class User implements GedmoInterface, UserInterface, Serializable
     }
 
     /**
-     * Is this user a customer.
-     *
-     * @return bool
-     */
-    public function isCustomer(): bool
-    {
-        return $this->hasRole(self::ROLE_USER);
-    }
-
-    /**
      * Is this user a accountant.
      *
      * @return bool
@@ -543,6 +598,16 @@ class User implements GedmoInterface, UserInterface, Serializable
     public function isAccountant(): bool
     {
         return $this->hasRole(self::ROLE_ACCOUNTANT);
+    }
+
+    /**
+     * Is this user a customer.
+     *
+     * @return bool
+     */
+    public function isCustomer(): bool
+    {
+        return $this->hasRole(self::ROLE_USER);
     }
 
     /**
@@ -581,6 +646,54 @@ class User implements GedmoInterface, UserInterface, Serializable
     }
 
     /**
+     * Telephone number getter.
+     *
+     * @return string|null
+     */
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    /**
+     * Telephone number fluent setter.
+     *
+     * @param string|null $telephone the new telephone number
+     *
+     * @return User
+     */
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    /**
+     * TVA number getter.
+     *
+     * @return string|null
+     */
+    public function getTvaNumber(): ?string
+    {
+        return $this->tvaNumber;
+    }
+
+    /**
+     * TVA number fluent setter.
+     *
+     * @param string|null $tvaNumber the new tva number
+     *
+     * @return User
+     */
+    public function setTvaNumber(?string $tvaNumber): self
+    {
+        $this->tvaNumber = $tvaNumber;
+
+        return $this;
+    }
+
+    /**
      * Set the username of user.
      *
      * @param string $username the new username
@@ -614,5 +727,29 @@ class User implements GedmoInterface, UserInterface, Serializable
             $this->society,
             $this->type
             ) = unserialize($serialized);
+    }
+
+    /**
+     * Is this user valid?
+     *
+     * @Assert\Callback
+     *
+     * @param ExecutionContextInterface $context the context to report error
+     */
+    public function validate(ExecutionContextInterface $context): void
+    {
+        if ($this->isMoral() && empty($this->getSociety())) {
+            $context->buildViolation('error.society.blank')
+                ->atPath('society')
+                ->addViolation()
+            ;
+        }
+
+        if ($this->isPhysic() && empty($this->getName())) {
+            $context->buildViolation('error.name.blank')
+                ->atPath('name')
+                ->addViolation()
+            ;
+        }
     }
 }

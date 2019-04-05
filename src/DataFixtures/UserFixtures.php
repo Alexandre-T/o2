@@ -21,8 +21,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * UserFixtures class.
- *
- * TODO: https://symfonycasts.com/screencast/symfony-security/user-entity#play
  */
 class UserFixtures extends Fixture
 {
@@ -40,66 +38,49 @@ class UserFixtures extends Fixture
     {
         if (in_array(getenv('APP_ENV'), ['dev', 'test'])) {
             //Admin
-            $userAdministrator = new User();
-            $userAdministrator
-                ->setGivenName('John')
-                ->setName('Admin')
-                ->setMail('administrator@example.org')
-                ->setPlainPassword('administrator')
-                ->addRole(User::ROLE_ADMIN)
+            $userAdministrator = $this->createAdmin('Admin', 'administrator');
+
+            //All
+            $userAll = $this->createAll('All Power', 'all');
+            $userAll
+                ->setCredit(420)
+                ->setType(User::PHYSIC)
             ;
 
             //All
-            $userAll = new User();
-            $userAll
+            $societyAll = $this->createAll('Big brother', 'big');
+            $societyAll
                 ->setCredit(420)
-                ->setMail('all@example.org')
-                ->setPlainPassword('all')
-                ->addRole(User::ROLE_ADMIN)
-                ->addRole(User::ROLE_ACCOUNTANT)
-                ->addRole(User::ROLE_PROGRAMMER)
-                ->setSociety('All power')
-                ->setType(User::MORAL)
+                ->setType(User::PHYSIC)
             ;
 
-            //Reader
-            $userAccountant = new User();
+            //Accountant
+            $userAccountant = $this->createUser('Accountant', 'accountant');
             $userAccountant
                 ->setCredit(210)
-                ->setGivenName('Johanna')
-                ->setName('Accountant')
-                ->setMail('accountant@example.org')
-                ->setPlainPassword('accountant')
                 ->addRole(User::ROLE_ACCOUNTANT)
             ;
 
             //Programmer
-            $userProgrammer = new User();
+            $userProgrammer = $this->createUser('Programmer', 'programmer');
             $userProgrammer
-                ->setGivenName('Johan')
-                ->setMail('programmer@example.org')
-                ->setPlainPassword('programmer')
                 ->addRole(User::ROLE_PROGRAMMER)
             ;
 
             //User
-            $userCustomer = new User();
+            $userCustomer = $this->createUser('The customer', 'customer');
             $userCustomer
                 ->setCredit(320)
                 ->setGivenName('Johannie')
-                ->setName('The Customer')
-                ->setMail('customer@example.org')
-                ->setPlainPassword('customer')
             ;
 
             //We add a lot of user
             foreach (range(0, self::CUSTOMERS) as $index) {
-                $user = new User();
-                $user->setMail("customer-${index}@example.org")
+                $user = $this->createUser("Customer ${index}", "customer-${index}");
+                $user
                     ->setCredit($index)
                     ->setGivenName("John${index}")
                     ->setName('Doe')
-                    ->setPlainPassword("customer-${index}")
                     ->setSociety("Society ${index}")
                     ->setType(0 === $index % 2)
                 ;
@@ -122,5 +103,67 @@ class UserFixtures extends Fixture
 
             $manager->flush();
         }
+    }
+
+    /**
+     * Create a testing administrator.
+     *
+     * @param string $label The user label
+     * @param string $code  A code to connect
+     *
+     * @return User
+     */
+    private function createAdmin(string $label, string $code): User
+    {
+        $admin = $this->createUser($label, $code);
+        $admin->addRole(User::ROLE_ADMIN);
+
+        return $admin;
+    }
+
+    /**
+     * Create a testing user with all privileges.
+     *
+     * @param string $label The user label
+     * @param string $code  A code to connect
+     *
+     * @return User
+     */
+    private function createAll(string $label, string $code): User
+    {
+        $all = $this->createUser($label, $code);
+        $all
+            ->addRole(User::ROLE_ADMIN)
+            ->addRole(User::ROLE_ACCOUNTANT)
+            ->addRole(User::ROLE_PROGRAMMER)
+        ;
+
+        return $all;
+    }
+
+    /**
+     * Create a testing user.
+     *
+     * @param string $label The user label
+     * @param string $code  A code to connect
+     *
+     * @return User
+     */
+    private function createUser(string $label, string $code): User
+    {
+        $user = new User();
+        $user
+            ->setGivenName('John')
+            ->setName($label)
+            ->setMail("${code}@example.org")
+            ->setPlainPassword($code)
+            ->setType(User::PHYSIC)
+            ->setPostalCode('33000')
+            ->setStreetAddress('rue du boulevard')
+            ->setCountry('FR')
+            ->setLocality('locality')
+        ;
+
+        return $user;
     }
 }

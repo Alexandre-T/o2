@@ -16,13 +16,13 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * FamilyName Type class.
+ * Tos Type class.
  */
-class FamilyNameType extends AbstractType
+class TosType extends AbstractType
 {
     /**
      * Set default options.
@@ -34,11 +34,9 @@ class FamilyNameType extends AbstractType
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'label' => 'form.field.family-name',
-            'help' => 'form.help.family-name',
-            'attr' => [
-                'autofocus' => true,
-            ],
+            'label' => 'form.field.tos',
+            'help' => 'form.help.tos',
+            'required' => true,
         ]);
     }
 
@@ -49,6 +47,6 @@ class FamilyNameType extends AbstractType
      */
     public function getParent()
     {
-        return TextType::class;
+        return CheckboxType::class;
     }
 }

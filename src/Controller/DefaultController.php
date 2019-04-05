@@ -41,4 +41,16 @@ class DefaultController extends AbstractController
     {
         return $this->render('default/index.html.twig');
     }
+
+    /**
+     * Term of conditions page.
+     *
+     * @Route("/tos", name="tos", methods={"get"})
+     *
+     * @return Response
+     */
+    public function tos(): Response
+    {
+        return $this->render('default/tos.html.twig');
+    }
 }

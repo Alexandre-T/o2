@@ -31,6 +31,19 @@ class HomeCest
     {
         $I->wantToTest('I see O2 files');
         $I->amOnPage('/');
+        $I->seeResponseCodeIsSuccessful();
         $I->see('O2 files');
+    }
+
+    /**
+     * Test the home page.
+     *
+     * @param AcceptanceTester $I the acceptance tester
+     */
+    public function tryToTestTosPage(AcceptanceTester $I): void
+    {
+        $I->wantToTest('The TOS page is accessible');
+        $I->amOnPage('/tos');
+        $I->seeResponseCodeIsSuccessful();
     }
 }

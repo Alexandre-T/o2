@@ -20,9 +20,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * FamilyName Type class.
+ * Complement type class.
  */
-class FamilyNameType extends AbstractType
+class ComplementType extends AbstractType
 {
     /**
      * Set default options.
@@ -34,11 +34,9 @@ class FamilyNameType extends AbstractType
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'label' => 'form.field.family-name',
-            'help' => 'form.help.family-name',
-            'attr' => [
-                'autofocus' => true,
-            ],
+            'label' => 'form.field.complement',
+            'help' => 'form.help.complement',
+            'required' => false,
         ]);
     }
 
