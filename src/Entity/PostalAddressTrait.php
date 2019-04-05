@@ -54,6 +54,7 @@ trait PostalAddressTrait
      *
      * @var string
      *
+     * @Assert\Country
      * @Assert\Length(max="2", maxMessage="form.error.country")
      *
      * @ORM\Column(type="string", length=2, name="pad_country", options={"comment": "Country alpha2 code"})
@@ -65,6 +66,7 @@ trait PostalAddressTrait
     /**
      * Locality.
      *
+     * @Assert\NotBlank(message="error.locality.blank")
      * @Assert\Length(max="32")
      *
      * @ORM\Column(type="string", length=32, name="pad_locality", options={"comment": "Locality"})
@@ -76,6 +78,7 @@ trait PostalAddressTrait
     /**
      * Postal code.
      *
+     * @Assert\NotBlank(message="error.postal-code.blank")
      * @Assert\Length(max="5")
      *
      * @ORM\Column(type="string", length=5, name="pad_code", options={"comment": "Postal code"})
@@ -87,6 +90,7 @@ trait PostalAddressTrait
     /**
      * Street address.
      *
+     * @Assert\NotBlank(message="error.street-address.blank")
      * @Assert\Length(max="32")
      *
      * @ORM\Column(type="string", length=32, name="pad_street", options={"comment": "Street address"})

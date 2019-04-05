@@ -110,41 +110,41 @@ entity:
     updated %name%: 'L’utilisateur « %name% » a été modifié avec succès.'
 
 form:
-  address:
-    field:
-      complement: 'Complément'
-      code: 'Code postal'
-      country: 'Pays'
-      locality: 'Ville'
-      street: 'Adresse'
-    help:
-      complement: 'Entrez le complément d’adresse'
-      code: 'Entrez le code postal'
-      country: 'Choisissez le pays parmi cette liste'
-      locality: 'Entrez la ville'
-      street: 'Entrez l’adresse'
   error:
     country: 'Le pays sélectionné n’est pas valide, veuillez sélectionner un pays dans la liste'
     loading:
       service: 'Une erreur est survenue en chargeant les services de cette organisation.'
   field:
-    address: 'Adresse'
+    complement: 'Complément'
+    country: 'Pays'
     email: 'Adresse email'
     family-name: 'Nom de famille'
     given-name: 'Prénom'
     label: 'Nom'
+    locality: 'Ville'
     password: 'Mot de passe'
     person-type: 'Nature'
+    postal-code: 'Code postal'
     repeat-password: 'Confirmation'
-    society: 'Professionnel'
+    society: 'Société'
+    street-address: 'Adresse'
+    telephone: 'Téléphone'
+    tva-number: 'Numéro de TVA'
   help:
+    complement: 'Entrez le complément d’adresse'
+    country: 'Choisissez le pays parmi cette liste'
     email: 'Entrez l’adresse email de ce contact'
     family-name: 'Entrez son nom de famille'
+    locality: 'Entrez la ville'
     given-name: 'Entrez son prénom'
     password: 'Entrez votre mot de passe'
     person-type: 'Êtes-vous un professionnel ou un particulier ?'
+    postal-code: 'Entrez le code postal'
     repeat-password: 'Confirmez votre mot de passe'
     society: 'Entrez le nom de la société'
+    street-address: 'Entrez l’adresse'
+    telephone: 'Entrez votre numéro de téléphone'
+    tva-number: 'Entrez votre numéro de TVA intracommunautaire'
   loading:
     service: 'Chargement des services de cette organisation'
   placeholder:
@@ -159,6 +159,9 @@ form:
     help:
       mail: 'Entrez votre adresse email'
       password: 'Entrez votre mot de passe'
+  register:
+    field:
+      submit: 'S’inscrire'
   service:
     field:
       name: 'Service'

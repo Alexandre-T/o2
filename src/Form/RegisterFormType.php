@@ -16,15 +16,20 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\User;
+use App\Form\Type\ComplementType;
 use App\Form\Type\CountryType;
 use App\Form\Type\FamilyNameType;
 use App\Form\Type\GivenNameType;
+use App\Form\Type\LocalityType;
 use App\Form\Type\PersonType;
 use App\Form\Type\PlainPasswordType;
+use App\Form\Type\PostalCodeType;
 use App\Form\Type\SocietyType;
+use App\Form\Type\StreetAddressType;
+use App\Form\Type\TelephoneType;
+use App\Form\Type\TvaNumberType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -64,30 +69,13 @@ class RegisterFormType extends AbstractType
             ->add('givenName', GivenNameType::class)
             ->add('name', FamilyNameType::class)
             ->add('society', SocietyType::class)
-            ->add('streetAddress', TextType::class, [
-                'label' => 'form.address.field.street',
-                'help' => 'form.address.help.street',
-                'required' => true,
-            ])
-            ->add('complement', TextType::class, [
-                'label' => 'form.address.field.complement',
-                'help' => 'form.address.help.complement',
-            ])
-            ->add('postalCode', TextType::class, [
-                'label' => 'form.address.field.code',
-                'help' => 'form.address.help.code',
-                'required' => true,
-            ])
-            ->add('locality', TextType::class, [
-                'label' => 'form.address.field.locality',
-                'help' => 'form.address.help.locality',
-                'required' => true,
-            ])
-            ->add('country', CountryType::class, [
-                'label' => 'form.address.field.country',
-                'help' => 'form.address.help.country',
-                'required' => true,
-            ])
+            ->add('tvaNumber', TvaNumberType::class)
+            ->add('streetAddress', StreetAddressType::class)
+            ->add('complement', ComplementType::class)
+            ->add('postalCode', PostalCodeType::class)
+            ->add('locality', LocalityType::class)
+            ->add('country', CountryType::class)
+            ->add('telephone', TelephoneType::class)
         ;
     }
 

@@ -2,9 +2,19 @@ error:
   user:
     label:
       unique: 'Il existe déjà un utilisateur avec ce libellé.'
-    mail:
-      unique: 'Il existe déjà un utilisateur avec cette adresse email.'
-form:
-  error:
-    field:
-      repeated: 'Les mots de passe sont différents.'
+  locality:
+    blank: 'La ville est obligatoire.'
+  mail:
+    blank: 'L’adresse email est obligatoire.'
+    unique: 'Il existe déjà un utilisateur avec cette adresse email.'
+  name:
+    blank: 'Pour les particuliers, le nom de famille est obligatoire.'
+  plain-password:
+    blank: 'Le mot de passe est obligatoire.'
+    repeated: 'Les mots de passe sont différents.'
+  postal-code:
+    blank: 'Le code postal est obligatoire.'
+  society:
+    blank: 'Pour les professionnels, le nom de la société est obligatoire.'
+  street-address:
+    blank: 'L’adresse postale est obligatoire.'
