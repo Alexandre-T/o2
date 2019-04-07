@@ -69,16 +69,10 @@ entity:
       country: 'Nouveau pays'
       email: 'Nouvel email'
       family-name: 'Nouveau nom de famille'
-      gender: 'Nouveau genre'
       given-name: 'Nouveau prénom'
-      instagram: 'Nouvel Instagram'
-      job-title: 'Nouvelle profession'
       label: 'Nouveau libellé'
-      legal-name: 'Nouveau nom juridique'
-      'linked-in': 'Nouveau Linked-In'
       locality: 'Nouvelle ville'
       mail: 'Nouvel email'
-      member-of: 'Nouvelle organisation'
       name: 'Nouveau nom'
       nationality: 'Nouvelle nationalité'
       password: 'Nouveau mot de passe'
@@ -86,12 +80,8 @@ entity:
       postal-code: 'Nouveau code postal'
       roles: 'Nouveaux privilèges'
       service: 'Nouveau service'
-      smartphone: 'Nouveau mobile'
       street-address: 'Nouvelle rue'
       telephone: 'Nouveau fixe'
-      twitter: 'Nouveau Twitter'
-      youtube: 'Nouveau Youtube'
-      url: 'Nouveau site web'
     date: 'Date'
     explanation: 'Cet onglet rassemble toutes les modifications qui ont eu lieu pour la fiche en cours.'
     new-value: 'Nouvelle(s) valeur(s)'
@@ -108,6 +98,9 @@ entity:
     created %name%: 'L’utilisateur « %name% » a été créé avec succès.'
     deleted %name%: 'L’utilisateur « %name% » a été supprimé avec succès.'
     updated %name%: 'L’utilisateur « %name% » a été modifié avec succès.'
+
+explanations:
+  password-lost: 'Si vous avez perdu votre mot de passe, saisissez votre adresse email dans ce formulaire, un mail vous sera envoyé avec les explications nécessaires pour changer de mot de passe.'
 
 form:
   error:
@@ -136,10 +129,10 @@ form:
   help:
     complement: 'Entrez le complément d’adresse'
     country: 'Choisissez le pays parmi cette liste'
-    email: 'Entrez l’adresse email de ce contact'
+    email: 'Entrez votre adresse email'
     family-name: 'Entrez son nom de famille'
-    locality: 'Entrez la ville'
     given-name: 'Entrez son prénom'
+    locality: 'Entrez la ville'
     new-password: 'Entrez votre nouveau mot de passe'
     old-password: 'Entrez votre ancien mot de passe'
     password: 'Entrez votre mot de passe'
@@ -159,12 +152,7 @@ form:
     new-service ${organization}: 'Sélectionnez un service de « ${organization} »'
   login:
     field:
-      mail: 'Adresse email'
-      password: 'Mot de passe'
       submit: 'Se connecter'
-    help:
-      mail: 'Entrez votre adresse email'
-      password: 'Entrez votre mot de passe'
   register:
     field:
       submit: 'S’inscrire'
@@ -199,8 +187,13 @@ form:
   password:
     field:
       submit: 'Enregistrer le nouveau mot de passe'
+  password-lost:
+    field:
+      submit: 'Demander un mail de récupération'
 
 flash:
+  password-lost:
+    sent: 'Un mail pour changer votre mot de passe vient de vous être envoyé. Consultez votre messagerie !'
   password:
     not-updated: 'Attention ! Votre mot de passe n’a pas été mis à jour.'
     updated: 'Votre mot de passe a correctement été mis à jour.'
@@ -208,14 +201,10 @@ flash:
     not-updated: 'Attention ! Votre profil n’a pas été mis à jour.'
     updated: 'Votre profil a correctement été mis à jour.'
 
-message:
-  security:
-    register:
-      intro: 'Pour avoir accès à l’application « Contact », veuillez envoyer votre demande à votre RSSI en lui fournissant :'
-      email: 'votre adresse email,'
-      application-name: 'le nom de l’application : « Contact »,'
-      reasons: 'les raison de votre demande.'
-      final: ' Si votre demande est validée, il contactera l’un des administrateurs de l’application qui créera votre compte avant de vous contacter.'
+link:
+  password-lost:
+    text: 'Mot de passe perdu ?'
+    title: 'Accédez au formulaire de récupération de mot de passe.'
 
 modal:
   entity:
@@ -285,6 +274,8 @@ nav:
       password:
         text: 'Mon mot de passe'
         title: 'Changer votre mot de passe'
+  lost-password:
+    text: 'Mot de passe perdu'
 
 ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
 ROLE_CUSTOMER: 'Client.'
@@ -311,7 +302,9 @@ title:
       list: 'Liste des utilisateurs'
       show %name%: 'Fiche de l’utilisateur « %name% »'
     register: 'Inscription'
+    password-lost: 'Mot de passe perdu'
 
 type:
   morale: 'Société'
   physic: 'Particulier'
+

@@ -15,16 +15,13 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Form\Model\PasswordLost;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Login form builder.
- */
-class LoginFormType extends AbstractType
+class PasswordLostFormType extends AbstractType
 {
     /**
      * Builds the form.
@@ -39,16 +36,11 @@ class LoginFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // @see https://knpuniversity.com/screencast/symfony-security/rendering-login-form
         $builder
             ->add('mail', EmailType::class, [
                 'label' => 'form.field.email',
                 'help' => 'form.help.email',
                 'required' => true,
-            ])
-            ->add('password', PasswordType::class, [
-                'label' => 'form.field.password',
-                'help' => 'form.help.password',
             ])
         ;
     }
@@ -61,10 +53,8 @@ class LoginFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'render_fieldset' => false,
-            'show_legend' => false,
+            'data_class' => PasswordLost::class,
         ]);
-        parent::configureOptions($resolver);
     }
 
     /**
@@ -77,6 +67,6 @@ class LoginFormType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'app_login';
+        return 'app_password_lost';
     }
 }

@@ -11,6 +11,10 @@ framework:
         cookie_secure: auto
         cookie_samesite: lax
 
+    #The templating is needed by MailerInterface
+    templating:
+        engines:
+            - twig
     #esi: true
     #fragments: true
     php_errors:

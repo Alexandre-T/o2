@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'fr'
+    expediter: '%env(MAILER_EXPEDITER)%'
 
 services:
     # default configuration for services in *this* file
@@ -30,6 +31,15 @@ services:
         autowire: true
         tags:
             - { name: doctrine.event_subscriber }
+
+    #Mailer come with parameters. Autowire is not available.
+    App\Mailer\Mailer:
+        arguments:
+            - '@swiftmailer.mailer'
+            - '@router'
+            - '@templating'
+            - parameters:
+                from: '%expediter%'
 
     #Twig extension for localized date functions
     twig.extension.intl:

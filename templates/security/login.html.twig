@@ -33,6 +33,14 @@
                 </div>
                 <div class="card-body">
                     {{ form_widget(form) }}
+                    <div class="text-right">
+                        <small>
+                            <a href="{{ path('security_password_lost') }}" title="{{ 'link.password-lost.title' | trans }}"
+                            data-toggle="tooltip" data-placement="left">
+                                {{ 'link.password-lost.text' | trans }}
+                            </a>
+                        </small>
+                    </div>
                 </div>
                 <div class="card-footer text-right">
                     <button class="btn btn-primary" type="submit">

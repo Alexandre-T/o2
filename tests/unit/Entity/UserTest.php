@@ -77,6 +77,8 @@ class UserTest extends Unit
         self::assertIsBool($this->user->getType());
         self::assertNotNull($this->user->getUsername());
         self::assertEmpty($this->user->getUsername());
+        self::assertNull($this->user->getResettingAt());
+        self::assertNull($this->user->getResettingToken());
 
         $this->tester->wantToTest('roles are well initialized');
         self::assertNotNull($this->user->getRoles());

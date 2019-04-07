@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Serializable;
@@ -216,6 +217,20 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @ORM\Column(type="string", name="usr_tva", length=32, nullable=true, options={"comment": "VAT number"})
      */
     private $tvaNumber;
+
+    /**
+     * Resetting password token.
+     *
+     * @ORM\Column(type="string", length=255, nullable=true, options={"comment": "token to reset password"})
+     */
+    private $resettingToken;
+
+    /**
+     * Resetting password timestamp.
+     *
+     * @ORM\Column(type="datetime", nullable=true, options={"comment": "reset password timestamp"})
+     */
+    private $resettingAt;
 
     /**
      * Erase Credentials.
@@ -638,6 +653,8 @@ class User implements GedmoInterface, UserInterface, Serializable
                 $this->mail,
                 $this->name,
                 $this->password,
+                $this->resettingAt,
+                $this->resettingToken,
                 $this->roles,
                 $this->society,
                 $this->type,
@@ -723,6 +740,8 @@ class User implements GedmoInterface, UserInterface, Serializable
             $this->mail,
             $this->name,
             $this->password,
+            $this->resettingAt,
+            $this->resettingToken,
             $this->roles,
             $this->society,
             $this->type
@@ -751,5 +770,53 @@ class User implements GedmoInterface, UserInterface, Serializable
                 ->addViolation()
             ;
         }
+    }
+
+    /**
+     * Resetting token getter.
+     *
+     * @return string|null
+     */
+    public function getResettingToken(): ?string
+    {
+        return $this->resettingToken;
+    }
+
+    /**
+     * Resetting token fluent setter.
+     *
+     * @param string|null $resettingToken new token
+     *
+     * @return User
+     */
+    public function setResettingToken(?string $resettingToken): self
+    {
+        $this->resettingToken = $resettingToken;
+
+        return $this;
+    }
+
+    /**
+     * Resetting timestamp getter.
+     *
+     * @return DateTimeInterface|null
+     */
+    public function getResettingAt(): ?DateTimeInterface
+    {
+        return $this->resettingAt;
+    }
+
+    /**
+     * Resetting timestamp fluent setter.
+     *
+     * @param DateTimeInterface|null $resettingAt timestamp reset
+     *
+     * @return User
+     */
+    public function setResettingAt(?DateTimeInterface $resettingAt): self
+    {
+        $this->resettingAt = $resettingAt;
+
+        return $this;
     }
 }

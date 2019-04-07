@@ -1,0 +1,9 @@
+title:
+  password-lost: 'O2-Programmation : Réinitialisation de votre mot de passe'
+link:
+  reset:
+    text: 'Accéder au formulaire'
+explanation:
+  password-lost:
+    declaration: 'Vous venez de déclarer la perte de votre mot de passe. '
+    how-to: 'En cliquant sur le lien ci-dessus, vous allez être redigéré vers un formulaire en ligne où vous pourrez changer votre mot de passe.'
