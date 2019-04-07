@@ -249,18 +249,21 @@ nav:
     title: 'Gestion des utilisateurs'
   customer:
     submenu:
-      credit:
-        text: 'Acheter des crédits'
-        title: 'Acheter de nouveaux crédits'
-      order:
-        text: 'Commande de fichier'
-        title: 'Commander un nouveau fichier'
       bills:
         text: 'Mes factures'
         title: 'Consulter toutes vos factures'
+      credit:
+        text: 'Acheter des crédits'
+        title: 'Acheter de nouveaux crédits'
       files:
         text: 'Mes fichiers'
         title: 'Consulter tous vos fichiers'
+      profile:
+        text: 'Mon profil'
+        title: 'Éditer votre profil'
+      order:
+        text: 'Commande de fichier'
+        title: 'Commander un nouveau fichier'
 
 ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
 ROLE_CUSTOMER: 'Client.'
