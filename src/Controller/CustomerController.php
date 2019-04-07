@@ -16,10 +16,13 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\Model\ChangePassword;
+use App\Form\PasswordFormType;
 use App\Form\ProfileFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,6 +62,42 @@ class CustomerController extends AbstractController
         }
 
         return $this->render('customer/profile.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Edit profile.
+     *
+     * @Route("/password", name="customer_password")
+     *
+     * @param Request                $request       the request handling data
+     * @param EntityManagerInterface $entityManager entity manager to save user
+     *
+     * @return Response|RedirectResponse
+     */
+    public function password(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $model = new ChangePassword();
+        $form = $this->createForm(PasswordFormType::class, $model);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
+            $user = $this->getUser();
+            $user->setPlainPassword($model->getNewPassword());
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'flash.password.updated');
+
+            return $this->redirectToRoute('home');
+        }
+
+        if ($form->isSubmitted()) {
+            $this->addFlash('error', 'flash.password.not-updated');
+        }
+
+        return $this->render('customer/password.html.twig', [
             'form' => $form->createView(),
         ]);
     }

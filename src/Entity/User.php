@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @Gedmo\Loggable
  *
- * @UniqueEntity(fields={"mail"},  message="error.user.mail.unique")
+ * @UniqueEntity(fields={"mail"},  message="error.mail.unique")
  */
 class User implements GedmoInterface, UserInterface, Serializable
 {

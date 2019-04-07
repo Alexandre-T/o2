@@ -31,7 +31,7 @@ class CustomerCest
         $I->seeResponseCodeIsSuccessful();
         $I->fillField('Adresse email', 'customer@example.org');
         $I->fillField('Mot de passe', 'customer');
-        $I->click("\u{a0}Se connecter"); //Be careful "Se connecter" began with ALT+0160 character
+        $I->click('Se connecter');
         $I->seeResponseCodeIsSuccessful();
     }
 
@@ -60,15 +60,58 @@ class CustomerCest
     }
 
     /**
-     * Try to send an empty form.
+     * Try to update password.
      *
      * @before login
      *
      * @param AcceptanceTester $I the acceptance tester
      */
-    public function tryToSendAnEmptyForm(AcceptanceTester $I): void
+    public function tryToUpdatePassword(AcceptanceTester $I): void
     {
-        $I->wantTo('send an empty form.');
+        $I->wantTo('update my password.');
+        $I->amOnPage('/customer/password');
+        $I->fillField('Ancien mot de passe', 'customer');
+        $I->fillField('Nouveau mot de passe', 'customer');
+        $I->fillField('Confirmation', 'customer');
+        $I->click('Enregistrer le nouveau mot de passe');
+        $I->seeCurrentUrlEquals('/');
+        $I->seeResponseCodeIsSuccessful();
+        $I->dontSee("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
+        $I->see('Votre mot de passe a correctement été mis à jour.');
+    }
+
+    /**
+     * Try to hack password with a wrong password.
+     *
+     * @before login
+     *
+     * @param AcceptanceTester $I the acceptance tester
+     */
+    public function tryToHackPassword(AcceptanceTester $I): void
+    {
+        $I->wantTo('update my password.');
+        $I->amOnPage('/customer/password');
+        $I->fillField('Ancien mot de passe', 'bidon');
+        $I->fillField('Nouveau mot de passe', 'customer');
+        $I->fillField('Confirmation', 'customer');
+        $I->click('Enregistrer le nouveau mot de passe');
+        $I->seeCurrentUrlEquals('/customer/password');
+        $I->seeResponseCodeIsSuccessful();
+        $I->see("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
+        $I->dontSee('Votre mot de passe a correctement été mis à jour.');
+        $I->see('Cette valeur ne correspond pas à votre ancien mot de passe.');
+    }
+
+    /**
+     * Try to send an empty profile form.
+     *
+     * @before login
+     *
+     * @param AcceptanceTester $I the acceptance tester
+     */
+    public function tryToSendAnEmptyProfile(AcceptanceTester $I): void
+    {
+        $I->wantTo('send an empty profile form.');
         $I->amOnPage('/customer/profile');
         $I->fillField('Nom de famille', '');
         $I->fillField('Adresse', '');
@@ -82,6 +125,29 @@ class CustomerCest
         $I->see('L’adresse postale est obligatoire.');
         $I->see('Le code postal est obligatoire.');
         $I->see('La ville est obligatoire.');
+    }
+
+    /**
+     * Try to send an empty profile form.
+     *
+     * @before login
+     *
+     * @param AcceptanceTester $I the acceptance tester
+     */
+    public function tryToSendAnEmptyPassword(AcceptanceTester $I): void
+    {
+        $I->wantTo('send an empty password form.');
+        $I->amOnPage('/customer/password');
+        $I->fillField('Ancien mot de passe', '');
+        $I->fillField('Nouveau mot de passe', '');
+        $I->fillField('Confirmation', '');
+        $I->click('Enregistrer le nouveau mot de passe');
+        $I->seeCurrentUrlEquals('/customer/password');
+        $I->seeResponseCodeIsSuccessful();
+        $I->see("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
+        $I->dontSee('Votre mot de passe a correctement été mis à jour.');
+        $I->see('Cette valeur ne correspond pas à votre ancien mot de passe.');
+        $I->see('L’ancien mot de passe est obligatoire.');
     }
 
     /**
@@ -117,6 +183,30 @@ class CustomerCest
         $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 5 caractères.');
         $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 21 caractères.');
         $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 32 caractères.');
+    }
+
+    /**
+     * Try to send a password form with too long field.
+     *
+     * @before login
+     *
+     * @param AcceptanceTester $I the acceptance tester
+     */
+    public function tryToSendLongPasswordForm(AcceptanceTester $I): void
+    {
+        $password = str_repeat('s', 4097);
+
+        $I->wantTo('send a too long profile form.');
+        $I->amOnPage('/customer/password');
+        $I->fillField('Ancien mot de passe', $password);
+        $I->fillField('Nouveau mot de passe', $password);
+        $I->fillField('Confirmation', $password);
+        $I->click('Enregistrer le nouveau mot de passe');
+        $I->seeCurrentUrlEquals('/customer/password');
+        $I->seeResponseCodeIsSuccessful();
+        $I->see("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
+        $I->dontSee('Votre mot de passe a correctement été mis à jour.');
+        $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 4096 caractères.');
     }
 
     /**

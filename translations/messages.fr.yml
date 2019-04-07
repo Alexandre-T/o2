@@ -122,6 +122,8 @@ form:
     given-name: 'Prénom'
     label: 'Nom'
     locality: 'Ville'
+    new-password: 'Nouveau mot de passe'
+    old-password: 'Ancien mot de passe'
     password: 'Mot de passe'
     person-type: 'Nature'
     postal-code: 'Code postal'
@@ -138,6 +140,8 @@ form:
     family-name: 'Entrez son nom de famille'
     locality: 'Entrez la ville'
     given-name: 'Entrez son prénom'
+    new-password: 'Entrez votre nouveau mot de passe'
+    old-password: 'Entrez votre ancien mot de passe'
     password: 'Entrez votre mot de passe'
     person-type: 'Êtes-vous un professionnel ou un particulier ?'
     postal-code: 'Entrez le code postal'
@@ -192,8 +196,14 @@ form:
   profile:
     field:
       submit: 'Enregistrer les modifications'
+  password:
+    field:
+      submit: 'Enregistrer le nouveau mot de passe'
 
 flash:
+  password:
+    not-updated: 'Attention ! Votre mot de passe n’a pas été mis à jour.'
+    updated: 'Votre mot de passe a correctement été mis à jour.'
   profile:
     not-updated: 'Attention ! Votre profil n’a pas été mis à jour.'
     updated: 'Votre profil a correctement été mis à jour.'
@@ -272,6 +282,9 @@ nav:
       order:
         text: 'Commande de fichier'
         title: 'Commander un nouveau fichier'
+      password:
+        text: 'Mon mot de passe'
+        title: 'Changer votre mot de passe'
 
 ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
 ROLE_CUSTOMER: 'Client.'
@@ -287,6 +300,7 @@ title:
   customer:
     main: 'Mon compte'
     profile: 'Mon profil'
+    password: 'Mon mot de passe'
   default:
     tos: 'Conditions d’utilisation'
   security:

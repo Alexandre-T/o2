@@ -1,14 +1,17 @@
 error:
-  user:
-    label:
-      unique: 'Il existe déjà un utilisateur avec ce libellé.'
   locality:
     blank: 'La ville est obligatoire.'
   mail:
     blank: 'L’adresse email est obligatoire.'
-    unique: 'Il existe déjà un utilisateur avec cette adresse email.'
+    unique:
+      'Il semblerait que vous disposiez déjà d’un compte chez nous !'
   name:
     blank: 'Pour les particuliers, le nom de famille est obligatoire.'
+  old-password:
+    blank:
+      'L’ancien mot de passe est obligatoire.'
+    not-match:
+      'Cette valeur ne correspond pas à votre ancien mot de passe.'
   plain-password:
     blank: 'Le mot de passe est obligatoire.'
     repeated: 'Les mots de passe sont différents.'

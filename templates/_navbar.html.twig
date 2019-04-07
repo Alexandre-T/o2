@@ -104,6 +104,12 @@
                                 <span class="fas fa-fw fa-user-cog"></span>
                                 {{ 'nav.customer.submenu.profile.text' | trans }}
                             </a>
+                            {# User password #}
+                            <a class="dropdown-item {{ route == 'customer_password' ? 'active' }}" href="{{ path('customer_password') }}"
+                               data-toggle="tooltip" data-placement="left" title="{{ 'nav.customer.submenu.password.title' | trans }}">
+                                <span class="fas fa-fw fa-key"></span>
+                                {{ 'nav.customer.submenu.password.text' | trans }}
+                            </a>
                             <div class="dropdown-divider"></div>
                             {# Logout #}
                             <a class="dropdown-item" href="{{ path('security_logout') }}" data-toggle="tooltip"
