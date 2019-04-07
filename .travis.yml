@@ -49,8 +49,8 @@ install:
   # Data test installation
   - php bin/console doctrine:fixtures:load -n
   # Install assets
-  # - yarn install
-  # - yarn encore dev
+  - yarn install
+  - yarn encore dev
   # Warm-up cache to avoid maximum execution time errors.
   - php bin/console cache:warmup
   # directories for coveralls
