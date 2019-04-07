@@ -15,16 +15,26 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Entity\User;
+use App\Form\Type\ComplementType;
+use App\Form\Type\CountryType;
+use App\Form\Type\FamilyNameType;
+use App\Form\Type\GivenNameType;
+use App\Form\Type\LocalityType;
+use App\Form\Type\PersonType;
+use App\Form\Type\PostalCodeType;
+use App\Form\Type\SocietyType;
+use App\Form\Type\StreetAddressType;
+use App\Form\Type\TelephoneType;
+use App\Form\Type\TvaNumberType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Login form builder.
+ * Profile form builder.
  */
-class LoginFormType extends AbstractType
+class ProfileFormType extends AbstractType
 {
     /**
      * Builds the form.
@@ -39,17 +49,20 @@ class LoginFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // @see https://knpuniversity.com/screencast/symfony-security/rendering-login-form
+        parent::buildForm($builder, $options);
+
         $builder
-            ->add('mail', EmailType::class, [
-                'label' => 'form.login.field.mail',
-                'help' => 'form.login.help.mail',
-                'required' => true,
-            ])
-            ->add('password', PasswordType::class, [
-                'label' => 'form.login.field.password',
-                'help' => 'form.login.help.password',
-            ])
+            ->add('type', PersonType::class)
+            ->add('givenName', GivenNameType::class)
+            ->add('name', FamilyNameType::class)
+            ->add('society', SocietyType::class)
+            ->add('tvaNumber', TvaNumberType::class)
+            ->add('streetAddress', StreetAddressType::class)
+            ->add('complement', ComplementType::class)
+            ->add('postalCode', PostalCodeType::class)
+            ->add('locality', LocalityType::class)
+            ->add('country', CountryType::class)
+            ->add('telephone', TelephoneType::class)
         ;
     }
 
@@ -61,9 +74,12 @@ class LoginFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
+            'data_class' => User::class,
             'render_fieldset' => false,
             'show_legend' => false,
+            'validation_groups' => ['Default'],
         ]);
+
         parent::configureOptions($resolver);
     }
 
@@ -77,6 +93,6 @@ class LoginFormType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'app_login';
+        return 'app_profile';
     }
 }

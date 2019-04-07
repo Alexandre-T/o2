@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.customer.profile' | trans }}  &bull; {{ parent() }} {% endblock %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.customer.main' | trans }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'title.customer.profile' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block container %}
+{#    {% if error %}#}
+{#        <div class="alert alert-danger">#}
+{#            {{ error.messageKey|trans(error.messageData) }}#}
+{#        </div>#}
+{#    {% endif %}#}
+
+    {{ form_start(form) }}
+    <div class="row justify-content-md-center mb-5">
+        <div class="col-md-10">
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h1>
+                        <span class="fas fa-user-cog"></span>
+                        {{ 'title.customer.profile' | trans }}
+                    </h1>
+                </div>
+                <div class="card-body">
+                    {{ form_widget(form) }}
+                </div>
+                <div class="card-footer text-right">
+                    <button class="btn btn-primary" type="submit">
+                        <span class="fas fa-fw fa-user-cog"></span>
+                        {{ 'form.profile.field.submit' | trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+

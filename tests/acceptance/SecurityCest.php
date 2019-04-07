@@ -90,8 +90,9 @@ class SecurityCest
         $I->dontSeeLink('Administrateur');
         $I->dontSeeLink('Acheter des crédits');
 
-        $I->wantToTest('Anonymous user cannot access secured pages.');
-        //Complete it
+        $I->wantToTest('Anonymous user cannot access profil page');
+        $I->amOnPage('/customer/profile');
+        $I->seeCurrentUrlEquals('/login');
     }
 
     /**
@@ -161,6 +162,10 @@ class SecurityCest
         $I->dontSeeLink('Administrateur');
         $I->dontSeeLink('Comptable');
         $I->dontSeeLink('Programmateur');
+
+        $I->wantToTest('customer can access profil page');
+        $I->click('Mon profil');
+        $I->seeCurrentUrlEquals('/customer/profile');
 
         $I->wantToTest('Customer can access home page.');
         $I->click('O2 Files');
@@ -244,7 +249,7 @@ class SecurityCest
         $I->fillField('Code postal', '33160');
         $I->fillField('Ville', 'Mérignac');
         $I->selectOption('Pays', 'FR');
-        $I->click(' S’inscrire');
+        $I->click("\u{a0}S’inscrire");
         $I->seeCurrentUrlEquals('/');
         $I->dontSee('Confirmation');
         $I->see('Home page');
@@ -259,7 +264,7 @@ class SecurityCest
     {
         $I->wantTo('send an empty registration.');
         $I->amOnPage('/register');
-        $I->click(' S’inscrire');
+        $I->click("\u{a0}S’inscrire");
         $I->seeCurrentUrlEquals('/register');
         $I->seeResponseCodeIsSuccessful();
         $I->see('L’adresse email est obligatoire.');
@@ -274,28 +279,28 @@ class SecurityCest
      */
     public function tryToSendLongRegistration(AcceptanceTester $I): void
     {
-        $s6 = str_repeat('s', 6);
-        $s22 = str_repeat('s', 22);
-        $s33 = str_repeat('s', 33);
-        $s256 = str_repeat('s', 256);
-        $s4097 = str_repeat('s', 4097);
+        $codePostal = str_repeat('s', 6);
+        $telephone = str_repeat('s', 22);
+        $label = str_repeat('s', 33);
+        $mail = str_repeat('s', 256);
+        $password = str_repeat('s', 4097);
 
         $I->wantTo('send a long registration.');
         $I->amOnPage('/register');
-        $I->fillField('Adresse email', $s256);
-        $I->fillField('Mot de passe', $s4097);
-        $I->fillField('Confirmation', $s4097);
-        $I->fillField('Prénom', $s33);
-        $I->fillField('Nom de famille', $s33);
-        $I->fillField('Téléphone', $s22);
-        $I->fillField('Numéro de TVA', $s33);
+        $I->fillField('Adresse email', $mail);
+        $I->fillField('Mot de passe', $password);
+        $I->fillField('Confirmation', $password);
+        $I->fillField('Prénom', $label);
+        $I->fillField('Nom de famille', $label);
+        $I->fillField('Téléphone', $telephone);
+        $I->fillField('Numéro de TVA', $label);
         //Société
-        $I->fillField('app_register[society]', $s33);
-        $I->fillField('Adresse', $s33);
-        $I->fillField('Complément', $s33);
-        $I->fillField('Code postal', $s6);
-        $I->fillField('Ville', $s33);
-        $I->click(' S’inscrire');
+        $I->fillField('app_register[society]', $label);
+        $I->fillField('Adresse', $label);
+        $I->fillField('Complément', $label);
+        $I->fillField('Code postal', $codePostal);
+        $I->fillField('Ville', $label);
+        $I->click("\u{a0}S’inscrire");
         $I->seeCurrentUrlEquals('/register');
         $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 5 caractères.');
         $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 21 caractères.');
@@ -316,7 +321,7 @@ class SecurityCest
         $I->amOnPage('/register');
         //Société
         $I->selectOption('app_register[type]', 0);
-        $I->click(' S’inscrire');
+        $I->click("\u{a0}S’inscrire");
         $I->seeCurrentUrlEquals('/register');
         $I->seeResponseCodeIsSuccessful();
         $I->see('Pour les professionnels, le nom de la société est obligatoire.');
@@ -333,7 +338,7 @@ class SecurityCest
         $I->amOnPage('/register');
         //Société
         $I->selectOption('app_register[type]', 1);
-        $I->click(' S’inscrire');
+        $I->click("\u{a0}S’inscrire");
         $I->seeCurrentUrlEquals('/register');
         $I->seeResponseCodeIsSuccessful();
         $I->see('Pour les particuliers, le nom de famille est obligatoire.');

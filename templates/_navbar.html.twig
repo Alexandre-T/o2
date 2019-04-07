@@ -67,7 +67,7 @@
             </div>
             <div class="navbar-nav ml-auto">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown {{ route starts with 'customer' ? 'active' }}">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="fas fa-fw fa-user"></span> {{ app.user.username }}
@@ -99,8 +99,8 @@
                             </a>
                             <div class="dropdown-divider"></div>
                             {# User profile #}
-                            <a class="dropdown-item" href="#" data-toggle="tooltip" data-placement="left"
-                               title="{{ 'nav.customer.submenu.profile.title' | trans }}">
+                            <a class="dropdown-item {{ route == 'customer_profile' ? 'active' }}" href="{{ path('customer_profile') }}"
+                               data-toggle="tooltip" data-placement="left" title="{{ 'nav.customer.submenu.profile.title' | trans }}">
                                 <span class="fas fa-fw fa-user-cog"></span>
                                 {{ 'nav.customer.submenu.profile.text' | trans }}
                             </a>

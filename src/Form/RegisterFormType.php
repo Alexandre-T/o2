@@ -35,12 +35,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Login form builder.
- *
- * @category Form
- *
- * @author  Alexandre Tranchant <alexandre.tranchant@gmail.com>
- * @license CeCILL-B V1
+ * Register form builder.
  */
 class RegisterFormType extends AbstractType
 {

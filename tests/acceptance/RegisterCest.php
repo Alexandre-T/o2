@@ -41,7 +41,7 @@ class RegisterCest
         $I->fillField('Ville', 'Mérignac');
         $I->selectOption('Pays', 'FR');
         $I->checkOption('J’ai lu les conditions d’utilisation du service');
-        $I->click("S’inscrire");
+        $I->click('S’inscrire');
         $I->seeCurrentUrlEquals('/');
         $I->dontSee('Confirmation');
         $I->see('Home page');
@@ -56,7 +56,7 @@ class RegisterCest
     {
         $I->wantTo('send an empty registration.');
         $I->amOnPage('/register');
-        $I->click("S’inscrire");
+        $I->click('S’inscrire');
         $I->seeCurrentUrlEquals('/register');
         $I->seeResponseCodeIsSuccessful();
         $I->see('L’adresse email est obligatoire.');
@@ -93,7 +93,7 @@ class RegisterCest
         $I->fillField('Complément', $label);
         $I->fillField('Code postal', $codePostal);
         $I->fillField('Ville', $label);
-        $I->click("S’inscrire");
+        $I->click('S’inscrire');
         $I->seeCurrentUrlEquals('/register');
         $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 5 caractères.');
         $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 21 caractères.');
@@ -114,7 +114,7 @@ class RegisterCest
         $I->amOnPage('/register');
         //Société
         $I->selectOption('app_register[type]', 0);
-        $I->click("S’inscrire");
+        $I->click('S’inscrire');
         $I->seeCurrentUrlEquals('/register');
         $I->seeResponseCodeIsSuccessful();
         $I->see('Pour les professionnels, le nom de la société est obligatoire.');
@@ -127,11 +127,11 @@ class RegisterCest
      */
     public function tryToSendPhysicWithoutName(AcceptanceTester $I): void
     {
-        $I->wantTo('send register as a society without its name.');
+        $I->wantTo('send register as a physic person without its name.');
         $I->amOnPage('/register');
         //Société
         $I->selectOption('app_register[type]', 1);
-        $I->click("S’inscrire");
+        $I->click('S’inscrire');
         $I->seeCurrentUrlEquals('/register');
         $I->seeResponseCodeIsSuccessful();
         $I->see('Pour les particuliers, le nom de famille est obligatoire.');

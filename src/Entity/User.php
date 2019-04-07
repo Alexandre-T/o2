@@ -191,7 +191,7 @@ class User implements GedmoInterface, UserInterface, Serializable
     /**
      * Terms of services.
      *
-     * @Assert\IsTrue(message="error.tos.blank")
+     * @Assert\IsTrue(groups={"Registration"}, message="error.tos.blank")
      *
      * @ORM\Column(type="boolean", name="usr_tos", options={"comment": "TOS accepted"})
      */

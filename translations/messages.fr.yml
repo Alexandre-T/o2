@@ -189,6 +189,14 @@ form:
       username: 'Entrez le prénom et le nom de l’utilisateur'
       mail: 'Entrez l’adresse email de l’utilisateur'
       roles: 'Sélectionnez le rôle de l’utilisateur'
+  profile:
+    field:
+      submit: 'Enregistrer les modifications'
+
+flash:
+  profile:
+    not-updated: 'Attention ! Votre profil n’a pas été mis à jour.'
+    updated: 'Votre profil a correctement été mis à jour.'
 
 message:
   security:
@@ -276,6 +284,9 @@ security:
     failed: 'Cette adresse email n’est pas référencée dans l’application ou bien le mot de passe est erroné.'
 
 title:
+  customer:
+    main: 'Mon compte'
+    profile: 'Mon profil'
   default:
     tos: 'Conditions d’utilisation'
   security:
