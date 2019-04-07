@@ -264,4 +264,52 @@ class SecurityCest
         $I->seeResponseCodeIsSuccessful();
         $I->see('Pour les particuliers, le nom de famille est obligatoire.');
     }
+
+    /**
+     * Try to reset my lost password.
+     *
+     * @param AcceptanceTester $I the acceptance tester
+     */
+    public function tryToResetPassword(AcceptanceTester $I): void
+    {
+        $I->wantTo('reset my lost password.');
+        $I->amOnPage('/password-lost');
+        $I->fillField('Adresse email', 'customer@example.org');
+        $I->click('Demander un mail de récupération');
+        $I->seeCurrentUrlEquals('/login');
+        $I->seeResponseCodeIsSuccessful();
+        $I->see("Un mail pour changer votre mot de passe vient de vous être envoyé. Consultez votre messagerie\u{a0}!");
+    }
+
+    /**
+     * Try to reset my lost password with a non-existent account.
+     *
+     * @param AcceptanceTester $I the acceptance tester
+     */
+    public function tryToResetPasswordWithBadMail(AcceptanceTester $I): void
+    {
+        $I->wantTo('reset my lost password.');
+        $I->amOnPage('/password-lost');
+        $I->fillField('Adresse email', 'non-existent@example.org');
+        $I->click('Demander un mail de récupération');
+        $I->seeCurrentUrlEquals('/login');
+        $I->seeResponseCodeIsSuccessful();
+        $I->see("Un mail pour changer votre mot de passe vient de vous être envoyé. Consultez votre messagerie\u{a0}!");
+    }
+
+    /**
+     * Try to reset my lost password with an empty mail.
+     *
+     * @param AcceptanceTester $I the acceptance tester
+     */
+    public function tryToResetPasswordWithEmptyMail(AcceptanceTester $I): void
+    {
+        $I->wantTo('reset my lost password.');
+        $I->amOnPage('/password-lost');
+        $I->fillField('Adresse email', '');
+        $I->click('Demander un mail de récupération');
+        $I->seeCurrentUrlEquals('/password-lost');
+        $I->seeResponseCodeIsSuccessful();
+        $I->see('L’adresse email est obligatoire');
+    }
 }
