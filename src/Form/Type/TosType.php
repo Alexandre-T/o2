@@ -35,7 +35,6 @@ class TosType extends AbstractType
 
         $resolver->setDefaults([
             'label' => 'form.field.tos',
-            'help' => 'form.help.tos',
             'required' => true,
         ]);
     }
