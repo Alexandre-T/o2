@@ -16,7 +16,10 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\User;
+use DateInterval;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Exception;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -52,8 +55,35 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
      */
     public function findOneByMail(string $mail): ?User
     {
-        /** @var User $user */
         return $this->findOneBy(['mail' => $mail]);
+    }
+
+    /**
+     * Find a user by token.
+     *
+     * @param string|null $token token in predicate
+     *
+     * @return User|null
+     */
+    public function findOneByToken(?string $token): ?User
+    {
+        try {
+            $today = new DateTimeImmutable();
+            $yesterday = $today->sub(new DateInterval('P1D'));
+
+            $queryBuilder = $this->createQueryBuilder('u');
+
+            return $queryBuilder->where('u.resettingToken = :token')
+                ->andWhere('u.resettingAt > :yesterday')
+                ->setParameter('token', $token)
+                ->setParameter('yesterday', $yesterday)
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+        } catch (Exception $exception) {
+            return null;
+        }
     }
 
     /**

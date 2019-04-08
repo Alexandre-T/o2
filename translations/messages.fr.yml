@@ -101,6 +101,7 @@ entity:
 
 explanations:
   password-lost: 'Si vous avez perdu votre mot de passe, saisissez votre adresse email dans ce formulaire, un mail vous sera envoyé avec les explications nécessaires pour changer de mot de passe.'
+  password-reset: 'Vous avez déclaré la perte de votre mot de passe, veuillez en saisir un nouveau via le formulaire ci-dessous.'
 
 form:
   error:
@@ -190,6 +191,9 @@ form:
   password-lost:
     field:
       submit: 'Demander un mail de récupération'
+  password-reset:
+    field:
+      submit: 'Réinitialiser le mot de passe'
 
 flash:
   password-lost:
@@ -197,6 +201,9 @@ flash:
   password:
     not-updated: 'Attention ! Votre mot de passe n’a pas été mis à jour.'
     updated: 'Votre mot de passe a correctement été mis à jour.'
+  password-reset:
+    done: 'Votre mot de passe a été réinitialisé. Vous pouvez vous connecter.'
+    out-of-date: 'Le mail pour changer de mot de passe est périmé. Veuillez refaire une demande de réinitialisation de mot de passe.'
   profile:
     not-updated: 'Attention ! Votre profil n’a pas été mis à jour.'
     updated: 'Votre profil a correctement été mis à jour.'
@@ -276,6 +283,8 @@ nav:
         title: 'Changer votre mot de passe'
   lost-password:
     text: 'Mot de passe perdu'
+  reset-password:
+    text: 'Réinitialisation du mot de passe'
 
 ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
 ROLE_CUSTOMER: 'Client.'
@@ -303,6 +312,7 @@ title:
       show %name%: 'Fiche de l’utilisateur « %name% »'
     register: 'Inscription'
     password-lost: 'Mot de passe perdu'
+    password-reset: 'Réinitialisation du mot de passe'
 
 type:
   morale: 'Société'

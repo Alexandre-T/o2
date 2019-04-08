@@ -17,12 +17,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\LoginFormType;
-use App\Form\Model\PasswordLost;
-use App\Form\PasswordLostFormType;
 use App\Form\RegisterFormType;
-use App\Mailer\MailerInterface;
 use App\Security\LoginFormAuthenticator;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +26,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -79,7 +74,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * The registration is not available.
+     * The registration use case.
      *
      * @Route("/register", name="security_register")
      *
@@ -120,69 +115,5 @@ class SecurityController extends AbstractController
         return $this->render('security/register.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * The use case to ask for a new password.
-     *
-     * @Route("/password-lost", name="security_password_lost")
-     *
-     * @param Request                 $request       form request form request
-     * @param EntityManagerInterface  $entityManager manager to save user
-     * @param MailerInterface         $mailer        mailer to sent resetting link
-     * @param TokenGeneratorInterface $token         token generator
-     *
-     * @throws Exception when datetime crash
-     *
-     * @return RedirectResponse|Response
-     */
-    public function lost(
-     Request $request,
-     EntityManagerInterface $entityManager,
-     MailerInterface $mailer,
-     TokenGeneratorInterface $token
-    ): Response {
-        if ($this->getUser()) {
-            return new RedirectResponse('/');
-        }
-
-        // create the modal then the form
-        $model = new PasswordLost();
-        $form = $this->createForm(PasswordLostFormType::class, $model);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository = $entityManager->getRepository(User::class);
-            $user = $userRepository->findOneByMail($model->getMail());
-
-            if ($user instanceof User) {
-                //user exists, send an activation mail
-                $user->setResettingToken($token->generateToken());
-                $user->setResettingAt(new DateTimeImmutable());
-                $entityManager->persist($user);
-                $entityManager->flush();
-                $mailer->sendResettingEmailMessage($user);
-            }
-
-            $this->addFlash('success', 'flash.password-lost.sent');
-
-            return $this->redirectToRoute('security_login');
-        }
-
-        return $this->render('security/password-lost.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * Reset password use case.
-     *
-     * @Route(path="/security/reset", name="security_reset")
-     *
-     * @return Response
-     */
-    public function reset(): Response
-    {
-        return $this->render('security/reset.html.twig');
     }
 }

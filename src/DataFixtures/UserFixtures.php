@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -74,6 +75,8 @@ class UserFixtures extends Fixture
                 ->setGivenName('Johannie')
             ;
 
+            $now = new DateTimeImmutable();
+
             //We add a lot of user
             foreach (range(0, self::CUSTOMERS) as $index) {
                 $user = $this->createUser("Customer ${index}", "customer-${index}");
@@ -82,6 +85,8 @@ class UserFixtures extends Fixture
                     ->setGivenName("John${index}")
                     ->setName('Doe')
                     ->setSociety("Society ${index}")
+                    ->setResettingToken("resetToken${index}")
+                    ->setResettingAt($now)
                     ->setType(0 === $index % 2)
                 ;
                 $manager->persist($user);

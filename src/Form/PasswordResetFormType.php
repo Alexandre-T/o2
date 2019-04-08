@@ -15,13 +15,14 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Form\Model\PasswordLost;
+use App\Form\Model\PasswordReset;
+use App\Form\Type\PlainPasswordType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PasswordLostFormType extends AbstractType
+class PasswordResetFormType extends AbstractType
 {
     /**
      * Builds the form.
@@ -39,11 +40,8 @@ class PasswordLostFormType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('mail', EmailType::class, [
-                'label' => 'form.field.email',
-                'help' => 'form.help.email',
-                'required' => true,
-            ])
+            ->add('token', HiddenType::class)
+            ->add('password', PlainPasswordType::class)
         ;
     }
 
@@ -55,7 +53,7 @@ class PasswordLostFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => PasswordLost::class,
+            'data_class' => PasswordReset::class,
         ]);
     }
 
