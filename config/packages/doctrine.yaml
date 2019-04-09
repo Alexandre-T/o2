@@ -8,12 +8,11 @@ parameters:
 doctrine:
     dbal:
         # configure these for your database server
-        driver: 'pdo_mysql'
-        server_version: '5.7'
-        charset: utf8mb4
+        driver: 'pdo_pgsql'
+        charset: utf8
         default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
+            charset: utf8
+            collate: utf8
 
         url: '%env(resolve:DATABASE_URL)%'
     orm:
@@ -27,3 +26,9 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            gedmo_loggable:
+                type: annotation
+                prefix: Gedmo\Loggable\Entity
+                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                # alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
+                is_bundle: false
