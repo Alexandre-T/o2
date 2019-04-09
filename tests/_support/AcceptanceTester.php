@@ -49,11 +49,7 @@ class AcceptanceTester extends Actor
         $mail = $user.'@example.org';
         $password = $password ?? $user;
         $this->comment("I want to login with ${mail} and ${password}");
-        if ($this->canSeeLink('Connexion')) {
-            $this->click('Connexion');
-        } else {
-            $this->amOnPage('/login');
-        }
+        $this->amOnPage('/login');
 
         $this->seeResponseCodeIsSuccessful();
         $this->canSeeCurrentUrlEquals('/login');

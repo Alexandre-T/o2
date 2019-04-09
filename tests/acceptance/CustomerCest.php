@@ -23,28 +23,14 @@ namespace App\Tests;
 class CustomerCest
 {
     /**
-     * @param AcceptanceTester $I the acceptance tester
-     */
-    public function login(AcceptanceTester $I): void
-    {
-        $I->amOnPage('/login');
-        $I->seeResponseCodeIsSuccessful();
-        $I->fillField('Adresse email', 'customer@example.org');
-        $I->fillField('Mot de passe', 'customer');
-        $I->click('Se connecter');
-        $I->seeResponseCodeIsSuccessful();
-    }
-
-    /**
      * Try to update customer.
-     *
-     * @before login
      *
      * @param AcceptanceTester $I the acceptance tester
      */
     public function tryToUpdateCustomer(AcceptanceTester $I): void
     {
         $I->wantTo('update customer.');
+        $I->login('customer');
         $I->amOnPage('/customer/profile');
         $I->selectOption('app_profile[type]', 1);
         $I->fillField('Nom de famille', 'Nom de famille');
@@ -62,13 +48,12 @@ class CustomerCest
     /**
      * Try to update password.
      *
-     * @before login
-     *
      * @param AcceptanceTester $I the acceptance tester
      */
     public function tryToUpdatePassword(AcceptanceTester $I): void
     {
         $I->wantTo('update my password.');
+        $I->login('customer');
         $I->amOnPage('/customer/password');
         $I->fillField('Ancien mot de passe', 'customer');
         $I->fillField('Nouveau mot de passe', 'customer');
@@ -83,13 +68,12 @@ class CustomerCest
     /**
      * Try to hack password with a wrong password.
      *
-     * @before login
-     *
      * @param AcceptanceTester $I the acceptance tester
      */
     public function tryToHackPassword(AcceptanceTester $I): void
     {
         $I->wantTo('update my password.');
+        $I->login('customer');
         $I->amOnPage('/customer/password');
         $I->fillField('Ancien mot de passe', 'bidon');
         $I->fillField('Nouveau mot de passe', 'customer');
@@ -105,13 +89,12 @@ class CustomerCest
     /**
      * Try to send an empty profile form.
      *
-     * @before login
-     *
      * @param AcceptanceTester $I the acceptance tester
      */
     public function tryToSendAnEmptyProfile(AcceptanceTester $I): void
     {
         $I->wantTo('send an empty profile form.');
+        $I->login('customer');
         $I->amOnPage('/customer/profile');
         $I->fillField('Nom de famille', '');
         $I->fillField('Adresse', '');
@@ -130,13 +113,12 @@ class CustomerCest
     /**
      * Try to send an empty profile form.
      *
-     * @before login
-     *
      * @param AcceptanceTester $I the acceptance tester
      */
     public function tryToSendAnEmptyPassword(AcceptanceTester $I): void
     {
         $I->wantTo('send an empty password form.');
+        $I->login('customer');
         $I->amOnPage('/customer/password');
         $I->fillField('Ancien mot de passe', '');
         $I->fillField('Nouveau mot de passe', '');
@@ -153,8 +135,6 @@ class CustomerCest
     /**
      * Try to send a profile with too long field.
      *
-     * @before login
-     *
      * @param AcceptanceTester $I the acceptance tester
      */
     public function tryToSendLongProfileForm(AcceptanceTester $I): void
@@ -164,6 +144,7 @@ class CustomerCest
         $label = str_repeat('s', 33);
 
         $I->wantTo('send a too long profile form.');
+        $I->login('customer');
         $I->amOnPage('/customer/profile');
         $I->fillField('Prénom', $label);
         $I->fillField('Nom de famille', $label);
@@ -188,8 +169,6 @@ class CustomerCest
     /**
      * Try to send a password form with too long field.
      *
-     * @before login
-     *
      * @param AcceptanceTester $I the acceptance tester
      */
     public function tryToSendLongPasswordForm(AcceptanceTester $I): void
@@ -197,6 +176,7 @@ class CustomerCest
         $password = str_repeat('s', 4097);
 
         $I->wantTo('send a too long profile form.');
+        $I->login('customer');
         $I->amOnPage('/customer/password');
         $I->fillField('Ancien mot de passe', $password);
         $I->fillField('Nouveau mot de passe', $password);
@@ -212,13 +192,12 @@ class CustomerCest
     /**
      * Try to send a society without its name.
      *
-     * @before login
-     *
      * @param AcceptanceTester $I the acceptance tester
      */
     public function tryToSendSocietyWithoutName(AcceptanceTester $I): void
     {
         $I->wantTo('send customer as a society without its name.');
+        $I->login('customer');
         $I->amOnPage('/customer/profile');
         //Société
         $I->selectOption('app_profile[type]', 0);
@@ -233,13 +212,12 @@ class CustomerCest
     /**
      * Try to send a society without its name.
      *
-     * @before login
-     *
      * @param AcceptanceTester $I the acceptance tester
      */
     public function tryToSendPhysicWithoutName(AcceptanceTester $I): void
     {
         $I->wantTo('send customer as a physic person without its name.');
+        $I->login('customer');
         $I->amOnPage('/customer/profile');
         //Physic person
         $I->selectOption('app_profile[type]', 1);

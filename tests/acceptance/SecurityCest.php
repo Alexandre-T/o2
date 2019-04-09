@@ -30,13 +30,7 @@ class SecurityCest
     public function tryToTestAdministratorAccess(AcceptanceTester $I): void
     {
         $I->wantTo('be connected as administrator.');
-        $I->amOnPage('/login');
-        $I->seeResponseCodeIsSuccessful();
-        $I->fillField('Adresse email', 'administrator@example.org');
-        $I->fillField('Mot de passe', 'administrator');
-        $I->click('Se connecter');
-        $I->seeCookie('PHPSESSID');
-        $I->seeCurrentUrlEquals('/');
+        $I->login('administrator');
 
         //We are connected as administrator and are on home page
         $I->wantToTest('administrator see links');
@@ -103,13 +97,7 @@ class SecurityCest
     public function tryToTestAccountantAccess(AcceptanceTester $I): void
     {
         $I->wantTo('be connected as accountant.');
-        $I->amOnPage('/login');
-        $I->seeResponseCodeIsSuccessful();
-        $I->fillField('Adresse email', 'accountant@example.org');
-        $I->fillField('Mot de passe', 'accountant');
-        $I->click('Se connecter');
-        $I->seeCookie('PHPSESSID');
-        $I->seeCurrentUrlEquals('/');
+        $I->login('accountant');
 
         //We are connected as accountant and are on home page
         $I->wantToTest('accountant see links');
@@ -147,14 +135,7 @@ class SecurityCest
     public function tryToTestCustomerAccess(AcceptanceTester $I): void
     {
         $I->wantTo('be connected as customer.');
-        $I->amOnPage('/login');
-        $I->seeResponseCodeIsSuccessful();
-        $I->fillField('Adresse email', 'customer@example.org');
-        $I->fillField('Mot de passe', 'customer');
-        $I->click('Se connecter');
-        $I->seeCookie('PHPSESSID');
-        $I->seeCurrentUrlEquals('/');
-
+        $I->login('customer');
         //We are connected as customer and are on home page
         $I->wantToTest('customer see links');
         $I->seeLink('Acheter des crédits');
@@ -195,13 +176,7 @@ class SecurityCest
     public function tryToTestProgrammerAccess(AcceptanceTester $I): void
     {
         $I->wantTo('be connected as programmer.');
-        $I->amOnPage('/login');
-        $I->seeResponseCodeIsSuccessful();
-        $I->fillField('Adresse email', 'programmer@example.org');
-        $I->fillField('Mot de passe', 'programmer');
-        $I->click('Se connecter');
-        $I->seeCookie('PHPSESSID');
-        $I->seeCurrentUrlEquals('/');
+        $I->login('programmer');
 
         //We are connected as programmer and are on home page
         $I->wantToTest('programmer see links');
