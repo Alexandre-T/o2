@@ -38,6 +38,33 @@ class AcceptanceTester extends Actor
 {
     use _generated\AcceptanceTesterActions;
 
+    /**
+     * I login with user and password provided.
+     *
+     * @param string      $user     $user without (at)example.org
+     * @param string|null $password password will equals user if not defined
+     */
+    public function login(string $user, string $password = null): void
+    {
+        $mail = $user.'@example.org';
+        $password = $password ?? $user;
+        $this->comment("I want to login with ${mail} and ${password}");
+        if ($this->canSeeLink('Connexion')) {
+            $this->click('Connexion');
+        } else {
+            $this->amOnPage('/login');
+        }
+
+        $this->seeResponseCodeIsSuccessful();
+        $this->canSeeCurrentUrlEquals('/login');
+        $this->fillField('Adresse email', $mail);
+        $this->fillField('Mot de passe', $password);
+        $this->click('Se connecter');
+        $this->seeResponseCodeIsSuccessful();
+        $this->canSeeCurrentUrlEquals('/');
+        $this->seeLink('Déconnexion');
+    }
+
     /*
      * Define custom actions here
      */

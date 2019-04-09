@@ -126,13 +126,6 @@ class PasswordCest
         $I->seeResponseCodeIsSuccessful();
         $I->seeCurrentUrlEquals('/password-lost');
         $I->see('Le mail pour changer de mot de passe est périmé.');
-        $I->click('Connexion');
-        $I->seeResponseCodeIsSuccessful();
-        $I->seeCurrentUrlEquals('/login');
-        $I->fillField('Adresse email', 'customer-3@example.org');
-        $I->fillField('Mot de passe', 'foobarfoo');
-        $I->click('Se connecter');
-        $I->seeResponseCodeIsSuccessful();
-        $I->seeCurrentUrlEquals('/');
+        $I->login('customer-3', 'foobarfoo');
     }
 }
