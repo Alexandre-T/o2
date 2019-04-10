@@ -51,8 +51,9 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarAdminDropdown">
                             {# Users #}
-                            <a class="dropdown-item" href="#" data-placement="right"
-                               data-toggle="tooltip" title="{{ 'nav.admin.submenu.users.title' | trans }}" data-placement="bottom">
+                            <a class="dropdown-item {{ route starts with 'administration' ? 'active' }}"
+                               data-toggle="tooltip" href="{{ path('administration_user_index') }}"
+                               title="{{ 'nav.admin.submenu.users.title' | trans }}" data-placement="right">
                                 <span class="fas fa-fw fa-users-cog"></span>
                                 {{ 'nav.admin.submenu.users.text' | trans }}</a>
                             {# Settings #}

@@ -12,9 +12,14 @@ label.required:after{
   content: "*";
   color: $primary;
 }
+
+.font-large{
+  font-size: x-large;
+}
 .font-small{
   font-size: x-small;
 }
+
 .form-check-inline .form-check:first-child {
   margin-left: 0;
   padding-left: 0;
@@ -22,3 +27,4 @@ label.required:after{
 #form-address-tab fieldset.form-group {
   margin-bottom: 0;
 }
+

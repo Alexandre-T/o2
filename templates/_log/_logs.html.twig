@@ -1,0 +1,19 @@
+{% for log in logs %}
+    <tr>
+        <td headers="logs-action"
+            class="text-center col-sm-1 row{{ log.version }}">
+            <small class="badge badge-secondary">{{ ('entity.log.actions.' ~ log.action) | trans }}</small>
+        </td>
+        <td headers="logs-date"
+            class="text-center col-sm-2 row{{ log.version }}">
+            <small class="d-block">{{ log.loggedAt | localizeddate('medium','medium') }}</small>
+            {% if log.username is not empty %}
+                <small class="d-block">{{ log.username }}</small>
+            {% endif %}
+        <td headers="logs-value" class="row{{ log.version }}">
+            {% block addressLog %}
+                {% include '_log/_data.html.twig' with {'data': log.data, 'creating': log.action == 'create'} %}
+            {% endblock addressLog %}
+        </td>
+    </tr>
+{% endfor %}

@@ -1,0 +1,27 @@
+{% extends '_entity.html.twig' %}
+
+{% set administration_entity_show = 'administration_user_show' %}
+
+{% block title %}{{ 'title.security.user.edit %name%'|trans({'%name%': user.username}) }} · {{ parent() }}{% endblock title %}
+
+{% block headline %}
+    <h1>
+        <span class="fa fa-user"></span>
+        {{ 'title.security.user.edit %name%'|trans({'%name%': user.username}) }}
+    </h1>
+{% endblock %}
+
+{% block content_settings %}
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+    <button class="btn btn-primary" type="submit">
+        <span class="fa fa-save"></span>
+        {{ 'action.user.edit.text' | trans }}
+    </button>
+{{ form_end(edit_form) }}
+
+{% endblock content_settings %}
+
+{% block content_action %}
+    {% include 'administration/user/_content-action.html.twig' %}
+{% endblock content_action %}

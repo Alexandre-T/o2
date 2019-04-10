@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <div class="float-right btn-group-vertical btn-group-sm ml-3 my-0 mr-0">
+        {% block content_action %}{% endblock content_action %}
+    </div>
+    {% block content_tabs %}
+        <div class="card">
+            <div class="card-header">
+                {# <!-- Nav tabs --> #}
+                <ul class="nav nav-tabs card-header-tabs" id="entityTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#general" aria-controls="general" role="tab" data-toggle="tab">
+                            <span class="fas fa-info-circle"></span>
+                            {{ 'entity.tab.general' | trans }}
+                        </a>
+                    </li>
+                    {% block content_tabs_header %}{% endblock content_tabs_header %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ logs is not defined ? 'disabled' }}" href="#logs" aria-controls="logs"
+                           role="tab" data-toggle="tab">
+                            <span class="fas fa-file-archive"></span>
+                            {{ 'entity.tab.logs' | trans }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="">
+                {# <!-- Tab panes --> #}
+                <div class="card-body tab-content">
+                    <div role="tabpanel" class="tab-pane fade show active" id="general">
+                        {% block content_settings %}{% endblock content_settings %}
+                    </div>
+                    {% block content_other_tabs %}{% endblock content_other_tabs %}
+                    <div role="tabpanel" class="tab-pane fade" id="logs">
+                        {% block content_logs %}
+                        {% if logs is defined and logs | length > 0 %}
+                            <h3>{{ 'entity.log.title' | trans }}</h3>
+                            {% include '_log/_table.html.twig' with {'logs': logs} %}
+                        {% endif %}
+                    </div>
+                    {% endblock content_logs %}
+                </div>
+            </div>
+        </div>
+    {% endblock content_tabs %}
+{% endblock container %}
+
+{% block modal %}
+    {% if delete_form is defined %}
+        {{ form_start(delete_form) }}
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-light">
+                        <h4 class="modal-title">{{ 'modal.entity.delete.confirm' | trans }}</h4>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="{{ 'action.close' | trans }}">
+                            <span aria-hidden="true">&times</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <p class="text-right text-primary">
+                                    <span class="fa fa-exclamation-triangle fa-fw fa-3x"></span>
+                                </p>
+                            </div>
+                            <div class="col-sm-10">
+                                <p>{{ 'modal.entity.delete.core' | trans }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                            <span class="fa fa-undo-alt"></span>&nbsp;{{ 'modal.entity.delete.cancel' | trans }}
+                        </button>
+                        {{ form_widget(delete_form.delete) }}
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        {{ form_end(delete_form) }}
+    {% endif %}
+{% endblock %}

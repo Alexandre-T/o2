@@ -1,0 +1,20 @@
+{% extends '_entity.html.twig' %}
+
+{% block title %}{{ 'title.security.user.create'|trans }} · {{ parent() }}{% endblock title %}
+
+{% block headline %}
+    <h1>
+        <span class="fa fa-user"></span>
+        {{ 'title.security.user.create'|trans }}
+    </h1>
+{% endblock %}
+
+{% block content_settings %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary" type="submit">
+        <span class="fa fa-save"></span>
+        {{ 'action.user.create.text' | trans }}
+    </button>
+    {{ form_end(form) }}
+{% endblock content_settings %}

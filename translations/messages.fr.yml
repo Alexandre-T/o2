@@ -56,6 +56,8 @@ administration:
 
 Address: 'Adresse'
 
+empty: 'vide'
+
 entity:
   global-information: 'Généralités'
   information: 'Informations'
@@ -66,6 +68,7 @@ entity:
       delete: 'Suppression'
       update: 'Modification'
     data:
+      credit: 'Crédits'
       country: 'Nouveau pays'
       email: 'Nouvel email'
       family-name: 'Nouveau nom de famille'
@@ -80,8 +83,12 @@ entity:
       postal-code: 'Nouveau code postal'
       roles: 'Nouveaux privilèges'
       service: 'Nouveau service'
+      society: 'Société'
       street-address: 'Nouvelle rue'
-      telephone: 'Nouveau fixe'
+      telephone: 'Nouveau téléphone'
+      resetting-at: 'Jeton demandé le'
+      resetting-token: 'Jeton de réinitialisation'
+      type: 'Particulier ou professionel'
     date: 'Date'
     explanation: 'Cet onglet rassemble toutes les modifications qui ont eu lieu pour la fiche en cours.'
     new-value: 'Nouvelle(s) valeur(s)'
@@ -109,6 +116,7 @@ form:
     loading:
       service: 'Une erreur est survenue en chargeant les services de cette organisation.'
   field:
+    credit: 'Crédits'
     complement: 'Complément'
     country: 'Pays'
     email: 'Adresse email'
@@ -128,6 +136,7 @@ form:
     tos: 'J’ai lu les conditions d’utilisation du service'
     tva-number: 'Numéro de TVA'
   help:
+    credit: 'Entrez le nouveau nombre de crédit de ce client'
     complement: 'Entrez le complément d’adresse'
     country: 'Choisissez le pays parmi cette liste'
     email: 'Entrez votre adresse email'
@@ -304,15 +313,18 @@ title:
   default:
     tos: 'Conditions d’utilisation'
   security:
+    customer:
+      show %name%: 'Fiche du client « %name% »'
     login: Connexion
+    password-lost: 'Mot de passe perdu'
+    password-reset: 'Réinitialisation du mot de passe'
+    register: 'Inscription'
+    society:
+      show %name%: 'Fiche de la société « %name% »'
     user:
       create: 'Création d’un nouvel utilisateur'
       edit %name%: 'Modification de l’utilisateur « %name% »'
       list: 'Liste des utilisateurs'
-      show %name%: 'Fiche de l’utilisateur « %name% »'
-    register: 'Inscription'
-    password-lost: 'Mot de passe perdu'
-    password-reset: 'Réinitialisation du mot de passe'
 
 type:
   morale: 'Société'

@@ -41,7 +41,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @UniqueEntity(fields={"mail"},  message="error.mail.unique")
  */
-class User implements GedmoInterface, UserInterface, Serializable
+class User implements EntityInterface, GedmoInterface, UserInterface, Serializable
 {
     /*
      * Postal address trait.
@@ -93,6 +93,8 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @var int
      *
      * @ORM\Column(type="integer", name="usr_credit", options={"unsigned": true, "comment": "User credits"})
+     *
+     * @Gedmo\Versioned
      */
     private $credit = 0;
 
@@ -104,6 +106,8 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @Assert\Length(max=32)
      *
      * @ORM\Column(type="string", length=32, nullable=true, name="usr_given", options={"comment": "User given name"})
+     *
+     * @Gedmo\Versioned
      */
     private $givenName;
 
@@ -118,6 +122,7 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @Assert\Email
      *
      * @ORM\Column(type="string", unique=true, length=255, name="usr_mail", options={"comment": "User mail"})
+     *
      * @Gedmo\Versioned
      */
     private $mail;
@@ -130,6 +135,8 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @Assert\Length(max=32)
      *
      * @ORM\Column(type="string", length=32, nullable=true, name="usr_name", options={"comment": "User name"}))
+     *
+     * @Gedmo\Versioned
      */
     private $name;
 
@@ -139,6 +146,7 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @var string
      *
      * @ORM\Column(type="string", length=128, name="usr_password", options={"comment": "Encrypted password"})
+     *
      * @Gedmo\Versioned
      */
     private $password;
@@ -152,6 +160,24 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @var string
      */
     private $plainPassword;
+
+    /**
+     * Resetting password timestamp.
+     *
+     * @ORM\Column(type="datetime", nullable=true, options={"comment": "reset password timestamp"})
+     *
+     * @Gedmo\Versioned
+     */
+    private $resettingAt;
+
+    /**
+     * Resetting password token.
+     *
+     * @ORM\Column(type="string", length=255, nullable=true, options={"comment": "token to reset password"})
+     *
+     * @Gedmo\Versioned
+     */
+    private $resettingToken;
 
     /**
      * Roles of this user.
@@ -177,6 +203,8 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @Assert\Length(max=64)
      *
      * @ORM\Column(type="string", length=64, nullable=true, name="usr_society", options={"comment": "User society"})
+     *
+     * @Gedmo\Versioned
      */
     private $society;
 
@@ -186,6 +214,8 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @Assert\Length(max=21)
      *
      * @ORM\Column(type="string", name="usr_phone", length=21, nullable=true, options={"comment": "User phone"})
+     *
+     * @Gedmo\Versioned
      */
     private $telephone;
 
@@ -199,6 +229,17 @@ class User implements GedmoInterface, UserInterface, Serializable
     private $tos = false;
 
     /**
+     * TVA Number.
+     *
+     * @Assert\Length(max=32)
+     *
+     * @ORM\Column(type="string", name="usr_tva", length=32, nullable=true, options={"comment": "VAT number"})
+     *
+     * @Gedmo\Versioned
+     */
+    private $tvaNumber;
+
+    /**
      * Moral or physic person.
      *
      * @var bool
@@ -206,31 +247,10 @@ class User implements GedmoInterface, UserInterface, Serializable
      * @Assert\Choice(choices=User::TYPES, message="form.error.types.choices")
      *
      * @ORM\Column(type="boolean", name="usr_type", options={"comment": "User mail"})
+     *
+     * @Gedmo\Versioned
      */
     private $type = self::PHYSIC;
-
-    /**
-     * TVA Number.
-     *
-     * @Assert\Length(max=32)
-     *
-     * @ORM\Column(type="string", name="usr_tva", length=32, nullable=true, options={"comment": "VAT number"})
-     */
-    private $tvaNumber;
-
-    /**
-     * Resetting password token.
-     *
-     * @ORM\Column(type="string", length=255, nullable=true, options={"comment": "token to reset password"})
-     */
-    private $resettingToken;
-
-    /**
-     * Resetting password timestamp.
-     *
-     * @ORM\Column(type="datetime", nullable=true, options={"comment": "reset password timestamp"})
-     */
-    private $resettingAt;
 
     /**
      * Erase Credentials.
@@ -438,6 +458,16 @@ class User implements GedmoInterface, UserInterface, Serializable
     public function getSociety(): ?string
     {
         return $this->society;
+    }
+
+    /**
+     * Is this user a society?
+     *
+     * @return bool
+     */
+    public function isSociety(): bool
+    {
+        return self::MORAL === $this->type;
     }
 
     /**

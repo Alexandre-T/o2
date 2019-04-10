@@ -1,0 +1,107 @@
+{% extends '_entity.html.twig' %}
+
+{% set administration_entity_show = 'administration_status_show' %}
+
+{% block title %}
+    {% if user is society %}
+        {{ 'title.security.society.show %name%'|trans({'%name%': user.label}) }}
+    {% else %}
+        {{ 'title.security.customer.show %name%'|trans({'%name%': user.label}) }}
+    {% endif %}
+    · {{ parent() }}
+{% endblock title %}
+
+{% block headline %}
+    <div class="d-flex align-content-end">
+        <h1 class="mt-auto">
+            <span class="fa fa-user-tie"></span>
+            {% if user is society %}
+                {{ 'title.security.society.show %name%'|trans({'%name%': user.label}) }}
+            {% else %}
+                {{ 'title.security.customer.show %name%'|trans({'%name%': user.label}) }}
+            {% endif %}
+        </h1>
+        <div class="ml-auto">
+            <img src="{{ user.mail | gravatarFilter }}" class="img-thumbnail mb-2" alt="gravatar"/>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+{% endblock headline %}
+
+{# Adding address header #}
+{% block content_tabs_header %}
+    <li class="nav-item">
+        <a class="nav-link" href="#address" aria-controls="general" role="tab" data-toggle="tab">
+            <span class="fas fa-address-card"></span>
+            {{ 'entity.tab.contacts' | trans }}
+        </a>
+    </li>
+{% endblock content_tabs_header %}
+
+{% block content_other_tabs %}
+    <div role="tabpanel" class="tab-pane fade" id="address">
+        <div class="row">
+            <div class="col-sm-6 border-right">
+                <dl class="row">
+                    <dt class="col-sm-4 text-truncate text-right">{{ 'form.field.street-address' | trans }}</dt>
+                    <dd class="col-sm-8">{{ user.label }}</dd>
+                    <dd class="offset-sm-4 col-sm-8">{{ user.streetAddress }}</dd>
+                    {% if user.complement is not empty -%}
+                        <dd class="offset-sm-4 col-sm-8">{{ user.streetAddress }}</dd>
+                    {%- endif %}
+                    <dd class="offset-sm-4 col-sm-8">{{ user.postalCode }} {{ user.locality }}</dd>
+                    <dt class="col-sm-4 text-truncate text-right">{{ 'form.field.country' | trans }}</dt>
+                    <dd class="col-sm-8">{{ user.country | country }}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-6">
+                <dl class="row">
+                    <dt class="col-sm-2 text-truncate text-right">
+                        <span class="fas fa-at"></span>
+                    </dt>
+                    <dd class="col-sm-10">{{ user.mail }}</dd>
+                    <dt class="col-sm-2 text-truncate text-right">
+                        <span class="fas fa-phone"></span>
+                    </dt>
+                    <dd class="col-sm-10">{{ user.telephone }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+{% endblock content_other_tabs %}
+
+{% block content_settings %}
+    <div class="d-sm-flex align-content-sm-between">
+        <ul class="list-group list-group-horizontal mx-auto my-1">
+            <li class="list-group-item font-large bg-primary text-light">
+                <span class="fas fa-file-invoice fa-lg mr-2"></span>
+                <strong class="d-none d-md-inline">Factures</strong>
+            </li>
+            <li class="list-group-item font-large border-primary text-primary">
+                <strong>14</strong>
+            </li>
+        </ul>
+        <ul class="list-group list-group-horizontal mx-auto my-1">
+            <li class="list-group-item font-large bg-primary text-light">
+                <span class="fas fa-tachometer-alt fa-lg mr-2"></span>
+                <strong class="d-none d-md-inline">Fichiers</strong>
+            </li>
+            <li class="list-group-item font-large border-primary text-primary">
+                <strong>32</strong>
+            </li>
+        </ul>
+        <ul class="list-group list-group-horizontal mx-auto my-1">
+            <li class="list-group-item font-large bg-primary text-light">
+                <span class="fas fa-coins fa-lg mr-2"></span>
+                <strong class="d-none d-md-inline">Crédits</strong>
+            </li>
+            <li class="list-group-item font-large border-primary text-primary">
+                <strong>{{ user.credit }}</strong>
+            </li>
+        </ul>
+    </div>
+{% endblock content_settings %}
+
+{% block content_action %}
+    {% include 'administration/user/_content-action.html.twig' %}
+{% endblock content_action %}
