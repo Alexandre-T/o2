@@ -41,6 +41,9 @@ action:
     show:
       text: 'Consulter'
       title: 'Consulter la fiche de l’utilisateur'
+    password:
+      text: 'Mot de passe'
+      title: 'Modifier le mot de passe de l’utilisateur'
   url:
     title: 'Consulter ce site web (dans une nouvelle fenêtre)'
 
@@ -95,6 +98,8 @@ entity:
     title: 'Suivi des modifications'
     user: 'Auteur'
     version: 'Version'
+    society-physic: 'Particulier'
+    society-morale: 'Professionnel'
   tab:
     address-logs: 'Changements d’adresse'
     general: 'Généralités'
@@ -105,6 +110,7 @@ entity:
     created %name%: 'L’utilisateur « %name% » a été créé avec succès.'
     deleted %name%: 'L’utilisateur « %name% » a été supprimé avec succès.'
     updated %name%: 'L’utilisateur « %name% » a été modifié avec succès.'
+    password %name%: 'Le mot de passe de l’utilisateur « %name% » a été modifié avec succès.'
 
 explanations:
   password-lost: 'Si vous avez perdu votre mot de passe, saisissez votre adresse email dans ce formulaire, un mail vous sera envoyé avec les explications nécessaires pour changer de mot de passe.'
@@ -299,6 +305,7 @@ ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
 ROLE_CUSTOMER: 'Client.'
 ROLE_ACCOUNTANT: 'Comptable pouvant gérer les factures et les crédits.'
 ROLE_PROGRAMMER: 'Programmateur pouvant renvoyer les fichiers réponses aux clients.'
+ROLE_USER: 'Client.'
 
 security:
   connection:
@@ -325,6 +332,7 @@ title:
       create: 'Création d’un nouvel utilisateur'
       edit %name%: 'Modification de l’utilisateur « %name% »'
       list: 'Liste des utilisateurs'
+      password %name%: 'Modification du mot de passe de l’utilisateur « %name% »'
 
 type:
   morale: 'Société'

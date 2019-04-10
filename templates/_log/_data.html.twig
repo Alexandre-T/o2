@@ -4,11 +4,7 @@
             {% if value.id is not empty %}
                 <dt class="col-sm-4 text-right">{{ ('entity.log.data.' ~ key | hyphenize ) | trans }}</dt>
                 {# FIXME remplacer value #}
-                {% if key == 'organization' %}
-                    <dd class="col-sm-8">{{ value.id }}</dd>
-                {% else %}
-                    <dd class="col-sm-8">{{ value.id }}</dd>
-                {% endif %}
+                <dd class="col-sm-8">{{ value.id }}</dd>
             {% endif %}
         {% elseif key == 'password' %}
             <dt class="col-sm-4 text-right">{{ 'entity.log.data.password' | trans }}</dt>
@@ -29,14 +25,12 @@
             <dt class="col-sm-4 text-right">{{ 'entity.log.data.type' | trans }}</dt>
             <dd class="col-sm-8">
                 {% if log.data.type is society %}
-                    Particulier
+                    {{ 'entity.log.society-physic' | trans }}
                 {% else %}
-                    Professionnel
+                    {{ 'entity.log.society-morale' | trans }}
                 {% endif %}
             </dd>
         {% elseif not(value is empty and creating) %}
-            {% dump(key) %}
-            {% dump(value) %}
             <dt class="col-sm-4 text-right">{{ ('entity.log.data.' ~ key | hyphenize ) | trans }}</dt>
             <dd class="col-sm-8">{{ value | emptyize }}</dd>
         {% endif %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\DeleteFormType;
+use App\Form\PasswordAdminFormType;
 use App\Form\UserFormType;
 use App\Manager\UserManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -158,6 +159,46 @@ class UserController extends AbstractController
         return $this->render('administration/user/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Displays a form to update password of an existing user entity.
+     *
+     * @Route("/{id}/password", name="administration_user_password", methods={"get", "post"})
+     *
+     * @param User                $user        The user entity
+     * @param Request             $request     The request
+     * @param UserManager         $userManager
+     * @param TranslatorInterface $trans
+     *
+     * @return RedirectResponse|Response
+     */
+    public function passwordAction(User $user, Request $request, UserManager $userManager, TranslatorInterface $trans)
+    {
+        $deleteForm = $this->createForm(DeleteFormType::class, $user, [
+            'action' => $this->generateUrl('administration_user_delete', ['id' => $user->getId()]),
+        ]);
+        $passwordForm = $this->createForm(PasswordAdminFormType::class, $user);
+        $passwordForm->handleRequest($request);
+        if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
+            $userManager->save($user);
+            $session = $this->get('session');
+            $message = $trans->trans('entity.user.password %name%', ['%name%' => $user->getLabel()]);
+            $session->getFlashBag()->add('success', $message);
+
+            return $this->redirectToRoute('administration_user_show', array('id' => $user->getId()));
+        }
+
+        $logs = $userManager->retrieveLogs($user);
+
+        return $this->render('administration/user/password.html.twig', [
+            'deletable' => $userManager->isDeletable($user),
+            'logs' => $logs,
+            'information' => $user,
+            'user' => $user,
+            'password_form' => $passwordForm->createView(),
+            'delete_form' => $deleteForm->createView(),
         ]);
     }
 

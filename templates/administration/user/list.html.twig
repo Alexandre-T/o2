@@ -34,13 +34,18 @@
                 <td headers="user-username">{{ user.label }}</td>
                 <td headers="user-mail">{{ user.mail }}</td>
                 <td headers="user-actions">
-                    <div class="btn-group-xs btn-group">
-                        <a class="btn btn-default" title="{{ 'action.user.show.title' | trans }}"
+                    <div class="btn-group">
+                        <a class="btn btn-outline-secondary" title="{{ 'action.user.show.title' | trans }}"
                            href="{{ path('administration_user_show', { 'id': user.id }) }}">
                             <span class="fa fa-eye"></span>
                             <span class="sr-only">{{ 'action.user.show.text' | trans }}</span>
                         </a>
-                        <a class="btn btn-default"  title="{{ 'action.user.edit.title' | trans }}"
+                        <a class="btn btn-outline-secondary"  title="{{ 'action.user.password.title' | trans }}"
+                           href="{{ path('administration_user_password', { 'id': user.id }) }}">
+                            <span class="fa fa-key"></span>
+                            <span class="sr-only">{{ 'action.user.password.text' | trans }}</span>
+                        </a>
+                        <a class="btn btn-outline-secondary"  title="{{ 'action.user.edit.title' | trans }}"
                            href="{{ path('administration_user_edit', { 'id': user.id }) }}">
                             <span class="fa fa-edit"></span>
                             <span class="sr-only">{{ 'action.user.edit.text' | trans }}</span>
