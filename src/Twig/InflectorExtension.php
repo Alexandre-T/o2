@@ -1,4 +1,17 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
+
+declare(strict_types=1);
 
 namespace App\Twig;
 
@@ -10,8 +23,6 @@ use Twig\TwigTest;
 
 /**
  * Inflector twig extension.
- *
- * TODO realize tests.
  */
 class InflectorExtension extends AbstractExtension
 {
@@ -25,7 +36,7 @@ class InflectorExtension extends AbstractExtension
     /**
      * Constructor sets the translator.
      *
-     * @param TranslatorInterface $translator
+     * @param TranslatorInterface $translator dependency injection
      */
     public function __construct(TranslatorInterface $translator)
     {
@@ -68,7 +79,7 @@ class InflectorExtension extends AbstractExtension
     /**
      * Return true only when value is strictly an array.
      *
-     * @param $value
+     * @param mixed $value value to test
      *
      * @return bool
      */
@@ -98,7 +109,7 @@ class InflectorExtension extends AbstractExtension
     /**
      * Country filter convert country alpha code to country name under locale language.
      *
-     * @param string|null $country
+     * @param string|null $country the country code filter
      *
      * @return string
      */
@@ -154,18 +165,18 @@ class InflectorExtension extends AbstractExtension
      *
      * This can be really useful for creating friendly URLs.
      *
-     * @param string|null $value
+     * @param string|null $value data to hyphen
      *
      * @return string hyphenized word
      */
     public function hyphenizeFilter(?string $value): string
     {
-        $regex1 = preg_replace('/([A-Z]+)([A-Z][a-z])/', '\1-\2', $value ?? '');
-        $regex2 = preg_replace('/([a-z])([A-Z])/', '\1-\2', $regex1);
-        $regex3 = preg_replace('/([0-9])([A-Z])/', '\1-\2', $regex2);
-        $regex4 = preg_replace('/[^A-Z^a-z^0-9]+/', '-', $regex3);
+        $regex = preg_replace('/([A-Z]+)([A-Z][a-z])/', '\1-\2', $value ?? '');
+        $regex = preg_replace('/([a-z])([A-Z])/', '\1-\2', $regex);
+        $regex = preg_replace('/([0-9])([A-Z])/', '\1-\2', $regex);
+        $regex = preg_replace('/[^A-Z^a-z^0-9]+/', '-', $regex);
 
-        return strtolower($regex4);
+        return strtolower($regex);
     }
 
     /**
@@ -206,11 +217,11 @@ class InflectorExtension extends AbstractExtension
      */
     public function underscorizeFilter($word)
     {
-        $regex1 = preg_replace('/([A-Z]+)([A-Z][a-z])/', '\1_\2', $word);
-        $regex2 = preg_replace('/([a-zd])([A-Z])/', '\1_\2', $regex1);
-        $regex3 = preg_replace('/[^A-Z^a-z^0-9]+/', '_', $regex2);
+        $regex = preg_replace('/([A-Z]+)([A-Z][a-z])/', '\1_\2', $word);
+        $regex = preg_replace('/([a-zd])([A-Z])/', '\1_\2', $regex);
+        $regex = preg_replace('/[^A-Z^a-z^0-9]+/', '_', $regex);
 
-        return strtolower($regex3);
+        return strtolower($regex);
     }
 
     /**

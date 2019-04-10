@@ -4,6 +4,21 @@
 
 {% block title %}{{ 'title.security.user.edit %name%'|trans({'%name%': user.username}) }} · {{ parent() }}{% endblock title %}
 
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.admin.text' | trans }}</li>
+            <li class="breadcrumb-item">
+                <a href="{{ path('administration_user_index') }}" title="{{ 'nav.admin.submenu.users.title' | trans }}">{{ 'nav.admin.submenu.users.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.security.user.edit' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
 {% block headline %}
     <h1>
         <span class="fa fa-user"></span>

@@ -71,6 +71,8 @@ entity:
       delete: 'Suppression'
       update: 'Modification'
     data:
+      tva-number: 'Nouveau numéro TVA'
+      complement: 'Nouveau complément'
       credit: 'Crédits'
       country: 'Nouveau pays'
       email: 'Nouvel email'
@@ -128,6 +130,7 @@ form:
     email: 'Adresse email'
     family-name: 'Nom de famille'
     given-name: 'Prénom'
+    gravatar: 'Gravatar de l’utilisateur'
     label: 'Nom'
     locality: 'Ville'
     new-password: 'Nouveau mot de passe'
@@ -136,11 +139,23 @@ form:
     person-type: 'Nature'
     postal-code: 'Code postal'
     repeat-password: 'Confirmation'
+    role:
+      option:
+        admin: 'Administrateur pouvant gérer les privilèges des utilisateurs.'
+        accountant: 'Comptable pouvant gérer les crédits et les factures.'
+        programmer: 'Programmateur pouvant agir sur les fichiers.'
+        user: 'Client standard.'
+      title:
+        accountant: 'Comptable'
+        admin: 'Administrateur'
+        programmer: 'Programmateur'
+    roles: 'Privilèges de l’utilisateur'
     society: 'Société'
     street-address: 'Adresse'
     telephone: 'Téléphone'
     tos: 'J’ai lu les conditions d’utilisation du service'
     tva-number: 'Numéro de TVA'
+    username: 'Nom de l’utilisateur'
   help:
     credit: 'Entrez le nouveau nombre de crédit de ce client'
     complement: 'Entrez le complément d’adresse'
@@ -155,11 +170,13 @@ form:
     person-type: 'Êtes-vous un professionnel ou un particulier ?'
     postal-code: 'Entrez le code postal'
     repeat-password: 'Confirmez votre mot de passe'
+    roles: 'Sélectionnez le rôle de l’utilisateur'
     society: 'Entrez le nom de la société'
     street-address: 'Entrez l’adresse'
     telephone: 'Entrez votre numéro de téléphone'
     tos: 'Veuillez lire les conditions d’utilisations du service.'
     tva-number: 'Entrez votre numéro de TVA intracommunautaire'
+    username: 'Entrez le prénom et le nom de l’utilisateur'
   loading:
     service: 'Chargement des services de cette organisation'
   placeholder:
@@ -180,23 +197,6 @@ form:
   submit:
     search: 'Recherche'
     export-mail: 'Exporter les emails'
-  user:
-    field:
-      username: 'Nom de l’utilisateur'
-      mail: 'Adresse email'
-      gravatar: 'Gravatar de l’utilisateur'
-      role:
-        option:
-          admin: 'Administrateur pouvant gérer les privilèges des utilisateurs.'
-          organiser: 'Utilisateur avec droit de lecture et d’écriture.'
-          reader: 'Utilisateur avec droit de lecture uniquement.'
-          user: 'Utilisateur sans aucun privilège.'
-
-      roles: 'Privilèges de l’utilisateur'
-    help:
-      username: 'Entrez le prénom et le nom de l’utilisateur'
-      mail: 'Entrez l’adresse email de l’utilisateur'
-      roles: 'Sélectionnez le rôle de l’utilisateur'
   profile:
     field:
       submit: 'Enregistrer les modifications'
@@ -320,8 +320,6 @@ title:
   default:
     tos: 'Conditions d’utilisation'
   security:
-    customer:
-      show %name%: 'Fiche du client « %name% »'
     login: Connexion
     password-lost: 'Mot de passe perdu'
     password-reset: 'Réinitialisation du mot de passe'
@@ -330,9 +328,13 @@ title:
       show %name%: 'Fiche de la société « %name% »'
     user:
       create: 'Création d’un nouvel utilisateur'
+      edit: 'Modification d’utilisateur'
       edit %name%: 'Modification de l’utilisateur « %name% »'
       list: 'Liste des utilisateurs'
+      password: 'Modification de mot de passe'
       password %name%: 'Modification du mot de passe de l’utilisateur « %name% »'
+      show: 'Fiche utilisateur'
+      show %name%: 'Fiche de l’utilisateur « %name% »'
 
 type:
   morale: 'Société'

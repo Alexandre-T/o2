@@ -23,7 +23,9 @@ use App\Form\Type\FamilyNameType;
 use App\Form\Type\GivenNameType;
 use App\Form\Type\LocalityType;
 use App\Form\Type\PersonType;
+use App\Form\Type\PlainPasswordType;
 use App\Form\Type\PostalCodeType;
+use App\Form\Type\RoleType;
 use App\Form\Type\SocietyType;
 use App\Form\Type\StreetAddressType;
 use App\Form\Type\TelephoneType;
@@ -46,21 +48,27 @@ class UserFormType extends AbstractType
      * This method is called for each type in the hierarchy starting from the
      * top most type. Type extensions can further modify the form.
      *
-     * @see FormTypeExtensionInterface::buildForm()
-     *
      * @param FormBuilderInterface $builder The form builder
      * @param array                $options The options
+     *
+     * @see FormTypeExtensionInterface::buildForm()
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
 
+        $builder->add('mail', EmailType::class, [
+            'label' => 'form.field.email',
+            'help' => 'form.help.email',
+            'required' => true,
+        ]);
+
+        if (!$options['update']) {
+            $builder->add('plainPassword', PlainPasswordType::class);
+        }
+
         $builder
-            ->add('mail', EmailType::class, [
-                'label' => 'form.field.email',
-                'help' => 'form.help.email',
-                'required' => true,
-            ])
+            ->add('roles', RoleType::class)
             ->add('credit', CreditType::class)
             ->add('type', PersonType::class)
             ->add('givenName', GivenNameType::class)
@@ -85,8 +93,10 @@ class UserFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'update' => false,
             'validation_groups' => ['Default', 'Admin'],
         ]);
+
         parent::configureOptions($resolver);
     }
 

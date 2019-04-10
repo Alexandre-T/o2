@@ -1,4 +1,17 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
+
+declare(strict_types=1);
 
 namespace App\Manager;
 
@@ -20,17 +33,7 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Const for the alias query.
      */
-    const ALIAS = 'user';
-
-    /**
-     * Return the main repository.
-     *
-     * @return EntityRepository
-     */
-    protected function getMainRepository(): EntityRepository
-    {
-        return $this->entityManager->getRepository(User::class);
-    }
+    public const ALIAS = 'user';
 
     /**
      * Return default alias.
@@ -63,7 +66,7 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Is this entity deletable?
      *
-     * @param EntityInterface $entity
+     * @param EntityInterface $entity the entity to test
      *
      * @return bool true if entity is deletable
      */
@@ -73,11 +76,21 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
+     * Return the main repository.
+     *
+     * @return EntityRepository
+     */
+    protected function getMainRepository(): EntityRepository
+    {
+        return $this->entityManager->getRepository(User::class);
+    }
+
+    /**
      * This method will add the HIDDEN field, the sortable field.
      *
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
      *
-     * @param QueryBuilder $queryBuilder
+     * @param QueryBuilder $queryBuilder Query builder
      *
      * @return QueryBuilder
      */
@@ -85,6 +98,7 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     {
         return $queryBuilder
             ->addSelect('user.mail as HIDDEN mail')
-            ->addSelect('user.name as HIDDEN username');
+            ->addSelect('user.name as HIDDEN username')
+        ;
     }
 }

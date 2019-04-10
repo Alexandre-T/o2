@@ -15,29 +15,36 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\SubmitButtonTypeInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Confirmation Type class.
+ * Role type.
  */
-class ConfirmationType extends SubmitType implements SubmitButtonTypeInterface
+class RoleType extends AbstractType
 {
     /**
      * Set default options.
      *
-     * @param OptionsResolver $resolver the resolver for options
+     * @param OptionsResolver $resolver the options resolver
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'attr' => ['class' => 'btn-danger confirm-delete'],
-            'label' => 'modal.entity.delete.yes',
-            'icon' => 'trash',
-            'icon_family' => 'solid',
+            'label' => 'form.field.roles',
+            'help' => 'form.help.roles',
+            'expanded' => true,
+            'multiple' => true,
+            'choices' => [
+                'form.field.role.option.accountant' => 'ROLE_ACCOUNTANT',
+                'form.field.role.option.admin' => 'ROLE_ADMIN',
+                'form.field.role.option.programmer' => 'ROLE_PROGRAMMER',
+            ],
+            'required' => true,
+            'attr' => ['class' => 'form-check p-0 pt-2 m-0'],
         ]);
     }
 
@@ -48,6 +55,6 @@ class ConfirmationType extends SubmitType implements SubmitButtonTypeInterface
      */
     public function getParent()
     {
-        return SubmitType::class;
+        return ChoiceType::class;
     }
 }

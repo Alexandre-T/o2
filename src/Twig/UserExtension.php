@@ -1,9 +1,21 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
+
+declare(strict_types=1);
 
 namespace App\Twig;
 
 use App\Entity\User;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigTest;
 
@@ -12,23 +24,6 @@ use Twig\TwigTest;
  */
 class UserExtension extends AbstractExtension
 {
-    /**
-     * Translator.
-     *
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    /**
-     * Constructor sets the translator.
-     *
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
-
     /**
      * List of filters.
      *

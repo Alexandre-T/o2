@@ -6,10 +6,25 @@
     {% if user is society %}
         {{ 'title.security.society.show %name%'|trans({'%name%': user.label}) }}
     {% else %}
-        {{ 'title.security.customer.show %name%'|trans({'%name%': user.label}) }}
+        {{ 'title.security.user.show %name%'|trans({'%name%': user.label}) }}
     {% endif %}
     · {{ parent() }}
 {% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.admin.text' | trans }}</li>
+            <li class="breadcrumb-item">
+                <a href="{{ path('administration_user_index') }}" title="{{ 'nav.admin.submenu.users.title' | trans }}">{{ 'nav.admin.submenu.users.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.security.user.show' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
 
 {% block headline %}
     <div class="d-flex align-content-end">
@@ -18,7 +33,7 @@
             {% if user is society %}
                 {{ 'title.security.society.show %name%'|trans({'%name%': user.label}) }}
             {% else %}
-                {{ 'title.security.customer.show %name%'|trans({'%name%': user.label}) }}
+                {{ 'title.security.user.show %name%'|trans({'%name%': user.label}) }}
             {% endif %}
         </h1>
         <div class="ml-auto">
