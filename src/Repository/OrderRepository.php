@@ -43,13 +43,13 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get non paid command by user.
+     * Get carted non paid by user.
      *
      * @param User $customer owner of command
      *
      * @return Order|null
      */
-    public function findOneNonPaidByUser(User $customer): ?Order
+    public function findOneByUserAndCarted(User $customer): ?Order
     {
         try {
             return $this->createQueryBuilder('c')

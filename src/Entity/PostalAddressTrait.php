@@ -100,9 +100,9 @@ trait PostalAddressTrait
      *
      * @param string $country the new country
      *
-     * @return self
+     * @return PostalAddressInterface|PostalAddressTrait
      */
-    public function setCountry(string $country): self
+    public function setCountry(string $country): PostalAddressInterface
     {
         $this->country = $country;
 
@@ -124,9 +124,9 @@ trait PostalAddressTrait
      *
      * @param string|null $locality the new locality
      *
-     * @return self
+     * @return PostalAddressInterface|PostalAddressTrait
      */
-    public function setLocality(?string $locality): self
+    public function setLocality(?string $locality): PostalAddressInterface
     {
         $this->locality = $locality;
 
@@ -148,9 +148,9 @@ trait PostalAddressTrait
      *
      * @param string $complement the address complement
      *
-     * @return self
+     * @return PostalAddressInterface|PostalAddressTrait
      */
-    public function setComplement(string $complement): self
+    public function setComplement(?string $complement): PostalAddressInterface
     {
         $this->complement = $complement;
 
@@ -172,9 +172,9 @@ trait PostalAddressTrait
      *
      * @param string|null $postalCode the new postal code
      *
-     * @return self
+     * @return PostalAddressInterface|PostalAddressTrait
      */
-    public function setPostalCode(?string $postalCode): self
+    public function setPostalCode(?string $postalCode): PostalAddressInterface
     {
         $this->postalCode = $postalCode;
 
@@ -196,11 +196,29 @@ trait PostalAddressTrait
      *
      * @param string|null $streetAddress new street address
      *
-     * @return self
+     * @return PostalAddressInterface|PostalAddressTrait
      */
-    public function setStreetAddress(?string $streetAddress): self
+    public function setStreetAddress(?string $streetAddress): PostalAddressInterface
     {
         $this->streetAddress = $streetAddress;
+
+        return $this;
+    }
+
+    /**
+     * Copy address from postal address to current object.
+     *
+     * @param PostalAddressInterface $postalAddress postal address interface to copy
+     *
+     * @return PostalAddressInterface|PostalAddressTrait
+     */
+    public function copyAddress(PostalAddressInterface $postalAddress): PostalAddressInterface
+    {
+        $this->setComplement($postalAddress->getComplement());
+        $this->setCountry($postalAddress->getCountry());
+        $this->setLocality($postalAddress->getLocality());
+        $this->setPostalCode($postalAddress->getPostalCode());
+        $this->setStreetAddress($postalAddress->getStreetAddress());
 
         return $this;
     }

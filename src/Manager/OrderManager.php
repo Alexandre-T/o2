@@ -15,9 +15,14 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use App\Entity\Article;
 use App\Entity\EntityInterface;
 use App\Entity\Order;
+use App\Entity\OrderedArticle;
+use App\Entity\StatusOrder;
 use App\Entity\User;
+use App\Form\Model\CreditOrder;
+use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -80,14 +85,71 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      */
     public function getNonPaidOrder(User $user): Order
     {
-        $order = $this->getMainRepository()->findOneNonPaidByUser($user);
+        /** @var OrderRepository $repository */
+        $repository = $this->getMainRepository();
+
+        $order = $repository->findOneByUserAndCarted($user);
 
         if (null === $order) {
+            // TODO create a factory
+            $soRepository = $this->entityManager->getRepository(StatusOrder::class);
+            $carted = $soRepository->findOneByCode(StatusOrder::CARTED);
             $order = new Order();
             $order->setCustomer($user);
+            $order->setStatusOrder($carted);
         }
 
         return $order;
+    }
+
+    /**
+     * Push data.
+     *
+     * @param Order       $order order to complete
+     * @param CreditOrder $model model to provide data
+     */
+    public function pushOrderedArticles(Order $order, CreditOrder $model): void
+    {
+        $articleRepository = $this->entityManager->getRepository(Article::class);
+        /** @var Article[] $articles */
+        $articles = $articleRepository->findAll();
+        $order->setCredits(0);
+        $order->setPrice(0);
+
+        foreach ($articles as $article) {
+            if (10 === $article->getCredit()) {
+                if ($model->getTen()) {
+                    $orderedArticle = $this->createdOrderedArticle($order, $article, $model->getTen());
+                    $order->addOrderedArticle($orderedArticle);
+                    $order->setCredits($model->getTen() * $article->getCredit() + $order->getCredits());
+                    $order->setPrice($model->getTen() * (double) $article->getCost() + $order->getPrice());
+                }
+
+                continue;
+            }
+
+            if (100 === $article->getCredit()) {
+                if ($model->getHundred()) {
+                    $orderedArticle = $this->createdOrderedArticle($order, $article, $model->getHundred());
+                    $order->addOrderedArticle($orderedArticle);
+                    $order->setCredits($model->getHundred() * $article->getCredit() + $order->getCredits());
+                    $order->setPrice($model->getHundred() * (double) $article->getCost() + $order->getPrice());
+                }
+
+                continue;
+            }
+
+            if (500 === $article->getCredit()) {
+                if ($model->getFiveHundred()) {
+                    $orderedArticle = $this->createdOrderedArticle($order, $article, $model->getFiveHundred());
+                    $order->addOrderedArticle($orderedArticle);
+                    $order->setCredits($model->getFiveHundred() * $article->getCredit() + $order->getCredits());
+                    $order->setPrice($model->getFiveHundred() * (double) $article->getCost() + $order->getPrice());
+                }
+
+                continue;
+            }
+        }
     }
 
     /**
@@ -98,5 +160,25 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     protected function getMainRepository(): EntityRepository
     {
         return $this->entityManager->getRepository(Order::class);
+    }
+
+    /**
+     * Create an ordered article.
+     *
+     * @param Order   $order    linked order
+     * @param Article $article  linked article
+     * @param int     $quantity quantity wanted
+     *
+     * @return OrderedArticle
+     */
+    private function createdOrderedArticle(Order $order, Article $article, int $quantity): OrderedArticle
+    {
+        $orderedArticle = new OrderedArticle();
+        $orderedArticle->setArticle($article);
+        $orderedArticle->setOrder($order);
+        $orderedArticle->setUnitCost($article->getCost());
+        $orderedArticle->setQuantity($quantity);
+
+        return $orderedArticle;
     }
 }

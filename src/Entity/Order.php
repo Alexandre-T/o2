@@ -40,7 +40,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @Gedmo\Loggable
  */
-class Order implements ConstantInterface, EntityInterface
+class Order implements ConstantInterface, EntityInterface, PostalAddressInterface
 {
     /*
      * Person trait.
@@ -84,7 +84,7 @@ class Order implements ConstantInterface, EntityInterface
      *
      * Value have to be unique.
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      *
      * @Gedmo\Versioned
      */
@@ -147,7 +147,12 @@ class Order implements ConstantInterface, EntityInterface
      *
      * @var Collection|OrderedArticle[]
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderedArticle", mappedBy="order", orphanRemoval=true)
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\OrderedArticle",
+     *     mappedBy="order",
+     *     orphanRemoval=true,
+     *     cascade={"persist"}
+     * )
      */
     private $orderedArticles;
 

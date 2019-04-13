@@ -16,7 +16,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
+use App\Form\Model\CreditOrder;
 use App\Form\PasswordFormType;
 use App\Form\ProfileFormType;
 use App\Manager\OrderManager;
@@ -108,8 +110,8 @@ class CustomerController extends AbstractController
      *
      * @Route("/select-credit", name="customer_credit")
      *
-     * @param Request      $request      request handling data
-     * @param OrderManager $orderManager command manager
+     * @param Request      $request      Request handling data
+     * @param OrderManager $orderManager Command manager
      *
      * @return Response|RedirectResponse
      */
@@ -118,12 +120,16 @@ class CustomerController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $order = $orderManager->getNonPaidOrder($user);
-        $form = $this->createForm(CreditFormType::class, $order);
+        $model = new CreditOrder();
+        $model->initializeWithOrder($order);
+        $form = $this->createForm(CreditFormType::class, $model);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $order->copyAddress($user);
+            $orderManager->pushOrderedArticles($order, $model);
             $orderManager->save($order);
-            $this->addFlash('success', 'flash.order.updated');
+            $this->addFlash('success', 'flash.order.step1');
 
             return $this->redirectToRoute('home');
         }

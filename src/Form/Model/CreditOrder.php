@@ -15,7 +15,8 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
-use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
+use App\Entity\Article;
+use App\Entity\Order;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,71 +27,139 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CreditOrder
 {
     /**
-     * The number of .
+     * The number of credit bought by ten.
      *
-     * @Assert\NotBlank(message="error.old-password.blank")
-     * @SecurityAssert\UserPassword(message="error.old-password.not-match")
-     * @Assert\Length(max=4096)
+     * @Assert\GreaterThanOrEqual(value="0", message="error.quantity.greater-than-or-equal-zero")
      *
-     * @var string
+     * @var int
      */
-    private $oldPassword = '';
+    private $ten = 0;
 
     /**
-     * The new password.
+     * The number of credit bought by hundred.
      *
-     * @Assert\Length(max=4096)
-     * @Assert\NotBlank(message="error.plain-password.blank")
+     * @Assert\GreaterThanOrEqual(value="0", message="error.quantity.greater-than-or-equal-zero")
      *
-     * @var string
+     * @var int
      */
-    private $newPassword = '';
+    private $hundred = 0;
 
     /**
-     * Old password getter.
+     * The number of credit bought by five hundred.
      *
-     * @return string
+     * @Assert\GreaterThanOrEqual(value="0", message="error.quantity.greater-than-or-equal-zero")
+     *
+     * @var int
      */
-    public function getOldPassword(): ?string
+    private $fiveHundred = 0;
+
+    /**
+     * Ten getter.
+     *
+     * @return int
+     */
+    public function getTen(): int
     {
-        return $this->oldPassword;
+        return $this->ten;
     }
 
     /**
-     * Old password fluent setter.
+     * Hundred getter.
      *
-     * @param string $oldPassword old password
-     *
-     * @return ChangePassword
+     * @return int
      */
-    public function setOldPassword(?string $oldPassword): self
+    public function getHundred(): int
     {
-        $this->oldPassword = $oldPassword;
+        return $this->hundred;
+    }
+
+    /**
+     * FiveHundred getter.
+     *
+     * @return int
+     */
+    public function getFiveHundred(): int
+    {
+        return $this->fiveHundred;
+    }
+
+    /**
+     * Ten setter.
+     *
+     * @param int $ten quantity bought
+     *
+     * @return CreditOrder
+     */
+    public function setTen(int $ten): CreditOrder
+    {
+        $this->ten = $ten;
 
         return $this;
     }
 
     /**
-     * NewPassword getter.
+     * Hundred setter.
      *
-     * @return string
+     * @param int $hundred quantity bought
+     *
+     * @return CreditOrder
      */
-    public function getNewPassword(): ?string
+    public function setHundred(int $hundred): CreditOrder
     {
-        return $this->newPassword;
+        $this->hundred = $hundred;
+
+        return $this;
     }
 
     /**
-     * New password fluent setter.
+     * 500 setter.
      *
-     * @param string $newPassword new password
+     * @param int $fiveHundred quantity bought
      *
-     * @return ChangePassword
+     * @return CreditOrder
      */
-    public function setNewPassword(?string $newPassword = ''): self
+    public function setFiveHundred(int $fiveHundred): CreditOrder
     {
-        $this->newPassword = $newPassword;
+        $this->fiveHundred = $fiveHundred;
 
         return $this;
+    }
+
+    /**
+     * Initialize model with data from $order.
+     *
+     * @param Order $order initializing order
+     */
+    public function initializeWithOrder(Order $order): void
+    {
+        foreach ($order->getOrderedArticles() as $orderedArticle) {
+            if ($orderedArticle->getQuantity() > 0 && null !== $orderedArticle->getArticle()) {
+                $this->initializeWithArticle($orderedArticle->getArticle(), $orderedArticle->getQuantity());
+            }
+        }
+    }
+
+    /**
+     * Initialize model with an article.
+     *
+     * @param Article $article
+     * @param int     $quantity
+     */
+    private function initializeWithArticle(Article $article, int $quantity): void
+    {
+        switch ($article->getCredit()) {
+            case 10:
+                $this->setTen($quantity);
+
+                return;
+            case 100:
+                $this->setHundred($quantity);
+
+                return;
+            case 500:
+                $this->setFiveHundred($quantity);
+
+                return;
+        }
     }
 }

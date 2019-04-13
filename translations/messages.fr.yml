@@ -317,6 +317,7 @@ title:
     main: 'Mon compte'
     profile: 'Mon profil'
     password: 'Mon mot de passe'
+    select-credit: 'messages'
   default:
     tos: 'Conditions d’utilisation'
   security:

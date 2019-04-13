@@ -43,7 +43,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @UniqueEntity(fields={"mail"},  message="error.mail.unique")
  */
-class User implements ConstantInterface, EntityInterface, GedmoInterface, UserInterface, Serializable
+class User implements ConstantInterface, EntityInterface, PostalAddressInterface, UserInterface, Serializable
 {
     /*
      * Postal address trait.
