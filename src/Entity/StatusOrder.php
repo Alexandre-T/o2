@@ -33,6 +33,13 @@ use Doctrine\ORM\Mapping as ORM;
 class StatusOrder
 {
     /**
+     * Constants for fixtures.
+     */
+    public const CANCELED = 'CANCELED';
+    public const CARTED = 'CARTED';
+    public const PAID = 'PAID';
+
+    /**
      * Identifier.
      *
      * @var int

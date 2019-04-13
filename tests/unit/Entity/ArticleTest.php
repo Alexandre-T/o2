@@ -15,14 +15,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use App\Entity\StatusOrder;
+use App\Entity\Article;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
 
 /**
  * Status order resource unit test.
  */
-class StatusOrderTest extends Unit
+class ArticleTest extends Unit
 {
     /**
      * The unit tester.
@@ -34,16 +34,16 @@ class StatusOrderTest extends Unit
     /**
      * Status order to test.
      *
-     * @var StatusOrder
+     * @var Article
      */
-    protected $status;
+    protected $article;
 
     /**
      * Before each test, user is created.
      */
     protected function setUp(): void
     {
-        $this->status = new StatusOrder();
+        $this->article = new Article();
         parent::setUp();
     }
 
@@ -53,7 +53,7 @@ class StatusOrderTest extends Unit
     protected function tearDown(): void
     {
         parent::tearDown();
-        $this->status = null;
+        $this->article = null;
     }
 
     /**
@@ -61,10 +61,10 @@ class StatusOrderTest extends Unit
      */
     public function testConstructor(): void
     {
-        self::assertNull($this->status->getCode());
-        self::assertNull($this->status->getId());
-        self::assertFalse($this->status->isCanceled());
-        self::assertFalse($this->status->isPaid());
+        self::assertNull($this->article->getCode());
+        self::assertNull($this->article->getId());
+        self::assertNull($this->article->getCost());
+        self::assertNull($this->article->getCredit());
     }
 
     /**
@@ -74,29 +74,29 @@ class StatusOrderTest extends Unit
     {
         $actual = $expected = 'code';
 
-        self::assertEquals($this->status, $this->status->setCode($actual));
-        self::assertEquals($expected, $this->status->getCode());
+        self::assertEquals($this->article, $this->article->setCode($actual));
+        self::assertEquals($expected, $this->article->getCode());
     }
 
     /**
-     * Test Canceled setter and getter.
+     * Test Cost setter and getter.
      */
-    public function testCanceled(): void
+    public function testCost(): void
     {
-        $actual = true;
+        $expected = $actual = 100.42;
 
-        self::assertEquals($this->status, $this->status->setCanceled($actual));
-        self::assertTrue($this->status->isCanceled());
+        self::assertEquals($this->article, $this->article->setCost($actual));
+        self::assertEquals($expected, $this->article->getCost());
     }
 
     /**
-     * Test Paid setter and getter.
+     * Test Credit setter and getter.
      */
-    public function testPaid(): void
+    public function testCredit(): void
     {
-        $actual = true;
+        $expected = $actual = 42;
 
-        self::assertEquals($this->status, $this->status->setPaid($actual));
-        self::assertTrue($this->status->isPaid());
+        self::assertEquals($this->article, $this->article->setCredit($actual));
+        self::assertEquals($expected, $this->article->getCredit());
     }
 }

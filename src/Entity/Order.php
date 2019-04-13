@@ -16,6 +16,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -73,7 +75,7 @@ class Order implements ConstantInterface, EntityInterface
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="id")
      */
     private $identifier;
 
@@ -139,6 +141,23 @@ class Order implements ConstantInterface, EntityInterface
      * @Gedmo\Versioned
      */
     private $vat;
+
+    /**
+     * Ordered articles.
+     *
+     * @var Collection|OrderedArticle[]
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderedArticle", mappedBy="order", orphanRemoval=true)
+     */
+    private $orderedArticles;
+
+    /**
+     * Order constructor.
+     */
+    public function __construct()
+    {
+        $this->orderedArticles = new ArrayCollection();
+    }
 
     /**
      * Credit getter.
@@ -378,6 +397,37 @@ class Order implements ConstantInterface, EntityInterface
     public function setCustomer(?User $customer): self
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderedArticle[]
+     */
+    public function getOrderedArticles(): Collection
+    {
+        return $this->orderedArticles;
+    }
+
+    public function addOrderedArticle(OrderedArticle $orderedArticle): self
+    {
+        if (!$this->orderedArticles->contains($orderedArticle)) {
+            $this->orderedArticles[] = $orderedArticle;
+            $orderedArticle->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderedArticle(OrderedArticle $orderedArticle): self
+    {
+        if ($this->orderedArticles->contains($orderedArticle)) {
+            $this->orderedArticles->removeElement($orderedArticle);
+            // set the owning side to null (unless already changed)
+            if ($orderedArticle->getOrder() === $this) {
+                $orderedArticle->setOrder(null);
+            }
+        }
 
         return $this;
     }

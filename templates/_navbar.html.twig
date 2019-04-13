@@ -75,8 +75,9 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {# Credits #}
-                            <a class="dropdown-item" href="#" data-toggle="tooltip"
-                               data-placement="left" title="{{ 'nav.customer.submenu.credit.title' | trans }}">
+                            <a class="dropdown-item {{ route == 'customer_credit' ? 'active' }}" data-toggle="tooltip"
+                               href="{{ path('customer_credit') }}" data-placement="left"
+                               title="{{ 'nav.customer.submenu.credit.title' | trans }}">
                                 <span class="fas fa-fw fa-coins"></span>
                                 {{ 'nav.customer.submenu.credit.text' | trans }}
                             </a>

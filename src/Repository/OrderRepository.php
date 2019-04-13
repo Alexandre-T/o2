@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\StatusOrder;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -52,8 +53,10 @@ class OrderRepository extends ServiceEntityRepository
     {
         try {
             return $this->createQueryBuilder('c')
+                ->innerJoin('c.statusOrder', 's')
                 ->andWhere('c.customer = :customer')
-                ->andWhere('c.statusOrder = FALSE')
+                ->andWhere('s.code = :code')
+                ->setParameter('code', StatusOrder::CARTED)
                 ->setParameter('customer', $customer)
                 ->setMaxResults(1)
                 ->getQuery()
