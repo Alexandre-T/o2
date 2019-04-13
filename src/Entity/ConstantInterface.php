@@ -15,24 +15,20 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-/**
- * Entity Interface.
- *
- * @category Entity
- */
-interface EntityInterface
+interface ConstantInterface
 {
     /**
-     * Return the id or null if entity was never saved.
-     *
-     * @return int|null
+     * This is a moral person.
      */
-    public function getId(): ?int;
+    public const MORAL = false;
 
     /**
-     * Return the label of entity.
-     *
-     * @return string
+     * This is a physic person.
      */
-    public function getLabel(): string;
+    public const PHYSIC = true;
+
+    /**
+     * Available types.
+     */
+    public const TYPES = [self::MORAL, self::PHYSIC];
 }

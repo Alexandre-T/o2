@@ -71,7 +71,6 @@ entity:
       delete: 'Suppression'
       update: 'Modification'
     data:
-      tva-number: 'Nouveau numéro TVA'
       complement: 'Nouveau complément'
       credit: 'Crédits'
       country: 'Nouveau pays'
@@ -94,6 +93,7 @@ entity:
       resetting-at: 'Jeton demandé le'
       resetting-token: 'Jeton de réinitialisation'
       type: 'Particulier ou professionel'
+      vat-number: 'Nouveau numéro TVA'
     date: 'Date'
     explanation: 'Cet onglet rassemble toutes les modifications qui ont eu lieu pour la fiche en cours.'
     new-value: 'Nouvelle(s) valeur(s)'
@@ -154,8 +154,8 @@ form:
     street-address: 'Adresse'
     telephone: 'Téléphone'
     tos: 'J’ai lu les conditions d’utilisation du service'
-    tva-number: 'Numéro de TVA'
     username: 'Nom de l’utilisateur'
+    vat-number: 'Numéro de TVA'
   help:
     credit: 'Entrez le nouveau nombre de crédit de ce client'
     complement: 'Entrez le complément d’adresse'
@@ -175,8 +175,8 @@ form:
     street-address: 'Entrez l’adresse'
     telephone: 'Entrez votre numéro de téléphone'
     tos: 'Veuillez lire les conditions d’utilisations du service.'
-    tva-number: 'Entrez votre numéro de TVA intracommunautaire'
     username: 'Entrez le prénom et le nom de l’utilisateur'
+    vat-number: 'Entrez votre numéro de TVA intracommunautaire'
   loading:
     service: 'Chargement des services de cette organisation'
   placeholder:

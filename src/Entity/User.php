@@ -16,6 +16,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Serializable;
@@ -41,27 +43,17 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @UniqueEntity(fields={"mail"},  message="error.mail.unique")
  */
-class User implements EntityInterface, GedmoInterface, UserInterface, Serializable
+class User implements ConstantInterface, EntityInterface, GedmoInterface, UserInterface, Serializable
 {
     /*
      * Postal address trait.
      */
     use PostalAddressTrait;
 
-    /**
-     * This is a moral person.
+    /*
+     * Person trait.
      */
-    public const MORAL = false;
-
-    /**
-     * This is a physic person.
-     */
-    public const PHYSIC = true;
-
-    /**
-     * Available types.
-     */
-    public const TYPES = [self::MORAL, self::PHYSIC];
+    use PersonTrait;
 
     /**
      * Each available roles.
@@ -77,17 +69,6 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
     public const INITIAL_ROLES = [self::ROLE_USER];
 
     /**
-     * Identifier.
-     *
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer", name="usr_id", options={"unsigned": true, "comment": "User identifier"})
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
-
-    /**
      * Credits owned by user.
      *
      * @var int
@@ -99,17 +80,15 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
     private $credit = 0;
 
     /**
-     * Given name.
+     * Identifier.
      *
-     * @var string
+     * @var int
      *
-     * @Assert\Length(max=32)
-     *
-     * @ORM\Column(type="string", length=32, nullable=true, name="usr_given", options={"comment": "User given name"})
-     *
-     * @Gedmo\Versioned
+     * @ORM\Id
+     * @ORM\Column(type="integer", name="usr_id", options={"unsigned": true, "comment": "User identifier"})
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $givenName;
+    private $identifier;
 
     /**
      * User mail and identifier.
@@ -118,7 +97,6 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
      *
      * @Assert\NotBlank(message="error.mail.blank")
      * @Assert\Length(max=255)
-     *
      * @Assert\Email
      *
      * @ORM\Column(type="string", unique=true, length=255, name="usr_mail", options={"comment": "User mail"})
@@ -126,19 +104,6 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
      * @Gedmo\Versioned
      */
     private $mail;
-
-    /**
-     * Name.
-     *
-     * @var string
-     *
-     * @Assert\Length(max=32)
-     *
-     * @ORM\Column(type="string", length=32, nullable=true, name="usr_name", options={"comment": "User name"}))
-     *
-     * @Gedmo\Versioned
-     */
-    private $name;
 
     /**
      * User encoded password.
@@ -160,6 +125,13 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
      * @var string
      */
     private $plainPassword;
+
+    /**
+     * Customer orders.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="customer", orphanRemoval=true)
+     */
+    private $orders;
 
     /**
      * Resetting password timestamp.
@@ -196,19 +168,6 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
     private $roles = self::INITIAL_ROLES;
 
     /**
-     * Society name.
-     *
-     * @var string
-     *
-     * @Assert\Length(max=64)
-     *
-     * @ORM\Column(type="string", length=64, nullable=true, name="usr_society", options={"comment": "User society"})
-     *
-     * @Gedmo\Versioned
-     */
-    private $society;
-
-    /**
      * Telephone number.
      *
      * @Assert\Length(max=21)
@@ -229,28 +188,25 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
     private $tos = false;
 
     /**
-     * TVA Number.
-     *
-     * @Assert\Length(max=32)
-     *
-     * @ORM\Column(type="string", name="usr_tva", length=32, nullable=true, options={"comment": "VAT number"})
-     *
-     * @Gedmo\Versioned
-     */
-    private $tvaNumber;
-
-    /**
      * Moral or physic person.
      *
      * @var bool
      *
-     * @Assert\Choice(choices=User::TYPES, message="form.error.types.choices")
+     * @Assert\Choice(choices=ConstantInterface::TYPES, message="form.error.types.choices")
      *
-     * @ORM\Column(type="boolean", name="usr_type", options={"comment": "User mail"})
+     * @ORM\Column(type="boolean", name="per_type", options={"comment": "Morale or physic"})
      *
      * @Gedmo\Versioned
      */
-    private $type = self::PHYSIC;
+    private $type = ConstantInterface::PHYSIC;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->orders = new ArrayCollection();
+    }
 
     /**
      * Erase Credentials.
@@ -289,103 +245,13 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
     }
 
     /**
-     * Given name getter.
-     *
-     * @return string|null
-     */
-    public function getGivenName(): ?string
-    {
-        return $this->givenName;
-    }
-
-    /**
-     * Given name fluent setter.
-     *
-     * @param string|null $givenName new given name
-     *
-     * @return User
-     */
-    public function setGivenName(?string $givenName): self
-    {
-        $this->givenName = $givenName;
-
-        return $this;
-    }
-
-    /**
      * Id getter.
      *
      * @return int
      */
     public function getId(): ?int
     {
-        return $this->id;
-    }
-
-    /**
-     * Label getter.
-     *
-     * @return string
-     */
-    public function getLabel(): string
-    {
-        if ($this->isMoral()) {
-            return (string) $this->getSociety();
-        }
-
-        if (empty($this->getGivenName())) {
-            return (string) $this->getName();
-        }
-
-        if (empty($this->getName())) {
-            return (string) $this->getGivenName();
-        }
-
-        return $this->getGivenName().' '.$this->getName();
-    }
-
-    /**
-     * Is this a moral person?
-     *
-     * @return bool
-     */
-    public function isMoral(): bool
-    {
-        return self::MORAL === $this->type;
-    }
-
-    /**
-     * Is this a physic person?
-     *
-     * @return bool
-     */
-    public function isPhysic(): bool
-    {
-        return self::PHYSIC === $this->type;
-    }
-
-    /**
-     * Name getter.
-     *
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Name fluent setter.
-     *
-     * @param string|null $name new name
-     *
-     * @return User
-     */
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
+        return $this->identifier;
     }
 
     /**
@@ -448,64 +314,6 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
     public function getSalt(): ?string
     {
         return null;
-    }
-
-    /**
-     * Society name getter.
-     *
-     * @return string|null
-     */
-    public function getSociety(): ?string
-    {
-        return $this->society;
-    }
-
-    /**
-     * Is this user a society?
-     *
-     * @return bool
-     */
-    public function isSociety(): bool
-    {
-        return self::MORAL === $this->type;
-    }
-
-    /**
-     * Society name fluent setter.
-     *
-     * @param string|null $society new society name
-     *
-     * @return User
-     */
-    public function setSociety(?string $society): self
-    {
-        $this->society = $society;
-
-        return $this;
-    }
-
-    /**
-     * Return type.
-     *
-     * @return bool|null
-     */
-    public function getType(): ?bool
-    {
-        return $this->type;
-    }
-
-    /**
-     * Type fluent setter.
-     *
-     * @param bool $type new type
-     *
-     * @return User
-     */
-    public function setType(?bool $type): self
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     /**
@@ -677,7 +485,7 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
     {
         return serialize(
             [
-                $this->id,
+                $this->identifier,
                 $this->credit,
                 $this->givenName,
                 $this->mail,
@@ -717,30 +525,6 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
     }
 
     /**
-     * TVA number getter.
-     *
-     * @return string|null
-     */
-    public function getTvaNumber(): ?string
-    {
-        return $this->tvaNumber;
-    }
-
-    /**
-     * TVA number fluent setter.
-     *
-     * @param string|null $tvaNumber the new tva number
-     *
-     * @return User
-     */
-    public function setTvaNumber(?string $tvaNumber): self
-    {
-        $this->tvaNumber = $tvaNumber;
-
-        return $this;
-    }
-
-    /**
      * Set the username of user.
      *
      * @param string $username the new username
@@ -764,7 +548,7 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
     public function unserialize($serialized): void
     {
         list(
-            $this->id,
+            $this->identifier,
             $this->credit,
             $this->givenName,
             $this->mail,
@@ -846,6 +630,51 @@ class User implements EntityInterface, GedmoInterface, UserInterface, Serializab
     public function setResettingAt(?DateTimeInterface $resettingAt): self
     {
         $this->resettingAt = $resettingAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    /**
+     * Order fluent adder.
+     *
+     * @param Order $order order to add
+     *
+     * @return User
+     */
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Order fluent remover.
+     *
+     * @param Order $order order to remove
+     *
+     * @return User
+     */
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            // set the owning side to null (unless already changed)
+            if ($order->getCustomer() === $this) {
+                $order->setCustomer(null);
+            }
+        }
 
         return $this;
     }

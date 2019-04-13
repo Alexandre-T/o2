@@ -15,13 +15,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\ConstantInterface;
+use App\Entity\Order;
 use App\Entity\User;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
+use DateTimeImmutable;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 /**
- * @internal
- * @coversNothing
+ * User entity unit test.
  */
 class UserTest extends Unit
 {
@@ -64,6 +69,8 @@ class UserTest extends Unit
     {
         $this->tester->wantToTest('properties are well initialized');
         self::assertNull($this->user->getId());
+        self::assertNotNull($this->user->getCredit());
+        self::assertEmpty($this->user->getCredit());
         self::assertNotNull($this->user->getLabel());
         self::assertEmpty($this->user->getLabel());
         self::assertNull($this->user->getGivenName());
@@ -71,14 +78,17 @@ class UserTest extends Unit
         self::assertNull($this->user->getName());
         self::assertNull($this->user->getPassword());
         self::assertNull($this->user->getPlainPassword());
-        self::assertNull($this->user->getSalt());
-        self::assertNull($this->user->getSociety());
-        self::assertEquals(User::PHYSIC, $this->user->getType());
-        self::assertIsBool($this->user->getType());
-        self::assertNotNull($this->user->getUsername());
-        self::assertEmpty($this->user->getUsername());
         self::assertNull($this->user->getResettingAt());
         self::assertNull($this->user->getResettingToken());
+        self::assertNull($this->user->getSalt());
+        self::assertNull($this->user->getSociety());
+        self::assertNull($this->user->getTelephone());
+        self::assertEquals(ConstantInterface::PHYSIC, $this->user->getType());
+        self::assertIsBool($this->user->getType());
+        self::assertIsBool($this->user->getTos());
+        self::assertFalse($this->user->getTos());
+        self::assertNotNull($this->user->getUsername());
+        self::assertEmpty($this->user->getUsername());
 
         $this->tester->wantToTest('roles are well initialized');
         self::assertNotNull($this->user->getRoles());
@@ -97,13 +107,13 @@ class UserTest extends Unit
         $this->tester->wantToTest('User label');
 
         $this->user->setSociety('society');
-        $this->user->setType(User::MORAL);
+        $this->user->setType(ConstantInterface::MORAL);
         self::assertEquals('society', $this->user->getLabel());
 
         $this->user->setGivenName('john');
         self::assertEquals('society', $this->user->getLabel());
 
-        $this->user->setType(User::PHYSIC);
+        $this->user->setType(ConstantInterface::PHYSIC);
         self::assertEquals('john', $this->user->getLabel());
 
         $this->user->setName('doe');
@@ -167,7 +177,7 @@ class UserTest extends Unit
         $this->user->setSociety('society');
         $this->user->setMail('mail@example.org');
         $this->user->setRoles([User::ROLE_ADMIN]);
-        $this->user->setType(User::MORAL);
+        $this->user->setType(ConstantInterface::MORAL);
         $this->tester->wantToTest('serialization');
         $serialize = $this->user->serialize();
         $user = new User();
@@ -217,5 +227,155 @@ class UserTest extends Unit
         self::assertTrue($this->user->isCustomer());
         self::assertFalse($this->user->isAccountant());
         self::assertFalse($this->user->isProgrammer());
+    }
+
+    /**
+     * Test ResettingAt setter and getter.
+     */
+    public function testResettingAt(): void
+    {
+        $actual = $expected = new DateTimeImmutable();
+
+        self::assertEquals($this->user, $this->user->setResettingAt($actual));
+        self::assertEquals($expected, $this->user->getResettingAt());
+    }
+
+    /**
+     * Test ResettingToken setter and getter.
+     */
+    public function testResettingToken(): void
+    {
+        $actual = $expected = 'resettingToken';
+
+        self::assertEquals($this->user, $this->user->setResettingToken($actual));
+        self::assertEquals($expected, $this->user->getResettingToken());
+    }
+
+    /**
+     * Test Telephone setter and getter.
+     */
+    public function testTelephone(): void
+    {
+        $actual = $expected = 'telephone';
+
+        self::assertEquals($this->user, $this->user->setTelephone($actual));
+        self::assertEquals($expected, $this->user->getTelephone());
+    }
+
+    /**
+     * Test TOS setter and getter.
+     */
+    public function testTos(): void
+    {
+        self::assertEquals($this->user, $this->user->setTos(true));
+        self::assertTrue($this->user->getTos());
+    }
+
+    /**
+     * Test Orders setters and getter.
+     */
+    public function testOrders(): void
+    {
+        $expected = $actual = new Order();
+
+        self::assertEquals($this->user, $this->user->addOrder($actual));
+        self::assertTrue($this->user->getOrders()->contains($expected));
+        self::assertEquals($this->user, $this->user->removeOrder($actual));
+        self::assertFalse($this->user->getOrders()->contains($expected));
+    }
+
+    /**
+     * Test validate
+     */
+    public function testValidateWithNull(): void
+    {
+        /** @var ExecutionContextInterface|MockObject $builder */
+        $builder = $this->getMockBuilder(ConstraintViolationBuilderInterface::class)->getMockForAbstractClass();
+        /** @var ExecutionContextInterface|MockObject $context */
+        $context = $this->getMockBuilder(ExecutionContextInterface::class)->getMockForAbstractClass();
+
+        $builder
+            ->expects(self::once())
+            ->method('atPath')
+            ->with('name')
+            ->willReturn($builder);
+        $builder
+            ->expects(self::once())
+            ->method('addViolation');
+
+        $context
+            ->expects(self::once())
+            ->method('buildViolation')
+            ->with('error.name.blank', [])
+            ->willReturn($builder);
+
+        $this->user->validate($context);
+    }
+    /**
+     * Test validate
+     */
+    public function testValidateWithValidData(): void
+    {
+        /** @var ExecutionContextInterface|MockObject $context */
+        $context = $this->getMockBuilder(ExecutionContextInterface::class)->getMockForAbstractClass();
+
+        $context
+            ->expects(self::never())
+            ->method('buildViolation');
+
+        //With a valid family name
+        $this->user->setName('foo');
+        self::assertFalse($this->user->IsSociety());
+        self::assertTrue($this->user->IsPhysic());
+        $this->user->validate($context);
+
+        //With a valid society
+        $this->user->setName(null);
+        $this->user->setSociety('bar');
+        $this->user->setType(ConstantInterface::MORAL);
+        $this->user->validate($context);
+    }
+
+    /**
+     * Test validate
+     */
+    public function testValidateWithNonValidSociety(): void
+    {
+        /** @var ExecutionContextInterface|MockObject $builder */
+        $builder = $this->getMockBuilder(ConstraintViolationBuilderInterface::class)->getMockForAbstractClass();
+        /** @var ExecutionContextInterface|MockObject $context */
+        $context = $this->getMockBuilder(ExecutionContextInterface::class)->getMockForAbstractClass();
+
+        $builder
+            ->expects(self::once())
+            ->method('atPath')
+            ->with('society')
+            ->willReturn($builder);
+        $builder
+            ->expects(self::once())
+            ->method('addViolation');
+
+        $context
+            ->expects(self::once())
+            ->method('buildViolation')
+            ->with('error.society.blank', [])
+            ->willReturn($builder);
+
+        $this->user->setType(ConstantInterface::MORAL);
+        self::assertTrue($this->user->IsSociety());
+        self::assertFalse($this->user->IsPhysic());
+
+        $this->user->validate($context);
+    }
+
+    /**
+     * Test VatNumber setter and getter.
+     */
+    public function testVatNumber(): void
+    {
+        $actual = $expected = 'vatNumber';
+
+        self::assertEquals($this->user, $this->user->setVatNumber($actual));
+        self::assertEquals($expected, $this->user->getVatNumber());
     }
 }

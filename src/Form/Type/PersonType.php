@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Entity\User;
+use App\Entity\ConstantInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -38,8 +38,8 @@ class PersonType extends AbstractType
             'label' => 'form.field.person-type',
             'help' => 'form.help.person-type',
             'choices' => [
-                'type.morale' => User::MORAL,
-                'type.physic' => User::PHYSIC,
+                'type.morale' => ConstantInterface::MORAL,
+                'type.physic' => ConstantInterface::PHYSIC,
             ],
             'required' => true,
             'expanded' => true,

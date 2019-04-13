@@ -20,9 +20,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * TvaNumber Type class.
+ * Vat number Type class.
  */
-class TvaNumberType extends AbstractType
+class VatNumberType extends AbstractType
 {
     /**
      * Set default options.
@@ -34,8 +34,8 @@ class TvaNumberType extends AbstractType
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'label' => 'form.field.tva-number',
-            'help' => 'form.help.tva-number',
+            'label' => 'form.field.vat-number',
+            'help' => 'form.help.vat-number',
             'required' => false,
         ]);
     }

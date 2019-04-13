@@ -19,6 +19,7 @@ use App\Entity\User;
 use App\Form\Model\ChangePassword;
 use App\Form\PasswordFormType;
 use App\Form\ProfileFormType;
+use App\Manager\OrderManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -98,6 +99,36 @@ class CustomerController extends AbstractController
         }
 
         return $this->render('customer/password.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Select credit.
+     *
+     * @Route("/select-credit", name="customer_credit")
+     *
+     * @param Request      $request      request handling data
+     * @param OrderManager $orderManager command manager
+     *
+     * @return Response|RedirectResponse
+     */
+    public function selectCredit(Request $request, OrderManager $orderManager): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $order = $orderManager->getNonPaidOrder($user);
+        $form = $this->createForm(CreditFormType::class, $order);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $orderManager->save($order);
+            $this->addFlash('success', 'flash.order.updated');
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('customer/select-credit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

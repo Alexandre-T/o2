@@ -15,10 +15,12 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\ConstantInterface;
 use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
 
 /**
  * UserFixtures class.
@@ -34,6 +36,8 @@ class UserFixtures extends Fixture
      * Load users.
      *
      * @param ObjectManager $manager manager to save data
+     *
+     * @throws Exception emits Exception on error during DateTimeImmutable initialization
      */
     public function load(ObjectManager $manager): void
     {
@@ -45,14 +49,14 @@ class UserFixtures extends Fixture
             $userAll = $this->createAll('All Power', 'all');
             $userAll
                 ->setCredit(420)
-                ->setType(User::PHYSIC)
+                ->setType(ConstantInterface::PHYSIC)
             ;
 
             //All
             $societyAll = $this->createAll('Big brother', 'big');
             $societyAll
                 ->setCredit(420)
-                ->setType(User::PHYSIC)
+                ->setType(ConstantInterface::PHYSIC)
             ;
 
             //Accountant
@@ -162,7 +166,7 @@ class UserFixtures extends Fixture
             ->setName($label)
             ->setMail("${code}@example.org")
             ->setPlainPassword($code)
-            ->setType(User::PHYSIC)
+            ->setType(ConstantInterface::PHYSIC)
             ->setPostalCode('33000')
             ->setStreetAddress('rue du boulevard')
             ->setCountry('FR')

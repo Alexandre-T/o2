@@ -28,7 +28,7 @@ use App\Form\Type\SocietyType;
 use App\Form\Type\StreetAddressType;
 use App\Form\Type\TelephoneType;
 use App\Form\Type\TosType;
-use App\Form\Type\TvaNumberType;
+use App\Form\Type\VatNumberType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -65,7 +65,7 @@ class RegisterFormType extends AbstractType
             ->add('givenName', GivenNameType::class)
             ->add('name', FamilyNameType::class)
             ->add('society', SocietyType::class)
-            ->add('tvaNumber', TvaNumberType::class)
+            ->add('vatNumber', VatNumberType::class)
             ->add('streetAddress', StreetAddressType::class)
             ->add('complement', ComplementType::class)
             ->add('postalCode', PostalCodeType::class)

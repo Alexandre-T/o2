@@ -59,9 +59,8 @@ class UserController extends AbstractPaginateController
         if ($form->isSubmitted() && $form->isValid()) {
             $userManager->save($user);
             //Flash message
-            $session = $this->get('session');
             $message = $trans->trans('entity.user.created %name%', ['%name%' => $user->getLabel()]);
-            $session->getFlashBag()->add('success', $message);
+            $this->addFlash('success', $message);
 
             return $this->redirectToRoute('administration_user_show', ['id' => $user->getId()]);
         }
@@ -92,17 +91,16 @@ class UserController extends AbstractPaginateController
     ): RedirectResponse {
         $form = $this->createForm(DeleteFormType::class, $user);
         $form->handleRequest($request);
+
         $isDeletable = $manager->isDeletable($user);
 
         if ($isDeletable && $form->isSubmitted() && $form->isValid()) {
-            $session = $this->get('session');
             $manager->delete($user);
             $message = $trans->trans('entity.user.deleted %name%', ['%name%' => $user->getLabel()]);
-            $session->getFlashBag()->add('success', $message);
+            $this->addFlash('success', $message);
         } elseif (!$isDeletable) {
-            $session = $this->get('session');
             $message = $trans->trans('entity.user.deleted %name%', ['%name%' => $user->getLabel()]);
-            $session->getFlashBag()->add('warning', $message);
+            $this->addFlash('warning', $message);
 
             return $this->redirectToRoute('administration_user_show', ['id' => $user->getId()]);
         }
@@ -131,9 +129,8 @@ class UserController extends AbstractPaginateController
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $userManager->save($user);
-            $session = $this->get('session');
             $message = $trans->trans('entity.user.updated %name%', ['%name%' => $user->getLabel()]);
-            $session->getFlashBag()->add('success', $message);
+            $this->addFlash('success', $message);
 
             return $this->redirectToRoute('administration_user_show', ['id' => $user->getId()]);
         }
@@ -203,9 +200,8 @@ class UserController extends AbstractPaginateController
         $passwordForm->handleRequest($request);
         if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
             $manager->save($user);
-            $session = $this->get('session');
             $message = $trans->trans('entity.user.password %name%', ['%name%' => $user->getLabel()]);
-            $session->getFlashBag()->add('success', $message);
+            $this->addFlash('success', $message);
 
             return $this->redirectToRoute('administration_user_show', ['id' => $user->getId()]);
         }

@@ -212,7 +212,7 @@ abstract class AbstractRepositoryManager implements ManagerInterface
     abstract protected function getMainRepository(): EntityRepository;
 
     /**
-     * This method will add the HIDDEN field, the sortable field.
+     * This method should be override to add the HIDDEN field, the sortable field.
      *
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
      *
@@ -220,5 +220,8 @@ abstract class AbstractRepositoryManager implements ManagerInterface
      *
      * @return QueryBuilder
      */
-    abstract protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder;
+    protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
+    {
+        return $queryBuilder;
+    }
 }

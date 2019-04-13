@@ -20,10 +20,6 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-/**
- * @internal
- * @coversNothing
- */
 class UserRepositoryTest extends KernelTestCase
 {
     /**
