@@ -21,6 +21,9 @@ use Codeception\Test\Unit;
 
 /**
  * Status order resource unit test.
+ *
+ * @internal
+ * @coversNothing
  */
 class StatusOrderTest extends Unit
 {
@@ -88,7 +91,7 @@ class StatusOrderTest extends Unit
         self::assertEquals($this->status, $this->status->setCanceled($actual));
         self::assertTrue($this->status->isCanceled());
     }
-    
+
     /**
      * Test Paid setter and getter.
      */

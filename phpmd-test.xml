@@ -6,10 +6,25 @@
                      http://pmd.sf.net/ruleset_xml_schema.xsd"
          xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
     <description>Alexandre Tranchant rule set.</description>
-    <!-- Import the entire clean code rule set -->
-    <rule ref="rulesets/cleancode.xml" />
-    <!-- Import the entire code size rule set -->
-    <rule ref="rulesets/codesize.xml" />
+    <!-- Import some rules of clean code rule set -->
+    <rule ref="rulesets/cleancode.xml/BooleanArgumentFlag" />
+    <rule ref="rulesets/cleancode.xml/ElseExpression" />
+    <rule ref="rulesets/cleancode.xml/StaticAccess" />
+    <!-- Import the some rules of code size rule set -->
+    <rule ref="rulesets/codesize.xml/CyclomaticComplexity" />
+    <rule ref="rulesets/codesize.xml/NPathComplexity" />
+    <rule ref="rulesets/codesize.xml/ExcessiveMethodLength" />
+    <rule ref="rulesets/codesize.xml/ExcessiveClassLength" />
+    <rule ref="rulesets/codesize.xml/ExcessiveParameterList" />
+    <rule ref="rulesets/codesize.xml/ExcessivePublicCount" />
+    <rule ref="rulesets/codesize.xml/TooManyFields" />
+    <rule ref="rulesets/codesize.xml/TooManyMethods" />
+    <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
+        <priority>1</priority>
+        <properties>
+            <property name="maxmethods" value="17" />
+        </properties>
+    </rule>
     <!-- Import the entire controversial code rule set -->
     <rule ref="rulesets/controversial.xml">
         <exclude name="CamelCaseVariableName" />

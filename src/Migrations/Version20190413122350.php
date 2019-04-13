@@ -1,4 +1,15 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
 
 declare(strict_types=1);
 
@@ -18,7 +29,7 @@ final class Version20190413122350 extends AbstractMigration
      *
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Manipulate order and status order tables.';
     }
@@ -27,12 +38,13 @@ final class Version20190413122350 extends AbstractMigration
      * Create order and status order tables.
      *
      * @param Schema $schema schema is not used
+     *
      * @throws DBALException when error occurred
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE TABLE data.te_order (identifier SERIAL NOT NULL, customer_id INT NOT NULL, status_order_id INT NOT NULL, credits SMALLINT NOT NULL, number INT NOT NULL, price NUMERIC(7, 2) NOT NULL, payment_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, status_credit BOOLEAN DEFAULT \'false\' NOT NULL, vat NUMERIC(7, 2) NOT NULL, per_given VARCHAR(32) DEFAULT NULL, per_name VARCHAR(32) DEFAULT NULL, per_society VARCHAR(64) DEFAULT NULL, per_vat VARCHAR(32) DEFAULT NULL, pad_complement VARCHAR(32) DEFAULT NULL, pad_country VARCHAR(2) NOT NULL, pad_locality VARCHAR(32) NOT NULL, pad_code VARCHAR(5) NOT NULL, pad_street VARCHAR(32) NOT NULL, PRIMARY KEY(identifier))');
         $this->addSql('CREATE INDEX ndx_user ON data.te_order (customer_id)');
@@ -67,12 +79,13 @@ final class Version20190413122350 extends AbstractMigration
      * Drop order and status order tables.
      *
      * @param Schema $schema schema is not used
+     *
      * @throws DBALException when error occured
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT FK_ORDER_STATUS_ORDER');
         $this->addSql('DROP TABLE data.te_order');

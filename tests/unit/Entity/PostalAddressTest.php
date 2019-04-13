@@ -21,6 +21,9 @@ use Codeception\Test\Unit;
 
 /**
  * Postal address trait unit tests.
+ *
+ * @internal
+ * @coversNothing
  */
 class PostalAddressTest extends Unit
 {
@@ -95,7 +98,7 @@ class PostalAddressTest extends Unit
         self::assertEquals($this->order, $this->order->setCountry($actual));
         self::assertEquals($expected, $this->order->getCountry());
     }
-    
+
     /**
      * Test Locality setter and getter.
      */
@@ -106,7 +109,7 @@ class PostalAddressTest extends Unit
         self::assertEquals($this->order, $this->order->setLocality($actual));
         self::assertEquals($expected, $this->order->getLocality());
     }
-    
+
     /**
      * Test PostalCode setter and getter.
      */

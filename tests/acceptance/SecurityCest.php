@@ -25,184 +25,192 @@ class SecurityCest
     /**
      * Test administrator access.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToTestAdministratorAccess(AcceptanceTester $I): void
+    public function tryToTestAdministratorAccess(AcceptanceTester $you): void
     {
-        $I->wantTo('be connected as administrator.');
-        $I->login('administrator');
+        $you->wantTo('be connected as administrator.');
+        $you->login('administrator');
 
         //We are connected as administrator and are on home page
-        $I->wantToTest('administrator see links');
-        $I->dontSeeLink('Comptable');
-        $I->dontSeeLink('Programmateur');
-        $I->dontSeeLink('Inscription');
-        $I->dontSeeLink('Connexion');
-        $I->seeLink('Administrateur');
+        $you->wantToTest('administrator see links');
+        $you->dontSeeLink('Comptable');
+        $you->dontSeeLink('Programmateur');
+        $you->dontSeeLink('Inscription');
+        $you->dontSeeLink('Connexion');
+        $you->seeLink('Administrateur');
 
-        $I->wantToTest('Administrator can access home pages.');
-        $I->click('O2 Files');
-        $I->seeCurrentUrlEquals('/');
-        $I->seeResponseCodeIsSuccessful();
+        $you->wantToTest('Administrator can access home pages.');
+        $you->click('O2 Files');
+        $you->seeCurrentUrlEquals('/');
+        $you->seeResponseCodeIsSuccessful();
 
-        $I->wantToTest('Administrator cannot access register page.');
-        $I->amOnPage('/register');
-        $I->seeCurrentUrlEquals('/');
+        $you->wantToTest('Administrator cannot access register page.');
+        $you->amOnPage('/register');
+        $you->seeCurrentUrlEquals('/');
 
-        $I->wantToTest('Administrator cannot access login page.');
-        $I->amOnPage('/login');
-        $I->seeCurrentUrlEquals('/');
+        $you->wantToTest('Administrator cannot access login page.');
+        $you->amOnPage('/login');
+        $you->seeCurrentUrlEquals('/');
 
-        $I->wantToTest('Administrator can access logout page.');
-        $I->click('Déconnexion');
-        $I->amOnPage('/');
-        $I->seeLink('Connexion');
-        $I->seeLink('Inscription');
+        $you->wantToTest('Administrator can access logout page.');
+        $you->click('Déconnexion');
+        $you->amOnPage('/');
+        $you->seeLink('Connexion');
+        $you->seeLink('Inscription');
     }
 
     /**
      * Test anonymous user access.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToTestAnonymousAccess(AcceptanceTester $I): void
+    public function tryToTestAnonymousAccess(AcceptanceTester $you): void
     {
-        $I->wantToTest('Anonymous user can access home page.');
-        $I->amOnPage('/');
-        $I->seeResponseCodeIsSuccessful();
-        $I->wantToTest('Anonymous user can access register page.');
-        $I->amOnPage('/register');
-        $I->seeResponseCodeIsSuccessful();
-        $I->wantToTest('Anonymous user can access logout page and is redirected on home page.');
-        $I->amOnPage('/logout');
-        $I->seeCurrentUrlEquals('/');
-        $I->seeResponseCodeIsSuccessful();
+        $you->wantToTest('Anonymous user can access home page.');
+        $you->amOnPage('/');
+        $you->seeResponseCodeIsSuccessful();
+        $you->wantToTest('Anonymous user can access register page.');
+        $you->amOnPage('/register');
+        $you->seeResponseCodeIsSuccessful();
+        $you->wantToTest('Anonymous user can access logout page and is redirected on home page.');
+        $you->amOnPage('/logout');
+        $you->seeCurrentUrlEquals('/');
+        $you->seeResponseCodeIsSuccessful();
 
-        $I->wantToTest('Anonymous user do not see some links.');
-        $I->dontSeeLink('Comptable');
-        $I->dontSeeLink('Programmateur');
-        $I->dontSeeLink('Administrateur');
-        $I->dontSeeLink('Acheter des crédits');
+        $you->wantToTest('Anonymous user do not see some links.');
+        $you->dontSeeLink('Comptable');
+        $you->dontSeeLink('Programmateur');
+        $you->dontSeeLink('Administrateur');
+        $you->dontSeeLink('Acheter des crédits');
 
-        $I->wantToTest('Anonymous user cannot access profil page');
-        $I->amOnPage('/customer/profile');
-        $I->seeCurrentUrlEquals('/login');
+        $you->wantToTest('Anonymous user cannot access profil page');
+        $you->amOnPage('/customer/profile');
+        $you->seeCurrentUrlEquals('/login');
     }
 
     /**
      * Test accountant access.
      *
-     * @param AcceptanceTester $I the acceptance test
+     * @param AcceptanceTester $you the acceptance test
      */
-    public function tryToTestAccountantAccess(AcceptanceTester $I): void
+    public function tryToTestAccountantAccess(AcceptanceTester $you): void
     {
-        $I->wantTo('be connected as accountant.');
-        $I->login('accountant');
+        $you->wantTo('be connected as accountant.');
+        $you->login('accountant');
 
         //We are connected as accountant and are on home page
-        $I->wantToTest('accountant see links');
-        $I->seeLink('Acheter des crédits');
-        $I->seeLink('Comptable');
-        $I->seeLink('Déconnexion');
-        $I->dontSeeLink('Programmateur');
-        $I->dontSeeLink('Administrateur');
+        $you->wantToTest('accountant see links');
+        $you->seeLink('Acheter des crédits');
+        $you->seeLink('Comptable');
+        $you->seeLink('Déconnexion');
+        $you->dontSeeLink('Programmateur');
+        $you->dontSeeLink('Administrateur');
 
-        $I->wantToTest('Accountant can access home page.');
-        $I->click('O2 Files');
-        $I->seeCurrentUrlEquals('/');
-        $I->seeResponseCodeIsSuccessful();
+        $you->wantToTest('Accountant can access home page.');
+        $you->click('O2 Files');
+        $you->seeCurrentUrlEquals('/');
+        $you->seeResponseCodeIsSuccessful();
 
-        $I->wantToTest('Accountant cannot access register page.');
-        $I->amOnPage('/register');
-        $I->seeCurrentUrlEquals('/');
+        $you->wantToTest('Accountant cannot access register page.');
+        $you->amOnPage('/register');
+        $you->seeCurrentUrlEquals('/');
 
-        $I->wantToTest('Accountant cannot access login page.');
-        $I->amOnPage('/login');
-        $I->seeCurrentUrlEquals('/');
+        $you->wantToTest('Accountant cannot access login page.');
+        $you->amOnPage('/login');
+        $you->seeCurrentUrlEquals('/');
 
-        $I->wantToTest('Accountant can access logout page.');
-        $I->click('Déconnexion');
-        $I->amOnPage('/');
-        $I->seeLink('Connexion');
-        $I->seeLink('Inscription');
+        $you->wantToTest('Accountant can access logout page.');
+        $you->click('Déconnexion');
+        $you->amOnPage('/');
+        $you->seeLink('Connexion');
+        $you->seeLink('Inscription');
     }
 
     /**
      * Test customer access.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToTestCustomerAccess(AcceptanceTester $I): void
+    public function tryToTestCustomerAccess(AcceptanceTester $you): void
     {
-        $I->wantTo('be connected as customer.');
-        $I->login('customer');
+        $you->wantTo('be connected as customer.');
+        $you->login('customer');
         //We are connected as customer and are on home page
-        $I->wantToTest('customer see links');
-        $I->seeLink('Acheter des crédits');
-        $I->seeLink('Déconnexion');
-        $I->dontSeeLink('Administrateur');
-        $I->dontSeeLink('Comptable');
-        $I->dontSeeLink('Programmateur');
+        $you->wantToTest('customer see links');
+        $you->seeLink('Acheter des crédits');
+        $you->seeLink('Déconnexion');
+        $you->dontSeeLink('Administrateur');
+        $you->dontSeeLink('Comptable');
+        $you->dontSeeLink('Programmateur');
 
-        $I->wantToTest('customer can access profil page');
-        $I->click('Mon profil');
-        $I->seeCurrentUrlEquals('/customer/profile');
+        $you->wantToTest('customer can access profil page');
+        $you->click('Mon profil');
+        $you->seeCurrentUrlEquals('/customer/profile');
 
-        $I->wantToTest('Customer can access home page.');
-        $I->click('O2 Files');
-        $I->seeCurrentUrlEquals('/');
-        $I->seeResponseCodeIsSuccessful();
+        $you->wantToTest('Customer can access home page.');
+        $you->click('O2 Files');
+        $you->seeCurrentUrlEquals('/');
+        $you->seeResponseCodeIsSuccessful();
 
-        $I->wantToTest('Customer cannot access register page.');
-        $I->amOnPage('/register');
-        $I->seeCurrentUrlEquals('/');
+        $you->wantToTest('Customer cannot access register page.');
+        $you->amOnPage('/register');
+        $you->seeCurrentUrlEquals('/');
 
-        $I->wantToTest('Customer cannot access login page.');
-        $I->amOnPage('/login');
-        $I->seeCurrentUrlEquals('/');
+        $you->wantToTest('Customer cannot access lost password page.');
+        $you->amOnPage('/password-lost');
+        $you->seeCurrentUrlEquals('/');
 
-        $I->wantToTest('Customer can access logout page.');
-        $I->click('Déconnexion');
-        $I->amOnPage('/');
-        $I->seeLink('Connexion');
-        $I->seeLink('Inscription');
+        $you->wantToTest('Customer cannot access reset password page.');
+        $you->amOnPage('/password-reset');
+        $you->seeCurrentUrlEquals('/');
+
+        $you->wantToTest('Customer cannot access login page.');
+        $you->amOnPage('/login');
+        $you->seeCurrentUrlEquals('/');
+
+        $you->wantToTest('Customer can access logout page.');
+        $you->click('Déconnexion');
+        $you->amOnPage('/');
+        $you->seeLink('Connexion');
+        $you->seeLink('Inscription');
     }
 
     /**
      * Test programmer access.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToTestProgrammerAccess(AcceptanceTester $I): void
+    public function tryToTestProgrammerAccess(AcceptanceTester $you): void
     {
-        $I->wantTo('be connected as programmer.');
-        $I->login('programmer');
+        $you->wantTo('be connected as programmer.');
+        $you->login('programmer');
 
         //We are connected as programmer and are on home page
-        $I->wantToTest('programmer see links');
-        $I->seeLink('Acheter des crédits');
-        $I->seeLink('Programmateur');
-        $I->seeLink('Déconnexion');
-        $I->dontSeeLink('Comptable');
-        $I->dontSeeLink('Administrateur');
+        $you->wantToTest('programmer see links');
+        $you->seeLink('Acheter des crédits');
+        $you->seeLink('Programmateur');
+        $you->seeLink('Déconnexion');
+        $you->dontSeeLink('Comptable');
+        $you->dontSeeLink('Administrateur');
 
-        $I->wantToTest('Programmer can access home page.');
-        $I->click('O2 Files');
-        $I->seeCurrentUrlEquals('/');
-        $I->seeResponseCodeIsSuccessful();
+        $you->wantToTest('Programmer can access home page.');
+        $you->click('O2 Files');
+        $you->seeCurrentUrlEquals('/');
+        $you->seeResponseCodeIsSuccessful();
 
-        $I->wantToTest('Programmer cannot access register page.');
-        $I->amOnPage('/register');
-        $I->seeCurrentUrlEquals('/');
+        $you->wantToTest('Programmer cannot access register page.');
+        $you->amOnPage('/register');
+        $you->seeCurrentUrlEquals('/');
 
-        $I->wantToTest('Programmer cannot access login page.');
-        $I->amOnPage('/login');
-        $I->seeCurrentUrlEquals('/');
+        $you->wantToTest('Programmer cannot access login page.');
+        $you->amOnPage('/login');
+        $you->seeCurrentUrlEquals('/');
 
-        $I->wantToTest('Programmer can access logout page.');
-        $I->click('Déconnexion');
-        $I->amOnPage('/');
-        $I->seeLink('Connexion');
-        $I->seeLink('Inscription');
+        $you->wantToTest('Programmer can access logout page.');
+        $you->click('Déconnexion');
+        $you->amOnPage('/');
+        $you->seeLink('Connexion');
+        $you->seeLink('Inscription');
     }
 }

@@ -24,6 +24,9 @@ use DateTimeImmutable;
 
 /**
  * Order entity unit tests.
+ *
+ * @internal
+ * @coversNothing
  */
 class OrderTest extends Unit
 {
@@ -112,11 +115,11 @@ class OrderTest extends Unit
     public function testLabel(): void
     {
         $this->tester->wantToTest('Order label');
-        
+
         $actual = $expected = 42;
         self::assertEquals($this->order, $this->order->setNumber($actual));
         self::assertEquals($expected, $this->order->getNumber());
-        
+
         $expected = '000042';
         self::assertEquals($expected, $this->order->getLabel());
     }
@@ -131,7 +134,7 @@ class OrderTest extends Unit
         self::assertEquals($this->order, $this->order->setPaymentAt($actual));
         self::assertEquals($expected, $this->order->getPaymentAt());
     }
-    
+
     /**
      * Test Price setter and getter.
      */
@@ -171,7 +174,7 @@ class OrderTest extends Unit
         $actual->setCanceled(true);
         self::assertFalse($this->order->isPaid());
     }
-    
+
     /**
      * Test Vat setter and getter.
      */

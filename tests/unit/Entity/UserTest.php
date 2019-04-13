@@ -27,6 +27,9 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
 
 /**
  * User entity unit test.
+ *
+ * @internal
+ * @coversNothing
  */
 class UserTest extends Unit
 {
@@ -285,7 +288,7 @@ class UserTest extends Unit
     }
 
     /**
-     * Test validate
+     * Test validate.
      */
     public function testValidateWithNull(): void
     {
@@ -298,21 +301,25 @@ class UserTest extends Unit
             ->expects(self::once())
             ->method('atPath')
             ->with('name')
-            ->willReturn($builder);
+            ->willReturn($builder)
+        ;
         $builder
             ->expects(self::once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $context
             ->expects(self::once())
             ->method('buildViolation')
             ->with('error.name.blank', [])
-            ->willReturn($builder);
+            ->willReturn($builder)
+        ;
 
         $this->user->validate($context);
     }
+
     /**
-     * Test validate
+     * Test validate.
      */
     public function testValidateWithValidData(): void
     {
@@ -321,7 +328,8 @@ class UserTest extends Unit
 
         $context
             ->expects(self::never())
-            ->method('buildViolation');
+            ->method('buildViolation')
+        ;
 
         //With a valid family name
         $this->user->setName('foo');
@@ -337,7 +345,7 @@ class UserTest extends Unit
     }
 
     /**
-     * Test validate
+     * Test validate.
      */
     public function testValidateWithNonValidSociety(): void
     {
@@ -350,16 +358,19 @@ class UserTest extends Unit
             ->expects(self::once())
             ->method('atPath')
             ->with('society')
-            ->willReturn($builder);
+            ->willReturn($builder)
+        ;
         $builder
             ->expects(self::once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $context
             ->expects(self::once())
             ->method('buildViolation')
             ->with('error.society.blank', [])
-            ->willReturn($builder);
+            ->willReturn($builder)
+        ;
 
         $this->user->setType(ConstantInterface::MORAL);
         self::assertTrue($this->user->IsSociety());
