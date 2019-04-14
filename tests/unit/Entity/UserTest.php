@@ -29,7 +29,7 @@ use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
  * User entity unit test.
  *
  * @internal
- * @covers
+ * @coversDefaultClass
  */
 class UserTest extends Unit
 {

@@ -28,7 +28,7 @@ use DateTimeImmutable;
  * Order entity unit tests.
  *
  * @internal
- * @covers
+ * @coversDefaultClass
  */
 class OrderTest extends Unit
 {

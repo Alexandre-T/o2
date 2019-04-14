@@ -23,7 +23,7 @@ use Codeception\Test\Unit;
  * Status order resource unit test.
  *
  * @internal
- * @covers
+ * @coversDefaultClass
  */
 class ArticleTest extends Unit
 {

@@ -24,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  * User repository test.
  *
  * @internal
- * @covers
+ * @coversDefaultClass
  */
 class UserRepositoryTest extends KernelTestCase
 {
