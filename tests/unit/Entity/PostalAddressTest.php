@@ -21,6 +21,9 @@ use Codeception\Test\Unit;
 
 /**
  * Postal address trait unit tests.
+ *
+ * @internal
+ * @covers
  */
 class PostalAddressTest extends Unit
 {

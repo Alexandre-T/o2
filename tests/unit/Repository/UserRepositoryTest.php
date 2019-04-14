@@ -21,8 +21,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
+ * User repository test.
+ *
  * @internal
- * @coversNothing
+ * @covers
  */
 class UserRepositoryTest extends KernelTestCase
 {

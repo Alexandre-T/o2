@@ -21,6 +21,9 @@ use Codeception\Test\Unit;
 
 /**
  * Status order resource unit test.
+ *
+ * @internal
+ * @covers
  */
 class StatusOrderTest extends Unit
 {
