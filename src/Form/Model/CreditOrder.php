@@ -29,7 +29,7 @@ class CreditOrder
     /**
      * The number of credit bought by ten.
      *
-     * @Assert\GreaterThanOrEqual(value="0", message="error.quantity.greater-than-or-equal-zero")
+     * @Assert\Range(min="0", max="9")
      *
      * @var int
      */
@@ -38,7 +38,7 @@ class CreditOrder
     /**
      * The number of credit bought by hundred.
      *
-     * @Assert\GreaterThanOrEqual(value="0", message="error.quantity.greater-than-or-equal-zero")
+     * @Assert\Range(min="0", max="9")
      *
      * @var int
      */
@@ -47,7 +47,7 @@ class CreditOrder
     /**
      * The number of credit bought by five hundred.
      *
-     * @Assert\GreaterThanOrEqual(value="0", message="error.quantity.greater-than-or-equal-zero")
+     * @Assert\Range(min="0", max="9")
      *
      * @var int
      */

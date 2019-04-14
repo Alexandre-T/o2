@@ -1,4 +1,6 @@
 error:
+  quantity:
+    greater-than-or-equal-zero: 'Veuillez entrer un nombre positif ou nul'
   locality:
     blank: 'La ville est obligatoire.'
   mail:

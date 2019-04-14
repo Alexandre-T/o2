@@ -16,8 +16,8 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Form\Model\CreditOrder;
+use App\Form\Type\QuantityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -39,15 +39,15 @@ class CreditFormType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('ten', IntegerType::class, [
+            ->add('ten', QuantityType::class, [
                 'label' => 'form.field.article-10',
                 'help' => 'form.help.article-10',
             ])
-            ->add('hundred', IntegerType::class, [
+            ->add('hundred', QuantityType::class, [
                 'label' => 'form.field.article-100',
                 'help' => 'form.help.article-100',
             ])
-            ->add('fiveHundred', IntegerType::class, [
+            ->add('fiveHundred', QuantityType::class, [
                 'label' => 'form.field.article-500',
                 'help' => 'form.help.article-500',
             ])

@@ -48,15 +48,15 @@
                                 <td class="col-4">{{ form_label(form.hundred) }}</td>
                                 <td class="col-2">{{ form_widget(form.hundred) }}</td>
                                 <td class="col-2">{{ 1000 | localizedcurrency('EUR') }}</td>
-                                <td class="col-2"><span id="credit10">{{ (10 * form.hundred.vars.value) | localizednumber }}</span></td>
-                                <td class="col-2"><span id="price10">{{ (1000 * form.hundred.vars.value) | localizedcurrency('EUR') }}</span></td>
+                                <td class="col-2"><span id="credit100">{{ (10 * form.hundred.vars.value) | localizednumber }}</span></td>
+                                <td class="col-2"><span id="price100">{{ (1000 * form.hundred.vars.value) | localizedcurrency('EUR') }}</span></td>
                             </tr>
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.fiveHundred) }}</td>
                                 <td class="col-2">{{ form_widget(form.fiveHundred) }}</td>
                                 <td class="col-2">{{ 4500 | localizedcurrency('EUR') }}</td>
-                                <td class="col-2"><span id="credit10">{{ (10 * form.fiveHundred.vars.value) | localizednumber }}</span></td>
-                                <td class="col-2"><span id="price10">{{ (4500 * form.fiveHundred.vars.value) | localizedcurrency('EUR') }}</span></td>
+                                <td class="col-2"><span id="credit500">{{ (10 * form.fiveHundred.vars.value) | localizednumber }}</span></td>
+                                <td class="col-2"><span id="price500">{{ (4500 * form.fiveHundred.vars.value) | localizedcurrency('EUR') }}</span></td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -70,7 +70,7 @@
                             </tr>
                             <tr class="d-flex">
                                 <th scope="col" class="offset-8 col-2">Prix T.T.C. total</th>
-                                <td class="col-2"><span id="totalTTC"></span>{{ (order.vat + order.price) | localizedcurrency('EUR') }}</td>
+                                <td class="col-2"><span id="totalTTC">{{ (order.vat + order.price) | localizedcurrency('EUR') }}</span></td>
                             </tr>
                         </tfoot>
                     </table>
@@ -86,4 +86,11 @@
         </div>
     </div>
     {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    {{ include('_javascript/select-credit.js.twig') }}
+    </script>
 {% endblock %}

@@ -1,0 +1,31 @@
+var updateSpan = function() {
+  let ten = $('#credit_form_ten').val();
+  let hundred = $('#credit_form_hundred').val();
+  let fiveHundred = $('#credit_form_fiveHundred').val();
+
+  $('#credit10').html(toFloat(ten * 10))
+  $('#price10').html(toCurrency(ten * 100 + ',00 €'));
+  $('#credit100').html(toFloat(hundred * 100));
+  $('#price100').html(toCurrency(hundred * 1000 + ',00 €'));
+  $('#credit500').html(toFloat(fiveHundred * 500));
+  $('#price500').html(toCurrency(fiveHundred * 4500));
+  $('#totalHT').html(toCurrency(ten * 100 + hundred * 1000 + fiveHundred * 4500 + ',00 €'));
+  $('#totalVAT').html(toCurrency((ten * 100 + hundred * 1000 + fiveHundred * 4500) * 0.2 + ',00 €'));
+  $('#totalTTC').html(toCurrency((ten * 100 + hundred * 1000 + fiveHundred * 4500) * 1.2 + ',00 €'));
+}
+
+//when document is ready, I actualize.
+$(updateSpan);
+
+//Afater each update...
+$('#credit_form_ten').change(updateSpan);
+$('#credit_form_hundred').change(updateSpan);
+$('#credit_form_fiveHundred').change(updateSpan);
+
+//some useful functions
+var toFloat = function (value) {
+  return parseFloat(value).toLocaleString(window.document.documentElement.lang);
+}
+var toCurrency = function (value) {
+  return toFloat(value) + ',00 €';
+}
