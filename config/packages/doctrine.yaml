@@ -32,3 +32,4 @@ doctrine:
                 dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
                 # alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
                 is_bundle: false
+            JMSPaymentCoreBundle: ~

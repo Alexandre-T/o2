@@ -157,6 +157,9 @@ class CustomerController extends AbstractController
             return $this->redirectToRoute('customer_credit');
         }
 
+        //find order
+        //if order.price is zero redirectToRoute
+
         return $this->render('customer/buy-credit.html.twig');
     }
 }

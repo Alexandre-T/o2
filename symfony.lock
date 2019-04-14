@@ -47,6 +47,9 @@
     "composer/xdebug-handler": {
         "version": "1.3.2"
     },
+    "defuse/php-encryption": {
+        "version": "v2.2.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -188,6 +191,9 @@
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "jms/payment-core-bundle": {
+        "version": "1.4.1"
     },
     "knplabs/knp-components": {
         "version": "v1.3.10"
