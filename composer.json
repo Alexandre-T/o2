@@ -11,6 +11,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.1",
         "gedmo/doctrine-extensions": "^2.4",
         "jms/payment-core-bundle": "^1.4",
+        "jms/payment-paypal-bundle": "^1.2",
         "knplabs/knp-paginator-bundle": "^3.0",
         "sensio/framework-extra-bundle": "^5.1",
         "stof/doctrine-extensions-bundle": "^1.3",

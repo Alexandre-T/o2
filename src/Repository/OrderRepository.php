@@ -95,4 +95,27 @@ class OrderRepository extends ServiceEntityRepository
             return 0;
         }
     }
+
+    /**
+     * Get order for user and code provided.
+     *
+     * @param User   $user user filter
+     * @param string $code code filter
+     *
+     * @return int
+     */
+    public function findOneByUserAndStatusOrder(User $user, string $code)
+    {
+        $queryBuilder = $this->createQueryBuilder('o');
+
+        return $queryBuilder
+            ->innerJoin('o.statusOrder', 's')
+            ->where('o.customer = :customer')
+            ->andWhere('s.code = :code')
+            ->setParameter('customer', $user)
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

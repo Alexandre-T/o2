@@ -21,6 +21,7 @@ use App\Entity\Order;
 use App\Entity\OrderedArticle;
 use App\Entity\StatusOrder;
 use App\Entity\User;
+use App\Exception\NoOrderException;
 use App\Form\Model\CreditOrder;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityRepository;
@@ -150,6 +151,29 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $repository = $this->getMainRepository();
 
         return 0 !== $repository->countByUserAndStatusOrder($user, StatusOrder::CARTED);
+    }
+
+    /**
+     * Get the only one carted order by user.
+     *
+     * @param User $user user filter
+     *
+     * @throws NoOrderException when array is empty
+     *
+     * @return Order
+     */
+    public function getCartedOrder(User $user): Order
+    {
+        /** @var OrderRepository $repository */
+        $repository = $this->getMainRepository();
+
+        $orders = $repository->findOneByUserAndStatusOrder($user, StatusOrder::CARTED);
+
+        if (null === $orders || empty($orders)) {
+            throw new NoOrderException('No carted order for this user');
+        }
+
+        return $orders[0];
     }
 
     /**

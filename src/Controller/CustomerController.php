@@ -23,6 +23,8 @@ use App\Form\PasswordFormType;
 use App\Form\ProfileFormType;
 use App\Manager\OrderManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use JMS\Payment\CoreBundle\Form\ChoosePaymentMethodType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -153,13 +155,25 @@ class CustomerController extends AbstractController
     {
         $user = $this->getUser();
 
-        if (!$orderManager->hasCartedOrder($user)) {
+        //find order
+        try {
+            $order = $orderManager->getCartedOrder($user);
+        } catch (Exception $e) {
             return $this->redirectToRoute('customer_credit');
         }
 
-        //find order
-        //if order.price is zero redirectToRoute
+        if (empty($order->getPrice())) {
+            return $this->redirectToRoute('customer_credit');
+        }
 
-        return $this->render('customer/buy-credit.html.twig');
+        //if order.price is zero redirectToRoute
+        $form = $this->createForm(ChoosePaymentMethodType::class, null, [
+            'amount' => (float) $order->getPrice() + (float) $order->getVat(),
+            'currency' => 'EUR',
+        ]);
+
+        return $this->render('customer/buy-credit.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

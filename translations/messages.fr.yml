@@ -327,6 +327,7 @@ title:
     profile: 'Mon profil'
     password: 'Mon mot de passe'
     select-credit: 'Crédits supplémentaires'
+    buy-credit: 'messages'
   default:
     tos: 'Conditions d’utilisation'
   security:
