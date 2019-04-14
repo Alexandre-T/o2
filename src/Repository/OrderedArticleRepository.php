@@ -20,6 +20,8 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
+ * Ordered article repository.
+ *
  * @method OrderedArticle|null find($id, $lockMode = null, $lockVersion = null)
  * @method OrderedArticle|null findOneBy(array $criteria, array $orderBy = null)
  * @method OrderedArticle[]    findAll()
@@ -27,37 +29,13 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class OrderedArticleRepository extends ServiceEntityRepository
 {
+    /**
+     * OrderedArticleRepository constructor.
+     *
+     * @param RegistryInterface $registry injected by dependency injection
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, OrderedArticle::class);
     }
-
-    // /**
-    //  * @return OrderedArticle[] Returns an array of OrderedArticle objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?OrderedArticle
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

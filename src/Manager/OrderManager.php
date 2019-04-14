@@ -174,21 +174,19 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param Order   $order    linked order
      * @param Article $article  linked article
      * @param int     $quantity quantity wanted
-     *
-     * @return void
      */
     private function updateOrder(Order $order, Article $article, int $quantity): void
     {
         $quantity = max(0, $quantity);
         $orderedArticle = $order->getOrderedByArticle($article);
-        if ($orderedArticle instanceof OrderedArticle) {
-            $this->updateOrderedArticle($orderedArticle, $article, $quantity);
-        } else {
+        if (null === $orderedArticle) {
             $this->createdOrderedArticle($order, $article, $quantity);
+        } elseif ($orderedArticle instanceof Article) {
+            $this->updateOrderedArticle($orderedArticle, $article, $quantity);
         }
 
         $order->setCredits($quantity * $article->getCredit() + $order->getCredits());
-        $order->setPrice($quantity * (double) $article->getCost() + $order->getPrice());
+        $order->setPrice($quantity * (float) $article->getCost() + $order->getPrice());
     }
 
     /**

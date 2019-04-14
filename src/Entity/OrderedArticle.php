@@ -115,7 +115,13 @@ class OrderedArticle
      */
     public function setOrder(?Order $order): self
     {
-        $this->order = $order;
+        if (null === $order) {
+            $this->order = $order;
+
+            return $this;
+        }
+
+        $order->addOrderedArticle($this);
 
         return $this;
     }

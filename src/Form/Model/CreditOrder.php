@@ -142,8 +142,8 @@ class CreditOrder
     /**
      * Initialize model with an article.
      *
-     * @param Article $article
-     * @param int     $quantity
+     * @param Article $article  initial article
+     * @param int     $quantity initial quantity
      */
     private function initializeWithArticle(Article $article, int $quantity): void
     {

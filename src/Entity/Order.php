@@ -420,6 +420,7 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
      * Add an ordered article to collection.
      *
      * @param OrderedArticle $orderedArticle to add
+     *
      * @return Order
      */
     public function addOrderedArticle(OrderedArticle $orderedArticle): self
@@ -462,8 +463,11 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     public function getOrderedByArticle(Article $article): ?OrderedArticle
     {
         foreach ($this->getOrderedArticles() as $orderedArticle) {
-            //FIXME unit test to avoid null === null which returns true instead of false
-            if ($orderedArticle->getArticle()->getId() === $article->getId()) {
+            if (null === $orderedArticle->getArticle()) {
+                return null;
+            }
+
+            if ($orderedArticle->getArticle() === $article) {
                 return $orderedArticle;
             }
         }

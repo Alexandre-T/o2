@@ -136,7 +136,7 @@ class CustomerController extends AbstractController
 
         return $this->render('customer/select-credit.html.twig', [
             'form' => $form->createView(),
-            'order' => $order
+            'order' => $order,
         ]);
     }
 }

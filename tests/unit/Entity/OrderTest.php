@@ -15,7 +15,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\Article;
 use App\Entity\Order;
+use App\Entity\OrderedArticle;
 use App\Entity\StatusOrder;
 use App\Entity\User;
 use App\Tests\UnitTester;
@@ -181,5 +183,31 @@ class OrderTest extends Unit
 
         self::assertEquals($this->order, $this->order->setVat($actual));
         self::assertEquals($expected, $this->order->getVat());
+    }
+
+    /**
+     * Test ordered article.
+     */
+    public function testOrderedArticle(): void
+    {
+        $article = new Article();
+        self::assertNull($this->order->getOrderedByArticle($article));
+
+        $orderedArticle = new OrderedArticle();
+        $this->order->addOrderedArticle($orderedArticle);
+        self::assertNull($this->order->getOrderedByArticle($article));
+
+        $orderedArticle->setArticle($article);
+        self::assertEquals($orderedArticle, $this->order->getOrderedByArticle($article));
+
+        $anotherArticle = new Article();
+        $anotherOrdered = new OrderedArticle();
+        $anotherOrdered->setArticle($anotherArticle);
+        self::assertEquals($orderedArticle, $this->order->getOrderedByArticle($article));
+        self::assertNull($this->order->getOrderedByArticle($anotherArticle));
+
+        $anotherOrdered->setOrder($this->order);
+        self::assertEquals($orderedArticle, $this->order->getOrderedByArticle($article));
+        self::assertEquals($anotherOrdered, $this->order->getOrderedByArticle($anotherArticle));
     }
 }
