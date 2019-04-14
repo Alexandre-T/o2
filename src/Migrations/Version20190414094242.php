@@ -41,6 +41,7 @@ final class Version20190414094242 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
+        $this->addSql('CREATE SCHEMA data');
         $this->addSql('CREATE SEQUENCE ext_log_entries_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE data.tr_article (id SERIAL NOT NULL, code VARCHAR(8) NOT NULL, cost NUMERIC(6, 2) NOT NULL, credit INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX uk_article_code ON data.tr_article (code)');
@@ -125,5 +126,6 @@ final class Version20190414094242 extends AbstractMigration
         $this->addSql('DROP TABLE data.tr_status_order');
         $this->addSql('DROP TABLE data.ts_user');
         $this->addSql('DROP TABLE ext_log_entries');
+        $this->addSql('DROP SCHEMA data');
     }
 }
