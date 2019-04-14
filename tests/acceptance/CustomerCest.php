@@ -25,208 +25,240 @@ class CustomerCest
     /**
      * Try to update customer.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToUpdateCustomer(AcceptanceTester $I): void
+    public function tryToUpdateCustomer(AcceptanceTester $you): void
     {
-        $I->wantTo('update customer.');
-        $I->login('customer');
-        $I->amOnPage('/customer/profile');
-        $I->selectOption('app_profile[type]', 1);
-        $I->fillField('Nom de famille', 'Nom de famille');
-        $I->fillField('Adresse', 'rue de Bordeaux');
-        $I->fillField('Code postal', '33160');
-        $I->fillField('Ville', 'Mérignac');
-        $I->selectOption('Pays', 'FR');
-        $I->click('Enregistrer les modifications');
-        $I->seeCurrentUrlEquals('/customer/profile');
-        $I->seeResponseCodeIsSuccessful();
-        $I->dontSee("Attention\u{a0}! Votre profil n’a pas été mis à jour.");
-        $I->see('Votre profil a correctement été mis à jour.');
+        $you->wantTo('update customer.');
+        $you->login('customer');
+        $you->amOnPage('/customer/profile');
+        $you->selectOption('app_profile[type]', 1);
+        $you->fillField('Nom de famille', 'Nom de famille');
+        $you->fillField('Adresse', 'rue de Bordeaux');
+        $you->fillField('Code postal', '33160');
+        $you->fillField('Ville', 'Mérignac');
+        $you->selectOption('Pays', 'FR');
+        $you->click('Enregistrer les modifications');
+        $you->seeCurrentUrlEquals('/customer/profile');
+        $you->seeResponseCodeIsSuccessful();
+        $you->dontSee("Attention\u{a0}! Votre profil n’a pas été mis à jour.");
+        $you->see('Votre profil a correctement été mis à jour.');
     }
 
     /**
      * Try to update password.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToUpdatePassword(AcceptanceTester $I): void
+    public function tryToUpdatePassword(AcceptanceTester $you): void
     {
-        $I->wantTo('update my password.');
-        $I->login('customer');
-        $I->amOnPage('/customer/password');
-        $I->fillField('Ancien mot de passe', 'customer');
-        $I->fillField('Nouveau mot de passe', 'customer');
-        $I->fillField('Confirmation', 'customer');
-        $I->click('Enregistrer le nouveau mot de passe');
-        $I->seeCurrentUrlEquals('/');
-        $I->seeResponseCodeIsSuccessful();
-        $I->dontSee("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
-        $I->see('Votre mot de passe a correctement été mis à jour.');
+        $you->wantTo('update my password.');
+        $you->login('customer');
+        $you->amOnPage('/customer/password');
+        $you->fillField('Ancien mot de passe', 'customer');
+        $you->fillField('Nouveau mot de passe', 'customer');
+        $you->fillField('Confirmation', 'customer');
+        $you->click('Enregistrer le nouveau mot de passe');
+        $you->seeCurrentUrlEquals('/');
+        $you->seeResponseCodeIsSuccessful();
+        $you->dontSee("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
+        $you->see('Votre mot de passe a correctement été mis à jour.');
     }
 
     /**
      * Try to hack password with a wrong password.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToHackPassword(AcceptanceTester $I): void
+    public function tryToHackPassword(AcceptanceTester $you): void
     {
-        $I->wantTo('update my password.');
-        $I->login('customer');
-        $I->amOnPage('/customer/password');
-        $I->fillField('Ancien mot de passe', 'bidon');
-        $I->fillField('Nouveau mot de passe', 'customer');
-        $I->fillField('Confirmation', 'customer');
-        $I->click('Enregistrer le nouveau mot de passe');
-        $I->seeCurrentUrlEquals('/customer/password');
-        $I->seeResponseCodeIsSuccessful();
-        $I->see("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
-        $I->dontSee('Votre mot de passe a correctement été mis à jour.');
-        $I->see('Cette valeur ne correspond pas à votre ancien mot de passe.');
+        $you->wantTo('update my password.');
+        $you->login('customer');
+        $you->amOnPage('/customer/password');
+        $you->fillField('Ancien mot de passe', 'bidon');
+        $you->fillField('Nouveau mot de passe', 'customer');
+        $you->fillField('Confirmation', 'customer');
+        $you->click('Enregistrer le nouveau mot de passe');
+        $you->seeCurrentUrlEquals('/customer/password');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
+        $you->dontSee('Votre mot de passe a correctement été mis à jour.');
+        $you->see('Cette valeur ne correspond pas à votre ancien mot de passe.');
     }
 
     /**
      * Try to send an empty profile form.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToSendAnEmptyProfile(AcceptanceTester $I): void
+    public function tryToSendAnEmptyProfile(AcceptanceTester $you): void
     {
-        $I->wantTo('send an empty profile form.');
-        $I->login('customer');
-        $I->amOnPage('/customer/profile');
-        $I->fillField('Nom de famille', '');
-        $I->fillField('Adresse', '');
-        $I->fillField('Code postal', '');
-        $I->fillField('Ville', '');
-        $I->click('Enregistrer les modifications');
-        $I->seeCurrentUrlEquals('/customer/profile');
-        $I->seeResponseCodeIsSuccessful();
-        $I->see("Attention\u{a0}! Votre profil n’a pas été mis à jour.");
-        $I->dontSee('Votre profil a correctement été mis à jour.');
-        $I->see('L’adresse postale est obligatoire.');
-        $I->see('Le code postal est obligatoire.');
-        $I->see('La ville est obligatoire.');
+        $you->wantTo('send an empty profile form.');
+        $you->login('customer');
+        $you->amOnPage('/customer/profile');
+        $you->fillField('Nom de famille', '');
+        $you->fillField('Adresse', '');
+        $you->fillField('Code postal', '');
+        $you->fillField('Ville', '');
+        $you->click('Enregistrer les modifications');
+        $you->seeCurrentUrlEquals('/customer/profile');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see("Attention\u{a0}! Votre profil n’a pas été mis à jour.");
+        $you->dontSee('Votre profil a correctement été mis à jour.');
+        $you->see('L’adresse postale est obligatoire.');
+        $you->see('Le code postal est obligatoire.');
+        $you->see('La ville est obligatoire.');
     }
 
     /**
      * Try to send an empty profile form.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToSendAnEmptyPassword(AcceptanceTester $I): void
+    public function tryToSendAnEmptyPassword(AcceptanceTester $you): void
     {
-        $I->wantTo('send an empty password form.');
-        $I->login('customer');
-        $I->amOnPage('/customer/password');
-        $I->fillField('Ancien mot de passe', '');
-        $I->fillField('Nouveau mot de passe', '');
-        $I->fillField('Confirmation', '');
-        $I->click('Enregistrer le nouveau mot de passe');
-        $I->seeCurrentUrlEquals('/customer/password');
-        $I->seeResponseCodeIsSuccessful();
-        $I->see("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
-        $I->dontSee('Votre mot de passe a correctement été mis à jour.');
-        $I->see('Cette valeur ne correspond pas à votre ancien mot de passe.');
-        $I->see('L’ancien mot de passe est obligatoire.');
+        $you->wantTo('send an empty password form.');
+        $you->login('customer');
+        $you->amOnPage('/customer/password');
+        $you->fillField('Ancien mot de passe', '');
+        $you->fillField('Nouveau mot de passe', '');
+        $you->fillField('Confirmation', '');
+        $you->click('Enregistrer le nouveau mot de passe');
+        $you->seeCurrentUrlEquals('/customer/password');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
+        $you->dontSee('Votre mot de passe a correctement été mis à jour.');
+        $you->see('Cette valeur ne correspond pas à votre ancien mot de passe.');
+        $you->see('L’ancien mot de passe est obligatoire.');
     }
 
     /**
      * Try to send a profile with too long field.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToSendLongProfileForm(AcceptanceTester $I): void
+    public function tryToSendLongProfileForm(AcceptanceTester $you): void
     {
         $codePostal = str_repeat('s', 6);
         $telephone = str_repeat('s', 22);
         $label = str_repeat('s', 33);
 
-        $I->wantTo('send a too long profile form.');
-        $I->login('customer');
-        $I->amOnPage('/customer/profile');
-        $I->fillField('Prénom', $label);
-        $I->fillField('Nom de famille', $label);
-        $I->fillField('Téléphone', $telephone);
-        $I->fillField('Numéro de TVA', $label);
+        $you->wantTo('send a too long profile form.');
+        $you->login('customer');
+        $you->amOnPage('/customer/profile');
+        $you->fillField('Prénom', $label);
+        $you->fillField('Nom de famille', $label);
+        $you->fillField('Téléphone', $telephone);
+        $you->fillField('Numéro de TVA', $label);
         //Société
-        $I->fillField('app_profile[society]', $label);
-        $I->fillField('Adresse', $label);
-        $I->fillField('Complément', $label);
-        $I->fillField('Code postal', $codePostal);
-        $I->fillField('Ville', $label);
-        $I->click('Enregistrer les modifications');
-        $I->seeCurrentUrlEquals('/customer/profile');
-        $I->seeResponseCodeIsSuccessful();
-        $I->see("Attention\u{a0}! Votre profil n’a pas été mis à jour.");
-        $I->dontSee('Votre profil a correctement été mis à jour.');
-        $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 5 caractères.');
-        $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 21 caractères.');
-        $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 32 caractères.');
+        $you->fillField('app_profile[society]', $label);
+        $you->fillField('Adresse', $label);
+        $you->fillField('Complément', $label);
+        $you->fillField('Code postal', $codePostal);
+        $you->fillField('Ville', $label);
+        $you->click('Enregistrer les modifications');
+        $you->seeCurrentUrlEquals('/customer/profile');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see("Attention\u{a0}! Votre profil n’a pas été mis à jour.");
+        $you->dontSee('Votre profil a correctement été mis à jour.');
+        $you->see('Cette chaîne est trop longue. Elle doit avoir au maximum 5 caractères.');
+        $you->see('Cette chaîne est trop longue. Elle doit avoir au maximum 21 caractères.');
+        $you->see('Cette chaîne est trop longue. Elle doit avoir au maximum 32 caractères.');
     }
 
     /**
      * Try to send a password form with too long field.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToSendLongPasswordForm(AcceptanceTester $I): void
+    public function tryToSendLongPasswordForm(AcceptanceTester $you): void
     {
         $password = str_repeat('s', 4097);
 
-        $I->wantTo('send a too long profile form.');
-        $I->login('customer');
-        $I->amOnPage('/customer/password');
-        $I->fillField('Ancien mot de passe', $password);
-        $I->fillField('Nouveau mot de passe', $password);
-        $I->fillField('Confirmation', $password);
-        $I->click('Enregistrer le nouveau mot de passe');
-        $I->seeCurrentUrlEquals('/customer/password');
-        $I->seeResponseCodeIsSuccessful();
-        $I->see("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
-        $I->dontSee('Votre mot de passe a correctement été mis à jour.');
-        $I->see('Cette chaîne est trop longue. Elle doit avoir au maximum 4096 caractères.');
+        $you->wantTo('send a too long profile form.');
+        $you->login('customer');
+        $you->amOnPage('/customer/password');
+        $you->fillField('Ancien mot de passe', $password);
+        $you->fillField('Nouveau mot de passe', $password);
+        $you->fillField('Confirmation', $password);
+        $you->click('Enregistrer le nouveau mot de passe');
+        $you->seeCurrentUrlEquals('/customer/password');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see("Attention\u{a0}! Votre mot de passe n’a pas été mis à jour.");
+        $you->dontSee('Votre mot de passe a correctement été mis à jour.');
+        $you->see('Cette chaîne est trop longue. Elle doit avoir au maximum 4096 caractères.');
     }
 
     /**
      * Try to send a society without its name.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToSendSocietyWithoutName(AcceptanceTester $I): void
+    public function tryToSendSocietyWithoutName(AcceptanceTester $you): void
     {
-        $I->wantTo('send customer as a society without its name.');
-        $I->login('customer');
-        $I->amOnPage('/customer/profile');
+        $you->wantTo('send customer as a society without its name.');
+        $you->login('customer');
+        $you->amOnPage('/customer/profile');
         //Société
-        $I->selectOption('app_profile[type]', 0);
-        $I->click('Enregistrer les modifications');
-        $I->seeCurrentUrlEquals('/customer/profile');
-        $I->seeResponseCodeIsSuccessful();
-        $I->see("Attention\u{a0}! Votre profil n’a pas été mis à jour.");
-        $I->dontSee('Votre profil a correctement été mis à jour.');
-        $I->see('Pour les professionnels, le nom de la société est obligatoire.');
+        $you->selectOption('app_profile[type]', 0);
+        $you->click('Enregistrer les modifications');
+        $you->seeCurrentUrlEquals('/customer/profile');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see("Attention\u{a0}! Votre profil n’a pas été mis à jour.");
+        $you->dontSee('Votre profil a correctement été mis à jour.');
+        $you->see('Pour les professionnels, le nom de la société est obligatoire.');
     }
 
     /**
      * Try to send a society without its name.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToSendPhysicWithoutName(AcceptanceTester $I): void
+    public function tryToSendPhysicWithoutName(AcceptanceTester $you): void
     {
-        $I->wantTo('send customer as a physic person without its name.');
-        $I->login('customer');
-        $I->amOnPage('/customer/profile');
+        $you->wantTo('send customer as a physic person without its name.');
+        $you->login('customer');
+        $you->amOnPage('/customer/profile');
         //Physic person
-        $I->selectOption('app_profile[type]', 1);
-        $I->fillField('Nom de famille', '');
-        $I->click('Enregistrer les modifications');
-        $I->seeCurrentUrlEquals('/customer/profile');
-        $I->seeResponseCodeIsSuccessful();
-        $I->see("Attention\u{a0}! Votre profil n’a pas été mis à jour.");
-        $I->dontSee('Votre profil a correctement été mis à jour.');
-        $I->see('Pour les particuliers, le nom de famille est obligatoire.');
+        $you->selectOption('app_profile[type]', 1);
+        $you->fillField('Nom de famille', '');
+        $you->click('Enregistrer les modifications');
+        $you->seeCurrentUrlEquals('/customer/profile');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see("Attention\u{a0}! Votre profil n’a pas été mis à jour.");
+        $you->dontSee('Votre profil a correctement été mis à jour.');
+        $you->see('Pour les particuliers, le nom de famille est obligatoire.');
+    }
+
+    /**
+     * Try to order some credit.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToOrderCredit(AcceptanceTester $you): void
+    {
+        $you->wantTo('connect as customer and try to order some credits');
+        $you->login('customer');
+        $you->amOnPage('/customer/select-credit');
+        $you->fillField('Lot(s) de 10 crédits', 4);
+        $you->fillField('Lot(s) de 100 crédits', 1);
+        $you->fillField('Lot(s) de 500 crédits', 2);
+        $you->click('Enregistrer votre commande');
+        $you->seeResponseCodeIsSuccessful();
+        $you->canSeeCurrentUrlEquals('/customer/buy-credit');
+    }
+
+    /**
+     * You try to buy credits without Order.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToBuyCreditsWithoutOrder(AcceptanceTester $you): void
+    {
+        $you->wantTo('buy credits without order');
+        $you->login('customer-7');
+        $you->amOnPage('/customer/buy-credit');
+        $you->seeResponseCodeIsSuccessful();
+        $you->canSeeCurrentUrlEquals('/customer/select-credit');
     }
 }

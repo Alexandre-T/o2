@@ -83,7 +83,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      *
      * @return Order
      */
-    public function getNonPaidOrder(User $user): Order
+    public function getOrCreateCartedOrder(User $user): Order
     {
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
@@ -135,6 +135,21 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
 
         //TODO Create a vat for each article.
         $order->setVat($order->getPrice() * 0.2);
+    }
+
+    /**
+     * Has this customer a carted order or not?
+     *
+     * @param User $user user filter
+     *
+     * @return bool
+     */
+    public function hasCartedOrder(User $user)
+    {
+        /** @var OrderRepository $repository */
+        $repository = $this->getMainRepository();
+
+        return 0 !== $repository->countByUserAndStatusOrder($user, StatusOrder::CARTED);
     }
 
     /**

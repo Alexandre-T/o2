@@ -119,7 +119,7 @@ class CustomerController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        $order = $orderManager->getNonPaidOrder($user);
+        $order = $orderManager->getOrCreateCartedOrder($user);
         $model = new CreditOrder();
         $model->initializeWithOrder($order);
         $form = $this->createForm(CreditFormType::class, $model);
@@ -131,12 +131,32 @@ class CustomerController extends AbstractController
             $orderManager->save($order);
             $this->addFlash('success', 'flash.order.step1');
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('customer_buy');
         }
 
         return $this->render('customer/select-credit.html.twig', [
             'form' => $form->createView(),
             'order' => $order,
         ]);
+    }
+
+    /**
+     * Select credit.
+     *
+     * @Route("/buy-credit", name="customer_buy")
+     *
+     * @param OrderManager $orderManager Command manager
+     *
+     * @return Response|RedirectResponse
+     */
+    public function buyCredit(OrderManager $orderManager): Response
+    {
+        $user = $this->getUser();
+
+        if (!$orderManager->hasCartedOrder($user)) {
+            return $this->redirectToRoute('customer_credit');
+        }
+
+        return $this->render('customer/buy-credit.html.twig');
     }
 }

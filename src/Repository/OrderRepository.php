@@ -66,4 +66,33 @@ class OrderRepository extends ServiceEntityRepository
             return null;
         }
     }
+
+    /**
+     * Count orders for user and code provided.
+     *
+     * @param User   $user user filter
+     * @param string $code code filter
+     *
+     * @return int
+     */
+    public function countByUserAndStatusOrder(User $user, string $code): int
+    {
+        $queryBuilder = $this->createQueryBuilder('o');
+
+        try {
+            return $queryBuilder
+                ->select($queryBuilder->expr()->count('1'))
+                ->innerJoin('o.statusOrder', 's')
+                ->where('o.customer = :customer')
+                ->andWhere('s.code = :code')
+                ->setParameter('customer', $user)
+                ->setParameter('code', $code)
+                ->getQuery()
+                ->getSingleScalarResult()
+            ;
+        } catch (NonUniqueResultException $e) {
+            //This code could not be reached.
+            return 0;
+        }
+    }
 }
