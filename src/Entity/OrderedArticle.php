@@ -66,7 +66,7 @@ class OrderedArticle
     /**
      * Unit cost.
      *
-     * TODO find data type.
+     * @var float|float|string
      *
      * @ORM\Column(type="decimal", precision=6, scale=2)
      */
@@ -115,13 +115,11 @@ class OrderedArticle
      */
     public function setOrder(?Order $order): self
     {
-        if (null === $order) {
-            $this->order = $order;
+        $this->order = $order;
 
-            return $this;
+        if (null !== $order) {
+            $order->addOrderedArticle($this);
         }
-
-        $order->addOrderedArticle($this);
 
         return $this;
     }
@@ -153,7 +151,7 @@ class OrderedArticle
     /**
      * Unit cost getter.
      *
-     * @return mixed
+     * @return float|float|string
      */
     public function getUnitCost()
     {
@@ -163,7 +161,7 @@ class OrderedArticle
     /**
      * Uniq cost fluent setter.
      *
-     * @param mixed $unitCost unit cost
+     * @param float|float|string $unitCost unit cost
      *
      * @return OrderedArticle
      */

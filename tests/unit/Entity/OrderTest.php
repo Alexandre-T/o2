@@ -212,5 +212,9 @@ class OrderTest extends Unit
         $anotherOrdered->setOrder($this->order);
         self::assertEquals($orderedArticle, $this->order->getOrderedByArticle($article));
         self::assertEquals($anotherOrdered, $this->order->getOrderedByArticle($anotherArticle));
+
+        self::assertEquals($this->order, $this->order->removeOrderedArticle($orderedArticle));
+        self::assertNull($this->order->getOrderedByArticle($article));
+        self::assertEquals($anotherOrdered, $this->order->getOrderedByArticle($anotherArticle));
     }
 }

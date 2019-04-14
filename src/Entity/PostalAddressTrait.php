@@ -98,11 +98,11 @@ trait PostalAddressTrait
     /**
      * Country fluent setter.
      *
-     * @param string $country the new country
+     * @param string|null $country the new country
      *
      * @return PostalAddressInterface|PostalAddressTrait
      */
-    public function setCountry(string $country): PostalAddressInterface
+    public function setCountry(?string $country): PostalAddressInterface
     {
         $this->country = $country;
 

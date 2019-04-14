@@ -34,7 +34,7 @@ interface PostalAddressInterface
      *
      * @return self
      */
-    public function setCountry(string $country): self;
+    public function setCountry(?string $country): self;
 
     /**
      * Locality getter.

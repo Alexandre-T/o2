@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Order;
+use App\Entity\User;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
 
@@ -130,5 +131,52 @@ class PostalAddressTest extends Unit
 
         self::assertEquals($this->order, $this->order->setStreetAddress($actual));
         self::assertEquals($expected, $this->order->getStreetAddress());
+    }
+
+    /**
+     * test copy address function.
+     */
+    public function testCopyAdress(): void
+    {
+        $actual = new User();
+
+        //null order copy null user.
+        self::assertEquals($this->order, $this->order->copyAddress($actual));
+        self::assertNull($this->order->getComplement());
+        self::assertNull($this->order->getCountry());
+        self::assertNull($this->order->getLocality());
+        self::assertNull($this->order->getPostalCode());
+        self::assertNull($this->order->getStreetAddress());
+
+        //not null copy null
+        $this->order->setComplement('complement');
+        $this->order->setCountry('country');
+        $this->order->setLocality('locality');
+        $this->order->setPostalCode('postal code');
+        $this->order->setStreetAddress('street address');
+        self::assertEquals($this->order, $this->order->copyAddress($actual));
+        self::assertNull($this->order->getComplement());
+        self::assertNull($this->order->getCountry());
+        self::assertNull($this->order->getLocality());
+        self::assertNull($this->order->getPostalCode());
+        self::assertNull($this->order->getStreetAddress());
+
+        //not null copy not null
+        $actual->setComplement('userC');
+        $actual->setCountry('userO');
+        $actual->setLocality('userL');
+        $actual->setPostalCode('userP');
+        $actual->setStreetAddress('userS');
+        $this->order->setComplement('complement');
+        $this->order->setCountry('country');
+        $this->order->setLocality('locality');
+        $this->order->setPostalCode('postal code');
+        $this->order->setStreetAddress('street address');
+        self::assertEquals($this->order, $this->order->copyAddress($actual));
+        self::assertEquals('userC', $this->order->getComplement());
+        self::assertEquals('userO', $this->order->getCountry());
+        self::assertEquals('userL', $this->order->getLocality());
+        self::assertEquals('userP', $this->order->getPostalCode());
+        self::assertEquals('userS', $this->order->getStreetAddress());
     }
 }
