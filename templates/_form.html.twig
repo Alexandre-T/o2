@@ -1,7 +1,7 @@
 {% use 'bootstrap_4_horizontal_layout.html.twig' %}
 
 {% block form_label_class -%}
-    col-sm-4
+    {%- if 'form.field.article-' not in label %}col-sm-4{% endif -%}
 {%- endblock form_label_class %}
 
 {% block form_group_class -%}

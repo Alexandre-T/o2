@@ -118,38 +118,23 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
 
         foreach ($articles as $article) {
             if (10 === $article->getCredit()) {
-                if ($model->getTen()) {
-                    $orderedArticle = $this->createdOrderedArticle($order, $article, $model->getTen());
-                    $order->addOrderedArticle($orderedArticle);
-                    $order->setCredits($model->getTen() * $article->getCredit() + $order->getCredits());
-                    $order->setPrice($model->getTen() * (double) $article->getCost() + $order->getPrice());
-                }
-
+                $this->updateOrder($order, $article, $model->getTen());
                 continue;
             }
 
             if (100 === $article->getCredit()) {
-                if ($model->getHundred()) {
-                    $orderedArticle = $this->createdOrderedArticle($order, $article, $model->getHundred());
-                    $order->addOrderedArticle($orderedArticle);
-                    $order->setCredits($model->getHundred() * $article->getCredit() + $order->getCredits());
-                    $order->setPrice($model->getHundred() * (double) $article->getCost() + $order->getPrice());
-                }
-
+                $this->updateOrder($order, $article, $model->getHundred());
                 continue;
             }
 
             if (500 === $article->getCredit()) {
-                if ($model->getFiveHundred()) {
-                    $orderedArticle = $this->createdOrderedArticle($order, $article, $model->getFiveHundred());
-                    $order->addOrderedArticle($orderedArticle);
-                    $order->setCredits($model->getFiveHundred() * $article->getCredit() + $order->getCredits());
-                    $order->setPrice($model->getFiveHundred() * (double) $article->getCost() + $order->getPrice());
-                }
-
+                $this->updateOrder($order, $article, $model->getFiveHundred());
                 continue;
             }
         }
+
+        //TODO Create a vat for each article.
+        $order->setVat($order->getPrice() * 0.2);
     }
 
     /**
@@ -178,7 +163,44 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $orderedArticle->setOrder($order);
         $orderedArticle->setUnitCost($article->getCost());
         $orderedArticle->setQuantity($quantity);
+        $order->addOrderedArticle($orderedArticle);
 
         return $orderedArticle;
+    }
+
+    /**
+     * Update order by updating existing ordered article or by creating non-existent one.
+     *
+     * @param Order   $order    linked order
+     * @param Article $article  linked article
+     * @param int     $quantity quantity wanted
+     *
+     * @return void
+     */
+    private function updateOrder(Order $order, Article $article, int $quantity): void
+    {
+        $quantity = max(0, $quantity);
+        $orderedArticle = $order->getOrderedByArticle($article);
+        if ($orderedArticle instanceof OrderedArticle) {
+            $this->updateOrderedArticle($orderedArticle, $article, $quantity);
+        } else {
+            $this->createdOrderedArticle($order, $article, $quantity);
+        }
+
+        $order->setCredits($quantity * $article->getCredit() + $order->getCredits());
+        $order->setPrice($quantity * (double) $article->getCost() + $order->getPrice());
+    }
+
+    /**
+     * Update quantity of ordered article, synchronize price.
+     *
+     * @param OrderedArticle $orderedArticle ordered article
+     * @param Article        $article        article
+     * @param int            $quantity       new quantity
+     */
+    private function updateOrderedArticle(OrderedArticle $orderedArticle, Article $article, int $quantity): void
+    {
+        $orderedArticle->setUnitCost($article->getCost());
+        $orderedArticle->setQuantity($quantity);
     }
 }

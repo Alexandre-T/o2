@@ -41,15 +41,15 @@ class CreditFormType extends AbstractType
         $builder
             ->add('ten', IntegerType::class, [
                 'label' => 'form.field.article-10',
-                'help' => 'help.help.article-10',
+                'help' => 'form.help.article-10',
             ])
             ->add('hundred', IntegerType::class, [
                 'label' => 'form.field.article-100',
-                'help' => 'help.help.article-100',
+                'help' => 'form.help.article-100',
             ])
             ->add('fiveHundred', IntegerType::class, [
                 'label' => 'form.field.article-500',
-                'help' => 'help.help.article-500',
+                'help' => 'form.help.article-500',
             ])
         ;
     }

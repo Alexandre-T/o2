@@ -407,6 +407,8 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
+     * Ordered articles getter.
+     *
      * @return Collection|OrderedArticle[]
      */
     public function getOrderedArticles(): Collection
@@ -414,6 +416,12 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
         return $this->orderedArticles;
     }
 
+    /**
+     * Add an ordered article to collection.
+     *
+     * @param OrderedArticle $orderedArticle to add
+     * @return Order
+     */
     public function addOrderedArticle(OrderedArticle $orderedArticle): self
     {
         if (!$this->orderedArticles->contains($orderedArticle)) {
@@ -424,6 +432,13 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
         return $this;
     }
 
+    /**
+     * Remove an ordered article from collection.
+     *
+     * @param OrderedArticle $orderedArticle to remove
+     *
+     * @return Order
+     */
     public function removeOrderedArticle(OrderedArticle $orderedArticle): self
     {
         if ($this->orderedArticles->contains($orderedArticle)) {
@@ -435,5 +450,24 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
         }
 
         return $this;
+    }
+
+    /**
+     * Get ordered article by article if exists.
+     *
+     * @param Article $article article filter
+     *
+     * @return OrderedArticle|null
+     */
+    public function getOrderedByArticle(Article $article): ?OrderedArticle
+    {
+        foreach ($this->getOrderedArticles() as $orderedArticle) {
+            //FIXME unit test to avoid null === null which returns true instead of false
+            if ($orderedArticle->getArticle()->getId() === $article->getId()) {
+                return $orderedArticle;
+            }
+        }
+
+        return null;
     }
 }
