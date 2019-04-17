@@ -17,6 +17,7 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\User;
+use App\Exception\NoOrderException;
 use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
 use App\Form\Model\CreditOrder;
@@ -168,8 +169,9 @@ class CustomerController extends AbstractController
         //find carted (non canceled and non paid) and non empty order
         try {
             $order = $orderManager->getNonEmptyCartedOrder($user);
-        } catch (Exception $e) {
+        } catch (NoOrderException $e) {
             //there is no order which is not empty, not canceled and no paid
+            $this->addFlash('warning', 'flash.order.no-step1');
             return $this->redirectToRoute('customer_credit');
         }
 

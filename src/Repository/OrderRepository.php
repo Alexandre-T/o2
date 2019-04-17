@@ -135,7 +135,7 @@ class OrderRepository extends ServiceEntityRepository
             ->innerJoin('o.statusOrder', 's')
             ->where('o.customer = :customer')
             ->andWhere('s.code = :code')
-            ->andWhere('o.amount > 0')
+            ->andWhere('o.price > 0')
             ->setParameter('customer', $user)
             ->setParameter('code', $code)
             ->getQuery()

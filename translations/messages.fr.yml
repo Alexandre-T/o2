@@ -220,6 +220,9 @@ form:
       submit: 'Enregistrer votre commande'
 
 flash:
+  order:
+    no-step1: 'Votre commande n’a pas été retrouvée. Veuillez la ressaisir.'
+    step1: 'Votre commande est enregistrée, vous pouvez passer au choix du paiement.'
   password-lost:
     sent: 'Un mail pour changer votre mot de passe vient de vous être envoyé. Consultez votre messagerie !'
   password:
@@ -320,6 +323,18 @@ security:
   connection:
     successful %username%: "Authentification réussie. Bienvenue %username% !"
     failed: 'Cette adresse email n’est pas référencée dans l’application ou bien le mot de passe est erroné.'
+step:
+  payment:
+    1: 'Commande'
+    2: 'Méthode de paiement'
+    3: 'Paiement'
+
+table:
+  order:
+    credits: 'Crédits'
+    price: 'Prix H.T.'
+    quantity: 'Quantité'
+    unit-price: 'Prix unitaire'
 
 title:
   customer:
@@ -350,4 +365,3 @@ title:
 type:
   morale: 'Société'
   physic: 'Particulier'
-

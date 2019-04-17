@@ -26,14 +26,31 @@
                     </h1>
                 </div>
                 <div class="card-body">
+                    <ul class="row list-unstyled">
+                        <!-- First Step -->
+                        <li class="col-4 text-center">
+                            <span class="label">{{ 'step.payment.1' | trans }}</span>
+                        </li>
+                        <!-- Second Step -->
+                        <li class="col-4 text-center">
+                            <span class="label">{{ 'step.payment.2' | trans }}</span>
+                        </li>
+                        <!-- Last Step -->
+                        <li class="col-4 text-center">
+                            <span class="label">{{ 'step.payment.3' | trans }}</span>
+                        </li>
+                    </ul>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100" style="width: 33%"></div>
+                    </div>
                     <table class="table text-right table-striped">
                         <thead>
                             <tr class="d-flex">
                                 <th scope="row" class="col-4"></th>
-                                <th scope="row" class="col-2">Quantité</th>
-                                <th scope="row" class="col-2">Prix unitaire</th>
-                                <th scope="row" class="col-2">Crédits</th>
-                                <th scope="row" class="col-2">Prix H.T.</th>
+                                <th scope="row" class="col-2">{{ 'table.order.quantity' | trans }}</th>
+                                <th scope="row" class="col-2">{{ 'table.order.unit-price' | trans }}</th>
+                                <th scope="row" class="col-2">{{ 'table.order.credits' | trans }}</th>
+                                <th scope="row" class="col-2">{{ 'table.order.price' | trans }}</th>
                             </tr>
                         </thead>
                         <tbody>
