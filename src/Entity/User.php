@@ -43,17 +43,13 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @UniqueEntity(fields={"mail"},  message="error.mail.unique")
  */
-class User implements ConstantInterface, EntityInterface, PostalAddressInterface, UserInterface, Serializable
+class User implements EntityInterface, PersonInterface, PostalAddressInterface, UserInterface, Serializable
 {
     /*
-     * Postal address trait.
-     */
-    use PostalAddressTrait;
-
-    /*
-     * Person trait.
+     * Trait declarations.
      */
     use PersonTrait;
+    use PostalAddressTrait;
 
     /**
      * Each available roles.
@@ -67,6 +63,11 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
      * Initial roles.
      */
     public const INITIAL_ROLES = [self::ROLE_USER];
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="customer")
+     */
+    private $bills;
 
     /**
      * Credits owned by user.
@@ -168,17 +169,6 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     private $roles = self::INITIAL_ROLES;
 
     /**
-     * Telephone number.
-     *
-     * @Assert\Length(max=21)
-     *
-     * @ORM\Column(type="string", name="usr_phone", length=21, nullable=true, options={"comment": "User phone"})
-     *
-     * @Gedmo\Versioned
-     */
-    private $telephone;
-
-    /**
      * Terms of services.
      *
      * @Assert\IsTrue(groups={"Registration"}, message="error.tos.blank")
@@ -192,13 +182,13 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
      *
      * @var bool
      *
-     * @Assert\Choice(choices=ConstantInterface::TYPES, message="form.error.types.choices")
+     * @Assert\Choice(choices=PersonInterface::TYPES, message="form.error.types.choices")
      *
      * @ORM\Column(type="boolean", name="per_type", options={"comment": "Morale or physic"})
      *
      * @Gedmo\Versioned
      */
-    private $type = ConstantInterface::PHYSIC;
+    private $type = PersonInterface::PHYSIC;
 
     /**
      * User constructor.
@@ -206,6 +196,57 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->bills = new ArrayCollection();
+    }
+
+    /**
+     * Bill fluent adder.
+     *
+     * @param Bill $bill bill to add
+     *
+     * @return User
+     */
+    public function addBill(Bill $bill): self
+    {
+        if (!$this->bills->contains($bill)) {
+            $this->bills[] = $bill;
+            $bill->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Order fluent adder.
+     *
+     * @param Order $order order to add
+     *
+     * @return User
+     */
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add a role.
+     *
+     * @param string $role role to add
+     *
+     * @return User
+     */
+    public function addRole(string $role): User
+    {
+        if (!$this->hasRole($role)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
     }
 
     /**
@@ -221,6 +262,16 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     }
 
     /**
+     * Bills getter.
+     *
+     * @return Collection|Bill[]
+     */
+    public function getBills(): Collection
+    {
+        return $this->bills;
+    }
+
+    /**
      * Credit getter.
      *
      * @return int
@@ -228,20 +279,6 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     public function getCredit(): int
     {
         return $this->credit;
-    }
-
-    /**
-     * Credit fluent setter.
-     *
-     * @param int $credit new credit value
-     *
-     * @return User
-     */
-    public function setCredit(int $credit): User
-    {
-        $this->credit = $credit;
-
-        return $this;
     }
 
     /**
@@ -255,6 +292,24 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     }
 
     /**
+     * Mail getter.
+     *
+     * @return string
+     */
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    /**
      * The encoded password.
      *
      * @return string
@@ -262,20 +317,6 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     public function getPassword(): ?string
     {
         return $this->password;
-    }
-
-    /**
-     * Setter of the password.
-     *
-     * @param string $password new password
-     *
-     * @return User
-     */
-    public function setPassword(string $password): User
-    {
-        $this->password = $password;
-
-        return $this;
     }
 
     /**
@@ -289,21 +330,38 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     }
 
     /**
-     * Set the non-persistent plain password.
+     * Resetting timestamp getter.
      *
-     * @param string $plainPassword non-encrypted password
-     *
-     * @return User
+     * @return DateTimeInterface|null
      */
-    public function setPlainPassword(string $plainPassword): User
+    public function getResettingAt(): ?DateTimeInterface
     {
-        $this->plainPassword = $plainPassword;
-        // forces the object to look "dirty" to Doctrine. Avoids
-        // Doctrine *not* saving this entity, if only plainPassword changes
-        // @see https://knpuniversity.com/screencast/symfony-security/user-plain-password
-        $this->password = null;
+        return $this->resettingAt;
+    }
 
-        return $this;
+    /**
+     * Resetting token getter.
+     *
+     * @return string|null
+     */
+    public function getResettingToken(): ?string
+    {
+        return $this->resettingToken;
+    }
+
+    /**
+     * Return an array of all role codes to be compliant with UserInterface
+     * This is NOT the Roles getter.
+     *
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = self::ROLE_USER;
+
+        return array_unique($roles);
     }
 
     /**
@@ -329,54 +387,6 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     }
 
     /**
-     * Mail getter.
-     *
-     * @return string
-     */
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    /**
-     * Setter of the mail.
-     *
-     * @param string $mail new mail
-     *
-     * @return User
-     */
-    public function setMail(?string $mail): User
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
-
-    /**
-     * Terms of service getter.
-     *
-     * @return bool
-     */
-    public function getTos(): bool
-    {
-        return $this->tos;
-    }
-
-    /**
-     * Terms of service fluent setter.
-     *
-     * @param bool $tos the new TOS value
-     *
-     * @return User
-     */
-    public function setTos(bool $tos): self
-    {
-        $this->tos = $tos;
-
-        return $this;
-    }
-
-    /**
      * Has actual user the mentioned role?
      *
      * @param string $role role to test
@@ -389,48 +399,13 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     }
 
     /**
-     * Return an array of all role codes to be compliant with UserInterface
-     * This is NOT the Roles getter.
+     * Is this user a accountant.
      *
-     * @return array
+     * @return bool
      */
-    public function getRoles(): array
+    public function isAccountant(): bool
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = self::ROLE_USER;
-
-        return array_unique($roles);
-    }
-
-    /**
-     * Add a role.
-     *
-     * @param string $role role to add
-     *
-     * @return User
-     */
-    public function addRole(string $role): User
-    {
-        if (!$this->hasRole($role)) {
-            $this->roles[] = $role;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Setter of the roles.
-     *
-     * @param array $roles roles to set
-     *
-     * @return User
-     */
-    public function setRoles(array $roles): User
-    {
-        $this->roles = $roles;
-
-        return $this;
+        return $this->hasRole(self::ROLE_ACCOUNTANT);
     }
 
     /**
@@ -441,16 +416,6 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     public function isAdmin(): bool
     {
         return $this->hasRole(self::ROLE_ADMIN);
-    }
-
-    /**
-     * Is this user a accountant.
-     *
-     * @return bool
-     */
-    public function isAccountant(): bool
-    {
-        return $this->hasRole(self::ROLE_ACCOUNTANT);
     }
 
     /**
@@ -471,6 +436,56 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     public function isProgrammer(): bool
     {
         return $this->hasRole(self::ROLE_PROGRAMMER);
+    }
+
+    /**
+     * Terms of service getter.
+     *
+     * @return bool
+     */
+    public function isTos(): bool
+    {
+        return $this->tos;
+    }
+
+    /**
+     * Bill fluent remover.
+     *
+     * @param Bill $bill bill to remove
+     *
+     * @return USer
+     */
+    public function removeBill(Bill $bill): self
+    {
+        if ($this->bills->contains($bill)) {
+            $this->bills->removeElement($bill);
+            // set the owning side to null (unless already changed)
+            if ($bill->getCustomer() === $this) {
+                $bill->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Order fluent remover.
+     *
+     * @param Order $order order to remove
+     *
+     * @return User
+     */
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            // set the owning side to null (unless already changed)
+            if ($order->getCustomer() === $this) {
+                $order->setCustomer(null);
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -501,25 +516,117 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
     }
 
     /**
-     * Telephone number getter.
+     * Credit fluent setter.
      *
-     * @return string|null
-     */
-    public function getTelephone(): ?string
-    {
-        return $this->telephone;
-    }
-
-    /**
-     * Telephone number fluent setter.
-     *
-     * @param string|null $telephone the new telephone number
+     * @param int $credit new credit value
      *
      * @return User
      */
-    public function setTelephone(?string $telephone): self
+    public function setCredit(int $credit): User
     {
-        $this->telephone = $telephone;
+        $this->credit = $credit;
+
+        return $this;
+    }
+
+    /**
+     * Terms of service fluent setter.
+     *
+     * @param bool $tos the new TOS value
+     *
+     * @return User
+     */
+    public function setTos(bool $tos): self
+    {
+        $this->tos = $tos;
+
+        return $this;
+    }
+
+    /**
+     * Setter of the mail.
+     *
+     * @param string $mail new mail
+     *
+     * @return User
+     */
+    public function setMail(?string $mail): User
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    /**
+     * Setter of the password.
+     *
+     * @param string $password new password
+     *
+     * @return User
+     */
+    public function setPassword(string $password): User
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Set the non-persistent plain password.
+     *
+     * @param string $plainPassword non-encrypted password
+     *
+     * @return User
+     */
+    public function setPlainPassword(string $plainPassword): User
+    {
+        $this->plainPassword = $plainPassword;
+        // forces the object to look "dirty" to Doctrine. Avoids
+        // Doctrine *not* saving this entity, if only plainPassword changes
+        // @see https://knpuniversity.com/screencast/symfony-security/user-plain-password
+        $this->password = null;
+
+        return $this;
+    }
+
+    /**
+     * Resetting token fluent setter.
+     *
+     * @param string|null $resettingToken new token
+     *
+     * @return User
+     */
+    public function setResettingToken(?string $resettingToken): self
+    {
+        $this->resettingToken = $resettingToken;
+
+        return $this;
+    }
+
+    /**
+     * Setter of the roles.
+     *
+     * @param array $roles roles to set
+     *
+     * @return User
+     */
+    public function setRoles(array $roles): User
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Resetting timestamp fluent setter.
+     *
+     * @param DateTimeInterface|null $resettingAt timestamp reset
+     *
+     * @return User
+     */
+    public function setResettingAt(?DateTimeInterface $resettingAt): self
+    {
+        $this->resettingAt = $resettingAt;
 
         return $this;
     }
@@ -584,98 +691,5 @@ class User implements ConstantInterface, EntityInterface, PostalAddressInterface
                 ->addViolation()
             ;
         }
-    }
-
-    /**
-     * Resetting token getter.
-     *
-     * @return string|null
-     */
-    public function getResettingToken(): ?string
-    {
-        return $this->resettingToken;
-    }
-
-    /**
-     * Resetting token fluent setter.
-     *
-     * @param string|null $resettingToken new token
-     *
-     * @return User
-     */
-    public function setResettingToken(?string $resettingToken): self
-    {
-        $this->resettingToken = $resettingToken;
-
-        return $this;
-    }
-
-    /**
-     * Resetting timestamp getter.
-     *
-     * @return DateTimeInterface|null
-     */
-    public function getResettingAt(): ?DateTimeInterface
-    {
-        return $this->resettingAt;
-    }
-
-    /**
-     * Resetting timestamp fluent setter.
-     *
-     * @param DateTimeInterface|null $resettingAt timestamp reset
-     *
-     * @return User
-     */
-    public function setResettingAt(?DateTimeInterface $resettingAt): self
-    {
-        $this->resettingAt = $resettingAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Order[]
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    /**
-     * Order fluent adder.
-     *
-     * @param Order $order order to add
-     *
-     * @return User
-     */
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Order fluent remover.
-     *
-     * @param Order $order order to remove
-     *
-     * @return User
-     */
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->contains($order)) {
-            $this->orders->removeElement($order);
-            // set the owning side to null (unless already changed)
-            if ($order->getCustomer() === $this) {
-                $order->setCustomer(null);
-            }
-        }
-
-        return $this;
     }
 }

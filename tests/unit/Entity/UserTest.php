@@ -15,8 +15,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use App\Entity\ConstantInterface;
+use App\Entity\Bill;
 use App\Entity\Order;
+use App\Entity\PersonInterface;
 use App\Entity\User;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
@@ -66,6 +67,29 @@ class UserTest extends Unit
     }
 
     /**
+     * Test usered article.
+     */
+    public function testBill(): void
+    {
+        $bill = new Bill();
+        self::assertEquals($this->user, $this->user->addBill($bill));
+        self::assertNotEmpty($this->user->getBills());
+        self::assertContains($bill, $this->user->getBills());
+
+        $anotherBill = new Bill();
+        self::assertEquals($this->user, $this->user->addBill($anotherBill));
+        self::assertNotEmpty($this->user->getBills());
+        self::assertContains($bill, $this->user->getBills());
+        self::assertContains($anotherBill, $this->user->getBills());
+
+        self::assertEquals($this->user, $this->user->removeBill($bill));
+        self::assertNotContains($bill, $this->user->getBills());
+        self::assertContains($anotherBill, $this->user->getBills());
+        self::assertEquals($this->user, $this->user->removeBill($anotherBill));
+        self::assertEmpty($this->user->getBills());
+    }
+
+    /**
      * Test the constructor.
      */
     public function testConstructor(): void
@@ -86,10 +110,10 @@ class UserTest extends Unit
         self::assertNull($this->user->getSalt());
         self::assertNull($this->user->getSociety());
         self::assertNull($this->user->getTelephone());
-        self::assertEquals(ConstantInterface::PHYSIC, $this->user->getType());
+        self::assertEquals(PersonInterface::PHYSIC, $this->user->getType());
         self::assertIsBool($this->user->getType());
-        self::assertIsBool($this->user->getTos());
-        self::assertFalse($this->user->getTos());
+        self::assertIsBool($this->user->isTos());
+        self::assertFalse($this->user->isTos());
         self::assertNotNull($this->user->getUsername());
         self::assertEmpty($this->user->getUsername());
 
@@ -110,13 +134,13 @@ class UserTest extends Unit
         $this->tester->wantToTest('User label');
 
         $this->user->setSociety('society');
-        $this->user->setType(ConstantInterface::MORAL);
+        $this->user->setType(PersonInterface::MORAL);
         self::assertEquals('society', $this->user->getLabel());
 
         $this->user->setGivenName('john');
         self::assertEquals('society', $this->user->getLabel());
 
-        $this->user->setType(ConstantInterface::PHYSIC);
+        $this->user->setType(PersonInterface::PHYSIC);
         self::assertEquals('john', $this->user->getLabel());
 
         $this->user->setName('doe');
@@ -180,7 +204,7 @@ class UserTest extends Unit
         $this->user->setSociety('society');
         $this->user->setMail('mail@example.org');
         $this->user->setRoles([User::ROLE_ADMIN]);
-        $this->user->setType(ConstantInterface::MORAL);
+        $this->user->setType(PersonInterface::MORAL);
         $this->tester->wantToTest('serialization');
         $serialize = $this->user->serialize();
         $user = new User();
@@ -271,7 +295,7 @@ class UserTest extends Unit
     public function testTos(): void
     {
         self::assertEquals($this->user, $this->user->setTos(true));
-        self::assertTrue($this->user->getTos());
+        self::assertTrue($this->user->isTos());
     }
 
     /**
@@ -340,7 +364,7 @@ class UserTest extends Unit
         //With a valid society
         $this->user->setName(null);
         $this->user->setSociety('bar');
-        $this->user->setType(ConstantInterface::MORAL);
+        $this->user->setType(PersonInterface::MORAL);
         $this->user->validate($context);
     }
 
@@ -372,7 +396,7 @@ class UserTest extends Unit
             ->willReturn($builder)
         ;
 
-        $this->user->setType(ConstantInterface::MORAL);
+        $this->user->setType(PersonInterface::MORAL);
         self::assertTrue($this->user->IsSociety());
         self::assertFalse($this->user->IsPhysic());
 

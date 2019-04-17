@@ -24,7 +24,6 @@ use App\Entity\User;
 use App\Exception\NoOrderException;
 use App\Form\Model\CreditOrder;
 use App\Repository\OrderRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -203,32 +202,17 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Set order as paid and credits user.
      *
-     * @param Order $order
-     * @throws \Exception
+     * @param Order $order order to put at paid
      */
-    public function setOrderPaid(Order $order)
+    public function setOrderPaid(Order $order): void
     {
         $soRepository = $this->entityManager->getRepository(StatusOrder::class);
         $statusOrder = $soRepository->findOnePaid();
-
-        /** @var OrderRepository $repository */
-        $repository = $this->getMainRepository();
-        $lastOrder = $repository->findLastPaid();
-
-        if ($lastOrder instanceof Order) {
-            $nextNumber = $lastOrder->getNumber() + 1;
-        } else {
-            $nextNumber = 1;
-        }
         $order->setStatusOrder($statusOrder);
-        $order->setPaymentAt(new DateTimeImmutable());
+
         $user = $order->getCustomer();
         $user->setCredit($user->getCredit() + $order->getCredits());
-        $order->copyAddress($user);
         //FIXME create bill
-        //$order->copyIdentity($user);
-        $order->setNumber($nextNumber);
-
     }
 
     /**
@@ -282,7 +266,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $order->setCredits($quantity * $article->getCredit() + $order->getCredits());
         $order->setPrice($quantity * (float) $article->getCost() + $order->getPrice());
         $order->setVat($order->getPrice() * 0.2);
-        $order->setAmount($order->getPrice() + $order->getVat());
     }
 
     /**

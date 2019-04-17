@@ -23,7 +23,7 @@
     <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
         <priority>1</priority>
         <properties>
-            <property name="maxmethods" value="13" />
+            <property name="maxmethods" value="17" />
         </properties>
     </rule>
     <!-- <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity" /> -->

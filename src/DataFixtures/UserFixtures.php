@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\ConstantInterface;
+use App\Entity\PersonInterface;
 use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -49,14 +49,14 @@ class UserFixtures extends Fixture
             $userAll = $this->createAll('All Power', 'all');
             $userAll
                 ->setCredit(420)
-                ->setType(ConstantInterface::PHYSIC)
+                ->setType(PersonInterface::PHYSIC)
             ;
 
             //All
             $societyAll = $this->createAll('Big brother', 'big');
             $societyAll
                 ->setCredit(420)
-                ->setType(ConstantInterface::PHYSIC)
+                ->setType(PersonInterface::PHYSIC)
             ;
 
             //Accountant
@@ -85,12 +85,12 @@ class UserFixtures extends Fixture
             foreach (range(0, self::CUSTOMERS) as $index) {
                 $user = $this->createUser("Customer ${index}", "customer-${index}");
                 $user
+                    ->setResettingToken("resetToken${index}")
+                    ->setResettingAt($now)
                     ->setCredit($index)
                     ->setGivenName("John${index}")
                     ->setName('Doe')
                     ->setSociety("Society ${index}")
-                    ->setResettingToken("resetToken${index}")
-                    ->setResettingAt($now)
                     ->setType(0 === $index % 2)
                 ;
                 $manager->persist($user);
@@ -162,11 +162,13 @@ class UserFixtures extends Fixture
     {
         $user = new User();
         $user
-            ->setGivenName('John')
-            ->setName($label)
             ->setMail("${code}@example.org")
             ->setPlainPassword($code)
-            ->setType(ConstantInterface::PHYSIC)
+            ->setGivenName('John')
+            ->setName($label)
+            ->setType(PersonInterface::PHYSIC)
+        ;
+        $user
             ->setPostalCode('33000')
             ->setStreetAddress('rue du boulevard')
             ->setCountry('FR')

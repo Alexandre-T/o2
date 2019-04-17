@@ -64,6 +64,17 @@ trait PersonTrait
     private $society;
 
     /**
+     * Telephone number.
+     *
+     * @Assert\Length(max=21)
+     *
+     * @ORM\Column(type="string", name="usr_phone", length=21, nullable=true, options={"comment": "User phone"})
+     *
+     * @Gedmo\Versioned
+     */
+    private $telephone;
+
+    /**
      * VAT Number.
      *
      * @Assert\Length(max=32)
@@ -129,6 +140,16 @@ trait PersonTrait
     }
 
     /**
+     * Telephone number getter.
+     *
+     * @return string|null
+     */
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    /**
      * Return type.
      *
      * @return bool|null
@@ -155,7 +176,7 @@ trait PersonTrait
      */
     public function isMoral(): bool
     {
-        return ConstantInterface::MORAL === $this->type;
+        return PersonInterface::MORAL === $this->type;
     }
 
     /**
@@ -165,7 +186,7 @@ trait PersonTrait
      */
     public function isPhysic(): bool
     {
-        return ConstantInterface::PHYSIC === $this->type;
+        return PersonInterface::PHYSIC === $this->type;
     }
 
     /**
@@ -175,7 +196,7 @@ trait PersonTrait
      */
     public function isSociety(): bool
     {
-        return ConstantInterface::MORAL === $this->type;
+        return PersonInterface::MORAL === $this->type;
     }
 
     /**
@@ -183,9 +204,9 @@ trait PersonTrait
      *
      * @param string|null $givenName new given name
      *
-     * @return User
+     * @return PersonTrait|PersonInterface
      */
-    public function setGivenName(?string $givenName): self
+    public function setGivenName(?string $givenName): PersonInterface
     {
         $this->givenName = $givenName;
 
@@ -197,9 +218,9 @@ trait PersonTrait
      *
      * @param string|null $name new name
      *
-     * @return User
+     * @return PersonTrait|PersonInterface
      */
-    public function setName(?string $name): self
+    public function setName(?string $name): PersonInterface
     {
         $this->name = $name;
 
@@ -211,11 +232,25 @@ trait PersonTrait
      *
      * @param string|null $society new society name
      *
-     * @return User
+     * @return PersonTrait|PersonInterface
      */
-    public function setSociety(?string $society): self
+    public function setSociety(?string $society): PersonInterface
     {
         $this->society = $society;
+
+        return $this;
+    }
+
+    /**
+     * Telephone number fluent setter.
+     *
+     * @param string|null $telephone the new telephone number
+     *
+     * @return PersonTrait|PersonInterface
+     */
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
 
         return $this;
     }
@@ -225,9 +260,9 @@ trait PersonTrait
      *
      * @param bool $type new type
      *
-     * @return User
+     * @return PersonTrait|PersonInterface
      */
-    public function setType(?bool $type): self
+    public function setType(?bool $type): PersonInterface
     {
         $this->type = $type;
 
@@ -239,9 +274,9 @@ trait PersonTrait
      *
      * @param string|null $vatNumber the new tva number
      *
-     * @return User
+     * @return PersonTrait|PersonInterface
      */
-    public function setVatNumber(?string $vatNumber): self
+    public function setVatNumber(?string $vatNumber): PersonInterface
     {
         $this->vatNumber = $vatNumber;
 

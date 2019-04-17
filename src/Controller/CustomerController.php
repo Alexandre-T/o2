@@ -135,7 +135,6 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $order->copyAddress($user);
             $orderManager->pushOrderedArticles($order, $model);
             $orderManager->save($order);
             $this->addFlash('success', 'flash.order.step1');
@@ -158,32 +157,31 @@ class CustomerController extends AbstractController
      * @param OrderManager     $orderManager Command manager
      * @param PluginController $ppc          Plugin controller
      *
-     * @return Response|RedirectResponse
-     *
      * @throws InvalidPaymentInstructionException when choosing an invalid method
+     *
+     * @return Response|RedirectResponse
      */
     public function buyCredit(Request $request, OrderManager $orderManager, PluginController $ppc): Response
     {
         $user = $this->getUser();
 
-        //find order
+        //find carted (non canceled and non paid) and non empty order
         try {
             $order = $orderManager->getNonEmptyCartedOrder($user);
         } catch (Exception $e) {
+            //there is no order which is not empty, not canceled and no paid
             return $this->redirectToRoute('customer_credit');
         }
 
-        //if order.price is zero redirectToRoute
         $form = $this->createForm(ChoosePaymentMethodType::class, null, [
             'amount' => (float) $order->getPrice() + (float) $order->getVat(),
             'currency' => 'EUR',
         ]);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //We know how customer want to pay
             $ppc->createPaymentInstruction($instruction = $form->getData());
-
             $order->setPaymentInstruction($instruction);
             $orderManager->save($order);
 
@@ -204,33 +202,34 @@ class CustomerController extends AbstractController
      * @param OrderManager     $orderManager order manager to retrieve order
      * @param PluginController $ppc          plugin controller
      *
-     * @return RedirectResponse
-     *
      * @throws InvalidPaymentInstructionException when error occurred
+     *
+     * @return RedirectResponse
      */
     public function paymentCreateAction(OrderManager $orderManager, PluginController $ppc)
     {
         //find order
         try {
             $user = $this->getUser();
+            //FIXME Add a test on payment is not null!
             $order = $orderManager->getNonEmptyCartedOrder($user);
         } catch (Exception $e) {
+            //there is no order which is not empty, not canceled and no paid
             return $this->redirectToRoute('customer_credit');
         }
 
         $payment = $this->createPayment($order, $ppc);
-
         $result = $ppc->approveAndDeposit($payment->getId(), $payment->getTargetAmount());
 
-        if ($result->getStatus() === Result::STATUS_SUCCESS) {
+        if (Result::STATUS_SUCCESS === $result->getStatus()) {
             $orderManager->setOrderPaid($order);
             $orderManager->save($order);
 
             return $this->redirectToRoute('customer_payment_complete');
         }
 
-        //FOR PAYPAL in another site
-        if ($result->getStatus() === Result::STATUS_PENDING) {
+        //For PAYPAL-like process (payment on another site)
+        if (Result::STATUS_PENDING === $result->getStatus()) {
             $exception = $result->getPluginException();
 
             if ($exception instanceof ActionRequiredException) {
@@ -246,6 +245,7 @@ class CustomerController extends AbstractController
         // for example, redirect to the showAction with a flash message informing
         // the user that the payment was not successful.
         // FIXME do it
+        // log it
         throw $result->getPluginException();
     }
 
@@ -257,25 +257,25 @@ class CustomerController extends AbstractController
     public function paymentCompleteAction()
     {
         //FIXME TADA !
-
         return new Response('Payment complete');
     }
+
     /**
      * Create payment.
      *
      * @param Order            $order order
      * @param PluginController $ppc   plugin controller
      *
-     * @return PaymentInterface
-     *
      * @throws InvalidPaymentInstructionException when error occurred
+     *
+     * @return PaymentInterface
      */
     private function createPayment(Order $order, PluginController $ppc): PaymentInterface
     {
         $instruction = $order->getPaymentInstruction();
         $pendingTransaction = $instruction->getPendingTransaction();
 
-        if ($pendingTransaction !== null) {
+        if (null !== $pendingTransaction) {
             return $pendingTransaction->getPayment();
         }
 

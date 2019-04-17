@@ -15,20 +15,26 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-interface ConstantInterface
+interface PriceInterface
 {
     /**
-     * This is a moral person.
+     * Amount getter.
+     *
+     * @return float
      */
-    public const MORAL = false;
+    public function getAmount(): float;
 
     /**
-     * This is a physic person.
+     * Price getter.
+     *
+     * @return float|string
      */
-    public const PHYSIC = true;
+    public function getPrice();
 
     /**
-     * Available types.
+     * VAT getter.
+     *
+     * @return float|string
      */
-    public const TYPES = [self::MORAL, self::PHYSIC];
+    public function getVat();
 }

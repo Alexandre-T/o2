@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,39 +34,29 @@ use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
  *         @ORM\Index(name="ndx_status_order",  columns={"status_order_id"})
  *     },
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="uk_order_number",  columns={"number"}),
  *         @ORM\UniqueConstraint(name="uk_order_payment_instruction",  columns={"payment_instruction_id"})
  *     }
  * )
  *
  * @Gedmo\Loggable
  */
-class Order implements ConstantInterface, EntityInterface, PostalAddressInterface
+class Order implements PersonInterface, EntityInterface
 {
-    /*
-     * Person trait.
-     */
-    use PersonTrait;
-
-    /*
-     * Postal address trait
-     */
-    use PostalAddressTrait;
+    use PriceTrait;
 
     /**
-     * Amount (all taxes TTC)
+     * Bills for this order.
      *
-     * @var double|float|string
+     * @var Collection|Bill[]
      *
-     * @ORM\Column(type="decimal", precision=10, scale=5, options={"comment": "Amount TTC"})
-     *
-     * @Gedmo\Versioned
+     * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="order")
      */
-    private $amount;
+    private $bills;
 
     /**
      * Credits gained by this order.
      *
+     * @var int
      *
      * @ORM\Column(type="smallint")
      *
@@ -88,6 +77,8 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     /**
      * Identifier.
      *
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer", name="id")
@@ -95,26 +86,18 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     private $identifier;
 
     /**
-     * Number of order.
+     * Ordered articles.
      *
-     * Value have to be unique.
+     * @var Collection|OrderedArticle[]
      *
-     * @ORM\Column(type="integer", nullable=true)
-     *
-     * @Gedmo\Versioned
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\OrderedArticle",
+     *     mappedBy="order",
+     *     orphanRemoval=true,
+     *     cascade={"persist"}
+     * )
      */
-    private $number;
-
-    /**
-     * Payment timestamp.
-     *
-     * @var DateTimeInterface
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     *
-     * @Gedmo\Versioned
-     */
-    private $paymentAt;
+    private $orderedArticles;
 
     /**
      * Payment instructions from JMS bundle.
@@ -126,17 +109,6 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
      * @Gedmo\Versioned
      */
     private $paymentInstruction;
-
-    /**
-     * Price.
-     *
-     * @var double|float|string
-     *
-     * @ORM\Column(type="decimal", precision=7, scale=2)
-     *
-     * @Gedmo\Versioned
-     */
-    private $price;
 
     /**
      * Is user credit sold increased?
@@ -158,36 +130,29 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     private $statusOrder;
 
     /**
-     * VAT price in euro.
-     *
-     * TODO Find type.
-     *
-     * @ORM\Column(type="decimal", precision=7, scale=2)
-     *
-     * @Gedmo\Versioned
-     */
-    private $vat;
-
-    /**
-     * Ordered articles.
-     *
-     * @var Collection|OrderedArticle[]
-     *
-     * @ORM\OneToMany(
-     *     targetEntity="App\Entity\OrderedArticle",
-     *     mappedBy="order",
-     *     orphanRemoval=true,
-     *     cascade={"persist"}
-     * )
-     */
-    private $orderedArticles;
-
-    /**
      * Order constructor.
      */
     public function __construct()
     {
         $this->orderedArticles = new ArrayCollection();
+        $this->bills = new ArrayCollection();
+    }
+
+    /**
+     * Bill fluent adder.
+     *
+     * @param Bill $bill bill to add
+     *
+     * @return Order
+     */
+    public function addBill(Bill $bill): self
+    {
+        if (!$this->bills->contains($bill)) {
+            $this->bills[] = $bill;
+            $bill->setOrder($this);
+        }
+
+        return $this;
     }
 
     /**
@@ -208,13 +173,13 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
-     * Amount getter.
+     * Bills getter.
      *
-     * @return double|float|string
+     * @return Collection|Bill[]
      */
-    public function getAmount()
+    public function getBills(): Collection
     {
-        return $this->amount;
+        return $this->bills;
     }
 
     /**
@@ -228,6 +193,20 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
+     * Credits fluent setter.
+     *
+     * @param int $credits credit bought
+     *
+     * @return Order
+     */
+    public function setCredits(int $credits): self
+    {
+        $this->credits = $credits;
+
+        return $this;
+    }
+
+    /**
      * Customer getter.
      *
      * @return User|null
@@ -235,6 +214,20 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     public function getCustomer(): ?User
     {
         return $this->customer;
+    }
+
+    /**
+     * Customer fluent setter.
+     *
+     * @param User|null $customer new customer
+     *
+     * @return Order
+     */
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
     }
 
     /**
@@ -254,27 +247,7 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
      */
     public function getLabel(): string
     {
-        return sprintf('%06d', $this->number);
-    }
-
-    /**
-     * Order number getter.
-     *
-     * @return int|null
-     */
-    public function getNumber(): ?int
-    {
-        return $this->number;
-    }
-
-    /**
-     * Ordered articles getter.
-     *
-     * @return Collection|OrderedArticle[]
-     */
-    public function getOrderedArticles(): Collection
-    {
-        return $this->orderedArticles;
+        return sprintf('%06d', $this->identifier);
     }
 
     /**
@@ -300,13 +273,13 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
-     * Payment timestamp.
+     * Ordered articles getter.
      *
-     * @return DateTimeInterface|null
+     * @return Collection|OrderedArticle[]
      */
-    public function getPaymentAt(): ?DateTimeInterface
+    public function getOrderedArticles(): Collection
     {
-        return $this->paymentAt;
+        return $this->orderedArticles;
     }
 
     /**
@@ -320,16 +293,6 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
-     * Price getter.
-     *
-     * @return mixed
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
      * Status credit getter.
      *
      * @return bool|null
@@ -340,25 +303,17 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
-     * Status order getter.
+     * Status credit fluent setter.
      *
-     * @return StatusOrder|null
+     * @param bool $statusCredit the new credit status
+     *
+     * @return Order
      */
-    public function getStatusOrder(): ?StatusOrder
+    public function setStatusCredit(bool $statusCredit): self
     {
-        return $this->statusOrder;
-    }
+        $this->statusCredit = $statusCredit;
 
-    /**
-     * VAT in euro.
-     *
-     * TODO find type
-     *
-     * @return mixed
-     */
-    public function getVat()
-    {
-        return $this->vat;
+        return $this;
     }
 
     /**
@@ -386,6 +341,65 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
+     * Status order getter.
+     *
+     * @return StatusOrder|null
+     */
+    public function getStatusOrder(): ?StatusOrder
+    {
+        return $this->statusOrder;
+    }
+
+    /**
+     * Status order fluent setter.
+     *
+     * @param StatusOrder $statusOrder the new status order
+     *
+     * @return Order
+     */
+    public function setStatusOrder(StatusOrder $statusOrder): self
+    {
+        $this->statusOrder = $statusOrder;
+
+        return $this;
+    }
+
+    /**
+     * Payment instruction fluent setter.
+     *
+     * @param PaymentInstruction|null $paymentInstruction payment instruction
+     * @param mixed                   $price
+     *
+     * @return Order
+     */
+    public function setPaymentInstruction(?PaymentInstruction $paymentInstruction): Order
+    {
+        $this->paymentInstruction = $paymentInstruction;
+
+        return $this;
+    }
+
+    /**
+     * Bill fluent remover.
+     *
+     * @param Bill $bill bill to remove
+     *
+     * @return Order
+     */
+    public function removeBill(Bill $bill): self
+    {
+        if ($this->bills->contains($bill)) {
+            $this->bills->removeElement($bill);
+            // set the owning side to null (unless already changed)
+            if ($bill->getOrder() === $this) {
+                $bill->setOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Remove an ordered article from collection.
      *
      * @param OrderedArticle $orderedArticle to remove
@@ -406,141 +420,15 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
-     * Amount fluent setter.
-     *
-     * @param float|string $amount amount ttc
-     *
-     * @return Order
-     */
-    public function setAmount($amount): Order
-    {
-        $this->amount = $amount;
-
-        return $this;
-    }
-
-    /**
-     * Credits fluent setter.
-     *
-     * @param int $credits credit bought
-     *
-     * @return Order
-     */
-    public function setCredits(int $credits): self
-    {
-        $this->credits = $credits;
-
-        return $this;
-    }
-
-    /**
-     * Customer fluent setter.
-     *
-     * @param User|null $customer new customer
-     *
-     * @return Order
-     */
-    public function setCustomer(?User $customer): self
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    /**
-     * Order number fluent setter.
-     *
-     * @param int $number new order number
-     *
-     * @return Order
-     */
-    public function setNumber(int $number): self
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    /**
-     * Set payment timestamp.
-     *
-     * @param DateTimeInterface|null $paymentAt Payment timestamp
-     *
-     * @return Order
-     */
-    public function setPaymentAt(?DateTimeInterface $paymentAt): self
-    {
-        $this->paymentAt = $paymentAt;
-
-        return $this;
-    }
-
-    /**
-     * Payment instruction fluent setter.
-     *
-     * @param PaymentInstruction|null $paymentInstruction payment instruction
-     *
-     * @return Order
-     */
-    public function setPaymentInstruction(?PaymentInstruction $paymentInstruction): Order
-    {
-        $this->paymentInstruction = $paymentInstruction;
-
-        return $this;
-    }
-
-    /**
      * Price fluent setter.
      *
-     * @param double|float|string $price price without VAT
+     * @param float|float|string $price price without VAT
      *
      * @return Order
      */
     public function setPrice($price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Status credit fluent setter.
-     *
-     * @param bool $statusCredit the new credit status
-     *
-     * @return Order
-     */
-    public function setStatusCredit(bool $statusCredit): self
-    {
-        $this->statusCredit = $statusCredit;
-
-        return $this;
-    }
-
-    /**
-     * Status order fluent setter.
-     *
-     * @param StatusOrder $statusOrder the new status order
-     *
-     * @return Order
-     */
-    public function setStatusOrder(StatusOrder $statusOrder): self
-    {
-        $this->statusOrder = $statusOrder;
-
-        return $this;
-    }
-
-    /**
-     * VAT fluent setter.
-     *
-     * @param double|float|string $vat new vat price
-     *
-     * @return Order
-     */
-    public function setVat($vat): self
-    {
-        $this->vat = $vat;
 
         return $this;
     }

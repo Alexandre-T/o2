@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use App\Entity\Order;
+use App\Entity\Bill;
 use App\Entity\User;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
@@ -36,28 +36,28 @@ class PostalAddressTest extends Unit
     protected $tester;
 
     /**
-     * Order uses trait to test.
+     * Bill uses trait to test.
      *
-     * @var Order
+     * @var Bill
      */
-    protected $order;
+    protected $bill;
 
     /**
-     * Before each test, order is created.
+     * Before each test, bill is created.
      */
     protected function setUp(): void
     {
-        $this->order = new Order();
+        $this->bill = new Bill();
         parent::setUp();
     }
 
     /**
-     * After each test, order is dropped.
+     * After each test, bill is dropped.
      */
     protected function tearDown(): void
     {
         parent::tearDown();
-        $this->order = null;
+        $this->bill = null;
     }
 
     /**
@@ -67,15 +67,15 @@ class PostalAddressTest extends Unit
     {
         $this->tester->wantToTest('properties are well initialized');
         //Country
-        self::assertNull($this->order->getCountry());
+        self::assertNull($this->bill->getCountry());
         //Complement
-        self::assertNull($this->order->getComplement());
+        self::assertNull($this->bill->getComplement());
         //Locality
-        self::assertNull($this->order->getLocality());
+        self::assertNull($this->bill->getLocality());
         //Postal code
-        self::assertNull($this->order->getPostalCode());
+        self::assertNull($this->bill->getPostalCode());
         //Street address
-        self::assertNull($this->order->getStreetAddress());
+        self::assertNull($this->bill->getStreetAddress());
     }
 
     /**
@@ -85,8 +85,8 @@ class PostalAddressTest extends Unit
     {
         $actual = $expected = 'complement';
 
-        self::assertEquals($this->order, $this->order->setComplement($actual));
-        self::assertEquals($expected, $this->order->getComplement());
+        self::assertEquals($this->bill, $this->bill->setComplement($actual));
+        self::assertEquals($expected, $this->bill->getComplement());
     }
 
     /**
@@ -96,8 +96,8 @@ class PostalAddressTest extends Unit
     {
         $actual = $expected = 'FR';
 
-        self::assertEquals($this->order, $this->order->setCountry($actual));
-        self::assertEquals($expected, $this->order->getCountry());
+        self::assertEquals($this->bill, $this->bill->setCountry($actual));
+        self::assertEquals($expected, $this->bill->getCountry());
     }
 
     /**
@@ -107,8 +107,8 @@ class PostalAddressTest extends Unit
     {
         $actual = $expected = 'locality';
 
-        self::assertEquals($this->order, $this->order->setLocality($actual));
-        self::assertEquals($expected, $this->order->getLocality());
+        self::assertEquals($this->bill, $this->bill->setLocality($actual));
+        self::assertEquals($expected, $this->bill->getLocality());
     }
 
     /**
@@ -118,8 +118,8 @@ class PostalAddressTest extends Unit
     {
         $actual = $expected = '33000';
 
-        self::assertEquals($this->order, $this->order->setPostalCode($actual));
-        self::assertEquals($expected, $this->order->getPostalCode());
+        self::assertEquals($this->bill, $this->bill->setPostalCode($actual));
+        self::assertEquals($expected, $this->bill->getPostalCode());
     }
 
     /**
@@ -129,8 +129,8 @@ class PostalAddressTest extends Unit
     {
         $actual = $expected = 'address';
 
-        self::assertEquals($this->order, $this->order->setStreetAddress($actual));
-        self::assertEquals($expected, $this->order->getStreetAddress());
+        self::assertEquals($this->bill, $this->bill->setStreetAddress($actual));
+        self::assertEquals($expected, $this->bill->getStreetAddress());
     }
 
     /**
@@ -140,26 +140,26 @@ class PostalAddressTest extends Unit
     {
         $actual = new User();
 
-        //null order copy null user.
-        self::assertEquals($this->order, $this->order->copyAddress($actual));
-        self::assertNull($this->order->getComplement());
-        self::assertNull($this->order->getCountry());
-        self::assertNull($this->order->getLocality());
-        self::assertNull($this->order->getPostalCode());
-        self::assertNull($this->order->getStreetAddress());
+        //null bill copy null user.
+        self::assertEquals($this->bill, $this->bill->copyAddress($actual));
+        self::assertNull($this->bill->getComplement());
+        self::assertNull($this->bill->getCountry());
+        self::assertNull($this->bill->getLocality());
+        self::assertNull($this->bill->getPostalCode());
+        self::assertNull($this->bill->getStreetAddress());
 
         //not null copy null
-        $this->order->setComplement('complement');
-        $this->order->setCountry('country');
-        $this->order->setLocality('locality');
-        $this->order->setPostalCode('postal code');
-        $this->order->setStreetAddress('street address');
-        self::assertEquals($this->order, $this->order->copyAddress($actual));
-        self::assertNull($this->order->getComplement());
-        self::assertNull($this->order->getCountry());
-        self::assertNull($this->order->getLocality());
-        self::assertNull($this->order->getPostalCode());
-        self::assertNull($this->order->getStreetAddress());
+        $this->bill->setComplement('complement');
+        $this->bill->setCountry('country');
+        $this->bill->setLocality('locality');
+        $this->bill->setPostalCode('postal code');
+        $this->bill->setStreetAddress('street address');
+        self::assertEquals($this->bill, $this->bill->copyAddress($actual));
+        self::assertNull($this->bill->getComplement());
+        self::assertNull($this->bill->getCountry());
+        self::assertNull($this->bill->getLocality());
+        self::assertNull($this->bill->getPostalCode());
+        self::assertNull($this->bill->getStreetAddress());
 
         //not null copy not null
         $actual->setComplement('userC');
@@ -167,16 +167,16 @@ class PostalAddressTest extends Unit
         $actual->setLocality('userL');
         $actual->setPostalCode('userP');
         $actual->setStreetAddress('userS');
-        $this->order->setComplement('complement');
-        $this->order->setCountry('country');
-        $this->order->setLocality('locality');
-        $this->order->setPostalCode('postal code');
-        $this->order->setStreetAddress('street address');
-        self::assertEquals($this->order, $this->order->copyAddress($actual));
-        self::assertEquals('userC', $this->order->getComplement());
-        self::assertEquals('userO', $this->order->getCountry());
-        self::assertEquals('userL', $this->order->getLocality());
-        self::assertEquals('userP', $this->order->getPostalCode());
-        self::assertEquals('userS', $this->order->getStreetAddress());
+        $this->bill->setComplement('complement');
+        $this->bill->setCountry('country');
+        $this->bill->setLocality('locality');
+        $this->bill->setPostalCode('postal code');
+        $this->bill->setStreetAddress('street address');
+        self::assertEquals($this->bill, $this->bill->copyAddress($actual));
+        self::assertEquals('userC', $this->bill->getComplement());
+        self::assertEquals('userO', $this->bill->getCountry());
+        self::assertEquals('userL', $this->bill->getLocality());
+        self::assertEquals('userP', $this->bill->getPostalCode());
+        self::assertEquals('userS', $this->bill->getStreetAddress());
     }
 }

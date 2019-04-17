@@ -16,13 +16,14 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Article;
+use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\OrderedArticle;
 use App\Entity\StatusOrder;
 use App\Entity\User;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
-use DateTimeImmutable;
+use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 /**
  * Order entity unit tests.
@@ -70,23 +71,17 @@ class OrderTest extends Unit
     public function testConstructor(): void
     {
         $this->tester->wantToTest('properties are well initialized');
-        //Credit
+
+        self::assertNotNull($this->order->getBills());
+        self::assertEmpty($this->order->getBills());
         self::assertNull($this->order->getCredits());
-        //Customer
         self::assertNull($this->order->getCustomer());
-        //Id
         self::assertNull($this->order->getId());
-        //isPaid
-        self::assertNull($this->order->isPaid());
-        //Label
         self::assertNotNull($this->order->getLabel());
         self::assertEquals('000000', $this->order->getLabel());
-        //Number
-        self::assertNull($this->order->getNumber());
-        //PaymentAt
-        self::assertNull($this->order->getPaymentAt());
-        //Vat
+        self::assertNull($this->order->getPaymentInstruction());
         self::assertNull($this->order->getVat());
+        self::assertNull($this->order->isPaid());
     }
 
     /**
@@ -112,29 +107,14 @@ class OrderTest extends Unit
     }
 
     /**
-     * Tests label.
+     * Test PaymentInstruction setter and getter.
      */
-    public function testLabel(): void
+    public function testPaymentInstruction(): void
     {
-        $this->tester->wantToTest('Order label');
+        $actual = $expected = new PaymentInstruction(0, '€', 'toto');
 
-        $actual = $expected = 42;
-        self::assertEquals($this->order, $this->order->setNumber($actual));
-        self::assertEquals($expected, $this->order->getNumber());
-
-        $expected = '000042';
-        self::assertEquals($expected, $this->order->getLabel());
-    }
-
-    /**
-     * Test PaymentAt setter and getter.
-     */
-    public function testPaymentAt(): void
-    {
-        $actual = $expected = new DateTimeImmutable();
-
-        self::assertEquals($this->order, $this->order->setPaymentAt($actual));
-        self::assertEquals($expected, $this->order->getPaymentAt());
+        self::assertEquals($this->order, $this->order->setPaymentInstruction($actual));
+        self::assertEquals($expected, $this->order->getPaymentInstruction());
     }
 
     /**
@@ -216,5 +196,28 @@ class OrderTest extends Unit
         self::assertEquals($this->order, $this->order->removeOrderedArticle($orderedArticle));
         self::assertNull($this->order->getOrderedByArticle($article));
         self::assertEquals($anotherOrdered, $this->order->getOrderedByArticle($anotherArticle));
+    }
+
+    /**
+     * Test ordered article.
+     */
+    public function testBill(): void
+    {
+        $bill = new Bill();
+        self::assertEquals($this->order, $this->order->addBill($bill));
+        self::assertNotEmpty($this->order->getBills());
+        self::assertContains($bill, $this->order->getBills());
+
+        $anotherBill = new Bill();
+        self::assertEquals($this->order, $this->order->addBill($anotherBill));
+        self::assertNotEmpty($this->order->getBills());
+        self::assertContains($bill, $this->order->getBills());
+        self::assertContains($anotherBill, $this->order->getBills());
+
+        self::assertEquals($this->order, $this->order->removeBill($bill));
+        self::assertNotContains($bill, $this->order->getBills());
+        self::assertContains($anotherBill, $this->order->getBills());
+        self::assertEquals($this->order, $this->order->removeBill($anotherBill));
+        self::assertEmpty($this->order->getBills());
     }
 }
