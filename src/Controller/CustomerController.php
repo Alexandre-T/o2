@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Order;
 use App\Entity\User;
 use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
@@ -25,6 +26,12 @@ use App\Manager\OrderManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use JMS\Payment\CoreBundle\Form\ChoosePaymentMethodType;
+use JMS\Payment\CoreBundle\Model\PaymentInterface;
+use JMS\Payment\CoreBundle\Plugin\Exception\Action\VisitUrl;
+use JMS\Payment\CoreBundle\Plugin\Exception\ActionRequiredException;
+use JMS\Payment\CoreBundle\PluginController\Exception\InvalidPaymentInstructionException;
+use JMS\Payment\CoreBundle\PluginController\PluginController;
+use JMS\Payment\CoreBundle\PluginController\Result;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -147,22 +154,22 @@ class CustomerController extends AbstractController
      *
      * @Route("/buy-credit", name="customer_buy")
      *
-     * @param OrderManager $orderManager Command manager
+     * @param Request          $request      Request for form
+     * @param OrderManager     $orderManager Command manager
+     * @param PluginController $ppc          Plugin controller
      *
      * @return Response|RedirectResponse
+     *
+     * @throws InvalidPaymentInstructionException when choosing an invalid method
      */
-    public function buyCredit(OrderManager $orderManager): Response
+    public function buyCredit(Request $request, OrderManager $orderManager, PluginController $ppc): Response
     {
         $user = $this->getUser();
 
         //find order
         try {
-            $order = $orderManager->getCartedOrder($user);
+            $order = $orderManager->getNonEmptyCartedOrder($user);
         } catch (Exception $e) {
-            return $this->redirectToRoute('customer_credit');
-        }
-
-        if (empty($order->getPrice())) {
             return $this->redirectToRoute('customer_credit');
         }
 
@@ -172,8 +179,108 @@ class CustomerController extends AbstractController
             'currency' => 'EUR',
         ]);
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ppc->createPaymentInstruction($instruction = $form->getData());
+
+            $order->setPaymentInstruction($instruction);
+            $orderManager->save($order);
+
+            return $this->redirectToRoute('customer_payment_create');
+        }
+
         return $this->render('customer/buy-credit.html.twig', [
             'form' => $form->createView(),
+            'order' => $order,
         ]);
+    }
+
+    /**
+     * Payment create.
+     *
+     * @Route("/payment-create", name="customer_payment_create")
+     *
+     * @param OrderManager     $orderManager order manager to retrieve order
+     * @param PluginController $ppc          plugin controller
+     *
+     * @return RedirectResponse
+     *
+     * @throws InvalidPaymentInstructionException when error occurred
+     */
+    public function paymentCreateAction(OrderManager $orderManager, PluginController $ppc)
+    {
+        //find order
+        try {
+            $user = $this->getUser();
+            $order = $orderManager->getNonEmptyCartedOrder($user);
+        } catch (Exception $e) {
+            return $this->redirectToRoute('customer_credit');
+        }
+
+        $payment = $this->createPayment($order, $ppc);
+
+        $result = $ppc->approveAndDeposit($payment->getId(), $payment->getTargetAmount());
+
+        if ($result->getStatus() === Result::STATUS_SUCCESS) {
+            $orderManager->setOrderPaid($order);
+            $orderManager->save($order);
+
+            return $this->redirectToRoute('customer_payment_complete');
+        }
+
+        //FOR PAYPAL in another site
+        if ($result->getStatus() === Result::STATUS_PENDING) {
+            $exception = $result->getPluginException();
+
+            if ($exception instanceof ActionRequiredException) {
+                $action = $exception->getAction();
+
+                if ($action instanceof VisitUrl) {
+                    return $this->redirect($action->getUrl());
+                }
+            }
+        }
+
+        // In a real-world application you wouldn't throw the exception. You would,
+        // for example, redirect to the showAction with a flash message informing
+        // the user that the payment was not successful.
+        // FIXME do it
+        throw $result->getPluginException();
+    }
+
+    /**
+     * Payment completed!
+     *
+     * @Route("/payment-complete", name="customer_payment_complete")
+     */
+    public function paymentCompleteAction()
+    {
+        //FIXME TADA !
+
+        return new Response('Payment complete');
+    }
+    /**
+     * Create payment.
+     *
+     * @param Order            $order order
+     * @param PluginController $ppc   plugin controller
+     *
+     * @return PaymentInterface
+     *
+     * @throws InvalidPaymentInstructionException when error occurred
+     */
+    private function createPayment(Order $order, PluginController $ppc): PaymentInterface
+    {
+        $instruction = $order->getPaymentInstruction();
+        $pendingTransaction = $instruction->getPendingTransaction();
+
+        if ($pendingTransaction !== null) {
+            return $pendingTransaction->getPayment();
+        }
+
+        $amount = $instruction->getAmount() - $instruction->getDepositedAmount();
+
+        return $ppc->createPayment($instruction->getId(), $amount);
     }
 }

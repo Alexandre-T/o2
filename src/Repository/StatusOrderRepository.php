@@ -64,4 +64,14 @@ class StatusOrderRepository extends ServiceEntityRepository
             return null;
         }
     }
+
+    /**
+     * Find the PAID status order.
+     *
+     * @return StatusOrder|null
+     */
+    public function findOnePaid(): ?StatusOrder
+    {
+        return $this->findOneByCode(StatusOrder::PAID);
+    }
 }

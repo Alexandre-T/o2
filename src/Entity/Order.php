@@ -20,6 +20,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 /**
  * Order entity.
@@ -34,7 +35,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *         @ORM\Index(name="ndx_status_order",  columns={"status_order_id"})
  *     },
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="uk_order_number",  columns={"number"})
+ *         @ORM\UniqueConstraint(name="uk_order_number",  columns={"number"}),
+ *         @ORM\UniqueConstraint(name="uk_order_payment_instruction",  columns={"payment_instruction_id"})
  *     }
  * )
  *
@@ -53,10 +55,23 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     use PostalAddressTrait;
 
     /**
+     * Amount (all taxes TTC)
+     *
+     * @var double|float|string
+     *
+     * @ORM\Column(type="decimal", precision=10, scale=5, options={"comment": "Amount TTC"})
+     *
+     * @Gedmo\Versioned
+     */
+    private $amount;
+
+    /**
      * Credits gained by this order.
-     *c.
+     *
      *
      * @ORM\Column(type="smallint")
+     *
+     * @Gedmo\Versioned
      */
     private $credits;
 
@@ -91,17 +106,6 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     private $number;
 
     /**
-     * Price.
-     *
-     * TODO find type.
-     *
-     * @ORM\Column(type="decimal", precision=7, scale=2)
-     *
-     * @Gedmo\Versioned
-     */
-    private $price;
-
-    /**
      * Payment timestamp.
      *
      * @var DateTimeInterface
@@ -111,6 +115,28 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
      * @Gedmo\Versioned
      */
     private $paymentAt;
+
+    /**
+     * Payment instructions from JMS bundle.
+     *
+     * @var PaymentInstruction
+     *
+     * @ORM\OneToOne(targetEntity="JMS\Payment\CoreBundle\Entity\PaymentInstruction")
+     *
+     * @Gedmo\Versioned
+     */
+    private $paymentInstruction;
+
+    /**
+     * Price.
+     *
+     * @var double|float|string
+     *
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     *
+     * @Gedmo\Versioned
+     */
+    private $price;
 
     /**
      * Is user credit sold increased?
@@ -165,6 +191,33 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
+     * Add an ordered article to collection.
+     *
+     * @param OrderedArticle $orderedArticle to add
+     *
+     * @return Order
+     */
+    public function addOrderedArticle(OrderedArticle $orderedArticle): self
+    {
+        if (!$this->orderedArticles->contains($orderedArticle)) {
+            $this->orderedArticles[] = $orderedArticle;
+            $orderedArticle->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Amount getter.
+     *
+     * @return double|float|string
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
      * Credit getter.
      *
      * @return int|null
@@ -172,6 +225,16 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     public function getCredits(): ?int
     {
         return $this->credits;
+    }
+
+    /**
+     * Customer getter.
+     *
+     * @return User|null
+     */
+    public function getCustomer(): ?User
+    {
+        return $this->customer;
     }
 
     /**
@@ -205,6 +268,38 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
+     * Ordered articles getter.
+     *
+     * @return Collection|OrderedArticle[]
+     */
+    public function getOrderedArticles(): Collection
+    {
+        return $this->orderedArticles;
+    }
+
+    /**
+     * Get ordered article by article if exists.
+     *
+     * @param Article $article article filter
+     *
+     * @return OrderedArticle|null
+     */
+    public function getOrderedByArticle(Article $article): ?OrderedArticle
+    {
+        foreach ($this->getOrderedArticles() as $orderedArticle) {
+            if (null === $orderedArticle->getArticle()) {
+                return null;
+            }
+
+            if ($orderedArticle->getArticle() === $article) {
+                return $orderedArticle;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Payment timestamp.
      *
      * @return DateTimeInterface|null
@@ -212,6 +307,16 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     public function getPaymentAt(): ?DateTimeInterface
     {
         return $this->paymentAt;
+    }
+
+    /**
+     * PaymentInstruction getter.
+     *
+     * @return PaymentInstruction
+     */
+    public function getPaymentInstruction(): ?PaymentInstruction
+    {
+        return $this->paymentInstruction;
     }
 
     /**
@@ -281,6 +386,40 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
+     * Remove an ordered article from collection.
+     *
+     * @param OrderedArticle $orderedArticle to remove
+     *
+     * @return Order
+     */
+    public function removeOrderedArticle(OrderedArticle $orderedArticle): self
+    {
+        if ($this->orderedArticles->contains($orderedArticle)) {
+            $this->orderedArticles->removeElement($orderedArticle);
+            // set the owning side to null (unless already changed)
+            if ($orderedArticle->getOrder() === $this) {
+                $orderedArticle->setOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Amount fluent setter.
+     *
+     * @param float|string $amount amount ttc
+     *
+     * @return Order
+     */
+    public function setAmount($amount): Order
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
      * Credits fluent setter.
      *
      * @param int $credits credit bought
@@ -290,6 +429,34 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     public function setCredits(int $credits): self
     {
         $this->credits = $credits;
+
+        return $this;
+    }
+
+    /**
+     * Customer fluent setter.
+     *
+     * @param User|null $customer new customer
+     *
+     * @return Order
+     */
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Order number fluent setter.
+     *
+     * @param int $number new order number
+     *
+     * @return Order
+     */
+    public function setNumber(int $number): self
+    {
+        $this->number = $number;
 
         return $this;
     }
@@ -309,11 +476,23 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     }
 
     /**
+     * Payment instruction fluent setter.
+     *
+     * @param PaymentInstruction|null $paymentInstruction payment instruction
+     *
+     * @return Order
+     */
+    public function setPaymentInstruction(?PaymentInstruction $paymentInstruction): Order
+    {
+        $this->paymentInstruction = $paymentInstruction;
+
+        return $this;
+    }
+
+    /**
      * Price fluent setter.
      *
-     * TODO find type of price
-     *
-     * @param mixed $price price without VAT
+     * @param double|float|string $price price without VAT
      *
      * @return Order
      */
@@ -355,9 +534,7 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
     /**
      * VAT fluent setter.
      *
-     * TODO find the instance
-     *
-     * @param mixed $vat new vat price
+     * @param double|float|string $vat new vat price
      *
      * @return Order
      */
@@ -366,112 +543,5 @@ class Order implements ConstantInterface, EntityInterface, PostalAddressInterfac
         $this->vat = $vat;
 
         return $this;
-    }
-
-    /**
-     * Order number fluent setter.
-     *
-     * @param int $number new order number
-     *
-     * @return Order
-     */
-    public function setNumber(int $number): self
-    {
-        $this->number = $number;
-
-        return $this;
-    }
-
-    /**
-     * Customer getter.
-     *
-     * @return User|null
-     */
-    public function getCustomer(): ?User
-    {
-        return $this->customer;
-    }
-
-    /**
-     * Customer fluent setter.
-     *
-     * @param User|null $customer new customer
-     *
-     * @return Order
-     */
-    public function setCustomer(?User $customer): self
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    /**
-     * Ordered articles getter.
-     *
-     * @return Collection|OrderedArticle[]
-     */
-    public function getOrderedArticles(): Collection
-    {
-        return $this->orderedArticles;
-    }
-
-    /**
-     * Add an ordered article to collection.
-     *
-     * @param OrderedArticle $orderedArticle to add
-     *
-     * @return Order
-     */
-    public function addOrderedArticle(OrderedArticle $orderedArticle): self
-    {
-        if (!$this->orderedArticles->contains($orderedArticle)) {
-            $this->orderedArticles[] = $orderedArticle;
-            $orderedArticle->setOrder($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove an ordered article from collection.
-     *
-     * @param OrderedArticle $orderedArticle to remove
-     *
-     * @return Order
-     */
-    public function removeOrderedArticle(OrderedArticle $orderedArticle): self
-    {
-        if ($this->orderedArticles->contains($orderedArticle)) {
-            $this->orderedArticles->removeElement($orderedArticle);
-            // set the owning side to null (unless already changed)
-            if ($orderedArticle->getOrder() === $this) {
-                $orderedArticle->setOrder(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get ordered article by article if exists.
-     *
-     * @param Article $article article filter
-     *
-     * @return OrderedArticle|null
-     */
-    public function getOrderedByArticle(Article $article): ?OrderedArticle
-    {
-        foreach ($this->getOrderedArticles() as $orderedArticle) {
-            if (null === $orderedArticle->getArticle()) {
-                return null;
-            }
-
-            if ($orderedArticle->getArticle() === $article) {
-                return $orderedArticle;
-            }
-        }
-
-        return null;
     }
 }

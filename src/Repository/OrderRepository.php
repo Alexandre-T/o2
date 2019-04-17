@@ -118,4 +118,56 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    /**
+     * Get order for user and code provided.
+     *
+     * @param User   $user user filter
+     * @param string $code code filter
+     *
+     * @return int
+     */
+    public function findOneByUserNonEmptyStatusOrder(User $user, string $code)
+    {
+        $queryBuilder = $this->createQueryBuilder('o');
+
+        return $queryBuilder
+            ->innerJoin('o.statusOrder', 's')
+            ->where('o.customer = :customer')
+            ->andWhere('s.code = :code')
+            ->andWhere('o.amount > 0')
+            ->setParameter('customer', $user)
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * Find the last one paid order.
+     *
+     * @return Order|null
+     */
+    public function findLastPaid(): ?Order
+    {
+        $queryBuilder = $this->createQueryBuilder('o');
+
+        $orders = $queryBuilder
+            ->innerJoin('o.statusOrder', 's')
+            ->where('o.customer = :customer')
+            ->andWhere('s.code = :code')
+            ->andWhere('o.amount > 0')
+            ->orderBy('o.paymentAt', 'desc')
+            ->setMaxResults(1)
+            ->setParameter('code', StatusOrder::PAID)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        if (empty($orders)) {
+            return null;
+        }
+
+        return $orders[0];
+    }
 }

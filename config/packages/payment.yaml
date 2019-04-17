@@ -7,5 +7,4 @@ jms_payment_paypal:
   signature: '%env(resolve:JMS_PAYMENT_PAYPAL_API_SIGNATURE)%'
   return_url: '%env(resolve:JMS_PAYMENT_PAYPAL_RETURN_URL)%'
   cancel_url: '%env(resolve:JMS_PAYMENT_PAYPAL_CANCEL_URL)%'
-  useraction: 'commit'
-  debug: true
+  debug: '%env(resolve:APP_ENV)%'
