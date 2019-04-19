@@ -65,9 +65,10 @@ class ArticleTest extends Unit
     public function testConstructor(): void
     {
         self::assertNull($this->article->getCode());
-        self::assertNull($this->article->getId());
-        self::assertNull($this->article->getCost());
         self::assertNull($this->article->getCredit());
+        self::assertNull($this->article->getId());
+        self::assertNull($this->article->getPrice());
+        self::assertNull($this->article->getVat());
     }
 
     /**
@@ -79,17 +80,6 @@ class ArticleTest extends Unit
 
         self::assertEquals($this->article, $this->article->setCode($actual));
         self::assertEquals($expected, $this->article->getCode());
-    }
-
-    /**
-     * Test Cost setter and getter.
-     */
-    public function testCost(): void
-    {
-        $expected = $actual = 100.42;
-
-        self::assertEquals($this->article, $this->article->setCost($actual));
-        self::assertEquals($expected, $this->article->getCost());
     }
 
     /**

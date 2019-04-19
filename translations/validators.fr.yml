@@ -1,4 +1,6 @@
 error:
+  order:
+    empty: 'Votre commande ne contient aucun crédit. Veuillez saisir au moins une quantité !'
   quantity:
     greater-than-or-equal-zero: 'Veuillez entrer un nombre positif ou nul'
   locality:

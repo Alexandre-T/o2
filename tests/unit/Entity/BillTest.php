@@ -21,6 +21,8 @@ use App\Entity\User;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
 use DateTimeImmutable;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Bill entity unit tests.
@@ -104,14 +106,21 @@ class BillTest extends Unit
 
     /**
      * Test Number setter and getter.
+     *
+     * @throws ReflectionException on reflection error.
      */
     public function testNumberAt(): void
     {
         $actual = $expected = 33;
 
-        self::assertEquals($this->bill, $this->bill->setNumber($actual));
-        self::assertEquals($expected, $this->bill->getNumber());
-        self::assertEquals('000033', $this->bill->getLabel());
+        $reflector = new ReflectionClass( Bill::class );
+        $property = $reflector->getProperty( 'number' );
+        $property->setAccessible( true );
+        $property->setValue($this->bill, $actual);
+
+        self::assertEquals( $expected, $this->bill->getNumber() );
+        self::assertEquals( '000033', $this->bill->getLabel() );
+
     }
 
     /**

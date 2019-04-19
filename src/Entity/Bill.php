@@ -36,7 +36,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @Gedmo\Loggable
  */
-class Bill implements PersonInterface, PostalAddressInterface, PriceInterface
+class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, PriceInterface
 {
     /*
      * Traits declaration.
@@ -97,6 +97,7 @@ class Bill implements PersonInterface, PostalAddressInterface, PriceInterface
      * Bill number.
      *
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @Gedmo\Versioned
      */
@@ -223,20 +224,6 @@ class Bill implements PersonInterface, PostalAddressInterface, PriceInterface
     public function setCustomer(?User $customer): self
     {
         $this->customer = $customer;
-
-        return $this;
-    }
-
-    /**
-     * Number fluent setter.
-     *
-     * @param int $number Bill number
-     *
-     * @return Bill
-     */
-    public function setNumber(int $number): self
-    {
-        $this->number = $number;
 
         return $this;
     }

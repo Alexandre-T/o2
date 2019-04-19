@@ -116,26 +116,17 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $articles = $articleRepository->findAll();
         $order->setCredits(0);
         $order->setPrice(0);
+        $order->setVat(0);
+
+        $methods[10] = 'getTen';
+        $methods[100] = 'getHundred';
+        $methods[500] = 'getFiveHundred';
 
         foreach ($articles as $article) {
-            if (10 === $article->getCredit()) {
-                $this->updateOrder($order, $article, $model->getTen());
-                continue;
-            }
-
-            if (100 === $article->getCredit()) {
-                $this->updateOrder($order, $article, $model->getHundred());
-                continue;
-            }
-
-            if (500 === $article->getCredit()) {
-                $this->updateOrder($order, $article, $model->getFiveHundred());
-                continue;
+            if(key_exists($article->getCredit(), $methods)) {
+                $this->updateOrder($order, $article, $model->{$methods[$article->getCredit()]}());
             }
         }
-
-        //TODO Create a vat for each article.
-        $order->setVat($order->getPrice() * 0.2);
     }
 
     /**
@@ -239,7 +230,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $orderedArticle = new OrderedArticle();
         $orderedArticle->setArticle($article);
         $orderedArticle->setOrder($order);
-        $orderedArticle->setUnitCost($article->getCost());
+        $orderedArticle->setUnitCost($article->getPrice());
         $orderedArticle->setQuantity($quantity);
         $order->addOrderedArticle($orderedArticle);
 
@@ -259,13 +250,13 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $orderedArticle = $order->getOrderedByArticle($article);
         if (null === $orderedArticle) {
             $this->createdOrderedArticle($order, $article, $quantity);
-        } elseif ($orderedArticle instanceof Article) {
+        } elseif ($orderedArticle instanceof OrderedArticle) {
             $this->updateOrderedArticle($orderedArticle, $article, $quantity);
         }
 
         $order->setCredits($quantity * $article->getCredit() + $order->getCredits());
-        $order->setPrice($quantity * (float) $article->getCost() + $order->getPrice());
-        $order->setVat($order->getPrice() * 0.2);
+        $order->setPrice($quantity * (float) $article->getPrice() + $order->getPrice());
+        $order->setVat($quantity * (float) $article->getVat() + $order->getVat());
     }
 
     /**
@@ -277,7 +268,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      */
     private function updateOrderedArticle(OrderedArticle $orderedArticle, Article $article, int $quantity): void
     {
-        $orderedArticle->setUnitCost($article->getCost());
+        $orderedArticle->setUnitCost($article->getPrice());
         $orderedArticle->setQuantity($quantity);
     }
 }

@@ -34,19 +34,22 @@ class ArticleFixtures extends Fixture
         //Ten by ten.
         $ten = new Article();
         $ten->setCode('CRED0010');
-        $ten->setCost(100);
+        $ten->setPrice(100);
+        $ten->setVat(20);
         $ten->setCredit(10);
 
         //Hundred by hundred.
         $hundred = new Article();
         $hundred->setCode('CRED0100');
-        $hundred->setCost(1000);
+        $hundred->setPrice(1000);
+        $hundred->setVat(200);
         $hundred->setCredit(100);
 
         //fiveHundred by fiveHundred.
         $fiveHundred = new Article();
         $fiveHundred->setCode('CRED0500');
-        $fiveHundred->setCost(4500);
+        $fiveHundred->setPrice(4500);
+        $fiveHundred->setVat(900);
         $fiveHundred->setCredit(500);
 
         //These references are used.

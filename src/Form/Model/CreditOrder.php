@@ -18,6 +18,7 @@ namespace App\Form\Model;
 use App\Entity\Article;
 use App\Entity\Order;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Credit order model form.
@@ -130,12 +131,28 @@ class CreditOrder
      *
      * @param Order $order initializing order
      */
-    public function initializeWithOrder(Order $order): void
+    public function init(Order $order): void
     {
         foreach ($order->getOrderedArticles() as $orderedArticle) {
             if ($orderedArticle->getQuantity() > 0 && null !== $orderedArticle->getArticle()) {
                 $this->initializeWithArticle($orderedArticle->getArticle(), $orderedArticle->getQuantity());
             }
+        }
+    }
+
+    /**
+     * Is this order valid?
+     *
+     * @Assert\Callback
+     *
+     * @param ExecutionContextInterface $context the context to report error
+     */
+    public function validate(ExecutionContextInterface $context): void
+    {
+        if (0 === $this->getTen() && 0 === $this->getHundred() && 0 === $this->getFiveHundred()) {
+            $context->buildViolation('error.order.empty')
+                ->addViolation()
+            ;
         }
     }
 

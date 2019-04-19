@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Article resource.
@@ -29,9 +30,16 @@ use Doctrine\ORM\Mapping as ORM;
  *         @ORM\UniqueConstraint(name="uk_article_code",  columns={"code"})
  *     }
  * )
+ *
+ * @Gedmo\Loggable
  */
-class Article
+class Article implements PriceInterface
 {
+    /*
+     * Trait declaration.
+     */
+    use PriceTrait;
+
     /**
      * Article identifier.
      *
@@ -49,24 +57,17 @@ class Article
      * @var string
      *
      * @ORM\Column(type="string", length=8, options={"comment": "Article unique code"})
+     *
+     * @Gedmo\Versioned
      */
     private $code;
-
-    /**
-     * Article cost.
-     *
-     * TODO find type.
-     *
-     * @var float
-     *
-     * @ORM\Column(type="decimal", precision=6, scale=2, options={"comment": "Article cost"})
-     */
-    private $cost;
 
     /**
      * Number of credit gained when buying this article.
      *
      * @ORM\Column(type="integer", options={"comment": "Credit gained when buying article"})
+     *
+     * @Gedmo\Versioned
      */
     private $credit;
 
@@ -91,16 +92,6 @@ class Article
     }
 
     /**
-     * Cost getter.
-     *
-     * @return float
-     */
-    public function getCost()
-    {
-        return $this->cost;
-    }
-
-    /**
      * Credit getter.
      *
      * @return int|null
@@ -120,20 +111,6 @@ class Article
     public function setCode(string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * Cost fluent setter.
-     *
-     * @param mixed $cost new cost
-     *
-     * @return Article
-     */
-    public function setCost($cost): self
-    {
-        $this->cost = $cost;
 
         return $this;
     }

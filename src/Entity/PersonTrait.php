@@ -82,10 +82,27 @@ trait PersonTrait
      * @ORM\Column(type="string", name="per_vat", length=32, nullable=true, options={"comment": "VAT number"})
      *
      * @Gedmo\Versioned
-     *
-     * TODO rename to vatNumber
      */
     private $vatNumber;
+
+    /**
+     * Copy data about identity.
+     *
+     * @param PersonInterface $person person to copy
+     *
+     * @return PersonTrait|PersonInterface
+     */
+    public function copyIdentity(PersonInterface $person): self
+    {
+        $this->setGivenName($person->getGivenName());
+        $this->setName($person->getName());
+        $this->setSociety($person->getSociety());
+        $this->setTelephone($person->getTelephone());
+        $this->setType($person->getType());
+        $this->setVatNumber($person->getVatNumber());
+
+        return $this;
+    }
 
     /**
      * Given name getter.
@@ -248,7 +265,7 @@ trait PersonTrait
      *
      * @return PersonTrait|PersonInterface
      */
-    public function setTelephone(?string $telephone): self
+    public function setTelephone(?string $telephone): PersonInterface
     {
         $this->telephone = $telephone;
 

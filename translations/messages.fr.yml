@@ -183,6 +183,10 @@ form:
     tos: 'Veuillez lire les conditions d’utilisations du service.'
     username: 'Entrez le prénom et le nom de l’utilisateur'
     vat-number: 'Entrez votre numéro de TVA intracommunautaire'
+  label:
+    paypal_express_checkout: 'Paiement avec Paypal Express'
+  legend:
+    method: 'Méthode de paiement'
   loading:
     service: 'Chargement des services de cette organisation'
   placeholder:
@@ -218,6 +222,9 @@ form:
   select-credit:
     field:
       submit: 'Enregistrer votre commande'
+  buy-credit:
+    field:
+      submit: 'Poursuivre'
 
 flash:
   order:
@@ -313,6 +320,7 @@ nav:
   reset-password:
     text: 'Réinitialisation du mot de passe'
 
+order %name%: 'Commande n°%name%'
 ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
 ROLE_CUSTOMER: 'Client.'
 ROLE_ACCOUNTANT: 'Comptable pouvant gérer les factures et les crédits.'
@@ -338,11 +346,11 @@ table:
 
 title:
   customer:
+    buy-credit: 'Méthode de paiement'
     main: 'Mon compte'
     profile: 'Mon profil'
     password: 'Mon mot de passe'
     select-credit: 'Crédits supplémentaires'
-    buy-credit: 'messages'
   default:
     tos: 'Conditions d’utilisation'
   security:
@@ -365,3 +373,7 @@ title:
 type:
   morale: 'Société'
   physic: 'Particulier'
+payment:
+  paypal:
+    description %credit% %amount%: 'Achat de %credit% crédits pour %amount% €'
+order %number%: 'Commande n°%number%'

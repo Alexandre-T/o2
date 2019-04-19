@@ -102,11 +102,11 @@ final class Version20190417120615 extends AbstractMigration
         $this->addSql('ALTER TABLE data.te_order ADD pad_code VARCHAR(5) DEFAULT \'\' NOT NULL');
         $this->addSql('ALTER TABLE data.te_order ADD pad_street VARCHAR(32) DEFAULT \'\' NOT NULL');
         $this->addSql('ALTER TABLE data.te_order ADD amount NUMERIC(10, 5) DEFAULT 0 NOT NULL');
-        $this->addSql("ALTER TABLE data.te_order ALTER pad_country DROP DEFAULT");
-        $this->addSql("ALTER TABLE data.te_order ALTER pad_locality DROP DEFAULT");
-        $this->addSql("ALTER TABLE data.te_order ALTER pad_code DROP DEFAULT");
-        $this->addSql("ALTER TABLE data.te_order ALTER pad_street DROP DEFAULT");
-        $this->addSql("ALTER TABLE data.te_order ALTER amount DROP DEFAULT");
+        $this->addSql('ALTER TABLE data.te_order ALTER pad_country DROP DEFAULT');
+        $this->addSql('ALTER TABLE data.te_order ALTER pad_locality DROP DEFAULT');
+        $this->addSql('ALTER TABLE data.te_order ALTER pad_code DROP DEFAULT');
+        $this->addSql('ALTER TABLE data.te_order ALTER pad_street DROP DEFAULT');
+        $this->addSql('ALTER TABLE data.te_order ALTER amount DROP DEFAULT');
         $this->addSql('COMMENT ON COLUMN data.te_order.per_given IS \'Given name\'');
         $this->addSql('COMMENT ON COLUMN data.te_order.per_name IS \'Name\'');
         $this->addSql('COMMENT ON COLUMN data.te_order.per_society IS \'Society name\'');

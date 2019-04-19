@@ -45,6 +45,14 @@ trait PriceTrait
      */
     private $vat;
 
+    public function copyPrice(PriceInterface $price): self
+    {
+        $this->setPrice($price->getPrice());
+        $this->setVat($price->getVat());
+
+        return $this;
+    }
+
     /**
      * Amount getter.
      *
@@ -76,13 +84,27 @@ trait PriceTrait
     }
 
     /**
+     * Price fluent setter.
+     *
+     * @param float|string $price new price
+     *
+     * @return PriceTrait|PriceInterface
+     */
+    public function setPrice($price): PriceInterface
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
      * VAT fluent setter.
      *
      * @param float|float|string $vat new vat price
      *
-     * @return PriceInterface
+     * @return PriceInterface|PriceTrait
      */
-    public function setVat($vat): self
+    public function setVat($vat): PriceInterface
     {
         $this->vat = $vat;
 

@@ -40,7 +40,7 @@ use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
  *
  * @Gedmo\Loggable
  */
-class Order implements PersonInterface, EntityInterface
+class Order implements EntityInterface, PriceInterface
 {
     use PriceTrait;
 
@@ -193,20 +193,6 @@ class Order implements PersonInterface, EntityInterface
     }
 
     /**
-     * Credits fluent setter.
-     *
-     * @param int $credits credit bought
-     *
-     * @return Order
-     */
-    public function setCredits(int $credits): self
-    {
-        $this->credits = $credits;
-
-        return $this;
-    }
-
-    /**
      * Customer getter.
      *
      * @return User|null
@@ -303,15 +289,25 @@ class Order implements PersonInterface, EntityInterface
     }
 
     /**
-     * Status credit fluent setter.
+     * Status order getter.
      *
-     * @param bool $statusCredit the new credit status
+     * @return StatusOrder|null
+     */
+    public function getStatusOrder(): ?StatusOrder
+    {
+        return $this->statusOrder;
+    }
+
+    /**
+     * Credits fluent setter.
+     *
+     * @param int $credits credit bought
      *
      * @return Order
      */
-    public function setStatusCredit(bool $statusCredit): self
+    public function setCredits(int $credits): self
     {
-        $this->statusCredit = $statusCredit;
+        $this->credits = $credits;
 
         return $this;
     }
@@ -338,45 +334,6 @@ class Order implements PersonInterface, EntityInterface
         }
 
         return $this->getStatusOrder()->isPaid() && !$this->getStatusOrder()->isCanceled();
-    }
-
-    /**
-     * Status order getter.
-     *
-     * @return StatusOrder|null
-     */
-    public function getStatusOrder(): ?StatusOrder
-    {
-        return $this->statusOrder;
-    }
-
-    /**
-     * Status order fluent setter.
-     *
-     * @param StatusOrder $statusOrder the new status order
-     *
-     * @return Order
-     */
-    public function setStatusOrder(StatusOrder $statusOrder): self
-    {
-        $this->statusOrder = $statusOrder;
-
-        return $this;
-    }
-
-    /**
-     * Payment instruction fluent setter.
-     *
-     * @param PaymentInstruction|null $paymentInstruction payment instruction
-     * @param mixed                   $price
-     *
-     * @return Order
-     */
-    public function setPaymentInstruction(?PaymentInstruction $paymentInstruction): Order
-    {
-        $this->paymentInstruction = $paymentInstruction;
-
-        return $this;
     }
 
     /**
@@ -420,15 +377,43 @@ class Order implements PersonInterface, EntityInterface
     }
 
     /**
-     * Price fluent setter.
+     * Payment instruction fluent setter.
      *
-     * @param float|float|string $price price without VAT
+     * @param PaymentInstruction|null $paymentInstruction payment instruction
      *
      * @return Order
      */
-    public function setPrice($price): self
+    public function setPaymentInstruction(?PaymentInstruction $paymentInstruction): self
     {
-        $this->price = $price;
+        $this->paymentInstruction = $paymentInstruction;
+
+        return $this;
+    }
+
+    /**
+     * Status credit fluent setter.
+     *
+     * @param bool $statusCredit the new credit status
+     *
+     * @return Order
+     */
+    public function setStatusCredit(bool $statusCredit): self
+    {
+        $this->statusCredit = $statusCredit;
+
+        return $this;
+    }
+
+    /**
+     * Status order fluent setter.
+     *
+     * @param StatusOrder $statusOrder the new status order
+     *
+     * @return Order
+     */
+    public function setStatusOrder(StatusOrder $statusOrder): self
+    {
+        $this->statusOrder = $statusOrder;
 
         return $this;
     }

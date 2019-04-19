@@ -5,6 +5,6 @@ jms_payment_paypal:
   username: '%env(resolve:JMS_PAYMENT_PAYPAL_API_USERNAME)%'   # not your account username
   password: '%env(resolve:JMS_PAYMENT_PAYPAL_API_PASSWORD)%'   # not your account password
   signature: '%env(resolve:JMS_PAYMENT_PAYPAL_API_SIGNATURE)%'
-  return_url: '%env(resolve:JMS_PAYMENT_PAYPAL_RETURN_URL)%'
-  cancel_url: '%env(resolve:JMS_PAYMENT_PAYPAL_CANCEL_URL)%'
+  #return_url: '%env(resolve:JMS_PAYMENT_PAYPAL_RETURN_URL)%'
+  #cancel_url: '%env(resolve:JMS_PAYMENT_PAYPAL_CANCEL_URL)%'
   debug: '%env(resolve:APP_ENV)%'
