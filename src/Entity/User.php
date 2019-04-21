@@ -178,19 +178,6 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
     private $tos = false;
 
     /**
-     * Moral or physic person.
-     *
-     * @var bool
-     *
-     * @Assert\Choice(choices=PersonInterface::TYPES, message="form.error.types.choices")
-     *
-     * @ORM\Column(type="boolean", name="per_type", options={"comment": "Morale or physic"})
-     *
-     * @Gedmo\Versioned
-     */
-    private $type = PersonInterface::PHYSIC;
-
-    /**
      * User constructor.
      */
     public function __construct()

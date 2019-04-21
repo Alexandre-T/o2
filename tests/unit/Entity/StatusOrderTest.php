@@ -102,4 +102,15 @@ class StatusOrderTest extends Unit
         self::assertEquals($this->status, $this->status->setPaid($actual));
         self::assertTrue($this->status->isPaid());
     }
+
+    /**
+     * Test Pending setter and getter.
+     */
+    public function testPending(): void
+    {
+        $actual = true;
+
+        self::assertEquals($this->status, $this->status->setPending($actual));
+        self::assertTrue($this->status->isPending());
+    }
 }

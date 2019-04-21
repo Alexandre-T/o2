@@ -66,6 +66,16 @@ class StatusOrderRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find the CANCELED status order.
+     *
+     * @return StatusOrder|null
+     */
+    public function findOneCanceled(): ?StatusOrder
+    {
+        return $this->findOneByCode(StatusOrder::CANCELED);
+    }
+
+    /**
      * Find the PAID status order.
      *
      * @return StatusOrder|null
@@ -73,5 +83,15 @@ class StatusOrderRepository extends ServiceEntityRepository
     public function findOnePaid(): ?StatusOrder
     {
         return $this->findOneByCode(StatusOrder::PAID);
+    }
+
+    /**
+     * Find the PENDING status order.
+     *
+     * @return StatusOrder|null
+     */
+    public function findOnePending(): ?StatusOrder
+    {
+        return $this->findOneByCode(StatusOrder::PENDING);
     }
 }

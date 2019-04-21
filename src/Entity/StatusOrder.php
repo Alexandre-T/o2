@@ -38,6 +38,7 @@ class StatusOrder
     public const CANCELED = 'CANCELED';
     public const CARTED = 'CARTED';
     public const PAID = 'PAID';
+    public const PENDING = 'PENDING';
 
     /**
      * Identifier.
@@ -76,6 +77,15 @@ class StatusOrder
     private $paid = false;
 
     /**
+     * Payment is pending when true.
+     *
+     * @var bool = false
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $pending = false;
+
+    /**
      * Code getter.
      *
      * @return string|null
@@ -93,20 +103,6 @@ class StatusOrder
     public function getId(): ?int
     {
         return $this->identifier;
-    }
-
-    /**
-     * Code fluent setter.
-     *
-     * @param string $code code to retrieve status
-     *
-     * @return StatusOrder
-     */
-    public function setCode(string $code): self
-    {
-        $this->code = $code;
-
-        return $this;
     }
 
     /**
@@ -130,6 +126,16 @@ class StatusOrder
     }
 
     /**
+     * Are linked orders pending?
+     *
+     * @return bool|null
+     */
+    public function isPending(): ?bool
+    {
+        return $this->pending;
+    }
+
+    /**
      * Canceled fluent getter.
      *
      * @param bool $canceled payment status
@@ -144,6 +150,20 @@ class StatusOrder
     }
 
     /**
+     * Code fluent setter.
+     *
+     * @param string $code code to retrieve status
+     *
+     * @return StatusOrder
+     */
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
      * Paid fluent setter.
      *
      * @param bool $paid payment status
@@ -153,6 +173,20 @@ class StatusOrder
     public function setPaid(bool $paid): self
     {
         $this->paid = $paid;
+
+        return $this;
+    }
+
+    /**
+     * Pending fluent getter.
+     *
+     * @param bool $pending payment status
+     *
+     * @return StatusOrder
+     */
+    public function setPending(bool $pending): self
+    {
+        $this->pending = $pending;
 
         return $this;
     }

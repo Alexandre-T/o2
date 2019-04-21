@@ -45,15 +45,23 @@ class StatusOrderFixtures extends Fixture
         $paid->setCode(StatusOrder::PAID);
         $paid->setPaid(true);
 
+        //Pending status
+        $pending = new StatusOrder();
+        $pending->setCode(StatusOrder::PENDING);
+        $pending->setPending(true);
+
+
         //These references are used.
         $this->addReference('status_order_canceled', $canceled);
         $this->addReference('status_order_carted', $carted);
         $this->addReference('status_order_paid', $paid);
+        $this->addReference('status_order_pending', $pending);
 
         //Persist prod data
         $manager->persist($canceled);
         $manager->persist($carted);
         $manager->persist($paid);
+        $manager->persist($pending);
 
         $manager->flush();
     }

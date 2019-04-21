@@ -102,9 +102,9 @@ class OrderRepository extends ServiceEntityRepository
      * @param User   $user user filter
      * @param string $code code filter
      *
-     * @return int
+     * @return Order[]
      */
-    public function findOneByUserAndStatusOrder(User $user, string $code)
+    public function findByUserAndStatusOrder(User $user, string $code): array
     {
         $queryBuilder = $this->createQueryBuilder('o');
 
@@ -125,9 +125,9 @@ class OrderRepository extends ServiceEntityRepository
      * @param User   $user user filter
      * @param string $code code filter
      *
-     * @return int
+     * @return Order[]
      */
-    public function findOneByUserNonEmptyStatusOrder(User $user, string $code)
+    public function findByUserNonEmptyStatusOrder(User $user, string $code): array
     {
         $queryBuilder = $this->createQueryBuilder('o');
 

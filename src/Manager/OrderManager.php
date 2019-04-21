@@ -158,13 +158,29 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        $orders = $repository->findOneByUserAndStatusOrder($user, StatusOrder::CARTED);
+        $orders = $repository->findByUserAndStatusOrder($user, StatusOrder::CARTED);
 
         if (null === $orders || empty($orders)) {
             throw new NoOrderException('No carted order for this user');
         }
 
         return $orders[0];
+    }
+
+    /**
+     * Get the last order paid by user.
+     *
+     * @param User $user user filter
+     *
+     * @return Order
+     *
+     * @throws NoOrderException when this user has no paid order
+     */
+    public function getLastOnePaid(User $user): Order
+    {
+        $this->getMainRepository()->findByUserAndStatusOrder($user, StatusOrder::PAID);
+
+        //FIXME TODO
     }
 
     /**
@@ -176,12 +192,12 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      *
      * @return Order
      */
-    public function getNonEmptyCartedOrder($user)
+    public function getNonEmptyCartedOrder($user): Order
     {
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        $orders = $repository->findOneByUserNonEmptyStatusOrder($user, StatusOrder::CARTED);
+        $orders = $repository->findByUserNonEmptyStatusOrder($user, StatusOrder::CARTED);
 
         if (null === $orders || empty($orders)) {
             throw new NoOrderException('No carted order for this user');
@@ -209,11 +225,24 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Return the main repository.
      *
-     * @return EntityRepository
+     * @return EntityRepository|OrderRepository
      */
     protected function getMainRepository(): EntityRepository
     {
         return $this->entityManager->getRepository(Order::class);
+    }
+
+    /**
+     * Set order to pending status.
+     *
+     * @param Order $order order to update
+     */
+    public function setPending(Order $order): void
+    {
+        $soRepository = $this->entityManager->getRepository(StatusOrder::class);
+        $pending = $soRepository->findOnePending();
+        $order->setStatusOrder($pending);
+        $this->save($order);
     }
 
     /**

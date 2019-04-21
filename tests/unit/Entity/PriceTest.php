@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\Entity\Bill;
 use App\Entity\Order;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
@@ -60,6 +61,18 @@ class PriceTest extends Unit
     }
 
     /**
+     * Test amount getter.
+     */
+    public function testAmount(): void
+    {
+        $this->order->setPrice(42.84);
+        $this->order->setVat(42.84 * 0.2);
+        self::assertEquals(42.84, $this->order->getPrice());
+        self::assertEquals(8.568, $this->order->getVat());
+        self::assertEquals(51.408, $this->order->getAmount());
+    }
+
+    /**
      * Test the constructor.
      */
     public function testConstructor(): void
@@ -74,15 +87,22 @@ class PriceTest extends Unit
     }
 
     /**
-     * Test amount getter.
+     * Test the copy price method.
      */
-    public function testAmount(): void
+    public function testCopyPrice(): void
     {
-        $this->order->setPrice(42.84);
-        $this->order->setVat(42.84 * 0.2);
-        self::assertEquals(42.84, $this->order->getPrice());
-        self::assertEquals(8.568, $this->order->getVat());
-        self::assertEquals(51.408, $this->order->getAmount());
+        $bill = new Bill();
+        $bill->setPrice(42.42);
+        $bill->setVat(12.12);
+
+        self::assertEquals($this->order, $this->order->copyPrice($bill));
+        self::assertEquals(42.42, $this->order->getPrice());
+        self::assertEquals(12.12, $this->order->getVat());
+
+        $bill = new Bill();
+        self::assertEquals($this->order, $this->order->copyPrice($bill));
+        self::assertNull($this->order->getPrice());
+        self::assertNull($this->order->getVat());
     }
 
     /**

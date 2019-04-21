@@ -59,6 +59,14 @@ administration:
 
 Address: 'Adresse'
 
+article:
+  CRED0010:
+    text: 'Lot de 10 crédits'
+  CRED0100:
+    text: 'Lot de 100 crédits'
+  CRED0500:
+    text: 'Lot de 500 crédits'
+
 empty: 'vide'
 
 entity:
@@ -321,6 +329,9 @@ nav:
     text: 'Réinitialisation du mot de passe'
 
 order %name%: 'Commande n°%name%'
+
+payment.canceled: 'Le paiement a été annulé.'
+
 ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
 ROLE_CUSTOMER: 'Client.'
 ROLE_ACCOUNTANT: 'Comptable pouvant gérer les factures et les crédits.'
@@ -351,6 +362,7 @@ title:
     profile: 'Mon profil'
     password: 'Mon mot de passe'
     select-credit: 'Crédits supplémentaires'
+    order-show: 'messages'
   default:
     tos: 'Conditions d’utilisation'
   security:

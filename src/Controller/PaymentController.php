@@ -20,14 +20,18 @@ use App\Exception\NoOrderException;
 use App\Factory\BillFactory;
 use App\Manager\BillManager;
 use App\Manager\OrderManager;
+use Exception;
 use JMS\Payment\CoreBundle\Form\ChoosePaymentMethodType;
 use JMS\Payment\CoreBundle\Model\PaymentInterface;
 use JMS\Payment\CoreBundle\Plugin\Exception\Action\VisitUrl;
 use JMS\Payment\CoreBundle\Plugin\Exception\ActionRequiredException;
 use JMS\Payment\CoreBundle\Plugin\Exception\CommunicationException;
+use JMS\Payment\CoreBundle\Plugin\Exception\PaymentPendingException;
 use JMS\Payment\CoreBundle\PluginController\Exception\InvalidPaymentInstructionException;
 use JMS\Payment\CoreBundle\PluginController\PluginController;
 use JMS\Payment\CoreBundle\PluginController\Result;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +40,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Payment controller .
+ */
 class PaymentController extends AbstractController
 {
     /**
@@ -116,14 +123,18 @@ class PaymentController extends AbstractController
      * @param OrderManager     $orderManager order manager to retrieve order
      * @param PluginController $ppc          plugin controller
      *
+     * FIXME catch it!
      * @throws InvalidPaymentInstructionException on error with instruction
      *
      * @return RedirectResponse
      *
-     * FIXME catch it!
      */
-    public function paymentCreateAction(BillManager $billManager, OrderManager $orderManager, PluginController $ppc)
-    {
+    public function paymentCreateAction(
+     BillManager $billManager,
+     OrderManager $orderManager,
+     PluginController $ppc,
+     LoggerInterface $logger
+    ): RedirectResponse {
         try {
             $user = $this->getUser();
             //FIXME Add a test on payment is not null!
@@ -161,18 +172,31 @@ class PaymentController extends AbstractController
             }
         }
 
-        // In a real-world application you wouldn't throw the exception. You would,
-        // for example, redirect to the showAction with a flash message informing
+        // In a real-world application I don't throw the exception.
+        // I redirect to the showAction with a flash message informing
         // the user that the payment was not successful.
-        // FIXME do it
-        // log it
-        throw $result->getPluginException();
+        //throw $result->getPluginException();
+        $exception = $result->getPluginException();
+        if ($exception instanceof PaymentPendingException) {
+            $logger->alert('Payment pending');
+            $this->addFlash('error', 'payment.pending');
+            $orderManager->setPending($order);
+
+            return $this->redirectToRoute('customer_order_show', ['order' => $order]);
+        }
+
+        if ($exception instanceof Exception) {
+            $logger->error('payment.error: '.$exception->getMessage());
+            $this->addFlash('error', 'payment.error');
+        }
+
+        return $this->redirectToRoute('customer_order_show', ['order' => $order]);
     }
 
     /**
      * Payment completed!
      *
-     * @Route("/payment-complete", name="customer_payment_complete")
+     * @Route("/payment/complete", name="customer_payment_complete")
      */
     public function paymentCompleteAction()
     {
@@ -183,12 +207,39 @@ class PaymentController extends AbstractController
     /**
      * Payment canceled!
      *
-     * @Route("/payment-cancel", name="customer_payment_cancel")
+     * @Route("/payment/cancel", name="customer_payment_cancel")
+     *
+     * @param LoggerInterface $log          log canceled payment
+     * @param OrderManager    $orderManager order manager to retrieve data
+     *
+     * @return RedirectResponse
      */
-    public function paymentCancelAction()
+    public function paymentCancelAction(LoggerInterface $log, OrderManager $orderManager)
     {
-        //FIXME TADA !
-        return new Response('Payment cancel');
+        $user = $this->getUser();
+
+        try {
+            $order = $orderManager->getNonEmptyCartedOrder($user);
+            $this->addFlash('warning', 'payment.canceled');
+            $log->log(LogLevel::INFO, 'Payment canceled : order '. $order->getId());
+
+            return $this->redirectToRoute('customer_order_credit');
+        } catch (NoOrderException $noOrderException) {
+            //there is no order which is not empty, not canceled and not paid
+            //so the last one has been paid !
+            try {
+                $order = $orderManager->getLastOnePaid($user);
+
+                return $this->redirectToRoute('customer_order_show', [
+                    'order' => $order,
+                ]);
+            } catch (NoOrderException $noOrderException) {
+                //this should never happened.
+                $log->log(LogLevel::WARNING, 'User go directly on payment canceled : user '. $user->getId());
+
+                return $this->redirectToRoute('home');
+            }
+        }
     }
 
     /**
@@ -234,7 +285,10 @@ class PaymentController extends AbstractController
                 $paypalCheckoutParams['L_PAYMENTREQUEST_0_AMT'.$itemNumber] = $orderedArticle->getArticle()->getPrice();
                 $paypalCheckoutParams['L_PAYMENTREQUEST_0_QTY'.$itemNumber] = $orderedArticle->getQuantity();
                 $paypalCheckoutParams['L_PAYMENTREQUEST_0_TAXAMT'.$itemNumber] = $orderedArticle->getArticle()->getVat();
-                $paypalCheckoutParams['L_PAYMENTREQUEST_0_NAME'.$itemNumber] = $orderedArticle->getArticle()->getCode();
+                $paypalCheckoutParams['L_PAYMENTREQUEST_0_NAME'.$itemNumber] = $trans->trans(
+                    "article.{$orderedArticle->getArticle()->getCode()}.text"
+                );
+                $itemNumber++;
             }
         }
 
