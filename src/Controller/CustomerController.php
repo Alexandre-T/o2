@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Order;
 use App\Entity\User;
 use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
@@ -136,23 +135,6 @@ class CustomerController extends AbstractController
 
         return $this->render('customer/order-credit.html.twig', [
             'form' => $form->createView(),
-            'order' => $order,
-        ]);
-    }
-
-    /**
-     * Order show.
-     *
-     * @Route("/order-show/{order}", name="customer_order_show")
-     *
-     * @param Order $order order to paid
-     *
-     * @return Response
-     */
-    public function orderShow(Order $order): Response
-    {
-        //FIXME you can only see your order.
-        return $this->render('customer/order-show.html.twig', [
             'order' => $order,
         ]);
     }

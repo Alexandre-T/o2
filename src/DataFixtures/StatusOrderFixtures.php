@@ -50,7 +50,6 @@ class StatusOrderFixtures extends Fixture
         $pending->setCode(StatusOrder::PENDING);
         $pending->setPending(true);
 
-
         //These references are used.
         $this->addReference('status_order_canceled', $canceled);
         $this->addReference('status_order_carted', $carted);

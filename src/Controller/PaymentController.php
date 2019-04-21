@@ -67,8 +67,8 @@ class PaymentController extends AbstractController
     ): Response {
         $user = $this->getUser();
         //TODO add token?
-        $returnUrl = $this->generateUrl('customer_payment_create', [],UrlGeneratorInterface::ABSOLUTE_URL);
-        $cancelUrl = $this->generateUrl('customer_payment_cancel', [],UrlGeneratorInterface::ABSOLUTE_URL);
+        $returnUrl = $this->generateUrl('customer_payment_complete', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $cancelUrl = $this->generateUrl('customer_payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL);
 
         //find carted (non canceled and non paid) and non empty order
         try {
@@ -122,12 +122,13 @@ class PaymentController extends AbstractController
      * @param BillManager      $billManager  bill manager to save bill
      * @param OrderManager     $orderManager order manager to retrieve order
      * @param PluginController $ppc          plugin controller
+     * @param LoggerInterface  $logger       logger interface
      *
-     * FIXME catch it!
      * @throws InvalidPaymentInstructionException on error with instruction
      *
      * @return RedirectResponse
      *
+     * FIXME catch it!
      */
     public function paymentCreateAction(
      BillManager $billManager,
@@ -144,14 +145,15 @@ class PaymentController extends AbstractController
         } catch (NoOrderException $noOrderException) {
             //there is no order which is not empty, not canceled and no paid
             return $this->redirectToRoute('customer_order_credit');
-        } catch (CommunicationException $communicationException) {
+        } catch (CommunicationException $comException) {
             $this->addFlash('error', 'error.communication');
+            $logger->error('Communication error: '.$comException->getMessage());
 
             return $this->redirectToRoute('customer_payment_method');
         }
 
         if (Result::STATUS_SUCCESS === $result->getStatus()) {
-            $orderManager->setOrderPaid($order);
+            $orderManager->setPaid($order);
             $bill = BillFactory::create($order, $user);
             $orderManager->save($order);
             $billManager->save($bill);
@@ -178,11 +180,13 @@ class PaymentController extends AbstractController
         //throw $result->getPluginException();
         $exception = $result->getPluginException();
         if ($exception instanceof PaymentPendingException) {
+            dump($result->getStatus(), $result);
             $logger->alert('Payment pending');
             $this->addFlash('error', 'payment.pending');
             $orderManager->setPending($order);
+            $orderManager->save($order);
 
-            return $this->redirectToRoute('customer_order_show', ['order' => $order]);
+            return $this->redirectToRoute('home');
         }
 
         if ($exception instanceof Exception) {
@@ -190,7 +194,7 @@ class PaymentController extends AbstractController
             $this->addFlash('error', 'payment.error');
         }
 
-        return $this->redirectToRoute('customer_order_show', ['order' => $order]);
+        return $this->redirectToRoute('home');
     }
 
     /**
@@ -198,10 +202,9 @@ class PaymentController extends AbstractController
      *
      * @Route("/payment/complete", name="customer_payment_complete")
      */
-    public function paymentCompleteAction()
+    public function paymentCompleteAction(): void
     {
-        //FIXME TADA !
-        return new Response('Payment complete');
+        //FIXME TODO 2 options : manual validation / auto validation and check done by administrator.
     }
 
     /**
@@ -221,7 +224,7 @@ class PaymentController extends AbstractController
         try {
             $order = $orderManager->getNonEmptyCartedOrder($user);
             $this->addFlash('warning', 'payment.canceled');
-            $log->log(LogLevel::INFO, 'Payment canceled : order '. $order->getId());
+            $log->log(LogLevel::INFO, 'Payment canceled : order '.$order->getId());
 
             return $this->redirectToRoute('customer_order_credit');
         } catch (NoOrderException $noOrderException) {
@@ -229,13 +232,13 @@ class PaymentController extends AbstractController
             //so the last one has been paid !
             try {
                 $order = $orderManager->getLastOnePaid($user);
-
+                //FIXME review this redirection
                 return $this->redirectToRoute('customer_order_show', [
                     'order' => $order,
                 ]);
             } catch (NoOrderException $noOrderException) {
                 //this should never happened.
-                $log->log(LogLevel::WARNING, 'User go directly on payment canceled : user '. $user->getId());
+                $log->warning('User go directly on payment canceled : user '.$user->getId());
 
                 return $this->redirectToRoute('home');
             }
@@ -288,7 +291,7 @@ class PaymentController extends AbstractController
                 $paypalCheckoutParams['L_PAYMENTREQUEST_0_NAME'.$itemNumber] = $trans->trans(
                     "article.{$orderedArticle->getArticle()->getCode()}.text"
                 );
-                $itemNumber++;
+                ++$itemNumber;
             }
         }
 

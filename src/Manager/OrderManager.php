@@ -29,6 +29,8 @@ use Doctrine\ORM\QueryBuilder;
 
 /**
  * order Manager.
+ *
+ * @property OrderRepository $repository
  */
 class OrderManager extends AbstractRepositoryManager implements ManagerInterface
 {
@@ -52,7 +54,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      */
     public function getDefaultSortField(): string
     {
-        return self::ALIAS.'.label';
+        return self::ALIAS.'.id';
     }
 
     /**
@@ -123,7 +125,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $methods[500] = 'getFiveHundred';
 
         foreach ($articles as $article) {
-            if(key_exists($article->getCredit(), $methods)) {
+            if (array_key_exists($article->getCredit(), $methods)) {
                 $this->updateOrder($order, $article, $model->{$methods[$article->getCredit()]}());
             }
         }
@@ -172,9 +174,9 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      *
      * @param User $user user filter
      *
-     * @return Order
-     *
      * @throws NoOrderException when this user has no paid order
+     *
+     * @return Order
      */
     public function getLastOnePaid(User $user): Order
     {
@@ -211,7 +213,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      *
      * @param Order $order order to put at paid
      */
-    public function setOrderPaid(Order $order): void
+    public function setPaid(Order $order): void
     {
         $soRepository = $this->entityManager->getRepository(StatusOrder::class);
         $statusOrder = $soRepository->findOnePaid();
@@ -219,17 +221,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
 
         $user = $order->getCustomer();
         $user->setCredit($user->getCredit() + $order->getCredits());
-        //FIXME create bill
-    }
-
-    /**
-     * Return the main repository.
-     *
-     * @return EntityRepository|OrderRepository
-     */
-    protected function getMainRepository(): EntityRepository
-    {
-        return $this->entityManager->getRepository(Order::class);
+        $order->setStatusCredit(true);
     }
 
     /**
@@ -243,6 +235,16 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $pending = $soRepository->findOnePending();
         $order->setStatusOrder($pending);
         $this->save($order);
+    }
+
+    /**
+     * Return the main repository.
+     *
+     * @return EntityRepository|OrderRepository
+     */
+    protected function getMainRepository(): EntityRepository
+    {
+        return $this->entityManager->getRepository(Order::class);
     }
 
     /**
