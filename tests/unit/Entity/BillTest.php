@@ -107,20 +107,19 @@ class BillTest extends Unit
     /**
      * Test Number setter and getter.
      *
-     * @throws ReflectionException on reflection error.
+     * @throws ReflectionException on reflection error
      */
     public function testNumberAt(): void
     {
         $actual = $expected = 33;
 
-        $reflector = new ReflectionClass( Bill::class );
-        $property = $reflector->getProperty( 'number' );
-        $property->setAccessible( true );
+        $reflector = new ReflectionClass(Bill::class);
+        $property = $reflector->getProperty('number');
+        $property->setAccessible(true);
         $property->setValue($this->bill, $actual);
 
-        self::assertEquals( $expected, $this->bill->getNumber() );
-        self::assertEquals( '000033', $this->bill->getLabel() );
-
+        self::assertEquals($expected, $this->bill->getNumber());
+        self::assertEquals('000033', $this->bill->getLabel());
     }
 
     /**

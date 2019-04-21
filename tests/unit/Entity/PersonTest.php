@@ -67,7 +67,7 @@ class PersonTest extends Unit
     public function testConstructor(): void
     {
         $this->tester->wantToTest('properties are well initialized');
-        
+
         self::assertNull($this->bill->getGivenName());
         self::assertNull($this->bill->getName());
         self::assertNull($this->bill->getSociety());
