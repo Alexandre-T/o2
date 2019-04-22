@@ -17,6 +17,9 @@ namespace App\Manager;
 
 use App\Entity\Bill;
 use App\Entity\EntityInterface;
+use App\Entity\Order;
+use App\Entity\User;
+use App\Factory\BillFactory;
 use App\Repository\BillRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -69,6 +72,27 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
     public function isDeletable(EntityInterface $entity): bool
     {
         return false;
+    }
+
+    /**
+     * Create a bill only if there is no non-canceled bill.
+     *
+     * @param Order $order Referenced order
+     * @param User  $user  Referenced user
+     *
+     * @return Bill
+     */
+    public function retrieveOrCreateBill(Order $order, User $user): Bill
+    {
+        $bills = $this->getMainRepository()->findByOrder($order);
+
+        foreach ($bills as $bill) {
+            if (!$bill->isCanceled) {
+                return $bill;
+            }
+        }
+
+        return BillFactory::create($order, $user);
     }
 
     /**

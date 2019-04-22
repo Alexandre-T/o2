@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
+use App\Manager\BillManager;
+use App\Manager\OrderManager;
 use JMS\Payment\CoreBundle\PluginController\Event\Events;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -23,6 +25,28 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class PaymentListener
 {
+    /**
+     * @var BillManager
+     */
+    private $billManager;
+
+    /**
+     * @var OrderManager
+     */
+    private $orderManager;
+
+    /**
+     * Payment listener constructor.
+     *
+     * @param BillManager  $billManager  billManager to create bills
+     * @param OrderManager $orderManager orderManager to retrieve bills
+     */
+    public function __construct(BillManager $billManager, OrderManager $orderManager)
+    {
+        $this->billManager = $billManager;
+        $this->orderManager = $orderManager;
+    }
+
     /**
      * @return array
      */
@@ -35,11 +59,13 @@ class PaymentListener
     }
 
     /**
-     * @param Event $event
+     * Create a bill when payment instruction statement go from 3 to 4.
+     *
+     * @param Event $event handled event
      */
     public function onPaymentInstructionStateChange(Event $event): void
     {
-        //FIXME log it?
+//        return;
     }
 
     /**
@@ -47,7 +73,15 @@ class PaymentListener
      */
     public function onPaymentStateChange(Event $event): void
     {
-        //FIXME log it?
-        dump($event);
+//        if ($event instanceof PaymentStateChangeEvent) {
+//            if ($event->getNewState() !== $event->getOldState()) {
+//                if (PaymentInterface::STATE_APPROVING == $event->getNewState()) {
+//                    //Bill must be created.
+//                    $order = $this->orderManager->retrieveByPaymentInstruction($event->getPaymentInstruction());
+//                    $bill = BillFactory::create($order);
+//                    $this->billManager->save($bill);
+//                }
+//            }
+//        }
     }
 }

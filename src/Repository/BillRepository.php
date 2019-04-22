@@ -16,7 +16,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Bill;
+use App\Entity\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -37,5 +39,37 @@ class BillRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Bill::class);
+    }
+
+    /**
+     * Find bills by order.
+     *
+     * @param Order $order
+     *
+     * @return array
+     */
+    public function findByOrder(Order $order): array
+    {
+        return $this->findBy(['order' => $order]);
+    }
+
+    /**
+     * Return the max number in bills.
+     *
+     * @return int
+     */
+    public function maxNumber(): int
+    {
+        try {
+
+        return (int) $this->createQueryBuilder('b')
+            ->select('max(b.number) as maxi')
+            ->getQuery()
+            ->getSingleScalarResult();
+        } catch (NonUniqueResultException $exception) {
+            //this should not be reached.
+            return 0;
+        }
+
     }
 }

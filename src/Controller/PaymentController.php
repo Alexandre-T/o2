@@ -32,6 +32,7 @@ use JMS\Payment\CoreBundle\PluginController\PluginController;
 use JMS\Payment\CoreBundle\PluginController\Result;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,13 +43,165 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Payment controller .
+ *
+ * @Route("/payment")
+ *
+ * @Security("is_granted('ROLE_USER')")
  */
 class PaymentController extends AbstractController
 {
     /**
+     * Payment has been canceled by user.
+     * He didn't ask to recover money, he only click on cancel during payment.
+     *
+     * @Route("/cancel/{order}", name="customer_payment_cancel")
+     *
+     * @param Order           $order $order order which payment was not completed
+     * @param LoggerInterface $log   log canceled payment
+     *
+     * @return RedirectResponse
+     */
+    public function paymentCancel(Order $order, LoggerInterface $log)
+    {
+        $this->addFlash('warning', 'error.payment.canceled');
+        $log->log(LogLevel::INFO, 'Payment canceled : order '.$order->getId());
+
+        return $this->redirectToRoute('customer_order_credit');
+    }
+
+    /**
+     * Payment completed!
+     *
+     * @Route("/complete/{uuid}", name="customer_payment_complete")
+     *
+     * @param OrderManager $orderManager order manager to retrieve order
+     * @param Request      $request      to retrieve token and payerId
+     * @param string       $uuid         to retrieve order
+     *
+     * @return Response
+     */
+    public function paymentComplete(BillManager $billManager, OrderManager $orderManager, Request $request, string $uuid): Response
+    {
+        try {
+            $order = $orderManager->retrieveByUuid($uuid);
+
+            $payerId = $request->get('PayerID');
+            if (null !== $payerId) {
+                $order->setPayerId($payerId);
+            }
+
+            $token = $request->get('token');
+            if (null !== $token) {
+                $order->setToken($token);
+            }
+
+            $orderManager->validateAfterPaymentComplete($order);
+            $bill = $billManager->retrieveOrCreateBill($order, $this->getUser());
+            $orderManager->save($order);
+            $billManager->save($bill);
+        } catch (NoOrderException $noOrderException) {
+            $this->addFlash('error', 'error.payment.non-existent');
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('payment/complete.html.twig', [
+            'paymentSystemName' => $order->getPaymentInstruction()->getPaymentSystemName(),
+            'order' => $order,
+        ]);
+    }
+
+    /**
+     * Payment create.
+     *
+     * @Route("/create", name="customer_payment_create")
+     *
+     * @param BillManager      $billManager  bill manager to save bill
+     * @param OrderManager     $orderManager order manager to retrieve order
+     * @param PluginController $ppc          plugin controller
+     * @param LoggerInterface  $logger       logger interface
+     *
+     * @throws InvalidPaymentInstructionException on error with instruction
+     *
+     * @return RedirectResponse
+     *
+     * FIXME catch throws!
+     */
+    public function paymentCreateAction(
+     BillManager $billManager,
+     OrderManager $orderManager,
+     PluginController $ppc,
+     LoggerInterface $logger
+    ): RedirectResponse {
+        try {
+            $user = $this->getUser();
+            $order = $orderManager->getNonEmptyCartedOrder($user);
+            $payment = $this->createPayment($order, $ppc);
+            $result = $ppc->approveAndDeposit($payment->getId(), $payment->getTargetAmount());
+        } catch (NoOrderException $noOrderException) {
+            //there is no order which is not empty, not canceled and no paid
+            return $this->redirectToRoute('customer_order_credit');
+        } catch (CommunicationException $comException) {
+            $this->addFlash('error', 'error.communication');
+            $logger->error('Communication error: '.$comException->getMessage());
+
+            return $this->redirectToRoute('customer_payment_method');
+        } catch (InvalidPaymentInstructionException $paymentInstructionException) {
+            $this->addFlash('error', 'error.payment-instruction');
+            $logger->alert('Payment Instruction error: '.$paymentInstructionException->getMessage());
+
+            return $this->redirectToRoute('customer_payment_method');
+        }
+
+        if (Result::STATUS_SUCCESS === $result->getStatus()) {
+            $orderManager->setPaid($order);
+            $bill = BillFactory::create($order, $user);
+            $orderManager->save($order);
+            $billManager->save($bill);
+
+            return $this->redirectToRoute('customer_payment_complete');
+        }
+
+        //For PAYPAL-like process (payment on another site)
+        if (Result::STATUS_PENDING === $result->getStatus()) {
+            $exception = $result->getPluginException();
+
+            if ($exception instanceof ActionRequiredException) {
+                $action = $exception->getAction();
+
+                if ($action instanceof VisitUrl) {
+                    return $this->redirect($action->getUrl());
+                }
+            }
+        }
+
+        // In a real-world application I don't throw the exception.
+        // I redirect to the showAction with a flash message informing
+        // the user that the payment was not successful.
+        //throw $result->getPluginException();
+        $exception = $result->getPluginException();
+        if ($exception instanceof PaymentPendingException) {
+            dump($result->getStatus(), $result);
+            $logger->alert('Payment pending');
+            $this->addFlash('warning', 'payment.pending');
+            $orderManager->setPending($order);
+            $orderManager->save($order);
+
+            return $this->redirectToRoute('home');
+        }
+
+        if ($exception instanceof Exception) {
+            $logger->error('payment.error: '.$exception->getMessage());
+            $this->addFlash('error', 'payment.error');
+        }
+
+        return $this->redirectToRoute('home');
+    }
+
+    /**
      * Select credit.
      *
-     * @Route("/payment/method-choose", name="customer_payment_method")
+     * @Route("/method-choose", name="customer_payment_method")
      *
      * @param Request             $request      Request for form
      * @param OrderManager        $orderManager Command manager
@@ -66,13 +219,17 @@ class PaymentController extends AbstractController
      TranslatorInterface $trans
     ): Response {
         $user = $this->getUser();
-        //TODO add token?
-        $returnUrl = $this->generateUrl('customer_payment_complete', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $cancelUrl = $this->generateUrl('customer_payment_cancel', [], UrlGeneratorInterface::ABSOLUTE_URL);
-
         //find carted (non canceled and non paid) and non empty order
         try {
             $order = $orderManager->getNonEmptyCartedOrder($user);
+            $returnUrl = $this->generateUrl(
+                'customer_payment_complete',
+                ['uuid' => $order->getUuid()],
+                UrlGeneratorInterface::ABSOLUTE_URL);
+            $cancelUrl = $this->generateUrl(
+                'customer_payment_cancel',
+                ['order' => $order->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL);
         } catch (NoOrderException $e) {
             //there is no order which is not empty, not canceled and no paid
             $this->addFlash('warning', 'flash.order.no-step1');
@@ -115,137 +272,6 @@ class PaymentController extends AbstractController
     }
 
     /**
-     * Payment create.
-     *
-     * @Route("/payment/create", name="customer_payment_create")
-     *
-     * @param BillManager      $billManager  bill manager to save bill
-     * @param OrderManager     $orderManager order manager to retrieve order
-     * @param PluginController $ppc          plugin controller
-     * @param LoggerInterface  $logger       logger interface
-     *
-     * @throws InvalidPaymentInstructionException on error with instruction
-     *
-     * @return RedirectResponse
-     *
-     * FIXME catch it!
-     */
-    public function paymentCreateAction(
-     BillManager $billManager,
-     OrderManager $orderManager,
-     PluginController $ppc,
-     LoggerInterface $logger
-    ): RedirectResponse {
-        try {
-            $user = $this->getUser();
-            //FIXME Add a test on payment is not null!
-            $order = $orderManager->getNonEmptyCartedOrder($user);
-            $payment = $this->createPayment($order, $ppc);
-            $result = $ppc->approveAndDeposit($payment->getId(), $payment->getTargetAmount());
-        } catch (NoOrderException $noOrderException) {
-            //there is no order which is not empty, not canceled and no paid
-            return $this->redirectToRoute('customer_order_credit');
-        } catch (CommunicationException $comException) {
-            $this->addFlash('error', 'error.communication');
-            $logger->error('Communication error: '.$comException->getMessage());
-
-            return $this->redirectToRoute('customer_payment_method');
-        }
-
-        if (Result::STATUS_SUCCESS === $result->getStatus()) {
-            $orderManager->setPaid($order);
-            $bill = BillFactory::create($order, $user);
-            $orderManager->save($order);
-            $billManager->save($bill);
-
-            return $this->redirectToRoute('customer_payment_complete');
-        }
-
-        //For PAYPAL-like process (payment on another site)
-        if (Result::STATUS_PENDING === $result->getStatus()) {
-            $exception = $result->getPluginException();
-
-            if ($exception instanceof ActionRequiredException) {
-                $action = $exception->getAction();
-
-                if ($action instanceof VisitUrl) {
-                    return $this->redirect($action->getUrl());
-                }
-            }
-        }
-
-        // In a real-world application I don't throw the exception.
-        // I redirect to the showAction with a flash message informing
-        // the user that the payment was not successful.
-        //throw $result->getPluginException();
-        $exception = $result->getPluginException();
-        if ($exception instanceof PaymentPendingException) {
-            dump($result->getStatus(), $result);
-            $logger->alert('Payment pending');
-            $this->addFlash('error', 'payment.pending');
-            $orderManager->setPending($order);
-            $orderManager->save($order);
-
-            return $this->redirectToRoute('home');
-        }
-
-        if ($exception instanceof Exception) {
-            $logger->error('payment.error: '.$exception->getMessage());
-            $this->addFlash('error', 'payment.error');
-        }
-
-        return $this->redirectToRoute('home');
-    }
-
-    /**
-     * Payment completed!
-     *
-     * @Route("/payment/complete", name="customer_payment_complete")
-     */
-    public function paymentCompleteAction(): void
-    {
-        //FIXME TODO 2 options : manual validation / auto validation and check done by administrator.
-    }
-
-    /**
-     * Payment canceled!
-     *
-     * @Route("/payment/cancel", name="customer_payment_cancel")
-     *
-     * @param LoggerInterface $log          log canceled payment
-     * @param OrderManager    $orderManager order manager to retrieve data
-     *
-     * @return RedirectResponse
-     */
-    public function paymentCancelAction(LoggerInterface $log, OrderManager $orderManager)
-    {
-        $user = $this->getUser();
-
-        try {
-            $order = $orderManager->getNonEmptyCartedOrder($user);
-            $this->addFlash('warning', 'payment.canceled');
-            $log->log(LogLevel::INFO, 'Payment canceled : order '.$order->getId());
-
-            return $this->redirectToRoute('customer_order_credit');
-        } catch (NoOrderException $noOrderException) {
-            //there is no order which is not empty, not canceled and not paid
-            //so the last one has been paid !
-            try {
-                $order = $orderManager->getLastOnePaid($user);
-                //FIXME review this redirection
-                return $this->redirectToRoute('customer_order_show', [
-                    'order' => $order,
-                ]);
-            } catch (NoOrderException $noOrderException) {
-                //this should never happened.
-                $log->warning('User go directly on payment canceled : user '.$user->getId());
-
-                return $this->redirectToRoute('home');
-            }
-        }
-    }
-
-    /**
      * Create payment.
      *
      * @param Order            $order order
@@ -269,6 +295,14 @@ class PaymentController extends AbstractController
         return $ppc->createPayment($instruction->getId(), $amount);
     }
 
+    /**
+     * Paypal checkout params getter.
+     *
+     * @param Order               $order order
+     * @param TranslatorInterface $trans to translate description for paypal
+     *
+     * @return array
+     */
     private function getPaypalCheckoutParams(Order $order, TranslatorInterface $trans): array
     {
         $paypalCheckoutParams = [

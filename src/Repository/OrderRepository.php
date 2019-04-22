@@ -16,10 +16,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Order;
-use App\Entity\StatusOrder;
 use App\Entity\User;
+use App\Model\OrderInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -45,23 +46,22 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * Count orders for user and code provided.
      *
-     * @param User   $user user filter
-     * @param string $code code filter
+     * @param User $user        user filter
+     * @param int  $statusOrder status order filter
      *
      * @return int
      */
-    public function countByUserAndStatusOrder(User $user, string $code): int
+    public function countByUserAndStatusOrder(User $user, int $statusOrder): int
     {
         $queryBuilder = $this->createQueryBuilder('o');
 
         try {
             return $queryBuilder
                 ->select($queryBuilder->expr()->count('1'))
-                ->innerJoin('o.statusOrder', 's')
                 ->where('o.customer = :customer')
-                ->andWhere('s.code = :code')
+                ->andWhere('o.statusOrder = :statusOrder')
                 ->setParameter('customer', $user)
-                ->setParameter('code', $code)
+                ->setParameter('statusOrder', $statusOrder)
                 ->getQuery()
                 ->getSingleScalarResult()
             ;
@@ -74,21 +74,20 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * Get order for user and code provided.
      *
-     * @param User   $user user filter
-     * @param string $code code filter
+     * @param User $user        user filter
+     * @param int  $statusOrder status order filter
      *
      * @return Order[]
      */
-    public function findByUserAndStatusOrder(User $user, string $code): array
+    public function findByUserAndStatusOrder(User $user, int $statusOrder): array
     {
         $queryBuilder = $this->createQueryBuilder('o');
 
         return $queryBuilder
-            ->innerJoin('o.statusOrder', 's')
             ->where('o.customer = :customer')
-            ->andWhere('s.code = :code')
+            ->andWhere('o.code = :code')
             ->setParameter('customer', $user)
-            ->setParameter('code', $code)
+            ->setParameter('statusOrder', $statusOrder)
             ->getQuery()
             ->getResult()
         ;
@@ -97,22 +96,21 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * Get order for user and code provided.
      *
-     * @param User   $user user filter
-     * @param string $code code filter
+     * @param User $user user filter
+     * @param int  $code code filter
      *
      * @return Order[]
      */
-    public function findByUserNonEmptyStatusOrder(User $user, string $code): array
+    public function findByUserNonEmptyStatusOrder(User $user, int $code): array
     {
         $queryBuilder = $this->createQueryBuilder('o');
 
         return $queryBuilder
-            ->innerJoin('o.statusOrder', 's')
             ->where('o.customer = :customer')
-            ->andWhere('s.code = :code')
+            ->andWhere('o.statusOrder = :statusOrder')
             ->andWhere('o.price > 0')
             ->setParameter('customer', $user)
-            ->setParameter('code', $code)
+            ->setParameter('statusOrder', $code)
             ->getQuery()
             ->getResult()
             ;
@@ -128,13 +126,12 @@ class OrderRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('o');
 
         $orders = $queryBuilder
-            ->innerJoin('o.statusOrder', 's')
             ->where('o.customer = :customer')
-            ->andWhere('s.code = :code')
+            ->andWhere('o.statusOrder = :statusOrder')
             ->andWhere('o.amount > 0')
             ->orderBy('o.paymentAt', 'desc')
             ->setMaxResults(1)
-            ->setParameter('code', StatusOrder::PAID)
+            ->setParameter('statusOrder', OrderInterface::PAID)
             ->getQuery()
             ->getResult()
         ;
@@ -144,6 +141,18 @@ class OrderRepository extends ServiceEntityRepository
         }
 
         return $orders[0];
+    }
+
+    /**
+     * Find one order by its payment instruction.
+     *
+     * @param PaymentInstructionInterface $paymentInstruction linked payment instruction
+     *
+     * @return Order|null
+     */
+    public function findOneByPaymentInstruction(PaymentInstructionInterface $paymentInstruction): ?Order
+    {
+        return $this->findOneBy(['paymentInstruction' => $paymentInstruction]);
     }
 
     /**
@@ -157,10 +166,9 @@ class OrderRepository extends ServiceEntityRepository
     {
         try {
             return $this->createQueryBuilder('c')
-                ->innerJoin('c.statusOrder', 's')
                 ->andWhere('c.customer = :customer')
-                ->andWhere('s.code = :code')
-                ->setParameter('code', StatusOrder::CARTED)
+                ->andWhere('c.statusOrder = :statusOrder')
+                ->setParameter('statusOrder', OrderInterface::CARTED)
                 ->setParameter('customer', $customer)
                 ->setMaxResults(1)
                 ->getQuery()
@@ -169,5 +177,17 @@ class OrderRepository extends ServiceEntityRepository
         } catch (NonUniqueResultException $e) {
             return null;
         }
+    }
+
+    /**
+     * Find one order by uuid.
+     *
+     * @param string $uuid $uuid to retrieve order
+     *
+     * @return Order|null
+     */
+    public function findOneByUuid(string $uuid): ?Order
+    {
+        return $this->findOneBy(['uuid' => $uuid]);
     }
 }

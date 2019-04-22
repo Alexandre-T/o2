@@ -69,6 +69,8 @@ article:
 
 empty: 'vide'
 
+data:
+  paypal_express_checkout: 'Paypal Express™'
 entity:
   global-information: 'Généralités'
   information: 'Informations'
@@ -121,6 +123,13 @@ entity:
     deleted %name%: 'L’utilisateur « %name% » a été supprimé avec succès.'
     updated %name%: 'L’utilisateur « %name% » a été modifié avec succès.'
     password %name%: 'Le mot de passe de l’utilisateur « %name% » a été modifié avec succès.'
+
+error:
+  communication: 'Notre serveur n’a pas réussi à contacter le service de paiement en ligne. Veuillez réessayer !'
+  payment:
+    canceled: 'La procédure de paiement a été interrompue.'
+    non-existent: 'Cette commande en attente de paiement n’existe pas ou a été payée.'
+  payment-instruction: 'Une erreur est survenue auprès du service de paiement. Veuillez essayer une autre méthode de paiement !'
 
 explanations:
   password-lost: 'Si vous avez perdu votre mot de passe, saisissez votre adresse email dans ce formulaire, un mail vous sera envoyé avec les explications nécessaires pour changer de mot de passe.'
@@ -250,6 +259,10 @@ flash:
     not-updated: 'Attention ! Votre profil n’a pas été mis à jour.'
     updated: 'Votre profil a correctement été mis à jour.'
 
+info:
+  payment:
+    pending %credit% %payment-system%: 'Vous avez utilisé %payment-system%, mais %payment-system% a classé votre paiement comme « en cours ». C’est une procédure normale pour les paiements de plus de 100 €. Dès que %payment-system% nous aura confirmé le paiement, vos %credit% crédits seront ajoutés à votre solde.'
+
 link:
   password-lost:
     text: 'Mot de passe perdu ?'
@@ -330,8 +343,6 @@ nav:
 
 order %name%: 'Commande n°%name%'
 
-payment.canceled: 'Le paiement a été annulé.'
-
 ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
 ROLE_CUSTOMER: 'Client.'
 ROLE_ACCOUNTANT: 'Comptable pouvant gérer les factures et les crédits.'
@@ -362,7 +373,8 @@ title:
     profile: 'Mon profil'
     password: 'Mon mot de passe'
     select-credit: 'Crédits supplémentaires'
-    order-show: 'messages'
+    payment-complete: 'Paiement complété'
+    payment-complete %payment-system%: 'Paiement transmis via Paypal'
   default:
     tos: 'Conditions d’utilisation'
   security:
@@ -382,10 +394,11 @@ title:
       show: 'Fiche utilisateur'
       show %name%: 'Fiche de l’utilisateur « %name% »'
 
-type:
-  morale: 'Société'
-  physic: 'Particulier'
 payment:
   paypal:
     description %credit% %amount%: 'Achat de %credit% crédits pour %amount% €'
 order %number%: 'Commande n°%number%'
+
+type:
+  morale: 'Société'
+  physic: 'Particulier'

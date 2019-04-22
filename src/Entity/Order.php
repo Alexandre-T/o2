@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Model\OrderInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,7 +32,8 @@ use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
  *     options={"comment": "order data table"},
  *     indexes={
  *         @ORM\Index(name="ndx_user",  columns={"customer_id"}),
- *         @ORM\Index(name="ndx_status_order",  columns={"status_order_id"})
+ *         @ORM\Index(name="ndx_user_status",  columns={"customer_id", "status_order"}),
+ *         @ORM\Index(name="ndx_status_order",  columns={"status_order"})
  *     },
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(name="uk_order_payment_instruction",  columns={"payment_instruction_id"}),
@@ -41,7 +43,7 @@ use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
  *
  * @Gedmo\Loggable
  */
-class Order implements EntityInterface, PriceInterface
+class Order implements EntityInterface, OrderInterface, PriceInterface
 {
     use PriceTrait;
 
@@ -101,11 +103,22 @@ class Order implements EntityInterface, PriceInterface
     private $orderedArticles;
 
     /**
+     * Payer Id is information about payer returned by Paypal.
+     *
+     * @var string
+     *
+     * @ORM\Column(type="string", length=32, nullable=true)
+     *
+     * @Gedmo\Versioned
+     */
+    private $payerId;
+
+    /**
      * Payment instructions from JMS bundle.
      *
      * @var PaymentInstruction
      *
-     * @ORM\OneToOne(targetEntity="JMS\Payment\CoreBundle\Entity\PaymentInstruction")
+     * @ORM\OneToOne(targetEntity="JMS\Payment\CoreBundle\Entity\PaymentInstruction", fetch="EAGER")
      *
      * @Gedmo\Versioned
      */
@@ -123,19 +136,29 @@ class Order implements EntityInterface, PriceInterface
     /**
      * Status order.
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\StatusOrder")
-     * @ORM\JoinColumn(nullable=false, name="status_order_id")
+     * @ORM\Column(type="smallint", options={"default": OrderInterface::CARTED})
      *
      * @Gedmo\Versioned
      */
-    private $statusOrder;
+    private $statusOrder = OrderInterface::CARTED;
+
+    /**
+     * Token is information provided by paypal.
+     *
+     * @var string
+     *
+     * @ORM\Column(type="string", length=32, nullable=true)
+     *
+     * @Gedmo\Versioned
+     */
+    private $token;
 
     /**
      * Order uuid.
      *
      * @var string
      *
-     * @ORM\Column(type="guid")
+     * @ORM\Column(type="string", length=23)
      *
      * @Gedmo\Versioned
      */
@@ -148,7 +171,7 @@ class Order implements EntityInterface, PriceInterface
     {
         $this->orderedArticles = new ArrayCollection();
         $this->bills = new ArrayCollection();
-        $this->uuid = uniqid('order-', true);
+        $this->generateUuid();
     }
 
     /**
@@ -268,6 +291,16 @@ class Order implements EntityInterface, PriceInterface
     }
 
     /**
+     * Payer id getter.
+     *
+     * @return string|null
+     */
+    public function getPayerId(): ?string
+    {
+        return $this->payerId;
+    }
+
+    /**
      * PaymentInstruction getter.
      *
      * @return PaymentInstruction
@@ -278,23 +311,13 @@ class Order implements EntityInterface, PriceInterface
     }
 
     /**
-     * Status credit getter.
+     * Token getter.
      *
-     * @return bool|null
+     * @return string|null
      */
-    public function getStatusCredit(): ?bool
+    public function getToken(): ?string
     {
-        return $this->statusCredit;
-    }
-
-    /**
-     * Status order getter.
-     *
-     * @return StatusOrder|null
-     */
-    public function getStatusOrder(): ?StatusOrder
-    {
-        return $this->statusOrder;
+        return $this->token;
     }
 
     /**
@@ -305,6 +328,26 @@ class Order implements EntityInterface, PriceInterface
     public function getUuid(): ?string
     {
         return $this->uuid;
+    }
+
+    /**
+     * Is this order canceled.
+     *
+     * @return bool
+     */
+    public function isCanceled(): bool
+    {
+        return OrderInterface::CANCELED === $this->statusOrder;
+    }
+
+    /**
+     * Is this order carted.
+     *
+     * @return bool
+     */
+    public function isCarted(): bool
+    {
+        return OrderInterface::CARTED === $this->statusOrder;
     }
 
     /**
@@ -322,13 +365,19 @@ class Order implements EntityInterface, PriceInterface
      *
      * @return bool
      */
-    public function isPaid(): ?bool
+    public function isPaid(): bool
     {
-        if (null === $this->getStatusOrder()) {
-            return null;
-        }
+        return OrderInterface::PAID === $this->statusOrder;
+    }
 
-        return $this->getStatusOrder()->isPaid() && !$this->getStatusOrder()->isCanceled();
+    /**
+     * Is this order pending.
+     *
+     * @return bool
+     */
+    public function isPending(): bool
+    {
+        return OrderInterface::PENDING === $this->statusOrder;
     }
 
     /**
@@ -400,6 +449,20 @@ class Order implements EntityInterface, PriceInterface
     }
 
     /**
+     * Payer id fluent setter.
+     *
+     * @param string $payerId payer id is a data provided by paypal
+     *
+     * @return Order
+     */
+    public function setPayerId(string $payerId): self
+    {
+        $this->payerId = $payerId;
+
+        return $this;
+    }
+
+    /**
      * Payment instruction fluent setter.
      *
      * @param PaymentInstruction|null $paymentInstruction payment instruction
@@ -430,14 +493,48 @@ class Order implements EntityInterface, PriceInterface
     /**
      * Status order fluent setter.
      *
-     * @param StatusOrder $statusOrder the new status order
+     * @param int $statusOrder the new status order
      *
      * @return Order
      */
-    public function setStatusOrder(StatusOrder $statusOrder): self
+    public function setStatusOrder(int $statusOrder): self
     {
         $this->statusOrder = $statusOrder;
 
         return $this;
+    }
+
+    /**
+     * Token fluent setter.
+     *
+     * @param string|null $token token is a data provided by paypal
+     *
+     * @return Order
+     */
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Refresh uuid.
+     *
+     * @return Order
+     */
+    public function refreshUuid(): self
+    {
+        $this->generateUuid();
+
+        return $this;
+    }
+
+    /**
+     *
+     */
+    private function generateUuid(): void
+    {
+        $this->uuid = uniqid('', true);
     }
 }

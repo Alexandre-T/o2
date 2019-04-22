@@ -85,7 +85,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
      * Bill number.
      *
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @Gedmo\Versioned
      */
@@ -228,6 +227,20 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
         return $this;
     }
 
+    /**
+     * Number fluent setter.
+     *
+     * @param int|null $number Number
+     *
+     * @return Bill
+     */
+    public function setNumber(?int $number): self
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+    
     /**
      * Order fluent setter.
      *

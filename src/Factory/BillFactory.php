@@ -31,8 +31,14 @@ class BillFactory
      *
      * @return Bill
      */
-    public static function create(Order $order, User $customer): Bill
+    public static function create(Order $order, User $customer = null): Bill
     {
+        //Initialization
+        if (null === $customer) {
+            $customer = $order->getCustomer();
+        }
+
+        //Bill creation
         $bill = new Bill();
         $bill->setOrder($order);
         $bill->setCustomer($customer);

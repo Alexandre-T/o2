@@ -19,8 +19,8 @@ use App\Entity\Article;
 use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\OrderedArticle;
-use App\Entity\StatusOrder;
 use App\Entity\User;
+use App\Model\OrderInterface;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
 use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
@@ -79,10 +79,15 @@ class OrderTest extends Unit
         self::assertNull($this->order->getId());
         self::assertNotNull($this->order->getLabel());
         self::assertEquals('000000', $this->order->getLabel());
+        self::assertNull($this->order->getPayerId());
         self::assertNull($this->order->getPaymentInstruction());
+        self::assertNull($this->order->getToken());
         self::assertNull($this->order->getVat());
         self::assertNotEmpty($this->order->getUuid());
-        self::assertNull($this->order->isPaid());
+        self::assertFalse($this->order->isCanceled());
+        self::assertTrue($this->order->isCarted());
+        self::assertFalse($this->order->isPaid());
+        self::assertFalse($this->order->isPending());
     }
 
     /**
@@ -137,7 +142,6 @@ class OrderTest extends Unit
         $actual = true;
 
         self::assertEquals($this->order, $this->order->setStatusCredit($actual));
-        self::assertTrue($this->order->getStatusCredit());
         self::assertTrue($this->order->isCredited());
     }
 
@@ -146,16 +150,52 @@ class OrderTest extends Unit
      */
     public function testStatusOrder(): void
     {
-        $actual = $expected = new StatusOrder();
-
-        self::assertEquals($this->order, $this->order->setStatusOrder($actual));
-        self::assertEquals($expected, $this->order->getStatusOrder());
-
-        $actual->setPaid(true);
-        self::assertTrue($this->order->isPaid());
-
-        $actual->setCanceled(true);
+        self::assertEquals($this->order, $this->order->setStatusOrder(OrderInterface::CANCELED));
+        self::assertTrue($this->order->isCanceled());
+        self::assertFalse($this->order->isCarted());
         self::assertFalse($this->order->isPaid());
+        self::assertFalse($this->order->isPending());
+
+        self::assertEquals($this->order, $this->order->setStatusOrder(OrderInterface::CARTED));
+        self::assertFalse($this->order->isCanceled());
+        self::assertTrue($this->order->isCarted());
+        self::assertFalse($this->order->isPaid());
+        self::assertFalse($this->order->isPending());
+
+        self::assertEquals($this->order, $this->order->setStatusOrder(OrderInterface::PENDING));
+        self::assertFalse($this->order->isCanceled());
+        self::assertFalse($this->order->isCarted());
+        self::assertFalse($this->order->isPaid());
+        self::assertTrue($this->order->isPending());
+
+        self::assertEquals($this->order, $this->order->setStatusOrder(OrderInterface::PAID));
+        self::assertFalse($this->order->isCanceled());
+        self::assertFalse($this->order->isCarted());
+        self::assertTrue($this->order->isPaid());
+        self::assertFalse($this->order->isPending());
+
+    }
+
+    /**
+     * Test Token setter and getter.
+     */
+    public function testToken(): void
+    {
+        $actual = $expected = 'token';
+
+        self::assertEquals($this->order, $this->order->setToken($actual));
+        self::assertEquals($expected, $this->order->getToken());
+    }
+
+    /**
+     * Test PayerId setter and getter.
+     */
+    public function testPayerId(): void
+    {
+        $actual = $expected = 'payer-id';
+
+        self::assertEquals($this->order, $this->order->setPayerId($actual));
+        self::assertEquals($expected, $this->order->getPayerId());
     }
 
     /**

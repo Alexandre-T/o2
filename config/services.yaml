@@ -32,6 +32,13 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+    # Listener to get the next number for bill.
+    App\Listener\BillNumberGeneratorListener:
+        class: App\Listener\BillNumberGeneratorListener
+        autowire: true
+        tags:
+            - { name: doctrine.event_subscriber }
+
     # Payment Listener to change order.
     App\Listener\PaymentListener:
         class: App\Listener\PaymentListener

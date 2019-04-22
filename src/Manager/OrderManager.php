@@ -19,13 +19,15 @@ use App\Entity\Article;
 use App\Entity\EntityInterface;
 use App\Entity\Order;
 use App\Entity\OrderedArticle;
-use App\Entity\StatusOrder;
 use App\Entity\User;
 use App\Exception\NoOrderException;
 use App\Form\Model\CreditOrder;
+use App\Model\OrderInterface;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
+use JMS\Payment\CoreBundle\Model\PaymentInterface;
 
 /**
  * order Manager.
@@ -53,7 +55,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        $orders = $repository->findByUserAndStatusOrder($user, StatusOrder::CARTED);
+        $orders = $repository->findByUserAndStatusOrder($user, OrderInterface::CARTED);
 
         if (null === $orders || empty($orders)) {
             throw new NoOrderException('No carted order for this user');
@@ -81,22 +83,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
-     * Get the last order paid by user.
-     *
-     * @param User $user user filter
-     *
-     * @throws NoOrderException when this user has no paid order
-     *
-     * @return Order
-     */
-    public function getLastOnePaid(User $user): Order
-    {
-        $this->getMainRepository()->findByUserAndStatusOrder($user, StatusOrder::PAID);
-
-        //FIXME TODO
-    }
-
-    /**
      * Get the only one non-empty carted order by user.
      *
      * @param User $user user filter
@@ -110,7 +96,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        $orders = $repository->findByUserNonEmptyStatusOrder($user, StatusOrder::CARTED);
+        $orders = $repository->findByUserNonEmptyStatusOrder($user, OrderInterface::CARTED);
 
         if (null === $orders || empty($orders)) {
             throw new NoOrderException('No carted order for this user');
@@ -134,12 +120,8 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $order = $repository->findOneByUserAndCarted($user);
 
         if (null === $order) {
-            // TODO create a factory
-            $soRepository = $this->entityManager->getRepository(StatusOrder::class);
-            $carted = $soRepository->findOneByCode(StatusOrder::CARTED);
             $order = new Order();
             $order->setCustomer($user);
-            $order->setStatusOrder($carted);
         }
 
         return $order;
@@ -167,7 +149,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        return 0 !== $repository->countByUserAndStatusOrder($user, StatusOrder::CARTED);
+        return 0 !== $repository->countByUserAndStatusOrder($user, OrderInterface::CARTED);
     }
 
     /**
@@ -209,19 +191,50 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
+     * Retrieve an order find by its payment instruction.
+     *
+     * @param PaymentInstructionInterface $paymentInstruction payment instruction filter
+     *
+     * @return Order|null
+     */
+    public function retrieveByPaymentInstruction(PaymentInstructionInterface $paymentInstruction): ?Order
+    {
+        return $this->getMainRepository()->findOneByPaymentInstruction($paymentInstruction);
+    }
+
+    /**
+     * Retrieve order by uuid.
+     *
+     * @param string $uuid uuid to retrieve order
+     *
+     * @throws NoOrderException when order does not exists
+     *
+     * @return Order
+     */
+    public function retrieveByUuid(string $uuid): Order
+    {
+        $order = $this->repository->findOneByUuid($uuid);
+        if (null === $order) {
+            throw new NoOrderException("Order with uuid ${uuid} is non-existent.");
+        }
+
+        return $order;
+    }
+
+    /**
      * Set order as paid and credits user.
      *
      * @param Order $order order to put at paid
      */
     public function setPaid(Order $order): void
     {
-        $soRepository = $this->entityManager->getRepository(StatusOrder::class);
-        $statusOrder = $soRepository->findOnePaid();
-        $order->setStatusOrder($statusOrder);
+        $order->setStatusOrder(OrderInterface::PAID);
 
         $user = $order->getCustomer();
-        $user->setCredit($user->getCredit() + $order->getCredits());
-        $order->setStatusCredit(true);
+        if (!$order->isCredited()) {
+            $user->setCredit($user->getCredit() + $order->getCredits());
+            $order->setStatusCredit(true);
+        }
     }
 
     /**
@@ -231,10 +244,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      */
     public function setPending(Order $order): void
     {
-        $soRepository = $this->entityManager->getRepository(StatusOrder::class);
-        $pending = $soRepository->findOnePending();
-        $order->setStatusOrder($pending);
-        $this->save($order);
+        $order->setStatusOrder(OrderInterface::PENDING);
     }
 
     /**
@@ -301,5 +311,35 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     {
         $orderedArticle->setUnitCost($article->getPrice());
         $orderedArticle->setQuantity($quantity);
+    }
+
+    /**
+     * Validate payment after payment complete
+     * @param Order $order
+     */
+    public function validateAfterPaymentComplete(Order $order)
+    {
+        $pending = $paid = 0;
+        if ($order->isCarted()) {
+            foreach ($order->getPaymentInstruction()->getPayments() as $payment) {
+                if (PaymentInterface::STATE_APPROVING === $payment->getState()) {
+                    $pending++;
+                }
+
+                if (PaymentInterface::STATE_APPROVED === $payment->getState()
+                    && $payment->getApprovedAmount() == $order->getAmount()
+                ) {
+                    $paid++;
+                }
+            }
+        }
+
+        if ($paid) {
+            $this->setPaid($order);
+        } elseif ($pending) {
+            $this->setPending($order);
+        }
+
+        $order->refreshUuid();
     }
 }
