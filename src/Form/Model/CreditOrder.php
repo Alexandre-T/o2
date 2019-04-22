@@ -44,6 +44,7 @@ class CreditOrder
      * @var int
      */
     private $hundred = 0;
+
     /**
      * The number of credit bought by ten.
      *

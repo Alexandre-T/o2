@@ -29,18 +29,18 @@ use Codeception\Test\Unit;
 class PriceTest extends Unit
 {
     /**
-     * The unit tester.
-     *
-     * @var UnitTester
-     */
-    protected $tester;
-
-    /**
      * Order uses trait to test.
      *
      * @var Order
      */
     protected $order;
+
+    /**
+     * The unit tester.
+     *
+     * @var UnitTester
+     */
+    protected $tester;
 
     /**
      * Before each test, order is created.

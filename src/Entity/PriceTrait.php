@@ -45,6 +45,13 @@ trait PriceTrait
      */
     private $vat;
 
+    /**
+     * Copy price properties from another price interface to current one.
+     *
+     * @param PriceInterface $price the price interface to copy
+     *
+     * @return PriceTrait|PriceInterface
+     */
     public function copyPrice(PriceInterface $price): self
     {
         $this->setPrice($price->getPrice());

@@ -108,23 +108,6 @@ class RegisterCest
      *
      * @param AcceptanceTester $I the acceptance tester
      */
-    public function tryToSendSocietyWithoutName(AcceptanceTester $I): void
-    {
-        $I->wantTo('send register as a society without its name.');
-        $I->amOnPage('/register');
-        //Société
-        $I->selectOption('app_register[type]', 0);
-        $I->click('S’inscrire');
-        $I->seeCurrentUrlEquals('/register');
-        $I->seeResponseCodeIsSuccessful();
-        $I->see('Pour les professionnels, le nom de la société est obligatoire.');
-    }
-
-    /**
-     * Try to send a society without its name.
-     *
-     * @param AcceptanceTester $I the acceptance tester
-     */
     public function tryToSendPhysicWithoutName(AcceptanceTester $I): void
     {
         $I->wantTo('send register as a physic person without its name.');
@@ -135,5 +118,22 @@ class RegisterCest
         $I->seeCurrentUrlEquals('/register');
         $I->seeResponseCodeIsSuccessful();
         $I->see('Pour les particuliers, le nom de famille est obligatoire.');
+    }
+
+    /**
+     * Try to send a society without its name.
+     *
+     * @param AcceptanceTester $I the acceptance tester
+     */
+    public function tryToSendSocietyWithoutName(AcceptanceTester $I): void
+    {
+        $I->wantTo('send register as a society without its name.');
+        $I->amOnPage('/register');
+        //Société
+        $I->selectOption('app_register[type]', 0);
+        $I->click('S’inscrire');
+        $I->seeCurrentUrlEquals('/register');
+        $I->seeResponseCodeIsSuccessful();
+        $I->see('Pour les professionnels, le nom de la société est obligatoire.');
     }
 }

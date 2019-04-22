@@ -29,18 +29,18 @@ use Codeception\Test\Unit;
 class PostalAddressTest extends Unit
 {
     /**
-     * The unit tester.
-     *
-     * @var UnitTester
-     */
-    protected $tester;
-
-    /**
      * Bill uses trait to test.
      *
      * @var Bill
      */
     protected $bill;
+
+    /**
+     * The unit tester.
+     *
+     * @var UnitTester
+     */
+    protected $tester;
 
     /**
      * Before each test, bill is created.
@@ -61,6 +61,17 @@ class PostalAddressTest extends Unit
     }
 
     /**
+     * Test Complement setter and getter.
+     */
+    public function testComplement(): void
+    {
+        $actual = $expected = 'complement';
+
+        self::assertEquals($this->bill, $this->bill->setComplement($actual));
+        self::assertEquals($expected, $this->bill->getComplement());
+    }
+
+    /**
      * Test the constructor.
      */
     public function testConstructor(): void
@@ -76,61 +87,6 @@ class PostalAddressTest extends Unit
         self::assertNull($this->bill->getPostalCode());
         //Street address
         self::assertNull($this->bill->getStreetAddress());
-    }
-
-    /**
-     * Test Complement setter and getter.
-     */
-    public function testComplement(): void
-    {
-        $actual = $expected = 'complement';
-
-        self::assertEquals($this->bill, $this->bill->setComplement($actual));
-        self::assertEquals($expected, $this->bill->getComplement());
-    }
-
-    /**
-     * Test Country setter and getter.
-     */
-    public function testCountry(): void
-    {
-        $actual = $expected = 'FR';
-
-        self::assertEquals($this->bill, $this->bill->setCountry($actual));
-        self::assertEquals($expected, $this->bill->getCountry());
-    }
-
-    /**
-     * Test Locality setter and getter.
-     */
-    public function testLocality(): void
-    {
-        $actual = $expected = 'locality';
-
-        self::assertEquals($this->bill, $this->bill->setLocality($actual));
-        self::assertEquals($expected, $this->bill->getLocality());
-    }
-
-    /**
-     * Test PostalCode setter and getter.
-     */
-    public function testPostalCode(): void
-    {
-        $actual = $expected = '33000';
-
-        self::assertEquals($this->bill, $this->bill->setPostalCode($actual));
-        self::assertEquals($expected, $this->bill->getPostalCode());
-    }
-
-    /**
-     * Test StreetAddress setter and getter.
-     */
-    public function testStreetAddress(): void
-    {
-        $actual = $expected = 'address';
-
-        self::assertEquals($this->bill, $this->bill->setStreetAddress($actual));
-        self::assertEquals($expected, $this->bill->getStreetAddress());
     }
 
     /**
@@ -178,5 +134,49 @@ class PostalAddressTest extends Unit
         self::assertEquals('userL', $this->bill->getLocality());
         self::assertEquals('userP', $this->bill->getPostalCode());
         self::assertEquals('userS', $this->bill->getStreetAddress());
+    }
+
+    /**
+     * Test Country setter and getter.
+     */
+    public function testCountry(): void
+    {
+        $actual = $expected = 'FR';
+
+        self::assertEquals($this->bill, $this->bill->setCountry($actual));
+        self::assertEquals($expected, $this->bill->getCountry());
+    }
+
+    /**
+     * Test Locality setter and getter.
+     */
+    public function testLocality(): void
+    {
+        $actual = $expected = 'locality';
+
+        self::assertEquals($this->bill, $this->bill->setLocality($actual));
+        self::assertEquals($expected, $this->bill->getLocality());
+    }
+
+    /**
+     * Test PostalCode setter and getter.
+     */
+    public function testPostalCode(): void
+    {
+        $actual = $expected = '33000';
+
+        self::assertEquals($this->bill, $this->bill->setPostalCode($actual));
+        self::assertEquals($expected, $this->bill->getPostalCode());
+    }
+
+    /**
+     * Test StreetAddress setter and getter.
+     */
+    public function testStreetAddress(): void
+    {
+        $actual = $expected = 'address';
+
+        self::assertEquals($this->bill, $this->bill->setStreetAddress($actual));
+        self::assertEquals($expected, $this->bill->getStreetAddress());
     }
 }

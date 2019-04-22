@@ -44,7 +44,7 @@ class BillRepository extends ServiceEntityRepository
     /**
      * Find bills by order.
      *
-     * @param Order $order
+     * @param Order $order order of searched bill
      *
      * @return array
      */
@@ -61,15 +61,14 @@ class BillRepository extends ServiceEntityRepository
     public function maxNumber(): int
     {
         try {
-
-        return (int) $this->createQueryBuilder('b')
-            ->select('max(b.number) as maxi')
-            ->getQuery()
-            ->getSingleScalarResult();
+            return (int) $this->createQueryBuilder('b')
+                ->select('max(b.number) as maxi')
+                ->getQuery()
+                ->getSingleScalarResult()
+            ;
         } catch (NonUniqueResultException $exception) {
             //this should not be reached.
             return 0;
         }
-
     }
 }

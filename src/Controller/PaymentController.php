@@ -26,7 +26,6 @@ use JMS\Payment\CoreBundle\Model\PaymentInterface;
 use JMS\Payment\CoreBundle\Plugin\Exception\Action\VisitUrl;
 use JMS\Payment\CoreBundle\Plugin\Exception\ActionRequiredException;
 use JMS\Payment\CoreBundle\Plugin\Exception\CommunicationException;
-use JMS\Payment\CoreBundle\Plugin\Exception\PaymentPendingException;
 use JMS\Payment\CoreBundle\PluginController\Exception\InvalidPaymentInstructionException;
 use JMS\Payment\CoreBundle\PluginController\PluginController;
 use JMS\Payment\CoreBundle\PluginController\Result;
@@ -74,14 +73,19 @@ class PaymentController extends AbstractController
      *
      * @Route("/complete/{uuid}", name="customer_payment_complete")
      *
+     * @param BillManager  $billManager  bill manager to generate bill
      * @param OrderManager $orderManager order manager to retrieve order
      * @param Request      $request      to retrieve token and payerId
      * @param string       $uuid         to retrieve order
      *
      * @return Response
      */
-    public function paymentComplete(BillManager $billManager, OrderManager $orderManager, Request $request, string $uuid): Response
-    {
+    public function paymentComplete(
+     BillManager $billManager,
+     OrderManager $orderManager,
+     Request $request,
+     string $uuid
+    ): Response {
         try {
             $order = $orderManager->retrieveByUuid($uuid);
 
@@ -121,11 +125,7 @@ class PaymentController extends AbstractController
      * @param PluginController $ppc          plugin controller
      * @param LoggerInterface  $logger       logger interface
      *
-     * @throws InvalidPaymentInstructionException on error with instruction
-     *
      * @return RedirectResponse
-     *
-     * FIXME catch throws!
      */
     public function paymentCreateAction(
      BillManager $billManager,
@@ -146,9 +146,9 @@ class PaymentController extends AbstractController
             $logger->error('Communication error: '.$comException->getMessage());
 
             return $this->redirectToRoute('customer_payment_method');
-        } catch (InvalidPaymentInstructionException $paymentInstructionException) {
+        } catch (InvalidPaymentInstructionException $exception) {
             $this->addFlash('error', 'error.payment-instruction');
-            $logger->alert('Payment Instruction error: '.$paymentInstructionException->getMessage());
+            $logger->alert('Payment Instruction error: '.$exception->getMessage());
 
             return $this->redirectToRoute('customer_payment_method');
         }
@@ -176,23 +176,11 @@ class PaymentController extends AbstractController
         }
 
         // In a real-world application I don't throw the exception.
-        // I redirect to the showAction with a flash message informing
-        // the user that the payment was not successful.
         //throw $result->getPluginException();
         $exception = $result->getPluginException();
-        if ($exception instanceof PaymentPendingException) {
-            dump($result->getStatus(), $result);
-            $logger->alert('Payment pending');
-            $this->addFlash('warning', 'payment.pending');
-            $orderManager->setPending($order);
-            $orderManager->save($order);
-
-            return $this->redirectToRoute('home');
-        }
 
         if ($exception instanceof Exception) {
-            $logger->error('payment.error: '.$exception->getMessage());
-            $this->addFlash('error', 'payment.error');
+            $logger->alert('Erreur de paiement: '.$exception->getMessage());
         }
 
         return $this->redirectToRoute('home');
@@ -308,7 +296,7 @@ class PaymentController extends AbstractController
         $paypalCheckoutParams = [
             'PAYMENTREQUEST_0_DESC' => $trans->trans('payment.paypal.description %credit% %amount%', [
                 '%credit%' => $order->getCredits(),
-                '%amount%' => $order->getAmount(), //FIXME localized number value
+                '%amount%' => $order->getAmount(),
             ]),
             'PAYMENTREQUEST_0_ITEMAMT' => $order->getPrice(),
             'PAYMENTREQUEST_0_SHIPPINGAMT' => 0,
@@ -316,16 +304,16 @@ class PaymentController extends AbstractController
             'PAYMENTREQUEST_0_SHIPDISCAMT' => 0,
         ];
 
-        $itemNumber = 0;
+        $item = 0;
         foreach ($order->getOrderedArticles() as $orderedArticle) {
             if ($orderedArticle->getQuantity()) {
-                $paypalCheckoutParams['L_PAYMENTREQUEST_0_AMT'.$itemNumber] = $orderedArticle->getArticle()->getPrice();
-                $paypalCheckoutParams['L_PAYMENTREQUEST_0_QTY'.$itemNumber] = $orderedArticle->getQuantity();
-                $paypalCheckoutParams['L_PAYMENTREQUEST_0_TAXAMT'.$itemNumber] = $orderedArticle->getArticle()->getVat();
-                $paypalCheckoutParams['L_PAYMENTREQUEST_0_NAME'.$itemNumber] = $trans->trans(
+                $paypalCheckoutParams['L_PAYMENTREQUEST_0_AMT'.$item] = $orderedArticle->getArticle()->getPrice();
+                $paypalCheckoutParams['L_PAYMENTREQUEST_0_QTY'.$item] = $orderedArticle->getQuantity();
+                $paypalCheckoutParams['L_PAYMENTREQUEST_0_TAXAMT'.$item] = $orderedArticle->getArticle()->getVat();
+                $paypalCheckoutParams['L_PAYMENTREQUEST_0_NAME'.$item] = $trans->trans(
                     "article.{$orderedArticle->getArticle()->getCode()}.text"
                 );
-                ++$itemNumber;
+                ++$item;
             }
         }
 

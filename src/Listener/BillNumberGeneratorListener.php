@@ -47,7 +47,7 @@ class BillNumberGeneratorListener implements EventSubscriber
             return;
         }
 
-        /** @var Bill $entity  */
+        /** @var Bill $entity */
         if (null !== $entity->getNumber()) {
             return;
         }

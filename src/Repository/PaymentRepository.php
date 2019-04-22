@@ -17,7 +17,6 @@ namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use JMS\Payment\CoreBundle\Entity\Payment;
-use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -38,17 +37,5 @@ class PaymentRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Payment::class);
-    }
-
-    /**
-     * Find one payment by uuid.
-     *
-     * @param string $uuid $uuid to retrieve payment
-     *
-     * @return Payment|null
-     */
-    public function findByPaymentInstruction(PaymentInstruction $instruction): ?Payment
-    {
-        return $this->findOneBy(['paymentInstruction' => $instruction]);
     }
 }

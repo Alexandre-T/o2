@@ -29,18 +29,18 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class ArticleRepositoryTest extends KernelTestCase
 {
     /**
-     * Entity manager.
-     *
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
      * Article Repository.
      *
      * @var ArticleRepository
      */
     private $articleRepository;
+
+    /**
+     * Entity manager.
+     *
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
     /**
      * {@inheritdoc}

@@ -30,18 +30,18 @@ use Codeception\Test\Unit;
 class PersonTest extends Unit
 {
     /**
-     * The unit tester.
-     *
-     * @var UnitTester
-     */
-    protected $tester;
-
-    /**
      * Bill uses trait to test.
      *
      * @var Bill
      */
     protected $bill;
+
+    /**
+     * The unit tester.
+     *
+     * @var UnitTester
+     */
+    protected $tester;
 
     /**
      * Before each test, bill is created.
@@ -73,6 +73,59 @@ class PersonTest extends Unit
         self::assertNull($this->bill->getSociety());
         self::assertTrue($this->bill->isPhysic());
         self::assertNull($this->bill->getTelephone());
+    }
+
+    /**
+     * test copy identity function.
+     */
+    public function testCopyIdentity(): void
+    {
+        $actual = new User();
+
+        //null bill copy null user.
+        self::assertEquals($this->bill, $this->bill->copyIdentity($actual));
+        self::assertNull($this->bill->getGivenName());
+        self::assertNull($this->bill->getName());
+        self::assertNull($this->bill->getSociety());
+        self::assertNull($this->bill->getTelephone());
+        self::assertTrue($this->bill->getType());
+        self::assertNull($this->bill->getVatNumber());
+
+        //not null copy null
+        $this->bill->setGivenName('givenName');
+        $this->bill->setName('name');
+        $this->bill->setSociety('society');
+        $this->bill->setTelephone('telephone');
+        $this->bill->setType(true);
+        $this->bill->setVatNumber('vatNumber');
+        self::assertEquals($this->bill, $this->bill->copyIdentity($actual));
+        self::assertNull($this->bill->getGivenName());
+        self::assertNull($this->bill->getName());
+        self::assertNull($this->bill->getSociety());
+        self::assertNull($this->bill->getTelephone());
+        self::assertTrue($this->bill->getType());
+        self::assertNull($this->bill->getVatNumber());
+
+        //not null copy not null
+        $actual->setGivenName('userGN');
+        $actual->setName('userN');
+        $actual->setSociety('userS');
+        $actual->setTelephone('userT');
+        $actual->setType(false);
+        $actual->setVatNumber('userV');
+        $this->bill->setGivenName('givenName');
+        $this->bill->setName('name');
+        $this->bill->setSociety('society');
+        $this->bill->setTelephone('telephone');
+        $this->bill->setType(true);
+        $this->bill->setVatNumber('vatNumber');
+        self::assertEquals($this->bill, $this->bill->copyIdentity($actual));
+        self::assertEquals('userGN', $this->bill->getGivenName());
+        self::assertEquals('userN', $this->bill->getName());
+        self::assertEquals('userS', $this->bill->getSociety());
+        self::assertEquals('userT', $this->bill->getTelephone());
+        self::assertFalse($this->bill->getType());
+        self::assertEquals('userV', $this->bill->getVatNumber());
     }
 
     /**
@@ -133,58 +186,5 @@ class PersonTest extends Unit
         self::assertTrue($this->bill->getType());
         self::assertFalse($this->bill->isMoral());
         self::asserttrue($this->bill->isPhysic());
-    }
-
-    /**
-     * test copy identity function.
-     */
-    public function testCopyIdentity(): void
-    {
-        $actual = new User();
-
-        //null bill copy null user.
-        self::assertEquals($this->bill, $this->bill->copyIdentity($actual));
-        self::assertNull($this->bill->getGivenName());
-        self::assertNull($this->bill->getName());
-        self::assertNull($this->bill->getSociety());
-        self::assertNull($this->bill->getTelephone());
-        self::assertTrue($this->bill->getType());
-        self::assertNull($this->bill->getVatNumber());
-
-        //not null copy null
-        $this->bill->setGivenName('givenName');
-        $this->bill->setName('name');
-        $this->bill->setSociety('society');
-        $this->bill->setTelephone('telephone');
-        $this->bill->setType(true);
-        $this->bill->setVatNumber('vatNumber');
-        self::assertEquals($this->bill, $this->bill->copyIdentity($actual));
-        self::assertNull($this->bill->getGivenName());
-        self::assertNull($this->bill->getName());
-        self::assertNull($this->bill->getSociety());
-        self::assertNull($this->bill->getTelephone());
-        self::assertTrue($this->bill->getType());
-        self::assertNull($this->bill->getVatNumber());
-
-        //not null copy not null
-        $actual->setGivenName('userGN');
-        $actual->setName('userN');
-        $actual->setSociety('userS');
-        $actual->setTelephone('userT');
-        $actual->setType(false);
-        $actual->setVatNumber('userV');
-        $this->bill->setGivenName('givenName');
-        $this->bill->setName('name');
-        $this->bill->setSociety('society');
-        $this->bill->setTelephone('telephone');
-        $this->bill->setType(true);
-        $this->bill->setVatNumber('vatNumber');
-        self::assertEquals($this->bill, $this->bill->copyIdentity($actual));
-        self::assertEquals('userGN', $this->bill->getGivenName());
-        self::assertEquals('userN', $this->bill->getName());
-        self::assertEquals('userS', $this->bill->getSociety());
-        self::assertEquals('userT', $this->bill->getTelephone());
-        self::assertFalse($this->bill->getType());
-        self::assertEquals('userV', $this->bill->getVatNumber());
     }
 }

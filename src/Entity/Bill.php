@@ -240,7 +240,7 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
         return $this;
     }
-    
+
     /**
      * Order fluent setter.
      *

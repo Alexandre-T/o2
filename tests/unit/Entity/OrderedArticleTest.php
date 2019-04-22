@@ -30,18 +30,18 @@ use Codeception\Test\Unit;
 class OrderedArticleTest extends Unit
 {
     /**
-     * The unit tester.
-     *
-     * @var UnitTester
-     */
-    protected $tester;
-
-    /**
      * Order to test.
      *
      * @var OrderedArticle
      */
     protected $orderedArticle;
+
+    /**
+     * The unit tester.
+     *
+     * @var UnitTester
+     */
+    protected $tester;
 
     /**
      * Before each test, order is created.
@@ -62,13 +62,13 @@ class OrderedArticleTest extends Unit
     }
 
     /**
-     * Test the quantity getter and setter.
+     * Test the method Article getter and setter.
      */
-    public function testQuantity(): void
+    public function testArticle(): void
     {
-        $expected = $actual = 42;
-        self::assertEquals($this->orderedArticle, $this->orderedArticle->setQuantity($actual));
-        self::assertEquals($expected, $this->orderedArticle->getQuantity());
+        $expected = $actual = new Article();
+        self::assertEquals($this->orderedArticle, $this->orderedArticle->setArticle($actual));
+        self::assertEquals($expected, $this->orderedArticle->getArticle());
     }
 
     /**
@@ -82,13 +82,13 @@ class OrderedArticleTest extends Unit
     }
 
     /**
-     * Test the method Article getter and setter.
+     * Test the quantity getter and setter.
      */
-    public function testArticle(): void
+    public function testQuantity(): void
     {
-        $expected = $actual = new Article();
-        self::assertEquals($this->orderedArticle, $this->orderedArticle->setArticle($actual));
-        self::assertEquals($expected, $this->orderedArticle->getArticle());
+        $expected = $actual = 42;
+        self::assertEquals($this->orderedArticle, $this->orderedArticle->setQuantity($actual));
+        self::assertEquals($expected, $this->orderedArticle->getQuantity());
     }
 
     /**

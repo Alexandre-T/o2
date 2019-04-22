@@ -381,6 +381,18 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     }
 
     /**
+     * Refresh uuid.
+     *
+     * @return Order
+     */
+    public function refreshUuid(): self
+    {
+        $this->generateUuid();
+
+        return $this;
+    }
+
+    /**
      * Bill fluent remover.
      *
      * @param Bill $bill bill to remove
@@ -519,19 +531,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     }
 
     /**
-     * Refresh uuid.
-     *
-     * @return Order
-     */
-    public function refreshUuid(): self
-    {
-        $this->generateUuid();
-
-        return $this;
-    }
-
-    /**
-     *
+     * Generate a new uuid for $uuid property.
      */
     private function generateUuid(): void
     {

@@ -127,6 +127,38 @@ class UserTest extends Unit
     }
 
     /**
+     * Test the hasRole function.
+     */
+    public function testHasRole(): void
+    {
+        $this->tester->wantToTest('The roles methods');
+        self::assertFalse($this->user->hasRole('foo'));
+
+        //Set ROLE_ADMIN and test.
+        self::assertEquals($this->user, $this->user->setRoles([User::ROLE_ADMIN]));
+        self::assertTrue($this->user->isAdmin());
+        self::assertTrue($this->user->isCustomer());
+
+        //Set ROLE_ACCOUNTANT and test.
+        self::assertEquals($this->user, $this->user->setRoles([User::ROLE_ACCOUNTANT]));
+        self::assertTrue($this->user->isAccountant());
+        self::assertTrue($this->user->isCustomer());
+
+        //Add ROLE_PROGRAMMER and test.
+        self::assertEquals($this->user, $this->user->addRole(User::ROLE_PROGRAMMER));
+        self::assertTrue($this->user->isAccountant());
+        self::assertTrue($this->user->isProgrammer());
+        self::assertTrue($this->user->isCustomer());
+
+        //Remove ALL roles and test.
+        self::assertEquals($this->user, $this->user->setRoles([]));
+        self::assertFalse($this->user->isAdmin());
+        self::assertTrue($this->user->isCustomer());
+        self::assertFalse($this->user->isAccountant());
+        self::assertFalse($this->user->isProgrammer());
+    }
+
+    /**
      * Tests label.
      */
     public function testLabel(): void
@@ -167,6 +199,19 @@ class UserTest extends Unit
     }
 
     /**
+     * Test Orders setters and getter.
+     */
+    public function testOrders(): void
+    {
+        $expected = $actual = new Order();
+
+        self::assertEquals($this->user, $this->user->addOrder($actual));
+        self::assertTrue($this->user->getOrders()->contains($expected));
+        self::assertEquals($this->user, $this->user->removeOrder($actual));
+        self::assertFalse($this->user->getOrders()->contains($expected));
+    }
+
+    /**
      * Tests password setter and erasing.
      */
     public function testPassword(): void
@@ -191,6 +236,28 @@ class UserTest extends Unit
         self::assertEquals($expected, $this->user->getPlainPassword());
         //When setter of plain password was called, password must have been reinitialized.
         self::assertNull($this->user->getPassword());
+    }
+
+    /**
+     * Test ResettingAt setter and getter.
+     */
+    public function testResettingAt(): void
+    {
+        $actual = $expected = new DateTimeImmutable();
+
+        self::assertEquals($this->user, $this->user->setResettingAt($actual));
+        self::assertEquals($expected, $this->user->getResettingAt());
+    }
+
+    /**
+     * Test ResettingToken setter and getter.
+     */
+    public function testResettingToken(): void
+    {
+        $actual = $expected = 'resettingToken';
+
+        self::assertEquals($this->user, $this->user->setResettingToken($actual));
+        self::assertEquals($expected, $this->user->getResettingToken());
     }
 
     /**
@@ -225,60 +292,6 @@ class UserTest extends Unit
     }
 
     /**
-     * Test the hasRole function.
-     */
-    public function testHasRole(): void
-    {
-        $this->tester->wantToTest('The roles methods');
-        self::assertFalse($this->user->hasRole('foo'));
-
-        //Set ROLE_ADMIN and test.
-        self::assertEquals($this->user, $this->user->setRoles([User::ROLE_ADMIN]));
-        self::assertTrue($this->user->isAdmin());
-        self::assertTrue($this->user->isCustomer());
-
-        //Set ROLE_ACCOUNTANT and test.
-        self::assertEquals($this->user, $this->user->setRoles([User::ROLE_ACCOUNTANT]));
-        self::assertTrue($this->user->isAccountant());
-        self::assertTrue($this->user->isCustomer());
-
-        //Add ROLE_PROGRAMMER and test.
-        self::assertEquals($this->user, $this->user->addRole(User::ROLE_PROGRAMMER));
-        self::assertTrue($this->user->isAccountant());
-        self::assertTrue($this->user->isProgrammer());
-        self::assertTrue($this->user->isCustomer());
-
-        //Remove ALL roles and test.
-        self::assertEquals($this->user, $this->user->setRoles([]));
-        self::assertFalse($this->user->isAdmin());
-        self::assertTrue($this->user->isCustomer());
-        self::assertFalse($this->user->isAccountant());
-        self::assertFalse($this->user->isProgrammer());
-    }
-
-    /**
-     * Test ResettingAt setter and getter.
-     */
-    public function testResettingAt(): void
-    {
-        $actual = $expected = new DateTimeImmutable();
-
-        self::assertEquals($this->user, $this->user->setResettingAt($actual));
-        self::assertEquals($expected, $this->user->getResettingAt());
-    }
-
-    /**
-     * Test ResettingToken setter and getter.
-     */
-    public function testResettingToken(): void
-    {
-        $actual = $expected = 'resettingToken';
-
-        self::assertEquals($this->user, $this->user->setResettingToken($actual));
-        self::assertEquals($expected, $this->user->getResettingToken());
-    }
-
-    /**
      * Test Telephone setter and getter.
      */
     public function testTelephone(): void
@@ -299,16 +312,38 @@ class UserTest extends Unit
     }
 
     /**
-     * Test Orders setters and getter.
+     * Test validate.
      */
-    public function testOrders(): void
+    public function testValidateWithNonValidSociety(): void
     {
-        $expected = $actual = new Order();
+        /** @var ExecutionContextInterface|MockObject $builder */
+        $builder = $this->getMockBuilder(ConstraintViolationBuilderInterface::class)->getMockForAbstractClass();
+        /** @var ExecutionContextInterface|MockObject $context */
+        $context = $this->getMockBuilder(ExecutionContextInterface::class)->getMockForAbstractClass();
 
-        self::assertEquals($this->user, $this->user->addOrder($actual));
-        self::assertTrue($this->user->getOrders()->contains($expected));
-        self::assertEquals($this->user, $this->user->removeOrder($actual));
-        self::assertFalse($this->user->getOrders()->contains($expected));
+        $builder
+            ->expects(self::once())
+            ->method('atPath')
+            ->with('society')
+            ->willReturn($builder)
+        ;
+        $builder
+            ->expects(self::once())
+            ->method('addViolation')
+        ;
+
+        $context
+            ->expects(self::once())
+            ->method('buildViolation')
+            ->with('error.society.blank', [])
+            ->willReturn($builder)
+        ;
+
+        $this->user->setType(PersonInterface::MORAL);
+        self::assertTrue($this->user->IsSociety());
+        self::assertFalse($this->user->IsPhysic());
+
+        $this->user->validate($context);
     }
 
     /**
@@ -365,41 +400,6 @@ class UserTest extends Unit
         $this->user->setName(null);
         $this->user->setSociety('bar');
         $this->user->setType(PersonInterface::MORAL);
-        $this->user->validate($context);
-    }
-
-    /**
-     * Test validate.
-     */
-    public function testValidateWithNonValidSociety(): void
-    {
-        /** @var ExecutionContextInterface|MockObject $builder */
-        $builder = $this->getMockBuilder(ConstraintViolationBuilderInterface::class)->getMockForAbstractClass();
-        /** @var ExecutionContextInterface|MockObject $context */
-        $context = $this->getMockBuilder(ExecutionContextInterface::class)->getMockForAbstractClass();
-
-        $builder
-            ->expects(self::once())
-            ->method('atPath')
-            ->with('society')
-            ->willReturn($builder)
-        ;
-        $builder
-            ->expects(self::once())
-            ->method('addViolation')
-        ;
-
-        $context
-            ->expects(self::once())
-            ->method('buildViolation')
-            ->with('error.society.blank', [])
-            ->willReturn($builder)
-        ;
-
-        $this->user->setType(PersonInterface::MORAL);
-        self::assertTrue($this->user->IsSociety());
-        self::assertFalse($this->user->IsPhysic());
-
         $this->user->validate($context);
     }
 

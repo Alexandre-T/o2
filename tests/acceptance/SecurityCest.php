@@ -23,6 +23,44 @@ namespace App\Tests;
 class SecurityCest
 {
     /**
+     * Test accountant access.
+     *
+     * @param AcceptanceTester $you the acceptance test
+     */
+    public function tryToTestAccountantAccess(AcceptanceTester $you): void
+    {
+        $you->wantTo('be connected as accountant.');
+        $you->login('accountant');
+
+        //We are connected as accountant and are on home page
+        $you->wantToTest('accountant see links');
+        $you->seeLink('Acheter des crédits');
+        $you->seeLink('Comptable');
+        $you->seeLink('Déconnexion');
+        $you->dontSeeLink('Programmateur');
+        $you->dontSeeLink('Administrateur');
+
+        $you->wantToTest('Accountant can access home page.');
+        $you->click('O2 Files');
+        $you->seeCurrentUrlEquals('/');
+        $you->seeResponseCodeIsSuccessful();
+
+        $you->wantToTest('Accountant cannot access register page.');
+        $you->amOnPage('/register');
+        $you->seeCurrentUrlEquals('/');
+
+        $you->wantToTest('Accountant cannot access login page.');
+        $you->amOnPage('/login');
+        $you->seeCurrentUrlEquals('/');
+
+        $you->wantToTest('Accountant can access logout page.');
+        $you->click('Déconnexion');
+        $you->amOnPage('/');
+        $you->seeLink('Connexion');
+        $you->seeLink('Inscription');
+    }
+
+    /**
      * Test administrator access.
      *
      * @param AcceptanceTester $you the acceptance tester
@@ -87,44 +125,6 @@ class SecurityCest
         $you->wantToTest('Anonymous user cannot access profil page');
         $you->amOnPage('/customer/profile');
         $you->seeCurrentUrlEquals('/login');
-    }
-
-    /**
-     * Test accountant access.
-     *
-     * @param AcceptanceTester $you the acceptance test
-     */
-    public function tryToTestAccountantAccess(AcceptanceTester $you): void
-    {
-        $you->wantTo('be connected as accountant.');
-        $you->login('accountant');
-
-        //We are connected as accountant and are on home page
-        $you->wantToTest('accountant see links');
-        $you->seeLink('Acheter des crédits');
-        $you->seeLink('Comptable');
-        $you->seeLink('Déconnexion');
-        $you->dontSeeLink('Programmateur');
-        $you->dontSeeLink('Administrateur');
-
-        $you->wantToTest('Accountant can access home page.');
-        $you->click('O2 Files');
-        $you->seeCurrentUrlEquals('/');
-        $you->seeResponseCodeIsSuccessful();
-
-        $you->wantToTest('Accountant cannot access register page.');
-        $you->amOnPage('/register');
-        $you->seeCurrentUrlEquals('/');
-
-        $you->wantToTest('Accountant cannot access login page.');
-        $you->amOnPage('/login');
-        $you->seeCurrentUrlEquals('/');
-
-        $you->wantToTest('Accountant can access logout page.');
-        $you->click('Déconnexion');
-        $you->amOnPage('/');
-        $you->seeLink('Connexion');
-        $you->seeLink('Inscription');
     }
 
     /**

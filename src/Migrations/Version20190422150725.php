@@ -1,4 +1,15 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
 
 declare(strict_types=1);
 
@@ -14,11 +25,52 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20190422150725 extends AbstractMigration
 {
     /**
+     * Drop full shema.
+     *
+     * @param Schema $schema
+     *
+     * @throws DBALException
+     */
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
+
+        $this->addSql('ALTER TABLE data.tj_ordered_article DROP CONSTRAINT FK_C76D6AC17294869C');
+        $this->addSql('ALTER TABLE data.te_bill DROP CONSTRAINT FK_38A5ECB58D9F6D38');
+        $this->addSql('ALTER TABLE data.tj_ordered_article DROP CONSTRAINT FK_C76D6AC18D9F6D38');
+        $this->addSql('ALTER TABLE data.te_bill DROP CONSTRAINT FK_38A5ECB59395C3F3');
+        $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT FK_7763E3AC9395C3F3');
+        $this->addSql('ALTER TABLE financial_transactions DROP CONSTRAINT FK_1353F2D9CE062FF9');
+        $this->addSql('ALTER TABLE credits DROP CONSTRAINT FK_4117D17E4C3A3BB');
+        $this->addSql('ALTER TABLE financial_transactions DROP CONSTRAINT FK_1353F2D94C3A3BB');
+        $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT FK_7763E3AC8789B572');
+        $this->addSql('ALTER TABLE credits DROP CONSTRAINT FK_4117D17E8789B572');
+        $this->addSql('ALTER TABLE payments DROP CONSTRAINT FK_65D29B328789B572');
+        $this->addSql('DROP SEQUENCE ext_log_entries_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE credits_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE financial_transactions_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE payments_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE payment_instructions_id_seq CASCADE');
+        $this->addSql('DROP TABLE data.tr_article');
+        $this->addSql('DROP TABLE data.te_bill');
+        $this->addSql('DROP TABLE data.te_order');
+        $this->addSql('DROP TABLE data.tj_ordered_article');
+        $this->addSql('DROP TABLE data.ts_user');
+        $this->addSql('DROP TABLE ext_log_entries');
+        $this->addSql('DROP TABLE credits');
+        $this->addSql('DROP TABLE financial_transactions');
+        $this->addSql('DROP TABLE payments');
+        $this->addSql('DROP TABLE payment_instructions');
+        $this->addSql('DROP SCHEMA data');
+    }
+
+    /**
      * Description getter.
      *
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Full schema';
     }
@@ -27,12 +79,13 @@ final class Version20190422150725 extends AbstractMigration
      * Up full schema.
      *
      * @param Schema $schema
+     *
      * @throws DBALException
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SCHEMA data');
         $this->addSql('CREATE SEQUENCE ext_log_entries_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -122,45 +175,5 @@ final class Version20190422150725 extends AbstractMigration
         $this->addSql('ALTER TABLE financial_transactions ADD CONSTRAINT FK_1353F2D9CE062FF9 FOREIGN KEY (credit_id) REFERENCES credits (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE financial_transactions ADD CONSTRAINT FK_1353F2D94C3A3BB FOREIGN KEY (payment_id) REFERENCES payments (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE payments ADD CONSTRAINT FK_65D29B328789B572 FOREIGN KEY (payment_instruction_id) REFERENCES payment_instructions (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-    }
-
-    /**
-     * Drop full shema.
-     *
-     * @param Schema $schema
-     * @throws DBALException
-     */
-    public function down(Schema $schema) : void
-    {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
-
-        $this->addSql('ALTER TABLE data.tj_ordered_article DROP CONSTRAINT FK_C76D6AC17294869C');
-        $this->addSql('ALTER TABLE data.te_bill DROP CONSTRAINT FK_38A5ECB58D9F6D38');
-        $this->addSql('ALTER TABLE data.tj_ordered_article DROP CONSTRAINT FK_C76D6AC18D9F6D38');
-        $this->addSql('ALTER TABLE data.te_bill DROP CONSTRAINT FK_38A5ECB59395C3F3');
-        $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT FK_7763E3AC9395C3F3');
-        $this->addSql('ALTER TABLE financial_transactions DROP CONSTRAINT FK_1353F2D9CE062FF9');
-        $this->addSql('ALTER TABLE credits DROP CONSTRAINT FK_4117D17E4C3A3BB');
-        $this->addSql('ALTER TABLE financial_transactions DROP CONSTRAINT FK_1353F2D94C3A3BB');
-        $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT FK_7763E3AC8789B572');
-        $this->addSql('ALTER TABLE credits DROP CONSTRAINT FK_4117D17E8789B572');
-        $this->addSql('ALTER TABLE payments DROP CONSTRAINT FK_65D29B328789B572');
-        $this->addSql('DROP SEQUENCE ext_log_entries_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE credits_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE financial_transactions_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE payments_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE payment_instructions_id_seq CASCADE');
-        $this->addSql('DROP TABLE data.tr_article');
-        $this->addSql('DROP TABLE data.te_bill');
-        $this->addSql('DROP TABLE data.te_order');
-        $this->addSql('DROP TABLE data.tj_ordered_article');
-        $this->addSql('DROP TABLE data.ts_user');
-        $this->addSql('DROP TABLE ext_log_entries');
-        $this->addSql('DROP TABLE credits');
-        $this->addSql('DROP TABLE financial_transactions');
-        $this->addSql('DROP TABLE payments');
-        $this->addSql('DROP TABLE payment_instructions');
-        $this->addSql('DROP SCHEMA data');
     }
 }

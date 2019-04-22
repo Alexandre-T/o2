@@ -34,14 +34,15 @@ class ChangePassword
      * @var string
      */
     private $newPassword = '';
+
     /**
      * The old user password.
+     *
+     * @var string
      *
      * @Assert\NotBlank(message="error.old-password.blank")
      * @SecurityAssert\UserPassword(message="error.old-password.not-match")
      * @Assert\Length(max=4096)
-     *
-     * @var string
      */
     private $oldPassword = '';
 

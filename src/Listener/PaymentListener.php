@@ -59,29 +59,20 @@ class PaymentListener
     }
 
     /**
-     * Create a bill when payment instruction statement go from 3 to 4.
+     * On payment instruction state change, I can do something.
      *
      * @param Event $event handled event
      */
     public function onPaymentInstructionStateChange(Event $event): void
     {
-//        return;
     }
 
     /**
-     * @param Event $event
+     * On payment state change, I can do something.
+     *
+     * @param Event $event Event catched
      */
     public function onPaymentStateChange(Event $event): void
     {
-//        if ($event instanceof PaymentStateChangeEvent) {
-//            if ($event->getNewState() !== $event->getOldState()) {
-//                if (PaymentInterface::STATE_APPROVING == $event->getNewState()) {
-//                    //Bill must be created.
-//                    $order = $this->orderManager->retrieveByPaymentInstruction($event->getPaymentInstruction());
-//                    $bill = BillFactory::create($order);
-//                    $this->billManager->save($bill);
-//                }
-//            }
-//        }
     }
 }

@@ -33,18 +33,18 @@ use ReflectionException;
 class BillTest extends Unit
 {
     /**
-     * The unit tester.
-     *
-     * @var UnitTester
-     */
-    protected $tester;
-
-    /**
      * Bill to test.
      *
      * @var Bill
      */
     protected $bill;
+
+    /**
+     * The unit tester.
+     *
+     * @var UnitTester
+     */
+    protected $tester;
 
     /**
      * Before each test, bill is created.
@@ -65,6 +65,18 @@ class BillTest extends Unit
     }
 
     /**
+     * Test CanceledAt setter and getter.
+     */
+    public function testCanceledAt(): void
+    {
+        $actual = $expected = new DateTimeImmutable();
+
+        self::assertEquals($this->bill, $this->bill->setCanceledAt($actual));
+        self::assertEquals($expected, $this->bill->getCanceledAt());
+        self::assertTrue($this->bill->isCanceled());
+    }
+
+    /**
      * Test the constructor.
      */
     public function testConstructor(): void
@@ -79,18 +91,6 @@ class BillTest extends Unit
         self::assertNull($this->bill->getPaidAt());
         self::assertFalse($this->bill->isCanceled());
         self::assertFalse($this->bill->isPaid());
-    }
-
-    /**
-     * Test CanceledAt setter and getter.
-     */
-    public function testCanceledAt(): void
-    {
-        $actual = $expected = new DateTimeImmutable();
-
-        self::assertEquals($this->bill, $this->bill->setCanceledAt($actual));
-        self::assertEquals($expected, $this->bill->getCanceledAt());
-        self::assertTrue($this->bill->isCanceled());
     }
 
     /**
@@ -123,6 +123,17 @@ class BillTest extends Unit
     }
 
     /**
+     * Test Order setter and getter.
+     */
+    public function testOrder(): void
+    {
+        $actual = $expected = new Order();
+
+        self::assertEquals($this->bill, $this->bill->setOrder($actual));
+        self::assertEquals($expected, $this->bill->getOrder());
+    }
+
+    /**
      * Test PaidAt setter and getter.
      */
     public function testPaidAt(): void
@@ -132,16 +143,5 @@ class BillTest extends Unit
         self::assertEquals($this->bill, $this->bill->setPaidAt($actual));
         self::assertEquals($expected, $this->bill->getPaidAt());
         self::assertTrue($this->bill->isPaid());
-    }
-
-    /**
-     * Test Order setter and getter.
-     */
-    public function testOrder(): void
-    {
-        $actual = $expected = new Order();
-
-        self::assertEquals($this->bill, $this->bill->setOrder($actual));
-        self::assertEquals($expected, $this->bill->getOrder());
     }
 }

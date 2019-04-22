@@ -28,18 +28,18 @@ use Codeception\Test\Unit;
 class ArticleTest extends Unit
 {
     /**
-     * The unit tester.
-     *
-     * @var UnitTester
-     */
-    protected $tester;
-
-    /**
      * Status order to test.
      *
      * @var Article
      */
     protected $article;
+
+    /**
+     * The unit tester.
+     *
+     * @var UnitTester
+     */
+    protected $tester;
 
     /**
      * Before each test, user is created.
@@ -60,6 +60,17 @@ class ArticleTest extends Unit
     }
 
     /**
+     * Test Code setter and getter.
+     */
+    public function testCode(): void
+    {
+        $actual = $expected = 'code';
+
+        self::assertEquals($this->article, $this->article->setCode($actual));
+        self::assertEquals($expected, $this->article->getCode());
+    }
+
+    /**
      * Test the constructor.
      */
     public function testConstructor(): void
@@ -69,17 +80,6 @@ class ArticleTest extends Unit
         self::assertNull($this->article->getId());
         self::assertNull($this->article->getPrice());
         self::assertNull($this->article->getVat());
-    }
-
-    /**
-     * Test Code setter and getter.
-     */
-    public function testCode(): void
-    {
-        $actual = $expected = 'code';
-
-        self::assertEquals($this->article, $this->article->setCode($actual));
-        self::assertEquals($expected, $this->article->getCode());
     }
 
     /**

@@ -33,6 +33,7 @@ class PasswordReset
      * @var string|null
      */
     private $password;
+
     /**
      * Resetting token.
      *

@@ -65,7 +65,7 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Bill are never deletable.
      *
-     * @param EntityInterface|Bill $entity
+     * @param EntityInterface|Bill $entity entity to test
      *
      * @return bool true if entity is deletable
      */
