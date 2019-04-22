@@ -34,7 +34,8 @@ use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
  *         @ORM\Index(name="ndx_status_order",  columns={"status_order_id"})
  *     },
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="uk_order_payment_instruction",  columns={"payment_instruction_id"})
+ *         @ORM\UniqueConstraint(name="uk_order_payment_instruction",  columns={"payment_instruction_id"}),
+ *         @ORM\UniqueConstraint(name="uk_order_uuid",  columns={"uuid"})
  *     }
  * )
  *
@@ -135,7 +136,6 @@ class Order implements EntityInterface, PriceInterface
      * @var string
      *
      * @ORM\Column(type="guid")
-     * @ORM\GeneratedValue(strategy="UUID")
      *
      * @Gedmo\Versioned
      */
@@ -148,6 +148,7 @@ class Order implements EntityInterface, PriceInterface
     {
         $this->orderedArticles = new ArrayCollection();
         $this->bills = new ArrayCollection();
+        $this->uuid = uniqid('order-', true);
     }
 
     /**

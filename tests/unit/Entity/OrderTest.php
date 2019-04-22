@@ -81,6 +81,7 @@ class OrderTest extends Unit
         self::assertEquals('000000', $this->order->getLabel());
         self::assertNull($this->order->getPaymentInstruction());
         self::assertNull($this->order->getVat());
+        self::assertNotEmpty($this->order->getUuid());
         self::assertNull($this->order->isPaid());
     }
 
