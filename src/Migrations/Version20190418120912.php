@@ -25,6 +25,26 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20190418120912 extends AbstractMigration
 {
     /**
+     * Price trait drop.
+     *
+     * @param Schema $schema
+     *
+     * @throws DBALException
+     */
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
+
+        $this->addSql('ALTER TABLE data.tr_article ADD cost NUMERIC(6, 2) DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE data.tr_article ALTER cost DROP DEFAULT');
+        $this->addSql('UPDATE data.tr_article SET cost = price');
+        $this->addSql('ALTER TABLE data.tr_article DROP price');
+        $this->addSql('ALTER TABLE data.tr_article DROP vat');
+        $this->addSql('COMMENT ON COLUMN data.tr_article.cost IS \'Article cost\'');
+    }
+
+    /**
      * Description getter.
      *
      * @return string
@@ -53,25 +73,5 @@ final class Version20190418120912 extends AbstractMigration
         $this->addSql('UPDATE data.tr_article SET price = cost, vat = cost * 0.2');
 
         $this->addSql('ALTER TABLE data.tr_article DROP cost');
-    }
-
-    /**
-     * Price trait drop.
-     *
-     * @param Schema $schema
-     *
-     * @throws DBALException
-     */
-    public function down(Schema $schema): void
-    {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
-
-        $this->addSql('ALTER TABLE data.tr_article ADD cost NUMERIC(6, 2) DEFAULT 0 NOT NULL');
-        $this->addSql('ALTER TABLE data.tr_article ALTER cost DROP DEFAULT');
-        $this->addSql('UPDATE data.tr_article SET cost = price');
-        $this->addSql('ALTER TABLE data.tr_article DROP price');
-        $this->addSql('ALTER TABLE data.tr_article DROP vat');
-        $this->addSql('COMMENT ON COLUMN data.tr_article.cost IS \'Article cost\'');
     }
 }

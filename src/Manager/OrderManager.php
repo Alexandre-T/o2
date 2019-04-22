@@ -40,113 +40,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     public const ALIAS = 'order';
 
     /**
-     * Return default alias.
-     */
-    public function getDefaultAlias(): string
-    {
-        return self::ALIAS;
-    }
-
-    /**
-     * Get the default field for ordering data.
-     *
-     * @return string
-     */
-    public function getDefaultSortField(): string
-    {
-        return self::ALIAS.'.id';
-    }
-
-    /**
-     * Return the Query builder needed by the paginator.
-     *
-     * @return QueryBuilder
-     */
-    public function getQueryBuilder()
-    {
-        return $this->repository->createQueryBuilder(self::ALIAS);
-    }
-
-    /**
-     * Is this entity deletable?
-     *
-     * @param EntityInterface|Order $entity the entity to test
-     *
-     * @return bool true if entity is deletable
-     */
-    public function isDeletable(EntityInterface $entity): bool
-    {
-        return !$entity->isPaid();
-    }
-
-    /**
-     * Find the only one non-paid order or create a new one.
-     *
-     * @param User $user the user criteria
-     *
-     * @return Order
-     */
-    public function getOrCreateCartedOrder(User $user): Order
-    {
-        /** @var OrderRepository $repository */
-        $repository = $this->getMainRepository();
-
-        $order = $repository->findOneByUserAndCarted($user);
-
-        if (null === $order) {
-            // TODO create a factory
-            $soRepository = $this->entityManager->getRepository(StatusOrder::class);
-            $carted = $soRepository->findOneByCode(StatusOrder::CARTED);
-            $order = new Order();
-            $order->setCustomer($user);
-            $order->setStatusOrder($carted);
-        }
-
-        return $order;
-    }
-
-    /**
-     * Push data.
-     *
-     * @param Order       $order order to complete
-     * @param CreditOrder $model model to provide data
-     */
-    public function pushOrderedArticles(Order $order, CreditOrder $model): void
-    {
-        $articleRepository = $this->entityManager->getRepository(Article::class);
-        /** @var Article[] $articles */
-        $articles = $articleRepository->findAll();
-        $order->setCredits(0);
-        $order->setPrice(0);
-        $order->setVat(0);
-
-        $methods[10] = 'getTen';
-        $methods[100] = 'getHundred';
-        $methods[500] = 'getFiveHundred';
-
-        foreach ($articles as $article) {
-            if (array_key_exists($article->getCredit(), $methods)) {
-                $this->updateOrder($order, $article, $model->{$methods[$article->getCredit()]}());
-            }
-        }
-    }
-
-    /**
-     * Has this customer a carted order or not?
-     *
-     * @param User $user user filter
-     *
-     * @return bool
-     */
-    public function hasCartedOrder(User $user)
-    {
-        /** @var OrderRepository $repository */
-        $repository = $this->getMainRepository();
-
-        return 0 !== $repository->countByUserAndStatusOrder($user, StatusOrder::CARTED);
-    }
-
-    /**
      * Get the only one carted order by user.
      *
      * @param User $user user filter
@@ -167,6 +60,24 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         }
 
         return $orders[0];
+    }
+
+    /**
+     * Return default alias.
+     */
+    public function getDefaultAlias(): string
+    {
+        return self::ALIAS;
+    }
+
+    /**
+     * Get the default field for ordering data.
+     *
+     * @return string
+     */
+    public function getDefaultSortField(): string
+    {
+        return self::ALIAS.'.id';
     }
 
     /**
@@ -206,6 +117,95 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         }
 
         return $orders[0];
+    }
+
+    /**
+     * Find the only one non-paid order or create a new one.
+     *
+     * @param User $user the user criteria
+     *
+     * @return Order
+     */
+    public function getOrCreateCartedOrder(User $user): Order
+    {
+        /** @var OrderRepository $repository */
+        $repository = $this->getMainRepository();
+
+        $order = $repository->findOneByUserAndCarted($user);
+
+        if (null === $order) {
+            // TODO create a factory
+            $soRepository = $this->entityManager->getRepository(StatusOrder::class);
+            $carted = $soRepository->findOneByCode(StatusOrder::CARTED);
+            $order = new Order();
+            $order->setCustomer($user);
+            $order->setStatusOrder($carted);
+        }
+
+        return $order;
+    }
+
+    /**
+     * Return the Query builder needed by the paginator.
+     *
+     * @return QueryBuilder
+     */
+    public function getQueryBuilder()
+    {
+        return $this->repository->createQueryBuilder(self::ALIAS);
+    }
+
+    /**
+     * Has this customer a carted order or not?
+     *
+     * @param User $user user filter
+     *
+     * @return bool
+     */
+    public function hasCartedOrder(User $user)
+    {
+        /** @var OrderRepository $repository */
+        $repository = $this->getMainRepository();
+
+        return 0 !== $repository->countByUserAndStatusOrder($user, StatusOrder::CARTED);
+    }
+
+    /**
+     * Is this entity deletable?
+     *
+     * @param EntityInterface|Order $entity the entity to test
+     *
+     * @return bool true if entity is deletable
+     */
+    public function isDeletable(EntityInterface $entity): bool
+    {
+        return !$entity->isPaid();
+    }
+
+    /**
+     * Push data.
+     *
+     * @param Order       $order order to complete
+     * @param CreditOrder $model model to provide data
+     */
+    public function pushOrderedArticles(Order $order, CreditOrder $model): void
+    {
+        $articleRepository = $this->entityManager->getRepository(Article::class);
+        /** @var Article[] $articles */
+        $articles = $articleRepository->findAll();
+        $order->setCredits(0);
+        $order->setPrice(0);
+        $order->setVat(0);
+
+        $methods[10] = 'getTen';
+        $methods[100] = 'getHundred';
+        $methods[500] = 'getFiveHundred';
+
+        foreach ($articles as $article) {
+            if (array_key_exists($article->getCredit(), $methods)) {
+                $this->updateOrder($order, $article, $model->{$methods[$article->getCredit()]}());
+            }
+        }
     }
 
     /**

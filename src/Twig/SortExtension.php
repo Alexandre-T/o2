@@ -40,6 +40,16 @@ class SortExtension extends AbstractExtension
     }
 
     /**
+     * Return Name of extension.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'sort_extension';
+    }
+
+    /**
      * Dort function.
      *
      * @param bool   $sorted change icon if sorted
@@ -64,15 +74,5 @@ class SortExtension extends AbstractExtension
         }
 
         return $result;
-    }
-
-    /**
-     * Return Name of extension.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'sort_extension';
     }
 }

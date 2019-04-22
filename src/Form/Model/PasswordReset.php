@@ -25,13 +25,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PasswordReset
 {
     /**
-     * Resetting token.
-     *
-     * @var string|null
-     */
-    private $token;
-
-    /**
      * The new password.
      *
      * @Assert\Length(min=6, max=4096)
@@ -40,6 +33,12 @@ class PasswordReset
      * @var string|null
      */
     private $password;
+    /**
+     * Resetting token.
+     *
+     * @var string|null
+     */
+    private $token;
 
     /**
      * Password getter.

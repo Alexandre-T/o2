@@ -24,6 +24,32 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190414094242 extends AbstractMigration
 {
+    /**
+     * Script removing all table.
+     *
+     * @param Schema $schema
+     *
+     * @throws DBALException
+     */
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
+
+        $this->addSql('ALTER TABLE data.tj_ordered_article DROP CONSTRAINT fk_ordered_article_article');
+        $this->addSql('ALTER TABLE data.tj_ordered_article DROP CONSTRAINT fk_ordered_article_order');
+        $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT fk_order_status_order');
+        $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT fk_order_user');
+        $this->addSql('DROP SEQUENCE ext_log_entries_id_seq CASCADE');
+        $this->addSql('DROP TABLE data.tr_article');
+        $this->addSql('DROP TABLE data.te_order');
+        $this->addSql('DROP TABLE data.tj_ordered_article');
+        $this->addSql('DROP TABLE data.tr_status_order');
+        $this->addSql('DROP TABLE data.ts_user');
+        $this->addSql('DROP TABLE ext_log_entries');
+        $this->addSql('DROP SCHEMA data');
+    }
+
     public function getDescription(): string
     {
         return 'Script initialization';
@@ -101,31 +127,5 @@ final class Version20190414094242 extends AbstractMigration
         $this->addSql('ALTER TABLE data.te_order ADD CONSTRAINT fk_order_status_order FOREIGN KEY (status_order_id) REFERENCES data.tr_status_order (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE data.tj_ordered_article ADD CONSTRAINT fk_ordered_article_article FOREIGN KEY (article_id) REFERENCES data.tr_article (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE data.tj_ordered_article ADD CONSTRAINT fk_ordered_article_order FOREIGN KEY (order_id) REFERENCES data.te_order (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-    }
-
-    /**
-     * Script removing all table.
-     *
-     * @param Schema $schema
-     *
-     * @throws DBALException
-     */
-    public function down(Schema $schema): void
-    {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
-
-        $this->addSql('ALTER TABLE data.tj_ordered_article DROP CONSTRAINT fk_ordered_article_article');
-        $this->addSql('ALTER TABLE data.tj_ordered_article DROP CONSTRAINT fk_ordered_article_order');
-        $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT fk_order_status_order');
-        $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT fk_order_user');
-        $this->addSql('DROP SEQUENCE ext_log_entries_id_seq CASCADE');
-        $this->addSql('DROP TABLE data.tr_article');
-        $this->addSql('DROP TABLE data.te_order');
-        $this->addSql('DROP TABLE data.tj_ordered_article');
-        $this->addSql('DROP TABLE data.tr_status_order');
-        $this->addSql('DROP TABLE data.ts_user');
-        $this->addSql('DROP TABLE ext_log_entries');
-        $this->addSql('DROP SCHEMA data');
     }
 }

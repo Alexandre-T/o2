@@ -47,6 +47,16 @@ class GravatarExtension extends AbstractExtension
     }
 
     /**
+     * Return Name of extension.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'gravatar_extension';
+    }
+
+    /**
      * Gravatar Filter.
      *
      * @param string      $email   Email for gravatar
@@ -98,15 +108,5 @@ class GravatarExtension extends AbstractExtension
         $this->securedRequest = true;
 
         return $this->gravatarFilter($email, $size, $default);
-    }
-
-    /**
-     * Return Name of extension.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'gravatar_extension';
     }
 }

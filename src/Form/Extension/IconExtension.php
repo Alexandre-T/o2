@@ -31,6 +31,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class IconExtension extends AbstractTypeExtension implements FormTypeExtensionInterface
 {
     /**
+     * Return all types using this extension.
+     *
+     * @return array
+     */
+    public static function getExtendedTypes(): iterable
+    {
+        return [
+            ButtonType::class,
+            TextType::class,
+        ];
+    }
+
+    /**
      * Builds the form view.
      *
      * This method is called for each type in the hierarchy starting from the
@@ -72,18 +85,5 @@ class IconExtension extends AbstractTypeExtension implements FormTypeExtensionIn
             'light',
             'brands',
         ]);
-    }
-
-    /**
-     * Return all types using this extension.
-     *
-     * @return array
-     */
-    public static function getExtendedTypes(): iterable
-    {
-        return [
-            ButtonType::class,
-            TextType::class,
-        ];
     }
 }

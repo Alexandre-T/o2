@@ -83,6 +83,36 @@ class OrderedArticle
     }
 
     /**
+     * Order getter.
+     *
+     * @return Order|null
+     */
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    /**
+     * Quantity getter.
+     *
+     * @return int|null
+     */
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Unit cost getter.
+     *
+     * @return float|float|string
+     */
+    public function getUnitCost()
+    {
+        return $this->unitCost;
+    }
+
+    /**
      * Item fluent setter.
      *
      * @param Article|null $article article ordered
@@ -94,16 +124,6 @@ class OrderedArticle
         $this->article = $article;
 
         return $this;
-    }
-
-    /**
-     * Order getter.
-     *
-     * @return Order|null
-     */
-    public function getOrder(): ?Order
-    {
-        return $this->order;
     }
 
     /**
@@ -125,16 +145,6 @@ class OrderedArticle
     }
 
     /**
-     * Quantity getter.
-     *
-     * @return int|null
-     */
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    /**
      * Quantity fluent setter.
      *
      * @param int $quantity quantity ordered
@@ -146,16 +156,6 @@ class OrderedArticle
         $this->quantity = $quantity;
 
         return $this;
-    }
-
-    /**
-     * Unit cost getter.
-     *
-     * @return float|float|string
-     */
-    public function getUnitCost()
-    {
-        return $this->unitCost;
     }
 
     /**

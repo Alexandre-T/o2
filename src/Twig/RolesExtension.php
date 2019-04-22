@@ -56,6 +56,16 @@ class RolesExtension extends AbstractExtension
     }
 
     /**
+     * Return Name of extension.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return 'roles_extension';
+    }
+
+    /**
      * Roles Filter.
      *
      * @param array|string $roles           Roles to translate
@@ -85,15 +95,5 @@ class RolesExtension extends AbstractExtension
         }
 
         return implode($outputDelimiter, $result);
-    }
-
-    /**
-     * Return Name of extension.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'roles_extension';
     }
 }

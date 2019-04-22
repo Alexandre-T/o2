@@ -76,16 +76,6 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
-     * Return the main repository.
-     *
-     * @return EntityRepository
-     */
-    protected function getMainRepository(): EntityRepository
-    {
-        return $this->entityManager->getRepository(User::class);
-    }
-
-    /**
      * This method will add the HIDDEN field, the sortable field.
      *
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
@@ -100,5 +90,15 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
             ->addSelect('user.mail as HIDDEN mail')
             ->addSelect('user.name as HIDDEN username')
         ;
+    }
+
+    /**
+     * Return the main repository.
+     *
+     * @return EntityRepository
+     */
+    protected function getMainRepository(): EntityRepository
+    {
+        return $this->entityManager->getRepository(User::class);
     }
 }

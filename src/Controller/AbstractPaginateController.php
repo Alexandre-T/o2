@@ -21,19 +21,18 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class AbstractPaginateController extends AbstractController
 {
     /**
-     * Validate the ordered fields.
-     * Redirect user to the default order when invalid fields are provided.
+     * Get sort order from request.
      *
-     * @param Request $request        the request with sorting fields
-     * @param array   $acceptedFields array of acceptedFields
+     * @param Request $request      the request containing order
+     * @param string  $defaultOrder the default order if request have no one
      *
-     * @return bool
+     * @return string
      */
-    protected function validateSortedField(Request $request, array $acceptedFields): bool
+    protected function getOrder(Request $request, string $defaultOrder = 'asc'): string
     {
-        $field = $request->query->getAlpha('sort');
+        $order = $request->query->getAlpha('direction', $defaultOrder);
 
-        return empty($field) || in_array($field, $acceptedFields);
+        return 'desc' === $order ? 'desc' : 'asc';
     }
 
     /**
@@ -50,17 +49,18 @@ abstract class AbstractPaginateController extends AbstractController
     }
 
     /**
-     * Get sort order from request.
+     * Validate the ordered fields.
+     * Redirect user to the default order when invalid fields are provided.
      *
-     * @param Request $request      the request containing order
-     * @param string  $defaultOrder the default order if request have no one
+     * @param Request $request        the request with sorting fields
+     * @param array   $acceptedFields array of acceptedFields
      *
-     * @return string
+     * @return bool
      */
-    protected function getOrder(Request $request, string $defaultOrder = 'asc'): string
+    protected function validateSortedField(Request $request, array $acceptedFields): bool
     {
-        $order = $request->query->getAlpha('direction', $defaultOrder);
+        $field = $request->query->getAlpha('sort');
 
-        return 'desc' === $order ? 'desc' : 'asc';
+        return empty($field) || in_array($field, $acceptedFields);
     }
 }

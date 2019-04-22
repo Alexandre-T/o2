@@ -86,6 +86,34 @@ trait PostalAddressTrait
     private $streetAddress;
 
     /**
+     * Copy address from postal address to current object.
+     *
+     * @param PostalAddressInterface $postalAddress postal address interface to copy
+     *
+     * @return PostalAddressInterface|PostalAddressTrait
+     */
+    public function copyAddress(PostalAddressInterface $postalAddress): PostalAddressInterface
+    {
+        $this->setComplement($postalAddress->getComplement());
+        $this->setCountry($postalAddress->getCountry());
+        $this->setLocality($postalAddress->getLocality());
+        $this->setPostalCode($postalAddress->getPostalCode());
+        $this->setStreetAddress($postalAddress->getStreetAddress());
+
+        return $this;
+    }
+
+    /**
+     * Post office box number getter.
+     *
+     * @return string|null
+     */
+    public function getComplement(): ?string
+    {
+        return $this->complement;
+    }
+
+    /**
      * Country getter.
      *
      * @return string|null
@@ -93,20 +121,6 @@ trait PostalAddressTrait
     public function getCountry(): ?string
     {
         return $this->country;
-    }
-
-    /**
-     * Country fluent setter.
-     *
-     * @param string|null $country the new country
-     *
-     * @return PostalAddressInterface|PostalAddressTrait
-     */
-    public function setCountry(?string $country): PostalAddressInterface
-    {
-        $this->country = $country;
-
-        return $this;
     }
 
     /**
@@ -120,27 +134,23 @@ trait PostalAddressTrait
     }
 
     /**
-     * Locality fluent setter.
-     *
-     * @param string|null $locality the new locality
-     *
-     * @return PostalAddressInterface|PostalAddressTrait
-     */
-    public function setLocality(?string $locality): PostalAddressInterface
-    {
-        $this->locality = $locality;
-
-        return $this;
-    }
-
-    /**
-     * Post office box number getter.
+     * Postal code getter.
      *
      * @return string|null
      */
-    public function getComplement(): ?string
+    public function getPostalCode(): ?string
     {
-        return $this->complement;
+        return $this->postalCode;
+    }
+
+    /**
+     * Street address getter.
+     *
+     * @return string|null
+     */
+    public function getStreetAddress(): ?string
+    {
+        return $this->streetAddress;
     }
 
     /**
@@ -158,13 +168,31 @@ trait PostalAddressTrait
     }
 
     /**
-     * Postal code getter.
+     * Country fluent setter.
      *
-     * @return string|null
+     * @param string|null $country the new country
+     *
+     * @return PostalAddressInterface|PostalAddressTrait
      */
-    public function getPostalCode(): ?string
+    public function setCountry(?string $country): PostalAddressInterface
     {
-        return $this->postalCode;
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Locality fluent setter.
+     *
+     * @param string|null $locality the new locality
+     *
+     * @return PostalAddressInterface|PostalAddressTrait
+     */
+    public function setLocality(?string $locality): PostalAddressInterface
+    {
+        $this->locality = $locality;
+
+        return $this;
     }
 
     /**
@@ -182,16 +210,6 @@ trait PostalAddressTrait
     }
 
     /**
-     * Street address getter.
-     *
-     * @return string|null
-     */
-    public function getStreetAddress(): ?string
-    {
-        return $this->streetAddress;
-    }
-
-    /**
      * Street address fluent setter.
      *
      * @param string|null $streetAddress new street address
@@ -201,24 +219,6 @@ trait PostalAddressTrait
     public function setStreetAddress(?string $streetAddress): PostalAddressInterface
     {
         $this->streetAddress = $streetAddress;
-
-        return $this;
-    }
-
-    /**
-     * Copy address from postal address to current object.
-     *
-     * @param PostalAddressInterface $postalAddress postal address interface to copy
-     *
-     * @return PostalAddressInterface|PostalAddressTrait
-     */
-    public function copyAddress(PostalAddressInterface $postalAddress): PostalAddressInterface
-    {
-        $this->setComplement($postalAddress->getComplement());
-        $this->setCountry($postalAddress->getCountry());
-        $this->setLocality($postalAddress->getLocality());
-        $this->setPostalCode($postalAddress->getPostalCode());
-        $this->setStreetAddress($postalAddress->getStreetAddress());
 
         return $this;
     }

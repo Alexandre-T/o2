@@ -130,6 +130,18 @@ class Order implements EntityInterface, PriceInterface
     private $statusOrder;
 
     /**
+     * Order uuid.
+     *
+     * @var string
+     *
+     * @ORM\Column(type="guid")
+     * @ORM\GeneratedValue(strategy="UUID")
+     *
+     * @Gedmo\Versioned
+     */
+    private $uuid;
+
+    /**
      * Order constructor.
      */
     public function __construct()
@@ -203,20 +215,6 @@ class Order implements EntityInterface, PriceInterface
     }
 
     /**
-     * Customer fluent setter.
-     *
-     * @param User|null $customer new customer
-     *
-     * @return Order
-     */
-    public function setCustomer(?User $customer): self
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    /**
      * Identifier getter.
      *
      * @return int|null
@@ -234,6 +232,16 @@ class Order implements EntityInterface, PriceInterface
     public function getLabel(): string
     {
         return sprintf('%06d', $this->identifier);
+    }
+
+    /**
+     * Ordered articles getter.
+     *
+     * @return Collection|OrderedArticle[]
+     */
+    public function getOrderedArticles(): Collection
+    {
+        return $this->orderedArticles;
     }
 
     /**
@@ -256,16 +264,6 @@ class Order implements EntityInterface, PriceInterface
         }
 
         return null;
-    }
-
-    /**
-     * Ordered articles getter.
-     *
-     * @return Collection|OrderedArticle[]
-     */
-    public function getOrderedArticles(): Collection
-    {
-        return $this->orderedArticles;
     }
 
     /**
@@ -299,17 +297,13 @@ class Order implements EntityInterface, PriceInterface
     }
 
     /**
-     * Credits fluent setter.
+     * Order uuid getter.
      *
-     * @param int $credits credit bought
-     *
-     * @return Order
+     * @return string|null
      */
-    public function setCredits(int $credits): self
+    public function getUuid(): ?string
     {
-        $this->credits = $credits;
-
-        return $this;
+        return $this->uuid;
     }
 
     /**
@@ -372,6 +366,34 @@ class Order implements EntityInterface, PriceInterface
                 $orderedArticle->setOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Credits fluent setter.
+     *
+     * @param int $credits credit bought
+     *
+     * @return Order
+     */
+    public function setCredits(int $credits): self
+    {
+        $this->credits = $credits;
+
+        return $this;
+    }
+
+    /**
+     * Customer fluent setter.
+     *
+     * @param User|null $customer new customer
+     *
+     * @return Order
+     */
+    public function setCustomer(?User $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

@@ -44,39 +44,6 @@ class InflectorExtension extends AbstractExtension
     }
 
     /**
-     * List of filters.
-     *
-     * @return array
-     */
-    public function getFilters(): array
-    {
-        return [
-            // If your filter generates SAFE HTML, you should add a third
-            // parameter: ['is_safe' => ['html']]
-            // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
-            new TwigFilter('camelize', [$this, 'camelizeFilter'], ['is_safe' => ['html']]),
-            new TwigFilter('country', [$this, 'countryFilter']),
-            new TwigFilter('emptyize', [$this, 'emptyizeFilter'], ['is_safe' => ['html']]),
-            new TwigFilter('hyphenize', [$this, 'hyphenizeFilter'], ['is_safe' => ['html']]),
-            new TwigFilter('titleize', [$this, 'titleizeFilter'], ['is_safe' => ['html']]),
-            new TwigFilter('underscorize', [$this, 'underscorizeFilter'], ['is_safe' => ['html']]),
-            new TwigFilter('variablize', [$this, 'variablizeFilter'], ['is_safe' => ['html']]),
-        ];
-    }
-
-    /**
-     * List of tests.
-     *
-     * @return array
-     */
-    public function getTests(): array
-    {
-        return [
-            new TwigTest('array', [$this, 'arrayTest']),
-        ];
-    }
-
-    /**
      * Return true only when value is strictly an array.
      *
      * @param mixed $value value to test
@@ -132,6 +99,39 @@ class InflectorExtension extends AbstractExtension
     public function emptyizeFilter(?string $word): string
     {
         return empty($word) ? $this->translator->trans('empty') : $word;
+    }
+
+    /**
+     * List of filters.
+     *
+     * @return array
+     */
+    public function getFilters(): array
+    {
+        return [
+            // If your filter generates SAFE HTML, you should add a third
+            // parameter: ['is_safe' => ['html']]
+            // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
+            new TwigFilter('camelize', [$this, 'camelizeFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('country', [$this, 'countryFilter']),
+            new TwigFilter('emptyize', [$this, 'emptyizeFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('hyphenize', [$this, 'hyphenizeFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('titleize', [$this, 'titleizeFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('underscorize', [$this, 'underscorizeFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('variablize', [$this, 'variablizeFilter'], ['is_safe' => ['html']]),
+        ];
+    }
+
+    /**
+     * List of tests.
+     *
+     * @return array
+     */
+    public function getTests(): array
+    {
+        return [
+            new TwigTest('array', [$this, 'arrayTest']),
+        ];
     }
 
     /**

@@ -41,17 +41,6 @@ class Article implements PriceInterface
     use PriceTrait;
 
     /**
-     * Article identifier.
-     *
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer", name="id", options={"comment": "Article identifier"})
-     */
-    private $identifier;
-
-    /**
      * Article unique code.
      *
      * @var string
@@ -72,14 +61,15 @@ class Article implements PriceInterface
     private $credit;
 
     /**
-     * Identifier getter.
+     * Article identifier.
      *
-     * @return int|null
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="integer", name="id", options={"comment": "Article identifier"})
      */
-    public function getId(): ?int
-    {
-        return $this->identifier;
-    }
+    private $identifier;
 
     /**
      * Code getter.
@@ -99,6 +89,16 @@ class Article implements PriceInterface
     public function getCredit(): ?int
     {
         return $this->credit;
+    }
+
+    /**
+     * Identifier getter.
+     *
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->identifier;
     }
 
     /**

@@ -21,20 +21,18 @@ namespace App\Entity;
 interface PostalAddressInterface
 {
     /**
+     * Post office box number getter.
+     *
+     * @return string|null
+     */
+    public function getComplement(): ?string;
+
+    /**
      * Country getter.
      *
      * @return string|null
      */
     public function getCountry(): ?string;
-
-    /**
-     * Country fluent setter.
-     *
-     * @param string $country the new country
-     *
-     * @return self
-     */
-    public function setCountry(?string $country): self;
 
     /**
      * Locality getter.
@@ -44,20 +42,18 @@ interface PostalAddressInterface
     public function getLocality(): ?string;
 
     /**
-     * Locality fluent setter.
-     *
-     * @param string|null $locality the new locality
-     *
-     * @return self
-     */
-    public function setLocality(?string $locality): self;
-
-    /**
-     * Post office box number getter.
+     * Postal code getter.
      *
      * @return string|null
      */
-    public function getComplement(): ?string;
+    public function getPostalCode(): ?string;
+
+    /**
+     * Street address getter.
+     *
+     * @return string|null
+     */
+    public function getStreetAddress(): ?string;
 
     /**
      * Post office box number fluent setter.
@@ -69,11 +65,22 @@ interface PostalAddressInterface
     public function setComplement(string $complement): self;
 
     /**
-     * Postal code getter.
+     * Country fluent setter.
      *
-     * @return string|null
+     * @param string $country the new country
+     *
+     * @return self
      */
-    public function getPostalCode(): ?string;
+    public function setCountry(?string $country): self;
+
+    /**
+     * Locality fluent setter.
+     *
+     * @param string|null $locality the new locality
+     *
+     * @return self
+     */
+    public function setLocality(?string $locality): self;
 
     /**
      * Postal code fluent setter.
@@ -83,13 +90,6 @@ interface PostalAddressInterface
      * @return self
      */
     public function setPostalCode(?string $postalCode): self;
-
-    /**
-     * Street address getter.
-     *
-     * @return string|null
-     */
-    public function getStreetAddress(): ?string;
 
     /**
      * Street address fluent setter.

@@ -25,6 +25,23 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20190414155930 extends AbstractMigration
 {
     /**
+     * Remove links.
+     *
+     * @param Schema $schema
+     *
+     * @throws DBALException
+     */
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
+
+        $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT fk_order_payment_instruction');
+        $this->addSql('ALTER TABLE data.te_order DROP payment_instruction_id');
+        $this->addSql('ALTER TABLE data.te_order DROP amount');
+    }
+
+    /**
      * Description getter.
      *
      * @return string
@@ -52,22 +69,5 @@ final class Version20190414155930 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN data.te_order.amount IS \'Amount TTC\'');
         $this->addSql('ALTER TABLE data.te_order ADD CONSTRAINT fk_order_payment_instruction FOREIGN KEY (payment_instruction_id) REFERENCES payment_instructions (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('CREATE UNIQUE INDEX uk_order_payment_instruction ON data.te_order (payment_instruction_id)');
-    }
-
-    /**
-     * Remove links.
-     *
-     * @param Schema $schema
-     *
-     * @throws DBALException
-     */
-    public function down(Schema $schema): void
-    {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
-
-        $this->addSql('ALTER TABLE data.te_order DROP CONSTRAINT fk_order_payment_instruction');
-        $this->addSql('ALTER TABLE data.te_order DROP payment_instruction_id');
-        $this->addSql('ALTER TABLE data.te_order DROP amount');
     }
 }

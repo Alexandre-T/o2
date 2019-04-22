@@ -40,32 +40,36 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerController extends AbstractController
 {
     /**
-     * Edit profile.
+     * Order credit.
      *
-     * @Route("/profile", name="customer_profile")
+     * @Route("/order-credit", name="customer_order_credit")
      *
-     * @param Request                $request       the request handling data
-     * @param EntityManagerInterface $entityManager entity manager to save user
+     * @param Request      $request      Request handling data
+     * @param OrderManager $orderManager Command manager
      *
-     * @return Response
+     * @return Response|RedirectResponse
      */
-    public function profile(Request $request, EntityManagerInterface $entityManager): Response
+    public function orderCredit(Request $request, OrderManager $orderManager): Response
     {
-        $form = $this->createForm(ProfileFormType::class, $this->getUser());
+        /** @var User $user */
+        $user = $this->getUser();
+        $order = $orderManager->getOrCreateCartedOrder($user);
+        $model = new CreditOrder();
+        $model->init($order);
+        $form = $this->createForm(CreditFormType::class, $model);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var User $user */
-            $user = $form->getData();
-            $entityManager->persist($user);
-            $entityManager->flush();
-            $this->addFlash('success', 'flash.profile.updated');
-        } elseif ($form->isSubmitted()) {
-            $this->addFlash('error', 'flash.profile.not-updated');
+            $orderManager->pushOrderedArticles($order, $model);
+            $orderManager->save($order);
+            $this->addFlash('success', 'flash.order.step1');
+
+            return $this->redirectToRoute('customer_payment_method');
         }
 
-        return $this->render('customer/profile.html.twig', [
+        return $this->render('customer/order-credit.html.twig', [
             'form' => $form->createView(),
+            'order' => $order,
         ]);
     }
 
@@ -106,36 +110,32 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * Order credit.
+     * Edit profile.
      *
-     * @Route("/order-credit", name="customer_order_credit")
+     * @Route("/profile", name="customer_profile")
      *
-     * @param Request      $request      Request handling data
-     * @param OrderManager $orderManager Command manager
+     * @param Request                $request       the request handling data
+     * @param EntityManagerInterface $entityManager entity manager to save user
      *
-     * @return Response|RedirectResponse
+     * @return Response
      */
-    public function orderCredit(Request $request, OrderManager $orderManager): Response
+    public function profile(Request $request, EntityManagerInterface $entityManager): Response
     {
-        /** @var User $user */
-        $user = $this->getUser();
-        $order = $orderManager->getOrCreateCartedOrder($user);
-        $model = new CreditOrder();
-        $model->init($order);
-        $form = $this->createForm(CreditFormType::class, $model);
+        $form = $this->createForm(ProfileFormType::class, $this->getUser());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $orderManager->pushOrderedArticles($order, $model);
-            $orderManager->save($order);
-            $this->addFlash('success', 'flash.order.step1');
-
-            return $this->redirectToRoute('customer_payment_method');
+            /** @var User $user */
+            $user = $form->getData();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'flash.profile.updated');
+        } elseif ($form->isSubmitted()) {
+            $this->addFlash('error', 'flash.profile.not-updated');
         }
 
-        return $this->render('customer/order-credit.html.twig', [
+        return $this->render('customer/profile.html.twig', [
             'form' => $form->createView(),
-            'order' => $order,
         ]);
     }
 }

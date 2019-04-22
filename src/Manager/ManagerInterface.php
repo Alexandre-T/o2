@@ -25,14 +25,13 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
 interface ManagerInterface
 {
     /**
-     * Default order: ASC.
-     */
-    public const SORT = 'ASC';
-
-    /**
      * Default limit rows: 25.
      */
     public const LIMIT = 25;
+    /**
+     * Default order: ASC.
+     */
+    public const SORT = 'ASC';
 
     /**
      * Each entity stored is countable.

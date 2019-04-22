@@ -39,6 +39,11 @@ abstract class AbstractRepositoryManager implements ManagerInterface
     protected $entityManager;
 
     /**
+     * @var LogEntryRepository
+     */
+    protected $logRepository;
+
+    /**
      * @var PaginatorInterface
      */
     protected $paginator;
@@ -47,11 +52,6 @@ abstract class AbstractRepositoryManager implements ManagerInterface
      * @var EntityRepository
      */
     protected $repository;
-
-    /**
-     * @var LogEntryRepository
-     */
-    protected $logRepository;
 
     /**
      * AbstractRepositoryManager constructor.
@@ -205,13 +205,6 @@ abstract class AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
-     * Main repository getter.
-     *
-     * @return EntityRepository
-     */
-    abstract protected function getMainRepository(): EntityRepository;
-
-    /**
      * This method should be override to add the HIDDEN field, the sortable field.
      *
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
@@ -224,4 +217,11 @@ abstract class AbstractRepositoryManager implements ManagerInterface
     {
         return $queryBuilder;
     }
+
+    /**
+     * Main repository getter.
+     *
+     * @return EntityRepository
+     */
+    abstract protected function getMainRepository(): EntityRepository;
 }

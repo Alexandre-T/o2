@@ -41,17 +41,6 @@ class StatusOrder
     public const PENDING = 'PENDING';
 
     /**
-     * Identifier.
-     *
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer", name="id")
-     */
-    private $identifier;
-
-    /**
      * Payment is canceled when true.
      *
      * @ORM\Column(type="boolean", options={"default": false})
@@ -66,6 +55,17 @@ class StatusOrder
      * @ORM\Column(type="string", length=8)
      */
     private $code;
+
+    /**
+     * Identifier.
+     *
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="integer", name="id")
+     */
+    private $identifier;
 
     /**
      * Payment is credited when true.

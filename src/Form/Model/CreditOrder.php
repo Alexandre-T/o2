@@ -28,24 +28,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class CreditOrder
 {
     /**
-     * The number of credit bought by ten.
-     *
-     * @Assert\Range(min="0", max="9")
-     *
-     * @var int
-     */
-    private $ten = 0;
-
-    /**
-     * The number of credit bought by hundred.
-     *
-     * @Assert\Range(min="0", max="9")
-     *
-     * @var int
-     */
-    private $hundred = 0;
-
-    /**
      * The number of credit bought by five hundred.
      *
      * @Assert\Range(min="0", max="9")
@@ -55,13 +37,30 @@ class CreditOrder
     private $fiveHundred = 0;
 
     /**
-     * Ten getter.
+     * The number of credit bought by hundred.
+     *
+     * @Assert\Range(min="0", max="9")
+     *
+     * @var int
+     */
+    private $hundred = 0;
+    /**
+     * The number of credit bought by ten.
+     *
+     * @Assert\Range(min="0", max="9")
+     *
+     * @var int
+     */
+    private $ten = 0;
+
+    /**
+     * FiveHundred getter.
      *
      * @return int
      */
-    public function getTen(): int
+    public function getFiveHundred(): int
     {
-        return $this->ten;
+        return $this->fiveHundred;
     }
 
     /**
@@ -75,25 +74,39 @@ class CreditOrder
     }
 
     /**
-     * FiveHundred getter.
+     * Ten getter.
      *
      * @return int
      */
-    public function getFiveHundred(): int
+    public function getTen(): int
     {
-        return $this->fiveHundred;
+        return $this->ten;
     }
 
     /**
-     * Ten setter.
+     * Initialize model with data from $order.
      *
-     * @param int $ten quantity bought
+     * @param Order $order initializing order
+     */
+    public function init(Order $order): void
+    {
+        foreach ($order->getOrderedArticles() as $orderedArticle) {
+            if ($orderedArticle->getQuantity() > 0 && null !== $orderedArticle->getArticle()) {
+                $this->initializeWithArticle($orderedArticle->getArticle(), $orderedArticle->getQuantity());
+            }
+        }
+    }
+
+    /**
+     * 500 setter.
+     *
+     * @param int $fiveHundred quantity bought
      *
      * @return CreditOrder
      */
-    public function setTen(int $ten): CreditOrder
+    public function setFiveHundred(int $fiveHundred): CreditOrder
     {
-        $this->ten = $ten;
+        $this->fiveHundred = $fiveHundred;
 
         return $this;
     }
@@ -113,31 +126,17 @@ class CreditOrder
     }
 
     /**
-     * 500 setter.
+     * Ten setter.
      *
-     * @param int $fiveHundred quantity bought
+     * @param int $ten quantity bought
      *
      * @return CreditOrder
      */
-    public function setFiveHundred(int $fiveHundred): CreditOrder
+    public function setTen(int $ten): CreditOrder
     {
-        $this->fiveHundred = $fiveHundred;
+        $this->ten = $ten;
 
         return $this;
-    }
-
-    /**
-     * Initialize model with data from $order.
-     *
-     * @param Order $order initializing order
-     */
-    public function init(Order $order): void
-    {
-        foreach ($order->getOrderedArticles() as $orderedArticle) {
-            if ($orderedArticle->getQuantity() > 0 && null !== $orderedArticle->getArticle()) {
-                $this->initializeWithArticle($orderedArticle->getArticle(), $orderedArticle->getQuantity());
-            }
-        }
     }
 
     /**

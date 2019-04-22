@@ -82,6 +82,16 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
     private $identifier;
 
     /**
+     * Bill number.
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     *
+     * @Gedmo\Versioned
+     */
+    private $number;
+
+    /**
      * Order.
      *
      * @var Order
@@ -92,16 +102,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
      * @Gedmo\Versioned
      */
     private $order;
-
-    /**
-     * Bill number.
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     *
-     * @Gedmo\Versioned
-     */
-    private $number;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)

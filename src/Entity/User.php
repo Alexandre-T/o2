@@ -52,17 +52,17 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
     use PostalAddressTrait;
 
     /**
-     * Each available roles.
-     */
-    public const ROLE_ADMIN = 'ROLE_ADMIN';
-    public const ROLE_ACCOUNTANT = 'ROLE_ACCOUNTANT';
-    public const ROLE_PROGRAMMER = 'ROLE_PROGRAMMER';
-    public const ROLE_USER = 'ROLE_USER';
-
-    /**
      * Initial roles.
      */
     public const INITIAL_ROLES = [self::ROLE_USER];
+    public const ROLE_ACCOUNTANT = 'ROLE_ACCOUNTANT';
+
+    /**
+     * Each available roles.
+     */
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_PROGRAMMER = 'ROLE_PROGRAMMER';
+    public const ROLE_USER = 'ROLE_USER';
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="customer")
@@ -107,6 +107,13 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
     private $mail;
 
     /**
+     * Customer orders.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="customer", orphanRemoval=true)
+     */
+    private $orders;
+
+    /**
      * User encoded password.
      *
      * @var string
@@ -126,13 +133,6 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
      * @var string
      */
     private $plainPassword;
-
-    /**
-     * Customer orders.
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="customer", orphanRemoval=true)
-     */
-    private $orders;
 
     /**
      * Resetting password timestamp.
@@ -517,20 +517,6 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
     }
 
     /**
-     * Terms of service fluent setter.
-     *
-     * @param bool $tos the new TOS value
-     *
-     * @return User
-     */
-    public function setTos(bool $tos): self
-    {
-        $this->tos = $tos;
-
-        return $this;
-    }
-
-    /**
      * Setter of the mail.
      *
      * @param string $mail new mail
@@ -577,6 +563,20 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
     }
 
     /**
+     * Resetting timestamp fluent setter.
+     *
+     * @param DateTimeInterface|null $resettingAt timestamp reset
+     *
+     * @return User
+     */
+    public function setResettingAt(?DateTimeInterface $resettingAt): self
+    {
+        $this->resettingAt = $resettingAt;
+
+        return $this;
+    }
+
+    /**
      * Resetting token fluent setter.
      *
      * @param string|null $resettingToken new token
@@ -605,15 +605,15 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
     }
 
     /**
-     * Resetting timestamp fluent setter.
+     * Terms of service fluent setter.
      *
-     * @param DateTimeInterface|null $resettingAt timestamp reset
+     * @param bool $tos the new TOS value
      *
      * @return User
      */
-    public function setResettingAt(?DateTimeInterface $resettingAt): self
+    public function setTos(bool $tos): self
     {
-        $this->resettingAt = $resettingAt;
+        $this->tos = $tos;
 
         return $this;
     }

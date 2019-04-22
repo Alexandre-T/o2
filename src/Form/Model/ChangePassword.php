@@ -26,6 +26,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ChangePassword
 {
     /**
+     * The new password.
+     *
+     * @Assert\Length(max=4096)
+     * @Assert\NotBlank(message="error.plain-password.blank")
+     *
+     * @var string
+     */
+    private $newPassword = '';
+    /**
      * The old user password.
      *
      * @Assert\NotBlank(message="error.old-password.blank")
@@ -35,40 +44,6 @@ class ChangePassword
      * @var string
      */
     private $oldPassword = '';
-
-    /**
-     * The new password.
-     *
-     * @Assert\Length(max=4096)
-     * @Assert\NotBlank(message="error.plain-password.blank")
-     *
-     * @var string
-     */
-    private $newPassword = '';
-
-    /**
-     * Old password getter.
-     *
-     * @return string
-     */
-    public function getOldPassword(): ?string
-    {
-        return $this->oldPassword;
-    }
-
-    /**
-     * Old password fluent setter.
-     *
-     * @param string $oldPassword old password
-     *
-     * @return ChangePassword
-     */
-    public function setOldPassword(?string $oldPassword): self
-    {
-        $this->oldPassword = $oldPassword;
-
-        return $this;
-    }
 
     /**
      * NewPassword getter.
@@ -81,6 +56,16 @@ class ChangePassword
     }
 
     /**
+     * Old password getter.
+     *
+     * @return string
+     */
+    public function getOldPassword(): ?string
+    {
+        return $this->oldPassword;
+    }
+
+    /**
      * New password fluent setter.
      *
      * @param string $newPassword new password
@@ -90,6 +75,20 @@ class ChangePassword
     public function setNewPassword(?string $newPassword = ''): self
     {
         $this->newPassword = $newPassword;
+
+        return $this;
+    }
+
+    /**
+     * Old password fluent setter.
+     *
+     * @param string $oldPassword old password
+     *
+     * @return ChangePassword
+     */
+    public function setOldPassword(?string $oldPassword): self
+    {
+        $this->oldPassword = $oldPassword;
 
         return $this;
     }

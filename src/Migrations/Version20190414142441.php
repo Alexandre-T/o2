@@ -25,6 +25,33 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20190414142441 extends AbstractMigration
 {
     /**
+     * Drop financial tables.
+     *
+     * @param Schema $schema
+     *
+     * @throws DBALException
+     */
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
+
+        $this->addSql('ALTER TABLE financial_transactions DROP CONSTRAINT FK_1353F2D9CE062FF9');
+        $this->addSql('ALTER TABLE credits DROP CONSTRAINT FK_4117D17E4C3A3BB');
+        $this->addSql('ALTER TABLE financial_transactions DROP CONSTRAINT FK_1353F2D94C3A3BB');
+        $this->addSql('ALTER TABLE credits DROP CONSTRAINT FK_4117D17E8789B572');
+        $this->addSql('ALTER TABLE payments DROP CONSTRAINT FK_65D29B328789B572');
+        $this->addSql('DROP SEQUENCE credits_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE financial_transactions_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE payments_id_seq CASCADE');
+        $this->addSql('DROP SEQUENCE payment_instructions_id_seq CASCADE');
+        $this->addSql('DROP TABLE credits');
+        $this->addSql('DROP TABLE financial_transactions');
+        $this->addSql('DROP TABLE payments');
+        $this->addSql('DROP TABLE payment_instructions');
+    }
+
+    /**
      * Description getter.
      *
      * @return string
@@ -66,32 +93,5 @@ final class Version20190414142441 extends AbstractMigration
         $this->addSql('ALTER TABLE financial_transactions ADD CONSTRAINT FK_1353F2D9CE062FF9 FOREIGN KEY (credit_id) REFERENCES credits (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE financial_transactions ADD CONSTRAINT FK_1353F2D94C3A3BB FOREIGN KEY (payment_id) REFERENCES payments (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE payments ADD CONSTRAINT FK_65D29B328789B572 FOREIGN KEY (payment_instruction_id) REFERENCES payment_instructions (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-    }
-
-    /**
-     * Drop financial tables.
-     *
-     * @param Schema $schema
-     *
-     * @throws DBALException
-     */
-    public function down(Schema $schema): void
-    {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
-
-        $this->addSql('ALTER TABLE financial_transactions DROP CONSTRAINT FK_1353F2D9CE062FF9');
-        $this->addSql('ALTER TABLE credits DROP CONSTRAINT FK_4117D17E4C3A3BB');
-        $this->addSql('ALTER TABLE financial_transactions DROP CONSTRAINT FK_1353F2D94C3A3BB');
-        $this->addSql('ALTER TABLE credits DROP CONSTRAINT FK_4117D17E8789B572');
-        $this->addSql('ALTER TABLE payments DROP CONSTRAINT FK_65D29B328789B572');
-        $this->addSql('DROP SEQUENCE credits_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE financial_transactions_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE payments_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE payment_instructions_id_seq CASCADE');
-        $this->addSql('DROP TABLE credits');
-        $this->addSql('DROP TABLE financial_transactions');
-        $this->addSql('DROP TABLE payments');
-        $this->addSql('DROP TABLE payment_instructions');
     }
 }

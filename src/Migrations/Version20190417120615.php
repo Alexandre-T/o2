@@ -25,6 +25,48 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20190417120615 extends AbstractMigration
 {
     /**
+     * Drop bill table.
+     *
+     * @param Schema $schema
+     *
+     * @throws DBALException
+     */
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
+
+        $this->addSql('DROP TABLE data.te_bill');
+        $this->addSql('ALTER TABLE data.te_order ADD number INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE data.te_order ADD payment_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
+        $this->addSql('ALTER TABLE data.te_order ADD per_given VARCHAR(32) DEFAULT NULL');
+        $this->addSql('ALTER TABLE data.te_order ADD per_name VARCHAR(32) DEFAULT NULL');
+        $this->addSql('ALTER TABLE data.te_order ADD per_society VARCHAR(64) DEFAULT NULL');
+        $this->addSql('ALTER TABLE data.te_order ADD per_vat VARCHAR(32) DEFAULT NULL');
+        $this->addSql('ALTER TABLE data.te_order ADD pad_complement VARCHAR(32) DEFAULT NULL');
+        $this->addSql("ALTER TABLE data.te_order ADD pad_country VARCHAR(2) DEFAULT 'FR' NOT NULL");
+        $this->addSql('ALTER TABLE data.te_order ADD pad_locality VARCHAR(32) DEFAULT \'\' NOT NULL');
+        $this->addSql('ALTER TABLE data.te_order ADD pad_code VARCHAR(5) DEFAULT \'\' NOT NULL');
+        $this->addSql('ALTER TABLE data.te_order ADD pad_street VARCHAR(32) DEFAULT \'\' NOT NULL');
+        $this->addSql('ALTER TABLE data.te_order ADD amount NUMERIC(10, 5) DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE data.te_order ALTER pad_country DROP DEFAULT');
+        $this->addSql('ALTER TABLE data.te_order ALTER pad_locality DROP DEFAULT');
+        $this->addSql('ALTER TABLE data.te_order ALTER pad_code DROP DEFAULT');
+        $this->addSql('ALTER TABLE data.te_order ALTER pad_street DROP DEFAULT');
+        $this->addSql('ALTER TABLE data.te_order ALTER amount DROP DEFAULT');
+        $this->addSql('COMMENT ON COLUMN data.te_order.per_given IS \'Given name\'');
+        $this->addSql('COMMENT ON COLUMN data.te_order.per_name IS \'Name\'');
+        $this->addSql('COMMENT ON COLUMN data.te_order.per_society IS \'Society name\'');
+        $this->addSql('COMMENT ON COLUMN data.te_order.per_vat IS \'VAT number\'');
+        $this->addSql('COMMENT ON COLUMN data.te_order.pad_complement IS \'Complement\'');
+        $this->addSql('COMMENT ON COLUMN data.te_order.pad_country IS \'Country alpha2 code\'');
+        $this->addSql('COMMENT ON COLUMN data.te_order.pad_locality IS \'Locality\'');
+        $this->addSql('COMMENT ON COLUMN data.te_order.pad_code IS \'Postal code\'');
+        $this->addSql('COMMENT ON COLUMN data.te_order.pad_street IS \'Street address\'');
+        $this->addSql('COMMENT ON COLUMN data.te_order.amount IS \'Amount TTC\'');
+    }
+
+    /**
      * Description getter.
      *
      * @return string
@@ -75,47 +117,5 @@ final class Version20190417120615 extends AbstractMigration
         $this->addSql('ALTER TABLE data.te_order DROP pad_code');
         $this->addSql('ALTER TABLE data.te_order DROP pad_street');
         $this->addSql('ALTER TABLE data.te_order DROP amount');
-    }
-
-    /**
-     * Drop bill table.
-     *
-     * @param Schema $schema
-     *
-     * @throws DBALException
-     */
-    public function down(Schema $schema): void
-    {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf('postgresql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'postgresql\'.');
-
-        $this->addSql('DROP TABLE data.te_bill');
-        $this->addSql('ALTER TABLE data.te_order ADD number INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE data.te_order ADD payment_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL');
-        $this->addSql('ALTER TABLE data.te_order ADD per_given VARCHAR(32) DEFAULT NULL');
-        $this->addSql('ALTER TABLE data.te_order ADD per_name VARCHAR(32) DEFAULT NULL');
-        $this->addSql('ALTER TABLE data.te_order ADD per_society VARCHAR(64) DEFAULT NULL');
-        $this->addSql('ALTER TABLE data.te_order ADD per_vat VARCHAR(32) DEFAULT NULL');
-        $this->addSql('ALTER TABLE data.te_order ADD pad_complement VARCHAR(32) DEFAULT NULL');
-        $this->addSql("ALTER TABLE data.te_order ADD pad_country VARCHAR(2) DEFAULT 'FR' NOT NULL");
-        $this->addSql('ALTER TABLE data.te_order ADD pad_locality VARCHAR(32) DEFAULT \'\' NOT NULL');
-        $this->addSql('ALTER TABLE data.te_order ADD pad_code VARCHAR(5) DEFAULT \'\' NOT NULL');
-        $this->addSql('ALTER TABLE data.te_order ADD pad_street VARCHAR(32) DEFAULT \'\' NOT NULL');
-        $this->addSql('ALTER TABLE data.te_order ADD amount NUMERIC(10, 5) DEFAULT 0 NOT NULL');
-        $this->addSql('ALTER TABLE data.te_order ALTER pad_country DROP DEFAULT');
-        $this->addSql('ALTER TABLE data.te_order ALTER pad_locality DROP DEFAULT');
-        $this->addSql('ALTER TABLE data.te_order ALTER pad_code DROP DEFAULT');
-        $this->addSql('ALTER TABLE data.te_order ALTER pad_street DROP DEFAULT');
-        $this->addSql('ALTER TABLE data.te_order ALTER amount DROP DEFAULT');
-        $this->addSql('COMMENT ON COLUMN data.te_order.per_given IS \'Given name\'');
-        $this->addSql('COMMENT ON COLUMN data.te_order.per_name IS \'Name\'');
-        $this->addSql('COMMENT ON COLUMN data.te_order.per_society IS \'Society name\'');
-        $this->addSql('COMMENT ON COLUMN data.te_order.per_vat IS \'VAT number\'');
-        $this->addSql('COMMENT ON COLUMN data.te_order.pad_complement IS \'Complement\'');
-        $this->addSql('COMMENT ON COLUMN data.te_order.pad_country IS \'Country alpha2 code\'');
-        $this->addSql('COMMENT ON COLUMN data.te_order.pad_locality IS \'Locality\'');
-        $this->addSql('COMMENT ON COLUMN data.te_order.pad_code IS \'Postal code\'');
-        $this->addSql('COMMENT ON COLUMN data.te_order.pad_street IS \'Street address\'');
-        $this->addSql('COMMENT ON COLUMN data.te_order.amount IS \'Amount TTC\'');
     }
 }

@@ -43,31 +43,6 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get carted non paid by user.
-     *
-     * @param User $customer owner of command
-     *
-     * @return Order|null
-     */
-    public function findOneByUserAndCarted(User $customer): ?Order
-    {
-        try {
-            return $this->createQueryBuilder('c')
-                ->innerJoin('c.statusOrder', 's')
-                ->andWhere('c.customer = :customer')
-                ->andWhere('s.code = :code')
-                ->setParameter('code', StatusOrder::CARTED)
-                ->setParameter('customer', $customer)
-                ->setMaxResults(1)
-                ->getQuery()
-                ->getOneOrNullResult()
-            ;
-        } catch (NonUniqueResultException $e) {
-            return null;
-        }
-    }
-
-    /**
      * Count orders for user and code provided.
      *
      * @param User   $user user filter
@@ -169,5 +144,30 @@ class OrderRepository extends ServiceEntityRepository
         }
 
         return $orders[0];
+    }
+
+    /**
+     * Get carted non paid by user.
+     *
+     * @param User $customer owner of command
+     *
+     * @return Order|null
+     */
+    public function findOneByUserAndCarted(User $customer): ?Order
+    {
+        try {
+            return $this->createQueryBuilder('c')
+                ->innerJoin('c.statusOrder', 's')
+                ->andWhere('c.customer = :customer')
+                ->andWhere('s.code = :code')
+                ->setParameter('code', StatusOrder::CARTED)
+                ->setParameter('customer', $customer)
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 }
