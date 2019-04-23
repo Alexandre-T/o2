@@ -253,7 +253,7 @@ form:
   password-reset:
     field:
       submit: 'Réinitialiser le mot de passe'
-  select-credit:
+  order-credit:
     field:
       submit: 'Enregistrer votre commande'
   buy-credit:
@@ -393,7 +393,7 @@ title:
     main: 'Mon compte'
     profile: 'Mon profil'
     password: 'Mon mot de passe'
-    select-credit: 'Crédits supplémentaires'
+    order-credit: 'Crédits supplémentaires'
     payment-complete: 'Paiement complété'
     payment-complete %payment-system%: 'Paiement transmis via Paypal'
   default:

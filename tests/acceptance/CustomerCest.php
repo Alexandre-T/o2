@@ -31,9 +31,9 @@ class CustomerCest
     {
         $you->wantTo('buy credits without order');
         $you->login('customer-7');
-        $you->amOnPage('/customer/buy-credit');
+        $you->amOnPage('/payment/method-choose');
         $you->seeResponseCodeIsSuccessful();
-        $you->canSeeCurrentUrlEquals('/customer/select-credit');
+        $you->canSeeCurrentUrlEquals('/customer/order-credit');
     }
 
     /**
@@ -66,13 +66,13 @@ class CustomerCest
     {
         $you->wantTo('connect as customer and try to order some credits');
         $you->login('customer');
-        $you->amOnPage('/customer/select-credit');
+        $you->amOnPage('/customer/order-credit');
         $you->fillField('Lot(s) de 10 crédits', 4);
         $you->fillField('Lot(s) de 100 crédits', 1);
         $you->fillField('Lot(s) de 500 crédits', 2);
         $you->click('Enregistrer votre commande');
         $you->seeResponseCodeIsSuccessful();
-        $you->canSeeCurrentUrlEquals('/customer/buy-credit');
+        $you->canSeeCurrentUrlEquals('/payment/method-choose');
     }
 
     /**
