@@ -26,7 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(
  *     schema="data",
  *     name="ts_settings",
- *     options={"comment": "Settings application"}
+ *     options={"comment": "Settings application"},
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(name="uk_settings_code", columns={"code"})
  *     }
@@ -49,7 +49,7 @@ class Settings
      * @var int
      *
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer", name="id")
      */
     private $identifier;
@@ -122,11 +122,11 @@ class Settings
     /**
      * Value setter.
      *
-     * @param string $value unserialized value
+     * @param mixed $value unserialized value
      *
      * @return Settings
      */
-    public function setValue(string $value): self
+    public function setValue($value): self
     {
         $this->value = serialize($value);
 

@@ -38,4 +38,16 @@ class SettingsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Settings::class);
     }
+
+    /**
+     * Find one by code.
+     *
+     * @param string $code
+     *
+     * @return Settings|null
+     */
+    public function findOneByCode(string $code): ?Settings
+    {
+        return $this->findOneBy(['code' => $code]);
+    }
 }

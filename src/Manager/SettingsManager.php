@@ -98,7 +98,7 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
     /**
      * Main repository getter.
      *
-     * @return EntityRepository|SettingsRepository
+     * @return SettingsRepository|EntityRepository
      */
     protected function getMainRepository(): EntityRepository
     {
@@ -110,6 +110,10 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
      */
     private function initialize(): void
     {
-        self::$data = $this->repository->findAll();
+        self::$data = [];
+        foreach ($this->repository->findAll() as $setting) {
+            /** @var Settings $setting */
+            self::$data[$setting->getCode()] = $setting;
+        }
     }
 }
