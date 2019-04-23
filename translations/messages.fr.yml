@@ -53,6 +53,12 @@ action:
       title: 'Modifier le mot de passe de l’utilisateur'
   url:
     title: 'Consulter ce site web (dans une nouvelle fenêtre)'
+  settings:
+    edit:
+      text: 'Éditer'
+      title: 'Modifier ce paramètre'
+    list:
+      title: 'Retour à la liste des paramètres'
 
 administration:
   created:
@@ -126,6 +132,8 @@ entity:
     version: 'Version'
     society-physic: 'Particulier'
     society-morale: 'Professionnel'
+  settings:
+    updated %label%: 'Le paramètre « %label% » a été mis à jour'
   tab:
     address-logs: 'Changements d’adresse'
     general: 'Généralités'
@@ -193,6 +201,8 @@ form:
     tos: 'J’ai lu les conditions d’utilisation du service'
     username: 'Nom de l’utilisateur'
     vat-number: 'Numéro de TVA'
+    settings: 'Paramètre'
+    value: 'Valeur'
   help:
     article-10: 'Sélectionnez la quantité de lots de 10 crédits'
     article-100: 'Sélectionnez la quantité de lots de 100 crédits'
@@ -211,6 +221,14 @@ form:
     postal-code: 'Entrez le code postal'
     repeat-password: 'Confirmez votre mot de passe'
     roles: 'Sélectionnez le rôle de l’utilisateur'
+    setting:
+      bill-complement: 'Entrez la seconde ligne de l’adresse qui apparaîtra sur toutes vos factures'
+      bill-country: 'Entrez le pays de votre société qui apparaîtra sur toutes vos factures'
+      bill-locality: 'Entrez la ville de votre société qui apparaîtra sur toutes vos factures'
+      bill-society: 'Entrez le nom de votre société qui apparaîtra sur toutes vos factures'
+      bill-postal-code: 'Entrez le code postal de votre société qui apparaîtra sur toutes vos factures'
+      bill-street-adress: 'Entrez la première ligne de l’adresse qui apparaîtra sur toutes vos factures'
+      bill-vat-number: 'Entrez le numéro de TVA de votre société qui apparaîtra sur toutes vos factures'
     society: 'Entrez le nom de la société'
     street-address: 'Entrez l’adresse'
     telephone: 'Entrez votre numéro de téléphone'
@@ -414,11 +432,25 @@ title:
       password %name%: 'Modification du mot de passe de l’utilisateur « %name% »'
       show: 'Fiche utilisateur'
       show %name%: 'Fiche de l’utilisateur « %name% »'
+  administration:
+    settings:
+      edit: 'Modification d’un paramètre'
+      list: 'Liste des paramètres'
+
+order %number%: 'Commande n°%number%'
 
 payment:
   paypal:
     description %credit% %amount%: 'Achat de %credit% crédits pour %amount% €'
-order %number%: 'Commande n°%number%'
+
+settings:
+  bill-complement: 'Facture : Complement d’adresse'
+  bill-country: 'Facture : Pays'
+  bill-locality: 'Facture : Ville'
+  bill-name: 'Facture : Société'
+  bill-postal-code: 'Facture : Code postal'
+  bill-street-address: 'Facture : Adresse'
+  bill-vat-number: 'Facture : Numéro de TVA'
 
 type:
   morale: 'Société'

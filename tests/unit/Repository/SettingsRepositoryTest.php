@@ -29,18 +29,18 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class SettingsRepositoryTest extends KernelTestCase
 {
     /**
-     * Settings Repository.
-     *
-     * @var SettingsRepository
-     */
-    private $settingsRepository;
-
-    /**
      * Entity manager.
      *
      * @var EntityManagerInterface
      */
     private $entityManager;
+
+    /**
+     * Settings Repository.
+     *
+     * @var SettingsRepository
+     */
+    private $settingsRepository;
 
     /**
      * {@inheritdoc}

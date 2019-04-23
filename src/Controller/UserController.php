@@ -30,7 +30,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * UserController class.
  *
- * @Route("administration/user")
+ * @Route("administration/user", name="administration_user_")
  * @Security("is_granted('ROLE_ADMIN')")
  */
 class UserController extends AbstractPaginateController
@@ -43,7 +43,7 @@ class UserController extends AbstractPaginateController
     /**
      * Creates a new user entity.
      *
-     * @Route("/new", name="administration_user_new", methods={"get", "post"})
+     * @Route("/new", name="new", methods={"get", "post"})
      *
      * @param UserManager         $userManager the user manager
      * @param Request             $request     request to get data form
@@ -74,7 +74,7 @@ class UserController extends AbstractPaginateController
     /**
      * Deletes a user entity.
      *
-     * @Route("/{id}", name="administration_user_delete", methods={"delete"})
+     * @Route("/{id}", name="delete", methods={"delete"})
      *
      * @param User                $user    The user entity
      * @param Request             $request The request
@@ -111,7 +111,7 @@ class UserController extends AbstractPaginateController
     /**
      * Displays a form to edit an existing user entity.
      *
-     * @Route("/{id}/edit", name="administration_user_edit", methods={"get", "post"})
+     * @Route("/{id}/edit", name="edit", methods={"get", "post"})
      *
      * @param User                $user        The user entity
      * @param Request             $request     The request
@@ -150,7 +150,7 @@ class UserController extends AbstractPaginateController
     /**
      * Lists all user entities.
      *
-     * @Route("/", name="administration_user_index", methods={"get"})
+     * @Route("/", name="index", methods={"get"})
      *
      * @param UserManager $userManager the user manage to paginate users
      * @param Request     $request     the requests to handle page and sorting
@@ -182,7 +182,7 @@ class UserController extends AbstractPaginateController
     /**
      * Displays a form to update password of an existing user entity.
      *
-     * @Route("/{id}/password", name="administration_user_password", methods={"get", "post"})
+     * @Route("/{id}/password", name="password", methods={"get", "post"})
      *
      * @param User                $user    The user entity
      * @param Request             $request The request
@@ -221,7 +221,7 @@ class UserController extends AbstractPaginateController
     /**
      * Finds and displays a user entity.
      *
-     * @Route("/{id}", name="administration_user_show", methods={"get"})
+     * @Route("/{id}", name="show", methods={"get"})
      *
      * @param User        $user        The user to display
      * @param UserManager $userManager The user manager

@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Settings entity.
@@ -31,8 +32,10 @@ use Doctrine\ORM\Mapping as ORM;
  *         @ORM\UniqueConstraint(name="uk_settings_code", columns={"code"})
  *     }
  * )
+ *
+ * @Gedmo\Loggable
  */
-class Settings
+class Settings implements EntityInterface
 {
     /**
      * Code of setting.
@@ -62,6 +65,8 @@ class Settings
      * @var string
      *
      * @ORM\Column(type="text")
+     *
+     * @Gedmo\Versioned
      */
     private $value;
 
@@ -93,6 +98,16 @@ class Settings
     public function getId(): ?int
     {
         return $this->identifier;
+    }
+
+    /**
+     * Return the label of entity.
+     *
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return 'settings.'.(string) $this->getCode();
     }
 
     /**

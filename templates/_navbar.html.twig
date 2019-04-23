@@ -45,21 +45,22 @@
                     </li>
                 {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown {{ route starts with 'administration' ? 'active' }}">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarAdminDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="fas fa-fw fa-user-shield"></span> {{ 'nav.admin.text' | trans }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarAdminDropdown">
                             {# Users #}
-                            <a class="dropdown-item {{ route starts with 'administration' ? 'active' }}"
+                            <a class="dropdown-item {{ route starts with 'administration_user' ? 'active' }}"
                                data-toggle="tooltip" href="{{ path('administration_user_index') }}"
                                title="{{ 'nav.admin.submenu.users.title' | trans }}" data-placement="right">
                                 <span class="fas fa-fw fa-users-cog"></span>
                                 {{ 'nav.admin.submenu.users.text' | trans }}</a>
                             {# Settings #}
-                            <a class="dropdown-item" href="#" data-placement="right"
-                               data-toggle="tooltip" title="{{ 'nav.admin.submenu.settings.title' | trans }}" >
+                            <a class="dropdown-item {{ route starts with 'administration_settings' ? 'active' }}"
+                               href="{{ path('administration_settings_list') }}" data-toggle="tooltip"
+                               data-placement="right" title="{{ 'nav.admin.submenu.settings.title' | trans }}" >
                                 <span class="fas fa-fw fa-cogs"></span>
                                 {{ 'nav.admin.submenu.settings.text' | trans }}
                             </a>

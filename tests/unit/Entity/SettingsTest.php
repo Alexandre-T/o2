@@ -116,6 +116,5 @@ class SettingsTest extends Unit
         self::assertEquals($expected, $this->settings->getValue());
         self::assertIsObject($this->settings->getValue());
         self::assertInstanceOf(Settings::class, $this->settings->getValue());
-
     }
 }

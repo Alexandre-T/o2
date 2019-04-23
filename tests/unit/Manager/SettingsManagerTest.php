@@ -30,18 +30,18 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class SettingsManagerTest extends KernelTestCase
 {
     /**
-     * Settings manager.
-     *
-     * @var SettingsManager
-     */
-    private $settingsManager;
-
-    /**
      * Entity manager.
      *
      * @var EntityManagerInterface
      */
     private $entityManager;
+
+    /**
+     * Settings manager.
+     *
+     * @var SettingsManager
+     */
+    private $settingsManager;
 
     /**
      * {@inheritdoc}
@@ -73,7 +73,7 @@ class SettingsManagerTest extends KernelTestCase
     /**
      * Test the getValue method.
      *
-     * @throws SettingsException
+     * @throws SettingsException this should not happen
      */
     public function testGetValue(): void
     {
@@ -85,7 +85,7 @@ class SettingsManagerTest extends KernelTestCase
     /**
      * Test the GetValue method with a non-existent code.
      *
-     * @throws SettingsException
+     * @throws SettingsException this one should happen
      */
     public function testGetValueWithNonExistentCode(): void
     {

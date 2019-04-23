@@ -1,0 +1,42 @@
+{% extends '_entity.html.twig' %}
+
+{% block title %}{{ 'title.administration.settings.edit'|trans }} · {{ parent() }}{% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.admin.text' | trans }}</li>
+            <li class="breadcrumb-item" aria-current="page">
+                <a href="{{ path('administration_settings_list') }}" title="{{ 'nav.admin.submenu.settings.title' | trans }}">
+                    {{ 'nav.admin.submenu.settings.text' | trans }}
+                </a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.administration.settings.edit' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block headline %}
+    <h1>
+        <span class="fa fa-user"></span>
+        {{ 'title.administration.settings.edit' | trans }}
+    </h1>
+{% endblock %}
+
+{% block content_settings %}
+    {{ form_start(edit_form) }}
+    {{ form_widget(edit_form) }}
+    <button class="btn btn-primary" type="submit">
+        <span class="fa fa-save"></span>
+        {{ 'action.settings.edit.text' | trans }}
+    </button>
+{{ form_end(edit_form) }}
+
+{% endblock content_settings %}
+
+{% block content_action %}
+    {% include 'administration/settings/_content-action.html.twig' %}
+{% endblock content_action %}

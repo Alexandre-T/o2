@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.administration.settings.list'|trans }} · {{ parent() }}{% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.admin.text' | trans }}</li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.admin.submenu.settings.text' | trans }}</li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.administration.settings.list' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block headline %}
+    <h1>
+        <span class="fa fa-fw fa-cogs"></span>
+        {{ 'title.administration.settings.list'|trans }}
+    </h1>
+{% endblock %}
+
+{% set direction = pagination.getDirection() %}
+
+{% block container %}
+    <table class="table">
+        <thead>
+        <tr class="bg-light">
+            <th id="settings-code" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.settings' | trans, 'code') }}
+                <span class="{{ faSort(pagination.isSorted('code'), direction, 'alpha') }}"></span>
+            </th>
+            <th id="settings-value" class="align-middle">
+                {{ 'form.field.value' | trans }}
+            </th>
+            <th id="setting-actions"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for setting in pagination %}
+            <tr>
+                <td headers="settings-code" class="align-middle">
+                    {{ ('settings.' ~ setting.code) | trans }}
+                </td>
+                <td headers="setting-value" class="align-middle">{{ setting.value }}</td>
+                <td headers="setting-actions" class="align-middle">
+                    <div class="btn-group">
+                        <a class="btn btn-outline-secondary" title="{{ 'action.settings.edit.title' | trans }}"
+                           href="{{ path('administration_settings_edit', { 'id': setting.id }) }}"
+                           data-placement="left" data-toggle="tooltip">
+                            <span class="fa fa-edit"></span>
+                            <span class="sr-only">{{ 'action.settings.edit.text' | trans }}</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock container %}
+
+{% block content_action %}{% endblock content_action %}

@@ -20,6 +20,7 @@ use App\Entity\Settings;
 use App\Exception\SettingsException;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Settings manager class.
@@ -93,6 +94,20 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
     public function refresh(): void
     {
         self::$data = null;
+    }
+
+    /**
+     * This method will add the HIDDEN field, the sortable field.
+     *
+     * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
+     *
+     * @param QueryBuilder $queryBuilder Query builder
+     *
+     * @return QueryBuilder
+     */
+    protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
+    {
+        return $queryBuilder->addSelect('s.code as HIDDEN code');
     }
 
     /**

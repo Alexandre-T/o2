@@ -69,7 +69,7 @@ class SettingsFixtures extends Fixture
 
         //TVA-Number for bill.
         $settings = new Settings();
-        $settings->setCode('bill-tva-number');
+        $settings->setCode('bill-vat-number');
         $settings->setValue('XXX-333-YYY');
         $manager->persist($settings);
 
