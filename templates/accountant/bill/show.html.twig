@@ -1,0 +1,41 @@
+{% extends '_entity.html.twig' %}
+
+{% block title %}
+    {{ 'title.accountant.bill.show %number%'|trans({'%number%': bill.label}) }} · {{ parent() }}
+{% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.accountant.text' | trans }}</li>
+            <li class="breadcrumb-item">
+                <a href="{{ path('accountant_bill_list') }}" title="{{ 'nav.accountant.submenu.bill.title' | trans }}">
+                    {{ 'nav.accountant.submenu.bill.text' | trans }}
+                </a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                {{ 'title.accountant.bill.show %number%'|trans({'%number%': bill.label}) }}
+            </li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block headline %}
+    <h1 class="mt-auto">
+        <span class="fa fa-fw fa-file-invoice-dollar"></span>
+        {{ 'title.accountant.bill.show %number%'|trans({'%number%': bill.label}) }}
+    </h1>
+{% endblock headline %}
+
+{% block content_settings %}
+    <div>
+        <h2>{{ dump(bill) }}</h2>
+    </div>
+{% endblock content_settings %}
+
+{% block content_action %}
+    {% include 'accountant/bill/_content-action.html.twig' %}
+{% endblock content_action %}

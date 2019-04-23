@@ -1,4 +1,11 @@
 action:
+  bill:
+    show:
+      title: 'Consulter la facture'
+      text: 'Consulter'
+    list:
+      text: 'Liste des factures'
+      title: 'Consulter la liste des factures'
   close: 'Fermer'
   email:
     title: 'Envoyer un email'
@@ -66,6 +73,13 @@ article:
     text: 'Lot de 100 crédits'
   CRED0500:
     text: 'Lot de 500 crédits'
+
+bill:
+  canceled: 'Annulée'
+  non-paid: 'Non payée'
+  non-canceled: 'Non annulée'
+  paid: 'Payée'
+  status: 'Statut'
 
 empty: 'vide'
 
@@ -141,12 +155,14 @@ form:
     loading:
       service: 'Une erreur est survenue en chargeant les services de cette organisation.'
   field:
+    amount: 'Montant TTC'
     article-10: 'Lot(s) de 10 crédits'
     article-100: 'Lot(s) de 100 crédits'
     article-500: 'Lot(s) de 500 crédits'
     credit: 'Crédits'
     complement: 'Complément'
     country: 'Pays'
+    customer: 'Client'
     email: 'Adresse email'
     family-name: 'Nom de famille'
     given-name: 'Prénom'
@@ -154,6 +170,7 @@ form:
     label: 'Nom'
     locality: 'Ville'
     new-password: 'Nouveau mot de passe'
+    number: 'Numéro'
     old-password: 'Ancien mot de passe'
     password: 'Mot de passe'
     person-type: 'Nature'
@@ -367,6 +384,10 @@ table:
     unit-price: 'Prix unitaire'
 
 title:
+  accountant:
+    bill:
+      list: 'Liste des factures'
+      show %number%: 'Facture %number%'
   customer:
     buy-credit: 'Méthode de paiement'
     main: 'Mon compte'

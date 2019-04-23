@@ -63,7 +63,7 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
      *
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="\App\Entity\User", inversedBy="bills")
+     * @ORM\ManyToOne(targetEntity="\App\Entity\User", inversedBy="bills", fetch="LAZY")
      * @ORM\JoinColumn(nullable=false, referencedColumnName="usr_id", name="customer_id")
      *
      * @Gedmo\Versioned

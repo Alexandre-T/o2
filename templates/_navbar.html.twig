@@ -19,8 +19,9 @@
                         </a>
                         {# BILL #}
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#" data-placement="left" data-toggle="tooltip"
-                            title="{{ 'nav.accountant.submenu.bill.title' | trans }}">
+                            <a class="dropdown-item {{ route starts with 'accountant_bill' ? 'active' }}"
+                               href="{{ path('accountant_bill_list') }}" data-placement="left" data-toggle="tooltip"
+                               title="{{ 'nav.accountant.submenu.bill.title' | trans }}">
                                 <span class="fas fa-fw fa-file-invoice-dollar"></span>
                                 {{ 'nav.accountant.submenu.bill.text' | trans }}
                             </a>

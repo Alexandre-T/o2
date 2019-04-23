@@ -92,13 +92,17 @@ class InflectorExtension extends AbstractExtension
     /**
      * Returns word or not available text if empty.
      *
-     * @param string|null $word Word
+     * @param mixed $word Word
      *
      * @return string UpperCamelCasedWord
      */
-    public function emptyizeFilter(?string $word): string
+    public function emptyizeFilter($word): string
     {
-        return empty($word) ? $this->translator->trans('empty') : $word;
+        if (is_array($word)) {
+            return '';
+        }
+
+        return empty($word) ? $this->translator->trans('empty') : (string) $word;
     }
 
     /**

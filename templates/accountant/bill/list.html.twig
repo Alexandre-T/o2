@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.accountant.bill.list'|trans }} · {{ parent() }}{% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.accountant.text' | trans }}</li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.accountant.bill.list' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block headline %}
+    <h1>
+        <span class="fa fa-fw fa-file-invoice-dollar"></span>
+        {{ 'title.accountant.bill.list'|trans }}
+    </h1>
+{% endblock %}
+
+{% set direction = pagination.getDirection() %}
+
+{% block container %}
+    <table class="table">
+        <thead>
+        <tr class="bg-light">
+            <th id="bill-number" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.number' | trans, 'number') }}
+                <span class="{{ faSort(pagination.isSorted('number'), direction, 'numeric') }}"></span>
+            </th>
+            <th id="bill-amount" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.amount' | trans, 'amount') }}
+                <span class="{{ faSort(pagination.isSorted('amount'), direction, 'numeric') }}"></span>
+            </th>
+            <th id="user-label" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.customer' | trans, 'customers') }}
+                <span class="{{ faSort(pagination.isSorted('customers'), direction, 'alpha') }}"></span>
+            </th>
+            <th id="bill-status" class="align-middle">
+                {{ 'bill.status' | trans }}
+            </th>
+            <th id="bill-actions" class="align-middle"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for bill in pagination %}
+            <tr>
+                <td headers="bill-number" class="align-middle">
+                    {{ bill.label }}
+                </td>
+                <td headers="bill-number" class="align-middle">
+                    {{ bill.amount | localizedcurrency('EUR') }}
+                </td>
+                <td headers="bill-number" class="align-middle">
+                    {{ bill.customer.label }}
+                </td>
+                <td headers="bill-status" class="align-middle">
+                    {% if bill.paid %}
+                        <span class="badge badge-success">{{ 'bill.paid' | trans }}</span>
+                    {% else %}
+                        <span class="badge badge-danger">{{ 'bill.non-paid' | trans }}</span>
+                    {% endif %}
+                    {% if bill.canceled %}
+                        <span class="badge badge-danger">{{ 'bill.canceled' | trans }}</span>
+                    {% else %}
+                        <span class="badge badge-success">{{ 'bill.non-canceled' | trans }}</span>
+                    {% endif %}
+                </td>
+                <td headers="bill-actions" class="align-middle">
+                    <div class="btn-group">
+                        <a class="btn btn-outline-secondary" title="{{ 'action.bill.show.title' | trans }}"
+                           href="{{ path('accountant_bill_show', { 'id': bill.id }) }}"
+                           data-placement="left" data-toggle="tooltip">
+                            <span class="fa fa-eye"></span>
+                            <span class="sr-only">{{ 'action.bill.show.text' | trans }}</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+{% endblock container %}
+
+{% block content_action %}
+{% endblock content_action %}

@@ -96,6 +96,25 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
+     * This method will add the HIDDEN field, the sortable field.
+     *
+     * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
+     *
+     * @param QueryBuilder $queryBuilder Query builder
+     *
+     * @return QueryBuilder
+     */
+    protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
+    {
+        return $queryBuilder
+            ->innerJoin('bill.customer', 'customer')
+            ->addSelect('bill.number as HIDDEN number')
+            ->addSelect('customer.name as HIDDEN customers')
+            ->addSelect('bill.price as HIDDEN amount')
+            ;
+    }
+
+    /**
      * Return the main repository.
      *
      * @return EntityRepository|BillRepository
