@@ -112,7 +112,7 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
     {
         self::$data = [];
         foreach ($this->repository->findAll() as $setting) {
-            /** @var Settings $setting */
+            /* @var Settings $setting the repository is returning an array of settings */
             self::$data[$setting->getCode()] = $setting;
         }
     }

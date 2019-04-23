@@ -42,7 +42,7 @@ class SettingsRepository extends ServiceEntityRepository
     /**
      * Find one by code.
      *
-     * @param string $code
+     * @param string $code Code to find
      *
      * @return Settings|null
      */
