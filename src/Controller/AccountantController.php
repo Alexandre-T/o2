@@ -16,7 +16,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Bill;
-use App\Form\DeleteFormType;
 use App\Manager\BillManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -82,13 +81,25 @@ class AccountantController extends AbstractPaginateController
      */
     public function show(Bill $bill, BillManager $billManager): Response
     {
-        $deleteForm = $this->createForm(DeleteFormType::class, $bill);
+        $instruction = null;
         $logs = $billManager->retrieveLogs($bill);
+        $order = $bill->getOrder();
+        $payments = [];
+
+        if (null !== $order) {
+            $instruction = $order->getPaymentInstruction();
+        }
+
+        if (null !== $instruction) {
+            $payments = $instruction->getPayments();
+        }
 
         return $this->render('accountant/bill/show.html.twig', [
             'logs' => $logs,
             'bill' => $bill,
-            'delete_form' => $deleteForm->createView(),
+            'order' => $order,
+            'instruction' => $instruction,
+            'payments' => $payments,
         ]);
     }
 }

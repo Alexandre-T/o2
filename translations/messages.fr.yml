@@ -81,11 +81,28 @@ article:
     text: 'Lot de 500 crédits'
 
 bill:
+  base: 'Base'
   canceled: 'Annulée'
+  customer: 'Client'
+  date: 'Date'
+  method: 'Méthode de paiement :'
   non-paid: 'Non payée'
   non-canceled: 'Non annulée'
+  number: 'Numéro'
   paid: 'Payée'
   status: 'Statut'
+  title: 'Facture'
+  expired: 'Date d’échéance :'
+  penalities: 'Pénalités de retard au taux annuel de : 10,05 % - Escompte en cas de paiement anticipé : 1,50 %'
+  indemnities: 'Indemnité forfaitaire pour frais de recouvrement en cas de retard de paiement : 40,00 €'
+  price: 'Prix'
+  tos %url%: 'Le client reconnaît avoir pris connaissance de nos conditions générales de ventes visibles sur notre site : %url%'
+  total: 'Total TTC'
+  total-price: 'Total HT'
+  total-vat: 'Montant TVA'
+  tva-percent: '% TVA'
+  already-paid: 'Déjà réglé TTC'
+  to-paid: 'Net à payer'
 
 empty: 'vide'
 
@@ -104,6 +121,7 @@ entity:
       complement: 'Nouveau complément'
       credit: 'Crédits'
       country: 'Nouveau pays'
+      customer: 'Nouveau client'
       email: 'Nouvel email'
       family-name: 'Nouveau nom de famille'
       given-name: 'Nouveau prénom'
@@ -112,9 +130,12 @@ entity:
       mail: 'Nouvel email'
       name: 'Nouveau nom'
       nationality: 'Nouvelle nationalité'
+      number: 'Nouveau numéro de facture'
+      order: 'Nouvelle commande'
       password: 'Nouveau mot de passe'
       post-office-box-number: 'Nouveau complément'
       postal-code: 'Nouveau code postal'
+      price: 'Nouveau prix HT'
       roles: 'Nouveaux privilèges'
       service: 'Nouveau service'
       society: 'Société'
@@ -123,6 +144,7 @@ entity:
       resetting-at: 'Jeton demandé le'
       resetting-token: 'Jeton de réinitialisation'
       type: 'Particulier ou professionel'
+      vat: 'Nouveau montant de TVA'
       vat-number: 'Nouveau numéro TVA'
     date: 'Date'
     explanation: 'Cet onglet rassemble toutes les modifications qui ont eu lieu pour la fiche en cours.'
@@ -140,6 +162,9 @@ entity:
     logs: 'Historique'
     informations: 'Informations'
     contacts: 'Contacts'
+    order: 'Commande'
+    instruction: 'Instructions de paiements'
+    payments: 'Paiements'
   user:
     created %name%: 'L’utilisateur « %name% » a été créé avec succès.'
     deleted %name%: 'L’utilisateur « %name% » a été supprimé avec succès.'
@@ -227,6 +252,8 @@ form:
       bill-locality: 'Entrez la ville de votre société qui apparaîtra sur toutes vos factures'
       bill-society: 'Entrez le nom de votre société qui apparaîtra sur toutes vos factures'
       bill-postal-code: 'Entrez le code postal de votre société qui apparaîtra sur toutes vos factures'
+      bill-siret: 'Entrez le siret obligatoire sur la facture. Exemple : « SIRET : 666-42-42 » '
+      bill-status: 'Entrez la mention du capital obligatoire sur la facture. Exemple : SAS au capital de 42,00€ '
       bill-street-adress: 'Entrez la première ligne de l’adresse qui apparaîtra sur toutes vos factures'
       bill-vat-number: 'Entrez le numéro de TVA de votre société qui apparaîtra sur toutes vos factures'
     society: 'Entrez le nom de la société'
@@ -297,6 +324,26 @@ flash:
 info:
   payment:
     pending %credit% %payment-system%: 'Vous avez utilisé %payment-system%, mais %payment-system% a classé votre paiement comme « en cours ». C’est une procédure normale pour les paiements de plus de 100 €. Dès que %payment-system% nous aura confirmé le paiement, vos %credit% crédits seront ajoutés à votre solde.'
+
+instruction:
+  method:
+    paypal_express_checkout: 'Paypal Express'
+  closed: 'Instruction close'
+  createdAt: 'Instruction de paiement créée le'
+  updatedAt: 'Instruction de paiement modifiée le'
+  approved-amount: 'Montant approuvé'
+  approving-amount: 'Montant en cours d’approbation'
+  credited-amount: 'Montant crédité'
+  crediting-amount: 'Montant en cours de crédit'
+  deposited-amount: 'Montant déposé'
+  depositing-amount: 'Montant en cours de dépôt'
+  invalid: 'Instruction de paiement invalidée'
+  new: 'Nouvelle instruction de paiement'
+  reversing-approved-amount: 'Reversion approuvée'
+  reversing-credited-amount: 'Reversion créditée'
+  reversing-deposited-amount: 'Reversion déposée'
+  valid: 'Instruction de paiement validée'
+instruction %number%: 'Instruction n°%number%'
 
 link:
   password-lost:
@@ -376,7 +423,41 @@ nav:
   reset-password:
     text: 'Réinitialisation du mot de passe'
 
+order:
+  canceled: 'Annulée'
+  credited: 'Créditée'
+  paid: 'Payée'
+  pending: 'En attente'
+  not-credited: 'Non créditée'
 order %name%: 'Commande n°%name%'
+order %number%: 'Commande n°%number%'
+
+payment:
+  approving : 'Paiement en cours d’approbation'
+  approved: 'Paiement approuvé'
+  approved-amount: 'Montant approuvé'
+  approving-amount: 'Montant en cours d’approbation'
+  attention-required: 'Attention requise'
+  canceled: 'Paiement annulé'
+  createdAt: 'Paiement initié le'
+  credited-amount: 'Montant crédité'
+  crediting-amount: 'Montant en cours de crédit'
+  deposited-amount: 'Montant déposé'
+  depositing: 'Paiement en cours de dépôt'
+  depositing-amount: 'Montant en cours de dépôt'
+  deposited: 'Paiement déposé'
+  expired: 'Paiement expiré'
+  failed: 'Paiement échoué'
+  new: 'Nouveau paiement'
+  paypal:
+    description %credit% %amount%: 'Achat de %credit% crédits pour %amount% €'
+  reversing-approved-amount: 'Montant approuvé en reversion'
+  reversing-credited-amount: 'Montant crédité en reversion'
+  reversing-deposited-amount: 'Montant déposé en reversion'
+  target-amount: 'Montant cible'
+  updatedAt: 'Paiement modifié le'
+  payments: 'Paiements'
+  corresponding-financial-transaction: 'Transaction financière correspondant à ce paiement'
 
 ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
 ROLE_CUSTOMER: 'Client.'
@@ -394,6 +475,16 @@ step:
     2: 'Méthode de paiement'
     3: 'Paiement'
 
+settings:
+  bill-complement: 'Facture : Complement d’adresse'
+  bill-country: 'Facture : Pays'
+  bill-locality: 'Facture : Ville'
+  bill-name: 'Facture : Société'
+  bill-postal-code: 'Facture : Code postal'
+  bill-siret: 'Facture : SIRET de la société'
+  bill-status: 'Facture : Statut et capital de la société'
+  bill-street-address: 'Facture : Adresse'
+  bill-vat-number: 'Facture : Numéro de TVA'
 table:
   order:
     credits: 'Crédits'
@@ -436,22 +527,48 @@ title:
     settings:
       edit: 'Modification d’un paramètre'
       list: 'Liste des paramètres'
-
-order %number%: 'Commande n°%number%'
-
-payment:
-  paypal:
-    description %credit% %amount%: 'Achat de %credit% crédits pour %amount% €'
-
-settings:
-  bill-complement: 'Facture : Complement d’adresse'
-  bill-country: 'Facture : Pays'
-  bill-locality: 'Facture : Ville'
-  bill-name: 'Facture : Société'
-  bill-postal-code: 'Facture : Code postal'
-  bill-street-address: 'Facture : Adresse'
-  bill-vat-number: 'Facture : Numéro de TVA'
+  order:
+    details: 'Détails de la commande'
+    details %label%: 'Détail de la commande n°%label%'
 
 type:
   morale: 'Société'
   physic: 'Particulier'
+
+payments:
+  no-payment: 'Aucun paiement'
+
+transaction:
+  requested-amount: 'Montant demandé'
+  processed-amount: 'Montant effectué'
+  status:
+    canceled: 'Transaction annulée'
+    failed: 'Transaction échouée'
+    new: 'Nouvelle transaction'
+    pending: 'Transaction en cours'
+    success: 'Transaction réussie'
+    title: 'Statut de la transaction'
+  type:
+    approve: 'Approbation'
+    approve-and-deposit: 'Approbation et dépôt'
+    crédit: 'Crédit'
+    deposit: 'Dépôt'
+    reverse-approval: 'Approbation inversée'
+    reverse-credit: 'Crédit inversée'
+    reverse-deposit: 'Dépôt inversé'
+    title: 'Type de transaction'
+  createdAt: 'Transaction créée le'
+  updatedAt: 'Transaction modifiée le'
+  response-code: 'Réponse'
+  reason-code: 'Raison retournée'
+img:
+  alt:
+    logo: 'messages'
+
+item:
+  reference: 'Référence'
+  description: 'Description'
+  quantity: 'Quantité'
+  unit-price: 'Prix unitaire HT'
+  price: 'Total HT'
+  vat: 'Total TVA'

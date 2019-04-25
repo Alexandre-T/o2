@@ -31,10 +31,253 @@
 {% endblock headline %}
 
 {% block content_settings %}
-    <div>
-        <h2>{{ dump(bill) }}</h2>
+    <div class="row mb-5">
+        <div class="col-6">
+            <img src="{{ asset('img/o2programmation.png') }}" alt="{{ 'img.alt.logo' | trans }}">
+            <address>
+                <strong class="d-block">{{ settings('bill-name') }}</strong>
+                <span class="d-block">{{ settings('bill-street-address') }}</span>
+                <span class="d-block">{{ settings('bill-complement') }}</span>
+                <span class="d-block">{{ settings('bill-postal-code') }} {{ settings('bill-locality') }}</span>
+                <span class="d-block">{{ settings('bill-country') }}</span>
+                <span class="d-block">{{ settings('bill-telephone') }}</span>
+            </address>
+            <div class="mt-5">
+                <span class="d-block">
+                    {{ 'bill.method' | trans }}
+                    {{ ('instruction.method.' ~ instruction.paymentSystemName) | trans }}
+                </span>
+                <span class="d-block">
+                    {{ 'bill.expired' | trans }}
+                    {{ bill.createdAt | localizeddate('short', 'none') }}
+                </span>
+            </div>
+        </div>
+        <div class="col-6">
+            <table class="table table-bordered table-striped text-center">
+                <thead>
+                <tr>
+                    <th colspan="3">{{ 'bill.title' | trans }}</th>
+                </tr>
+                <tr class="bg-secondary text-light">
+                    <th id="bill-number">{{ 'bill.number' | trans }}</th>
+                    <th id="bill-date">{{ 'bill.date' | trans }}</th>
+                    <th id="bill-client">{{ 'bill.customer' | trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td headers="bill-number">{{ bill.label }}</td>
+                    <td headers="bill-date">{{ bill.createdAt | localizeddate('short','none') }}</td>
+                    <td headers="bill-client">{{ bill.customer.label }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped mt-5">
+        <thead class="bg-secondary text-light">
+        <tr class="text-center">
+            <th id="item-reference">{{ 'item.reference' | trans }}</th>
+            <th id="item-description">{{ 'item.description' | trans }}</th>
+            <th id="item-quantity">{{ 'item.quantity' | trans }}</th>
+            <th id="item-unit-price">{{ 'item.unit-price' | trans }}</th>
+            <th id="item-price">{{ 'item.price' | trans }}</th>
+            <th id="item-vat">{{ 'item.vat' | trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for items in order.orderedArticles if items.quantity > 0 %}
+            <tr>
+                <td headers="item-reference">{{ items.article.code }}</td>
+                <td headers="item-description">{{ ('article.' ~ items.article.code ~ '.text') | trans }}</td>
+                <td class="text-right" headers="item-quantity">{{ items.quantity | localizednumber }}</td>
+                <td class="text-right"
+                    headers="item-unit-price">{{ items.article.price | localizedcurrency('EUR') }}</td>
+                <td class="text-right"
+                    headers="item-price">{{ (items.article.price * items.quantity) | localizedcurrency('EUR') }}</td>
+                <td class="text-right"
+                    headers="item-vat">{{ (items.article.vat * items.quantity) | localizedcurrency('EUR') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p class="mt-5">{{ 'bill.penalities' | trans }}</p>
+    <p class="mt-5">{{ 'bill.indemnities' | trans }}</p>
+    <table class="table-bordered table">
+        <thead class="bg-secondary text-light text-center">
+        <tr>
+            <th id="bill-vat-percent">{{ 'bill.tva-percent' | trans }}</th>
+            <th id="bill-base">{{ 'bill.base' | trans }}</th>
+            <th id="bill-total-vat">{{ 'bill.total-vat' | trans }}</th>
+            <th id="bill-total-price">{{ 'bill.total-price' | trans }}</th>
+            <th id="bill-total-vat">{{ 'bill.total-vat' | trans }}</th>
+            <th id="bill-total">{{ 'bill.total' | trans }}</th>
+            <th id="bill-already-paid">{{ 'bill.already-paid' | trans }}</th>
+            <th id="bill-to-paid">{{ 'bill.to-paid' | trans }}</th>
+        </tr>
+        </thead>
+        <tbody class="text-right">
+        <tr>
+            <td headers="bill-vat-percent">{{ settings('bill-vat-percent') }}</td>
+            <td headers="bill-base">{{ bill.vat | localizedcurrency('EUR') }}</td>
+            <td headers="bill-total-vat">{{ bill.vat | localizedcurrency('EUR') }}</td>
+            <td headers="bill-total-price">{{ bill.price | localizedcurrency('EUR') }}</td>
+            <td headers="bill-total-vat">{{ bill.vat | localizedcurrency('EUR') }}</td>
+            <td headers="bill-total">{{ bill.amount | localizedcurrency('EUR') }}</td>
+            <td headers="bill-already-paid">{{ bill.alreadyPaid | localizedcurrency('EUR') }}</td>
+            <td headers="bill-to-paid">{{ bill.toPaid | localizedcurrency('EUR') }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="text-danger text-center mt-5 mb-5">{{ 'bill.tos %url%' | trans({'%url%': settings('bill-url')}) }}</p>
+
+    <div class="row">
+        <div class="offset-3 col-6">
+            <p class="mp-5 border-top">
+                <span class="mr-5">{{ settings('bill-status') }}</span>
+                <span class="ml-5">{{ settings('bill-siret') }}</span>
+            </p>
+        </div>
     </div>
 {% endblock content_settings %}
+
+{# Adding order, instruction, payments header #}
+{% block content_tabs_header %}
+    <li class="nav-item">
+        <a class="nav-link" href="#order" aria-controls="general" role="tab" data-toggle="tab">
+            <span class="fa fa-file-invoice"></span>
+            {{ 'entity.tab.order' | trans }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#instruction" aria-controls="general" role="tab" data-toggle="tab">
+            <span class="fas fa-money-check-alt "></span>
+            {{ 'entity.tab.instruction' | trans }}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#payments" aria-controls="general" role="tab" data-toggle="tab">
+            <span class="fas fa-credit-card"></span>
+            {{ 'entity.tab.payments' | trans }}
+        </a>
+    </li>
+{% endblock content_tabs_header %}
+
+{# Adding order, instruction, payments tabs #}
+{% block content_other_tabs %}
+    <div role="tabpanel" class="tab-pane fade" id="order">
+        <div class="row">
+            <div class="col-8 align-middle">
+                <h3>{{ 'order %number%' | trans({'%number%': order.label}) }}</h3>
+            </div>
+            <div class="col-4 text-right align-middle">
+                {{ order.statusOrder | badgeStatusOrder }}
+                {{ order.credited | badgeCredited }}
+            </div>
+        </div>
+        {% include '_entity/_order.html.twig' with {'order': order} %}
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="instruction">
+        <div class="row">
+            <div class="col-8 align-middle">
+                <h3>{{ 'instruction %number%' | trans({'%number%': instruction.id}) }}</h3>
+            </div>
+            <div class="col-4 text-right align-middle">
+
+            </div>
+        </div>
+        <div>
+            <span>{{ instruction.state | badgeInstruction }}</span>
+        </div>
+        <dl class="row">
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.createdAt' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.createdAt | localizeddate }}</dd>
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.updatedAt' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.updatedAt | localizeddate }}</dd>
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.approved-amount' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.approvedAmount | localizedcurrency('EUR') }}</dd>
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.approving-amount' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.approvingAmount | localizedcurrency('EUR') }}</dd>
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.credited-amount' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.creditedAmount | localizedcurrency('EUR') }}</dd>
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.crediting-amount' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.creditingAmount | localizedcurrency('EUR') }}</dd>
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.deposited-amount' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.depositedAmount | localizedcurrency('EUR') }}</dd>
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.depositing-amount' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.depositingAmount | localizedcurrency('EUR') }}</dd>
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.reversing-approved-amount' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.reversingApprovedAmount | localizedcurrency('EUR') }}</dd>
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.reversing-credited-amount' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.reversingCreditedAmount | localizedcurrency('EUR') }}</dd>
+            <dt class="col-sm-4 text-truncate text-right">{{ 'instruction.reversing-deposited-amount' | trans }}</dt>
+            <dd class="col-sm-8">{{ instruction.reversingDepositedAmount | localizedcurrency('EUR') }}</dd>
+        </dl>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="payments">
+        <h3>{{ 'payment.payments' | trans() }}</h3>
+        {% for payment in payments %}
+            <div>
+                <span>{{ payment.state | badgePayment }}</span>
+                <span class="ml-2">{{ payment.attentionRequired | badgeAttentionRequired }}</span>
+                <span class="ml-2">{{ payment.expired | badgeExpired }}</span>
+            </div>
+            <dl class="row">
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.target-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.targetAmount | localizedcurrency('EUR') }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.createdAt' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.createdAt | localizeddate }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.updatedAt' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.updatedAt | localizeddate }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.approved-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.approvedAmount | localizedcurrency('EUR') }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.approving-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.approvingAmount | localizedcurrency('EUR') }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.credited-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.creditedAmount | localizedcurrency('EUR') }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.crediting-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.creditingAmount | localizedcurrency('EUR') }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.deposited-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.depositedAmount | localizedcurrency('EUR') }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.depositing-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.depositingAmount | localizedcurrency('EUR') }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.reversing-approved-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.reversingApprovedAmount | localizedcurrency('EUR') }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.reversing-credited-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.reversingCreditedAmount | localizedcurrency('EUR') }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.reversing-deposited-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.reversingDepositedAmount | localizedcurrency('EUR') }}</dd>
+            </dl>
+            {% for transaction in payment.transactions %}
+                <h4>{{ 'payment.corresponding-financial-transaction' | trans }}</h4>
+                <dl class="row">
+                    <dt class="col-sm-4 text-truncate text-right">{{ 'transaction.type.title' | trans }}</dt>
+                    <dd class="col-sm-8">{{ transaction.transactionType | badgeTransactionType }}</dd>
+                    <dt class="col-sm-4 text-truncate text-right">{{ 'transaction.status.title' | trans }}</dt>
+                    <dd class="col-sm-8">{{ transaction.state | badgeTransactionStatus }}</dd>
+                    <dt class="col-sm-4 text-truncate text-right">{{ 'transaction.requested-amount' | trans }}</dt>
+                    <dd class="col-sm-8">{{ transaction.requestedAmount | localizedcurrency('EUR') }}</dd>
+                    <dt class="col-sm-4 text-truncate text-right">{{ 'transaction.processed-amount' | trans }}</dt>
+                    <dd class="col-sm-8">{{ transaction.processedAmount | localizedcurrency('EUR') }}</dd>
+                    <dt class="col-sm-4 text-truncate text-right">{{ 'transaction.createdAt' | trans }}</dt>
+                    <dd class="col-sm-8">{{ transaction.createdAt | localizeddate }}</dd>
+                    <dt class="col-sm-4 text-truncate text-right">{{ 'transaction.updatedAt' | trans }}</dt>
+                    <dd class="col-sm-8">{{ transaction.updatedAt | localizeddate }}</dd>
+                    <dt class="col-sm-4 text-truncate text-right">{{ 'transaction.response-code' | trans }}</dt>
+                    <dd class="col-sm-8">{{ transaction.responseCode | trans }}</dd>
+                    <dt class="col-sm-4 text-truncate text-right">{{ 'transaction.reason-code' | trans }}</dt>
+                    <dd class="col-sm-8">{{ transaction.reasonCode | trans }}</dd>
+                </dl>
+            {% endfor %}
+
+            <hr/>
+        {% else %}
+            <div class="alert alert-warning">{{ 'payments.no-payment' | trans }}</div>
+        {% endfor %}
+    </div>
+{% endblock content_other_tabs %}
+
 
 {% block content_action %}
     {% include 'accountant/bill/_content-action.html.twig' %}

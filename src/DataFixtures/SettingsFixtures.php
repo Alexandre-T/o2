@@ -67,10 +67,28 @@ class SettingsFixtures extends Fixture
         $settings->setValue('FRANCE');
         $manager->persist($settings);
 
+        //VAT percent for bill.
+        $settings = new Settings();
+        $settings->setCode('bill-vat-percent');
+        $settings->setValue("20,00\u{a0}%");
+        $manager->persist($settings);
+
+        //Telephone for bill.
+        $settings = new Settings();
+        $settings->setCode('bill-telephone');
+        $settings->setValue('06-06-06-06-06');
+        $manager->persist($settings);
+
         //TVA-Number for bill.
         $settings = new Settings();
         $settings->setCode('bill-vat-number');
         $settings->setValue('XXX-333-YYY');
+        $manager->persist($settings);
+
+        //Telephone for bill.
+        $settings = new Settings();
+        $settings->setCode('bill-url');
+        $settings->setValue('www.example.org');
         $manager->persist($settings);
 
         $manager->flush();

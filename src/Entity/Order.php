@@ -311,6 +311,16 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     }
 
     /**
+     * Status order getter.
+     *
+     * @return int|null
+     */
+    public function getStatusOrder(): ?int
+    {
+        return $this->statusOrder;
+    }
+
+    /**
      * Token getter.
      *
      * @return string|null

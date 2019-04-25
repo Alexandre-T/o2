@@ -59,6 +59,15 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
     private $canceledAt;
 
     /**
+     * Date time creation.
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $createdAt;
+
+    /**
      * Customer.
      *
      * @var User
@@ -110,6 +119,20 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
     private $paidAt;
 
     /**
+     * Get amount already paid.
+     *
+     * @return DateTimeInterface|null
+     */
+    public function getAlreadyPaid(): ?float
+    {
+        if ($this->isPaid()) {
+            return $this->getAmount();
+        }
+
+        return 0.0;
+    }
+
+    /**
      * Cancel date time getter.
      *
      * @return DateTimeInterface|null
@@ -117,6 +140,16 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
     public function getCanceledAt(): ?DateTimeInterface
     {
         return $this->canceledAt;
+    }
+
+    /**
+     * Creation datetime getter.
+     *
+     * @return DateTimeInterface|null
+     */
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
     }
 
     /**
@@ -146,7 +179,7 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
      */
     public function getLabel(): string
     {
-        return sprintf('%06d', $this->number);
+        return sprintf('WEB%06d', $this->number);
     }
 
     /**
@@ -177,6 +210,20 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
     public function getPaidAt(): ?DateTimeInterface
     {
         return $this->paidAt;
+    }
+
+    /**
+     * Get amount to paid.
+     *
+     * @return float|null
+     */
+    public function getToPaid(): ?float
+    {
+        if ($this->isPaid() || $this->isCanceled()) {
+            return 0.0;
+        }
+
+        return $this->getAmount();
     }
 
     /**
