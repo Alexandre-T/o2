@@ -72,7 +72,8 @@ class CustomerCest
         $you->fillField('Lot(s) de 500 crédits', 2);
         $you->click('Enregistrer votre commande');
         $you->seeResponseCodeIsSuccessful();
-        $you->canSeeCurrentUrlEquals('/payment/method-choose');
+        $you->seeCurrentUrlEquals('/payment/method-choose');
+        $you->seeLink('Poursuivre');
     }
 
     /**

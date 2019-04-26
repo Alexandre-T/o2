@@ -94,6 +94,7 @@ class UserFixtures extends Fixture
                     ->setType(0 === $index % 2)
                 ;
                 $manager->persist($user);
+                $this->addReference("user_customer-${index}", $user);
             }
 
             //These references are perhaps unused.
