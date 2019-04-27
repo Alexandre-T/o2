@@ -119,6 +119,8 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * Find the last one paid order.
      *
+     * Code not used!
+     *
      * @return Order|null
      */
     public function findLastPaid(): ?Order

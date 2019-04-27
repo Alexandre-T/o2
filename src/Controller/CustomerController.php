@@ -40,7 +40,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerController extends AbstractController
 {
     /**
-     * Order credit.
+     * Step1: Customer select items.
      *
      * @Route("/order-credit", name="customer_order_credit")
      *

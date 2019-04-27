@@ -17,6 +17,8 @@ namespace App\Controller;
 
 use App\Entity\Bill;
 use App\Manager\BillManager;
+use App\Security\Voter\BillVoter;
+use Doctrine\ORM\Query\QueryException as QueryExceptionAlias;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,13 +26,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Accountant controller.
+ * Bill controller.
  *
- * @Route("/accountant", name="accountant_")
+ * @Route("/customer/bill", name="customer_bill_")
  *
- * @Security("is_granted('ROLE_ACCOUNTANT')")
+ * @Security("is_granted('ROLE_USER')")
  */
-class AccountantController extends AbstractPaginateController
+class BillController extends AbstractPaginateController
 {
     /**
      * Limit of bills per page for listing.
@@ -40,16 +42,18 @@ class AccountantController extends AbstractPaginateController
     /**
      * Lists all user entities.
      *
-     * @Route("/bill", name="bill_list", methods={"get"})
+     * @Route("/list", name="list", methods={"get"})
      *
      * @param BillManager $billManager the user manage to paginate users
      * @param Request     $request     the requests to handle page and sorting
+     *
+     * @throws QueryExceptionAlias this should not happened
      *
      * @return Response|RedirectResponse
      */
     public function list(BillManager $billManager, Request $request): Response
     {
-        if (!$this->validateSortedField($request, ['number', 'customers', 'amount'])) {
+        if (!$this->validateSortedField($request, ['number', 'amount'])) {
             return $this->redirectToRoute('accountant_bill_list');
         }
 
@@ -57,14 +61,15 @@ class AccountantController extends AbstractPaginateController
         $field = $this->getSortedField($request, 'number');
         $sort = $this->getOrder($request);
 
-        $pagination = $billManager->paginate(
+        $pagination = $billManager->paginateWithUser(
+            $this->getUser(),
             $request->query->getInt('page', 1),
             self::LIMIT_PER_PAGE,
             $field,
             $sort
         );
 
-        return $this->render('accountant/bill/list.html.twig', [
+        return $this->render('customer/bill/list.html.twig', [
             'pagination' => $pagination,
         ]);
     }
@@ -72,34 +77,24 @@ class AccountantController extends AbstractPaginateController
     /**
      * Finds and displays a bill entity.
      *
-     * @Route("/bill/{id}", name="bill_show", methods={"get"})
+     * @Route("/{id}", name="show", methods={"get"})
      *
-     * @param Bill        $bill        The bill to display
-     * @param BillManager $billManager The bill manager
+     * @param Bill $bill The bill to display
      *
      * @return Response
      */
-    public function show(Bill $bill, BillManager $billManager): Response
+    public function show(Bill $bill): Response
     {
-        $instruction = null;
-        $logs = $billManager->retrieveLogs($bill);
+        // check for "show" access: calls all voters
+        $this->denyAccessUnlessGranted(BillVoter::SHOW, $bill);
+
         $order = $bill->getOrder();
-        $payments = [];
+        $instruction = $order->getPaymentInstruction();
 
-        if (null !== $order) {
-            $instruction = $order->getPaymentInstruction();
-        }
-
-        if (null !== $instruction) {
-            $payments = $instruction->getPayments();
-        }
-
-        return $this->render('accountant/bill/show.html.twig', [
-            'logs' => $logs,
+        return $this->render('customer/bill/show.html.twig', [
             'bill' => $bill,
             'order' => $order,
             'instruction' => $instruction,
-            'payments' => $payments,
         ]);
     }
 }

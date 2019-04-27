@@ -21,6 +21,7 @@ use App\Entity\OrderedArticle;
 use App\Entity\User;
 use App\Factory\BillFactory;
 use App\Model\OrderInterface;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -92,9 +93,9 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $carted->addOrderedArticle($this->createOrdered($ten, 2));
             $carted->addOrderedArticle($this->createOrdered($hundred, 0));
             $carted->addOrderedArticle($this->createOrdered($fiveHundred, 0));
-            //TODO create payment instruction
             $instruction = new PaymentInstruction(240, 'EUR', 'paypal_express_checkout');
             $carted->setPaymentInstruction($instruction);
+            $carted->setStatusOrder(OrderInterface::PENDING);
             $carted->setCredits(20);
             $carted->setPrice(200);
             $carted->setVat(40);
@@ -116,31 +117,39 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             //create payment instruction
             $instruction = new PaymentInstruction(300, 'EUR', 'paypal_express_checkout');
             $carted->setPaymentInstruction($instruction);
+            $carted->setStatusOrder(OrderInterface::PENDING);
             //TODO create payment
             //Canceled (Nothing to do ?)
+            //TODO On controller::PaymentCanceled Do something to trace it.
             $manager->persist($carted);
             $manager->persist($instruction);
 
             //Customer had clicked on order-credit and select paypal_express and paid.
             $customer = $this->getReference('user_customer-4');
-            $carted = new Order();
-            $carted->setCustomer($customer);
-            $carted->setStatusOrder(OrderInterface::PAID);
-            $carted->addOrderedArticle($this->createOrdered($ten, 4));
-            $carted->addOrderedArticle($this->createOrdered($hundred, 0));
-            $carted->addOrderedArticle($this->createOrdered($fiveHundred, 0));
-            $instruction = new PaymentInstruction(400, 'EUR', 'paypal_express_checkout');
-            $carted->setPaymentInstruction($instruction);
-            $carted->setCredits(40);
-            $carted->setPrice(400);
-            $carted->setVat(80);
-            //TODO create payment,
-            //TODO Payment
-            //Create bill without confirmation.
-            $bill = BillFactory::create($carted, $customer);
-            $manager->persist($bill);
-            $manager->persist($carted);
-            $manager->persist($instruction);
+            foreach (range(1,30) as $index) {
+                $quantity = $index % 8 + 1;
+                $carted = new Order();
+                $carted->setCustomer($customer);
+                $carted->setStatusOrder(OrderInterface::PAID);
+                $carted->addOrderedArticle($this->createOrdered($ten, $quantity));
+                $carted->addOrderedArticle($this->createOrdered($hundred, 0));
+                $carted->addOrderedArticle($this->createOrdered($fiveHundred, 0));
+                $instruction = new PaymentInstruction($quantity * 100, 'EUR', 'paypal_express_checkout');
+                $carted->setPaymentInstruction($instruction);
+                $carted->setCredits($quantity * 10);
+                $carted->setPrice($quantity * 100);
+                $carted->setVat($quantity * 20);
+                //TODO create payment,
+                //TODO Payment
+                //Create bill with confirmation.
+                $bill = BillFactory::create($carted, $customer);
+                $carted->setStatusOrder(OrderInterface::PAID);
+                $bill->setPaidAt(new DateTimeImmutable());
+                $manager->persist($bill);
+                $manager->persist($carted);
+                $manager->persist($instruction);
+                $manager->flush();
+            }
         }
 
         $manager->flush();

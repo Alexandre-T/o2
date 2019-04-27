@@ -56,6 +56,11 @@ services:
             - parameters:
                 from: '%expediter%'
 
+    #Voters are tagged
+    App\Security\Voter\:
+        resource: '../src/Security/Voter'
+        tags: ['security.voter']
+
     #Twig extension for localized date functions
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl

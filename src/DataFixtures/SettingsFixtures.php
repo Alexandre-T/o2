@@ -67,6 +67,18 @@ class SettingsFixtures extends Fixture
         $settings->setValue('FRANCE');
         $manager->persist($settings);
 
+        //Siret for bill.
+        $settings = new Settings();
+        $settings->setCode('bill-siret');
+        $settings->setValue('SIRET: 699-42-996');
+        $manager->persist($settings);
+
+        //Status for bill.
+        $settings = new Settings();
+        $settings->setCode('bill-status');
+        $settings->setValue("SARL au capital de 42,00\u{a0}€");
+        $manager->persist($settings);
+
         //VAT percent for bill.
         $settings = new Settings();
         $settings->setCode('bill-vat-percent');

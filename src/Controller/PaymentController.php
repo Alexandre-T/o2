@@ -116,7 +116,7 @@ class PaymentController extends AbstractController
     }
 
     /**
-     * Payment create.
+     * Step3: Customer want to pay.
      *
      * @Route("/create", name="customer_payment_create")
      *
@@ -187,7 +187,7 @@ class PaymentController extends AbstractController
     }
 
     /**
-     * Select credit.
+     * Step2: Customer selects payment method.
      *
      * @Route("/method-choose", name="customer_payment_method")
      *
@@ -207,8 +207,8 @@ class PaymentController extends AbstractController
      TranslatorInterface $trans
     ): Response {
         $user = $this->getUser();
-        //find carted (non canceled and non paid) and non empty order
         try {
+            //find carted (non canceled and non paid) and non empty order
             $order = $orderManager->getNonEmptyCartedOrder($user);
             $returnUrl = $this->generateUrl(
                 'customer_payment_complete',

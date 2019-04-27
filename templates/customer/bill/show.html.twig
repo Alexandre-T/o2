@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.accountant.bill.show %number%'|trans({'%number%': bill.label}) }} · {{ parent() }}
+{% endblock title %}
+
+{% block body %}
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-6">
+                <img src="{{ asset('img/o2programmation.png') }}" alt="{{ 'img.alt.logo' | trans }}">
+                <address>
+                    <strong class="d-block">{{ settings('bill-name') }}</strong>
+                    <span class="d-block">{{ settings('bill-street-address') }}</span>
+                    <span class="d-block">{{ settings('bill-complement') }}</span>
+                    <span class="d-block">{{ settings('bill-postal-code') }} {{ settings('bill-locality') }}</span>
+                    <span class="d-block">{{ settings('bill-country') }}</span>
+                    <span class="d-block">{{ settings('bill-telephone') }}</span>
+                </address>
+                <div class="mt-5">
+                <span class="d-block">
+                    {{ 'bill.method' | trans }}
+                    {{ ('instruction.method.' ~ instruction.paymentSystemName) | trans }}
+                </span>
+                    <span class="d-block">
+                    {{ 'bill.expired' | trans }}
+                        {{ bill.createdAt | localizeddate('short', 'none') }}
+                </span>
+                </div>
+            </div>
+            <div class="col-6">
+                <table class="table table-bordered table-striped text-center">
+                    <thead>
+                    <tr>
+                        <th colspan="3">{{ 'bill.title' | trans }}</th>
+                    </tr>
+                    <tr class="bg-secondary text-light">
+                        <th id="bill-number">{{ 'bill.number' | trans }}</th>
+                        <th id="bill-date">{{ 'bill.date' | trans }}</th>
+                        <th id="bill-client">{{ 'bill.customer' | trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td headers="bill-number">{{ bill.label }}</td>
+                        <td headers="bill-date">{{ bill.createdAt | localizeddate('short','none') }}</td>
+                        <td headers="bill-client">{{ bill.customer.label }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped mt-5">
+            <thead class="bg-secondary text-light">
+            <tr class="text-center">
+                <th id="item-reference">{{ 'item.reference' | trans }}</th>
+                <th id="item-description">{{ 'item.description' | trans }}</th>
+                <th id="item-quantity">{{ 'item.quantity' | trans }}</th>
+                <th id="item-unit-price">{{ 'item.unit-price' | trans }}</th>
+                <th id="item-price">{{ 'item.price' | trans }}</th>
+                <th id="item-vat">{{ 'item.vat' | trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for items in order.orderedArticles if items.quantity > 0 %}
+                <tr>
+                    <td headers="item-reference">{{ items.article.code }}</td>
+                    <td headers="item-description">{{ ('article.' ~ items.article.code ~ '.text') | trans }}</td>
+                    <td class="text-right" headers="item-quantity">{{ items.quantity | localizednumber }}</td>
+                    <td class="text-right"
+                        headers="item-unit-price">{{ items.article.price | localizedcurrency('EUR') }}</td>
+                    <td class="text-right"
+                        headers="item-price">{{ (items.article.price * items.quantity) | localizedcurrency('EUR') }}</td>
+                    <td class="text-right"
+                        headers="item-vat">{{ (items.article.vat * items.quantity) | localizedcurrency('EUR') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <p class="mt-5">{{ 'bill.penalities' | trans }}</p>
+        <p class="mt-5">{{ 'bill.indemnities' | trans }}</p>
+        <table class="table-bordered table">
+            <thead class="bg-secondary text-light text-center">
+            <tr>
+                <th id="bill-vat-percent">{{ 'bill.tva-percent' | trans }}</th>
+                <th id="bill-base">{{ 'bill.base' | trans }}</th>
+                <th id="bill-total-vat">{{ 'bill.total-vat' | trans }}</th>
+                <th id="bill-total-price">{{ 'bill.total-price' | trans }}</th>
+                <th id="bill-total-vat">{{ 'bill.total-vat' | trans }}</th>
+                <th id="bill-total">{{ 'bill.total' | trans }}</th>
+                <th id="bill-already-paid">{{ 'bill.already-paid' | trans }}</th>
+                <th id="bill-to-paid">{{ 'bill.to-paid' | trans }}</th>
+            </tr>
+            </thead>
+            <tbody class="text-right">
+            <tr>
+                <td headers="bill-vat-percent">{{ settings('bill-vat-percent') }}</td>
+                <td headers="bill-base">{{ bill.vat | localizedcurrency('EUR') }}</td>
+                <td headers="bill-total-vat">{{ bill.vat | localizedcurrency('EUR') }}</td>
+                <td headers="bill-total-price">{{ bill.price | localizedcurrency('EUR') }}</td>
+                <td headers="bill-total-vat">{{ bill.vat | localizedcurrency('EUR') }}</td>
+                <td headers="bill-total">{{ bill.amount | localizedcurrency('EUR') }}</td>
+                <td headers="bill-already-paid">{{ bill.alreadyPaid | localizedcurrency('EUR') }}</td>
+                <td headers="bill-to-paid">{{ bill.toPaid | localizedcurrency('EUR') }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="text-danger text-center mt-5 mb-5">{{ 'bill.tos %url%' | trans({'%url%': settings('bill-url')}) }}</p>
+
+        <div class="row">
+            <div class="offset-3 col-6">
+                <p class="mp-5 border-top">
+                    <span class="mr-5">{{ settings('bill-status') }}</span>
+                    <span class="ml-5">{{ settings('bill-siret') }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

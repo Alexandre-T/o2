@@ -77,21 +77,23 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {# Credits #}
-                            <a class="dropdown-item {{ route == 'customer_order_credit' ? 'active' }}" data-toggle="tooltip"
-                               href="{{ path('customer_order_credit') }}" data-placement="left"
+                            <a class="dropdown-item {{ route == 'customer_order_credit' ? 'active' }}"
+                               href="{{ path('customer_order_credit') }}" data-placement="left" data-toggle="tooltip"
                                title="{{ 'nav.customer.submenu.credit.title' | trans }}">
                                 <span class="fas fa-fw fa-coins"></span>
                                 {{ 'nav.customer.submenu.credit.text' | trans }}
                             </a>
                             {# Order #}
-                            <a class="dropdown-item" href="#" data-toggle="tooltip"
-                               data-placement="left" title="{{ 'nav.customer.submenu.order.title' | trans }}">
+                            <a class="dropdown-item"
+                               href="#" data-placement="left" data-toggle="tooltip"
+                               title="{{ 'nav.customer.submenu.order.title' | trans }}">
                                 <span class="fas fa-fw fa-car"></span>
                                 {{ 'nav.customer.submenu.order.text' | trans }}
                             </a>
                             {# User bills #}
-                            <a class="dropdown-item" href="#" data-toggle="tooltip"
-                               data-placement="left" title="{{ 'nav.customer.submenu.bills.title' | trans }}">
+                            <a class="dropdown-item {{ route == 'customer_bill_list' ? 'active' }}"
+                               href="{{ path('customer_bill_list') }}" data-placement="left" data-toggle="tooltip"
+                               title="{{ 'nav.customer.submenu.bills.title' | trans }}">
                                 <span class="fas fa-fw fa-file-invoice-dollar"></span>
                                 {{ 'nav.customer.submenu.bills.text' | trans }}
                             </a>

@@ -165,6 +165,7 @@ abstract class AbstractRepositoryManager implements ManagerInterface
     ): PaginationInterface {
         $queryBuilder = $this->repository->createQueryBuilder($this->getDefaultAlias());
         $queryBuilder->addCriteria($criteria);
+        $queryBuilder = $this->addHiddenField($queryBuilder);
 
         return $this->paginator->paginate(
             $queryBuilder,

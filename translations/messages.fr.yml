@@ -6,6 +6,9 @@ action:
     list:
       text: 'Liste des factures'
       title: 'Consulter la liste des factures'
+    download:
+      title: 'messages'
+      text: 'messages'
   close: 'Fermer'
   email:
     title: 'Envoyer un email'
@@ -418,6 +421,9 @@ nav:
       password:
         text: 'Mon mot de passe'
         title: 'Changer votre mot de passe'
+      bill:
+        text: 'Mes factures'
+        title: 'Consulter mes factures'
   lost-password:
     text: 'Mot de passe perdu'
   reset-password:
@@ -498,6 +504,9 @@ title:
       list: 'Liste des factures'
       show %number%: 'Facture %number%'
   customer:
+    bill:
+      list: 'Mes factures'
+      show %number%: 'Ma facture %number%'
     buy-credit: 'Méthode de paiement'
     main: 'Mon compte'
     profile: 'Mon profil'
@@ -563,7 +572,7 @@ transaction:
   reason-code: 'Raison retournée'
 img:
   alt:
-    logo: 'messages'
+    logo: 'Logo de l’entreprise'
 
 item:
   reference: 'Référence'

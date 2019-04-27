@@ -21,8 +21,11 @@ use App\Entity\Order;
 use App\Entity\User;
 use App\Factory\BillFactory;
 use App\Repository\BillRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * Bill Manager.
@@ -72,6 +75,39 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
     public function isDeletable(EntityInterface $entity): bool
     {
         return false;
+    }
+
+    /**
+     * Paginate bills with criteria on user.
+     *
+     * @param User   $user      User criteria
+     * @param int    $page      number of page
+     * @param int    $limit     limit of bills per page
+     * @param string $sortField sort field
+     * @param string $sortOrder sort order
+     *
+     * @throws QueryException when criteria is not valid
+     *
+     * @return PaginationInterface
+     */
+    public function paginateWithUser(
+     User $user,
+     int $page,
+     int $limit,
+     string $sortField,
+     string $sortOrder
+    ): PaginationInterface {
+        $criteria = Criteria::create();
+        $expression = $criteria::expr()->eq('customer', $user);
+        $criteria->where($expression);
+
+        return $this->paginateWithCriteria(
+            $criteria,
+            $page,
+            $limit,
+            $sortField,
+            $sortOrder
+        );
     }
 
     /**
