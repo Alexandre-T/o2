@@ -125,6 +125,17 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     private $paymentInstruction;
 
     /**
+     * Price without taxes.
+     *
+     * @var float|string
+     *
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     *
+     * @Gedmo\Versioned
+     */
+    private $price;
+
+    /**
      * Is user credit sold increased?
      *
      * @ORM\Column(type="boolean", options={"default": false})
@@ -163,6 +174,17 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      * @Gedmo\Versioned
      */
     private $uuid;
+
+    /**
+     * VAT price in euro.
+     *
+     * @var float|string
+     *
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     *
+     * @Gedmo\Versioned
+     */
+    private $vat;
 
     /**
      * Order constructor.
@@ -391,6 +413,21 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     }
 
     /**
+     * Refresh Price.
+     *
+     * @return Order
+     */
+    public function refreshPrice(): self
+    {
+        $this->setPrice(0);
+        foreach ($this->getOrderedArticles() as $orderedArticle) {
+            $this->setPrice($this->getPrice() + $orderedArticle->getQuantity() * $orderedArticle->getPrice());
+        }
+
+        return $this;
+    }
+
+    /**
      * Refresh uuid.
      *
      * @return Order
@@ -398,6 +435,21 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     public function refreshUuid(): self
     {
         $this->generateUuid();
+
+        return $this;
+    }
+
+    /**
+     * Refresh vat.
+     *
+     * @return Order
+     */
+    public function refreshVat(): self
+    {
+        $this->setVat(0);
+        foreach ($this->getOrderedArticles() as $orderedArticle) {
+            $this->setPrice($this->getVat() + $orderedArticle->getQuantity() * $orderedArticle->getVat());
+        }
 
         return $this;
     }

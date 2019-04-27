@@ -38,11 +38,12 @@ class BillCest
         $you->click('Consulter', 'a.btn');
         $you->seeResponseCodeIsSuccessful();
         $billId = $you->grabFromCurrentUrl('~(\d+)~');
-        $you->seeCurrentUrlEquals("/customer/bill/$billId");
-
+        $you->seeCurrentUrlEquals('/customer/bill/'.$billId);
         $you->wantTo('show a non-accessible one');
-        $you->login('customer-3');
-        $you->amOnPage("/customer/bill/$billId");
+        $you->amOnPage('/logout');
+        $you->seeResponseCodeIsSuccessful();
+        $you->login('customer-7');
+        $you->amOnPage('/customer/bill/'.$billId);
         $you->canSeeResponseCodeIsClientError();
         $you->canSeeResponseCodeIs(403);
     }

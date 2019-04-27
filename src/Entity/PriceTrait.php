@@ -15,36 +15,14 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-
 /**
  * Price trait.
+ *
+ * @property float|string $price
+ * @property float|string $vat
  */
 trait PriceTrait
 {
-    /**
-     * Price without taxes.
-     *
-     * @var float|string
-     *
-     * @ORM\Column(type="decimal", precision=7, scale=2)
-     *
-     * @Gedmo\Versioned
-     */
-    private $price;
-
-    /**
-     * VAT price in euro.
-     *
-     * @var float|string
-     *
-     * @ORM\Column(type="decimal", precision=7, scale=2)
-     *
-     * @Gedmo\Versioned
-     */
-    private $vat;
-
     /**
      * Copy price properties from another price interface to current one.
      *

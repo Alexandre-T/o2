@@ -90,18 +90,4 @@ class OrderedArticleTest extends Unit
         self::assertEquals($this->orderedArticle, $this->orderedArticle->setQuantity($actual));
         self::assertEquals($expected, $this->orderedArticle->getQuantity());
     }
-
-    /**
-     * Test the method UnitCost getter and setter.
-     */
-    public function testUnitCost(): void
-    {
-        $expected = $actual = 42;
-        self::assertEquals($this->orderedArticle, $this->orderedArticle->setUnitCost($actual));
-        self::assertEquals($expected, $this->orderedArticle->getUnitCost());
-
-        $expected = $actual = '42.00';
-        self::assertEquals($this->orderedArticle, $this->orderedArticle->setUnitCost($actual));
-        self::assertEquals($expected, $this->orderedArticle->getUnitCost());
-    }
 }

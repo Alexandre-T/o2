@@ -46,5 +46,6 @@
     <rule ref="rulesets/unusedcode.xml">
         <!-- Avoid unused parameters -->
         <exclude name="UnusedFormalParameter" />
+        <exclude name="UnusedPrivateField" />
     </rule>
 </ruleset>

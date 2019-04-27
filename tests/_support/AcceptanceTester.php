@@ -52,12 +52,12 @@ class AcceptanceTester extends Actor
         $this->amOnPage('/login');
 
         $this->seeResponseCodeIsSuccessful();
-        $this->canSeeCurrentUrlEquals('/login');
+        $this->seeCurrentUrlEquals('/login');
         $this->fillField('Adresse email', $mail);
         $this->fillField('Mot de passe', $password);
         $this->click('Se connecter');
         $this->seeResponseCodeIsSuccessful();
-        $this->canSeeCurrentUrlEquals('/');
+        $this->seeCurrentUrlEquals('/');
         $this->seeLink('Déconnexion');
     }
 

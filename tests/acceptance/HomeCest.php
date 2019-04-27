@@ -25,25 +25,25 @@ class HomeCest
     /**
      * Test the home page.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToTestHomePage(AcceptanceTester $I): void
+    public function tryToTestHomePage(AcceptanceTester $you): void
     {
-        $I->wantToTest('I see O2 files');
-        $I->amOnPage('/');
-        $I->seeResponseCodeIsSuccessful();
-        $I->see('O2 files');
+        $you->wantToTest('I see O2 files');
+        $you->amOnPage('/');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('O2 files');
     }
 
     /**
      * Test the home page.
      *
-     * @param AcceptanceTester $I the acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToTestTosPage(AcceptanceTester $I): void
+    public function tryToTestTosPage(AcceptanceTester $you): void
     {
-        $I->wantToTest('The TOS page is accessible');
-        $I->amOnPage('/tos');
-        $I->seeResponseCodeIsSuccessful();
+        $you->wantToTest('The TOS page is accessible');
+        $you->amOnPage('/tos');
+        $you->seeResponseCodeIsSuccessful();
     }
 }

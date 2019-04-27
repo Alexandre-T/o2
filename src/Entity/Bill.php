@@ -119,6 +119,28 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
     private $paidAt;
 
     /**
+     * Price without taxes.
+     *
+     * @var float|string
+     *
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     *
+     * @Gedmo\Versioned
+     */
+    private $price;
+
+    /**
+     * VAT price in euro.
+     *
+     * @var float|string
+     *
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     *
+     * @Gedmo\Versioned
+     */
+    private $vat;
+
+    /**
      * Get amount already paid.
      *
      * @return DateTimeInterface|null

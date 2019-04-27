@@ -73,7 +73,7 @@ class CustomerCest
         $you->click('Enregistrer votre commande');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/payment/method-choose');
-        $you->seeLink('Poursuivre');
+        $you->see('Poursuivre');
     }
 
     /**

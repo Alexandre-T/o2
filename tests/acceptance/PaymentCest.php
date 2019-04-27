@@ -30,7 +30,7 @@ class PaymentCest
     public function tryToCancelPayment(AcceptanceTester $you): void
     {
         $you->wantTo('simulate a cancel payment');
-        $you->login('customer-3');
+        $you->login('customer-7');
         $you->amOnPage('/payment/cancel/4');
         $you->seeResponseCodeIsSuccessful();
         $you->seeInCurrentUrl('/customer/order-credit');

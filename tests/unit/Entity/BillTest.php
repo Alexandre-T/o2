@@ -119,7 +119,7 @@ class BillTest extends Unit
         $property->setValue($this->bill, $actual);
 
         self::assertEquals($expected, $this->bill->getNumber());
-        self::assertEquals('000033', $this->bill->getLabel());
+        self::assertEquals('WEB000033', $this->bill->getLabel());
     }
 
     /**

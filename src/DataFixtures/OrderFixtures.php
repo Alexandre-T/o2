@@ -25,6 +25,7 @@ use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
 use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 /**
@@ -32,6 +33,21 @@ use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
  */
 class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @var Article
+     */
+    private $fiveHundred;
+
+    /**
+     * @var Article
+     */
+    private $hundred;
+
+    /**
+     * @var Article
+     */
+    private $ten;
+
     /**
      * This method must return an array of fixtures classes
      * on which the implementing class depends on.
@@ -50,95 +66,47 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      * Load orders.
      *
      * @param ObjectManager $manager manager to save data
+     *
+     * @throws Exception returned by DateTimeImmutable
      */
     public function load(ObjectManager $manager): void
     {
         if (in_array(getenv('APP_ENV'), ['dev', 'test'])) {
             /** @var User $customer */
             $customer = $this->getReference('user_customer');
-            /** @var Article $ten */
-            /** @var Article $hundred */
-            /** @var Article $fiveHundred */
-            $ten = $this->getReference('article_10');
-            $hundred = $this->getReference('article_100');
-            $fiveHundred = $this->getReference('article_500');
+            $this->ten = $this->getReference('article_10');
+            $this->hundred = $this->getReference('article_100');
+            $this->fiveHundred = $this->getReference('article_500');
 
             //Customer had only clicked on order-credit.
-            $carted = new Order();
-            $carted->setCustomer($customer);
-            $carted->setStatusOrder(OrderInterface::CARTED);
-            $carted->setCredits(0);
-            $carted->setPrice(0);
-            $carted->setVat(0);
+            $carted = $this->createOrder($customer, 0);
             $manager->persist($carted);
 
             //Customer had clicked on order-credit and select some items.
             $customer = $this->getReference('user_customer-1');
-            $carted = new Order();
-            $carted->setCustomer($customer);
-            $carted->setStatusOrder(OrderInterface::CARTED);
-            $carted->addOrderedArticle($this->createOrdered($ten, 1));
-            $carted->addOrderedArticle($this->createOrdered($hundred, 2));
-            $carted->addOrderedArticle($this->createOrdered($fiveHundred, 3));
-            $carted->setCredits(1710);
-            $carted->setPrice(15600);
-            $carted->setVat(3120);
+            $carted = $this->createOrder($customer, 1, 2, 3, false);
             $manager->persist($carted);
 
             //Customer had clicked on order-credit and select paypal_express.
             $customer = $this->getReference('user_customer-2');
-            $carted = new Order();
-            $carted->setCustomer($customer);
-            $carted->setStatusOrder(OrderInterface::CARTED);
-            $carted->addOrderedArticle($this->createOrdered($ten, 2));
-            $carted->addOrderedArticle($this->createOrdered($hundred, 0));
-            $carted->addOrderedArticle($this->createOrdered($fiveHundred, 0));
-            $instruction = new PaymentInstruction(240, 'EUR', 'paypal_express_checkout');
-            $carted->setPaymentInstruction($instruction);
-            $carted->setStatusOrder(OrderInterface::PENDING);
-            $carted->setCredits(20);
-            $carted->setPrice(200);
-            $carted->setVat(40);
-
+            $carted = $this->createOrder($customer, 2, 0, 0, true);
+            $manager->persist($carted->getPaymentInstruction());
             $manager->persist($carted);
-            $manager->persist($instruction);
 
             //Customer had clicked on order-credit and select paypal_express and canceled payment.
-            $customer = $this->getReference('user_customer-3');
-            $carted = new Order();
-            $carted->setCustomer($customer);
-            $carted->setStatusOrder(OrderInterface::CARTED);
-            $carted->addOrderedArticle($this->createOrdered($ten, 3));
-            $carted->addOrderedArticle($this->createOrdered($hundred, 0));
-            $carted->addOrderedArticle($this->createOrdered($fiveHundred, 0));
-            $carted->setCredits(30);
-            $carted->setPrice(300);
-            $carted->setVat(60);
-            //create payment instruction
-            $instruction = new PaymentInstruction(300, 'EUR', 'paypal_express_checkout');
-            $carted->setPaymentInstruction($instruction);
-            $carted->setStatusOrder(OrderInterface::PENDING);
+            $customer = $this->getReference('user_customer-7');
+            $carted = $this->createOrder($customer, 3, 0, 0, true);
             //TODO create payment
             //Canceled (Nothing to do ?)
             //TODO On controller::PaymentCanceled Do something to trace it.
+            $manager->persist($carted->getPaymentInstruction());
             $manager->persist($carted);
-            $manager->persist($instruction);
 
             //Customer had clicked on order-credit and select paypal_express and paid.
             $customer = $this->getReference('user_customer-4');
-            foreach (range(1,30) as $index) {
+            foreach (range(1, 30) as $index) {
                 $quantity = $index % 8 + 1;
-                $carted = new Order();
-                $carted->setCustomer($customer);
-                $carted->setStatusOrder(OrderInterface::PAID);
-                $carted->addOrderedArticle($this->createOrdered($ten, $quantity));
-                $carted->addOrderedArticle($this->createOrdered($hundred, 0));
-                $carted->addOrderedArticle($this->createOrdered($fiveHundred, 0));
-                $instruction = new PaymentInstruction($quantity * 100, 'EUR', 'paypal_express_checkout');
-                $carted->setPaymentInstruction($instruction);
-                $carted->setCredits($quantity * 10);
-                $carted->setPrice($quantity * 100);
-                $carted->setVat($quantity * 20);
+                $carted = $this->createOrder($customer, $quantity, 0, 0, true);
                 //TODO create payment,
                 //TODO Payment
                 //Create bill with confirmation.
@@ -146,13 +114,50 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
                 $carted->setStatusOrder(OrderInterface::PAID);
                 $bill->setPaidAt(new DateTimeImmutable());
                 $manager->persist($bill);
+                $manager->persist($carted->getPaymentInstruction());
                 $manager->persist($carted);
-                $manager->persist($instruction);
                 $manager->flush();
             }
         }
 
         $manager->flush();
+    }
+
+    /**
+     * Create an order.
+     *
+     * @param User $customer    Associated customer
+     * @param int  $ten         Number of 10
+     * @param int  $hundred     Number of 100
+     * @param int  $fiveHundred Number of 500
+     * @param bool $instruction Create an instruction
+     *
+     * @return Order
+     */
+    private function createOrder(
+     User $customer,
+     int $ten,
+     int $hundred = 0,
+     int $fiveHundred = 0,
+     bool $instruction = false
+    ): Order {
+        $order = new Order();
+        $order->setCustomer($customer);
+        $order->setStatusOrder(OrderInterface::CARTED);
+        $order->addOrderedArticle($this->createOrdered($this->ten, $ten));
+        $order->addOrderedArticle($this->createOrdered($this->hundred, $hundred));
+        $order->addOrderedArticle($this->createOrdered($this->fiveHundred, $fiveHundred));
+        $order->setCredits($ten * 10 + $hundred * 100 + $fiveHundred * 500);
+        $order->refreshPrice();
+        $order->refreshVat();
+
+        if ($instruction) {
+            $instruction = new PaymentInstruction($order->getAmount(), 'EUR', 'paypal_express_checkout');
+            $order->setPaymentInstruction($instruction);
+            $order->setStatusOrder(OrderInterface::PENDING);
+        }
+
+        return $order;
     }
 
     /**
@@ -168,7 +173,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         $ordered = new OrderedArticle();
         $ordered->setArticle($article);
         $ordered->setQuantity($quantity);
-        $ordered->setUnitCost($article->getPrice());
+        $ordered->copyPrice($article);
 
         return $ordered;
     }

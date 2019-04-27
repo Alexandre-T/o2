@@ -302,7 +302,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $orderedArticle = new OrderedArticle();
         $orderedArticle->setArticle($article);
         $orderedArticle->setOrder($order);
-        $orderedArticle->setUnitCost($article->getPrice());
+        $orderedArticle->copyPrice($order);
         $orderedArticle->setQuantity($quantity);
         $order->addOrderedArticle($orderedArticle);
 
@@ -340,7 +340,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      */
     private function updateOrderedArticle(OrderedArticle $orderedArticle, Article $article, int $quantity): void
     {
-        $orderedArticle->setUnitCost($article->getPrice());
+        $orderedArticle->copyPrice($article);
         $orderedArticle->setQuantity($quantity);
     }
 }

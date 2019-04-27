@@ -30,8 +30,13 @@ use Doctrine\ORM\Mapping as ORM;
  *     }
  * )
  */
-class OrderedArticle
+class OrderedArticle implements PriceInterface
 {
+    /*
+     * Price trait to set, unset vat and price.
+     */
+    use PriceTrait;
+
     /**
      * Article.
      *
@@ -55,6 +60,15 @@ class OrderedArticle
     private $order;
 
     /**
+     * Price without taxes.
+     *
+     * @var float|string
+     *
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     */
+    private $price;
+
+    /**
      * Quantity ordered.
      *
      * @var int
@@ -64,13 +78,13 @@ class OrderedArticle
     private $quantity;
 
     /**
-     * Unit cost.
+     * VAT price in euro.
      *
-     * @var float|float|string
+     * @var float|string
      *
-     * @ORM\Column(type="decimal", precision=6, scale=2)
+     * @ORM\Column(type="decimal", precision=7, scale=2)
      */
-    private $unitCost;
+    private $vat;
 
     /**
      * Article getter.
@@ -100,16 +114,6 @@ class OrderedArticle
     public function getQuantity(): ?int
     {
         return $this->quantity;
-    }
-
-    /**
-     * Unit cost getter.
-     *
-     * @return float|float|string
-     */
-    public function getUnitCost()
-    {
-        return $this->unitCost;
     }
 
     /**
@@ -154,20 +158,6 @@ class OrderedArticle
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    /**
-     * Uniq cost fluent setter.
-     *
-     * @param float|float|string $unitCost unit cost
-     *
-     * @return OrderedArticle
-     */
-    public function setUnitCost($unitCost): self
-    {
-        $this->unitCost = $unitCost;
 
         return $this;
     }

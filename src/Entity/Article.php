@@ -72,6 +72,28 @@ class Article implements PriceInterface
     private $identifier;
 
     /**
+     * Price without taxes.
+     *
+     * @var float|string
+     *
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     *
+     * @Gedmo\Versioned
+     */
+    private $price;
+
+    /**
+     * VAT price in euro.
+     *
+     * @var float|string
+     *
+     * @ORM\Column(type="decimal", precision=7, scale=2)
+     *
+     * @Gedmo\Versioned
+     */
+    private $vat;
+
+    /**
      * Code getter.
      *
      * @return string|null
