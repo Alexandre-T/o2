@@ -6,9 +6,6 @@ action:
     list:
       text: 'Liste des factures'
       title: 'Consulter la liste des factures'
-    download:
-      title: 'messages'
-      text: 'messages'
   close: 'Fermer'
   email:
     title: 'Envoyer un email'
@@ -121,7 +118,9 @@ entity:
       delete: 'Suppression'
       update: 'Modification'
     data:
+      canceled-at: 'Nouvelle date d’annulation'
       complement: 'Nouveau complément'
+      created-at: 'Nouvelle date de création'
       credit: 'Crédits'
       country: 'Nouveau pays'
       customer: 'Nouveau client'
@@ -135,17 +134,18 @@ entity:
       nationality: 'Nouvelle nationalité'
       number: 'Nouveau numéro de facture'
       order: 'Nouvelle commande'
+      paid-at: 'Nouvelle date de paiement'
       password: 'Nouveau mot de passe'
       post-office-box-number: 'Nouveau complément'
       postal-code: 'Nouveau code postal'
       price: 'Nouveau prix HT'
+      resetting-at: 'Jeton demandé le'
+      resetting-token: 'Jeton de réinitialisation'
       roles: 'Nouveaux privilèges'
       service: 'Nouveau service'
       society: 'Société'
       street-address: 'Nouvelle rue'
       telephone: 'Nouveau téléphone'
-      resetting-at: 'Jeton demandé le'
-      resetting-token: 'Jeton de réinitialisation'
       type: 'Particulier ou professionel'
       vat: 'Nouveau montant de TVA'
       vat-number: 'Nouveau numéro TVA'
@@ -581,3 +581,7 @@ item:
   unit-price: 'Prix unitaire HT'
   price: 'Total HT'
   vat: 'Total TVA'
+user:
+  bills: 'Factures'
+  files: 'Fichiers'
+  credits: 'Crédits'

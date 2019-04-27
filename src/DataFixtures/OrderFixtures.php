@@ -105,7 +105,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             //Customer had clicked on order-credit and select paypal_express and paid.
             $customer = $this->getReference('user_customer-4');
             foreach (range(1, 30) as $index) {
-                $quantity = $index % 8 + 1;
+                $quantity = ($index % 8) + 1;
                 $carted = $this->createOrder($customer, $quantity, 0, 0, true);
                 //TODO create payment,
                 //TODO Payment

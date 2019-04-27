@@ -421,7 +421,9 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     {
         $this->setPrice(0);
         foreach ($this->getOrderedArticles() as $orderedArticle) {
-            $this->setPrice($this->getPrice() + $orderedArticle->getQuantity() * $orderedArticle->getPrice());
+            $this->setPrice(
+                $this->getPrice() + $orderedArticle->getQuantity() * (float) $orderedArticle->getPrice()
+            );
         }
 
         return $this;
@@ -448,7 +450,9 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     {
         $this->setVat(0);
         foreach ($this->getOrderedArticles() as $orderedArticle) {
-            $this->setPrice($this->getVat() + $orderedArticle->getQuantity() * $orderedArticle->getVat());
+            $this->setVat(
+                $this->getVat() + $orderedArticle->getQuantity() * (float) $orderedArticle->getVat()
+            );
         }
 
         return $this;

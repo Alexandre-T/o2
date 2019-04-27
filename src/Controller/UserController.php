@@ -234,11 +234,9 @@ class UserController extends AbstractPaginateController
         $logs = $userManager->retrieveLogs($user);
 
         return $this->render('administration/user/show.html.twig', [
-            'isDeletable' => $userManager->isDeletable($user), //TODO is this useful?
             'logs' => $logs,
-            'information' => $user, //TODO is this useful?
             'user' => $user,
-            'deletable' => $userManager->isDeletable($user), //TODO is this useful?
+            'deletable' => $userManager->isDeletable($user),
             'delete_form' => $deleteForm->createView(),
         ]);
     }
