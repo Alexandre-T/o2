@@ -154,7 +154,7 @@ class PaymentController extends AbstractController
         }
 
         if (Result::STATUS_SUCCESS === $result->getStatus()) {
-            $orderManager->setPaid($order);
+            $orderManager->setPaid($order); //TODO This shouldn't be orderManager->credit($order) method?
             $bill = BillFactory::create($order, $user);
             $orderManager->save($order);
             $billManager->save($bill);

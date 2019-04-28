@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
+use App\Entity\Bill;
 use App\Model\OrderInterface;
 use JMS\Payment\CoreBundle\Model\FinancialTransactionInterface;
 use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
@@ -56,6 +57,46 @@ class BadgeExtension extends AbstractExtension
         }
 
         return '';
+    }
+
+    /**
+     * Badge canceled bill filter.
+     *
+     * @param bool|Bill $canceled Bill or boolean attribute
+     *
+     * @return string
+     */
+    public function badgeBillCanceledFilter($canceled): string
+    {
+        if ($canceled instanceof Bill) {
+            $canceled = $canceled->isCanceled();
+        }
+
+        if ($canceled) {
+            return $this->getBadge('warning', 'bill.canceled');
+        }
+
+        return $this->getBadge('success', 'bill.non-canceled');
+    }
+
+    /**
+     * Badge paid bill filter.
+     *
+     * @param bool|Bill $paid Bill or boolean attribute
+     *
+     * @return string
+     */
+    public function badgeBillPaidFilter($paid): string
+    {
+        if ($paid instanceof Bill) {
+            $paid = $paid->isPaid();
+        }
+
+        if ($paid) {
+            return $this->getBadge('success', 'bill.paid');
+        }
+
+        return $this->getBadge('warning', 'bill.non-paid');
     }
 
     /**
@@ -237,6 +278,16 @@ class BadgeExtension extends AbstractExtension
             'badgeCreditedFilter' => new TwigFilter(
                 'badgeCredited',
                 [$this, 'badgeCreditedFilter'],
+                ['is_safe' => ['html']]
+            ),
+            'badgeBillCanceledFilter' => new TwigFilter(
+                'badgeBillCanceled',
+                [$this, 'badgeBillCanceledFilter'],
+                ['is_safe' => ['html']]
+            ),
+            'badgeBillPaidFilter' => new TwigFilter(
+                'badgeBillPaid',
+                [$this, 'badgeBillPaidFilter'],
                 ['is_safe' => ['html']]
             ),
             'badgeExpiredFilter' => new TwigFilter(

@@ -40,14 +40,17 @@
                 <span class="{{ faSort(pagination.isSorted('customers'), direction, 'alpha') }}"></span>
             </th>
             <th id="bill-status" class="align-middle">
-                {{ 'bill.status' | trans }}
+                {{ 'bill.title' | trans }}
+            </th>
+            <th id="bill-order" class="align-middle">
+                {{ 'order.title' | trans }}
             </th>
             <th id="bill-actions" class="align-middle"></th>
         </tr>
         </thead>
         <tbody>
         {% for bill in pagination %}
-            <tr>
+            <tr class="{{ bill.id == highlight ? ('table-' ~ color) }}">
                 <td headers="bill-number" class="align-middle">
                     {{ bill.label }}
                 </td>
@@ -56,27 +59,35 @@
                 </td>
                 <td headers="bill-number" class="align-middle">
                     {{ bill.customer.label }}
+                    <span class="badge badge-secondary">
+                        {{ bill.customer.credit }}
+                        <span class="fas fa-coins"></span>
+                    </span>
                 </td>
                 <td headers="bill-status" class="align-middle">
-                    {% if bill.paid %}
-                        <span class="badge badge-success">{{ 'bill.paid' | trans }}</span>
-                    {% else %}
-                        <span class="badge badge-danger">{{ 'bill.non-paid' | trans }}</span>
-                    {% endif %}
-                    {% if bill.canceled %}
-                        <span class="badge badge-danger">{{ 'bill.canceled' | trans }}</span>
-                    {% else %}
-                        <span class="badge badge-success">{{ 'bill.non-canceled' | trans }}</span>
-                    {% endif %}
+                    {{ bill.paid | badgeBillPaid }}
+                    {{ bill.canceled | badgeBillCanceled }}
+                </td>
+                <td headers="order-status" class="align-middle">
+                    {{ bill.order.statusOrder | badgeStatusOrder }}
+                    {{ bill.order.credited | badgeCredited }}
                 </td>
                 <td headers="bill-actions" class="align-middle">
                     <div class="btn-group">
                         <a class="btn btn-outline-secondary" title="{{ 'action.bill.show.title' | trans }}"
                            href="{{ path('accountant_bill_show', { 'id': bill.id }) }}"
                            data-placement="left" data-toggle="tooltip">
-                            <span class="fa fa-eye"></span>
+                            <span class="far fa-eye"></span>
                             <span class="sr-only">{{ 'action.bill.show.text' | trans }}</span>
                         </a>
+                        {% if not bill.order.credited %}
+                            <a class="btn btn-outline-secondary" data-placement="left" data-toggle="tooltip"
+                               href="{{ path('accountant_bill_credit', { 'bill': bill.id } | merge(pagination.query)) }}"
+                               title="{{ 'action.bill.credit.title %quantity%' | trans({ '%quantity%': bill.order.credits }) }}">
+                                <span class="fas fa-coins"></span>
+                                <span class="sr-only">{{ 'action.bill.credit.text' | trans }}</span>
+                            </a>
+                        {% endif %}
                     </div>
                 </td>
             </tr>
@@ -86,7 +97,6 @@
     <div>
         {{ knp_pagination_render(pagination) }}
     </div>
-
 {% endblock container %}
 
 {% block content_action %}

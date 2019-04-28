@@ -31,7 +31,7 @@ class AccountantCest
     {
         $you->wantTo('list bills and show an accessible one');
         $you->login('accountant');
-        $you->amOnPage('/accountant/bill');
+        $you->areOnPage('/accountant/bill');
         $you->seeResponseCodeIsSuccessful();
         $you->see('480,00');
         $you->see('Payée');
@@ -39,5 +39,22 @@ class AccountantCest
         $you->seeResponseCodeIsSuccessful();
         $billId = $you->grabFromCurrentUrl('~(\d+)~');
         $you->seeCurrentUrlEquals('/accountant/bill/'.$billId);
+        $you->click('Factures'); //retour sur le listing
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/accountant/bill');
+        $you->click('Numéro'); //retour sur le listing
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/accountant/bill?sort=number&direction=desc&page=1');
+        $you->click('2', '.page-link');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/accountant/bill?sort=number&direction=desc&page=2');
+        $you->click('Créditer le client');
+        $you->seeResponseCodeIsSuccessful();
+        $billId = $you->grabFromCurrentUrl('~highlight=(\d+)~');
+        $uri = '/accountant/bill?page=2&sort=number&highlight='.$billId.'&direction=desc&color=success';
+        $you->seeCurrentUrlEquals($uri);
+        $you->see('Les crédits de cette commande viennent d’être versés au client');
+
+        $you->areOnPage('/accountant/bill/');
     }
 }

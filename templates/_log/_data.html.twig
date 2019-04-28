@@ -12,15 +12,21 @@
         {% elseif key == 'country' %}
             <dt class="col-sm-4 text-right">{{ 'entity.log.data.country' | trans }}</dt>
             <dd class="col-sm-8">{{ log.data.country | country }}</dd>
-        {% elseif key == 'nationality' %}
-            <dt class="col-sm-4 text-right">{{ 'entity.log.data.nationality' | trans }}</dt>
-            <dd class="col-sm-8">{{ log.data.nationality | country }}</dd>
         {% elseif key == 'roles' %}
             <dt class="col-sm-4 text-right">{{ 'entity.log.data.roles' | trans }}</dt>
             <dd class="col-sm-8">{{ log.data.roles | roles }}</dd>
-        {% elseif key == 'resettingAt' %}
+        {% elseif key == 'resettingAt' and value is not empty %}
             <dt class="col-sm-4 text-right">{{ 'entity.log.data.resetting-at' | trans }}</dt>
             <dd class="col-sm-8">{{ log.data.resettingAt | localizeddate }}</dd>
+        {% elseif key == 'createdAt' and value is not empty %}
+            <dt class="col-sm-4 text-right">{{ 'entity.log.data.created-at' | trans }}</dt>
+            <dd class="col-sm-8">{{ log.data.createdAt | localizeddate }}</dd>
+        {% elseif key == 'canceledAt' and value is not empty %}
+            <dt class="col-sm-4 text-right">{{ 'entity.log.data.canceled-at' | trans }}</dt>
+            <dd class="col-sm-8">{{ log.data.canceledAt | localizeddate }}</dd>
+        {% elseif key == 'paidAt' and value is not empty %}
+            <dt class="col-sm-4 text-right">{{ 'entity.log.data.paid-at' | trans }}</dt>
+            <dd class="col-sm-8">{{ log.data.paidAt | localizeddate }}</dd>
         {% elseif key == 'type' %}
             <dt class="col-sm-4 text-right">{{ 'entity.log.data.type' | trans }}</dt>
             <dd class="col-sm-8">

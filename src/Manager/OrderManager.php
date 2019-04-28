@@ -42,6 +42,22 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     public const ALIAS = 'order';
 
     /**
+     * Credit a customer.
+     *
+     * @param Order $order order to credit customer
+     */
+    public function credit(Order $order): void
+    {
+        $customer = $order->getCustomer();
+        $order->setStatusCredit(OrderInterface::CREDITED);
+        $customer->setCredit($customer->getCredit() + $order->getCredits());
+
+        $this->entityManager->persist($customer);
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+    }
+
+    /**
      * Get the only one carted order by user.
      *
      * @param User $user user filter

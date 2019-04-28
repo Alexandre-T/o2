@@ -22,6 +22,12 @@ interface OrderInterface
      */
     public const CANCELED = 0;
     public const CARTED = 1;
+
+    /**
+     * Constants for credited status.
+     */
+    public const CREDITED = true;
+    public const NON_CREDITED = false;
     public const PAID = 2;
     public const PENDING = 3;
 }

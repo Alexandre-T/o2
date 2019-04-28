@@ -39,6 +39,28 @@ class AcceptanceTester extends Actor
     use _generated\AcceptanceTesterActions;
 
     /**
+     * Opens the page for the given relative URI.
+     *
+     * ``` php
+     * <?php
+     * // opens front page
+     * $you->areOnPage('/');
+     * // opens /register page
+     * $you->areOnPage('/register');
+     * ```
+     *
+     * @param string $page given relative URL
+     *
+     * @return mixed|null
+     *
+     * @see \Codeception\Lib\InnerBrowser::amOnPage()
+     */
+    public function areOnPage(string $page)
+    {
+        return $this->amOnPage($page);
+    }
+
+    /**
      * I login with user and password provided.
      *
      * @param string      $user     $user without (at)example.org

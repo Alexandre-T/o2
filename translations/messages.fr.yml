@@ -6,6 +6,9 @@ action:
     list:
       text: 'Liste des factures'
       title: 'Consulter la liste des factures'
+    credit:
+      text: 'Créditer le client'
+      title %quantity%: 'Verser au client les %quantity% crédits en attente'
   close: 'Fermer'
   email:
     title: 'Envoyer un email'
@@ -310,6 +313,8 @@ form:
 
 flash:
   order:
+    already-credited: 'Les crédits de cette commande ont déjà été versé à ce client.'
+    credited: 'Les crédits de cette commande viennent d’être versés au client.'
     no-step1: 'Votre commande n’a pas été retrouvée. Veuillez la ressaisir.'
     step1: 'Votre commande est enregistrée, vous pouvez passer au choix du paiement.'
   password-lost:
@@ -435,6 +440,7 @@ order:
   paid: 'Payée'
   pending: 'En attente'
   not-credited: 'Non créditée'
+  title: 'Commande'
 order %name%: 'Commande n°%name%'
 order %number%: 'Commande n°%number%'
 
