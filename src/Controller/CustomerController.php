@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Programmation;
 use App\Entity\User;
 use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
@@ -22,6 +23,8 @@ use App\Form\Model\CreditOrder;
 use App\Form\PasswordFormType;
 use App\Form\ProfileFormType;
 use App\Manager\OrderManager;
+use App\Manager\ProgrammationManager;
+use App\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,6 +42,42 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CustomerController extends AbstractController
 {
+    /**
+     * Customer order a new programmation.
+     *
+     * @Route("/customer/file/new", name="customer_file_new")
+     *
+     * @param Request              $request              request handling data
+     * @param ProgrammationManager $programmationManager programmation manger to save new programmation
+     * @param UserManager          $userManager          $userManager          to update credit of user
+     *
+     * @return Response
+     */
+    public function newProgrammation(
+     Request $request,
+     ProgrammationManager $programmationManager,
+     UserManager $userManager
+    ): Response {
+        $programmation = new Programmation();
+        $form = $this->createForm(ProgrammationFormType::class, $programmation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $programmation->setCustomer($user);
+            $userManager->uncredit($programmation);
+            $programmationManager->save($programmation);
+            $userManager->save($user);
+            $this->addFlash('success', 'flash.order.step1');
+
+            return $this->redirectToRoute('customer_payment_method');
+        }
+
+        return $this->render('customer/file/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
     /**
      * Step1: Customer select items.
      *

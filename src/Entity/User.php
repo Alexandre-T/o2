@@ -135,6 +135,11 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
     private $plainPassword;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Programmation", mappedBy="customer", orphanRemoval=true)
+     */
+    private $programmations;
+
+    /**
      * Resetting password timestamp.
      *
      * @ORM\Column(type="datetime", nullable=true, options={"comment": "reset password timestamp"})
@@ -184,6 +189,7 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
     {
         $this->orders = new ArrayCollection();
         $this->bills = new ArrayCollection();
+        $this->programmations = new ArrayCollection();
     }
 
     /**
@@ -215,6 +221,23 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
         if (!$this->orders->contains($order)) {
             $this->orders[] = $order;
             $order->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Programmation fluent adder.
+     *
+     * @param Programmation $programmation programmation adder
+     *
+     * @return User
+     */
+    public function addProgrammation(Programmation $programmation): self
+    {
+        if (!$this->programmations->contains($programmation)) {
+            $this->programmations[] = $programmation;
+            $programmation->setCustomer($this);
         }
 
         return $this;
@@ -314,6 +337,16 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
+    }
+
+    /**
+     * Programmation getter.
+     *
+     * @return Collection|Programmation[]
+     */
+    public function getProgrammations(): Collection
+    {
+        return $this->programmations;
     }
 
     /**
@@ -469,6 +502,26 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
             // set the owning side to null (unless already changed)
             if ($order->getCustomer() === $this) {
                 $order->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Programmation fluent remover.
+     *
+     * @param Programmation $programmation programmation to remove
+     *
+     * @return User
+     */
+    public function removeProgrammation(Programmation $programmation): self
+    {
+        if ($this->programmations->contains($programmation)) {
+            $this->programmations->removeElement($programmation);
+            // set the owning side to null (unless already changed)
+            if ($programmation->getCustomer() === $this) {
+                $programmation->setCustomer(null);
             }
         }
 

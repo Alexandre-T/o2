@@ -83,9 +83,9 @@
                                 <span class="fas fa-fw fa-coins"></span>
                                 {{ 'nav.customer.submenu.credit.text' | trans }}
                             </a>
-                            {# Order #}
-                            <a class="dropdown-item"
-                               href="#" data-placement="left" data-toggle="tooltip"
+                            {# File Order #}
+                            <a class="dropdown-item {{ route === 'customer_file_new' }}"
+                               href="{{ path('customer_file_new') }}" data-placement="left" data-toggle="tooltip"
                                title="{{ 'nav.customer.submenu.order.title' | trans }}">
                                 <span class="fas fa-fw fa-car"></span>
                                 {{ 'nav.customer.submenu.order.text' | trans }}

@@ -16,24 +16,21 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Entity\EntityInterface;
-use App\Entity\User;
+use App\Entity\Programmation;
+use App\Repository\ProgrammationRepository;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * User Manager.
- *
- * @category Manager
- *
- * @author  Alexandre Tranchant <alexandre.tranchant@gmail.com>
- * @license CeCILL-B V1
+ * Programmation Manager.
  */
-class UserManager extends AbstractRepositoryManager implements ManagerInterface
+class ProgrammationManager extends AbstractRepositoryManager implements ManagerInterface
 {
     /**
      * Const for the alias query.
      */
-    public const ALIAS = 'user';
+    public const ALIAS = 'programmation';
 
     /**
      * Return default alias.
@@ -50,7 +47,7 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
      */
     public function getDefaultSortField(): string
     {
-        return self::ALIAS.'.label';
+        return self::ALIAS.'.id';
     }
 
     /**
@@ -66,13 +63,13 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Is this entity deletable?
      *
-     * @param EntityInterface|User $entity the entity to test
+     * @param EntityInterface $entity the entity to test
      *
      * @return bool true if entity is deletable
      */
     public function isDeletable(EntityInterface $entity): bool
     {
-        return empty($entity->getBills());
+        return false;
     }
 
     /**
@@ -87,18 +84,17 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
     {
         return $queryBuilder
-            ->addSelect('user.mail as HIDDEN mail')
-            ->addSelect('user.name as HIDDEN username')
+            ->addSelect(self::ALIAS.'.id as HIDDEN id')
         ;
     }
 
     /**
      * Return the main repository.
      *
-     * @return EntityRepository
+     * @return ProgrammationRepository|EntityRepository|ObjectRepository
      */
     protected function getMainRepository(): EntityRepository
     {
-        return $this->entityManager->getRepository(User::class);
+        return $this->entityManager->getRepository(Programmation::class);
     }
 }

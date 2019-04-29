@@ -18,12 +18,12 @@
     <rule ref="rulesets/codesize.xml/ExcessiveClassLength" />
     <rule ref="rulesets/codesize.xml/ExcessiveParameterList" />
     <!-- <rule ref="rulesets/codesize.xml/ExcessivePublicCount" /> -->
-    <rule ref="rulesets/codesize.xml/TooManyFields" />
+    <!-- <rule ref="rulesets/codesize.xml/TooManyFields" /> -->
     <rule ref="rulesets/codesize.xml/TooManyMethods" />
     <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
         <priority>1</priority>
         <properties>
-            <property name="maxmethods" value="17" />
+            <property name="maxmethods" value="20" />
         </properties>
     </rule>
     <!-- <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity" /> -->
