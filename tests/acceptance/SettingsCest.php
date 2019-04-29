@@ -36,7 +36,7 @@ class SettingsCest
         $you->dontSee('settings.'); //all is translated
         $you->click('Modifier ce paramètre');
         $settingId = $you->grabFromCurrentUrl('~(\d+)~');
-        $you->seeCurrentUrlEquals('/administration/settings/'. $settingId .'/edit');
+        $you->seeCurrentUrlEquals('/administration/settings/'.$settingId.'/edit');
         $you->fillField('app_settings[value]', 'toto');
         $you->click('Éditer', 'button.btn');
         $you->seeResponseCodeIsSuccessful();
