@@ -227,6 +227,9 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
             $orderedArticle->setOrder($this);
         }
 
+        $this->refreshPrice();
+        $this->refreshVat();
+
         return $this;
     }
 
@@ -419,10 +422,10 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      */
     public function refreshPrice(): self
     {
-        $this->setPrice(0);
+        $this->setPrice(0.0);
         foreach ($this->getOrderedArticles() as $orderedArticle) {
             $this->setPrice(
-                $this->getPrice() + $orderedArticle->getQuantity() * (float) $orderedArticle->getPrice()
+                (float) $this->getPrice() + $orderedArticle->getQuantity() * (float) $orderedArticle->getPrice()
             );
         }
 
@@ -448,7 +451,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      */
     public function refreshVat(): self
     {
-        $this->setVat(0);
+        $this->setVat(0.0);
         foreach ($this->getOrderedArticles() as $orderedArticle) {
             $this->setVat(
                 $this->getVat() + $orderedArticle->getQuantity() * (float) $orderedArticle->getVat()
@@ -494,6 +497,9 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
                 $orderedArticle->setOrder(null);
             }
         }
+
+        $this->refreshPrice();
+        $this->refreshVat();
 
         return $this;
     }

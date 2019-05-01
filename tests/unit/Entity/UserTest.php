@@ -18,6 +18,7 @@ namespace App\Tests\Entity;
 use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\PersonInterface;
+use App\Entity\Programmation;
 use App\Entity\User;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
@@ -67,7 +68,7 @@ class UserTest extends Unit
     }
 
     /**
-     * Test usered article.
+     * Test user bills.
      */
     public function testBill(): void
     {
@@ -236,6 +237,29 @@ class UserTest extends Unit
         self::assertEquals($expected, $this->user->getPlainPassword());
         //When setter of plain password was called, password must have been reinitialized.
         self::assertNull($this->user->getPassword());
+    }
+    
+    /**
+     * Test user programmations.
+     */
+    public function testProgrammation(): void
+    {
+        $programmation = new Programmation();
+        self::assertEquals($this->user, $this->user->addProgrammation($programmation));
+        self::assertNotEmpty($this->user->getProgrammations());
+        self::assertContains($programmation, $this->user->getProgrammations());
+
+        $anotherProgrammation = new Programmation();
+        self::assertEquals($this->user, $this->user->addProgrammation($anotherProgrammation));
+        self::assertNotEmpty($this->user->getProgrammations());
+        self::assertContains($programmation, $this->user->getProgrammations());
+        self::assertContains($anotherProgrammation, $this->user->getProgrammations());
+
+        self::assertEquals($this->user, $this->user->removeProgrammation($programmation));
+        self::assertNotContains($programmation, $this->user->getProgrammations());
+        self::assertContains($anotherProgrammation, $this->user->getProgrammations());
+        self::assertEquals($this->user, $this->user->removeProgrammation($anotherProgrammation));
+        self::assertEmpty($this->user->getProgrammations());
     }
 
     /**

@@ -261,45 +261,45 @@ class Programmation implements ProgrammationInterface
      *
      * @var boolean
      *
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", options={"default": false})
      */
-    private $edcStopped;
+    private $edcStopped = false;
 
     /**
      * EGR-Stopped.
      *
      * @var boolean
      *
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", options={"default": false})
      */
-    private $egrStopped;
+    private $egrStopped = false;
 
     /**
      * Ethanol done.
      *
      * @var boolean
      *
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", options={"default": false})
      */
-    private $ethanolDone;
+    private $ethanolDone = false;
 
     /**
      * FAP-Stopped.
      *
      * @var boolean
      *
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", options={"default": false})
      */
-    private $fapStopped;
+    private $fapStopped = false;
 
     /**
      * Stage1 done.
      *
      * @var boolean
      *
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", options={"default": false})
      */
-    private $stageOneDone;
+    private $stageOneDone = false;
 
     /**
      * Created date time.

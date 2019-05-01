@@ -21,7 +21,6 @@ use App\Entity\User;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
 use DateTimeImmutable;
-use ReflectionClass;
 use ReflectionException;
 
 /**
@@ -83,12 +82,17 @@ class BillTest extends Unit
     {
         $this->tester->wantToTest('properties are well initialized');
 
+        self::assertNotNull($this->bill->getAlreadyPaid());
+        self::assertEmpty($this->bill->getAlreadyPaid());
         self::assertNull($this->bill->getCustomer());
         self::assertNull($this->bill->getId());
         self::assertNull($this->bill->getNumber());
         self::assertNull($this->bill->getOrder());
         self::assertNull($this->bill->getCanceledAt());
+        self::assertNull($this->bill->getCreatedAt());
         self::assertNull($this->bill->getPaidAt());
+        self::assertNotNull($this->bill->getToPaid());
+        self::assertEmpty($this->bill->getToPaid());
         self::assertFalse($this->bill->isCanceled());
         self::assertFalse($this->bill->isPaid());
     }
@@ -113,11 +117,7 @@ class BillTest extends Unit
     {
         $actual = $expected = 33;
 
-        $reflector = new ReflectionClass(Bill::class);
-        $property = $reflector->getProperty('number');
-        $property->setAccessible(true);
-        $property->setValue($this->bill, $actual);
-
+        self::assertEquals($this->bill, $this->bill->setNumber($actual));
         self::assertEquals($expected, $this->bill->getNumber());
         self::assertEquals('WEB000033', $this->bill->getLabel());
     }
@@ -138,10 +138,17 @@ class BillTest extends Unit
      */
     public function testPaidAt(): void
     {
-        $actual = $expected = new DateTimeImmutable();
+        $actualDate = $expectedDate = new DateTimeImmutable();
+        $actualPrice = $expectedPrice = 42;
 
-        self::assertEquals($this->bill, $this->bill->setPaidAt($actual));
-        self::assertEquals($expected, $this->bill->getPaidAt());
+        self::assertEquals($this->bill, $this->bill->setPrice($actualPrice));
+        self::assertEmpty($this->bill->getAlreadyPaid());
+        self::assertEquals($expectedPrice, $this->bill->getToPaid());
+        self::assertEquals($this->bill, $this->bill->setPaidAt($actualDate));
+        self::assertEquals($expectedDate, $this->bill->getPaidAt());
         self::assertTrue($this->bill->isPaid());
+        self::assertEquals($expectedPrice, $this->bill->getAlreadyPaid());
+        self::assertEmpty($this->bill->getToPaid());
+
     }
 }

@@ -70,6 +70,7 @@ class ProgrammationTest extends Unit
     {
         self::assertNull($this->programmation->getId());
         self::assertNull($this->programmation->getCredit());
+        self::assertNull($this->programmation->getCreatedAt());
         self::assertNull($this->programmation->getCustomer());
         self::assertNull($this->programmation->getComment());
         self::assertNull($this->programmation->getCylinderCapacity());
@@ -94,11 +95,11 @@ class ProgrammationTest extends Unit
         self::assertFalse($this->programmation->isGearAutomatic());
         self::assertFalse($this->programmation->isStageOne());
 
-        self::assertNull($this->programmation->isEdcStopped());
-        self::assertNull($this->programmation->isEgrStopped());
-        self::assertNull($this->programmation->isEthanolDone());
-        self::assertNull($this->programmation->isFapStopped());
-        self::assertNull($this->programmation->isStageOneDone());
+        self::assertFalse($this->programmation->isEdcStopped());
+        self::assertFalse($this->programmation->isEgrStopped());
+        self::assertFalse($this->programmation->isEthanolDone());
+        self::assertFalse($this->programmation->isFapStopped());
+        self::assertFalse($this->programmation->isStageOneDone());
     }
 
     /**
@@ -153,6 +154,15 @@ class ProgrammationTest extends Unit
     {
         self::assertEquals($this->programmation, $this->programmation->setFapOff(true));
         self::assertTrue($this->programmation->isFapOff());
+    }
+
+    /**
+     * Test the method IsFapStopped.
+     */
+    public function testIsFapStopped(): void
+    {
+        self::assertEquals($this->programmation, $this->programmation->setFapStopped(true));
+        self::assertTrue($this->programmation->isFapStopped());
     }
 
     /**
@@ -295,6 +305,15 @@ class ProgrammationTest extends Unit
     }
 
     /**
+     * Test the method IsEdcStopped.
+     */
+    public function testIsEdcStopped(): void
+    {
+        self::assertEquals($this->programmation, $this->programmation->setEdcStopped(true));
+        self::assertTrue($this->programmation->isEdcStopped());
+    }
+
+    /**
      * Test the method IsEgrOff.
      */
     public function testIsEgrOff(): void
@@ -304,12 +323,30 @@ class ProgrammationTest extends Unit
     }
 
     /**
+     * Test the method IsEgrStopped.
+     */
+    public function testIsEgrStopped(): void
+    {
+        self::assertEquals($this->programmation, $this->programmation->setEgrStopped(true));
+        self::assertTrue($this->programmation->isEgrStopped());
+    }
+
+    /**
      * Test the method IsEthanol.
      */
     public function testIsEthanol(): void
     {
         self::assertEquals($this->programmation, $this->programmation->setEthanol(true));
         self::assertTrue($this->programmation->isEthanol());
+    }
+
+    /**
+     * Test the method IsEthanolDone.
+     */
+    public function testIsEthanolDone(): void
+    {
+        self::assertEquals($this->programmation, $this->programmation->setEthanolDone(true));
+        self::assertTrue($this->programmation->isEthanolDone());
     }
 
     /**
@@ -328,6 +365,15 @@ class ProgrammationTest extends Unit
     {
         self::assertEquals($this->programmation, $this->programmation->setStageOne(true));
         self::assertTrue($this->programmation->isStageOne());
+    }
+
+    /**
+     * Test the method IsStageOneDone.
+     */
+    public function testIsStageOneDone(): void
+    {
+        self::assertEquals($this->programmation, $this->programmation->setStageOneDone(true));
+        self::assertTrue($this->programmation->isStageOneDone());
     }
 
     /**

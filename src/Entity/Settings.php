@@ -107,7 +107,11 @@ class Settings implements EntityInterface
      */
     public function getLabel(): string
     {
-        return 'settings.'.(string) $this->getCode();
+        if (empty($this->code)) {
+            return '';
+        }
+
+        return 'settings.'.(string) $this->code;
     }
 
     /**

@@ -69,6 +69,7 @@ class SettingsTest extends Unit
 
         self::assertEquals($this->settings, $this->settings->setCode($actual));
         self::assertEquals($expected, $this->settings->getCode());
+        self::assertEquals('settings.code', $this->settings->getLabel());
     }
 
     /**
@@ -79,6 +80,8 @@ class SettingsTest extends Unit
         self::assertNull($this->settings->getCode());
         self::assertNull($this->settings->getId());
         self::assertNull($this->settings->getValue());
+        self::assertNotNull($this->settings->getLabel());
+        self::assertEmpty($this->settings->getLabel());
     }
 
     /**
