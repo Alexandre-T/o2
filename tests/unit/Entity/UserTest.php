@@ -238,7 +238,7 @@ class UserTest extends Unit
         //When setter of plain password was called, password must have been reinitialized.
         self::assertNull($this->user->getPassword());
     }
-    
+
     /**
      * Test user programmations.
      */

@@ -281,7 +281,7 @@ class OrderTest extends Unit
      */
     public function testUuid(): void
     {
-        $actual = $this->order->getUuid();;
+        $actual = $this->order->getUuid();
 
         self::assertEquals($this->order, $this->order->refreshUuid());
         self::assertNotEquals($actual, $this->order->getUuid());

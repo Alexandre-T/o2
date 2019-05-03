@@ -63,7 +63,7 @@ class CustomerController extends AbstractController
         $form = $this->createForm(ProgrammationFormType::class, $programmation);
         $form->handleRequest($request);
 
-        // FIXME add a rule to test that user->getCredit() gte programmation->getCredit
+        // TODO add a rule to test that user->getCredit() gte programmation->getCredit
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
             $programmation->setCustomer($user);

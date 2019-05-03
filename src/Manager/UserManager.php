@@ -37,6 +37,18 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     public const ALIAS = 'user';
 
     /**
+     * Remove credits to user by programmation cost.
+     *
+     * @param Programmation $programmation programmation to debit
+     */
+    public function debit(Programmation $programmation): void
+    {
+        $programmation->refreshCost();
+        $user = $programmation->getCustomer();
+        $user->setCredit($user->getCredit() - $programmation->getCredit());
+    }
+
+    /**
      * Return default alias.
      */
     public function getDefaultAlias(): string
@@ -74,17 +86,6 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     public function isDeletable(EntityInterface $entity): bool
     {
         return empty($entity->getBills()->count());
-    }
-
-    /**
-     * Remove credits to user by programmation cost.
-     *
-     * @param Programmation $programmation programmation to debit
-     */
-    public function debit(Programmation $programmation): void
-    {
-        $user = $programmation->getCustomer();
-        $user->setCredit($user->getCredit() - $programmation->getCredit());
     }
 
     /**

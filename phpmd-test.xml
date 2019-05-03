@@ -7,31 +7,26 @@
          xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
     <description>Alexandre Tranchant rule set.</description>
     <!-- Import some rules of clean code rule set -->
-    <rule ref="rulesets/cleancode.xml/BooleanArgumentFlag" />
-    <rule ref="rulesets/cleancode.xml/ElseExpression" />
-    <rule ref="rulesets/cleancode.xml/StaticAccess" />
+    <rule ref="rulesets/cleancode.xml/BooleanArgumentFlag"/>
+    <rule ref="rulesets/cleancode.xml/ElseExpression"/>
+    <rule ref="rulesets/cleancode.xml/StaticAccess"/>
     <!-- Import the some rules of code size rule set -->
-    <rule ref="rulesets/codesize.xml/CyclomaticComplexity" />
-    <rule ref="rulesets/codesize.xml/NPathComplexity" />
-    <rule ref="rulesets/codesize.xml/ExcessiveMethodLength" />
-    <rule ref="rulesets/codesize.xml/ExcessiveClassLength" />
-    <rule ref="rulesets/codesize.xml/ExcessiveParameterList" />
-    <rule ref="rulesets/codesize.xml/ExcessivePublicCount" />
-    <rule ref="rulesets/codesize.xml/TooManyFields" />
-    <rule ref="rulesets/codesize.xml/TooManyMethods" />
-    <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
-        <priority>1</priority>
-        <properties>
-            <property name="maxmethods" value="17" />
-        </properties>
-    </rule>
+    <rule ref="rulesets/codesize.xml/CyclomaticComplexity"/>
+    <rule ref="rulesets/codesize.xml/NPathComplexity"/>
+    <rule ref="rulesets/codesize.xml/ExcessiveMethodLength"/>
+    <rule ref="rulesets/codesize.xml/ExcessiveClassLength"/>
+    <rule ref="rulesets/codesize.xml/ExcessiveParameterList"/>
+    <rule ref="rulesets/codesize.xml/ExcessivePublicCount"/>
+    <rule ref="rulesets/codesize.xml/TooManyFields"/>
+    <!--    <rule ref="rulesets/codesize.xml/TooManyMethods" />-->
+    <!--    <rule ref="rulesets/codesize.xml/TooManyPublicMethods" />-->
     <!-- Import the entire controversial code rule set -->
     <rule ref="rulesets/controversial.xml">
-        <exclude name="CamelCaseVariableName" />
-        <exclude name="CamelCaseParameterName" />
+        <exclude name="CamelCaseVariableName"/>
+        <exclude name="CamelCaseParameterName"/>
     </rule>
     <!-- Import the entire design code rule set -->
-    <rule ref="rulesets/design.xml" />
+    <rule ref="rulesets/design.xml"/>
     <!-- Import the entire unused code rule set -->
-    <rule ref="rulesets/unusedcode.xml" />
+    <rule ref="rulesets/unusedcode.xml"/>
 </ruleset>

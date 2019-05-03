@@ -46,6 +46,17 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $comment;
 
     /**
+     * Created date time.
+     *
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @Gedmo\Timestampable(on="create")
+     */
+    private $createdAt;
+
+    /**
      * Credit.
      *
      * @var int
@@ -74,6 +85,15 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $cylinderCapacity;
 
     /**
+     * Delivered date time.
+     *
+     * @var DateTimeInterface
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deliveredAt;
+
+    /**
      * Edc off.
      *
      * @var bool
@@ -81,6 +101,15 @@ class Programmation implements EntityInterface, ProgrammationInterface
      * @ORM\Column(type="boolean", options={"default": false})
      */
     private $edcOff = false;
+
+    /**
+     * EDC Stopped.
+     *
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $edcStopped = false;
 
     /**
      * Egr off.
@@ -92,6 +121,15 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $egrOff = false;
 
     /**
+     * EGR-Stopped.
+     *
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $egrStopped = false;
+
+    /**
      * Ethanol.
      *
      * @var bool
@@ -101,6 +139,15 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $ethanol = false;
 
     /**
+     * Ethanol done.
+     *
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $ethanolDone = false;
+
+    /**
      * Fap off.
      *
      * @var bool
@@ -108,6 +155,15 @@ class Programmation implements EntityInterface, ProgrammationInterface
      * @ORM\Column(type="boolean", options={"default": false})
      */
     private $fapOff = false;
+
+    /**
+     * FAP-Stopped.
+     *
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $fapStopped = false;
 
     /**
      * Final file.
@@ -239,6 +295,15 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $stageOne = false;
 
     /**
+     * Stage1 done.
+     *
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $stageOneDone = false;
+
+    /**
      * Vehicle version.
      *
      * @var string
@@ -257,71 +322,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $year;
 
     /**
-     * EDC Stopped.
-     *
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    private $edcStopped = false;
-
-    /**
-     * EGR-Stopped.
-     *
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    private $egrStopped = false;
-
-    /**
-     * Ethanol done.
-     *
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    private $ethanolDone = false;
-
-    /**
-     * FAP-Stopped.
-     *
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    private $fapStopped = false;
-
-    /**
-     * Stage1 done.
-     *
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    private $stageOneDone = false;
-
-    /**
-     * Created date time.
-     *
-     * @var DateTimeInterface
-     *
-     * @ORM\Column(type="datetime")
-     *
-     * @Gedmo\Timestampable(on="create")
-     */
-    private $createdAt;
-
-    /**
-     * Delivered date time.
-     *
-     * @var DateTimeInterface
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $deliveredAt;
-
-    /**
      * Comment getter.
      *
      * @return string|null
@@ -329,6 +329,16 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function getComment(): ?string
     {
         return $this->comment;
+    }
+
+    /**
+     * Created datetime getter.
+     *
+     * @return DateTimeInterface|null
+     */
+    public function getCreatedAt(): ?DateTimeInterface
+    {
+        return $this->createdAt;
     }
 
     /**
@@ -362,13 +372,13 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
-     * Is FAP Off.
+     * Delivered datetime getter.
      *
-     * @return bool|null
+     * @return DateTimeInterface|null
      */
-    public function isFapOff(): ?bool
+    public function getDeliveredAt(): ?DateTimeInterface
     {
-        return $this->fapOff;
+        return $this->deliveredAt;
     }
 
     /**
@@ -400,7 +410,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     {
         return (string) $this->identifier;
     }
-
 
     /**
      * Vehicle make getter.
@@ -531,6 +540,16 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
+     * Is EDC stopped?
+     *
+     * @return bool|null
+     */
+    public function isEdcStopped(): ?bool
+    {
+        return $this->edcStopped;
+    }
+
+    /**
      * Is EGR Off.
      *
      * @return bool|null
@@ -541,6 +560,16 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
+     * Is EGR stopped?
+     *
+     * @return bool|null
+     */
+    public function isEgrStopped(): ?bool
+    {
+        return $this->egrStopped;
+    }
+
+    /**
      * Is Ethanol compatible.
      *
      * @return bool|null
@@ -548,6 +577,36 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function isEthanol(): ?bool
     {
         return $this->ethanol;
+    }
+
+    /**
+     * Is compatibility with ethanol done?
+     *
+     * @return bool|null
+     */
+    public function isEthanolDone(): ?bool
+    {
+        return $this->ethanolDone;
+    }
+
+    /**
+     * Is FAP Off.
+     *
+     * @return bool|null
+     */
+    public function isFapOff(): ?bool
+    {
+        return $this->fapOff;
+    }
+
+    /**
+     * Is FAP stopped?
+     *
+     * @return bool|null
+     */
+    public function isFapStopped(): ?bool
+    {
+        return $this->fapStopped;
     }
 
     /**
@@ -570,41 +629,28 @@ class Programmation implements EntityInterface, ProgrammationInterface
         return $this->stageOne;
     }
 
+    /**
+     * Is StageOne done?
+     *
+     * @return bool|null
+     */
+    public function isStageOneDone(): ?bool
+    {
+        return $this->stageOneDone;
+    }
+
+    /**
+     * Refresh the cost corresponding to programmation options selected.
+     *
+     * @return Programmation
+     */
     public function refreshCost(): self
     {
-        $credit = 0;
-
-        if ($this->isEdcOff()) {
-            $credit += ProgrammationInterface::CREDIT_EDC;
-        }
-
-        if ($this->isEgrOff()) {
-            $credit += ProgrammationInterface::CREDIT_EGR;
-        }
-
-        if ($this->isEthanol()) {
-            $credit += ProgrammationInterface::CREDIT_ETHANOL;
-        }
-
-        if ($this->isFapOff()) {
-            $credit += ProgrammationInterface::CREDIT_FAP;
-        }
-
-        if ($this->isStageOne()) {
-            $credit += ProgrammationInterface::CREDIT_STAGE_ONE;
-        }
-
-        if ($this->isEgrOff() && $this->isFapOff()) {
-            $credit -= ProgrammationInterface::PROMOTION_EGR_FAP;
-        }
-
-        if ($this->isStageOne() && $this->isEthanol()) {
-            $credit -= ProgrammationInterface::PROMOTION_STAGE_ONE_ETHANOL;
-        }
-
-        $this->credit = $credit;
-
-        return $this;
+        return $this
+            ->initCredit()
+            ->addUnitCost()
+            ->removePromotion()
+        ;
     }
 
     /**
@@ -650,6 +696,20 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
+     * Delivered datetime fluent setter.
+     *
+     * @param DateTimeInterface|null $deliveredAt new delivered date time
+     *
+     * @return Programmation
+     */
+    public function setDeliveredAt(?DateTimeInterface $deliveredAt): self
+    {
+        $this->deliveredAt = $deliveredAt;
+
+        return $this;
+    }
+
+    /**
      * Edc fluent setter.
      *
      * @param bool $edcOff EDC set to off
@@ -659,6 +719,20 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function setEdcOff(bool $edcOff): self
     {
         $this->edcOff = $edcOff;
+
+        return $this;
+    }
+
+    /**
+     * EDC stopped fluent setter.
+     *
+     * @param bool $edcStopped new value
+     *
+     * @return Programmation
+     */
+    public function setEdcStopped(bool $edcStopped): self
+    {
+        $this->edcStopped = $edcStopped;
 
         return $this;
     }
@@ -678,6 +752,20 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
+     * EGR-stopped fluent setter.
+     *
+     * @param bool $egrStopped new value
+     *
+     * @return Programmation
+     */
+    public function setEgrStopped(bool $egrStopped): self
+    {
+        $this->egrStopped = $egrStopped;
+
+        return $this;
+    }
+
+    /**
      * Ethanol setter.
      *
      * @param bool $ethanol ethanol compatibility
@@ -692,6 +780,20 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
+     * Ethanol compatibility fluent setter.
+     *
+     * @param bool $ethanolDone new value
+     *
+     * @return Programmation
+     */
+    public function setEthanolDone(bool $ethanolDone): self
+    {
+        $this->ethanolDone = $ethanolDone;
+
+        return $this;
+    }
+
+    /**
      * Fap fluent setter.
      *
      * @param bool $fapOff Fap set to off
@@ -701,6 +803,20 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function setFapOff(bool $fapOff): self
     {
         $this->fapOff = $fapOff;
+
+        return $this;
+    }
+
+    /**
+     * FAP-stopped fluent setter.
+     *
+     * @param bool $fapStopped new value
+     *
+     * @return Programmation
+     */
+    public function setFapStopped(bool $fapStopped): self
+    {
+        $this->fapStopped = $fapStopped;
 
         return $this;
     }
@@ -888,6 +1004,20 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
+     * Stage1-done fluent setter.
+     *
+     * @param bool $stageOneDone new value
+     *
+     * @return Programmation
+     */
+    public function setStageOneDone(bool $stageOneDone): self
+    {
+        $this->stageOneDone = $stageOneDone;
+
+        return $this;
+    }
+
+    /**
      * Version fluent setter.
      *
      * @param string $version vehicle version
@@ -916,151 +1046,43 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
-     * Is EDC stopped?
+     * Add each unit cost.
      *
-     * @return bool|null
-     */
-    public function isEdcStopped(): ?bool
-    {
-        return $this->edcStopped;
-    }
-
-    /**
-     * EDC stopped fluent setter.
-     *
-     * @param bool $edcStopped new value
      * @return Programmation
      */
-    public function setEdcStopped(bool $edcStopped): self
+    private function addUnitCost(): self
     {
-        $this->edcStopped = $edcStopped;
+        $this->credit += $this->isEdcOff() ? ProgrammationInterface::CREDIT_EDC : 0;
+        $this->credit += $this->isEgrOff() ? ProgrammationInterface::CREDIT_EGR : 0;
+        $this->credit += $this->isEthanol() ? ProgrammationInterface::CREDIT_ETHANOL : 0;
+        $this->credit += $this->isFapOff() ? ProgrammationInterface::CREDIT_FAP : 0;
+        $this->credit += $this->isStageOne() ? ProgrammationInterface::CREDIT_STAGE_ONE : 0;
 
         return $this;
     }
 
     /**
-     * Is EGR stopped?
+     * Set credit cost to 0.
      *
-     * @return bool|null
-     */
-    public function isEgrStopped(): ?bool
-    {
-        return $this->egrStopped;
-    }
-
-    /**
-     * EGR-stopped fluent setter.
-     *
-     * @param bool $egrStopped new value
      * @return Programmation
      */
-    public function setEgrStopped(bool $egrStopped): self
+    private function initCredit(): self
     {
-        $this->egrStopped = $egrStopped;
+        $this->credit = 0;
 
         return $this;
     }
 
     /**
-     * Is compatibility with ethanol done?
-     *
-     * @return bool|null
-     */
-    public function isEthanolDone(): ?bool
-    {
-        return $this->ethanolDone;
-    }
-
-    /**
-     * Ethanol compatibility fluent setter.
-     *
-     * @param bool $ethanolDone new value
-     * @return Programmation
-     */
-    public function setEthanolDone(bool $ethanolDone): self
-    {
-        $this->ethanolDone = $ethanolDone;
-
-        return $this;
-    }
-
-    /**
-     * Is FAP stopped?
-     *
-     * @return bool|null
-     */
-    public function isFapStopped(): ?bool
-    {
-        return $this->fapStopped;
-    }
-
-    /**
-     * FAP-stopped fluent setter.
-     *
-     * @param bool $fapStopped new value
-     * @return Programmation
-     */
-    public function setFapStopped(bool $fapStopped): self
-    {
-        $this->fapStopped = $fapStopped;
-
-        return $this;
-    }
-
-    /**
-     * Is StageOne done?
-     *
-     * @return bool|null
-     */
-    public function isStageOneDone(): ?bool
-    {
-        return $this->stageOneDone;
-    }
-
-    /**
-     * Stage1-done fluent setter.
-     *
-     * @param bool $stageOneDone new value
+     * Remove each promotion.
      *
      * @return Programmation
      */
-    public function setStageOneDone(bool $stageOneDone): self
+    private function removePromotion(): self
     {
-        $this->stageOneDone = $stageOneDone;
-
-        return $this;
-    }
-
-    /**
-     * Created datetime getter.
-     *
-     * @return DateTimeInterface|null
-     */
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Delivered datetime getter.
-     *
-     * @return DateTimeInterface|null
-     */
-    public function getDeliveredAt(): ?DateTimeInterface
-    {
-        return $this->deliveredAt;
-    }
-
-    /**
-     * Delivered datetime fluent setter.
-     *
-     * @param DateTimeInterface|null $deliveredAt new delivered date time
-     *
-     * @return Programmation
-     */
-    public function setDeliveredAt(?DateTimeInterface $deliveredAt): self
-    {
-        $this->deliveredAt = $deliveredAt;
+        $this->credit -= $this->isEgrOff() && $this->isFapOff() ? ProgrammationInterface::PROMOTION_EGR_FAP : 0;
+        $promotion = $this->isStageOne() && $this->isEthanol();
+        $this->credit -= $promotion ? ProgrammationInterface::PROMOTION_STAGE_ONE_ETHANOL : 0;
 
         return $this;
     }

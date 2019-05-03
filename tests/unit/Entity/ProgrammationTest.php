@@ -1,6 +1,6 @@
 <?php
 /**
- * This programmation is part of the O2 Application.
+ * This file is part of the O2 Application.
  *
  * PHP version 7.1|7.2|7.3|7.4
  *
@@ -207,7 +207,6 @@ class ProgrammationTest extends Unit
         $actual = $expected = new User();
         self::assertEquals($this->programmation, $this->programmation->setCustomer($actual));
         self::assertEquals($expected, $this->programmation->getCustomer());
-
     }
 
     /**
@@ -225,21 +224,13 @@ class ProgrammationTest extends Unit
     }
 
     /**
-     * Test the method IsFapOff.
+     * Test the method getDelivered.
      */
-    public function testIsFapOff(): void
+    public function testGetDelivered(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setFapOff(true));
-        self::assertTrue($this->programmation->isFapOff());
-    }
-
-    /**
-     * Test the method IsFapStopped.
-     */
-    public function testIsFapStopped(): void
-    {
-        self::assertEquals($this->programmation, $this->programmation->setFapStopped(true));
-        self::assertTrue($this->programmation->isFapStopped());
+        $actual = $expected = new DateTimeImmutable();
+        self::assertEquals($this->programmation, $this->programmation->setDeliveredAt($actual));
+        self::assertEquals($expected, $this->programmation->getDeliveredAt());
     }
 
     /**
@@ -427,6 +418,24 @@ class ProgrammationTest extends Unit
     }
 
     /**
+     * Test the method IsFapOff.
+     */
+    public function testIsFapOff(): void
+    {
+        self::assertEquals($this->programmation, $this->programmation->setFapOff(true));
+        self::assertTrue($this->programmation->isFapOff());
+    }
+
+    /**
+     * Test the method IsFapStopped.
+     */
+    public function testIsFapStopped(): void
+    {
+        self::assertEquals($this->programmation, $this->programmation->setFapStopped(true));
+        self::assertTrue($this->programmation->isFapStopped());
+    }
+
+    /**
      * Test the method IsGearAutomatic.
      */
     public function testIsGearAutomatic(): void
@@ -451,15 +460,5 @@ class ProgrammationTest extends Unit
     {
         self::assertEquals($this->programmation, $this->programmation->setStageOneDone(true));
         self::assertTrue($this->programmation->isStageOneDone());
-    }
-
-    /**
-     * Test the method getDelivered.
-     */
-    public function testGetDelivered()
-    {
-        $actual = $expected = new DateTimeImmutable();
-        self::assertEquals($this->programmation, $this->programmation->setDeliveredAt($actual));
-        self::assertEquals($expected, $this->programmation->getDeliveredAt());
     }
 }

@@ -149,6 +149,5 @@ class BillTest extends Unit
         self::assertTrue($this->bill->isPaid());
         self::assertEquals($expectedPrice, $this->bill->getAlreadyPaid());
         self::assertEmpty($this->bill->getToPaid());
-
     }
 }

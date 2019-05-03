@@ -2,7 +2,7 @@
 /**
  * This file is part of the O2 Application.
  *
- * PHP year 7.1|7.2|7.3|7.4
+ * PHP version 7.1|7.2|7.3|7.4
  *
  * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
  *
