@@ -21,4 +21,21 @@ interface ProgrammationInterface
      */
     public const READ_REAL = 1;
     public const READ_VIRTUAL = 2;
+
+    /**
+     * Constant for COST
+     */
+    const CREDIT_EDC = 5;
+    const CREDIT_EGR = 5;
+    const CREDIT_ETHANOL = 10;
+    const CREDIT_FAP = 5;
+    const CREDIT_STAGE_ONE = 10;
+
+    /**
+     * Constant for promotion.
+     *
+     * Promotion are subtracted to total.
+     */
+    const PROMOTION_EGR_FAP = 5;
+    const PROMOTION_STAGE_ONE_ETHANOL = 10;
 }

@@ -65,6 +65,7 @@ final class Version20190430075844 extends AbstractMigration
         $this->addSql('DROP TABLE financial_transactions');
         $this->addSql('DROP TABLE payments');
         $this->addSql('DROP TABLE payment_instructions');
+        $this->addSql('DROP SCHEMA data');
     }
 
     public function getDescription(): string

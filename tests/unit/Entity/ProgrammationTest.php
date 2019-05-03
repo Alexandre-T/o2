@@ -100,6 +100,10 @@ class ProgrammationTest extends Unit
         self::assertFalse($this->programmation->isEthanolDone());
         self::assertFalse($this->programmation->isFapStopped());
         self::assertFalse($this->programmation->isStageOneDone());
+
+        self::assertNotNull($this->programmation->getLabel());
+        self::assertEmpty($this->programmation->getLabel());
+        self::assertIsString($this->programmation->getLabel());
     }
 
     /**
@@ -117,8 +121,81 @@ class ProgrammationTest extends Unit
      */
     public function testGetCredit(): void
     {
-        $actual = $expected = 33;
-        self::assertEquals($this->programmation, $this->programmation->setCredit($actual));
+        $expected = 5;
+
+        $this->programmation->setEdcOff(true);
+        $this->programmation->setEgrOff(false);
+        $this->programmation->setFapOff(false);
+        $this->programmation->setEthanol(false);
+        $this->programmation->setStageOne(false);
+        self::assertEquals($this->programmation, $this->programmation->refreshCost());
+        self::assertEquals($expected, $this->programmation->getCredit());
+
+        $this->programmation->setEdcOff(false);
+        $this->programmation->setEgrOff(true);
+        $this->programmation->setFapOff(false);
+        $this->programmation->setEthanol(false);
+        $this->programmation->setStageOne(false);
+        self::assertEquals($this->programmation, $this->programmation->refreshCost());
+        self::assertEquals($expected, $this->programmation->getCredit());
+
+        $this->programmation->setEdcOff(false);
+        $this->programmation->setEgrOff(false);
+        $this->programmation->setFapOff(true);
+        $this->programmation->setEthanol(false);
+        $this->programmation->setStageOne(false);
+        self::assertEquals($this->programmation, $this->programmation->refreshCost());
+        self::assertEquals($expected, $this->programmation->getCredit());
+
+        $this->programmation->setEdcOff(false);
+        $this->programmation->setEgrOff(true);
+        $this->programmation->setFapOff(true);
+        $this->programmation->setEthanol(false);
+        $this->programmation->setStageOne(false);
+        self::assertEquals($this->programmation, $this->programmation->refreshCost());
+        self::assertEquals($expected, $this->programmation->getCredit());
+
+        $expected = 10;
+        $this->programmation->setEdcOff(false);
+        $this->programmation->setEgrOff(false);
+        $this->programmation->setFapOff(false);
+        $this->programmation->setEthanol(true);
+        $this->programmation->setStageOne(false);
+        self::assertEquals($this->programmation, $this->programmation->refreshCost());
+        self::assertEquals($expected, $this->programmation->getCredit());
+
+        $this->programmation->setEdcOff(false);
+        $this->programmation->setEgrOff(false);
+        $this->programmation->setFapOff(false);
+        $this->programmation->setEthanol(false);
+        $this->programmation->setStageOne(true);
+        self::assertEquals($this->programmation, $this->programmation->refreshCost());
+        self::assertEquals($expected, $this->programmation->getCredit());
+
+        $this->programmation->setEdcOff(false);
+        $this->programmation->setEgrOff(false);
+        $this->programmation->setFapOff(false);
+        $this->programmation->setEthanol(true);
+        $this->programmation->setStageOne(true);
+        self::assertEquals($this->programmation, $this->programmation->refreshCost());
+        self::assertEquals($expected, $this->programmation->getCredit());
+
+        $expected = 15;
+        $this->programmation->setEdcOff(false);
+        $this->programmation->setEgrOff(true);
+        $this->programmation->setFapOff(true);
+        $this->programmation->setEthanol(true);
+        $this->programmation->setStageOne(true);
+        self::assertEquals($this->programmation, $this->programmation->refreshCost());
+        self::assertEquals($expected, $this->programmation->getCredit());
+
+        $expected = 20;
+        $this->programmation->setEdcOff(true);
+        $this->programmation->setEgrOff(true);
+        $this->programmation->setFapOff(true);
+        $this->programmation->setEthanol(true);
+        $this->programmation->setStageOne(true);
+        self::assertEquals($this->programmation, $this->programmation->refreshCost());
         self::assertEquals($expected, $this->programmation->getCredit());
     }
 

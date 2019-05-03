@@ -570,6 +570,43 @@ class Programmation implements EntityInterface, ProgrammationInterface
         return $this->stageOne;
     }
 
+    public function refreshCost(): self
+    {
+        $credit = 0;
+
+        if ($this->isEdcOff()) {
+            $credit += ProgrammationInterface::CREDIT_EDC;
+        }
+
+        if ($this->isEgrOff()) {
+            $credit += ProgrammationInterface::CREDIT_EGR;
+        }
+
+        if ($this->isEthanol()) {
+            $credit += ProgrammationInterface::CREDIT_ETHANOL;
+        }
+
+        if ($this->isFapOff()) {
+            $credit += ProgrammationInterface::CREDIT_FAP;
+        }
+
+        if ($this->isStageOne()) {
+            $credit += ProgrammationInterface::CREDIT_STAGE_ONE;
+        }
+
+        if ($this->isEgrOff() && $this->isFapOff()) {
+            $credit -= ProgrammationInterface::PROMOTION_EGR_FAP;
+        }
+
+        if ($this->isStageOne() && $this->isEthanol()) {
+            $credit -= ProgrammationInterface::PROMOTION_STAGE_ONE_ETHANOL;
+        }
+
+        $this->credit = $credit;
+
+        return $this;
+    }
+
     /**
      * Comment fluent setter.
      *
@@ -580,20 +617,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
-
-        return $this;
-    }
-
-    /**
-     * Fluent credit setter.
-     *
-     * @param int $credit Credit cost
-     *
-     * @return Programmation
-     */
-    public function setCredit(int $credit): self
-    {
-        $this->credit = $credit;
 
         return $this;
     }
