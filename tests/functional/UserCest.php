@@ -29,6 +29,6 @@ class UserCest
     {
         $I->wantToTest('I see title');
         $I->amOnPage('/');
-        $I->see('O2 files');
+        $I->see('V-Mod Engineering');
     }
 }

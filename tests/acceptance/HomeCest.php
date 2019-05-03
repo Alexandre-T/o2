@@ -29,10 +29,10 @@ class HomeCest
      */
     public function tryToTestHomePage(AcceptanceTester $you): void
     {
-        $you->wantToTest('I see O2 files');
+        $you->wantToTest('I see V-Mod Engineering');
         $you->amOnPage('/');
         $you->seeResponseCodeIsSuccessful();
-        $you->see('O2 files');
+        $you->see('V-Mod Engineering');
     }
 
     /**

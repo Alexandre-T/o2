@@ -41,7 +41,7 @@ class SecurityCest
         $you->dontSeeLink('Administrateur');
 
         $you->wantToTest('Accountant can access home page.');
-        $you->click('O2 Files');
+        $you->click('V-Mod Engineering');
         $you->seeCurrentUrlEquals('/');
         $you->seeResponseCodeIsSuccessful();
 
@@ -79,7 +79,7 @@ class SecurityCest
         $you->seeLink('Administrateur');
 
         $you->wantToTest('Administrator can access home pages.');
-        $you->click('O2 Files');
+        $you->click('V-Mod Engineering');
         $you->seeCurrentUrlEquals('/');
         $you->seeResponseCodeIsSuccessful();
 
@@ -149,7 +149,7 @@ class SecurityCest
         $you->seeCurrentUrlEquals('/customer/profile');
 
         $you->wantToTest('Customer can access home page.');
-        $you->click('O2 Files');
+        $you->click('V-Mod Engineering');
         $you->seeCurrentUrlEquals('/');
         $you->seeResponseCodeIsSuccessful();
 
@@ -195,7 +195,7 @@ class SecurityCest
         $you->dontSeeLink('Administrateur');
 
         $you->wantToTest('Programmer can access home page.');
-        $you->click('O2 Files');
+        $you->click('V-Mod Engineering');
         $you->seeCurrentUrlEquals('/');
         $you->seeResponseCodeIsSuccessful();
 
