@@ -73,7 +73,7 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
      */
     public function isDeletable(EntityInterface $entity): bool
     {
-        return empty($entity->getBills());
+        return empty($entity->getBills()->count());
     }
 
     /**
