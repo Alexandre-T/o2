@@ -2,8 +2,11 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-0">
     <div class="container">
         <a class="navbar-brand" href="{{ path('home') }}" style="background-color: white; padding-left: 10px; padding-right: 10px;">
-            <img src="{{ asset('img/o2programmation.png') }}" width="50" height="30" alt="O2 logo">
-            <span class="text-primary"><strong>O2 Files</strong></span>
+            <img src="{{ asset('img/o2programmation.png') }}" width="50" height="30" alt="{{ 'title.img' | trans }}"/>
+            <span class="text-primary" title="{{ 'title.img' | trans }}"
+               data-toggle="tooltip" data-placement="bottom">
+                <strong>V-Mod Engineering</strong>
+            </span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +87,7 @@
                                 {{ 'nav.customer.submenu.credit.text' | trans }}
                             </a>
                             {# File Order #}
-                            <a class="dropdown-item {{ route === 'customer_file_new' }}"
+                            <a class="dropdown-item {{ route == 'customer_file_new' }}"
                                href="{{ path('customer_file_new') }}" data-placement="left" data-toggle="tooltip"
                                title="{{ 'nav.customer.submenu.order.title' | trans }}">
                                 <span class="fas fa-fw fa-car"></span>

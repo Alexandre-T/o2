@@ -201,20 +201,37 @@ form:
     article-500: 'Lot(s) de 500 crédits'
     credit: 'Crédits'
     complement: 'Complément'
+    comment: 'Vos remarques'
     country: 'Pays'
     customer: 'Client'
+    cylinder-capacity: 'Cylindrée'
+    edc-off: 'EDC 15 : 5 crédits'
     email: 'Adresse email'
+    ethanol: 'Éthanol seul : 10 crédits'
+    egr-off: 'EGR Off : 5 crédits'
+    egr-fap-off: 'EGR et FAP Off : 5 crédits'
+    fap-off: 'FAP Off : 5 crédits'
     family-name: 'Nom de famille'
+    gear: 'Boîte'
     given-name: 'Prénom'
     gravatar: 'Gravatar de l’utilisateur'
     label: 'Nom'
     locality: 'Ville'
+    make: 'Marque'
+    model: 'Modèle'
     new-password: 'Nouveau mot de passe'
     number: 'Numéro'
+    odb: 'Lecture'
+    odometer: 'Kilométrage'
     old-password: 'Ancien mot de passe'
+    original-file: 'Fichier d’origine'
     password: 'Mot de passe'
     person-type: 'Nature'
     postal-code: 'Code postal'
+    power: 'Puissance'
+    protocol: 'Protocole'
+    read: 'Lecture'
+    reader-tool: 'Outil de lecture'
     repeat-password: 'Confirmation'
     role:
       option:
@@ -227,14 +244,19 @@ form:
         admin: 'Administrateur'
         programmer: 'Programmateur'
     roles: 'Privilèges de l’utilisateur'
+    serial: 'N° de série'
+    settings: 'Paramètre'
     society: 'Société'
+    stage-one-ethanol: 'Stage 1 + éthanol : 15 crédits'
+    stage-one: 'Stage 1 : 10 crédits'
     street-address: 'Adresse'
     telephone: 'Téléphone'
     tos: 'J’ai lu les conditions d’utilisation du service'
     username: 'Nom de l’utilisateur'
     vat-number: 'Numéro de TVA'
-    settings: 'Paramètre'
+    version: 'Version'
     value: 'Valeur'
+    year: 'Année'
   help:
     article-10: 'Sélectionnez la quantité de lots de 10 crédits'
     article-100: 'Sélectionnez la quantité de lots de 100 crédits'
@@ -314,6 +336,9 @@ form:
   buy-credit:
     field:
       submit: 'Poursuivre'
+  programmation:
+    field:
+      submit: 'Commander'
 
 flash:
   order:
@@ -332,6 +357,10 @@ flash:
   profile:
     not-updated: 'Attention ! Votre profil n’a pas été mis à jour.'
     updated: 'Votre profil a correctement été mis à jour.'
+
+gear:
+  automatic: 'Automatique'
+  manual: 'Manuelle'
 
 info:
   payment:
@@ -355,7 +384,20 @@ instruction:
   reversing-credited-amount: 'Reversion créditée'
   reversing-deposited-amount: 'Reversion déposée'
   valid: 'Instruction de paiement validée'
+
+img:
+  alt:
+    logo: 'Logo de l’entreprise'
+
 instruction %number%: 'Instruction n°%number%'
+
+item:
+  reference: 'Référence'
+  description: 'Description'
+  quantity: 'Quantité'
+  unit-price: 'Prix unitaire HT'
+  price: 'Total HT'
+  vat: 'Total TVA'
 
 link:
   password-lost:
@@ -437,6 +479,10 @@ nav:
     text: 'Mot de passe perdu'
   reset-password:
     text: 'Réinitialisation du mot de passe'
+
+odb:
+  boot: 'Boot'
+  odb: 'ODB'
 
 order:
   canceled: 'Annulée'
@@ -527,6 +573,7 @@ title:
     order-credit: 'Crédits supplémentaires'
     payment-complete: 'Paiement complété'
     payment-complete %payment-system%: 'Paiement transmis via Paypal'
+    programmation: 'Commander un fichier de reprogrammation'
   default:
     tos: 'Conditions d’utilisation'
   security:
@@ -552,13 +599,23 @@ title:
   order:
     details: 'Détails de la commande'
     details %label%: 'Détail de la commande n°%label%'
-
-type:
-  morale: 'Société'
-  physic: 'Particulier'
+  programmation:
+    vehicle:
+      general: 'Informations générales sur la voiture'
+      motor: 'Informations sur la motorisation'
+    read: 'Informations sur la lecture du fichier'
+    wanted: 'Préparation souhaitée'
+  professional-files: 'Fichiers professionels de reprogrammation moteur.'
+  vmod-trademark: 'V-mod Engineering est une marque O2Programmation.'
+  experience: 'Forts de nos 20 ans d’expérience, nous vous proposons des fichiers fiables.'
+  img: 'Tunning file service | Tunning files | OLS X | WinOLS | Database chiptuning file service'
 
 payments:
   no-payment: 'Aucun paiement'
+
+read:
+  real: 'Réelle'
+  virtual: 'Virtuelle'
 
 transaction:
   requested-amount: 'Montant demandé'
@@ -583,18 +640,16 @@ transaction:
   updatedAt: 'Transaction modifiée le'
   response-code: 'Réponse'
   reason-code: 'Raison retournée'
-img:
-  alt:
-    logo: 'Logo de l’entreprise'
 
-item:
-  reference: 'Référence'
-  description: 'Description'
-  quantity: 'Quantité'
-  unit-price: 'Prix unitaire HT'
-  price: 'Total HT'
-  vat: 'Total TVA'
+type:
+  morale: 'Société'
+  physic: 'Particulier'
+
 user:
   bills: 'Factures'
   files: 'Fichiers'
   credits: 'Crédits'
+
+'{0} user-has-no-credit|{1} user-has-one-credit|]1,Inf[ user has %count% credit': '{0} Vous ne disposez pas de crédits|{1} Vous ne disposez plus que d’un seul credit|]1,Inf[ Vous disposez de %count% credits'
+programmation:
+  cost: 'Coût de la programmation :'

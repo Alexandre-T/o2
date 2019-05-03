@@ -1,0 +1,82 @@
+var updateCheckbox = function () {
+  //unique price
+  let edc_off = $('#tool_edc_off');
+  let egr_off = $('#tool_egr_off');
+  let ethanol = $('#tool_ethanol');
+  let fap_off = $('#tool_fap_off');
+  let stage_one = $('#tool_stage_one');
+
+  //promotion
+  let egr_fap_off = $('#tool_egr_fap_off');
+  let stage_one_ethanol = $('#tool_stage_one_ethanol');
+
+  let credit = 0;
+
+  //Treatment
+  //Noob
+  if (egr_off.is(':checked') && fap_off.is(':checked')) egr_fap_off.prop('checked', true);
+  if (stage_one.is(':checked') && ethanol.is(':checked')) stage_one_ethanol.prop('checked', true);
+
+  //Promotion
+  if (egr_fap_off.is(':checked')) {
+    //Uncheck egr et fap
+    egr_off.prop('checked', false);
+    fap_off.prop('checked', false);
+    //Disable egr et fap
+    egr_off.prop('disabled', true);
+    fap_off.prop('disabled', true);
+    credit += 5;
+  } else {
+    //Enable egr et fap
+    egr_off.prop('disabled', false);
+    fap_off.prop('disabled', false);
+  }
+  if (stage_one_ethanol.is(':checked')) {
+    //Uncheck stage one and ethanol
+    stage_one.prop('checked', false);
+    ethanol.prop('checked', false);
+    //Disable stage one and ethanol
+    stage_one.prop('disabled', true);
+    ethanol.prop('disabled', true);
+    credit += 15;
+  } else {
+    //Enable stage one and ethanol
+    stage_one.prop('disabled', false);
+    ethanol.prop('disabled', false);
+  }
+
+  //Standalone
+  if (edc_off.is(':checked')) credit += 5;
+  if (egr_off.is(':checked')) credit += 5;
+  if (ethanol.is(':checked')) credit += 10;
+  if (fap_off.is(':checked')) credit += 5;
+  if (stage_one.is(':checked')) credit += 10;
+
+  $('#programmation_form_edcOff').val(edc_off.is(':checked'));
+  $('#programmation_form_egrOff').val(egr_off.is(':checked') || egr_fap_off.is(':checked'));
+  $('#programmation_form_fapOff').val(fap_off.is(':checked') || egr_fap_off.is(':checked'));
+  $('#programmation_form_ethanol').val(ethanol.is(':checked') || stage_one_ethanol.is(':checked'));
+  $('#programmation_form_stageOne').val(stage_one.is(':checked') || stage_one_ethanol.is(':checked'));
+
+  $('#credit').html(toCredit(credit));
+}
+
+//when document is ready, I actualize.
+$(updateCheckbox);
+
+//After each change update...
+$('#tool_edc_off').change(updateCheckbox);
+$('#tool_egr_off').change(updateCheckbox);
+$('#tool_ethanol').change(updateCheckbox);
+$('#tool_fap_off').change(updateCheckbox);
+$('#tool_stage_one').change(updateCheckbox);
+$('#tool_egr_fap_off').change(updateCheckbox);
+$('#tool_stage_one_ethanol').change(updateCheckbox);
+
+var toFloat = function (value) {
+  return parseFloat(value).toLocaleString(window.document.documentElement.lang);
+}
+
+var toCredit = function (value) {
+  return toFloat(value) + ' crédits';
+}

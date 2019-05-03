@@ -34,7 +34,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     }
  * )
  */
-class Programmation implements ProgrammationInterface
+class Programmation implements EntityInterface, ProgrammationInterface
 {
     /**
      * Commentary.
@@ -390,6 +390,17 @@ class Programmation implements ProgrammationInterface
     {
         return $this->identifier;
     }
+
+    /**
+     * The label.
+     *
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return (string) $this->identifier;
+    }
+
 
     /**
      * Vehicle make getter.

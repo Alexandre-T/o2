@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.customer.programmation' | trans }}  &bull; {{ parent() }} {% endblock %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.customer.main' | trans }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'title.customer.programmation' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block container %}
+    {{ form_start(form) }}
+    <div class="row justify-content-md-center mb-5">
+        <div class="col-md-10">
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h1>
+                        <span class="fas fa-car"></span>
+                        {{ 'title.customer.programmation' | trans }}
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <h3>{{ 'title.programmation.vehicle.general' | trans }}</h3>
+                    <div class="row">
+                        <div class="col-sm-6">{{ form_row(form.make) }}</div>
+                        <div class="col-sm-6">{{ form_row(form.model) }}</div>
+                        <div class="col-sm-6">{{ form_row(form.version) }}</div>
+                        <div class="col-sm-6">{{ form_row(form.serial) }}</div>
+                        <div class="col-sm-6">{{ form_row(form.year) }}</div>
+                        <div class="col-sm-6">{{ form_row(form.odometer) }}</div>
+                    </div>
+                    <h3>{{ 'title.programmation.vehicle.motor' | trans }}</h3>
+                    <div class="row">
+                        <div class="col-sm-6">{{ form_row(form.cylinderCapacity) }}</div>
+                        <div class="col-sm-6">{{ form_row(form.power) }}</div>
+                        <div class="col-sm-6">{{ form_row(form.gearAutomatic) }}</div>
+                    </div>
+                    <h3>{{ 'title.programmation.read' | trans }}</h3>
+                    <div class="row">
+                        <div class="col-sm-6">{{ form_row(form.readerTool) }}</div>
+                        <div class="col-sm-6">{{ form_row(form.protocol) }}</div>
+                        <div class="col-sm-6">{{ form_row(form.read) }}</div>
+                        <div class="col-sm-6">{{ form_row(form.odb) }}</div>
+                        <div class="col-sm-12">{{ form_row(form.originalFile) }}</div>
+                    </div>
+                    <h3>{{ 'title.programmation.wanted' | trans }}</h3>
+                    <div class="form-group row">
+                        <div class="col-sm-4">{{ 'title.programmation.wanted' | trans }}</div>
+                        <div class="col-sm-8">
+                            <div class="form-check">
+                                <input type="checkbox" id="tool_edc_off" class="form-check-input" value="1">
+                                <label class="form-check-label" for="tool_edc_off">
+                                    {{ 'form.field.edc-off' | trans }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 offset-sm-4">
+                            <div class="form-check">
+                                <input type="checkbox" id="tool_egr_off" class="form-check-input" value="1">
+                                <label class="form-check-label" for="tool_egr_off">
+                                    {{ 'form.field.egr-off' | trans }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 offset-sm-4">
+                            <div class="form-check">
+                                <input type="checkbox" id="tool_ethanol" class="form-check-input" value="1">
+                                <label class="form-check-label" for="tool_ethanol">
+                                    {{ 'form.field.ethanol' | trans }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 offset-sm-4">
+                            <div class="form-check">
+                                <input type="checkbox" id="tool_fap_off" class="form-check-input" value="1">
+                                <label class="form-check-label" for="tool_fap_off">
+                                    {{ 'form.field.fap-off' | trans }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 offset-sm-4">
+                            <div class="form-check">
+                                <input type="checkbox" id="tool_stage_one" class="form-check-input" value="1">
+                                <label class="form-check-label" for="tool_stage_one">
+                                    {{ 'form.field.stage-one' | trans }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 offset-sm-4">
+                            <div class="form-check">
+                                <input type="checkbox" id="tool_egr_fap_off" class="form-check-input" value="1">
+                                <label class="form-check-label text-success" for="tool_egr_fap_off">
+                                    {{ 'form.field.egr-fap-off' | trans }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 offset-sm-4">
+                            <div class="form-check">
+                                <input type="checkbox" id="tool_stage_one_ethanol" class="form-check-input" value="1">
+                                <label class="form-check-label text-success" for="tool_stage_one_ethanol">
+                                    {{ 'form.field.stage-one-ethanol' | trans }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_widget(form) }}
+                    <div class="d-flex justify-content-around">
+                        <span class="badge badge-info p-3">
+                            {{ '{0} user-has-no-credit|{1} user-has-one-credit|]1,Inf[ user has %count% credit' | trans({'%count%': app.user.credit}) }}
+                        </span>
+                        <span class="badge badge-info p-3">{{ 'programmation.cost' | trans }}
+                            <span id="credit" class="ml-1">0 crédit</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <button class="btn btn-primary" type="submit">
+                        <span class="fas fa-fw fa-car"></span>
+                        {{ 'form.programmation.field.submit' | trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        {{ include('_javascript/programmation.js.twig') }}
+    </script>
+{% endblock %}

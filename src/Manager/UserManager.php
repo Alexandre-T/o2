@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use App\Entity\EntityInterface;
+use App\Entity\Programmation;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -73,6 +74,17 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     public function isDeletable(EntityInterface $entity): bool
     {
         return empty($entity->getBills());
+    }
+
+    /**
+     * Remove credits to user by programmation cost.
+     *
+     * @param Programmation $programmation programmation to debit
+     */
+    public function debit(Programmation $programmation): void
+    {
+        $user = $programmation->getCustomer();
+        $user->setCredit($user->getCredit() - $programmation->getCredit());
     }
 
     /**

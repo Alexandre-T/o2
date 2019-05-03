@@ -22,6 +22,7 @@ use App\Form\Model\ChangePassword;
 use App\Form\Model\CreditOrder;
 use App\Form\PasswordFormType;
 use App\Form\ProfileFormType;
+use App\Form\ProgrammationFormType;
 use App\Manager\OrderManager;
 use App\Manager\ProgrammationManager;
 use App\Manager\UserManager;
@@ -62,10 +63,11 @@ class CustomerController extends AbstractController
         $form = $this->createForm(ProgrammationFormType::class, $programmation);
         $form->handleRequest($request);
 
+        // FIXME add a rule to test that user->getCredit() gte programmation->getCredit
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
             $programmation->setCustomer($user);
-            $userManager->uncredit($programmation);
+            $userManager->debit($programmation);
             $programmationManager->save($programmation);
             $userManager->save($user);
             $this->addFlash('success', 'flash.order.step1');

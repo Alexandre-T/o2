@@ -9,5 +9,24 @@
 {% endblock %}
 
 {% block container %}
-    Home page.
+    {% if not is_granted('ROLE_USER') %}
+    <div class="d-flex justify-content-around">
+        <a href="{{ path('security_register') }}" title="{{ 'nav.register.title' | trans }}" class="btn btn-primary">
+            <span class="fas fa-sign-in-alt fa-rotate-270"></span>
+            {{ 'nav.register.text' | trans  }}
+        </a>
+        <a href="{{ path('security_login') }}" title="{{ 'nav.login.title' | trans }}" class="btn btn-secondary">
+            <span class="fas fa-sign-in-alt"></span>
+            {{ 'nav.login.text' | trans }}
+        </a>
+    </div>
+    {% endif %}
+    <div class="text-center mt-5">
+        <img src="{{ asset('img/o2programmation.png') }}" alt="{{ 'img.alt.logo' | trans }}"/>
+        <ul class="mt-5">
+            <li>{{ 'title.professional-files' | trans }}</li>
+            <li>{{ 'title.vmod-trademark' | trans }}</li>
+            <li>{{ 'title.experience' | trans }}</li>
+        </ul>
+    </div>
 {% endblock %}
