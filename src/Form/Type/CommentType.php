@@ -35,6 +35,7 @@ class CommentType extends AbstractType
 
         $resolver->setDefaults([
             'label' => 'form.field.comment',
+            'required' => false,
         ]);
     }
 
