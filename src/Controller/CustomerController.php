@@ -28,6 +28,7 @@ use App\Form\ProgrammationFormType;
 use App\Manager\OrderManager;
 use App\Manager\ProgrammationManager;
 use App\Manager\UserManager;
+use App\Security\Voter\ProgrammationVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -199,12 +200,11 @@ class CustomerController extends AbstractController
      *
      * @param Programmation $programmation the programmation to show
      *
-     * FIXME add a Voter to only look your own programmation
-     *
      * @return Response
      */
     public function showProgrammation(Programmation $programmation): Response
     {
+        $this->denyAccessUnlessGranted(ProgrammationVoter::SHOW, $programmation);
         dd($programmation, $this->getUser());
 
         return $this->render('customer/programmation/show.html.twig', [
