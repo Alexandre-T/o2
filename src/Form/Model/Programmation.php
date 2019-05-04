@@ -81,20 +81,6 @@ class Programmation
     private $fapOff = false;
 
     /**
-     * File name?
-     *
-     * @Assert\NotBlank(message="error.file.pdf")
-     * @Assert\File(mimeTypes={ "application/vnd.oasis.opendocument.spreadsheet" })
-     * @Vich\UploadableField(
-     *     mapping="original_file",
-     *     fileNameProperty="name",
-     * )
-     *
-     * @var HttpFile
-     */
-    private $originalFile;
-
-    /**
      * Gear automatic.
      *
      * @Assert\Choice(choices=ProgrammationInterface::GEARS, message="error.gear.choice")
@@ -147,6 +133,20 @@ class Programmation
      * @var int
      */
     private $odometer;
+
+    /**
+     * File name?
+     *
+     * @Assert\NotBlank(message="error.file.pdf")
+     * @Assert\File(mimeTypes={ "application/vnd.oasis.opendocument.spreadsheet" })
+     * @Vich\UploadableField(
+     *     mapping="original_file",
+     *     fileNameProperty="name",
+     * )
+     *
+     * @var HttpFile
+     */
+    private $originalFile;
 
     /**
      * Power.
@@ -292,16 +292,6 @@ class Programmation
     }
 
     /**
-     * File getter.
-     *
-     * @return HttpFile
-     */
-    public function getOriginalFile(): ?HttpFile
-    {
-        return $this->originalFile;
-    }
-
-    /**
      * Make getter.
      *
      * @return string
@@ -344,6 +334,16 @@ class Programmation
     public function getOdometer(): ?int
     {
         return $this->odometer;
+    }
+
+    /**
+     * File getter.
+     *
+     * @return HttpFile
+     */
+    public function getOriginalFile(): ?HttpFile
+    {
+        return $this->originalFile;
     }
 
     /**
@@ -549,18 +549,6 @@ class Programmation
     }
 
     /**
-     * @param HttpFile $originalFile
-     *
-     * @return Programmation
-     */
-    public function setOriginalFile(HttpFile $originalFile): Programmation
-    {
-        $this->originalFile = $originalFile;
-
-        return $this;
-    }
-
-    /**
      * @param bool $gearAutomatic
      *
      * @return Programmation
@@ -623,6 +611,18 @@ class Programmation
     public function setOdometer(int $odometer): self
     {
         $this->odometer = $odometer;
+
+        return $this;
+    }
+
+    /**
+     * @param HttpFile $originalFile
+     *
+     * @return Programmation
+     */
+    public function setOriginalFile(HttpFile $originalFile): Programmation
+    {
+        $this->originalFile = $originalFile;
 
         return $this;
     }

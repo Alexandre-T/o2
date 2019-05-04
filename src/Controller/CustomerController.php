@@ -40,6 +40,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Customer controller.
  *
  * //TODO add a prefix customer_ with name attribute in route annotation
+ *
  * @Route("/customer")
  *
  * @Security("is_granted('ROLE_USER')")
@@ -82,32 +83,12 @@ class CustomerController extends AbstractController
             $this->addFlash('success', 'flash.order.step1');
 
             return $this->redirectToRoute('customer_programmation_show', [
-                'id' => $programmation->getId()
+                'id' => $programmation->getId(),
             ]);
         }
 
         return $this->render('customer/file/new.html.twig', [
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * Finds and displays a programmation entity.
-     *
-     * @Route("/programmation/{id}", name="customer_programmation_show", methods={"get"})
-     *
-     * @param Programmation $programmation the programmation to show
-     *
-     * FIXME add a Voter to only look your own programmation
-     *
-     * @return Response
-     */
-    public function showProgrammation(Programmation $programmation): Response
-    {
-        dd($programmation,$this->getUser());
-
-        return $this->render('customer/programmation/show.html.twig', [
-            'programmation', $programmation
         ]);
     }
 
@@ -208,6 +189,26 @@ class CustomerController extends AbstractController
 
         return $this->render('customer/profile.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Finds and displays a programmation entity.
+     *
+     * @Route("/programmation/{id}", name="customer_programmation_show", methods={"get"})
+     *
+     * @param Programmation $programmation the programmation to show
+     *
+     * FIXME add a Voter to only look your own programmation
+     *
+     * @return Response
+     */
+    public function showProgrammation(Programmation $programmation): Response
+    {
+        dd($programmation, $this->getUser());
+
+        return $this->render('customer/programmation/show.html.twig', [
+            'programmation', $programmation,
         ]);
     }
 }
