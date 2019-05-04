@@ -65,6 +65,7 @@ class CustomerController extends AbstractController
      UserManager $userManager
     ): Response {
         $model = new ProgrammationModel();
+        $model->setCustomerCredit($this->getUser()->getCredit());
         $form = $this->createForm(ProgrammationFormType::class, $model);
         $form->handleRequest($request);
         //dd($form,$model);

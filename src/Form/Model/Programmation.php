@@ -18,8 +18,10 @@ namespace App\Form\Model;
 use App\Entity\File;
 use App\Entity\Programmation as ProgrammationEntity;
 use App\Model\ProgrammationInterface;
+use App\Utils\CostCalculator;
 use Symfony\Component\HttpFoundation\File\File as HttpFile;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -29,7 +31,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *
  * @Vich\Uploadable
  */
-class Programmation
+class Programmation implements ProgrammationInterface
 {
     /**
      * Commentary.
@@ -37,6 +39,13 @@ class Programmation
      * @var string
      */
     private $comment;
+
+    /**
+     * Customer credit.
+     *
+     * @var int
+     */
+    private $credit;
 
     /**
      * Cylinder capacity.
@@ -233,7 +242,9 @@ class Programmation
     private $year;
 
     /**
-     * @param File $file
+     * Copy data from model to the entity.
+     *
+     * @param File $file file to initialize
      */
     public function copyFile(File $file): void
     {
@@ -244,11 +255,11 @@ class Programmation
     /**
      * Copy data form to programmation.
      *
-     * @param Programmation $programmation
+     * @param ProgrammationEntity $programmationEntity programmation to initialize
      */
-    public function copyProgrammation(ProgrammationEntity $programmation): void
+    public function copyProgrammation(ProgrammationEntity $programmationEntity): void
     {
-        $programmation
+        $programmationEntity
             ->setComment($this->getComment())
             ->setCylinderCapacity($this->getCylinderCapacity())
             ->setEdcOff($this->isEdcOff())
@@ -282,6 +293,16 @@ class Programmation
     }
 
     /**
+     * Credit getter.
+     *
+     * @return int
+     */
+    public function getCredit(): int
+    {
+        return $this->credit;
+    }
+
+    /**
      * CylinderCapacity getter.
      *
      * @return float|string
@@ -311,7 +332,12 @@ class Programmation
         return $this->model;
     }
 
-    public function getName()
+    /**
+     * Return the name of file.
+     *
+     * @return string
+     */
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -477,7 +503,9 @@ class Programmation
     }
 
     /**
-     * @param string $comment
+     * Comment fluent setter.
+     *
+     * @param string $comment new comment
      *
      * @return Programmation
      */
@@ -489,7 +517,23 @@ class Programmation
     }
 
     /**
-     * @param float|string $cylinderCapacity
+     * User credit setter.
+     *
+     * @param int $credit number of credit owned by customer
+     *
+     * @return Programmation
+     */
+    public function setCustomerCredit(int $credit): self
+    {
+        $this->credit = $credit;
+
+        return $this;
+    }
+
+    /**
+     * Cylinder capacity fluent setter.
+     *
+     * @param float|string $cylinderCapacity Motor cylinder capacity
      *
      * @return Programmation
      */
@@ -501,7 +545,9 @@ class Programmation
     }
 
     /**
-     * @param bool $edcOff
+     * Edc off fluent setter.
+     *
+     * @param bool $edcOff EDC15 asked
      *
      * @return Programmation
      */
@@ -513,9 +559,11 @@ class Programmation
     }
 
     /**
-     * @param bool $egrOff
+     * Egr off fluent setter.
      *
-     * @return Programmation
+     * @param bool $egrOff Egr Off asked
+     *
+     * @return Programmation EGR asked
      */
     public function setEgrOff(bool $egrOff): self
     {
@@ -525,7 +573,9 @@ class Programmation
     }
 
     /**
-     * @param bool $ethanol
+     * Ethanol fluent setter.
+     *
+     * @param bool $ethanol Ethanol compatibility asked
      *
      * @return Programmation
      */
@@ -537,7 +587,9 @@ class Programmation
     }
 
     /**
-     * @param bool $fapOff
+     * Fap OFF fluent setter.
+     *
+     * @param bool $fapOff Fap reprogrammation asked
      *
      * @return Programmation
      */
@@ -549,7 +601,9 @@ class Programmation
     }
 
     /**
-     * @param bool $gearAutomatic
+     * Automatic gear fluent setter.
+     *
+     * @param bool $gearAutomatic Gear automatic or manual
      *
      * @return Programmation
      */
@@ -561,7 +615,9 @@ class Programmation
     }
 
     /**
-     * @param string $make
+     * Make fluent setter.
+     *
+     * @param string $make Vehicle make
      *
      * @return Programmation
      */
@@ -573,7 +629,9 @@ class Programmation
     }
 
     /**
-     * @param string $model
+     * Model fluent setter.
+     *
+     * @param string $model Vehicle model
      *
      * @return Programmation
      */
@@ -584,6 +642,13 @@ class Programmation
         return $this;
     }
 
+    /**
+     * Set the name.
+     *
+     * @param mixed $name name setter
+     *
+     * @return $this
+     */
     public function setName($name)
     {
         $this->name = $name;
@@ -592,7 +657,9 @@ class Programmation
     }
 
     /**
-     * @param int $odb
+     * ODB fluent setter.
+     *
+     * @param int $odb odb or boot
      *
      * @return Programmation
      */
@@ -604,7 +671,9 @@ class Programmation
     }
 
     /**
-     * @param int $odometer
+     * Odometer fluent setter.
+     *
+     * @param int $odometer Vehicle odometer
      *
      * @return Programmation
      */
@@ -616,7 +685,9 @@ class Programmation
     }
 
     /**
-     * @param HttpFile $originalFile
+     * Set original file for VichUploaderBundle.
+     *
+     * @param HttpFile $originalFile original file posted
      *
      * @return Programmation
      */
@@ -628,7 +699,9 @@ class Programmation
     }
 
     /**
-     * @param int $power
+     * Power fluent setter.
+     *
+     * @param int $power Vehicle power
      *
      * @return Programmation
      */
@@ -640,7 +713,9 @@ class Programmation
     }
 
     /**
-     * @param string $protocol
+     * Protocol fluent setter.
+     *
+     * @param string $protocol Protocol used to get original file
      *
      * @return Programmation
      */
@@ -652,7 +727,9 @@ class Programmation
     }
 
     /**
-     * @param int $read
+     * Read fluent setter.
+     *
+     * @param int $read Kind of read
      *
      * @return Programmation
      */
@@ -663,8 +740,17 @@ class Programmation
         return $this;
     }
 
+    /*Original file fluent setter.
+     *
+     * @param HttpFile $originalFile Original file posted
+     *
+     * @return Programmation
+     */
+
     /**
-     * @param string $readerTool
+     * Reader tool fluent setter.
+     *
+     * @param string $readerTool Reader tool used
      *
      * @return Programmation
      */
@@ -676,7 +762,9 @@ class Programmation
     }
 
     /**
-     * @param string $serial
+     * Serial number fluent setter.
+     *
+     * @param string $serial Vehicle serial number
      *
      * @return Programmation
      */
@@ -688,7 +776,9 @@ class Programmation
     }
 
     /**
-     * @param bool $stageOne
+     * Stage one fluent setter.
+     *
+     * @param bool $stageOne Stage1 reprogrammation
      *
      * @return Programmation
      */
@@ -700,7 +790,9 @@ class Programmation
     }
 
     /**
-     * @param string $version
+     * Version fluent setter.
+     *
+     * @param string $version Vehicle version
      *
      * @return Programmation
      */
@@ -712,7 +804,9 @@ class Programmation
     }
 
     /**
-     * @param int $year
+     * Year fluent setter.
+     *
+     * @param int $year Vehicle first numeration year
      *
      * @return Programmation
      */
@@ -723,19 +817,30 @@ class Programmation
         return $this;
     }
 
-//    /**
-//     * Is this order valid?
-//     *
-//     * @Assert\Callback
-//     *
-//     * @param ExecutionContextInterface $context the context to report error
-//     */
-//    public function validate(ExecutionContextInterface $context): void
-//    {
-//        if (0 === $this->getTen() && 0 === $this->getHundred() && 0 === $this->getFiveHundred()) {
-//            $context->buildViolation('error.order.empty')
-//                ->addViolation()
-//            ;
-//        }
-//    }
+    /**
+     * Is this order valid?
+     *
+     * @Assert\Callback
+     *
+     * @param ExecutionContextInterface $context the context to report error
+     */
+    public function validate(ExecutionContextInterface $context): void
+    {
+        //Test if user has enough credit.
+        if ($this->credit > $this->getCost()) {
+            $context->buildViolation('error.credit.empty')->addViolation();
+        }
+    }
+
+    /**
+     * Return the cost of programmation.
+     *
+     * @return int
+     */
+    private function getCost()
+    {
+        $calculator = new CostCalculator($this);
+
+        return $calculator->getCost();
+    }
 }

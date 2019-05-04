@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Model\ProgrammationInterface;
+use App\Utils\CostCalculator;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -720,11 +721,11 @@ class Programmation implements EntityInterface, ProgrammationInterface
      */
     public function refreshCost(): self
     {
-        return $this
-            ->initCredit()
-            ->addUnitCost()
-            ->removePromotion()
-        ;
+        $costCalculator = new CostCalculator($this);
+
+        $this->credit = $costCalculator->getCost();
+
+        return $this;
     }
 
     /**
@@ -1115,48 +1116,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function setYear(int $year): self
     {
         $this->year = $year;
-
-        return $this;
-    }
-
-    /**
-     * Add each unit cost.
-     *
-     * @return Programmation
-     */
-    private function addUnitCost(): self
-    {
-        $this->credit += $this->isEdcOff() ? ProgrammationInterface::CREDIT_EDC : 0;
-        $this->credit += $this->isEgrOff() ? ProgrammationInterface::CREDIT_EGR : 0;
-        $this->credit += $this->isEthanol() ? ProgrammationInterface::CREDIT_ETHANOL : 0;
-        $this->credit += $this->isFapOff() ? ProgrammationInterface::CREDIT_FAP : 0;
-        $this->credit += $this->isStageOne() ? ProgrammationInterface::CREDIT_STAGE_ONE : 0;
-
-        return $this;
-    }
-
-    /**
-     * Set credit cost to 0.
-     *
-     * @return Programmation
-     */
-    private function initCredit(): self
-    {
-        $this->credit = 0;
-
-        return $this;
-    }
-
-    /**
-     * Remove each promotion.
-     *
-     * @return Programmation
-     */
-    private function removePromotion(): self
-    {
-        $this->credit -= $this->isEgrOff() && $this->isFapOff() ? ProgrammationInterface::PROMOTION_EGR_FAP : 0;
-        $promotion = $this->isStageOne() && $this->isEthanol();
-        $this->credit -= $promotion ? ProgrammationInterface::PROMOTION_STAGE_ONE_ETHANOL : 0;
 
         return $this;
     }

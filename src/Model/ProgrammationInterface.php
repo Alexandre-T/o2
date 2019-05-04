@@ -54,4 +54,39 @@ interface ProgrammationInterface
     public const READ_REAL = 1;
     public const READ_VIRTUAL = 2;
     public const READS = [self::READ_REAL, self::READ_VIRTUAL];
+
+    /**
+     * Is Edc15 asked?
+     *
+     * @return bool
+     */
+    public function isEdcOff(): ?bool;
+
+    /**
+     * Is Egr off asked?
+     *
+     * @return bool
+     */
+    public function isEgrOff(): ?bool;
+
+    /**
+     * Is Ethanol compatibility asked?
+     *
+     * @return bool
+     */
+    public function isEthanol(): ?bool;
+
+    /**
+     * Is FAP Off asked?
+     *
+     * @return bool
+     */
+    public function isFapOff(): ?bool;
+
+    /**
+     * Is Stage1 reprogrammation asked?
+     *
+     * @return bool
+     */
+    public function isStageOne(): ?bool;
 }
