@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\Programmation;
+use App\Form\Model\Programmation;
 use App\Form\Type\CommentType;
 use App\Form\Type\CylinderCapacityType;
 use App\Form\Type\EdcOffType;
@@ -88,8 +88,6 @@ class ProgrammationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Programmation::class,
-            'render_fieldset' => false,
-            'show_legend' => false,
         ]);
     }
 }

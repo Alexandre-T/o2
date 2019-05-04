@@ -15,8 +15,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File as HttpFile;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Uploadable files entity.
@@ -26,10 +30,25 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     name="te_file",
  *     schema="data"
  * )
- * @Gedmo\Uploadable(path="/files", allowOverwrite=false, appendNumber=true)
+ * @Vich\Uploadable
  */
-class File
+class File implements EntityInterface
 {
+    /**
+     * Mime type.
+     *
+     * @var HttpFile
+     *
+     * @Vich\UploadableField(
+     *     mapping="original_file",
+     *     fileNameProperty="name",
+     *     mimeType="mimeType",
+     *     originalName="originalName",
+     *     size="size"
+     * )
+     */
+    private $file;
+
     /**
      * Identifier.
      *
@@ -47,7 +66,6 @@ class File
      * @var string
      *
      * @ORM\Column(type="string", length=255)
-     * @Gedmo\UploadableFileMimeType
      */
     private $mimeType;
 
@@ -57,19 +75,17 @@ class File
      * @var string
      *
      * @ORM\Column(type="string", length=255)
-     * @Gedmo\UploadableFileName
      */
     private $name;
 
     /**
-     * Path.
+     * Original name.
      *
      * @var string
      *
      * @ORM\Column(type="string", length=255)
-     * @Gedmo\UploadableFilePath
      */
-    private $path;
+    private $originalName;
 
     /**
      * File size.
@@ -77,9 +93,27 @@ class File
      * @var float|string
      *
      * @ORM\Column(type="decimal", precision=10, scale=0)
-     * @Gedmo\UploadableFileSize
      */
     private $size;
+
+    /**
+     * Date time upload.
+     *
+     * @ORM\Column(type="datetime")
+     *
+     * @var DateTimeInterface
+     */
+    private $updatedAt;
+
+    /**
+     * File getter.
+     *
+     * @return HttpFile|UploadedFile|null
+     */
+    public function getFile(): ?HttpFile
+    {
+        return $this->file;
+    }
 
     /**
      * Identifier getter.
@@ -89,6 +123,16 @@ class File
     public function getId(): ?int
     {
         return $this->identifier;
+    }
+
+    /**
+     * Return the label of entity.
+     *
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return (string) $this->getName();
     }
 
     /**
@@ -112,13 +156,13 @@ class File
     }
 
     /**
-     * Path getter.
+     * Original name getter.
      *
      * @return string|null
      */
-    public function getPath(): ?string
+    public function getOriginalName(): ?string
     {
-        return $this->path;
+        return $this->originalName;
     }
 
     /**
@@ -129,6 +173,30 @@ class File
     public function getSize()
     {
         return $this->size;
+    }
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param HttpFile|UploadedFile $file the uploaded file
+     *
+     * @return File
+     */
+    public function setFile(HttpFile $file = null): self
+    {
+        $this->file = $file;
+
+        if (null !== $file) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new DateTimeImmutable();
+        }
+
+        return $this;
     }
 
     /**
@@ -152,7 +220,7 @@ class File
      *
      * @return File
      */
-    public function setName(string $name): self
+    public function setName(?string $name = null): self
     {
         $this->name = $name;
 
@@ -162,13 +230,13 @@ class File
     /**
      * Path fluent setter.
      *
-     * @param string $path File path
+     * @param string $originalName File path
      *
      * @return File
      */
-    public function setPath(string $path): self
+    public function setOriginalName(string $originalName): self
     {
-        $this->path = $path;
+        $this->originalName = $originalName;
 
         return $this;
     }
@@ -176,7 +244,7 @@ class File
     /**
      * Size fluent setter.
      *
-     * @param float|string $size filesize
+     * @param float|string $size file size
      *
      * @return File
      */

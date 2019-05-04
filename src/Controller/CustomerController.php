@@ -15,11 +15,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\File;
 use App\Entity\Programmation;
 use App\Entity\User;
 use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
 use App\Form\Model\CreditOrder;
+use App\Form\Model\Programmation as ProgrammationModel;
 use App\Form\PasswordFormType;
 use App\Form\ProfileFormType;
 use App\Form\ProgrammationFormType;
@@ -37,6 +39,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Customer controller.
  *
+ * //TODO add a prefix customer_ with name attribute in route annotation
  * @Route("/customer")
  *
  * @Security("is_granted('ROLE_USER')")
@@ -46,11 +49,11 @@ class CustomerController extends AbstractController
     /**
      * Customer order a new programmation.
      *
-     * @Route("/customer/file/new", name="customer_file_new")
+     * @Route("/programmation/new", name="customer_file_new")
      *
      * @param Request              $request              request handling data
      * @param ProgrammationManager $programmationManager programmation manger to save new programmation
-     * @param UserManager          $userManager          $userManager          to update credit of user
+     * @param UserManager          $userManager          to update credit of user
      *
      * @return Response
      */
@@ -59,24 +62,52 @@ class CustomerController extends AbstractController
      ProgrammationManager $programmationManager,
      UserManager $userManager
     ): Response {
-        $programmation = new Programmation();
-        $form = $this->createForm(ProgrammationFormType::class, $programmation);
+        $model = new ProgrammationModel();
+        $form = $this->createForm(ProgrammationFormType::class, $model);
         $form->handleRequest($request);
-
-        // TODO add a rule to test that user->getCredit() gte programmation->getCredit
+        //dd($form,$model);
+        // TODO add a rule to test that user->getCredit() gte model->getCredit
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
+            $programmation = new Programmation();
+            $file = new File();
+            $model->copyProgrammation($programmation);
+            $model->copyFile($file);
             $programmation->setCustomer($user);
+            $programmation->setOriginalFile($file);
             $userManager->debit($programmation);
+            $programmationManager->save($file);
             $programmationManager->save($programmation);
             $userManager->save($user);
             $this->addFlash('success', 'flash.order.step1');
 
-            return $this->redirectToRoute('customer_payment_method');
+            return $this->redirectToRoute('customer_programmation_show', [
+                'id' => $programmation->getId()
+            ]);
         }
 
         return $this->render('customer/file/new.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Finds and displays a programmation entity.
+     *
+     * @Route("/programmation/{id}", name="customer_programmation_show", methods={"get"})
+     *
+     * @param Programmation $programmation the programmation to show
+     *
+     * FIXME add a Voter to only look your own programmation
+     *
+     * @return Response
+     */
+    public function showProgrammation(Programmation $programmation): Response
+    {
+        dd($programmation,$this->getUser());
+
+        return $this->render('customer/programmation/show.html.twig', [
+            'programmation', $programmation
         ]);
     }
 

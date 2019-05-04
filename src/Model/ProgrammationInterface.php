@@ -31,11 +31,14 @@ interface ProgrammationInterface
      */
     public const GEAR_AUTOMATIC = true;
     public const GEAR_MANUAL = false;
+    public const GEARS = [self::GEAR_MANUAL, self::GEAR_AUTOMATIC];
+
     /**
      * Constant for ODB field.
      */
     public const ODB_BOOT = 1;
     public const ODB_ODB = 2;
+    public const ODBS = [self::ODB_BOOT, self::ODB_ODB];
 
     /**
      * Constant for promotion.
@@ -50,4 +53,5 @@ interface ProgrammationInterface
      */
     public const READ_REAL = 1;
     public const READ_VIRTUAL = 2;
+    public const READS = [self::READ_REAL, self::READ_VIRTUAL];
 }

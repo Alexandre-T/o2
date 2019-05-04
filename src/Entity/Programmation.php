@@ -19,6 +19,8 @@ use App\Model\ProgrammationInterface;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProgrammationRepository")
@@ -79,6 +81,13 @@ class Programmation implements EntityInterface, ProgrammationInterface
      * Cylinder capacity.
      *
      * @var string|float
+     *
+     * @Assert\Range(
+     *     min="0",
+     *     max="99",
+     *     minMessage="error.cylinder-capacity.min",
+     *     maxMessage="error.cylinder-capacity.max"
+     * )
      *
      * @ORM\Column(type="decimal", precision=7, scale=5)
      */
@@ -166,6 +175,16 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $fapStopped = false;
 
     /**
+     * File name?
+     *
+     * @Assert\NotBlank(message="error.file.pdf")
+     * @Assert\File(mimeTypes={ "application/vnd.oasis.opendocument.spreadsheet" })
+     *
+     * @var string
+     */
+    private $file;
+
+    /**
      * Final file.
      *
      * @var File
@@ -176,6 +195,8 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Gear automatic.
+     *
+     * @Assert\Choice(choices=ProgrammationInterface::GEARS, message="error.gear.choice")
      *
      * @var bool
      *
@@ -197,6 +218,9 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Vehicle make.
      *
+     * @Assert\NotBlank(message="error.make.blank")
+     * @Assert\Length(max=16)
+     *
      * @var string
      *
      * @ORM\Column(type="string", length=16)
@@ -205,6 +229,9 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Vehicle model.
+     *
+     * @Assert\NotBlank(message="error.model.blank")
+     * @Assert\Length(max=16)
      *
      * @var string
      *
@@ -215,6 +242,8 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * ODB.
      *
+     * @Assert\Choice(choices=ProgrammationInterface::ODBS, message="error.odb.choice")
+     *
      * @var int
      *
      * @ORM\Column(type="smallint")
@@ -223,6 +252,13 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Odometer.
+     *
+     * @Assert\Range(
+     *     min=10,
+     *     max=500000,
+     *     minMessage="error.odometer.min",
+     *     maxMessage="error.odometer.max"
+     * )
      *
      * @var int
      *
@@ -235,13 +271,20 @@ class Programmation implements EntityInterface, ProgrammationInterface
      *
      * @var File
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\File", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\File", cascade={"persist", "remove"}, fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $originalFile;
 
     /**
      * Power.
+     *
+     * @Assert\Range(
+     *     min=1,
+     *     max=1200,
+     *     minMessage="error.power.min",
+     *     maxMessage="error.power.max"
+     * )
      *
      * @var int
      *
@@ -252,6 +295,9 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Protocol.
      *
+     * @Assert\NotBlank(message="error.protocol.blank")
+     * @Assert\Length(max=32)
+     *
      * @var string
      *
      * @ORM\Column(type="string", length=32, nullable=true)
@@ -260,6 +306,8 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Read.
+     *
+     * @Assert\Choice(choices=ProgrammationInterface::READS, message="error.read.choice")
      *
      * @var int
      *
@@ -270,6 +318,9 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Reader.
      *
+     * @Assert\NotBlank(message="error.reader-tool.blank")
+     * @Assert\Length(max=12)
+     *
      * @var string
      *
      * @ORM\Column(type="string", length=12)
@@ -278,6 +329,9 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Serial number.
+     *
+     * @Assert\NotBlank(message="error.serial.blank")
+     * @Assert\Length(max=25)
      *
      * @var string
      *
@@ -306,6 +360,9 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Vehicle version.
      *
+     * @Assert\NotBlank(message="error.version.blank")
+     * @Assert\Length(max=16)
+     *
      * @var string
      *
      * @ORM\Column(type="string", length=16)
@@ -314,6 +371,13 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Vehicle year.
+     *
+     * @Assert\Range(
+     *     min=1900,
+     *     max=2042,
+     *     minMessage="error.year.min",
+     *     maxMessage="error.year.max"
+     * )
      *
      * @var int
      *
@@ -379,6 +443,16 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function getDeliveredAt(): ?DateTimeInterface
     {
         return $this->deliveredAt;
+    }
+
+    /**
+     * File getter.
+     *
+     * @return string|UploadedFile
+     */
+    public function getFile(): ?string
+    {
+        return $this->file;
     }
 
     /**
@@ -456,7 +530,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
      *
      * @return File|null
      */
-    public function getOriginalFile(): ?File
+    public function getOriginalFile()
     {
         return $this->originalFile;
     }
@@ -912,7 +986,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
      *
      * @return Programmation
      */
-    public function setOriginalFile(File $originalFile): self
+    public function setOriginalFile($originalFile): self
     {
         $this->originalFile = $originalFile;
 

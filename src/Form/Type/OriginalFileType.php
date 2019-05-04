@@ -16,8 +16,8 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 /**
  * OriginalFile Type class.
@@ -31,11 +31,11 @@ class OriginalFileType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        parent::configureOptions($resolver);
-
         $resolver->setDefaults([
             'label' => 'form.field.original-file',
         ]);
+
+        parent::configureOptions($resolver);
     }
 
     /**
@@ -45,6 +45,6 @@ class OriginalFileType extends AbstractType
      */
     public function getParent()
     {
-        return FileType::class;
+        return VichFileType::class;
     }
 }

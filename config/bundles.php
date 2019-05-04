@@ -20,4 +20,5 @@ return [
     Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
     JMS\Payment\CoreBundle\JMSPaymentCoreBundle::class => ['all' => true],
     JMS\Payment\PaypalBundle\JMSPaymentPaypalBundle::class => ['all' => true],
+    Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
 ];
