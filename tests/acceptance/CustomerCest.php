@@ -77,6 +77,49 @@ class CustomerCest
     }
 
     /**
+     * You try to buy credits without Order.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToPurchaseProgrammation(AcceptanceTester $you): void
+    {
+        $you->wantTo('Purchase a programmation');
+        $you->login('customer');
+        $you->areOnPage('/customer/programmation/new');
+        $you->seeResponseCodeIsSuccessful();
+        $you->click('Commander', 'button');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/customer/programmation/new');
+        $you->dontSee('error.'); //All error messages are translated
+        $you->fillField('Marque','Marque');
+        $you->fillField('Modèle','Modèle');
+        $you->fillField('Version','Version');
+        $you->fillField('N° de série','Numéro');
+        $you->fillField('Année','2100');
+        $you->fillField('Kilométrage','32009');
+        $you->fillField('Cylindrée','2.32');
+        $you->fillField('Puissance','42');
+        $you->fillField('Outil de lecture','outil');
+        $you->selectOption('programmation_form[read]','1');
+        $you->selectOption('programmation_form[gearAutomatic]','0');
+        $you->selectOption('programmation_form[odb]','1');
+        $you->attachFile('programmation_form[originalFile][file]', 'upload.txt');
+        $you->click('Commander', 'button');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/customer/programmation/new');
+        $you->dontSee('error.'); //All error messages are translated
+        $you->fillField('Année','2014');
+        $you->fillField('programmation_form[edcOff]',true);//HIDDEN
+        $you->fillField('programmation_form[egrOff]',true);//HIDDEN
+        $you->fillField('programmation_form[fapOff]',true);//HIDDEN
+        $you->attachFile('programmation_form[originalFile][file]', 'upload.txt');
+        $you->click('Commander', 'button');
+        $you->seeResponseCodeIsSuccessful();
+        $programmationId = $you->grabFromCurrentUrl('~(\d+)~');
+        $you->seeCurrentUrlEquals('/customer/programmation/'.$programmationId);
+    }
+
+    /**
      * Try to send an empty profile form.
      *
      * @param AcceptanceTester $you the acceptance tester

@@ -118,12 +118,18 @@ class Programmation implements ProgrammationInterface
      */
     private $model;
 
+    /**
+     * TODO is this used?
+     *
+     * @var string
+     */
     private $name;
 
     /**
      * ODB.
      *
      * @Assert\Choice(choices=ProgrammationInterface::ODBS, message="error.odb.choice")
+     * @Assert\NotBlank
      *
      * @var int
      */
@@ -146,8 +152,9 @@ class Programmation implements ProgrammationInterface
     /**
      * File name?
      *
-     * @Assert\NotBlank(message="error.file.pdf")
-     * @Assert\File(mimeTypes={ "application/vnd.oasis.opendocument.spreadsheet" })
+     * @Assert\NotBlank(message="error.file.blank")
+     * @Assert\File(maxSize="32Mi")
+     *
      * @Vich\UploadableField(
      *     mapping="original_file",
      *     fileNameProperty="name",
@@ -174,7 +181,6 @@ class Programmation implements ProgrammationInterface
     /**
      * Protocol.
      *
-     * @Assert\NotBlank(message="error.protocol.blank")
      * @Assert\Length(max=32)
      *
      * @var string
@@ -185,6 +191,7 @@ class Programmation implements ProgrammationInterface
      * Read.
      *
      * @Assert\Choice(choices=ProgrammationInterface::READS, message="error.read.choice")
+     * @Assert\NotBlank
      *
      * @var int
      */
@@ -826,9 +833,13 @@ class Programmation implements ProgrammationInterface
      */
     public function validate(ExecutionContextInterface $context): void
     {
+        $cost = $this->getCost();
         //Test if user has enough credit.
-        if ($this->credit > $this->getCost()) {
+        if ($this->credit < $cost) {
             $context->buildViolation('error.credit.empty')->addViolation();
+        }
+        if (empty($cost)) {
+            $context->buildViolation('error.programmation.empty')->addViolation();
         }
     }
 

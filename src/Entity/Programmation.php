@@ -24,6 +24,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Programmation Class.
+ *
+ * TODO Assert are certainly unused because I use Programmation in model for form.
+ *
  * @ORM\Entity(repositoryClass="App\Repository\ProgrammationRepository")
  * @ORM\Table(
  *     name="te_programmation",

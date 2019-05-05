@@ -68,8 +68,6 @@ class CustomerController extends AbstractController
         $model->setCustomerCredit($this->getUser()->getCredit());
         $form = $this->createForm(ProgrammationFormType::class, $model);
         $form->handleRequest($request);
-        //dd($form,$model);
-        // TODO add a rule to test that user->getCredit() gte model->getCredit
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
             $programmation = new Programmation();
@@ -82,7 +80,7 @@ class CustomerController extends AbstractController
             $programmationManager->save($file);
             $programmationManager->save($programmation);
             $userManager->save($user);
-            $this->addFlash('success', 'flash.order.step1');
+            $this->addFlash('success', 'flash.programmation-purchased');
 
             return $this->redirectToRoute('customer_programmation_show', [
                 'id' => $programmation->getId(),

@@ -1,14 +1,18 @@
 error:
-  order:
-    empty: 'Votre commande ne contient aucun crédit. Veuillez saisir au moins une quantité !'
-  quantity:
-    greater-than-or-equal-zero: 'Veuillez entrer un nombre positif ou nul'
+  credit:
+    empty: 'Vous ne disposez pas de suffisamment de crédits pour commander cette programmation.'
+  file:
+    blank: 'Veuillez fournir le fichier de programmation d’origine'
   locality:
     blank: 'La ville est obligatoire.'
+  make:
+    blank: 'La marque du véhicule doit être fournie.'
   mail:
     blank: 'L’adresse email est obligatoire.'
     unique:
       'Il semblerait que vous disposiez déjà d’un compte chez nous !'
+  model:
+    blank: 'Le modèle de véhicule doit être fourni.'
   name:
     blank: 'Pour les particuliers, le nom de famille est obligatoire.'
   old-password:
@@ -16,14 +20,28 @@ error:
       'L’ancien mot de passe est obligatoire.'
     not-match:
       'Cette valeur ne correspond pas à votre ancien mot de passe.'
+  order:
+    empty: 'Votre commande ne contient aucun crédit. Veuillez saisir au moins une quantité !'
   plain-password:
     blank: 'Le mot de passe est obligatoire.'
     repeated: 'Les mots de passe sont différents.'
   postal-code:
     blank: 'Le code postal est obligatoire.'
+  programmation:
+    empty: 'Veuillez sélectionner la reprogrammation souhaitée'
+  quantity:
+    greater-than-or-equal-zero: 'Veuillez entrer un nombre positif ou nul'
+  reader-tool:
+    blank: 'Veuillez mentionner l’outil de lecture utilisé.'
+  serial:
+    blank: 'Le numéro de série de la voiture doit être fourni.'
   society:
     blank: 'Pour les professionnels, le nom de la société est obligatoire.'
   street-address:
     blank: 'L’adresse postale est obligatoire.'
   tos:
     blank: 'Vous devez accepter les CGU pour vous inscrire.'
+  version:
+    blank: 'La version du véhicule doit être fourni.'
+  year:
+    max: 'L’année de première immatriculation ne peut pas si élevée'

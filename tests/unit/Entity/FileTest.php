@@ -65,12 +65,26 @@ class FileTest extends Unit
     public function testConstructor(): void
     {
         self::assertNull($this->file->getId());
+        self::assertNull($this->file->getFile());
+        self::assertNotNull($this->file->getLabel());
+        self::assertEmpty($this->file->getLabel());
         self::assertNull($this->file->getName());
         self::assertNull($this->file->getMimeType());
-        self::assertNull($this->file->getPath());
+        self::assertNull($this->file->getOriginalName());
         self::assertNull($this->file->getSize());
     }
 
+    /**
+     * Test the method GetFile.
+     */
+    public function testGetFile(): void
+    {
+        $mock = self::createMock(\Symfony\Component\HttpFoundation\File\File::class);
+        $actual = $expected = $mock;
+        self::assertEquals($this->file, $this->file->setFile($actual));
+        self::assertEquals($expected, $this->file->getFile());
+    }    
+    
     /**
      * Test the method GetMimeType.
      */
@@ -89,16 +103,17 @@ class FileTest extends Unit
         $actual = $expected = 'name';
         self::assertEquals($this->file, $this->file->setName($actual));
         self::assertEquals($expected, $this->file->getName());
+        self::assertEquals($expected, $this->file->getLabel());
     }
 
     /**
-     * Test the method GetPath.
+     * Test the method GetOriginalName.
      */
-    public function testGetPath(): void
+    public function testGetOriginalName(): void
     {
-        $actual = $expected = 'path';
-        self::assertEquals($this->file, $this->file->setPath($actual));
-        self::assertEquals($expected, $this->file->getPath());
+        $actual = $expected = 'originalName';
+        self::assertEquals($this->file, $this->file->setOriginalName($actual));
+        self::assertEquals($expected, $this->file->getOriginalName());
     }
 
     /**

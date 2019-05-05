@@ -31,12 +31,12 @@ class CylinderCapacityType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        parent::configureOptions($resolver);
-
         $resolver->setDefaults([
             'label' => 'form.field.cylinder-capacity',
             'required' => true,
         ]);
+
+        parent::configureOptions($resolver);
     }
 
     /**

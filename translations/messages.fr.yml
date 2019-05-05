@@ -354,6 +354,7 @@ flash:
   password-reset:
     done: 'Votre mot de passe a été réinitialisé. Vous pouvez vous connecter.'
     out-of-date: 'Le mail pour changer de mot de passe est périmé. Veuillez refaire une demande de réinitialisation de mot de passe.'
+  programmation-purchased: 'Votre demande de cartographie a bien été reçue. Nos équipes vont revenir vers vous rapidement.'
   profile:
     not-updated: 'Attention ! Votre profil n’a pas été mis à jour.'
     updated: 'Votre profil a correctement été mis à jour.'

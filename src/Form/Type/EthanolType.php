@@ -17,12 +17,27 @@ namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Ethanol Type class.
  */
 class EthanolType extends AbstractType
 {
+    /**
+     * Configures the options for this type.
+     *
+     * @param OptionsResolver $resolver The resolver for the options
+     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'empty_data' => false,
+        ]);
+
+        parent::configureOptions($resolver);
+    }
+
     /**
      * Provide parent type.
      *
