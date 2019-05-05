@@ -101,7 +101,8 @@
                                 {{ 'nav.customer.submenu.bills.text' | trans }}
                             </a>
                             {# User files #}
-                            <a class="dropdown-item" href="#" data-toggle="tooltip"
+                            <a class="dropdown-item {{ route == 'customer_programmation_list' ? 'active' }}"
+                               href=" {{ path('customer_programmation_list')}}" data-toggle="tooltip"
                                data-placement="left" title="{{ 'nav.customer.submenu.files.title' | trans }}">
                                 <span class="fas fa-fw fa-tachometer-alt"></span>
                                 {{ 'nav.customer.submenu.files.text' | trans }}

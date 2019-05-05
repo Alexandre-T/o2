@@ -83,8 +83,8 @@ class FileTest extends Unit
         $actual = $expected = $mock;
         self::assertEquals($this->file, $this->file->setFile($actual));
         self::assertEquals($expected, $this->file->getFile());
-    }    
-    
+    }
+
     /**
      * Test the method GetMimeType.
      */

@@ -44,7 +44,7 @@ class RegisterCest
         $I->click('S’inscrire');
         $I->seeCurrentUrlEquals('/');
         $I->dontSee('Confirmation');
-        $I->see('Home page');
+        $I->see('Bienvenue new.codeception@example.org');
     }
 
     /**

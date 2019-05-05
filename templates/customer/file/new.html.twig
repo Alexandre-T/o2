@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'title.customer.programmation' | trans }}  &bull; {{ parent() }} {% endblock %}
+{% block title %}{{ 'title.customer.programmation.new' | trans }}  &bull; {{ parent() }} {% endblock %}
 
 {% block content_breadcrumb %}
     <nav aria-label="breadcrumb">
@@ -9,7 +9,7 @@
                 <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
             </li>
             <li class="breadcrumb-item" aria-current="page">{{ 'title.customer.main' | trans }}</li>
-            <li class="breadcrumb-item active" aria-current="page">{{ 'title.customer.programmation' | trans }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'title.customer.programmation.new' | trans }}</li>
         </ol>
     </nav>
 {% endblock %}
@@ -22,7 +22,7 @@
                 <div class="card-header">
                     <h1>
                         <span class="fas fa-car"></span>
-                        {{ 'title.customer.programmation' | trans }}
+                        {{ 'title.customer.programmation.new' | trans }}
                     </h1>
                 </div>
                 <div class="card-body">

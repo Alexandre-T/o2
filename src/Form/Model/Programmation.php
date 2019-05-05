@@ -840,6 +840,7 @@ class Programmation implements ProgrammationInterface
         if ($this->credit < $cost) {
             $context->buildViolation('error.credit.empty')->addViolation();
         }
+
         if (empty($cost)) {
             $context->buildViolation('error.programmation.empty')->addViolation();
         }

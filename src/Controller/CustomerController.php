@@ -28,7 +28,6 @@ use App\Form\ProgrammationFormType;
 use App\Manager\OrderManager;
 use App\Manager\ProgrammationManager;
 use App\Manager\UserManager;
-use App\Security\Voter\ProgrammationVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -187,25 +186,6 @@ class CustomerController extends AbstractController
 
         return $this->render('customer/profile.html.twig', [
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * Finds and displays a programmation entity.
-     *
-     * @Route("/programmation/{id}", name="programmation_show", methods={"get"})
-     *
-     * @param Programmation $programmation the programmation to show
-     *
-     * @return Response
-     */
-    public function showProgrammation(Programmation $programmation): Response
-    {
-        $this->denyAccessUnlessGranted(ProgrammationVoter::SHOW, $programmation);
-        dd($programmation, $this->getUser());
-
-        return $this->render('customer/programmation/show.html.twig', [
-            'programmation', $programmation,
         ]);
     }
 }

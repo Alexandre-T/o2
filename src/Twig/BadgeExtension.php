@@ -44,6 +44,22 @@ class BadgeExtension extends AbstractExtension
     }
 
     /**
+     * Badge asked or not-asked filter.
+     *
+     * @param mixed|bool $data data converted to asked or non-asked
+     *
+     * @return string
+     */
+    public function badgeAskedFilter($data): string
+    {
+        if ($data) {
+            return $this->getBadge('success', 'common.asked');
+        }
+
+        return $this->getBadge('secondary', 'common.non-asked');
+    }
+
+    /**
      * Badge attentionRequired filter.
      *
      * @param bool $attentionRequired true when credit was forwarded to customer
@@ -113,6 +129,27 @@ class BadgeExtension extends AbstractExtension
         }
 
         return $this->getBadge('secondary', 'order.not-credited');
+    }
+
+    /**
+     * Badge done or not-done filter.
+     *
+     * @param bool|null  $data data
+     * @param mixed|null $date if date is not return in-progress
+     *
+     * @return string
+     */
+    public function badgeDoneFilter(bool $data = null, $date = null): string
+    {
+        if (null === $date) {
+            return $this->getBadge('secondary', 'common.in-progress');
+        }
+
+        if (false === $data) {
+            return $this->getBadge('warning', 'common.not-done');
+        }
+
+        return $this->getBadge('success', 'common.done');
     }
 
     /**
@@ -263,6 +300,22 @@ class BadgeExtension extends AbstractExtension
     }
 
     /**
+     * Badge yes or no filter.
+     *
+     * @param mixed $data value translated to yes or no
+     *
+     * @return string
+     */
+    public function badgeYesNoFilter($data): string
+    {
+        if ($data) {
+            return $this->getBadge('succes', 'common.yes');
+        }
+
+        return $this->getBadge('danger', 'common.no');
+    }
+
+    /**
      * Declare badge as filter.
      *
      * @return array
@@ -270,6 +323,11 @@ class BadgeExtension extends AbstractExtension
     public function getFilters()
     {
         return [
+            'badgeAskedFilter' => new TwigFilter(
+                'badgeAsked',
+                [$this, 'badgeAskedFilter'],
+                ['is_safe' => ['html']]
+            ),
             'badgeAttentionRequiredFilter' => new TwigFilter(
                 'badgeAttentionRequired',
                 [$this, 'badgeAttentionRequiredFilter'],
@@ -288,6 +346,11 @@ class BadgeExtension extends AbstractExtension
             'badgeBillPaidFilter' => new TwigFilter(
                 'badgeBillPaid',
                 [$this, 'badgeBillPaidFilter'],
+                ['is_safe' => ['html']]
+            ),
+            'badgeDoneFilter' => new TwigFilter(
+                'badgeDone',
+                [$this, 'badgeDoneFilter'],
                 ['is_safe' => ['html']]
             ),
             'badgeExpiredFilter' => new TwigFilter(
@@ -318,6 +381,11 @@ class BadgeExtension extends AbstractExtension
             'badgeTransactionTypeFilter' => new TwigFilter(
                 'badgeTransactionType',
                 [$this, 'badgeTransactionTypeFilter'],
+                ['is_safe' => ['html']]
+            ),
+            'badgeYesNoFilter' => new TwigFilter(
+                'badgeYesNo',
+                [$this, 'badgeYesNoFilter'],
                 ['is_safe' => ['html']]
             ),
         ];

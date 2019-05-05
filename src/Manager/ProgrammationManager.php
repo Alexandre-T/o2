@@ -17,10 +17,14 @@ namespace App\Manager;
 
 use App\Entity\EntityInterface;
 use App\Entity\Programmation;
+use App\Entity\User;
 use App\Repository\ProgrammationRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * Programmation Manager.
@@ -73,6 +77,39 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
     }
 
     /**
+     * Paginate bills with criteria on user.
+     *
+     * @param User   $user      User criteria
+     * @param int    $page      number of page
+     * @param int    $limit     limit of bills per page
+     * @param string $sortField sort field
+     * @param string $sortOrder sort order
+     *
+     * @throws QueryException when criteria is not valid
+     *
+     * @return PaginationInterface
+     */
+    public function paginateWithUser(
+     User $user,
+     int $page,
+     int $limit,
+     string $sortField,
+     string $sortOrder
+    ): PaginationInterface {
+        $criteria = Criteria::create();
+        $expression = $criteria::expr()->eq('customer', $user);
+        $criteria->where($expression);
+
+        return $this->paginateWithCriteria(
+            $criteria,
+            $page,
+            $limit,
+            $sortField,
+            $sortOrder
+        );
+    }
+
+    /**
      * This method will add the HIDDEN field, the sortable field.
      *
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
@@ -84,7 +121,7 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
     protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
     {
         return $queryBuilder
-            ->addSelect(self::ALIAS.'.id as HIDDEN id')
+            ->addSelect(self::ALIAS.'.createdAt as HIDDEN createdAt')
         ;
     }
 

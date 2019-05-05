@@ -62,6 +62,13 @@ action:
       title: 'Modifier ce paramètre'
     list:
       title: 'Retour à la liste des paramètres'
+  programmation:
+    show:
+      text: 'Votre programmation'
+      title: 'Consulter votre programmation à la carte'
+    download:
+      title: 'Télécharger votre nouvelle programmation'
+      text: 'Télécharger'
 
 administration:
   created:
@@ -203,8 +210,10 @@ form:
     complement: 'Complément'
     comment: 'Vos remarques'
     country: 'Pays'
+    created-at: 'Date d’envoi'
     customer: 'Client'
     cylinder-capacity: 'Cylindrée'
+    delivered-at: 'Livraison'
     edc-off: 'EDC 15 : 5 crédits'
     email: 'Adresse email'
     ethanol: 'Éthanol seul : 10 crédits'
@@ -574,7 +583,10 @@ title:
     order-credit: 'Crédits supplémentaires'
     payment-complete: 'Paiement complété'
     payment-complete %payment-system%: 'Paiement transmis via Paypal'
-    programmation: 'Commander un fichier de reprogrammation'
+    programmation:
+      new: 'Commander un fichier de reprogrammation'
+      show: 'Votre reprogrammation'
+      list: 'Vos reprogrammations'
   default:
     tos: 'Conditions d’utilisation'
   security:
@@ -654,3 +666,27 @@ user:
 '{0} user-has-no-credit|{1} user-has-one-credit|]1,Inf[ user has %count% credit': '{0} Vous ne disposez pas de crédits|{1} Vous ne disposez plus que d’un seul credit|]1,Inf[ Vous disposez de %count% credits'
 programmation:
   cost: 'Coût de la programmation :'
+  deliveredAt %date%: 'Livrée le %date%'
+  status: 'Statut de la demande'
+  field:
+    edc-off: 'EDC 15'
+    egr-off: 'EGR Off'
+    fap-off: 'FAP Off'
+    ethanol: 'Éthanol'
+    stage-one: 'Stage 1'
+common:
+  asked: 'Demandé'
+  credits %credit%: '%credit% crédits' #plurial is the only available
+  done: 'Réalisé'
+  in-progress: 'En cours'
+  no: 'Non'
+  non-asked: 'Non demandé'
+  not-done: 'Non réalisé'
+  programmation: 'Programmation'
+  vehicle: 'Véhicule'
+  yes: 'Oui'
+
+message:
+  programmation:
+    in-progress: 'Votre reprogrammation est en cours. Notre équipe travaille dessus.'
+    done: 'Votre reprogrammation est terminée. Vous pouvez télécharger votre nouvelle cartographie.'
