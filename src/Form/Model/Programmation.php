@@ -119,7 +119,9 @@ class Programmation implements ProgrammationInterface
     private $model;
 
     /**
-     * TODO is this used?
+     * This is the initial name of file.
+     *
+     * TODO add file size!
      *
      * @var string
      */

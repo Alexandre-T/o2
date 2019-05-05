@@ -21,12 +21,9 @@ use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Programmation Class.
- *
- * TODO Assert are certainly unused because I use Programmation in model for form.
  *
  * @ORM\Entity(repositoryClass="App\Repository\ProgrammationRepository")
  * @ORM\Table(
@@ -86,13 +83,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
      * Cylinder capacity.
      *
      * @var string|float
-     *
-     * @Assert\Range(
-     *     min="0",
-     *     max="99",
-     *     minMessage="error.cylinder-capacity.min",
-     *     maxMessage="error.cylinder-capacity.max"
-     * )
      *
      * @ORM\Column(type="decimal", precision=7, scale=5)
      */
@@ -182,9 +172,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * File name?
      *
-     * @Assert\NotBlank(message="error.file.pdf")
-     * @Assert\File(mimeTypes={ "application/vnd.oasis.opendocument.spreadsheet" })
-     *
      * @var string
      */
     private $file;
@@ -200,8 +187,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Gear automatic.
-     *
-     * @Assert\Choice(choices=ProgrammationInterface::GEARS, message="error.gear.choice")
      *
      * @var bool
      *
@@ -223,9 +208,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Vehicle make.
      *
-     * @Assert\NotBlank(message="error.make.blank")
-     * @Assert\Length(max=16)
-     *
      * @var string
      *
      * @ORM\Column(type="string", length=16)
@@ -234,9 +216,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Vehicle model.
-     *
-     * @Assert\NotBlank(message="error.model.blank")
-     * @Assert\Length(max=16)
      *
      * @var string
      *
@@ -247,8 +226,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * ODB.
      *
-     * @Assert\Choice(choices=ProgrammationInterface::ODBS, message="error.odb.choice")
-     *
      * @var int
      *
      * @ORM\Column(type="smallint")
@@ -257,13 +234,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Odometer.
-     *
-     * @Assert\Range(
-     *     min=10,
-     *     max=500000,
-     *     minMessage="error.odometer.min",
-     *     maxMessage="error.odometer.max"
-     * )
      *
      * @var int
      *
@@ -284,13 +254,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Power.
      *
-     * @Assert\Range(
-     *     min=1,
-     *     max=1200,
-     *     minMessage="error.power.min",
-     *     maxMessage="error.power.max"
-     * )
-     *
      * @var int
      *
      * @ORM\Column(type="integer")
@@ -299,9 +262,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Protocol.
-     *
-     * @Assert\NotBlank(message="error.protocol.blank")
-     * @Assert\Length(max=32)
      *
      * @var string
      *
@@ -312,8 +272,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Read.
      *
-     * @Assert\Choice(choices=ProgrammationInterface::READS, message="error.read.choice")
-     *
      * @var int
      *
      * @ORM\Column(type="smallint")
@@ -323,9 +281,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Reader.
      *
-     * @Assert\NotBlank(message="error.reader-tool.blank")
-     * @Assert\Length(max=12)
-     *
      * @var string
      *
      * @ORM\Column(type="string", length=12)
@@ -334,9 +289,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Serial number.
-     *
-     * @Assert\NotBlank(message="error.serial.blank")
-     * @Assert\Length(max=25)
      *
      * @var string
      *
@@ -365,9 +317,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Vehicle version.
      *
-     * @Assert\NotBlank(message="error.version.blank")
-     * @Assert\Length(max=16)
-     *
      * @var string
      *
      * @ORM\Column(type="string", length=16)
@@ -376,13 +325,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Vehicle year.
-     *
-     * @Assert\Range(
-     *     min=1900,
-     *     max=2042,
-     *     minMessage="error.year.min",
-     *     maxMessage="error.year.max"
-     * )
      *
      * @var int
      *

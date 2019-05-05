@@ -40,9 +40,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Customer controller.
  *
- * //TODO add a prefix customer_ with name attribute in route annotation
- *
- * @Route("/customer")
+ * @Route("/customer", name="customer_")
  *
  * @Security("is_granted('ROLE_USER')")
  */
@@ -51,7 +49,7 @@ class CustomerController extends AbstractController
     /**
      * Customer order a new programmation.
      *
-     * @Route("/programmation/new", name="customer_file_new")
+     * @Route("/programmation/new", name="file_new")
      *
      * @param Request              $request              request handling data
      * @param ProgrammationManager $programmationManager programmation manger to save new programmation
@@ -95,7 +93,7 @@ class CustomerController extends AbstractController
     /**
      * Step1: Customer select items.
      *
-     * @Route("/order-credit", name="customer_order_credit")
+     * @Route("/order-credit", name="order_credit")
      *
      * @param Request      $request      Request handling data
      * @param OrderManager $orderManager Command manager
@@ -129,7 +127,7 @@ class CustomerController extends AbstractController
     /**
      * Edit profile.
      *
-     * @Route("/password", name="customer_password")
+     * @Route("/password", name="password")
      *
      * @param Request                $request       the request handling data
      * @param EntityManagerInterface $entityManager entity manager to save user
@@ -165,7 +163,7 @@ class CustomerController extends AbstractController
     /**
      * Edit profile.
      *
-     * @Route("/profile", name="customer_profile")
+     * @Route("/profile", name="profile")
      *
      * @param Request                $request       the request handling data
      * @param EntityManagerInterface $entityManager entity manager to save user
@@ -195,7 +193,7 @@ class CustomerController extends AbstractController
     /**
      * Finds and displays a programmation entity.
      *
-     * @Route("/programmation/{id}", name="customer_programmation_show", methods={"get"})
+     * @Route("/programmation/{id}", name="programmation_show", methods={"get"})
      *
      * @param Programmation $programmation the programmation to show
      *

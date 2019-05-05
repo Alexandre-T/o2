@@ -215,8 +215,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         ]);
 
         //Message for interface.
-        //TODO flash bag is translated two times and generates a warn.
-        //But if I don't translate it the username will be lost.
         $this->flashBag->add(
             'success',
             $this->translator->trans('security.connection.successful %username%', [
