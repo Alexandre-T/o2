@@ -31,7 +31,7 @@ matrix:
 before_install:
   - mkdir -p build/logs
   # Libsodium pecl installation
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo pecl channel-update pecl.php.net ; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then pecl channel-update pecl.php.net ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo apt-get install -y software-properties-common ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo bash -c "LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php" ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo sudo apt-get update ; fi
