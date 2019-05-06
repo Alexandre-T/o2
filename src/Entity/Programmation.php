@@ -41,7 +41,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class Programmation implements EntityInterface, ProgrammationInterface
 {
     /**
-     * Commentary.
+     * Customer commentary.
      *
      * @var string
      *
@@ -288,6 +288,15 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $readerTool;
 
     /**
+     * Response of programmer to customer.
+     *
+     * @var string
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $response;
+
+    /**
      * Serial number.
      *
      * @var string
@@ -518,6 +527,16 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function getReaderTool(): ?string
     {
         return $this->readerTool;
+    }
+
+    /**
+     * Response getter.
+     *
+     * @return string|null
+     */
+    public function getResponse(): ?string
+    {
+        return $this->response;
     }
 
     /**
@@ -992,6 +1011,20 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function setReaderTool(string $readerTool): self
     {
         $this->readerTool = $readerTool;
+
+        return $this;
+    }
+
+    /**
+     * Response fluent setter.
+     *
+     * @param string|null $response Response
+     *
+     * @return Programmation
+     */
+    public function setResponse(?string $response): self
+    {
+        $this->response = $response;
 
         return $this;
     }

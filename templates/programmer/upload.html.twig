@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.programmation.upload' | trans }} · {{ parent() }}{% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.programmer.main' | trans }}</li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.programmation.upload' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block container %}
+    {{ form_start(form) }}
+    <div class="row justify-content-md-center mb-5">
+        <div class="col-md-10">
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h1>
+                        <span class="fas fa-car"></span>
+                        {{ 'title.customer.programmation.new' | trans }}
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <h3 class="border-bottom">{{ 'common.vehicle' | trans }}</h3>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <dl class="row">
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.make' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.make }}</dd>
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.model' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.model }}</dd>
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.version' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.version }}</dd>
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.serial' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.serial }}</dd>
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.year' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.year }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-4">
+                            <dl class="row">
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.cylinder-capacity' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.cylinderCapacity | localizednumber }}</dd>
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.power' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.power |localizednumber }}</dd>
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.odometer' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.odometer |localizednumber }}</dd>
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.gear' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.gearAutomatic | spanGear }}</dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-4">
+                            <dl class="row">
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.odb' | trans }}</dt>
+                                <dd class="col-sm-6">
+                                    {{ programmation.odb | spanOdb }},
+                                    {{ programmation.read | spanRead }}
+                                </dd>
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.reader-tool' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.readerTool }}</dd>
+                                <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.protocol' | trans }}</dt>
+                                <dd class="col-sm-6">{{ programmation.protocol }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <h3 class="border-bottom">{{ 'common.programmation' | trans }}</h3>
+                    <div class="row">
+                        <div class="col-8">
+                            {{ form_row(form.edcStopped) }}
+                        </div>
+                        <div class="col-4">
+                            {{ programmation.edcOff | badgeAsked }}
+                        </div>
+                        <div class="col-8">
+                            {{ form_row(form.egrStopped) }}
+                        </div>
+                        <div class="col-4">
+                            {{ programmation.egrOff | badgeAsked }}
+                        </div>
+                        <div class="col-8">
+                            {{ form_row(form.fapStopped) }}
+                        </div>
+                        <div class="col-4">
+                            {{ programmation.fapOff | badgeAsked }}
+                        </div>
+                        <div class="col-8">
+                            {{ form_row(form.ethanolDone) }}
+                        </div>
+                        <div class="col-4">
+                            {{ programmation.ethanol | badgeAsked }}
+                        </div>
+                        <div class="col-8">
+                            {{ form_row(form.stageOneDone) }}
+                        </div>
+                        <div class="col-4">
+                            {{ programmation.stageOne | badgeAsked }}
+                        </div>
+                    </div>
+                    {{ form_widget(form) }}
+                </div>
+                <div class="card-footer text-right">
+                    <button class="btn btn-primary" type="submit">
+                        <span class="fas fa-upload"></span>
+                        {{ 'action.upload-programmation.text' | trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+    {{ dump(programmation) }}
+{% endblock %}

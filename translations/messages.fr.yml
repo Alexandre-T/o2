@@ -68,7 +68,22 @@ action:
       title: 'Consulter votre programmation à la carte'
     download:
       title: 'Télécharger votre nouvelle programmation'
-      text: 'Télécharger'
+      text: 'Nouvelle cartographie'
+    download-original:
+      title: 'Télécharger le fichier fourni par le client'
+      text: 'Fichier client'
+    form:
+      title: 'Transmettre la nouvelle cartographie'
+      text: 'Nouvelle cartographie'
+  upload-programmation:
+    text: 'Envoyer la reprogrammation au client'
+  programmer:
+    download-original:
+      text: 'Télécharger la programmation initiale'
+      title: 'Télécharger la programmation envoyée par le client'
+    download-final:
+      text: 'Télécharger la reprogrammation'
+      title: 'Télécharger la reprogrammation envoyée au client'
 
 administration:
   created:
@@ -114,10 +129,13 @@ bill:
   already-paid: 'Déjà réglé TTC'
   to-paid: 'Net à payer'
 
-empty: 'vide'
+Browse: 'Parcourir'
 
 data:
   paypal_express_checkout: 'Paypal Express™'
+
+empty: 'vide'
+
 entity:
   global-information: 'Généralités'
   information: 'Informations'
@@ -184,6 +202,8 @@ entity:
     deleted %name%: 'L’utilisateur « %name% » a été supprimé avec succès.'
     updated %name%: 'L’utilisateur « %name% » a été modifié avec succès.'
     password %name%: 'Le mot de passe de l’utilisateur « %name% » a été modifié avec succès.'
+  programmation:
+    uploaded: 'La cartographie a été chargée sur le serveur. Elle est à disposition du client.'
 
 error:
   communication: 'Notre serveur n’a pas réussi à contacter le service de paiement en ligne. Veuillez réessayer !'
@@ -215,12 +235,17 @@ form:
     cylinder-capacity: 'Cylindrée'
     delivered-at: 'Livraison'
     edc-off: 'EDC 15 : 5 crédits'
-    email: 'Adresse email'
-    ethanol: 'Éthanol seul : 10 crédits'
+    edc-stopped: 'EDC effectué'
     egr-off: 'EGR Off : 5 crédits'
     egr-fap-off: 'EGR et FAP Off : 5 crédits'
+    egr-stopped: 'EGR effectué'
+    email: 'Adresse email'
+    ethanol: 'Éthanol seul : 10 crédits'
+    ethanol-done: 'Éthanol effectué'
     fap-off: 'FAP Off : 5 crédits'
+    fap-stopped: 'FAP effectué'
     family-name: 'Nom de famille'
+    final-file: 'Nouvelle cartographie'
     gear: 'Boîte'
     given-name: 'Prénom'
     gravatar: 'Gravatar de l’utilisateur'
@@ -242,6 +267,7 @@ form:
     read: 'Lecture'
     reader-tool: 'Outil de lecture'
     repeat-password: 'Confirmation'
+    response: 'Commentaire pour le client'
     role:
       option:
         admin: 'Administrateur pouvant gérer les privilèges des utilisateurs.'
@@ -258,6 +284,7 @@ form:
     society: 'Société'
     stage-one-ethanol: 'Stage 1 + éthanol : 15 crédits'
     stage-one: 'Stage 1 : 10 crédits'
+    stage-one-done: 'Stage 1 effectué'
     street-address: 'Adresse'
     telephone: 'Téléphone'
     tos: 'J’ai lu les conditions d’utilisation du service'
@@ -363,6 +390,9 @@ flash:
   password-reset:
     done: 'Votre mot de passe a été réinitialisé. Vous pouvez vous connecter.'
     out-of-date: 'Le mail pour changer de mot de passe est périmé. Veuillez refaire une demande de réinitialisation de mot de passe.'
+  programmation:
+    final-file:
+      not-available: 'Le fichier de reprogrammation n’est pas encore disponible !'
   programmation-purchased: 'Votre demande de cartographie a bien été reçue. Nos équipes vont revenir vers vous rapidement.'
   profile:
     not-updated: 'Attention ! Votre profil n’a pas été mis à jour.'
@@ -617,11 +647,17 @@ title:
       general: 'Informations générales sur la voiture'
       motor: 'Informations sur la motorisation'
     read: 'Informations sur la lecture du fichier'
+    upload: 'Envoi de la nouvelle programmation'
     wanted: 'Préparation souhaitée'
   professional-files: 'Fichiers professionels de reprogrammation moteur.'
   vmod-trademark: 'V-mod Engineering est une marque O2Programmation.'
   experience: 'Forts de nos 20 ans d’expérience, nous vous proposons des fichiers fiables.'
   img: 'Tunning file service | Tunning files | OLS X | WinOLS | Database chiptuning file service'
+  programmer:
+    programmation:
+      list: 'Liste des reprogrammations'
+      show: 'Programmation'
+    main: 'Programmateur'
 
 payments:
   no-payment: 'Aucun paiement'
@@ -674,6 +710,7 @@ programmation:
     fap-off: 'FAP Off'
     ethanol: 'Éthanol'
     stage-one: 'Stage 1'
+  customer: 'Client'
 common:
   asked: 'Demandé'
   credits %credit%: '%credit% crédits' #plurial is the only available
@@ -690,3 +727,7 @@ message:
   programmation:
     in-progress: 'Votre reprogrammation est en cours. Notre équipe travaille dessus.'
     done: 'Votre reprogrammation est terminée. Vous pouvez télécharger votre nouvelle cartographie.'
+    customer-waiting: 'Le client est en attente de son fichier de reprogrammation.'
+  programmer:
+    done: 'La reprogrammation est terminée. Le client peut télécharger sa nouvelle cartographie.'
+

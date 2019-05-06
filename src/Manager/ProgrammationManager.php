@@ -19,6 +19,7 @@ use App\Entity\EntityInterface;
 use App\Entity\Programmation;
 use App\Entity\User;
 use App\Repository\ProgrammationRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
@@ -107,6 +108,16 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
             $sortField,
             $sortOrder
         );
+    }
+
+    /**
+     * Set delivery date.
+     *
+     * @param Programmation $programmation the programmation to update
+     */
+    public function publish(Programmation $programmation): void
+    {
+        $programmation->setDeliveredAt(new DateTimeImmutable());
     }
 
     /**

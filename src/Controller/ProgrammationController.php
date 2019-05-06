@@ -67,7 +67,7 @@ class ProgrammationController extends AbstractPaginateController
         $file = $programmation->getFinalFile();
         $filename = $file->getOriginalName();
 
-        return $downloadHandler->downloadObject($file, 'name', null, $filename);
+        return $downloadHandler->downloadObject($file, 'file', null, $filename);
     }
 
     /**

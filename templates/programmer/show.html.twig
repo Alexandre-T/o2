@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.programmer.programmation.show'|trans }} · {{ parent() }}
+{% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.programmer.main' | trans }}</li>
+            <li class="breadcrumb-item" aria-current="page">
+                <a href="{{ path('programmer_list') }}"
+                   title="{{ 'nav.programmer.submenu.command.title' |trans }}">
+                    {{ 'nav.programmer.submenu.command.text' | trans }}
+                </a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.programmer.programmation.show' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock content_breadcrumb %}
+
+{% block container %}
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-header">
+                    <h2>
+                        <span class="fas fa-car-alt"></span>
+                        {{ 'common.vehicle' | trans }}
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.make' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.make }}</dd>
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.model' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.model }}</dd>
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.version' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.version }}</dd>
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.serial' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.serial }}</dd>
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.year' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.year }}</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.cylinder-capacity' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.cylinderCapacity | localizednumber }}</dd>
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.power' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.power |localizednumber }}</dd>
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.odometer' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.odometer |localizednumber }}</dd>
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.gear' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.gearAutomatic | spanGear }}</dd>
+                    </dl>
+                    <dl class="row">
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.odb' | trans }}</dt>
+                        <dd class="col-sm-6">
+                            {{ programmation.odb | spanOdb }},
+                            {{ programmation.read | spanRead }}
+                        </dd>
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.reader-tool' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.readerTool }}</dd>
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.protocol' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.protocol }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="d-flex justify-content-around">
+                        <span>
+                            <span class="fas fa-tachometer-alt"></span>
+                            {{ 'common.programmation' | trans }}
+                        </span>
+                        <span>
+                            {{ programmation.customer.label }}
+                            <span class="fas fa-user"></span>
+                        </span>
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.edc-off' | trans }}</dt>
+                        <dd class="col-sm-4">{{ programmation.edcOff | badgeAsked }}</dd>
+                        <dd class="col-sm-4">{{ programmation.edcOff | badgeDone(programmation.deliveredAt) }}</dd>
+                        <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.egr-off' | trans }}</dt>
+                        <dd class="col-sm-4">{{ programmation.egrOff | badgeAsked }}</dd>
+                        <dd class="col-sm-4">{{ programmation.egrOff | badgeDone(programmation.deliveredAt) }}</dd>
+                        <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.fap-off' | trans }}</dt>
+                        <dd class="col-sm-4">{{ programmation.fapOff | badgeAsked }}</dd>
+                        <dd class="col-sm-4">{{ programmation.fapOff | badgeDone(programmation.deliveredAt) }}</dd>
+                        <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.ethanol' | trans }}</dt>
+                        <dd class="col-sm-4">{{ programmation.ethanol | badgeAsked }}</dd>
+                        <dd class="col-sm-4">{{ programmation.ethanol | badgeDone(programmation.deliveredAt) }}</dd>
+                        <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.stage-one' | trans }}</dt>
+                        <dd class="col-sm-4">{{ programmation.stageOne | badgeAsked }}</dd>
+                        <dd class="col-sm-4">{{ programmation.stageOne | badgeDone(programmation.deliveredAt) }}</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="mt-5">
+            {% if programmation.deliveredAt is empty %}
+                <div class="alert alert-warning text-center">
+                    {{ 'message.programmation.customer-waiting' | trans }}
+                </div>
+                <div class="d-flex justify-content-around">
+                    <a href="{{ path('programmer_download_original', {'id': programmation.id}) }}"
+                       data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4 animated bounceInLeft"
+                       title="{{ 'action.programmer.download-original.title' | trans }}">
+                        <span class="fas fa-fw fa-download"></span>
+                        <strong>{{ 'action.programmer.download-original.text' | trans }}</strong>
+                    </a>
+                    <a href="{{ path('programmer_upload', {'id': programmation.id}) }}" data-toggle="tooltip"
+                       data-placement="bottom" class="btn btn-secondary p-4 animated bounceInRight"
+                       title="{{ 'action.programmation.form.title' | trans }}">
+                        <span class="fas fa-fw fa-upload"></span>
+                        <strong>{{ 'action.programmation.form.text' | trans }}</strong>
+                    </a>
+                </div>
+            {% else %}
+                <div class="alert alert-success text-center">
+                    {{ 'message.programmer.done' | trans }}
+                </div>
+                <div class="text-center">
+                    <a href="{{ path('programmer_download_original', {'id': programmation.id}) }}"
+                       data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4 animated bounceIn"
+                       title="{{ 'action.programmer.download-original.title' | trans }}">
+                        <span class="fas fa-fw fa-download"></span>
+                        <strong>{{ 'action.programmer.download-original.text' | trans }}</strong>
+                    </a>
+                    <a href="{{ path('programmer_download_final', {'id': programmation.id}) }}"
+                       data-toggle="tooltip" data-placement="bottom" class="btn btn-primary p-4 animated bounceIn"
+                       title="{{ 'action.programmer.download-final.title' | trans }}">
+                        <span class="fas fa-fw fa-download"></span>
+                        <strong>{{ 'action.programmer.download-final.text' | trans }}</strong>
+                    </a>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock container %}

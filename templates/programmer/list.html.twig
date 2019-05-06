@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.programmer.programmation.list'|trans }} · {{ parent() }}{% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.programmer.main' | trans }}</li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.programmer.programmation.list' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block headline %}
+    <h1>
+        <span class="fa fa-fw fa-file-invoice-dollar"></span>
+        {{ 'title.customer.programmation.list'|trans }}
+    </h1>
+{% endblock %}
+
+{% set direction = pagination.getDirection() %}
+
+{% block container %}
+    <table class="table">
+        <thead>
+        <tr class="bg-light">
+            <th id="programmation-created-at" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.created-at' | trans, 'createdAt') }}
+                <span class="{{ faSort(pagination.isSorted('createdAt'), direction, 'date') }}"></span>
+            </th>
+            <th id="programmation-customer" class="align-middle">
+                {{ 'programmation.customer' | trans }}
+            </th>
+            <th id="programmation-make" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.make' | trans, 'make') }}
+                <span class="{{ faSort(pagination.isSorted('make'), direction, 'alpha') }}"></span>
+            </th>
+            <th id="programmation-model" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.model' | trans, 'model') }}
+                <span class="{{ faSort(pagination.isSorted('model'), direction, 'alpha') }}"></span>
+            </th>
+            <th id="programmation-status" class="align-middle">
+                {{ 'programmation.status' | trans }}
+            </th>
+            <th id="programmation-actions" class="align-middle"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for programmation in pagination %}
+            <tr>
+                <td headers="programmation-created-at" class="align-middle">
+                    {{ programmation.createdAt | localizeddate('short', 'short') }}
+                </td>
+                <td headers="programmation-user" class="align-middle">
+                    {{ programmation.customer.label }}
+                </td>
+                <td headers="programmation-make" class="align-middle">
+                    {{ programmation.make }}
+                </td>
+                <td headers="programmation-model" class="align-middle">
+                    {{ programmation.model }}
+                </td>
+                <td headers="programmation-status" class="align-middle">
+                    {% if programmation.deliveredAt is empty %}
+                        {{ 'common.in-progress' | trans }}
+                    {% else %}
+                        {{ 'programmation.deliveredAt %date%' | trans({'%date%': programmation.deliveredAt | localizeddate('short', 'none')}) }}
+                    {% endif %}
+                </td>
+                <td headers="programmation-actions" class="align-middle">
+                    <div class="btn-group">
+                        <a class="btn btn-outline-secondary" title="{{ 'action.programmation.show.title' | trans }}"
+                           href="{{ path('programmer_show', { 'id': programmation.id }) }}"
+                           data-placement="left" data-toggle="tooltip">
+                            <span class="far fa-eye"></span>
+                            <span class="sr-only">{{ 'action.programmation.show.text' | trans }}</span>
+                        </a>
+                        <a class="btn btn-outline-secondary" data-placement="left" data-toggle="tooltip"
+                           title="{{ 'action.programmation.download-original.title' | trans }}"
+                           href="{{ path('programmer_download_original', { 'id': programmation.id }) }}">
+                            <span class="fas fa-download"></span>
+                            <span class="sr-only">{{ 'action.programmation.download-original.text' | trans }}</span>
+                        </a>
+                        {% if programmation.deliveredAt is not empty %}
+                        <a class="btn btn-outline-secondary" title="{{ 'action.programmation.download.title' | trans }}"
+                           href="{{ path('programmer_download_final', { 'id': programmation.id }) }}"
+                           data-placement="left" data-toggle="tooltip">
+                            <span class="fas fa-download"></span>
+                            <span class="sr-only">{{ 'action.programmation.download.text' | trans }}</span>
+                        </a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+{% endblock container %}
+
+{% block content_action %}{% endblock content_action %}

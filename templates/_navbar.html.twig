@@ -33,14 +33,15 @@
                 {% endif %}
                 {% if is_granted('ROLE_PROGRAMMER') %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarProgrammerDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle {{ route starts with 'programmer_' ? 'active' }}" href="#"
+                           id="navbarProgrammerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
                             <span class="fas fa-fw fa-tachometer-alt"></span> {{ 'nav.programmer.text' | trans }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarProgrammerDropdown">
-                            <a class="dropdown-item" href="#"
-                            title="{{ 'nav.programmer.submenu.command.text' | trans }}" data-placement="right"
-                            data-toggle="tooltip">
+                            <a class="dropdown-item {{ route == 'programmer_list' ? 'active' }}"
+                               href="{{ path('programmer_list') }}" data-placement="right" data-toggle="tooltip"
+                               title="{{ 'nav.programmer.submenu.command.text' | trans }}" >
                                 <span class="fas fa-fw fa-car-alt"></span>
                                 {{ 'nav.programmer.submenu.command.text' | trans }}
                             </a>
