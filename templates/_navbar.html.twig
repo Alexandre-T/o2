@@ -68,6 +68,13 @@
                                 <span class="fas fa-fw fa-cogs"></span>
                                 {{ 'nav.admin.submenu.settings.text' | trans }}
                             </a>
+                            {# Mails #}
+                            <a class="dropdown-item {{ route starts with 'administration_mail' ? 'active' }}"
+                               href="{{ path('administration_mail_main') }}" data-toggle="tooltip"
+                               data-placement="right" title="{{ 'nav.admin.submenu.mail.title' | trans }}" >
+                                <span class="far fa-fw fa-envelope-open"></span>
+                                {{ 'nav.admin.submenu.mail.text' | trans }}
+                            </a>
                         </div>
                     </li>
                 {% endif %}

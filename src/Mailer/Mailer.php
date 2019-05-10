@@ -95,6 +95,30 @@ class Mailer implements MailerInterface
     }
 
     /**
+     * Send an internal test email to declared user in settings.
+     *
+     * @param string $email mail of senders and receivers
+     *
+     * @return int
+     */
+    public function sendTestMail(string $email): int
+    {
+        $subject = 'Test Mail | Mail de test';
+        $txt = 'This is a test mail. Ceci est un mail de test';
+        $html = '<p>This is a <strong>test</strong> mail. Ceci est un mail de <strong>test</strong>.</p>';
+
+        $message = ($this->mailer->createMessage())
+            ->setSubject($subject)
+            ->setFrom($email)
+            ->setTo($email)
+            ->setBody($html, 'text/html')
+            ->addPart($txt, 'text/plain')
+        ;
+
+        return $this->mailer->send($message);
+    }
+
+    /**
      * Send a mail.
      *
      * @param string       $html      the mail body in html

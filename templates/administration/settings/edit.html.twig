@@ -28,6 +28,9 @@
 
 {% block content_settings %}
     {{ form_start(edit_form) }}
+    <p class="border">
+        {{ 'message.mail.process %email%' | trans({'%email%': email}) }}
+    </p>
     {{ form_widget(edit_form) }}
     <button class="btn btn-primary" type="submit">
         <span class="fa fa-save"></span>

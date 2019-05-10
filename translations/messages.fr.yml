@@ -84,6 +84,9 @@ action:
     download-final:
       text: 'Télécharger la reprogrammation'
       title: 'Télécharger la reprogrammation envoyée au client'
+  mail:
+    main:
+      text: 'Envoyer le mail de test'
 
 administration:
   created:
@@ -377,6 +380,10 @@ form:
       submit: 'Commander'
 
 flash:
+  mail-test:
+    sender-not-declared: 'L’expéditeur n’est pas déclaré. Veuillez vérifier que toutes les données sont déclarées dans le menu Administration / Paramètres'
+    sent: 'Aucun problème n’a été détecté lors de l’envoi du mail. Vérifiez que vous l’avez bien reçu. Si ce n’est pas le cas, deux causes sont possibles : Un mauvais paramétrage au niveau de votre server de messagerie, ou bien le mail a été détecté comme spam et intercepté par votre messagerie ou votre anti-spam'
+    not-sent: 'Un problème a été détecté lors de l’envoi du mail. Consulter les journaux de l’application et reconfigurez les valeurs du serveur de messagerie utilisé'
   order:
     already-credited: 'Les crédits de cette commande ont déjà été versé à ce client.'
     credited: 'Les crédits de cette commande viennent d’être versés au client.'
@@ -463,6 +470,9 @@ nav:
       users:
         text: 'Utilisateurs'
         title: 'Gestion des utilisateurs'
+      mail:
+        text: 'Mails'
+        title: 'Outil d’envoi de mail'
   accountant:
     title: 'Outils du comptable'
     text: 'Comptable'
@@ -639,6 +649,8 @@ title:
     settings:
       edit: 'Modification d’un paramètre'
       list: 'Liste des paramètres'
+    mail:
+      main: 'Formulaire de test pour envoyer un mail'
   order:
     details: 'Détails de la commande'
     details %label%: 'Détail de la commande n°%label%'
@@ -730,4 +742,6 @@ message:
     customer-waiting: 'Le client est en attente de son fichier de reprogrammation.'
   programmer:
     done: 'La reprogrammation est terminée. Le client peut télécharger sa nouvelle cartographie.'
+  mail:
+    process %email%: 'Ce formulaire vous permet de tester la procédure complète d’envoi de mail. En cliquant sur le bouton ci-dessous, vous demandez au serveur d’envoyer un mail à %email%. En vous connectant sur la messagerie cliente, vous saurez si le système est pleinement opérationnel ou non.'
 

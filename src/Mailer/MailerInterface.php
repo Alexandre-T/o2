@@ -25,4 +25,13 @@ interface MailerInterface
      * @param User $user Mail recipient
      */
     public function sendResettingEmailMessage(User $user): void;
+
+    /**
+     * Send an internal test email to declared user in settings.
+     *
+     * @param string $email mail of senders and receivers
+     *
+     * @return int
+     */
+    public function sendTestMail(string $email): int;
 }
