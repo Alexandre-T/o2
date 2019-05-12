@@ -24,71 +24,82 @@
 {% set direction = pagination.getDirection() %}
 
 {% block container %}
-    <table class="table">
-        <thead>
-        <tr class="bg-light">
-            <th id="programmation-created-at" class="align-middle">
-                {{ knp_pagination_sortable(pagination, 'form.field.created-at' | trans, 'createdAt') }}
-                <span class="{{ faSort(pagination.isSorted('createdAt'), direction, 'date') }}"></span>
-            </th>
-            <th id="programmation-make" class="align-middle">
-                {{ knp_pagination_sortable(pagination, 'form.field.make' | trans, 'make') }}
-                <span class="{{ faSort(pagination.isSorted('make'), direction, 'alpha') }}"></span>
-            </th>
-            <th id="programmation-model" class="align-middle">
-                {{ knp_pagination_sortable(pagination, 'form.field.model' | trans, 'model') }}
-                <span class="{{ faSort(pagination.isSorted('model'), direction, 'alpha') }}"></span>
-            </th>
-            <th id="programmation-status" class="align-middle">
-                {{ 'programmation.status' | trans }}
-            </th>
-            <th id="programmation-actions" class="align-middle"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for programmation in pagination %}
-            <tr>
-                <td headers="programmation-created-at" class="align-middle">
-                    {{ programmation.createdAt | localizeddate('short', 'short') }}
-                </td>
-                <td headers="programmation-make" class="align-middle">
-                    {{ programmation.make }}
-                </td>
-                <td headers="programmation-number" class="align-middle">
-                    {{ programmation.model }}
-                </td>
-                <td headers="programmation-status" class="align-middle">
-                    {% if programmation.deliveredAt is empty %}
-                        {{ 'common.in-progress' | trans }}
-                    {% else %}
-                        {{ 'programmation.deliveredAt %date%' | trans({'%date%': programmation.deliveredAt | localizeddate('short', 'none')}) }}
-                    {% endif %}
-                </td>
-                <td headers="programmation-actions" class="align-middle">
-                    <div class="btn-group">
-                        <a class="btn btn-outline-secondary" title="{{ 'action.programmation.show.title' | trans }}"
-                           href="{{ path('customer_programmation_show', { 'id': programmation.id }) }}"
-                           data-placement="left" data-toggle="tooltip">
-                            <span class="far fa-eye"></span>
-                            <span class="sr-only">{{ 'action.programmation.show.text' | trans }}</span>
-                        </a>
-                        {% if programmation.deliveredAt is not empty %}
-                        <a class="btn btn-outline-secondary" title="{{ 'action.programmation.download.title' | trans }}"
-                           href="{{ path('customer_programmation_download', { 'id': programmation.id }) }}"
-                           data-placement="left" data-toggle="tooltip" target="_blank">
-                            <span class="fas fa-download"></span>
-                            <span class="sr-only">{{ 'action.programmation.download.text' | trans }}</span>
-                        </a>
-                        {% endif %}
-                    </div>
-                </td>
+    {% if pagination is empty %}
+        <p class="text-center alert alert-info">{{ 'message.programmation.empty' | trans }}</p>
+        <p class="text-center">
+            <a href="{{ path('customer_file_new') }}" title="{{ 'nav.customer.submenu.order.title' | trans }}"
+            data-toggle="tooltip" data-placement="bottom" class="btn btn-primary">
+                {{ 'nav.customer.submenu.order.text' | trans }}
+            </a>
+        </p>
+    {% else %}
+        <table class="table">
+            <thead>
+            <tr class="bg-light">
+                <th id="programmation-created-at" class="align-middle">
+                    {{ knp_pagination_sortable(pagination, 'form.field.created-at' | trans, 'createdAt') }}
+                    <span class="{{ faSort(pagination.isSorted('createdAt'), direction, 'date') }}"></span>
+                </th>
+                <th id="programmation-make" class="align-middle">
+                    {{ knp_pagination_sortable(pagination, 'form.field.make' | trans, 'make') }}
+                    <span class="{{ faSort(pagination.isSorted('make'), direction, 'alpha') }}"></span>
+                </th>
+                <th id="programmation-model" class="align-middle">
+                    {{ knp_pagination_sortable(pagination, 'form.field.model' | trans, 'model') }}
+                    <span class="{{ faSort(pagination.isSorted('model'), direction, 'alpha') }}"></span>
+                </th>
+                <th id="programmation-status" class="align-middle">
+                    {{ 'programmation.status' | trans }}
+                </th>
+                <th id="programmation-actions" class="align-middle"></th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div>
-        {{ knp_pagination_render(pagination) }}
-    </div>
+            </thead>
+            <tbody>
+            {% for programmation in pagination %}
+                <tr>
+                    <td headers="programmation-created-at" class="align-middle">
+                        {{ programmation.createdAt | localizeddate('short', 'short') }}
+                    </td>
+                    <td headers="programmation-make" class="align-middle">
+                        {{ programmation.make }}
+                    </td>
+                    <td headers="programmation-number" class="align-middle">
+                        {{ programmation.model }}
+                    </td>
+                    <td headers="programmation-status" class="align-middle">
+                        {% if programmation.deliveredAt is empty %}
+                            {{ 'common.in-progress' | trans }}
+                        {% else %}
+                            {{ 'programmation.deliveredAt %date%' | trans({'%date%': programmation.deliveredAt | localizeddate('short', 'none')}) }}
+                        {% endif %}
+                    </td>
+                    <td headers="programmation-actions" class="align-middle">
+                        <div class="btn-group">
+                            <a class="btn btn-outline-secondary" title="{{ 'action.programmation.show.title' | trans }}"
+                               href="{{ path('customer_programmation_show', { 'id': programmation.id }) }}"
+                               data-placement="left" data-toggle="tooltip">
+                                <span class="far fa-eye"></span>
+                                <span class="sr-only">{{ 'action.programmation.show.text' | trans }}</span>
+                            </a>
+                            {% if programmation.deliveredAt is not empty %}
+                                <a class="btn btn-outline-secondary"
+                                   title="{{ 'action.programmation.download.title' | trans }}"
+                                   href="{{ path('customer_programmation_download', { 'id': programmation.id }) }}"
+                                   data-placement="left" data-toggle="tooltip" target="_blank">
+                                    <span class="fas fa-download"></span>
+                                    <span class="sr-only">{{ 'action.programmation.download.text' | trans }}</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    {% endif %}
 
 {% endblock container %}
 

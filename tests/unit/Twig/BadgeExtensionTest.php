@@ -381,12 +381,12 @@ class BadgeExtensionTest extends Unit
     /**
      * Test the method getFilters.
      */
-    public function testGetFilters()
+    public function testGetFilters(): void
     {
         self::assertIsArray($this->extension->getFilters());
         self::assertCount(13, $this->extension->getFilters());
-        foreach($this->extension->getFilters() as $key => $filter) {
-            /** @var TwigFilter $filter */
+        foreach ($this->extension->getFilters() as $key => $filter) {
+            /* @var TwigFilter $filter the filter to test */
             self::assertInstanceOf(TwigFilter::class, $filter);
             self::assertEquals($key, $filter->getName().'Filter');
         }
@@ -395,10 +395,8 @@ class BadgeExtensionTest extends Unit
     /**
      * Test the method getName.
      */
-    public function testGetName()
+    public function testGetName(): void
     {
         self::assertEquals('app_badge_extension', $this->extension->getName());
     }
-
-
 }
