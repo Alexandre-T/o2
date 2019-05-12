@@ -75,6 +75,7 @@ class ProgrammationTest extends Unit
         self::assertNull($this->programmation->getComment());
         self::assertNull($this->programmation->getCylinderCapacity());
         self::assertNull($this->programmation->getFinalFile());
+        self::assertNull($this->programmation->getFile());
         self::assertNull($this->programmation->getMake());
         self::assertNull($this->programmation->getModel());
         self::assertNull($this->programmation->getOdb());
@@ -84,6 +85,7 @@ class ProgrammationTest extends Unit
         self::assertNull($this->programmation->getProtocol());
         self::assertNull($this->programmation->getRead());
         self::assertNull($this->programmation->getReaderTool());
+        self::assertNull($this->programmation->getResponse());
         self::assertNull($this->programmation->getSerial());
         self::assertNull($this->programmation->getVersion());
         self::assertNull($this->programmation->getYear());
@@ -331,6 +333,16 @@ class ProgrammationTest extends Unit
         $actual = $expected = 'reader';
         self::assertEquals($this->programmation, $this->programmation->setReaderTool($actual));
         self::assertEquals($expected, $this->programmation->getReaderTool());
+    }
+
+    /**
+     * Test the method GetResponse.
+     */
+    public function testGetResponse(): void
+    {
+        $actual = $expected = 'response';
+        self::assertEquals($this->programmation, $this->programmation->setResponse($actual));
+        self::assertEquals($expected, $this->programmation->getResponse());
     }
 
     /**

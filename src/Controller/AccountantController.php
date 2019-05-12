@@ -39,8 +39,7 @@ class AccountantController extends AbstractPaginateController
     public const LIMIT_PER_PAGE = 25;
 
     /**
-     * Finds and displays a bill entity.
-     * Redirect user to list bill use case.
+     * Finds a bill entity, credit order then redirect user to list bill use case.
      *
      * @Route("/bill/credit/{bill}", name="bill_credit", methods={"get"})
      *
@@ -50,7 +49,7 @@ class AccountantController extends AbstractPaginateController
      *
      * @return RedirectResponse
      */
-    public function creditAndList(Bill $bill, OrderManager $orderManager, Request $request): RedirectResponse
+    public function creditAndRedirect(Bill $bill, OrderManager $orderManager, Request $request): RedirectResponse
     {
         $parameters['page'] = $request->get('page', 1);
         $parameters['sort'] = $this->getSortedField($request, 'number');

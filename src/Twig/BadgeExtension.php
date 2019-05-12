@@ -309,7 +309,7 @@ class BadgeExtension extends AbstractExtension
     public function badgeYesNoFilter($data): string
     {
         if ($data) {
-            return $this->getBadge('succes', 'common.yes');
+            return $this->getBadge('success', 'common.yes');
         }
 
         return $this->getBadge('danger', 'common.no');
