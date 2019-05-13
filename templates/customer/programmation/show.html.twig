@@ -111,6 +111,10 @@
                 <div class="alert alert-success text-center">
                     {{ 'message.programmation.done' | trans }}
                 </div>
+                <p class=" text-left border p-2">
+                    <strong class="d-block">{{ 'message.programmer.response' | trans }}</strong>
+                    {{ programmation.response | nl2br }}
+                </p>
                 <div class="text-center">
                     <a href="{{ path('customer_programmation_download', {'id': programmation.id}) }}"
                        data-toggle="tooltip" data-placement="bottom" class="btn btn-primary p-4 animated bounceIn"

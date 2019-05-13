@@ -69,6 +69,24 @@ class ProgrammationCest
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/programmer/download-final/'.$programIdentifier);
         $you->see('This file is used to be uploaded');
+        $you->areOnPage('/logout');
+
+        //Customer can now download its file
+        $you->login('customer');
+        $you->areOnPage('/customer/programmation/list');
+        $you->seeResponseCodeIsSuccessful();
+        $you->dontSee('Vous n’avez pas encore demandé de reprogrammation');
+        $you->seeLink('Votre programmation', '/customer/programmation/'.$identifier);
+        $you->seeLink('Nouvelle cartographie', '/customer/programmation/download/'.$identifier);
+
+        $you->areOnPage('/customer/programmation/'.$identifier);
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Petite phrase pour le client');
+        $you->click('Nouvelle cartographie');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/customer/programmation/download/'.$identifier);
+        $you->see('This file is used to be uploaded');
+
     }
 
     /**

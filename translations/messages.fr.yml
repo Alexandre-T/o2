@@ -746,6 +746,7 @@ message:
     customer-waiting: 'Le client est en attente de son fichier de reprogrammation.'
   programmer:
     done: 'La reprogrammation est terminée. Le client peut télécharger sa nouvelle cartographie.'
+    response: 'Réponse de notre équipe :'
   mail:
     process %email%: 'Ce formulaire vous permet de tester la procédure complète d’envoi de mail. En cliquant sur le bouton ci-dessous, vous demandez au serveur d’envoyer un mail à %email%. En vous connectant sur la messagerie cliente, vous saurez si le système est pleinement opérationnel ou non.'
 
