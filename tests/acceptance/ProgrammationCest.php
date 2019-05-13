@@ -39,6 +39,12 @@ class ProgrammationCest
         $you->seeResponseCodeIsSuccessful();
         $identifier = $you->grabFromCurrentUrl('~^\/customer\/programmation\/(\d+)$~');
         $you->seeCurrentUrlEquals('/customer/programmation/'.$identifier);
+        //Test to download non-existent final file
+        $you->areOnPage('/customer/programmation/download/'.$identifier);
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/customer/programmation/'.$identifier);
+        $you->see('Le fichier de reprogrammation n’est pas encore disponible');
+        //We continue test
         $you->see('Votre reprogrammation est en cours. Notre équipe travaille dessus');
         $you->click('Déconnexion', 'nav');
         $you->login('programmer');
@@ -86,7 +92,6 @@ class ProgrammationCest
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/customer/programmation/download/'.$identifier);
         $you->see('This file is used to be uploaded');
-
     }
 
     /**

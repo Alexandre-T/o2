@@ -58,7 +58,7 @@ class ProgrammationController extends AbstractPaginateController
 
         if (empty($programmation->getFinalFile())) {
             $this->addFlash('warning', 'flash.programmation.final-file.not-available');
-            $this->redirectToRoute('customer_programmation_show', [
+            return $this->redirectToRoute('customer_programmation_show', [
                 'id' => $programmation->getId(),
             ]);
         }
