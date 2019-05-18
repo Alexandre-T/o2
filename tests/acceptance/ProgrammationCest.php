@@ -47,6 +47,8 @@ class ProgrammationCest
         //We continue test
         $you->see('Votre reprogrammation est en cours. Notre équipe travaille dessus');
         $you->click('Déconnexion', 'nav');
+
+        //Programmer
         $you->login('programmer');
         $you->click('Fichiers en cours', 'nav');
         $you->seeResponseCodeIsSuccessful();
@@ -57,8 +59,11 @@ class ProgrammationCest
         $you->seeCurrentUrlEquals('/programmer/download-original/'.$programIdentifier);
         $you->see('This file is used to be uploaded');
 
-        $you->areOnPage('/programmer/'.$programIdentifier);
+        //Programmer try to download a non-existent programmation
+        $you->seeCurrentUrlEquals('/programmer/download-final/'.$programIdentifier);
         $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/programmer/'.$programIdentifier);
+        $you->see('Le fichier de reprogrammation n’est pas encore disponible');
         $you->see('Le client est en attente de son fichier de reprogrammation');
         $you->seeLink('Télécharger la programmation initiale');
         $you->click('Nouvelle cartographie', 'a.btn-primary');
