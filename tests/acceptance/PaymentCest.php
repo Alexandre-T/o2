@@ -69,19 +69,23 @@ class PaymentCest
         $you->login('customer-7');
         $you->amOnPage('/payment/complete/'.self::KEY.'4');
         $you->canSeeResponseCodeIsSuccessful();
-        $you->seeCurrentUrlEquals('/payment/complete/'.self::KEY);
+        $you->seeCurrentUrlEquals('/payment/complete/'.self::KEY.'4');
         $you->dontSee('Cette commande en attente de paiement n’existe pas ou a été payée');
         $you->see('Paiement transmis via Paypal');
         $you->see('Paiement transmis via Paypal');
         $you->see('Commande n°000004');
-        //This complement does not exists
-        $you->amOnPage('/payment/complete/'.self::KEY.'4?PayerID=toto&token=42');
+        $you->amOnPage('/payment/complete/'.self::KEY.'5?PayerID=toto&token=42');
         $you->canSeeResponseCodeIsSuccessful();
-        $you->seeCurrentUrlEquals('/payment/complete/'.self::KEY);
+        $you->seeCurrentUrlEquals('/payment/complete/'.self::KEY.'5');
         $you->dontSee('Cette commande en attente de paiement n’existe pas ou a été payée');
         $you->see('Paiement transmis via Paypal');
         $you->see('Paiement transmis via Paypal');
         $you->see('Commande n°000004');
+        //This complement does not anymore exists
+        $you->amOnPage('/payment/complete/'.self::KEY.'4');
+        $you->canSeeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/');
+        $you->see('Cette commande en attente de paiement n’existe pas ou a été payée');
     }
 
     /**
