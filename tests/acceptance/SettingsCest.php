@@ -31,8 +31,11 @@ class SettingsCest
     {
         $you->wantTo('list all settings');
         $you->login('administrator');
-        $you->areOnPage('/administration/settings/');
+        $you->areOnPage('/administration/settings/?sort=code&direction=desc&page=1');
         $you->seeResponseCodeIsSuccessful();
+        $you->areOnPage('/administration/settings/?sort=nonexistent&direction=desc&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/administration/settings/');
         $you->dontSee('settings.'); //all is translated
         $you->click('Modifier ce paramètre');
         $settingId = $you->grabFromCurrentUrl('~(\d+)~');

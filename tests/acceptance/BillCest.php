@@ -31,7 +31,14 @@ class BillCest
     {
         $you->wantTo('list bills and show an accessible one');
         $you->login('customer-4');
-        $you->amOnPage('/customer/bill/list');
+        //Test all sorting
+        $you->amOnPage('/customer/bill/list?sort=number&direction=asc&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->amOnPage('/customer/bill/list?sort=amount&direction=asc&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->amOnPage('/customer/bill/list?sort=nonexistent&direction=asc&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/customer/bill/list');
         $you->seeResponseCodeIsSuccessful();
         $you->see('480');
         $you->see('Payée');

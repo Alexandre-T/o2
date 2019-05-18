@@ -133,6 +133,8 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
     {
         return $queryBuilder
             ->addSelect(self::ALIAS.'.createdAt as HIDDEN createdAt')
+            ->addSelect(self::ALIAS.'.make as HIDDEN make')
+            ->addSelect(self::ALIAS.'.model as HIDDEN model')
         ;
     }
 

@@ -84,7 +84,16 @@ class ProgrammationCest
 
         //Customer can now download its file
         $you->login('customer');
-        $you->areOnPage('/customer/programmation/list');
+        $you->areOnPage('/customer/programmation/list?sort=nonexistent&direction=DESC&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/customer/programmation/list');
+        $you->seeResponseCodeIsSuccessful();
+        //you test all sort field
+        $you->areOnPage('/customer/programmation/list?sort=make&direction=DESC&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->areOnPage('/customer/programmation/list?sort=model&direction=DESC&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->areOnPage('/customer/programmation/list?sort=createdAt&direction=DESC&page=1');
         $you->seeResponseCodeIsSuccessful();
         $you->dontSee('Vous n’avez pas encore demandé de reprogrammation');
         $you->seeLink('Votre programmation', '/customer/programmation/'.$identifier);

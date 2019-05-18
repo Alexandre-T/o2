@@ -54,12 +54,12 @@ class BillController extends AbstractPaginateController
     public function list(BillManager $billManager, Request $request): Response
     {
         if (!$this->validateSortedField($request, ['number', 'amount'])) {
-            return $this->redirectToRoute('accountant_bill_list');
+            return $this->redirectToRoute('customer_bill_list');
         }
 
         //Query parameters check
         $field = $this->getSortedField($request, 'number');
-        $sort = $this->getOrder($request);
+        $sort = $this->getOrder($request, 'desc');
 
         $pagination = $billManager->paginateWithUser(
             $this->getUser(),

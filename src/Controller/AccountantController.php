@@ -113,7 +113,7 @@ class AccountantController extends AbstractPaginateController
 
         //Query parameters check
         $field = $this->getSortedField($request, 'number');
-        $sort = $this->getOrder($request);
+        $sort = $this->getOrder($request, 'desc');
         $highlight = $request->get('highlight', 0);
         $color = $request->get('color', 'info');
 

@@ -84,7 +84,7 @@ class ProgrammationController extends AbstractPaginateController
      */
     public function list(ProgrammationManager $programmationManager, Request $request): Response
     {
-        if (!$this->validateSortedField($request, ['createdAt', 'deliveredAt'])) {
+        if (!$this->validateSortedField($request, ['createdAt', 'make', 'model'])) {
             return $this->redirectToRoute('customer_programmation_list');
         }
 
