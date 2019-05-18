@@ -76,7 +76,7 @@ class PaymentCest
         $you->see('Commande n°000004');
         $you->amOnPage('/payment/complete/'.self::KEY.'5?PayerID=toto&token=42');
         $you->canSeeResponseCodeIsSuccessful();
-        $you->seeCurrentUrlEquals('/payment/complete/'.self::KEY.'5');
+        $you->seeCurrentUrlEquals('/payment/complete/'.self::KEY.'5?PayerID=toto&token=42');
         $you->dontSee('Cette commande en attente de paiement n’existe pas ou a été payée');
         $you->see('Paiement transmis via Paypal');
         $you->see('Paiement transmis via Paypal');
