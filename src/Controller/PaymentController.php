@@ -99,7 +99,6 @@ class PaymentController extends AbstractController
                 $order->setToken($token);
             }
 
-            //TODO Change this to credit user even if payment is pending.
             $orderManager->validateAfterPaymentComplete($order);
             $bill = $billManager->retrieveOrCreateBill($order, $this->getUser());
             $orderManager->save($order);

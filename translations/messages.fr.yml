@@ -412,7 +412,7 @@ gear:
 
 info:
   payment:
-    pending %credit% %payment-system%: 'Vous avez utilisé %payment-system%, mais %payment-system% a classé votre paiement comme « en cours ». C’est une procédure normale pour les paiements de plus de 100 €. Dès que %payment-system% nous aura confirmé le paiement, vos %credit% crédits seront ajoutés à votre solde.'
+    pending %credit% %payment-system%: 'Vous avez utilisé %payment-system%, mais %payment-system% a classé votre paiement comme « en cours ». C’est une procédure normale pour les paiements de plus de 100 €. Vos %credit% crédits ont néanmoins été ajoutés à votre solde. Vous pouvez dès à présent commander vos reprogrammations.'
 
 instruction:
   method:

@@ -67,8 +67,15 @@ class PaymentCest
     {
         $you->wantTo('simulate a completed payment');
         $you->login('customer-7');
-        //This complement does not exists
         $you->amOnPage('/payment/complete/'.self::KEY.'4');
+        $you->canSeeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/payment/complete/'.self::KEY);
+        $you->dontSee('Cette commande en attente de paiement n’existe pas ou a été payée');
+        $you->see('Paiement transmis via Paypal');
+        $you->see('Paiement transmis via Paypal');
+        $you->see('Commande n°000004');
+        //This complement does not exists
+        $you->amOnPage('/payment/complete/'.self::KEY.'4?PayerID=toto&token=42');
         $you->canSeeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/payment/complete/'.self::KEY);
         $you->dontSee('Cette commande en attente de paiement n’existe pas ou a été payée');

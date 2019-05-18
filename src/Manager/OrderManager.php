@@ -27,7 +27,6 @@ use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
-use JMS\Payment\CoreBundle\Model\PaymentInterface;
 
 /**
  * order Manager.
@@ -270,27 +269,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      */
     public function validateAfterPaymentComplete(Order $order): void
     {
-        $pending = $paid = 0;
-        if ($order->isCarted()) {
-            foreach ($order->getPaymentInstruction()->getPayments() as $payment) {
-                if (PaymentInterface::STATE_APPROVING === $payment->getState()) {
-                    ++$pending;
-                }
-
-                if (PaymentInterface::STATE_APPROVED === $payment->getState()
-                    && $payment->getApprovedAmount() == $order->getAmount()
-                ) {
-                    ++$paid;
-                }
-            }
-        }
-
-        if ($paid) {
-            $this->setPaid($order);
-        } elseif ($pending) {
-            $this->setPending($order);
-        }
-
+        $this->setPaid($order);
         $order->refreshUuid();
     }
 
