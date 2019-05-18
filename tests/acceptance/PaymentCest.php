@@ -80,7 +80,7 @@ class PaymentCest
         $you->dontSee('Cette commande en attente de paiement n’existe pas ou a été payée');
         $you->see('Paiement transmis via Paypal');
         $you->see('Paiement transmis via Paypal');
-        $you->see('Commande n°000004');
+        $you->see('Commande n°000005');
         //This complement does not anymore exists
         $you->amOnPage('/payment/complete/'.self::KEY.'4');
         $you->canSeeResponseCodeIsSuccessful();
