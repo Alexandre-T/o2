@@ -22,6 +22,11 @@ namespace App\Tests;
  */
 class PaymentCest
 {
+    /*
+     * Key of payment provided by SQL or Travis.
+     */
+    const KEY = 'myManualValue-';
+
     /**
      * Try to cancel a payment.
      *
@@ -35,6 +40,41 @@ class PaymentCest
         $you->seeResponseCodeIsSuccessful();
         $you->seeInCurrentUrl('/customer/order-credit');
         $you->see('La procédure de paiement a été interrompue');
+    }
+
+    /**
+     * Try to completed a payment on a non-existent order.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToCompletedPaymentOnNonExistent(AcceptanceTester $you): void
+    {
+        $you->wantTo('simulate a completed payment');
+        $you->login('customer-7');
+        //This complement does not exists
+        $you->amOnPage('/payment/complete/4');
+        $you->canSeeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/');
+        $you->see('Cette commande en attente de paiement n’existe pas ou a été payée');
+    }
+
+    /**
+     * Try to completed an existing payment.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToCompletedPayment(AcceptanceTester $you): void
+    {
+        $you->wantTo('simulate a completed payment');
+        $you->login('customer-7');
+        //This complement does not exists
+        $you->amOnPage('/payment/complete/'.self::KEY.'4');
+        $you->canSeeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/payment/complete/'.self::KEY);
+        $you->dontSee('Cette commande en attente de paiement n’existe pas ou a été payée');
+        $you->see('Paiement transmis via Paypal');
+        $you->see('Paiement transmis via Paypal');
+        $you->see('Commande n°000004');
     }
 
     /**

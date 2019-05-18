@@ -46,7 +46,7 @@ class BillRepository extends ServiceEntityRepository
      *
      * @param Order $order order of searched bill
      *
-     * @return array
+     * @return array|Bill[]
      */
     public function findByOrder(Order $order): array
     {

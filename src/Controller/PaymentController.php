@@ -44,8 +44,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * Payment controller .
  *
  * @Route("/payment")
- *
- * @Security("is_granted('ROLE_USER')")
  */
 class PaymentController extends AbstractController
 {
@@ -59,6 +57,8 @@ class PaymentController extends AbstractController
      * @param LoggerInterface $log   log canceled payment
      *
      * @return RedirectResponse
+     *
+     * @Security("is_granted('ROLE_USER')")
      */
     public function paymentCancel(Order $order, LoggerInterface $log)
     {
@@ -127,6 +127,8 @@ class PaymentController extends AbstractController
      * @param LoggerInterface  $logger       logger interface
      *
      * @return RedirectResponse
+     *
+     * @Security("is_granted('ROLE_USER')")
      */
     public function paymentCreateAction(
      BillManager $billManager,
@@ -200,6 +202,8 @@ class PaymentController extends AbstractController
      * @throws InvalidPaymentInstructionException when choosing an invalid method
      *
      * @return Response|RedirectResponse
+     *
+     * @Security("is_granted('ROLE_USER')")
      */
     public function paymentMethod(
      Request $request,
@@ -269,6 +273,8 @@ class PaymentController extends AbstractController
      * @throws InvalidPaymentInstructionException when error occurred
      *
      * @return PaymentInterface
+     *
+     * @Security("is_granted('ROLE_USER')")
      */
     private function createPayment(Order $order, PluginController $ppc): PaymentInterface
     {

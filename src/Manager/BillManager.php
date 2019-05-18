@@ -123,7 +123,7 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
         $bills = $this->getMainRepository()->findByOrder($order);
 
         foreach ($bills as $bill) {
-            if (!$bill->isCanceled) {
+            if (!$bill->isCanceled()) {
                 return $bill;
             }
         }

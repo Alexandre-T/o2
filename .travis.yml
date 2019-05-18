@@ -59,9 +59,10 @@ install:
   - php bin/console cache:warmup
   # directories for coveralls
   - mkdir tests/_output/coveralls -p
-  # to allow download test
+  # to prepare test
   - cp tests/_data/upload.txt public/uploads/original/upload.txt
   - cp tests/_data/upload.txt public/uploads/final/upload.txt
+  - php bin/console doctrine:query:sql "UPDATE data.te_order SET uuid = CONCAT('myManualValue-',id)"
 
 # Run script and log coverage in the "build" directory
 script:
