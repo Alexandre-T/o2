@@ -60,7 +60,7 @@ class ProgrammationCest
         $you->see('This file is used to be uploaded');
 
         //Programmer try to download a non-existent programmation
-        $you->seeCurrentUrlEquals('/programmer/download-final/'.$programIdentifier);
+        $you->areOnPage('/programmer/download-final/'.$programIdentifier);
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/programmer/'.$programIdentifier);
         $you->see('Le fichier de reprogrammation n’est pas encore disponible');

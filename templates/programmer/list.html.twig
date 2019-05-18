@@ -43,7 +43,8 @@
                 <span class="{{ faSort(pagination.isSorted('model'), direction, 'alpha') }}"></span>
             </th>
             <th id="programmation-status" class="align-middle">
-                {{ 'programmation.status' | trans }}
+                {{ knp_pagination_sortable(pagination, 'form.field.delivered-at' | trans, 'deliveredAt') }}
+                <span class="{{ faSort(pagination.isSorted('deliveredAt'), direction, 'date') }}"></span>
             </th>
             <th id="programmation-actions" class="align-middle"></th>
         </tr>

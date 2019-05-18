@@ -135,6 +135,7 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
             ->addSelect(self::ALIAS.'.createdAt as HIDDEN createdAt')
             ->addSelect(self::ALIAS.'.make as HIDDEN make')
             ->addSelect(self::ALIAS.'.model as HIDDEN model')
+            ->addSelect(self::ALIAS.'.deliveredAt as HIDDEN deliveredAt')
         ;
     }
 
