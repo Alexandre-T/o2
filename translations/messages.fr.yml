@@ -327,6 +327,8 @@ form:
       bill-vat-number: 'Entrez le numéro de TVA de votre société qui apparaîtra sur toutes vos factures'
       bill-url: 'Entrez l’adresse du site qui apparaîtra sur la facture'
       bill-vat-percent: 'Entrez le taux de TVA qui apparaîtra sur la facture'
+      mail-accountant: 'Entrez l’adresse email du comptable qui recevra un mail à chaque paiement'
+      mail-programmer: 'Entrez l’adresse email du programmer qui recevra un mail à chaque commande de reprogrammation'
       mail-sender: 'Entrez l’adresse email de l’expéditeur qui expédira tous vos mails'
     society: 'Entrez le nom de la société'
     street-address: 'Entrez l’adresse'
@@ -601,6 +603,8 @@ settings:
   bill-url: 'Facture : Adresse du site'
   bill-vat-number: 'Facture : Numéro de TVA'
   bill-vat-percent: 'Facture : Taux de TVA'
+  mail-accountant: 'Adresse email du comptable'
+  mail-programmer: 'Adresse email du programmeur'
   mail-sender: 'Expéditeur de tous vos mails'
 
 table:
