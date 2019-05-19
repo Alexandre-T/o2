@@ -1,0 +1,18 @@
+{% trans_default_domain('mail') %}
+<h3>{{ 'title.new-programmation' | trans }}</h3>
+<p>
+    {{ 'explanation.new-programmation %mail%' | trans({
+        '%mail%': mail
+        })
+    }}
+</p>
+<ul>
+    <li>{{ 'programmation.make' | trans }}: {{ programmation.make }}</li>
+    <li>{{ 'programmation.model' | trans }}: {{ programmation.model }}</li>
+    <li>{{ 'programmation.edc15' | trans }}: {{ programmation.edcOff | badgeAsked}}</li>
+    <li>{{ 'programmation.egr' | trans }}: {{ programmation.egrOff | badgeAsked}}</li>
+    <li>{{ 'programmation.fap' | trans }}: {{ programmation.fapOff | badgeAsked}}</li>
+    <li>{{ 'programmation.ethanol' | trans }}: {{ programmation.ethanol | badgeAsked}}</li>
+    <li>{{ 'programmation.stageOne' | trans }}: {{ programmation.stageOne | badgeAsked}}</li>
+</ul>
+<a href="{{ download }}" title="{{ 'link.download-original-file.title' | trans}}">{{ 'link.download-original-file.text' | trans}}</a>

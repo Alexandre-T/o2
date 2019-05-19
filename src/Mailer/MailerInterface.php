@@ -17,6 +17,7 @@ namespace App\Mailer;
 
 use App\Entity\Bill;
 use App\Entity\Order;
+use App\Entity\Programmation;
 use App\Entity\User;
 
 interface MailerInterface
@@ -32,6 +33,17 @@ interface MailerInterface
      * @return int
      */
     public function sendPaymentMail(Order $order, Bill $bill, string $sender, string $accountant): int;
+
+    /**
+     * Send an email to programmer to inform that a new programmation was ordered.
+     *
+     * @param Programmation $programmation the new programmation
+     * @param string        $programmer    the mail programmer
+     * @param string        $sender        sender of mail
+     *
+     * @return int
+     */
+    public function sendProgrammationMail(Programmation $programmation, string $programmer, string $sender): int;
 
     /**
      * Send an email to reset password.

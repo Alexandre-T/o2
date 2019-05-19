@@ -18,6 +18,7 @@ namespace App\Controller;
 use App\Entity\File;
 use App\Entity\Programmation;
 use App\Entity\User;
+use App\Exception\SettingsException;
 use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
 use App\Form\Model\CreditOrder;
@@ -25,10 +26,13 @@ use App\Form\Model\Programmation as ProgrammationModel;
 use App\Form\PasswordFormType;
 use App\Form\ProfileFormType;
 use App\Form\ProgrammationFormType;
+use App\Mailer\MailerInterface;
 use App\Manager\OrderManager;
 use App\Manager\ProgrammationManager;
+use App\Manager\SettingsManager;
 use App\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -50,15 +54,21 @@ class CustomerController extends AbstractController
      *
      * @Route("/programmation/new", name="file_new")
      *
+     * @param LoggerInterface      $logger               logger to alert when settings are missing
+     * @param MailerInterface      $mailer               mailer interface to send mail to programmer
      * @param Request              $request              request handling data
      * @param ProgrammationManager $programmationManager programmation manger to save new programmation
+     * @param SettingsManager      $settingsManager      settings manager
      * @param UserManager          $userManager          to update credit of user
      *
      * @return Response
      */
     public function newProgrammation(
+     LoggerInterface $logger,
+     MailerInterface $mailer,
      Request $request,
      ProgrammationManager $programmationManager,
+     SettingsManager $settingsManager,
      UserManager $userManager
     ): Response {
         $model = new ProgrammationModel();
@@ -76,6 +86,16 @@ class CustomerController extends AbstractController
             $userManager->debit($programmation);
             $programmationManager->save($file);
             $programmationManager->save($programmation);
+            try {
+                /** @var string $programmer */
+                $programmer = $settingsManager->getValue('mail-programmer');
+                /** @var string $sender */
+                $sender = $settingsManager->getValue('mail-sender');
+                $mailer->sendProgrammationMail($programmation, $programmer, $sender);
+            } catch (SettingsException $exception) {
+                $logger->alert('Mail not sent to programmer:'.$exception->getMessage());
+            }
+
             $userManager->save($user);
             $this->addFlash('success', 'flash.programmation-purchased');
 

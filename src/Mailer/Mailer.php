@@ -17,6 +17,7 @@ namespace App\Mailer;
 
 use App\Entity\Bill;
 use App\Entity\Order;
+use App\Entity\Programmation;
 use App\Entity\User;
 use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -101,6 +102,35 @@ class Mailer implements MailerInterface
         $renderTxt = $this->templating->render('mail/new-payment.txt.twig', $parameters);
 
         return $this->sendEmailMessage($renderHtml, $renderTxt, $sender, $accountant);
+    }
+
+    /**
+     * Send an email to programmer to inform that a new programmation was ordered.
+     *
+     * @param Programmation $programmation the new programmation
+     * @param string        $programmer    the mail programmer
+     * @param string        $sender        the expediter
+     *
+     * @return int
+     */
+    public function sendProgrammationMail(Programmation $programmation, string $programmer, string $sender): int
+    {
+        $download = $this->router->generate(
+            'programmer_download_original',
+            ['id' => $programmation->getId()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $parameters = [
+            'download' => $download,
+            'mail' => $programmation->getCustomer()->getMail(),
+            'programmation' => $programmation,
+        ];
+
+        $renderHtml = $this->templating->render('mail/new-programmation.html.twig', $parameters);
+        $renderTxt = $this->templating->render('mail/new-programmation.txt.twig', $parameters);
+
+        return $this->sendEmailMessage($renderHtml, $renderTxt, $sender, $programmer);
     }
 
     /**

@@ -1,0 +1,16 @@
+{% trans_default_domain('mail') %}
+{{ 'title.new-programmation' | trans }}
+{{ 'explanation.new-programmation %mail%' | trans({
+    '%mail%': mail
+    })
+}}
+
+ * {{ 'programmation.make' | trans }}: {{ programmation.make }}
+ * {{ 'programmation.model' | trans }}: {{ programmation.model }}
+ * {{ 'programmation.edc15' | trans }}: {{ (programmation.edcOff ? 'common.asked' : 'common.non-asked') | trans}}
+ * {{ 'programmation.egr' | trans }}: {{ (programmation.egrOff ? 'common.asked' : 'common.non-asked') | trans}}
+ * {{ 'programmation.fap' | trans }}: {{ (programmation.fapOff ? 'common.asked' : 'common.non-asked') | trans}}
+ * {{ 'programmation.ethanol' | trans }}: {{ (programmation.ethanol ? 'common.asked' : 'common.non-asked') | trans}}
+ * {{ 'programmation.stageOne' | trans }}: {{ (programmation.stageOne ? 'common.asked' : 'common.non-asked') | trans}}
+
+{{ 'link.download-original-file.title' | trans}}: {{ download }}

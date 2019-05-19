@@ -1,16 +1,32 @@
+common:
+  asked: 'Demandé'
+  non-asked: 'Non'
 title:
   password-lost: 'V-Mod Engineering : Réinitialisation de votre mot de passe'
   new-payment: 'V-Mod Engineering : Nouveau paiment en ligne'
+  new-programmation: 'V-Mod Engineering : Nouvelle reprogrammation commandée'
 link:
   reset:
     text: 'Accéder au formulaire'
   download-bill:
     text: 'Facture'
     title: 'Consulter la facture'
+  download-original-file:
+    title: 'Téléchargement de la cartographie actuelle'
+    text: 'Cartographie d’origine'
 explanation:
   password-lost:
     declaration: 'Vous venez de déclarer la perte de votre mot de passe. '
     how-to: 'En cliquant sur le lien ci-dessus, vous allez être redigéré vers un formulaire en ligne où vous pourrez changer votre mot de passe.'
   new-payment: 'Un nouveau paiement en ligne vient d’être effectué.'
+  new-programmation %mail%: 'Une nouvelle reprogrammation a été demandée par %mail%'
 new-payment:
   description %mail% %amount% %credits%: 'Le nouveau paiement a été réalisé par %mail% pour un montant total de %amount% T.T.C. afin d’acheter %credits% crédits.'
+programmation:
+  make: 'Marque du véhicule'
+  model: 'Modèle de véhicule'
+  edc15: 'EDC15'
+  egr: 'EGR Off'
+  fap: 'FAP Off'
+  ethanol: 'Ethanol'
+  stageOne: 'Stage 1'
