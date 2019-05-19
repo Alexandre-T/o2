@@ -251,23 +251,11 @@ class PaymentController extends AbstractController
             return $this->redirectToRoute('customer_order_credit');
         }
 
-        //TODO Move this in a private method.
-        $paypalCheckoutParams = $this->getPaypalCheckoutParams($order, $trans);
-
-        $predefinedData = [
-            'paypal_express_checkout' => [
-                'checkout_params' => $paypalCheckoutParams,
-                'return_url' => $returnUrl,
-                'cancel_url' => $cancelUrl,
-            ],
-            //stripe_checkout, etc.
-        ];
-
         $form = $this->createForm(ChoosePaymentMethodType::class, null, [
             'amount' => $order->getAmount(),
             'currency' => 'EUR',
             'default_method' => 'paypal_express_checkout',
-            'predefined_data' => $predefinedData,
+            'predefined_data' => $this->getPredefinedData($trans, $order, $returnUrl, $cancelUrl),
         ]);
         $form->handleRequest($request);
 
@@ -350,6 +338,34 @@ class PaymentController extends AbstractController
     }
 
     /**
+     * Return predefined data for external payment solutions.
+     *
+     * @param TranslatorInterface $trans     Translator interface
+     * @param Order               $order     Order paid or not
+     * @param string              $returnUrl Complete url if user complete payment
+     * @param string              $cancelUrl Cancel url if user cancel payment
+     *
+     * @return array
+     */
+    private function getPredefinedData(
+     TranslatorInterface $trans,
+     Order $order,
+     string $returnUrl,
+     string $cancelUrl
+    ): array {
+        $paypalCheckoutParams = $this->getPaypalCheckoutParams($order, $trans);
+
+        return [
+            'paypal_express_checkout' => [
+                'checkout_params' => $paypalCheckoutParams,
+                'return_url' => $returnUrl,
+                'cancel_url' => $cancelUrl,
+            ],
+            //stripe_checkout, etc.
+        ];
+    }
+
+    /**
      * Prepare and send mail.
      *
      * @param LoggerInterface $logger          logger interface to log alerts
@@ -357,7 +373,6 @@ class PaymentController extends AbstractController
      * @param SettingsManager $settingsManager Setting manager to retrieve emails
      * @param Order           $order           order paid
      * @param Bill            $bill            billed bill
-     *
      */
     private function prepareAndSendMail(
      LoggerInterface $logger,
@@ -365,7 +380,7 @@ class PaymentController extends AbstractController
      SettingsManager $settingsManager,
      Order $order,
      Bill $bill
-    ):void {
+    ): void {
         try {
             /** @var string $sender */
             $sender = $settingsManager->getValue('mail-sender');
