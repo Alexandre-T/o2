@@ -36,12 +36,12 @@ class FileFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         if (in_array(getenv('APP_ENV'), ['dev', 'test'])) {
-            foreach(range(1,10) as $index) {
+            foreach (range(1, 10) as $index) {
                 $file = new File();
 
                 $file->setName('upload.txt');
-                $file->setMimeType("application/txt");
-                $file->setOriginalName("upload.txt");
+                $file->setMimeType('application/txt');
+                $file->setOriginalName('upload.txt');
                 $file->setSize(1024);
                 $file->setFile(new HttpFile(__DIR__.'/../../tests/_data/upload.txt'));
                 $this->addReference('file'.$index, $file);

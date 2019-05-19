@@ -29,18 +29,18 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class FileRepositoryTest extends KernelTestCase
 {
     /**
-     * File Repository.
-     *
-     * @var FileRepository
-     */
-    private $fileRepository;
-
-    /**
      * Entity manager.
      *
      * @var EntityManagerInterface
      */
     private $entityManager;
+
+    /**
+     * File Repository.
+     *
+     * @var FileRepository
+     */
+    private $fileRepository;
 
     /**
      * {@inheritdoc}
@@ -75,7 +75,7 @@ class FileRepositoryTest extends KernelTestCase
     {
         $expected = $actual = 1;
         $file = $this->fileRepository->findOneBy([
-            'identifier' => $actual
+            'identifier' => $actual,
         ]);
         self::assertNotNull($file);
         self::assertInstanceOf(File::class, $file);
@@ -83,7 +83,7 @@ class FileRepositoryTest extends KernelTestCase
 
         $actual = 9999;
         $file = $this->fileRepository->findOneBy([
-            'identifier' => $actual
+            'identifier' => $actual,
         ]);
         self::assertNull($file);
     }

@@ -55,14 +55,14 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
         if (in_array(getenv('APP_ENV'), ['dev', 'test'])) {
             /** @var User $customer */
             $customer = $this->getReference('user_customer');
-            foreach (range(1,10) as $index) {
+            foreach (range(1, 10) as $index) {
                 /** @var File $file */
                 $file = $this->getReference('file'.$index);
                 $programmation = new Programmation();
                 $programmation->setCustomer($customer);
                 $programmation->setCylinderCapacity(3.2);
                 $programmation->setGearAutomatic(ProgrammationInterface::GEAR_MANUAL);
-                $programmation->setComment('Comment' . $index);
+                $programmation->setComment('Comment'.$index);
                 $programmation->setEdcOff(true);
                 $programmation->setOdb(ProgrammationInterface::ODB_BOOT);
                 $programmation->setOdometer(30000 + $index);
@@ -73,9 +73,9 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
                 $programmation->setPower(100 + $index);
                 $programmation->setProtocol('Protocol'.$index);
                 $programmation->setRead(ProgrammationInterface::READ_REAL);
-                $programmation->setReaderTool("ReaderTool$index");
-                $programmation->setSerial("Serial$index");
-                $programmation->setVersion("Version$index");
+                $programmation->setReaderTool("ReaderTool${index}");
+                $programmation->setSerial("Serial${index}");
+                $programmation->setVersion("Version${index}");
                 $programmation->setYear(2009);
                 $programmation->refreshCost();
                 $manager->persist($programmation);

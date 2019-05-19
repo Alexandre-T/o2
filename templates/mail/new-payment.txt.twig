@@ -1,0 +1,12 @@
+{% trans_default_domain('mail') %}
+{{ 'title.new-payment' | trans }}
+{{ 'explanation.new-payment' | trans }}
+
+{{ 'link.download-bill.title' | trans}} : {{ downloadBill }}
+
+{{ 'new-payment.description %mail% %amount% %credits%' | trans({
+        '%mail%': mail,
+        '%amount%': amount|localizedcurrency('EUR'),
+        '%credits%': credits|localizednumber
+    })
+}}

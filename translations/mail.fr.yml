@@ -1,9 +1,16 @@
 title:
-  password-lost: 'O2-Programmation : Réinitialisation de votre mot de passe'
+  password-lost: 'V-Mod Engineering : Réinitialisation de votre mot de passe'
+  new-payment: 'V-Mod Engineering : Nouveau paiment en ligne'
 link:
   reset:
     text: 'Accéder au formulaire'
+  download-bill:
+    text: 'Facture'
+    title: 'Consulter la facture'
 explanation:
   password-lost:
     declaration: 'Vous venez de déclarer la perte de votre mot de passe. '
     how-to: 'En cliquant sur le lien ci-dessus, vous allez être redigéré vers un formulaire en ligne où vous pourrez changer votre mot de passe.'
+  new-payment: 'Un nouveau paiement en ligne vient d’être effectué.'
+new-payment:
+  description %mail% %amount% %credits%: 'Le nouveau paiement a été réalisé par %mail% pour un montant total de %amount% T.T.C. afin d’acheter %credits% crédits.'

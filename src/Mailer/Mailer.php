@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace App\Mailer;
 
+use App\Entity\Bill;
+use App\Entity\Order;
 use App\Entity\User;
 use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -68,6 +70,37 @@ class Mailer implements MailerInterface
         $this->router = $router;
         $this->templating = $templating;
         $this->parameters = $parameters['parameters'];
+    }
+
+    /**
+     * Send a mail to accountant from sender to inform about the new order and the new bill.
+     *
+     * @param Order  $order      the new order
+     * @param Bill   $bill       the new bill
+     * @param string $sender     the sender of mail
+     * @param string $accountant the accountant who received mail
+     *
+     * @return int
+     */
+    public function sendPaymentMail(Order $order, Bill $bill, string $sender, string $accountant): int
+    {
+        $downloadBill = $this->router->generate(
+            'accountant_bill_show',
+            ['id' => $bill->getId()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $parameters = [
+            'downloadBill' => $downloadBill,
+            'mail' => $order->getCustomer()->getMail(),
+            'amount' => $bill->getAmount(),
+            'credits' => $order->getCredits(),
+        ];
+
+        $renderHtml = $this->templating->render('mail/new-payment.html.twig', $parameters);
+        $renderTxt = $this->templating->render('mail/new-payment.txt.twig', $parameters);
+
+        return $this->sendEmailMessage($renderHtml, $renderTxt, $sender, $accountant);
     }
 
     /**
@@ -125,8 +158,10 @@ class Mailer implements MailerInterface
      * @param string       $txt       the mail body in txt
      * @param string       $fromEmail mail expediter
      * @param array|string $toEmail   mail recipient
+     *
+     * @return int the number of sent mail
      */
-    protected function sendEmailMessage(string $html, string $txt, string $fromEmail, $toEmail): void
+    protected function sendEmailMessage(string $html, string $txt, string $fromEmail, $toEmail): int
     {
         // Render the email, use the first line as the subject, and the rest as the body
         $renderedLines = explode("\n", trim($txt));
@@ -139,6 +174,7 @@ class Mailer implements MailerInterface
             ->setBody($html, 'text/html')
             ->addPart($txt, 'text/plain')
         ;
-        $this->mailer->send($message);
+
+        return $this->mailer->send($message);
     }
 }

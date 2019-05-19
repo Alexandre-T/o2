@@ -15,11 +15,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Bill;
 use App\Entity\Order;
 use App\Exception\NoOrderException;
+use App\Exception\SettingsException;
 use App\Factory\BillFactory;
+use App\Mailer\MailerInterface;
 use App\Manager\BillManager;
 use App\Manager\OrderManager;
+use App\Manager\SettingsManager;
 use Exception;
 use JMS\Payment\CoreBundle\Form\ChoosePaymentMethodType;
 use JMS\Payment\CoreBundle\Model\PaymentInterface;
@@ -73,17 +77,23 @@ class PaymentController extends AbstractController
      *
      * @Route("/complete/{uuid}", name="customer_payment_complete")
      *
-     * @param BillManager  $billManager  bill manager to generate bill
-     * @param OrderManager $orderManager order manager to retrieve order
-     * @param Request      $request      to retrieve token and payerId
-     * @param string       $uuid         to retrieve order
+     * @param BillManager     $billManager     bill manager to generate bill
+     * @param LoggerInterface $logger          logger added to alert when settings are wrong
+     * @param MailerInterface $mailer          mailer interface to sent mail to admin
+     * @param OrderManager    $orderManager    order manager to retrieve order
+     * @param Request         $request         to retrieve token and payerId
+     * @param SettingsManager $settingsManager to retrieve mail of sender and receiver
+     * @param string          $uuid            to retrieve order
      *
      * @return Response
      */
     public function paymentComplete(
      BillManager $billManager,
+     LoggerInterface $logger,
+     MailerInterface $mailer,
      OrderManager $orderManager,
      Request $request,
+     SettingsManager $settingsManager,
      string $uuid
     ): Response {
         try {
@@ -99,10 +109,14 @@ class PaymentController extends AbstractController
                 $order->setToken($token);
             }
 
+            //Save order
             $orderManager->validateAfterPaymentComplete($order);
             $bill = $billManager->retrieveOrCreateBill($order, $this->getUser());
             $orderManager->save($order);
             $billManager->save($bill);
+
+            //Mail sending
+            $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
         } catch (NoOrderException $noOrderException) {
             $this->addFlash('error', 'error.payment.non-existent');
 
@@ -120,10 +134,12 @@ class PaymentController extends AbstractController
      *
      * @Route("/create", name="customer_payment_create")
      *
-     * @param BillManager      $billManager  bill manager to save bill
-     * @param OrderManager     $orderManager order manager to retrieve order
-     * @param PluginController $ppc          plugin controller
-     * @param LoggerInterface  $logger       logger interface
+     * @param BillManager      $billManager     bill manager to save bill
+     * @param OrderManager     $orderManager    order manager to retrieve order
+     * @param PluginController $ppc             plugin controller
+     * @param LoggerInterface  $logger          logger interface
+     * @param MailerInterface  $mailer          mailer interface to send mail
+     * @param SettingsManager  $settingsManager setting manager to retrieve emails
      *
      * @return RedirectResponse
      *
@@ -133,7 +149,9 @@ class PaymentController extends AbstractController
      BillManager $billManager,
      OrderManager $orderManager,
      PluginController $ppc,
-     LoggerInterface $logger
+     LoggerInterface $logger,
+     MailerInterface $mailer,
+     SettingsManager $settingsManager
     ): RedirectResponse {
         try {
             $user = $this->getUser();
@@ -157,9 +175,13 @@ class PaymentController extends AbstractController
 
         if (Result::STATUS_SUCCESS === $result->getStatus()) {
             $orderManager->credit($order);
+            $orderManager->setPaid($order);
             $bill = BillFactory::create($order, $user);
             $orderManager->save($order);
             $billManager->save($bill);
+
+            //Mail sending
+            $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
 
             return $this->redirectToRoute('customer_payment_complete');
         }
@@ -229,6 +251,7 @@ class PaymentController extends AbstractController
             return $this->redirectToRoute('customer_order_credit');
         }
 
+        //TODO Move this in a private method.
         $paypalCheckoutParams = $this->getPaypalCheckoutParams($order, $trans);
 
         $predefinedData = [
@@ -324,5 +347,35 @@ class PaymentController extends AbstractController
         }
 
         return $paypalCheckoutParams;
+    }
+
+    /**
+     * Prepare and send mail.
+     *
+     * @param LoggerInterface $logger          logger interface to log alerts
+     * @param MailerInterface $mailer          mailer interface to send mail
+     * @param SettingsManager $settingsManager Setting manager to retrieve emails
+     * @param Order           $order           order paid
+     * @param Bill            $bill            billed bill
+     *
+     */
+    private function prepareAndSendMail(
+     LoggerInterface $logger,
+     MailerInterface $mailer,
+     SettingsManager $settingsManager,
+     Order $order,
+     Bill $bill
+    ):void {
+        try {
+            /** @var string $sender */
+            $sender = $settingsManager->getValue('mail-sender');
+            /** @var string $accountant */
+            $accountant = $settingsManager->getValue('mail-accountant');
+
+            $mailer->sendPaymentMail($order, $bill, $sender, $accountant);
+        } catch (SettingsException $settingsException) {
+            //the mail was not sent because parameters does not exists
+            $logger->alert('Mail was not sent: '.$settingsException->getMessage());
+        }
     }
 }

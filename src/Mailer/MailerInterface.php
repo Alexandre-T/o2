@@ -15,10 +15,24 @@ declare(strict_types=1);
 
 namespace App\Mailer;
 
+use App\Entity\Bill;
+use App\Entity\Order;
 use App\Entity\User;
 
 interface MailerInterface
 {
+    /**
+     * Send a mail to accountant from sender to inform about the new order and the new bill.
+     *
+     * @param Order  $order      the new order
+     * @param Bill   $bill       the new bill
+     * @param string $sender     the sender of mail
+     * @param string $accountant the accountant who received mail
+     *
+     * @return int
+     */
+    public function sendPaymentMail(Order $order, Bill $bill, string $sender, string $accountant): int;
+
     /**
      * Send an email to reset password.
      *

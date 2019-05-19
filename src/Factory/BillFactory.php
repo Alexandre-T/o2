@@ -18,6 +18,7 @@ namespace App\Factory;
 use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\User;
+use DateTimeImmutable;
 
 class BillFactory
 {
@@ -45,6 +46,10 @@ class BillFactory
         $bill->copyAddress($customer);
         $bill->copyIdentity($customer);
         $bill->copyPrice($order);
+
+        if ($order->isPaid()) {
+            $bill->setPaidAt(new DateTimeImmutable());
+        }
 
         return $bill;
     }

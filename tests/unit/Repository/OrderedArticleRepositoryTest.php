@@ -1,6 +1,6 @@
 <?php
 /**
- * This orderedArticle is part of the O2 Application.
+ * This file is part of the O2 Application.
  *
  * PHP version 7.1|7.2|7.3|7.4
  *
@@ -29,18 +29,18 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class OrderedArticleRepositoryTest extends KernelTestCase
 {
     /**
-     * OrderedArticle Repository.
-     *
-     * @var OrderedArticleRepository
-     */
-    private $orderedArticleRepository;
-
-    /**
      * Entity manager.
      *
      * @var EntityManagerInterface
      */
     private $entityManager;
+
+    /**
+     * OrderedArticle Repository.
+     *
+     * @var OrderedArticleRepository
+     */
+    private $orderedArticleRepository;
 
     /**
      * {@inheritdoc}
@@ -75,7 +75,7 @@ class OrderedArticleRepositoryTest extends KernelTestCase
     {
         $expected = $actual = 3;
         $orderedArticles = $this->orderedArticleRepository->findBy([
-            'quantity' => $actual
+            'quantity' => $actual,
         ]);
         self::assertNotNull($orderedArticles);
         self::assertIsArray($orderedArticles);
