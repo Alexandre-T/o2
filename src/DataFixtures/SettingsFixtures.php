@@ -109,10 +109,16 @@ class SettingsFixtures extends Fixture
         $settings->setValue('sender@example.org');
         $manager->persist($settings);
 
-        //Mail sender.
+        //Mail accountant.
         $settings = new Settings();
         $settings->setCode('mail-accountant');
         $settings->setValue('accountant@example.org');
+        $manager->persist($settings);
+
+        //Mail programmer.
+        $settings = new Settings();
+        $settings->setCode('mail-programmer');
+        $settings->setValue('programmer@example.org');
         $manager->persist($settings);
 
         $manager->flush();
