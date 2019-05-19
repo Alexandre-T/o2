@@ -5,6 +5,7 @@ title:
   password-lost: 'V-Mod Engineering : Réinitialisation de votre mot de passe'
   new-payment: 'V-Mod Engineering : Nouveau paiment en ligne'
   new-programmation: 'V-Mod Engineering : Nouvelle reprogrammation commandée'
+  programmation-done: 'V-Mod Engineering : Votre reprogrammation est prête'
 link:
   reset:
     text: 'Accéder au formulaire'
@@ -14,12 +15,19 @@ link:
   download-original-file:
     title: 'Téléchargement de la cartographie actuelle'
     text: 'Cartographie d’origine'
+  programmation-show:
+    title: 'Consulter votre programmation'
+    text: 'Consulter votre programmation'
+  download-final-file:
+    title: 'Télécharger la cartographie'
+    text: 'Télécharger'
 explanation:
   password-lost:
     declaration: 'Vous venez de déclarer la perte de votre mot de passe. '
     how-to: 'En cliquant sur le lien ci-dessus, vous allez être redigéré vers un formulaire en ligne où vous pourrez changer votre mot de passe.'
   new-payment: 'Un nouveau paiement en ligne vient d’être effectué.'
   new-programmation %mail%: 'Une nouvelle reprogrammation a été demandée par %mail%'
+  programmation-done %make% %model%: 'La reprogrammation concernant votre %make% %model% est prête. Ci-dessous, vous trouverez les liens pour télécharger votre reprogrammation et pour consulter la récapitulation de votre commande.'
 new-payment:
   description %mail% %amount% %credits%: 'Le nouveau paiement a été réalisé par %mail% pour un montant total de %amount% T.T.C. afin d’acheter %credits% crédits.'
 programmation:

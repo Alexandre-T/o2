@@ -53,6 +53,16 @@ interface MailerInterface
     public function sendResettingEmailMessage(User $user): void;
 
     /**
+     * Sent a mail to alert customer that his programmation is done.
+     *
+     * @param Programmation $programmation programmation done
+     * @param string        $sender        expediter
+     *
+     * @return int
+     */
+    public function sendReturningProgrammation(Programmation $programmation, string $sender): int;
+
+    /**
      * Send an internal test email to declared user in settings.
      *
      * @param string $email mail of senders and receivers

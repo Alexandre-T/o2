@@ -158,6 +158,43 @@ class Mailer implements MailerInterface
     }
 
     /**
+     * Sent a mail to alert customer that his programmation is done.
+     *
+     * @param Programmation $programmation programmation done
+     * @param string        $sender        expediter
+     *
+     * @return int
+     */
+    public function sendReturningProgrammation(Programmation $programmation, string $sender): int
+    {
+        $download = $this->router->generate(
+            'customer_programmation_download',
+            ['id' => $programmation->getId()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $show = $this->router->generate(
+            'customer_programmation_show',
+            ['id' => $programmation->getId()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+
+        $email = $programmation->getCustomer()->getMail();
+
+        $parameters = [
+            'download' => $download,
+            'show' => $show,
+            'mail' => $email,
+            'programmation' => $programmation,
+        ];
+
+        $renderHtml = $this->templating->render('mail/programmation-done.html.twig', $parameters);
+        $renderTxt = $this->templating->render('mail/programmation-done.txt.twig', $parameters);
+
+        return $this->sendEmailMessage($renderHtml, $renderTxt, $sender, $email);
+    }
+
+    /**
      * Send an internal test email to declared user in settings.
      *
      * @param string $email mail of senders and receivers

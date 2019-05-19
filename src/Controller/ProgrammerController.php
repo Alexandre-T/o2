@@ -17,9 +17,13 @@ namespace App\Controller;
 
 use App\Entity\File;
 use App\Entity\Programmation;
+use App\Exception\SettingsException;
 use App\Form\Model\UploadProgrammation;
 use App\Form\UploadProgrammationFormType;
+use App\Mailer\MailerInterface;
 use App\Manager\ProgrammationManager;
+use App\Manager\SettingsManager;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -141,17 +145,23 @@ class ProgrammerController extends AbstractPaginateController
      *
      * @Route("/upload/{id}", name="upload", methods={"get", "post"})
      *
+     * @param LoggerInterface      $logger               to log an alert when settings are missing
+     * @param MailerInterface      $mailer               to send a mail to customer
      * @param ProgrammationManager $programmationManager To save programmation
      * @param Programmation        $programmation        The programmation to display
      * @param Request              $request              The request containing data form
+     * @param SettingsManager      $settingsManager      To retrieve emails
      * @param TranslatorInterface  $trans                The translator
      *
      * @return Response
      */
     public function upload(
+     LoggerInterface $logger,
+     MailerInterface $mailer,
      ProgrammationManager $programmationManager,
      Programmation $programmation,
      Request $request,
+     SettingsManager $settingsManager,
      TranslatorInterface $trans
     ): Response {
         $model = new UploadProgrammation();
@@ -163,6 +173,15 @@ class ProgrammerController extends AbstractPaginateController
             $model->copyFile($programmation->getFinalFile());
             $programmationManager->publish($programmation);
             $programmationManager->save($programmation);
+
+            try {
+                /** @var string $sender */
+                $sender = $settingsManager->getValue('mail-sender');
+                $mailer->sendReturningProgrammation($programmation, $sender);
+            } catch (SettingsException $exception) {
+                $logger->alert('Email was not sent: '.$exception->getMessage());
+            }
+
             $this->addFlash('success', $trans->trans('entity.programmation.uploaded'));
 
             return $this->redirectToRoute('programmer_show', ['id' => $programmation->getId()]);

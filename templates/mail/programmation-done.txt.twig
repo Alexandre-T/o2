@@ -1,0 +1,9 @@
+{% trans_default_domain('mail') %}
+{{ 'title.programmation-done' | trans }}
+{{ 'explanation.programmation-done %make% %model%' | trans({
+    '%make%': programmation.make,
+    '%model%': programmation.model
+})
+}}
+{{ 'link.programmation-show.title' | trans}} : {{ show }}
+{{ 'link.download-final-file.title' | trans}} : {{ download }}
