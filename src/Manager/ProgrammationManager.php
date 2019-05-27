@@ -38,6 +38,16 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
     public const ALIAS = 'programmation';
 
     /**
+     * Count pending programmation.
+     *
+     * @return int
+     */
+    public function countPending(): int
+    {
+        return $this->count(['deliveredAt' => null]);
+    }
+
+    /**
      * Return default alias.
      */
     public function getDefaultAlias(): string
@@ -118,16 +128,6 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
     public function publish(Programmation $programmation): void
     {
         $programmation->setDeliveredAt(new DateTimeImmutable());
-    }
-
-    /**
-     * Count pending programmation.
-     *
-     * @return int
-     */
-    public function countPending(): int
-    {
-        return $this->count(['deliveredAt' => null]);
     }
 
     /**

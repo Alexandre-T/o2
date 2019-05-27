@@ -102,7 +102,7 @@ class DefaultController extends AbstractController
         return [
             'bills' => count($user->getBills()),
             'credits' => $user->getCredit(),
-            'programmations' => count($user->getProgrammations())
+            'programmations' => count($user->getProgrammations()),
         ];
     }
 }
