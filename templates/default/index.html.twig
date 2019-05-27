@@ -10,23 +10,97 @@
 
 {% block container %}
     {% if not is_granted('ROLE_USER') %}
-    <div class="d-flex justify-content-around">
-        <a href="{{ path('security_register') }}" title="{{ 'nav.register.title' | trans }}" class="btn btn-primary">
-            <span class="fas fa-sign-in-alt fa-rotate-270"></span>
-            {{ 'nav.register.text' | trans  }}
-        </a>
-        <a href="{{ path('security_login') }}" title="{{ 'nav.login.title' | trans }}" class="btn btn-secondary">
-            <span class="fas fa-sign-in-alt"></span>
-            {{ 'nav.login.text' | trans }}
-        </a>
-    </div>
+        <div class="d-flex justify-content-around">
+            <a href="{{ path('security_register') }}" title="{{ 'nav.register.title' | trans }}"
+               class="btn btn-primary">
+                <span class="fas fa-sign-in-alt fa-rotate-270"></span>
+                {{ 'nav.register.text' | trans }}
+            </a>
+            <a href="{{ path('security_login') }}" title="{{ 'nav.login.title' | trans }}" class="btn btn-secondary">
+                <span class="fas fa-sign-in-alt"></span>
+                {{ 'nav.login.text' | trans }}
+            </a>
+        </div>
+        <div class="text-center mt-5">
+            <img src="{{ asset('img/o2programmation.png') }}" alt="{{ 'img.alt.logo' | trans }}"/>
+            <ul class="mt-5">
+                <li>{{ 'title.professional-files' | trans }}</li>
+                <li>{{ 'title.vmod-trademark' | trans }}</li>
+                <li>{{ 'title.experience' | trans }}</li>
+            </ul>
+        </div>
     {% endif %}
-    <div class="text-center mt-5">
-        <img src="{{ asset('img/o2programmation.png') }}" alt="{{ 'img.alt.logo' | trans }}"/>
-        <ul class="mt-5">
-            <li>{{ 'title.professional-files' | trans }}</li>
-            <li>{{ 'title.vmod-trademark' | trans }}</li>
-            <li>{{ 'title.experience' | trans }}</li>
-        </ul>
+
+    <div class="row">
+        {% if users is defined %}
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-info h-100">
+                    <div class="card-body bg-info">
+                        <div class="rotate">
+                            <a href="{{ path('administration_user_index') }}" data-toggle="tooltip"
+                               title="{{ 'nav.admin.submenu.users.title' | trans }}" class="text-white">
+                                <i class="fas fa-users fa-4x"></i>
+                                <span class="sr-only">{{ 'nav.admin.submenu.users.text' | trans }}</span>
+                            </a>
+                        </div>
+                        <h6 class="text-uppercase">{{ 'home.users' | trans }}</h6>
+                        <h1 class="display-4">{{ users }}</h1>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if programmer_programmations is defined %}
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-info h-100">
+                    <div class="card-body bg-{{ programmer_programmations ? 'warning' : 'success' }}">
+                        <div class="rotate">
+                            <a href="{{ path('programmer_list') }}" data-toggle="tooltip"
+                               class="text-white" title="{{ 'nav.programmer.title' | trans }}">
+                                <i class="fas fa-tachometer-alt fa-4x"></i>
+                                <span class="sr-only">
+                                    {{ 'home.pending-programmation %count%' | trans({'%count%': programmer_programmations}) }}
+                                </span>
+                            </a>
+                        </div>
+                        <h6 class="text-uppercase">{{ 'home.pending-programmations' | trans }}</h6>
+                        <h1 class="display-4">{{ programmer_programmations }}</h1>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if accountant_bills is defined %}
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-info h-100">
+                    <div class="card-body bg-info">
+                        <div class="rotate">
+                            <a href="{{ path('accountant_bill_list') }}" data-toggle="tooltip"
+                               class="text-white" title="{{ 'nav.accountant.submenu.bill.title' | trans }}">
+                                <i class="fas fa-file-invoice-dollar fa-4x"></i>
+                                <span class="sr-only">{{ 'nav.accountant.submenu.bill.text' | trans }}</span>
+                            </a>
+                        </div>
+                        <h6 class="text-uppercase">{{ 'nav.accountant.submenu.bill.text' | trans }}</h6>
+                        <h1 class="display-4">{{ accountant_bills }}</h1>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if credits is defined %}
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-info h-100">
+                    <div class="card-body bg-{{ credits > 0 ? 'info' : warning }}">
+                        <div class="rotate">
+                            <a href="{{ path('customer_bill_list') }}" data-toggle="tooltip"
+                               class="text-white" title="{{ 'nav.customer.submenu.bills.title' | trans }}">
+                                <i class="fas fa-coins fa-4x"></i>
+                                <span class="sr-only">{{ 'nav.customer.submenu.bills.text' | trans }}</span>
+                            </a>
+                        </div>
+                        <h6 class="text-uppercase">{{ 'home.credits' | trans }}</h6>
+                        <h1 class="display-4">{{ credits }}</h1>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

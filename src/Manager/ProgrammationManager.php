@@ -121,6 +121,16 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
     }
 
     /**
+     * Count pending programmation.
+     *
+     * @return int
+     */
+    public function countPending(): int
+    {
+        return $this->count(['deliveredAt' => null]);
+    }
+
+    /**
      * This method will add the HIDDEN field, the sortable field.
      *
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
