@@ -760,3 +760,4 @@ home:
   pending-programmation %count%: '{0}Aucune programmation en attente|{1}Une programmation en attente|]1,Inf[ %count% programmations en attente'
   credits: 'Crédits'
   pending-programmations: 'Programmations en attente'
+  credits %count%: '{0}Aucun crédit|{1} %count% crédit |]1,Inf[ %count% crédits'

@@ -13,7 +13,16 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav mx-auto">
+            <ul class="navbar-nav mx-auto">
+                {% if is_granted('ROLE_USER') and not is_granted('ROLE_ACCOUNTANT') and not is_granted('ROLE_ADMIN') and not is_granted('ROLE_PROGRAMMER') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('customer_order_credit') }}" data-placement="bottom"
+                           title="{{ 'nav.customer.submenu.credit.title' | trans }}" data-toggle="tooltip">
+                            <span class="fa fa-fw fa-coins"></span>
+                            {{ 'home.credits %count%' | trans({'%count%': app.user.credit}) }}
+                        </a>
+                    </li>
+                {% endif %}
                 {% if is_granted('ROLE_ACCOUNTANT') %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -78,7 +87,7 @@
                         </div>
                     </li>
                 {% endif %}
-            </div>
+            </ul>
             <div class="navbar-nav ml-auto">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <li class="nav-item dropdown {{ route starts with 'customer' ? 'active' }}">
