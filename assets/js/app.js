@@ -23,10 +23,14 @@ require('@fortawesome/fontawesome-free/js/all.js');
 require('bootstrap/js/dist/tooltip');
 require('bootstrap/js/dist/popover');
 
+import bsCustomFileInput from "bs-custom-file-input";
+
 $(document).ready(function() {
   $('[data-toggle="popover"]').popover();
   $('[data-toggle="tooltip"]').tooltip();
   $('[data-toggle=offcanvas]').click(function() {
     $('.row-offcanvas').toggleClass('active');
   });
+  //This code helps file input to be completed
+  bsCustomFileInput.init();
 });
