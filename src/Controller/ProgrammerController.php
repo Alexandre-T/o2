@@ -164,7 +164,7 @@ class ProgrammerController extends AbstractPaginateController
      SettingsManager $settingsManager,
      TranslatorInterface $trans
     ): Response {
-        $model = new UploadProgrammation();
+        $model = new UploadProgrammation($programmation);
         $editForm = $this->createForm(UploadProgrammationFormType::class, $model);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {

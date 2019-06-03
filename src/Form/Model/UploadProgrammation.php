@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace App\Form\Model;
 
 use App\Entity\File;
-use App\Entity\Programmation as ProgrammationEntity;
+use App\Entity\Programmation as Programmation;
 use Symfony\Component\HttpFoundation\File\File as HttpFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -97,6 +97,21 @@ class UploadProgrammation
     private $stageOneDone = false;
 
     /**
+     * Upload programmation model constructor.
+     *
+     * I provide programmation and I copy "what is ask" to "what is done".
+     *
+     * @param Programmation $programmation programmation which inits
+     */
+    public function __construct(Programmation $programmation) {
+        $this->setEdcStopped($programmation->isEdcOff());
+        $this->setEgrStopped($programmation->isEgrOff());
+        $this->setFapStopped($programmation->isFapOff());
+        $this->setEthanolDone($programmation->isEthanol());
+        $this->setStageOneDone($programmation->isStageOne());
+    }
+
+    /**
      * Copy data from model to the entity.
      *
      * @param File $file file to initialize
@@ -110,11 +125,11 @@ class UploadProgrammation
     /**
      * Copy data form to programmation.
      *
-     * @param ProgrammationEntity $programmationEntity programmation to initialize
+     * @param Programmation $programmation programmation to initialize
      */
-    public function copyProgrammation(ProgrammationEntity $programmationEntity): void
+    public function copyProgrammation(Programmation $programmation): void
     {
-        $programmationEntity
+        $programmation
             ->setResponse($this->getResponse())
             ->setEdcStopped($this->isEdcStopped())
             ->setEgrStopped($this->isEgrStopped())
