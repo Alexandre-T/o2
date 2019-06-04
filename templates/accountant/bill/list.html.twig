@@ -88,6 +88,12 @@
                                 <span class="sr-only">{{ 'action.bill.credit.text' | trans }}</span>
                             </a>
                         {% endif %}
+                        <a class="btn btn-outline-secondary" title="{{ 'action.bill.print.title' | trans }}"
+                           href="{{ path('accountant_bill_print', { 'id': bill.id }) }}"
+                           data-placement="left" data-toggle="tooltip" target="_blank">
+                            <span class="fas fa-print"></span>
+                            <span class="sr-only">{{ 'action.bill.print.text' | trans }}</span>
+                        </a>
                     </div>
                 </td>
             </tr>

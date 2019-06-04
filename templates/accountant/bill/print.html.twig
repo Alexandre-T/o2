@@ -1,0 +1,5 @@
+{% extends 'customer/bill/show.html.twig' %}
+
+{% block title %}
+    {{ 'title.accountant.bill.show %number%'|trans({'%number%': bill.label}) }} · {{ parent() }}
+{% endblock title %}

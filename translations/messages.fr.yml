@@ -9,6 +9,9 @@ action:
     credit:
       text: 'Créditer le client'
       title %quantity%: 'Verser au client les %quantity% crédits en attente'
+    print:
+      text: 'Impression'
+      title: 'Afficher cette facture en plein écran pour impression'
   close: 'Fermer'
   email:
     title: 'Envoyer un email'

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.accountant.bill.show %number%'|trans({'%number%': bill.label}) }} · {{ parent() }}
+    {{ 'title.customer.bill.show %number%'|trans({'%number%': bill.label}) }} · {{ parent() }}
 {% endblock title %}
 
 {% block body %}
@@ -18,14 +18,16 @@
                     <span class="d-block">{{ settings('bill-telephone') }}</span>
                 </address>
                 <div class="mt-5">
-                <span class="d-block">
-                    {{ 'bill.method' | trans }}
-                    {{ ('instruction.method.' ~ instruction.paymentSystemName) | trans }}
-                </span>
+                    {% if instruction is not null %}
                     <span class="d-block">
-                    {{ 'bill.expired' | trans }}
-                        {{ bill.createdAt | localizeddate('short', 'none') }}
-                </span>
+                        {{ 'bill.method' | trans }}
+                        {{ ('instruction.method.' ~ instruction.paymentSystemName) | trans }}
+                    </span>
+                    {% endif %}
+                    <span class="d-block">
+                        {{ 'bill.expired' | trans }}
+                            {{ bill.createdAt | localizeddate('short', 'none') }}
+                    </span>
                 </div>
             </div>
             <div class="col-6">

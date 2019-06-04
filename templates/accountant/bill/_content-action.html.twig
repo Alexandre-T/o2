@@ -3,9 +3,8 @@
     <span class="fas fa-file-invoice-dollar"></span>
     <span class="sr-only">{{ 'action.bill.list.text' | trans }}</span>
 </a>
-{# TODO Change status !!! #}
-{#<a href="{{ path('administration_user_password', {'id': user.id}) }}" data-toggle="tooltip" data-placement="left"#}
-{#   title="{{ 'action.user.password.title' | trans }}" class="btn btn-outline-secondary">#}
-{#    <span class="fas fa-key"></span>#}
-{#    <span class="sr-only">{{ 'action.user.password.text' | trans }}</span>#}
-{#</a>#}
+<a href="{{ path('accountant_bill_print', {'id': bill.id}) }}" data-toggle="tooltip" data-placement="left"
+   title="{{ 'action.bill.print.title' | trans }}" class="btn btn-outline-primary" target="_blank">
+    <span class="fas fa-print"></span>
+    <span class="sr-only">{{ 'action.bill.print.text' | trans }}</span>
+</a>
