@@ -32,7 +32,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(
  *     name="ts_user",
- *     schema="data",
  *     options={"comment": "Users data table"},
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(name="uk_user_mail",  columns={"usr_mail"})

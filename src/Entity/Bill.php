@@ -23,7 +23,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity(repositoryClass="App\Repository\BillRepository")
  * @ORM\Table(
  *     name="te_bill",
- *     schema="data",
  *     options={"comment": "bill data table"},
  *     indexes={
  *         @ORM\Index(name="ndx_bill_customer",  columns={"customer_id"}),

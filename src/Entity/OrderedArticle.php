@@ -21,7 +21,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\OrderedArticleRepository")
  * @ORM\Table(
  *     name="tj_ordered_article",
- *     schema="data",
  *     options={"comment": "Ordered articles"},
  *     indexes={
  *         @ORM\Index(name="ndx_ordered_article_order",  columns={"order_id"}),

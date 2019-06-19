@@ -28,7 +28,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass="App\Repository\FileRepository")
  * @ORM\Table(
  *     name="te_file",
- *     schema="data"
  * )
  * @Vich\Uploadable
  */

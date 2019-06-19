@@ -24,7 +24,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  * @ORM\Table(
  *     name="tr_article",
- *     schema="data",
  *     options={"comment": "Article resource table"},
  *     uniqueConstraints={
  *         @ORM\UniqueConstraint(name="uk_article_code",  columns={"code"})

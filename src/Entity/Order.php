@@ -28,8 +28,10 @@ use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
  * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
  * @ORM\Table(
  *     name="te_order",
- *     schema="data",
- *     options={"comment": "order data table"},
+ *     options={
+ *         "comment": "order data table", "engine": "InnoDb", "charset": "utf8mb4",
+ *         "collate": "utf8mb4_unicode_ci"
+ *     },
  *     indexes={
  *         @ORM\Index(name="ndx_user",  columns={"customer_id"}),
  *         @ORM\Index(name="ndx_user_status",  columns={"customer_id", "status_order"}),

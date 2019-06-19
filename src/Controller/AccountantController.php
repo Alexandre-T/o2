@@ -132,6 +132,31 @@ class AccountantController extends AbstractPaginateController
     }
 
     /**
+     * Finds and displays a bill to print.
+     *
+     * @Route("/bill/print/{id}", name="bill_print", methods={"get"})
+     *
+     * @param Bill $bill The bill to print
+     *
+     * @return Response
+     */
+    public function print(Bill $bill): Response
+    {
+        $order = $bill->getOrder();
+        $instruction = null;
+
+        if (null !== $order) {
+            $instruction = $order->getPaymentInstruction();
+        }
+
+        return $this->render('accountant/bill/print.html.twig', [
+            'bill' => $bill,
+            'instruction' => $instruction,
+            'order' => $order,
+        ]);
+    }
+
+    /**
      * Finds and displays a bill entity.
      *
      * @Route("/bill/{id}", name="bill_show", methods={"get"})
@@ -162,31 +187,6 @@ class AccountantController extends AbstractPaginateController
             'order' => $order,
             'instruction' => $instruction,
             'payments' => $payments,
-        ]);
-    }
-
-    /**
-     * Finds and displays a bill to print.
-     *
-     * @Route("/bill/print/{id}", name="bill_print", methods={"get"})
-     *
-     * @param Bill $bill The bill to print
-     *
-     * @return Response
-     */
-    public function print(Bill $bill): Response
-    {
-        $order = $bill->getOrder();
-        $instruction = null;
-
-        if (null !== $order) {
-            $instruction = $order->getPaymentInstruction();
-        }
-
-        return $this->render('accountant/bill/print.html.twig', [
-            'bill' => $bill,
-            'instruction' => $instruction,
-            'order' => $order,
         ]);
     }
 }

@@ -28,7 +28,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity(repositoryClass="App\Repository\ProgrammationRepository")
  * @ORM\Table(
  *     name="te_programmation",
- *     schema="data",
  *     indexes={
  *         @ORM\Index(name="ndx_customer",  columns={"customer_id"})
  *     },
@@ -274,7 +273,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
      *
      * @var int
      *
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", name="readed")
      */
     private $read;
 

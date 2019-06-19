@@ -103,7 +103,8 @@ class UploadProgrammation
      *
      * @param Programmation $programmation programmation which inits
      */
-    public function __construct(Programmation $programmation) {
+    public function __construct(Programmation $programmation)
+    {
         $this->setEdcStopped($programmation->isEdcOff());
         $this->setEgrStopped($programmation->isEgrOff());
         $this->setFapStopped($programmation->isFapOff());

@@ -25,7 +25,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Entity(repositoryClass="App\Repository\SettingsRepository")
  * @ORM\Table(
- *     schema="data",
  *     name="ts_settings",
  *     options={"comment": "Settings application"},
  *     uniqueConstraints={
