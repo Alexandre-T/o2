@@ -1,7 +1,7 @@
 language: php
 
 addons:
-  mariadb: 10.2
+  mariadb: '10.2'
 
 # Allows using containers
 sudo: true
@@ -27,13 +27,6 @@ matrix:
 
 before_install:
   - mkdir -p build/logs
-  # Libsodium pecl installation
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then pecl channel-update pecl.php.net ; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo apt-get install -y software-properties-common ; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo bash -c "LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php" ; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo sudo apt-get update ; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then sudo apt-get install -y libsodium-dev ; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then pecl install -f libsodium ; fi
   - export COMPOSER_PROCESS_TIMEOUT=3000
 install:
   # Database creation

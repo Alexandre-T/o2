@@ -3,7 +3,7 @@ security:
     # This is my password encoder
     encoders:
         App\Entity\User:
-            algorithm: argon2i
+            algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     # https://knpuniversity.com/screencast/symfony2-ep2/user-provider
