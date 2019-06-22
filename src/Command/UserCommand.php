@@ -69,6 +69,10 @@ class UserCommand extends Command
         $user
             ->setGivenName('John')
             ->setName($label)
+            ->setStreetAddress('.')
+            ->setPostalCode('33680')
+            ->setCountry('FR')
+            ->setLocality('Lacanau')
             ->setType(PersonInterface::PHYSIC);
 
         if (!empty($password)) {
