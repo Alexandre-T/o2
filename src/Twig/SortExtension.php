@@ -67,7 +67,7 @@ class SortExtension extends AbstractExtension
                 case 'numeric':
                 case 'alpha':
                 case 'amount':
-                    $result .= "-${type}";
+                    $result .= "-{$type}";
             }
 
             $result .= 'desc' == $sort ? '-up' : '-down';

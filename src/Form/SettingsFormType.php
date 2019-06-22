@@ -102,6 +102,6 @@ class SettingsFormType extends AbstractType
                 return IntegerType::class;
         }
 
-        throw new SettingsException("${valueClass} is not implemented by SettingsFormType");
+        throw new SettingsException("{$valueClass} is not implemented by SettingsFormType");
     }
 }

@@ -73,9 +73,9 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
                 $programmation->setPower(100 + $index);
                 $programmation->setProtocol('Protocol'.$index);
                 $programmation->setRead(ProgrammationInterface::READ_REAL);
-                $programmation->setReaderTool("ReaderTool${index}");
-                $programmation->setSerial("Serial${index}");
-                $programmation->setVersion("Version${index}");
+                $programmation->setReaderTool("ReaderTool{$index}");
+                $programmation->setSerial("Serial{$index}");
+                $programmation->setVersion("Version{$index}");
                 $programmation->setYear(2009);
                 $programmation->refreshCost();
                 $manager->persist($programmation);

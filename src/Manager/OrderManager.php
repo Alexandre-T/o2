@@ -230,7 +230,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     {
         $order = $this->repository->findOneByUuid($uuid);
         if (null === $order) {
-            throw new NoOrderException("Order with uuid ${uuid} is non-existent.");
+            throw new NoOrderException("Order with uuid {$uuid} is non-existent.");
         }
 
         return $order;

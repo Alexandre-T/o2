@@ -82,7 +82,7 @@ class GravatarExtension extends AbstractExtension
 
         // Size
         if (null !== $size) {
-            $url .= "?s=${size}";
+            $url .= "?s={$size}";
         }
 
         // Default

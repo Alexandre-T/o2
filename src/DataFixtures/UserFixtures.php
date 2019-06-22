@@ -83,18 +83,18 @@ class UserFixtures extends Fixture
 
             //We add a lot of user
             foreach (range(0, self::CUSTOMERS) as $index) {
-                $user = $this->createUser("Customer ${index}", "customer-${index}");
+                $user = $this->createUser("Customer {$index}", "customer-{$index}");
                 $user
-                    ->setResettingToken("resetToken${index}")
+                    ->setResettingToken("resetToken{$index}")
                     ->setResettingAt($now)
                     ->setCredit($index)
-                    ->setGivenName("John${index}")
+                    ->setGivenName("John{$index}")
                     ->setName('Doe')
-                    ->setSociety("Society ${index}")
+                    ->setSociety("Society {$index}")
                     ->setType(0 === $index % 2)
                 ;
                 $manager->persist($user);
-                $this->addReference("user_customer-${index}", $user);
+                $this->addReference("user_customer-{$index}", $user);
             }
 
             //These references are perhaps unused.
@@ -163,7 +163,7 @@ class UserFixtures extends Fixture
     {
         $user = new User();
         $user
-            ->setMail("${code}@example.org")
+            ->setMail("{$code}@example.org")
             ->setPlainPassword($code)
             ->setGivenName('John')
             ->setName($label)
