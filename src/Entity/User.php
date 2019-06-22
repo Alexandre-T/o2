@@ -161,11 +161,6 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
      *
      * @var array
      *
-     * @Assert\Count(
-     *     min=1,
-     *     minMessage="form.error.roles.empty"
-     * )
-     *
      * @ORM\Column(type="json_array", nullable=false, name="usr_roles", options={"comment": "User roles"})
      *
      * @Gedmo\Versioned
