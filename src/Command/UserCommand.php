@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\PersonInterface;
 use App\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Console\Command\Command;
@@ -65,7 +66,10 @@ class UserCommand extends Command
 
         $user = new User();
         $user->setMail($mail);
-        $user->setLabel($label);
+        $user
+            ->setGivenName('John')
+            ->setName($label)
+            ->setType(PersonInterface::PHYSIC);
 
         if (!empty($password)) {
             $user->setPlainPassword($password);
