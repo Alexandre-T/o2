@@ -11,6 +11,8 @@ error:
     blank: 'L’adresse email est obligatoire.'
     unique:
       'Il semblerait que vous disposiez déjà d’un compte chez nous !'
+  method:
+    choice: 'La méthode de paiement n’est pas valide.'
   model:
     blank: 'Le modèle de véhicule doit être fourni.'
   name:

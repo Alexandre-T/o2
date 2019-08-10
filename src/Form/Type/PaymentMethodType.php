@@ -43,7 +43,7 @@ class PaymentMethodType extends AbstractType
             'expanded' => true,
             'multiple' => false,
             'attr' => ['class' => 'form-check-inline p-0 pt-2 m-0'],
-            'data' => 'monetico',
+            'empty_data' => 'monetico',
         ]);
     }
 

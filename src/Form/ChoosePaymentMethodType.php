@@ -30,9 +30,11 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Form\Model\PaymentMethod;
 use App\Form\Type\PaymentMethodType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ChoosePaymentMethodType extends AbstractType
 {
@@ -54,5 +56,17 @@ class ChoosePaymentMethodType extends AbstractType
         $builder
             ->add('method', PaymentMethodType::class)
         ;
+    }
+
+    /**
+     * Configures the options for this type.
+     *
+     * @param OptionsResolver $resolver The resolver for the options
+     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => PaymentMethod::class,
+        ]);
     }
 }

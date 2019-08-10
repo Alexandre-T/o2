@@ -21,6 +21,7 @@ use App\Entity\Payment;
 use App\Exception\NoOrderException;
 use App\Exception\SettingsException;
 use App\Form\ChoosePaymentMethodType;
+use App\Form\Model\PaymentMethod;
 use App\Mailer\MailerInterface;
 use App\Manager\BillManager;
 use App\Manager\OrderManager;
@@ -256,10 +257,10 @@ class PaymentController extends AbstractController
             return $this->redirectToRoute('customer_order_credit');
         }
 
-        $form = $this->createForm(ChoosePaymentMethodType::class);
+        $methodModel = new PaymentMethod();
+        $form = $this->createForm(ChoosePaymentMethodType::class, $methodModel);
         $form->handleRequest($request);
 
-        //FIXME is valid shall test method payment paypal_express_checkout et monetico
         if ($form->isSubmitted() && $form->isValid()) {
             $storage = $payum->getStorage(Payment::class);
             /** @var Payment $payment */
@@ -267,7 +268,7 @@ class PaymentController extends AbstractController
             $payment->setNumber(uniqid());
             $payment->setCurrencyCode('EUR');
             $payment->setTotalAmount((int) ($order->getAmount() * 100));
-            $payment->setDescription('Paiement demandé via '.$form->getData()['method']);
+            $payment->setDescription('Paiement demandé via '.$form->getData()->getMethod());
             $payment->setClientId($this->getUser()->getId());
             $payment->setClientEmail($this->getUser()->getMail());
             $details = [];
@@ -286,13 +287,13 @@ class PaymentController extends AbstractController
                 [],
                 UrlGeneratorInterface::ABSOLUTE_URL);
 
-            if ('paypal_express_checkout' === $form->getData()['method']) {
+            if ('paypal_express_checkout' === $form->getData()->getMethod()) {
                 $details = array_merge($details, $this->getPaypalCheckoutParams($order, $trans));
                 $details['cancel_url'] = $cancelUrl;
                 $details['return_url'] = $returnUrl;
             }
 
-            if ('monetico' === $form->getData()['method']) {
+            if ('monetico' === $form->getData()->getMethod()) {
                 $details['return_url'] = $cancelUrl;
                 $details['failure_url'] = $cancelUrl;
                 $analyseUrl = $returnUrl;
@@ -305,7 +306,7 @@ class PaymentController extends AbstractController
             $orderManager->save($order);
 
             $captureToken = $payum->getTokenFactory()->createCaptureToken(
-                $form->getData()['method'],
+                $form->getData()->getMethod(),
                 $payment,
                 $analyseUrl
             );
