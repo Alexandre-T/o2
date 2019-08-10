@@ -1,0 +1,8 @@
+ekyna_payum_monetico:
+  api:
+    bank: 'CIC'    # enum from Ekyna\Component\Payum\Monetico\Api\Api
+    mode: 'TEST'    # enum from Ekyna\Component\Payum\Monetico\Api\Api
+    tpe: '%env(MONETICO_TPE)%' # value from your Monetico account
+    key: '%env(MONETICO_KEY)%' # value from your Monetico account
+    company: '%env(MONETICO_COMPANY)%' # value from your Monetico account
+    debug: true #true/false

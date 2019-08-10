@@ -738,9 +738,11 @@ common:
   credits %credit%: '%credit% crédits' #plurial is the only available
   done: 'Réalisé'
   in-progress: 'En cours'
+  monetico: 'Carte bancaire'
   no: 'Non'
   non-asked: 'Non demandé'
   not-done: 'Non réalisé'
+  paypal: 'Paypal Express'
   programmation: 'Programmation'
   vehicle: 'Véhicule'
   yes: 'Oui'

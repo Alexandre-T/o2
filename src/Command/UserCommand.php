@@ -68,12 +68,15 @@ class UserCommand extends Command
         $user->setMail($mail);
         $user
             ->setGivenName('John')
-            ->setName($label)
+            ->setName($label);
+        $user
             ->setStreetAddress('.')
             ->setPostalCode('33680')
             ->setCountry('FR')
-            ->setLocality('Lacanau')
-            ->setType(PersonInterface::PHYSIC);
+            ->setLocality('Lacanau');
+        $user
+            ->setType(PersonInterface::PHYSIC)
+        ;
 
         if (!empty($password)) {
             $user->setPlainPassword($password);

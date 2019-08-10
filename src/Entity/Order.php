@@ -20,7 +20,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 /**
  * Order entity.
@@ -38,7 +37,6 @@ use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
  *         @ORM\Index(name="ndx_status_order",  columns={"status_order"})
  *     },
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="uk_order_payment_instruction",  columns={"payment_instruction_id"}),
  *         @ORM\UniqueConstraint(name="uk_order_uuid",  columns={"uuid"})
  *     }
  * )
@@ -116,15 +114,15 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     private $payerId;
 
     /**
-     * Payment instructions from JMS bundle.
+     * Payment instructions from Payum bundle.
      *
-     * @var PaymentInstruction
+     * @var Payment
      *
-     * @ORM\OneToOne(targetEntity="JMS\Payment\CoreBundle\Entity\PaymentInstruction", fetch="EAGER")
+     * @ORM\OneToOne(targetEntity="Payment", fetch="EAGER")
      *
      * @Gedmo\Versioned
      */
-    private $paymentInstruction;
+    private $payment;
 
     /**
      * Price without taxes.
@@ -328,13 +326,13 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     }
 
     /**
-     * PaymentInstruction getter.
+     * Payment getter.
      *
-     * @return PaymentInstruction
+     * @return Payment
      */
-    public function getPaymentInstruction(): ?PaymentInstruction
+    public function getPayment(): ?Payment
     {
-        return $this->paymentInstruction;
+        return $this->payment;
     }
 
     /**
@@ -551,13 +549,13 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     /**
      * Payment instruction fluent setter.
      *
-     * @param PaymentInstruction|null $paymentInstruction payment instruction
+     * @param Payment|null $payment payment instruction
      *
      * @return Order
      */
-    public function setPaymentInstruction(?PaymentInstruction $paymentInstruction): self
+    public function setPayment(?Payment $payment): self
     {
-        $this->paymentInstruction = $paymentInstruction;
+        $this->payment = $payment;
 
         return $this;
     }

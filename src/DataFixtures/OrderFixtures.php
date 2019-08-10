@@ -26,7 +26,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
-use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 /**
  * Order fixtures.
@@ -84,29 +83,29 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
 
             //Customer had clicked on order-credit and select some items.
             $customer = $this->getReference('user_customer-1');
-            $carted = $this->createOrder($customer, 1, 2, 3, false);
+            $carted = $this->createOrder($customer, 1, 2, 3);
             $manager->persist($carted);
 
             //Customer had clicked on order-credit and select paypal_express.
             $customer = $this->getReference('user_customer-2');
-            $carted = $this->createOrder($customer, 2, 0, 0, true);
-            $manager->persist($carted->getPaymentInstruction());
+            $carted = $this->createOrder($customer, 2, 0, 0);
+            //$manager->persist($carted->getPaymentInstruction());
             $manager->persist($carted);
 
             //Customer had clicked on order-credit and select paypal_express and canceled payment.
             $customer = $this->getReference('user_customer-7');
-            $carted = $this->createOrder($customer, 3, 0, 0, true);
+            $carted = $this->createOrder($customer, 3, 0, 0);
             //TODO create payment
             //Canceled (Nothing to do ?)
             //TODO On controller::PaymentCanceled Do something to trace it.
-            $manager->persist($carted->getPaymentInstruction());
+            //$manager->persist($carted->getPaymentInstruction());
             $manager->persist($carted);
 
             //Customer had clicked on order-credit and select paypal_express and paid.
             $customer = $this->getReference('user_customer-4');
             foreach (range(1, 30) as $index) {
                 $quantity = ($index % 8) + 1;
-                $carted = $this->createOrder($customer, $quantity, 0, 0, true);
+                $carted = $this->createOrder($customer, $quantity, 0, 0);
                 //TODO create payment,
                 //TODO Payment
                 //Create bill with confirmation.
@@ -114,7 +113,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
                 $carted->setStatusOrder(OrderInterface::PAID);
                 $bill->setPaidAt(new DateTimeImmutable());
                 $manager->persist($bill);
-                $manager->persist($carted->getPaymentInstruction());
+                //$manager->persist($carted->getPaymentInstruction());
                 $manager->persist($carted);
                 $manager->flush();
             }
@@ -138,8 +137,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      User $customer,
      int $ten,
      int $hundred = 0,
-     int $fiveHundred = 0,
-     bool $instruction = false
+     int $fiveHundred = 0
     ): Order {
         $order = new Order();
         $order->setCustomer($customer);
@@ -150,12 +148,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         $order->setCredits($ten * 10 + $hundred * 100 + $fiveHundred * 500);
         $order->refreshPrice();
         $order->refreshVat();
-
-        if ($instruction) {
-            $instruction = new PaymentInstruction($order->getAmount(), 'EUR', 'paypal_express_checkout');
-            $order->setPaymentInstruction($instruction);
-            $order->setStatusOrder(OrderInterface::PENDING);
-        }
 
         return $order;
     }

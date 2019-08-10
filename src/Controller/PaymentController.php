@@ -17,22 +17,18 @@ namespace App\Controller;
 
 use App\Entity\Bill;
 use App\Entity\Order;
+use App\Entity\Payment;
 use App\Exception\NoOrderException;
 use App\Exception\SettingsException;
 use App\Factory\BillFactory;
+use App\Form\ChoosePaymentMethodType;
 use App\Mailer\MailerInterface;
 use App\Manager\BillManager;
 use App\Manager\OrderManager;
 use App\Manager\SettingsManager;
 use Exception;
-use JMS\Payment\CoreBundle\Form\ChoosePaymentMethodType;
-use JMS\Payment\CoreBundle\Model\PaymentInterface;
-use JMS\Payment\CoreBundle\Plugin\Exception\Action\VisitUrl;
-use JMS\Payment\CoreBundle\Plugin\Exception\ActionRequiredException;
-use JMS\Payment\CoreBundle\Plugin\Exception\CommunicationException;
-use JMS\Payment\CoreBundle\PluginController\Exception\InvalidPaymentInstructionException;
-use JMS\Payment\CoreBundle\PluginController\PluginController;
-use JMS\Payment\CoreBundle\PluginController\Result;
+use Payum\Core\Payum;
+use Payum\Core\Request\GetHumanStatus;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -88,6 +84,7 @@ class PaymentController extends AbstractController
      * @return Response
      */
     public function paymentComplete(
+     Payum $payum,
      BillManager $billManager,
      LoggerInterface $logger,
      MailerInterface $mailer,
@@ -96,6 +93,33 @@ class PaymentController extends AbstractController
      SettingsManager $settingsManager,
      string $uuid
     ): Response {
+        $token = $payum->getHttpRequestVerifier()->verify($request);
+
+        $gateway = $payum->getGateway($token->getGatewayName());
+
+        // You can invalidate the token, so that the URL cannot be requested any more:
+        $payum->getHttpRequestVerifier()->invalidate($token);
+
+        // Once you have the token, you can get the payment entity from the storage directly.
+        //$identity = $token->getDetails();
+        //$payment = $payum->getStorage($identity->getClass())->find($identity);
+
+        // Or Payum can fetch the entity for you while executing a request (preferred).
+        $gateway->execute($status = new GetHumanStatus($token));
+        $payment = $status->getFirstModel();
+
+        // Now you have order and payment status
+        dd($status, $payment);
+
+        return new JsonResponse([
+            'status' => $status->getValue(),
+            'payment' => [
+                'total_amount' => $payment->getTotalAmount(),
+                'currency_code' => $payment->getCurrencyCode(),
+                'details' => $payment->getDetails(),
+            ],
+        ]);
+
         try {
             $order = $orderManager->retrieveByUuid($uuid);
 
@@ -148,7 +172,7 @@ class PaymentController extends AbstractController
     public function paymentCreateAction(
      BillManager $billManager,
      OrderManager $orderManager,
-     PluginController $ppc,
+     //PluginController $ppc,
      LoggerInterface $logger,
      MailerInterface $mailer,
      SettingsManager $settingsManager
@@ -229,7 +253,7 @@ class PaymentController extends AbstractController
     public function paymentMethod(
      Request $request,
      OrderManager $orderManager,
-     PluginController $ppc,
+     Payum $payum,
      TranslatorInterface $trans
     ): Response {
         $user = $this->getUser();
@@ -251,21 +275,30 @@ class PaymentController extends AbstractController
             return $this->redirectToRoute('customer_order_credit');
         }
 
-        $form = $this->createForm(ChoosePaymentMethodType::class, null, [
-            'amount' => $order->getAmount(),
-            'currency' => 'EUR',
-            'default_method' => 'paypal_express_checkout',
-            'predefined_data' => $this->getPredefinedData($trans, $order, $returnUrl, $cancelUrl),
-        ]);
+        $form = $this->createForm(ChoosePaymentMethodType::class);
         $form->handleRequest($request);
 
+        //FIXME is valid shall test method payment
         if ($form->isSubmitted() && $form->isValid()) {
-            //We know how customer want to pay
-            $ppc->createPaymentInstruction($instruction = $form->getData());
-            $order->setPaymentInstruction($instruction);
-            $orderManager->save($order);
+            $storage = $payum->getStorage(Payment::class);
+            $payment = $storage->create();
+            $payment->setNumber(uniqid());
+            $payment->setCurrencyCode('EUR');
+            $payment->setTotalAmount($order->getAmount());
+            $payment->setDescription('...');
+            $payment->setClientId($this->getUser()->getId());
+            $payment->setClientEmail($this->getUser()->getMail());
+            $payment->setDetails($this->getPredefinedData($trans, $order, $returnUrl, $cancelUrl));
 
-            return $this->redirectToRoute('customer_payment_create');
+            $storage->update($payment);
+
+            $captureToken = $payum->getTokenFactory()->createCaptureToken(
+                $form->getData()['method'],
+                $payment,
+                $returnUrl // the route to redirect after capture
+            );
+
+            return $this->redirect($captureToken->getTargetUrl());
         }
 
         return $this->render('payment/method-choose.html.twig', [
@@ -286,7 +319,7 @@ class PaymentController extends AbstractController
      *
      * @Security("is_granted('ROLE_USER')")
      */
-    private function createPayment(Order $order, PluginController $ppc): PaymentInterface
+    private function createPayment(Order $order/*, PluginController $ppc*/): PaymentInterface
     {
         $instruction = $order->getPaymentInstruction();
         $pendingTransaction = $instruction->getPendingTransaction();
@@ -303,8 +336,10 @@ class PaymentController extends AbstractController
     /**
      * Paypal checkout params getter.
      *
-     * @param Order               $order order
-     * @param TranslatorInterface $trans to translate description for paypal
+     * @param Order               $order     order
+     * @param TranslatorInterface $trans     to translate description for paypal
+     * @param string              $returnUrl
+     * @param string              $cancelUrl
      *
      * @return array
      */
