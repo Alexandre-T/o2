@@ -20,7 +20,6 @@ use App\Entity\Order;
 use App\Entity\Payment;
 use App\Exception\NoOrderException;
 use App\Exception\SettingsException;
-use App\Factory\BillFactory;
 use App\Form\ChoosePaymentMethodType;
 use App\Mailer\MailerInterface;
 use App\Manager\BillManager;
@@ -73,6 +72,7 @@ class PaymentController extends AbstractController
      *
      * @Route("/complete/{uuid}", name="customer_payment_complete")
      *
+     * @param Payum           $payum           Payum manager
      * @param BillManager     $billManager     bill manager to generate bill
      * @param LoggerInterface $logger          logger added to alert when settings are wrong
      * @param MailerInterface $mailer          mailer interface to sent mail to admin
@@ -93,146 +93,54 @@ class PaymentController extends AbstractController
      SettingsManager $settingsManager,
      string $uuid
     ): Response {
-        $token = $payum->getHttpRequestVerifier()->verify($request);
-
-        $gateway = $payum->getGateway($token->getGatewayName());
-
-        // You can invalidate the token, so that the URL cannot be requested any more:
-        // Il faut le faire après paiement et si le statut est ok
-        // $payum->getHttpRequestVerifier()->invalidate($token);
-
-        // Once you have the token, you can get the payment entity from the storage directly.
-        $identity = $token->getDetails();
-        $payment = $payum->getStorage($identity->getClass())->find($identity);
-
-        // Or Payum can fetch the entity for you while executing a request (preferred).
-        //$gateway->execute($status = new GetHumanStatus($token));
-        //$payment = $status->getFirstModel();
-
-        // Now you have order and payment status
-        dd($token, $gateway, $identity, $payment);
-
-//        return new JsonResponse([
-//            'status' => $status->getValue(),
-//            'payment' => [
-//                'total_amount' => $payment->getTotalAmount(),
-//                'currency_code' => $payment->getCurrencyCode(),
-//                'details' => $payment->getDetails(),
-//            ],
-//        ]);
-
         try {
             $order = $orderManager->retrieveByUuid($uuid);
-
-            $payerId = $request->get('PayerID');
-            if (null !== $payerId) {
-                $order->setPayerId($payerId);
-            }
-
-            $token = $request->get('token');
-            if (null !== $token) {
-                $order->setToken($token);
-            }
-
-            //Save order
-            $orderManager->validateAfterPaymentComplete($order);
-            $bill = $billManager->retrieveOrCreateBill($order, $this->getUser());
-            $orderManager->save($order);
-            $billManager->save($bill);
-
-            //Mail sending
-            $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
         } catch (NoOrderException $noOrderException) {
             $this->addFlash('error', 'error.payment.non-existent');
 
             return $this->redirectToRoute('home');
         }
 
+        try {
+            $token = $payum->getHttpRequestVerifier()->verify($request);
+            $gatewayName = $token->getGatewayName();
+            $gateway = $payum->getGateway($gatewayName);
+            $gateway->execute($status = new GetHumanStatus($token));
+            $payment = $status->getFirstModel();
+            $order->setPayment($payment);
+        } catch (Exception $e) {
+            $logger->warning('TOKEN INCONNU pour la commande $uuid');
+            $token = 'unknown';
+            $gatewayName = 'unknown';
+        }
+
+
+        //Paypal informations
+        $payerId = $request->get('PayerID');
+        if (null !== $payerId) {
+            $order->setPayerId($payerId);
+        }
+
+        $tokenPaypal = $request->get('token');
+        if (null !== $tokenPaypal) {
+            $order->setToken($tokenPaypal);
+        }
+
+        //Save order
+        $orderManager->validateAfterPaymentComplete($order);
+        $bill = $billManager->retrieveOrCreateBill($order, $this->getUser());
+        $orderManager->save($order);
+        $billManager->save($bill);
+        $payum->getHttpRequestVerifier()->invalidate($token);
+
+        //Mail sending
+        $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
+
+
         return $this->render('payment/complete.html.twig', [
-            'paymentSystemName' => $order->getPaymentInstruction()->getPaymentSystemName(),
+            'paymentSystemName' => $gatewayName,
             'order' => $order,
         ]);
-    }
-
-    /**
-     * Step3: Customer want to pay.
-     *
-     * @Route("/create", name="customer_payment_create")
-     *
-     * @param BillManager      $billManager     bill manager to save bill
-     * @param OrderManager     $orderManager    order manager to retrieve order
-     * @param PluginController $ppc             plugin controller
-     * @param LoggerInterface  $logger          logger interface
-     * @param MailerInterface  $mailer          mailer interface to send mail
-     * @param SettingsManager  $settingsManager setting manager to retrieve emails
-     *
-     * @return RedirectResponse
-     *
-     * @Security("is_granted('ROLE_USER')")
-     */
-    public function paymentCreateAction(
-     BillManager $billManager,
-     OrderManager $orderManager,
-     //PluginController $ppc,
-     LoggerInterface $logger,
-     MailerInterface $mailer,
-     SettingsManager $settingsManager
-    ): RedirectResponse {
-        try {
-            $user = $this->getUser();
-            $order = $orderManager->getNonEmptyCartedOrder($user);
-            $payment = $this->createPayment($order, $ppc);
-            $result = $ppc->approveAndDeposit($payment->getId(), $payment->getTargetAmount());
-        } catch (NoOrderException $noOrderException) {
-            //there is no order which is not empty, not canceled and no paid
-            return $this->redirectToRoute('customer_order_credit');
-        } catch (CommunicationException $comException) {
-            $this->addFlash('error', 'error.communication');
-            $logger->error('Communication error: '.$comException->getMessage());
-
-            return $this->redirectToRoute('customer_payment_method');
-        } catch (InvalidPaymentInstructionException $exception) {
-            $this->addFlash('error', 'error.payment-instruction');
-            $logger->alert('Payment Instruction error: '.$exception->getMessage());
-
-            return $this->redirectToRoute('customer_payment_method');
-        }
-
-        if (Result::STATUS_SUCCESS === $result->getStatus()) {
-            $orderManager->credit($order);
-            $orderManager->setPaid($order);
-            $bill = BillFactory::create($order, $user);
-            $orderManager->save($order);
-            $billManager->save($bill);
-
-            //Mail sending
-            $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
-
-            return $this->redirectToRoute('customer_payment_complete');
-        }
-
-        //For PAYPAL-like process (payment on another site)
-        if (Result::STATUS_PENDING === $result->getStatus()) {
-            $exception = $result->getPluginException();
-
-            if ($exception instanceof ActionRequiredException) {
-                $action = $exception->getAction();
-
-                if ($action instanceof VisitUrl) {
-                    return $this->redirect($action->getUrl());
-                }
-            }
-        }
-
-        // In a real-world application I don't throw the exception.
-        //throw $result->getPluginException();
-        $exception = $result->getPluginException();
-
-        if ($exception instanceof Exception) {
-            $logger->alert('Erreur de paiement: '.$exception->getMessage());
-        }
-
-        return $this->redirectToRoute('home');
     }
 
     /**
@@ -242,10 +150,8 @@ class PaymentController extends AbstractController
      *
      * @param Request             $request      Request for form
      * @param OrderManager        $orderManager Command manager
-     * @param PluginController    $ppc          Plugin controller
+     * @param Payum               $payum        Payum manager
      * @param TranslatorInterface $trans        the translator interface to translate data for Paypal page
-     *
-     * @throws InvalidPaymentInstructionException when choosing an invalid method
      *
      * @return Response|RedirectResponse
      *
@@ -287,7 +193,7 @@ class PaymentController extends AbstractController
             $payment->setNumber(uniqid());
             $payment->setCurrencyCode('EUR');
             $payment->setTotalAmount((int) ($order->getAmount() * 100));
-            $payment->setDescription('...');
+            $payment->setDescription('Paiement demandé via '.$form->getData()['method']);
             $payment->setClientId($this->getUser()->getId());
             $payment->setClientEmail($this->getUser()->getMail());
             $details = [];
@@ -325,38 +231,10 @@ class PaymentController extends AbstractController
     }
 
     /**
-     * Create payment.
-     *
-     * @param Order            $order order
-     * @param PluginController $ppc   plugin controller
-     *
-     * @throws InvalidPaymentInstructionException when error occurred
-     *
-     * @return PaymentInterface
-     *
-     * @Security("is_granted('ROLE_USER')")
-     */
-    private function createPayment(Order $order/*, PluginController $ppc*/): PaymentInterface
-    {
-        $instruction = $order->getPaymentInstruction();
-        $pendingTransaction = $instruction->getPendingTransaction();
-
-        if (null !== $pendingTransaction) {
-            return $pendingTransaction->getPayment();
-        }
-
-        $amount = $instruction->getAmount() - $instruction->getDepositedAmount();
-
-        return $ppc->createPayment($instruction->getId(), $amount);
-    }
-
-    /**
      * Paypal checkout params getter.
      *
-     * @param Order               $order     order
-     * @param TranslatorInterface $trans     to translate description for paypal
-     * @param string              $returnUrl
-     * @param string              $cancelUrl
+     * @param Order               $order order
+     * @param TranslatorInterface $trans to translate description for paypal
      *
      * @return array
      */
@@ -387,34 +265,6 @@ class PaymentController extends AbstractController
         }
 
         return $paypalCheckoutParams;
-    }
-
-    /**
-     * Return predefined data for external payment solutions.
-     *
-     * @param TranslatorInterface $trans     Translator interface
-     * @param Order               $order     Order paid or not
-     * @param string              $returnUrl Complete url if user complete payment
-     * @param string              $cancelUrl Cancel url if user cancel payment
-     *
-     * @return array
-     */
-    private function getPredefinedData(
-     TranslatorInterface $trans,
-     Order $order,
-     string $returnUrl,
-     string $cancelUrl
-    ): array {
-        $paypalCheckoutParams = $this->getPaypalCheckoutParams($order, $trans);
-
-        return [
-//            'paypal_express_checkout' => [
-                'checkout_params' => $paypalCheckoutParams,
-//                'cancel_url' => $returnUrl,
-//                'success_url' => $returnUrl
-//          ],
-            //stripe_checkout, etc.
-        ];
     }
 
     /**

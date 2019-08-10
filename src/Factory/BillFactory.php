@@ -27,8 +27,8 @@ class BillFactory
      *
      * Bill has number only after record on database.
      *
-     * @param Order $order    referenced order
-     * @param User  $customer referenced customer
+     * @param Order $order referenced order
+     * @param User $customer referenced customer
      *
      * @return Bill
      */
