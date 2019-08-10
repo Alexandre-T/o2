@@ -145,6 +145,17 @@ class OrderRepository extends ServiceEntityRepository
         return $orders[0];
     }
 
+    /**
+     * Find one order by payment.
+     *
+     * @param Payment $payment the linked payment
+     *
+     * @return Order|null
+     */
+    public function findOneByPayment(Payment $payment)
+    {
+        return $this->findOneBy(['payment' => $payment]);
+    }
 
     /**
      * Get carted non paid by user.
@@ -167,6 +178,7 @@ class OrderRepository extends ServiceEntityRepository
             ;
         } catch (NonUniqueResultException $e) {
             dd($e);
+
             return null;
         }
     }
@@ -181,17 +193,5 @@ class OrderRepository extends ServiceEntityRepository
     public function findOneByUuid(string $uuid): ?Order
     {
         return $this->findOneBy(['uuid' => $uuid]);
-    }
-
-    /**
-     * Find one order by payment.
-     *
-     * @param Payment $payment the linked payment.
-     *
-     * @return Order|null
-     */
-    public function findOneByPayment(Payment $payment)
-    {
-        return $this->findOneBy(['payment' => $payment]);
     }
 }

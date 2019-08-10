@@ -89,7 +89,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             //Customer had clicked on order-credit and select paypal_express.
             $customer = $this->getReference('user_customer-2');
             $carted = $this->createOrder($customer, 2, 0, 0);
-            //$manager->persist($carted->getPaymentInstruction());
             $manager->persist($carted);
 
             //Customer had clicked on order-credit and select paypal_express and canceled payment.
@@ -113,7 +112,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
                 $carted->setStatusOrder(OrderInterface::PAID);
                 $bill->setPaidAt(new DateTimeImmutable());
                 $manager->persist($bill);
-                //$manager->persist($carted->getPaymentInstruction());
                 $manager->persist($carted);
                 $manager->flush();
             }
@@ -129,7 +127,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      * @param int  $ten         Number of 10
      * @param int  $hundred     Number of 100
      * @param int  $fiveHundred Number of 500
-     * @param bool $instruction Create an instruction
      *
      * @return Order
      */

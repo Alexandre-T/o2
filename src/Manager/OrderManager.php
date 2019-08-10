@@ -211,9 +211,9 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      *
      * @param Payment $payment the payment
      *
-     * @return Order|null
-     *
      * @throws NoOrderException when order was not linked
+     *
+     * @return Order|null
      */
     public function retrieveByPayment(Payment $payment): Order
     {

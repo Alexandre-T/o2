@@ -48,6 +48,96 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PaymentController extends AbstractController
 {
     /**
+     * Step3: When using paypal, i got the good status.
+     * I analyse status to redirect user to the cancel page or to validate payment.
+     *
+     * @Route("/analyse", name="customer_payment_analyse")
+     *
+     * @param Request         $request         Request for form
+     * @param BillManager     $billManager     bill manager
+     * @param OrderManager    $orderManager    order manager
+     * @param SettingsManager $settingsManager setting manager
+     * @param LoggerInterface $logger          the logger to log
+     * @param MailerInterface $mailer          the mailer interface to send command completed
+     * @param Payum           $payum           Payum manager
+     * @param LoggerInterface $log             the logger
+     *
+     * @return redirectResponse|Response
+     *
+     * NO SECURITY because user can logout just before payment
+     */
+    public function analyse(
+     Request $request,
+     BillManager $billManager,
+     OrderManager $orderManager,
+     SettingsManager $settingsManager,
+     LoggerInterface $logger,
+     MailerInterface $mailer,
+     Payum $payum,
+     LoggerInterface $log
+    ): Response {
+        try {
+            $token = $payum->getHttpRequestVerifier()->verify($request);
+        } catch (Exception $e) {
+            //I do not have the token.
+            $this->addFlash('error', 'error.payment.non-existent');
+
+            return $this->redirectToRoute('customer_order_credit');
+        }
+
+        $gatewayName = $token->getGatewayName();
+        $gateway = $payum->getGateway($gatewayName);
+
+        // you can invalidate the token. The url could not be requested any more.
+        // $payum->getHttpRequestVerifier()->invalidate($token);
+
+        // or Payum can fetch the model for you while executing a request (Preferred).
+        $gateway->execute($status = new GetHumanStatus($token));
+        $payment = $status->getFirstModel();
+
+        try {
+            $order = $orderManager->retrieveByPayment($payment);
+        } catch (NoOrderException $exception) {
+            $this->addFlash('error', 'error.payment.non-existent');
+
+            $log->log(
+                LogLevel::INFO,
+                "Payment {$payment->getId()} for undefined order canceled (payum status : {$status->getValue()})"
+            );
+
+            return $this->redirectToRoute('home');
+        }
+
+        if (!$status->isAuthorized() && !$status->isPending()) {
+            $this->addFlash('warning', 'error.payment.canceled');
+
+            $log->log(
+                LogLevel::INFO,
+                "Payment{$payment->getId()} for order{$order->getId()} canceled (payum status: {$status->getValue()})"
+            );
+
+            return $this->redirectToRoute('customer_payment_method');
+        }
+
+        //Save order
+        $orderManager->validateAfterPaymentComplete($order);
+        $bill = $billManager->retrieveOrCreateBill($order, $this->getUser());
+        $orderManager->save($order);
+        $billManager->save($bill);
+        if ($token instanceof TokenInterface) {
+            $payum->getHttpRequestVerifier()->invalidate($token);
+        }
+
+        //Mail sending
+        $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
+
+        return $this->render('payment/complete.html.twig', [
+            'paymentSystemName' => $gatewayName,
+            'order' => $order,
+        ]);
+    }
+
+    /**
      * Payment has been canceled by user.
      * He didn't ask to recover money, he only click on cancel during payment.
      *
@@ -69,7 +159,7 @@ class PaymentController extends AbstractController
     }
 
     /**
-     * Payment completed via CB
+     * Payment completed via CB.
      *
      * @Route("/complete/{uuid}", name="customer_payment_complete")
      *
@@ -82,9 +172,9 @@ class PaymentController extends AbstractController
      * @param SettingsManager $settingsManager to retrieve mail of sender and receiver
      * @param string          $uuid            to retrieve order
      *
-     * @return Response
+     * @return response
      *
-     * NO SECURITY because user can logout just before payment.
+     * NO SECURITY because user can logout just before payment
      */
     public function paymentComplete(
      Payum $payum,
@@ -225,97 +315,6 @@ class PaymentController extends AbstractController
 
         return $this->render('payment/method-choose.html.twig', [
             'form' => $form->createView(),
-            'order' => $order,
-        ]);
-    }
-
-    /**
-     * Step3: When using paypal, i got the good status.
-     * I analyse status to redirect user to the cancel page or to validate payment.
-     *
-     * @Route("/analyse", name="customer_payment_analyse")
-     *
-     * @param Request         $request         Request for form
-     * @param BillManager     $billManager     bill manager
-     * @param OrderManager    $orderManager    order manager
-     * @param SettingsManager $settingsManager setting manager
-     * @param LoggerInterface $logger          the logger to log
-     * @param MailerInterface $mailer          the mailer interface to send command completed
-     * @param Payum           $payum           Payum manager
-     *
-     * @param LoggerInterface $log             the logger
-     * @return RedirectResponse|Response
-     *
-     * NO SECURITY because user can logout just before payment.
-     */
-    public function analyse(
-     Request $request,
-     BillManager $billManager,
-     OrderManager $orderManager,
-     SettingsManager $settingsManager,
-     LoggerInterface $logger,
-     MailerInterface $mailer,
-     Payum $payum,
-     LoggerInterface $log
-    ): Response {
-        try {
-            $token = $payum->getHttpRequestVerifier()->verify($request);
-        } catch (Exception $e) {
-            //I do not have the token.
-            $this->addFlash('error', 'error.payment.non-existent');
-
-            return $this->redirectToRoute('customer_order_credit');
-        }
-
-        $gatewayName = $token->getGatewayName();
-        $gateway = $payum->getGateway($gatewayName);
-
-        // you can invalidate the token. The url could not be requested any more.
-        // $payum->getHttpRequestVerifier()->invalidate($token);
-
-        // or Payum can fetch the model for you while executing a request (Preferred).
-        $gateway->execute($status = new GetHumanStatus($token));
-        $payment = $status->getFirstModel();
-
-        try {
-            $order = $orderManager->retrieveByPayment($payment);
-        } catch(NoOrderException $exception) {
-            $this->addFlash('error', 'error.payment.non-existent');
-
-            $log->log(
-                LogLevel::INFO,
-                "Payment {$payment->getId()} for undefined order canceled (payum status : {$status->getValue()})"
-            );
-
-            return $this->redirectToRoute('home');
-        }
-
-
-        if (!$status->isAuthorized() && !$status->isPending()) {
-            $this->addFlash('warning', 'error.payment.canceled');
-
-            $log->log(
-                LogLevel::INFO,
-                "Payment{$payment->getId()} for order{$order->getId()} canceled (payum status: {$status->getValue()})"
-            );
-
-            return $this->redirectToRoute('customer_payment_method');
-        }
-
-        //Save order
-        $orderManager->validateAfterPaymentComplete($order);
-        $bill = $billManager->retrieveOrCreateBill($order, $this->getUser());
-        $orderManager->save($order);
-        $billManager->save($bill);
-        if ($token instanceof TokenInterface) {
-            $payum->getHttpRequestVerifier()->invalidate($token);
-        }
-
-        //Mail sending
-        $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
-
-        return $this->render('payment/complete.html.twig', [
-            'paymentSystemName' => $gatewayName,
             'order' => $order,
         ]);
     }
