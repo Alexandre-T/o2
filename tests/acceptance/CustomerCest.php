@@ -30,7 +30,7 @@ class CustomerCest
     public function tryToBuyCreditsWithoutOrder(AcceptanceTester $you): void
     {
         $you->wantTo('buy credits without order');
-        $you->login('customer-7');
+        $you->login('customer-8');
         $you->amOnPage('/payment/method-choose');
         $you->seeResponseCodeIsSuccessful();
         $you->canSeeCurrentUrlEquals('/customer/order-credit');

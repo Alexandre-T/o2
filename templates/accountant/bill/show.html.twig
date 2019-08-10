@@ -45,7 +45,9 @@
             <div class="mt-5">
                 <span class="d-block">
                     {{ 'bill.method' | trans }}
-                    {{ payment.description }}
+                    {% if payment is not null %}
+                        {{ payment.description }}
+                    {% endif %}
                 </span>
                 <span class="d-block">
                     {{ 'bill.expired' | trans }}
@@ -181,27 +183,30 @@
 
             </div>
         </div>
-        <div>
-{#            <span>{{ payment.state | badgeInstruction }}</span>#}
-        </div>
-        <dl class="row">
-            <dt class="col-sm-4 text-truncate text-right">{{ 'payment.bank-account' | trans }}</dt>
-            <dd class="col-sm-8">{{ payment.bankAccount }}</dd>
-            <dt class="col-sm-4 text-truncate text-right">{{ 'payment.client-email' | trans }}</dt>
-            <dd class="col-sm-8">{{ payment.clientEmail }}</dd>
-            <dt class="col-sm-4 text-truncate text-right">{{ 'payment.client-id' | trans }}</dt>
-            <dd class="col-sm-8">{{ payment.clientId }}</dd>
-            <dt class="col-sm-4 text-truncate text-right">{{ 'payment.credit-card' | trans }}</dt>
-            <dd class="col-sm-8">{{ payment.creditCard }}</dd>
-            <dt class="col-sm-4 text-truncate text-right">{{ 'payment.currency-code' | trans }}</dt>
-            <dd class="col-sm-8">{{ payment.currencyCode }}</dd>
-            <dt class="col-sm-4 text-truncate text-right">{{ 'payment.description' | trans }}</dt>
-            <dd class="col-sm-8">{{ payment.description }}</dd>
-            <dt class="col-sm-4 text-truncate text-right">{{ 'payment.number' | trans }}</dt>
-            <dd class="col-sm-8">{{ payment.number }}</dd>
-            <dt class="col-sm-4 text-truncate text-right">{{ 'payment.total-amount' | trans }}</dt>
-            <dd class="col-sm-8">{{ payment.totalAmount | localizedcurrency(payment.currencyCode) }}</dd>
-        </dl>
+        {% if payment is null %}
+            <div class="alert alert-info">
+                <p>{{ 'payments.no-payment' | trans }}</p>
+            </div>
+        {% else %}
+            <dl class="row">
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.bank-account' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.bankAccount }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.client-email' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.clientEmail }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.client-id' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.clientId }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.credit-card' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.creditCard }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.currency-code' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.currencyCode }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.description' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.description }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.number' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.number }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'payment.total-amount' | trans }}</dt>
+                <dd class="col-sm-8">{{ payment.totalAmount | localizedcurrency(payment.currencyCode) }}</dd>
+            </dl>
+        {% endif %}
     </div>
 {% endblock content_other_tabs %}
 
