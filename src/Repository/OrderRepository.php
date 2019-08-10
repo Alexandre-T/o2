@@ -16,11 +16,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\Payment as Payment;
 use App\Entity\User;
 use App\Model\OrderInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -145,17 +145,6 @@ class OrderRepository extends ServiceEntityRepository
         return $orders[0];
     }
 
-    /**
-     * Find one order by its payment instruction.
-     *
-     * @param PaymentInstructionInterface $paymentInstruction linked payment instruction
-     *
-     * @return Order|null
-     */
-    public function findOneByPaymentInstruction(PaymentInstructionInterface $paymentInstruction): ?Order
-    {
-        return $this->findOneBy(['paymentInstruction' => $paymentInstruction]);
-    }
 
     /**
      * Get carted non paid by user.
@@ -177,6 +166,7 @@ class OrderRepository extends ServiceEntityRepository
                 ->getOneOrNullResult()
             ;
         } catch (NonUniqueResultException $e) {
+            dd($e);
             return null;
         }
     }
@@ -191,5 +181,17 @@ class OrderRepository extends ServiceEntityRepository
     public function findOneByUuid(string $uuid): ?Order
     {
         return $this->findOneBy(['uuid' => $uuid]);
+    }
+
+    /**
+     * Find one order by payment.
+     *
+     * @param Payment $payment the linked payment.
+     *
+     * @return Order|null
+     */
+    public function findOneByPayment(Payment $payment)
+    {
+        return $this->findOneBy(['payment' => $payment]);
     }
 }

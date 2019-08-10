@@ -18,10 +18,10 @@
                     <span class="d-block">{{ settings('bill-telephone') }}</span>
                 </address>
                 <div class="mt-5">
-                    {% if instruction is not null %}
+                    {% if payment is not null %}
                     <span class="d-block">
                         {{ 'bill.method' | trans }}
-                        {{ ('instruction.method.' ~ instruction.paymentSystemName) | trans }}
+                        {{ payment.getDescription }}
                     </span>
                     {% endif %}
                     <span class="d-block">

@@ -89,12 +89,12 @@ class BillController extends AbstractPaginateController
         $this->denyAccessUnlessGranted(BillVoter::SHOW, $bill);
 
         $order = $bill->getOrder();
-        $instruction = $order->getPaymentInstruction();
+        $payment = $order->getPayment();
 
         return $this->render('customer/bill/show.html.twig', [
             'bill' => $bill,
             'order' => $order,
-            'instruction' => $instruction,
+            'payment' => $payment,
         ]);
     }
 }

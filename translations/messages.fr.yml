@@ -139,6 +139,7 @@ Browse: 'Parcourir'
 
 data:
   paypal_express_checkout: 'Paypal Express™'
+  monetico: 'Carte bancaire (CIC™)'
 
 empty: 'vide'
 
@@ -201,8 +202,7 @@ entity:
     informations: 'Informations'
     contacts: 'Contacts'
     order: 'Commande'
-    instruction: 'Instructions de paiements'
-    payments: 'Paiements'
+    payment: 'Paiement'
   user:
     created %name%: 'L’utilisateur « %name% » a été créé avec succès.'
     deleted %name%: 'L’utilisateur « %name% » a été supprimé avec succès.'
@@ -576,6 +576,15 @@ payment:
   updatedAt: 'Paiement modifié le'
   payments: 'Paiements'
   corresponding-financial-transaction: 'Transaction financière correspondant à ce paiement'
+  bank-account: 'Compte bancaire'
+  client: 'Client'
+  client-email: 'Email du client'
+  client-id: 'Identifiant du client'
+  credit-card: 'Carte de crédit'
+  description: 'Méthode de paiement'
+  currency-code: 'Monnaie'
+  number: 'Numéro'
+  total-amount: 'Montant total'
 
 ROLE_ADMIN: 'Administrateur pouvant gérer les autres utilisateurs.'
 ROLE_CUSTOMER: 'Client.'
@@ -632,7 +641,7 @@ title:
     password: 'Mon mot de passe'
     order-credit: 'Crédits supplémentaires'
     payment-complete: 'Paiement complété'
-    payment-complete %payment-system%: 'Paiement transmis via Paypal'
+    payment-complete %payment-system%: 'Paiement transmis via %payment-system%'
     programmation:
       new: 'Commander un fichier de reprogrammation'
       show: 'Votre reprogrammation'
@@ -766,3 +775,4 @@ home:
   credits: 'Crédits'
   pending-programmations: 'Programmations en attente'
   credits %count%: '{0}Aucun crédit|{1} %count% crédit |]1,Inf[ %count% crédits'
+payment %number%: 'Paiement numéro %number%'

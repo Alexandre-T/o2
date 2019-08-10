@@ -25,6 +25,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * UserCommand class.
+ *
+ * Create a user.
+ */
 class UserCommand extends Command
 {
     protected static $defaultName = 'app:user';
@@ -37,7 +42,7 @@ class UserCommand extends Command
     /**
      * UserCommand constructor.
      *
-     * @param ObjectManager $objectManager
+     * @param ObjectManager $objectManager Object manager
      */
     public function __construct(ObjectManager $objectManager)
     {
@@ -45,6 +50,9 @@ class UserCommand extends Command
         $this->objectManager = $objectManager;
     }
 
+    /**
+     * Configure command.
+     */
     protected function configure(): void
     {
         $this
@@ -56,10 +64,16 @@ class UserCommand extends Command
         ;
     }
 
+    /**
+     * Execute command.
+     *
+     * @param InputInterface  $input  Input interface to handle data
+     * @param OutputInterface $output Output interface
+     */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $io = new SymfonyStyle($input, $output);
-        $io->note('Process launched...');
+        $inOut = new SymfonyStyle($input, $output);
+        $inOut->note('Process launched...');
         $mail = $input->getArgument('mail');
         $label = $input->getArgument('label');
         $password = $input->getArgument('password');
@@ -68,12 +82,14 @@ class UserCommand extends Command
         $user->setMail($mail);
         $user
             ->setGivenName('John')
-            ->setName($label);
+            ->setName($label)
+        ;
         $user
             ->setStreetAddress('.')
             ->setPostalCode('33680')
             ->setCountry('FR')
-            ->setLocality('Lacanau');
+            ->setLocality('Lacanau')
+        ;
         $user
             ->setType(PersonInterface::PHYSIC)
         ;
@@ -89,6 +105,6 @@ class UserCommand extends Command
         $this->objectManager->persist($user);
         $this->objectManager->flush();
 
-        $io->success('User created.');
+        $inOut->success('User created.');
     }
 }

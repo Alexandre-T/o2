@@ -143,15 +143,15 @@ class AccountantController extends AbstractPaginateController
     public function print(Bill $bill): Response
     {
         $order = $bill->getOrder();
-        $instruction = null;
+        $payment = null;
 
         if (null !== $order) {
-            $instruction = $order->getPaymentInstruction();
+            $payment = $order->getPayment();
         }
 
         return $this->render('accountant/bill/print.html.twig', [
             'bill' => $bill,
-            'instruction' => $instruction,
+            'payment' => $payment,
             'order' => $order,
         ]);
     }
@@ -168,25 +168,19 @@ class AccountantController extends AbstractPaginateController
      */
     public function show(Bill $bill, BillManager $billManager): Response
     {
-        $instruction = null;
+        $payment = null;
         $logs = $billManager->retrieveLogs($bill);
         $order = $bill->getOrder();
-        $payments = [];
 
         if (null !== $order) {
-            $instruction = $order->getPaymentInstruction();
-        }
-
-        if (null !== $instruction) {
-            $payments = $instruction->getPayments();
+            $payment = $order->getPayment();
         }
 
         return $this->render('accountant/bill/show.html.twig', [
             'logs' => $logs,
             'bill' => $bill,
             'order' => $order,
-            'instruction' => $instruction,
-            'payments' => $payments,
+            'payment' => $payment,
         ]);
     }
 }

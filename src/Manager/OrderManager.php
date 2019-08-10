@@ -19,6 +19,7 @@ use App\Entity\Article;
 use App\Entity\EntityInterface;
 use App\Entity\Order;
 use App\Entity\OrderedArticle;
+use App\Entity\Payment;
 use App\Entity\User;
 use App\Exception\NoOrderException;
 use App\Form\Model\CreditOrder;
@@ -26,7 +27,6 @@ use App\Model\OrderInterface;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
 
 /**
  * order Manager.
@@ -137,6 +137,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         if (null === $order) {
             $order = new Order();
             $order->setCustomer($user);
+            $order->setStatusOrder(OrderInterface::CARTED);
         }
 
         return $order;
@@ -208,13 +209,20 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Retrieve an order find by its payment instruction.
      *
-     * @param PaymentInstructionInterface $paymentInstruction payment instruction filter
+     * @param Payment $payment the payment
      *
      * @return Order|null
+     *
+     * @throws NoOrderException when order was not linked
      */
-    public function retrieveByPaymentInstruction(PaymentInstructionInterface $paymentInstruction): ?Order
+    public function retrieveByPayment(Payment $payment): Order
     {
-        return $this->getMainRepository()->findOneByPaymentInstruction($paymentInstruction);
+        $order = $this->getMainRepository()->findOneByPayment($payment);
+        if (null === $order) {
+            throw new NoOrderException("Order with payment {$payment->getId()} is non-existent.");
+        }
+
+        return $order;
     }
 
     /**
@@ -297,7 +305,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $orderedArticle = new OrderedArticle();
         $orderedArticle->setArticle($article);
         $orderedArticle->setOrder($order);
-        $orderedArticle->copyPrice($order);
+        $orderedArticle->copyPrice($article);
         $orderedArticle->setQuantity($quantity);
         $order->addOrderedArticle($orderedArticle);
 
