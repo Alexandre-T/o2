@@ -36,7 +36,7 @@ class PaymentMethodType extends AbstractType
         $resolver->setDefaults([
             'label' => 'form.field.payment-method',
             'choices' => [
-                'common.paypal' => 'paypal_express',
+                'common.paypal' => 'paypal_express_checkout',
                 'common.monetico' => 'monetico',
             ],
             'required' => true,

@@ -98,27 +98,28 @@ class PaymentController extends AbstractController
         $gateway = $payum->getGateway($token->getGatewayName());
 
         // You can invalidate the token, so that the URL cannot be requested any more:
-        $payum->getHttpRequestVerifier()->invalidate($token);
+        // Il faut le faire après paiement et si le statut est ok
+        // $payum->getHttpRequestVerifier()->invalidate($token);
 
         // Once you have the token, you can get the payment entity from the storage directly.
-        //$identity = $token->getDetails();
-        //$payment = $payum->getStorage($identity->getClass())->find($identity);
+        $identity = $token->getDetails();
+        $payment = $payum->getStorage($identity->getClass())->find($identity);
 
         // Or Payum can fetch the entity for you while executing a request (preferred).
-        $gateway->execute($status = new GetHumanStatus($token));
-        $payment = $status->getFirstModel();
+        //$gateway->execute($status = new GetHumanStatus($token));
+        //$payment = $status->getFirstModel();
 
         // Now you have order and payment status
-        dd($status, $payment);
+        dd($token, $gateway, $identity, $payment);
 
-        return new JsonResponse([
-            'status' => $status->getValue(),
-            'payment' => [
-                'total_amount' => $payment->getTotalAmount(),
-                'currency_code' => $payment->getCurrencyCode(),
-                'details' => $payment->getDetails(),
-            ],
-        ]);
+//        return new JsonResponse([
+//            'status' => $status->getValue(),
+//            'payment' => [
+//                'total_amount' => $payment->getTotalAmount(),
+//                'currency_code' => $payment->getCurrencyCode(),
+//                'details' => $payment->getDetails(),
+//            ],
+//        ]);
 
         try {
             $order = $orderManager->retrieveByUuid($uuid);
@@ -278,19 +279,35 @@ class PaymentController extends AbstractController
         $form = $this->createForm(ChoosePaymentMethodType::class);
         $form->handleRequest($request);
 
-        //FIXME is valid shall test method payment
+        //FIXME is valid shall test method payment paypal_express_checkout et monetico
         if ($form->isSubmitted() && $form->isValid()) {
             $storage = $payum->getStorage(Payment::class);
+            /** @var Payment $payment */
             $payment = $storage->create();
             $payment->setNumber(uniqid());
             $payment->setCurrencyCode('EUR');
-            $payment->setTotalAmount($order->getAmount());
+            $payment->setTotalAmount((int) ($order->getAmount() * 100));
             $payment->setDescription('...');
             $payment->setClientId($this->getUser()->getId());
             $payment->setClientEmail($this->getUser()->getMail());
-            $payment->setDetails($this->getPredefinedData($trans, $order, $returnUrl, $cancelUrl));
+            $details = [];
+
+            if ($form->getData()['method'] === 'paypal_express_checkout') {
+                $details = array_merge($details, $this->getPaypalCheckoutParams($order, $trans));
+                $details['cancel_url'] = $cancelUrl;
+                $details['return_url'] = $returnUrl;
+            }
+
+            if ($form->getData()['method'] === 'monetico') {
+                $details['return_url'] = $cancelUrl;
+                $details['success_url'] = $returnUrl;
+                $details['failure_url'] = $cancelUrl;
+            }
+
+            $payment->setDetails($details);
 
             $storage->update($payment);
+
 
             $captureToken = $payum->getTokenFactory()->createCaptureToken(
                 $form->getData()['method'],
@@ -391,11 +408,11 @@ class PaymentController extends AbstractController
         $paypalCheckoutParams = $this->getPaypalCheckoutParams($order, $trans);
 
         return [
-            'paypal_express_checkout' => [
+//            'paypal_express_checkout' => [
                 'checkout_params' => $paypalCheckoutParams,
-                'return_url' => $returnUrl,
-                'cancel_url' => $cancelUrl,
-            ],
+//                'cancel_url' => $returnUrl,
+//                'success_url' => $returnUrl
+//          ],
             //stripe_checkout, etc.
         ];
     }
