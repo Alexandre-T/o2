@@ -547,6 +547,7 @@ order:
   pending: 'En attente'
   not-credited: 'Non créditée'
   title: 'Commande'
+  payment: 'Paiement'
 order %name%: 'Commande n°%name%'
 order %number%: 'Commande n°%number%'
 

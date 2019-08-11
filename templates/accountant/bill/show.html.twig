@@ -177,7 +177,13 @@
     <div role="tabpanel" class="tab-pane fade" id="payment">
         <div class="row">
             <div class="col-8 align-middle">
-                <h3>{{ 'payment %number%' | trans({'%number%': payment.number}) }}</h3>
+                <h3>
+                    {% if payment is null %}
+                        {{ 'order.payment' | trans }}
+                    {% else %}
+                        {{ 'payment %number%' | trans({'%number%': payment.number}) }}
+                    {% endif %}
+                </h3>
             </div>
             <div class="col-4 text-right align-middle">
 
