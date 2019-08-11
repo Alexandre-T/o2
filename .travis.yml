@@ -31,9 +31,12 @@ before_install:
 install:
   # Database creation
   - mysql -e 'CREATE DATABASE symfony;'
+  # Copy composer.7-x.lock to composer.lock
+  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then cp composer.7-1.lock composer.lock ; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then cp composer.7-2.lock composer.lock ; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.3" ]; then cp composer.7-3.lock composer.lock ; fi
   # Install application
-  - composer install --verbose
-  - composer update
+  - composer install --verbose --no-interaction
   # Database configuration
   - cp .env.travis .env.local
   # Database migration
