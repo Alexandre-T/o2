@@ -13,7 +13,7 @@ payum:
       password: '%env(resolve:JMS_PAYMENT_PAYPAL_API_PASSWORD)%'
       signature: '%env(resolve:JMS_PAYMENT_PAYPAL_API_SIGNATURE)%'
       #FIXME
-      sandbox: true
+      sandbox: false
     offline:
       factory: offline
     monetico:
