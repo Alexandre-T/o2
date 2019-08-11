@@ -682,8 +682,10 @@ title:
     upload: 'Envoi de la nouvelle programmation'
     wanted: 'Préparation souhaitée'
   professional-files: 'Fichiers professionels de reprogrammation moteur.'
-  vmod-trademark: 'V-mod Engineering est une marque O2Programmation.'
-  experience: 'Forts de nos 20 ans d’expérience, nous vous proposons des fichiers fiables.'
+  vmod-trademark: 'V-mod engineering est une marque O2Programmation.'
+  experience: 'Forts de nos 20 ans d’expérience, nous vous proposons sur ce file service des fichiers de reprogrammation moteur développés sur banc de puissance.'
+  purpose: 'Nous vous proposons un service d’envoie de fichiers, mais aussi, aux possesseurs d’OLS la possibilité de télécharger des fichiers via l’interface même d’ols. Nous relions votre compte à notre database. Vous pourrez à tout moment comparer et télécharger des fichiers modifiés.'
+  how-many: 'Plus de 20 000 fichiers disponibles. Avec une data base mise à jour régulièrement, et pour tous types de formats, cmd, alientech, autotuner……etc.'
   img: 'Tunning file service | Tunning files | OLS X | WinOLS | Database chiptuning file service'
   programmer:
     programmation:

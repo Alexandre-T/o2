@@ -21,9 +21,6 @@ use App\Tests\UnitTester;
 use App\Twig\BadgeExtension;
 use Codeception\Test\Unit;
 use DateTimeImmutable;
-use JMS\Payment\CoreBundle\Model\FinancialTransactionInterface;
-use JMS\Payment\CoreBundle\Model\PaymentInstructionInterface;
-use JMS\Payment\CoreBundle\Model\PaymentInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\TwigFilter;
@@ -203,74 +200,6 @@ class BadgeExtensionTest extends Unit
     }
 
     /**
-     * Test instruction filter.
-     */
-    public function testBadgeInstructionFilter(): void
-    {
-        $actual = PaymentInstructionInterface::STATE_CLOSED;
-        $expected = '<span class="badge badge-danger">trans.instruction.closed</span>';
-        self::assertEquals($expected, $this->extension->badgeInstructionFilter($actual));
-
-        $actual = PaymentInstructionInterface::STATE_INVALID;
-        $expected = '<span class="badge badge-danger">trans.instruction.invalid</span>';
-        self::assertEquals($expected, $this->extension->badgeInstructionFilter($actual));
-
-        $actual = PaymentInstructionInterface::STATE_NEW;
-        $expected = '<span class="badge badge-warning">trans.instruction.new</span>';
-        self::assertEquals($expected, $this->extension->badgeInstructionFilter($actual));
-
-        $actual = PaymentInstructionInterface::STATE_VALID;
-        $expected = '<span class="badge badge-success">trans.instruction.valid</span>';
-        self::assertEquals($expected, $this->extension->badgeInstructionFilter($actual));
-
-        $actual = 42;
-        $expected = '<span class="badge badge-danger">trans.????</span>';
-        self::assertEquals($expected, $this->extension->badgeInstructionFilter($actual));
-    }
-
-    /**
-     * Test badge payment filter.
-     */
-    public function testBadgePaymentFilter(): void
-    {
-        $actual = PaymentInterface::STATE_APPROVED;
-        $expected = '<span class="badge badge-success">trans.payment.approved</span>';
-        self::assertEquals($expected, $this->extension->badgePaymentFilter($actual));
-
-        $actual = PaymentInterface::STATE_APPROVING;
-        $expected = '<span class="badge badge-warning">trans.payment.approving</span>';
-        self::assertEquals($expected, $this->extension->badgePaymentFilter($actual));
-
-        $actual = PaymentInterface::STATE_CANCELED;
-        $expected = '<span class="badge badge-danger">trans.payment.canceled</span>';
-        self::assertEquals($expected, $this->extension->badgePaymentFilter($actual));
-
-        $actual = PaymentInterface::STATE_EXPIRED;
-        $expected = '<span class="badge badge-danger">trans.payment.expired</span>';
-        self::assertEquals($expected, $this->extension->badgePaymentFilter($actual));
-
-        $actual = PaymentInterface::STATE_FAILED;
-        $expected = '<span class="badge badge-danger">trans.payment.failed</span>';
-        self::assertEquals($expected, $this->extension->badgePaymentFilter($actual));
-
-        $actual = PaymentInterface::STATE_NEW;
-        $expected = '<span class="badge badge-secondary">trans.payment.new</span>';
-        self::assertEquals($expected, $this->extension->badgePaymentFilter($actual));
-
-        $actual = PaymentInterface::STATE_DEPOSITING;
-        $expected = '<span class="badge badge-info">trans.payment.depositing</span>';
-        self::assertEquals($expected, $this->extension->badgePaymentFilter($actual));
-
-        $actual = PaymentInterface::STATE_DEPOSITED;
-        $expected = '<span class="badge badge-success">trans.payment.deposited</span>';
-        self::assertEquals($expected, $this->extension->badgePaymentFilter($actual));
-
-        $actual = 42;
-        $expected = '<span class="badge badge-danger">trans.????</span>';
-        self::assertEquals($expected, $this->extension->badgePaymentFilter($actual));
-    }
-
-    /**
      * Test Status order filter.
      */
     public function testBadgeStatusOrderFilter(): void
@@ -297,74 +226,6 @@ class BadgeExtensionTest extends Unit
     }
 
     /**
-     * Test status transaction filter.
-     */
-    public function testBadgeTransactionStatusFilter(): void
-    {
-        $actual = FinancialTransactionInterface::STATE_CANCELED;
-        $expected = '<span class="badge badge-danger">trans.transaction.status.canceled</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionStatusFilter($actual));
-
-        $actual = FinancialTransactionInterface::STATE_FAILED;
-        $expected = '<span class="badge badge-danger">trans.transaction.status.failed</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionStatusFilter($actual));
-
-        $actual = FinancialTransactionInterface::STATE_NEW;
-        $expected = '<span class="badge badge-info">trans.transaction.status.new</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionStatusFilter($actual));
-
-        $actual = FinancialTransactionInterface::STATE_PENDING;
-        $expected = '<span class="badge badge-warning">trans.transaction.status.pending</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionStatusFilter($actual));
-
-        $actual = FinancialTransactionInterface::STATE_SUCCESS;
-        $expected = '<span class="badge badge-success">trans.transaction.status.success</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionStatusFilter($actual));
-
-        $actual = 42;
-        $expected = '<span class="badge badge-danger">trans.????</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionStatusFilter($actual));
-    }
-
-    /**
-     * Test badge transaction filter.
-     */
-    public function testBadgeTransactionTypeFilter(): void
-    {
-        $actual = FinancialTransactionInterface::TRANSACTION_TYPE_APPROVE;
-        $expected = '<span class="badge badge-success">trans.transaction.type.approve</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionTypeFilter($actual));
-
-        $actual = FinancialTransactionInterface::TRANSACTION_TYPE_APPROVE_AND_DEPOSIT;
-        $expected = '<span class="badge badge-success">trans.transaction.type.approve-and-deposit</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionTypeFilter($actual));
-
-        $actual = FinancialTransactionInterface::TRANSACTION_TYPE_CREDIT;
-        $expected = '<span class="badge badge-info">trans.transaction.type.credit</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionTypeFilter($actual));
-
-        $actual = FinancialTransactionInterface::TRANSACTION_TYPE_DEPOSIT;
-        $expected = '<span class="badge badge-info">trans.transaction.type.deposit</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionTypeFilter($actual));
-
-        $actual = FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_APPROVAL;
-        $expected = '<span class="badge badge-danger">trans.transaction.type.reverse-approval</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionTypeFilter($actual));
-
-        $actual = FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_CREDIT;
-        $expected = '<span class="badge badge-danger">trans.transaction.type.reverse-credit</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionTypeFilter($actual));
-
-        $actual = FinancialTransactionInterface::TRANSACTION_TYPE_REVERSE_DEPOSIT;
-        $expected = '<span class="badge badge-danger">trans.transaction.type.reverse-deposit</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionTypeFilter($actual));
-
-        $actual = 42;
-        $expected = '<span class="badge badge-danger">trans.????</span>';
-        self::assertEquals($expected, $this->extension->badgeTransactionTypeFilter($actual));
-    }
-
-    /**
      * Test yes no filter.
      */
     public function testBadgeYesNoFilter(): void
@@ -384,7 +245,7 @@ class BadgeExtensionTest extends Unit
     public function testGetFilters(): void
     {
         self::assertIsArray($this->extension->getFilters());
-        self::assertCount(13, $this->extension->getFilters());
+        self::assertCount(9, $this->extension->getFilters());
         foreach ($this->extension->getFilters() as $key => $filter) {
             /* @var TwigFilter $filter the filter to test */
             self::assertInstanceOf(TwigFilter::class, $filter);

@@ -70,7 +70,7 @@ class AcceptanceTester extends Actor
     {
         $mail = $user.'@example.org';
         $password = $password ?? $user;
-        $this->comment("I want to login with ${mail} and ${password}");
+        $this->comment("I want to login with {$mail} and {$password}");
         $this->amOnPage('/login');
 
         $this->seeResponseCodeIsSuccessful();

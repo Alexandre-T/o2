@@ -35,6 +35,7 @@ install:
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then cp composer.7-1.lock composer.lock ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then cp composer.7-2.lock composer.lock ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.3" ]; then cp composer.7-3.lock composer.lock ; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.4snapshot" ]; then export COMPOSER_MEMORY_LIMIT=-1 ; fi
   # Install application
   - composer install --verbose --no-interaction
   # Database configuration

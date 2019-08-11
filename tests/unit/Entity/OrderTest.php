@@ -19,11 +19,11 @@ use App\Entity\Article;
 use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\OrderedArticle;
+use App\Entity\Payment;
 use App\Entity\User;
 use App\Model\OrderInterface;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
-use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 /**
  * Order entity unit tests.
@@ -104,7 +104,7 @@ class OrderTest extends Unit
         self::assertEquals('000000', $this->order->getLabel());
         self::assertEquals(OrderInterface::CARTED, $this->order->getStatusOrder());
         self::assertNull($this->order->getPayerId());
-        self::assertNull($this->order->getPaymentInstruction());
+        self::assertNull($this->order->getPayment());
         self::assertNull($this->order->getToken());
         self::assertNull($this->order->getVat());
         self::assertNotEmpty($this->order->getUuid());
@@ -199,12 +199,12 @@ class OrderTest extends Unit
     /**
      * Test PaymentInstruction setter and getter.
      */
-    public function testPaymentInstruction(): void
+    public function testPayment(): void
     {
-        $actual = $expected = new PaymentInstruction(0, '€', 'toto');
+        $actual = $expected = new Payment();
 
-        self::assertEquals($this->order, $this->order->setPaymentInstruction($actual));
-        self::assertEquals($expected, $this->order->getPaymentInstruction());
+        self::assertEquals($this->order, $this->order->setPayment($actual));
+        self::assertEquals($expected, $this->order->getPayment());
     }
 
     /**

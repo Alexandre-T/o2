@@ -11,4 +11,5 @@ modules:
             url: http://127.0.0.1:8000
             curl:
                 CURLOPT_PROXY: ''
+                CURLOPT_TIMEOUT: 120
         - \App\Tests\Helper\Acceptance
