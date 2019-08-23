@@ -60,6 +60,7 @@ services:
         arguments: ['@logger']
         tags:
             - { name: monolog.logger, channel: tpe }
+            - 'controller.service_arguments'
 
     #TPE COnfiguration
     App\Model\TpeConfig:
