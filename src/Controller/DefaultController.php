@@ -16,8 +16,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Exception\SettingsException;
 use App\Manager\BillManager;
 use App\Manager\ProgrammationManager;
+use App\Manager\SettingsManager;
 use App\Manager\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,6 +77,43 @@ class DefaultController extends AbstractController
         }
 
         return $this->render('default/index.html.twig', $parameters);
+    }
+
+    /**
+     * Legacy mentions.
+     *
+     * @Route("/legacy", name="legacy", methods={"get"})
+     *
+     * @param SettingsManager $settingsManager the settings manager to retrieve data
+     *
+     * @return Response
+     *
+     * @throws SettingsException when data is non-existent
+     */
+    public function legacy(SettingsManager $settingsManager): Response
+    {
+        $data = [];
+
+        $data['legacy_society'] = $settingsManager->getValue('bill-name');
+        $data['legacy_form'] = $settingsManager->getValue('bill-status');
+        $data['legacy_address'] = $settingsManager->getValue('bill-street-address');
+        $data['legacy_address'] .= "\n" . $settingsManager->getValue('bill-complement');
+        $data['legacy_address'] .= "\n" . $settingsManager->getValue('bill-postal-code');
+        $data['legacy_address'] .= " " . $settingsManager->getValue('bill-locality');
+        $data['legacy_address'] .= "\n" . $settingsManager->getValue('bill-country');
+        $data['legacy_capital'] = $settingsManager->getValue('bill-status');
+        $data['legacy_mail'] = $settingsManager->getValue('mail-sender');
+        $data['legacy_tel'] = $settingsManager->getValue('bill-telephone');
+        $data['legacy_rcs'] = $settingsManager->getValue('legacy-rcs');
+        $data['legacy_tva'] = $settingsManager->getValue('bill-vat-number');
+        $data['legacy_publication'] = $settingsManager->getValue('legacy-publication');
+
+        $data['host_name'] = $settingsManager->getValue('host-name');
+        $data['host_form'] = $settingsManager->getValue('host-form');
+        $data['host_address'] = $settingsManager->getValue('host-address');
+        $data['host_tel'] = $settingsManager->getValue('host-tel');
+
+        return $this->render('default/legacy.html.twig', $data);
     }
 
     /**

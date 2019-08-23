@@ -36,7 +36,7 @@ class HomeCest
     }
 
     /**
-     * Test the home page.
+     * Test the tos page.
      *
      * @param AcceptanceTester $you the acceptance tester
      */
@@ -44,6 +44,18 @@ class HomeCest
     {
         $you->wantToTest('The TOS page is accessible');
         $you->amOnPage('/tos');
+        $you->seeResponseCodeIsSuccessful();
+    }
+
+    /**
+     * Test the legacy page.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToTestLegacyPage(AcceptanceTester $you): void
+    {
+        $you->wantToTest('The legacy page is accessible');
+        $you->amOnPage('/legacy');
         $you->seeResponseCodeIsSuccessful();
     }
 }

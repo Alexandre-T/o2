@@ -452,6 +452,30 @@ item:
   price: 'Total HT'
   vat: 'Total TVA'
 
+legacy:
+  society: 'Société'
+  form: 'Raison sociale'
+  address: 'Adresse de l’établissement'
+  capital: 'Montant du capital'
+  mail: 'Mail de contact'
+  tel: 'Numéro de téléphone'
+  rcs: 'Numéro d’inscription au registre du commerce et des sociétés (RCS)'
+  tva: 'Numéro individuel d’identification fiscale numéro de TVA intracommunautaire'
+  publication: 'Nom du directeur de la publication'
+  host:
+    title: 'Hébergeur du site'
+    name: 'Nom'
+    form: 'Raison sociale'
+    address: 'Addresse'
+    tel: 'Téléphone'
+  cgv: 'Conditions générales de vente'
+  cookie:
+    title: 'Information quant à l’utilisation des cookies'
+    explanations : 'Ce site n’utilise qu’un seul cookie, appelé cookie de session. Ce cookie est utilisé uniquement pour vous éviter de vous reconnecter entre chaque page du site. Il est nécessaire au bon fonctionnement du site pour nos clients.'
+
+
+
+
 link:
   password-lost:
     text: 'Mot de passe perdu ?'
@@ -649,6 +673,7 @@ title:
       list: 'Vos reprogrammations'
   default:
     tos: 'Conditions d’utilisation'
+    legacy: 'Mentions légales'
   security:
     login: Connexion
     password-lost: 'Mot de passe perdu'

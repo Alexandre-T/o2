@@ -121,6 +121,42 @@ class SettingsFixtures extends Fixture
         $settings->setValue('programmer@example.org');
         $manager->persist($settings);
 
+        //RCS for legacy mentions.
+        $settings = new Settings();
+        $settings->setCode('legacy-rcs');
+        $settings->setValue('RCS-1234-5678');
+        $manager->persist($settings);
+
+        //RCS for legacy mentions.
+        $settings = new Settings();
+        $settings->setCode('legacy-publication');
+        $settings->setValue('John Doe');
+        $manager->persist($settings);
+
+        //Host for legacy mentions.
+        $settings = new Settings();
+        $settings->setCode('host-name');
+        $settings->setValue('HOST');
+        $manager->persist($settings);
+
+        //Host for legacy mentions.
+        $settings = new Settings();
+        $settings->setCode('host-form');
+        $settings->setValue('HOST form');
+        $manager->persist($settings);
+
+        //Host for legacy mentions.
+        $settings = new Settings();
+        $settings->setCode('host-address');
+        $settings->setValue('HOST address');
+        $manager->persist($settings);
+
+        //Host for legacy mentions.
+        $settings = new Settings();
+        $settings->setCode('host-tel');
+        $settings->setValue('HOST tel');
+        $manager->persist($settings);
+
         $manager->flush();
     }
 }

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.default.legacy' | trans }}  &bull; {{ parent() }} {% endblock %}
+
+{% block headline %}<h1>{{ 'title.default.legacy' | trans }}</h1>{% endblock headline %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'title.default.legacy' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block container %}
+    <h3>{{ 'legacy.society' | trans }}</h3>
+    <dl class="row">
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.society' | trans }}</dt>
+        <dd class="col-sm-6">{{ legacy_society }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.form' | trans }}</dt>
+        <dd class="col-sm-6">{{ legacy_form }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.address' | trans }}</dt>
+        <dd class="col-sm-6">{{ legacy_address | nl2br }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.capital' | trans }}</dt>
+        <dd class="col-sm-6">{{ legacy_capital }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.mail' | trans }}</dt>
+        <dd class="col-sm-6">{{ legacy_mail }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.tel' | trans }}</dt>
+        <dd class="col-sm-6">{{ legacy_tel }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.rcs' | trans }}</dt>
+        <dd class="col-sm-6">{{ legacy_rcs }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.tva' | trans }}</dt>
+        <dd class="col-sm-6">{{ legacy_tva }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.publication' | trans }}</dt>
+        <dd class="col-sm-6">{{ legacy_publication }}</dd>
+    </dl>
+    <h3>{{ 'legacy.host.title' | trans }}</h3>
+    <dl class="row">
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.host.name' | trans }}</dt>
+        <dd class="col-sm-6">{{ host_name }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.host.form' | trans }}</dt>
+        <dd class="col-sm-6">{{ host_form }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.host.address' | trans }}</dt>
+        <dd class="col-sm-6">{{ host_address }}</dd>
+        <dt class="col-sm-6 text-truncate text-right">{{ 'legacy.host.tel' | trans }}</dt>
+        <dd class="col-sm-6">{{ host_tel }}</dd>
+    </dl>
+    <h3>{{ 'legacy.cookie.title' | trans }}</h3>
+    <p class="text-justify">{{ 'legacy.cookie.explanations' | trans }}</p>
+    <h3><a href="{{ path('tos') }}" title="{{ 'legacy.cgv' | trans }}">{{ 'legacy.cgv' | trans }}</a></h3>
+
+{% endblock %}
+
