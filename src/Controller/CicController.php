@@ -18,7 +18,7 @@ class CicController
     /**
      * CicController constructor.
      *
-     * @param LoggerInterface $log the logger for TPE
+     * @param LoggerInterface $log the logger for tpe
      */
     public function __construct(LoggerInterface $log)
     {
@@ -30,7 +30,7 @@ class CicController
      *
      * @Route("/retour-cic", name="cic-return", methods={"post","get"})
      *
-     * @param TpeConfig $tpeConfig
+     * @param TpeConfig $tpeConfig the tpe config
      *
      * @return Response
      */
@@ -42,7 +42,7 @@ class CicController
             return new Response(Api::NOTIFY_FAILURE);
         }
 
-        $this->log->info(implode(';', $data));
+        $this->log->info(json_encode($data));
 
         $configuration = $tpeConfig->getConfiguration();
         $api = new Api();
