@@ -1,5 +1,11 @@
 monolog:
     handlers:
+        tpe:
+            # log all messages (since debug is the lowest level)
+            level:    debug
+            type:     stream
+            path:     '%kernel.logs_dir%/tpe.log'
+            channels: ["tpe"]
         main:
             type: fingers_crossed
             action_level: error

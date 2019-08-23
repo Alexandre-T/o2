@@ -56,6 +56,22 @@ services:
             - parameters:
                 from: '%expediter%'
 
+    App\Controller\CicController:
+        arguments: ['@logger']
+        tags:
+            - { name: monolog.logger, channel: tpe }
+
+    #TPE COnfiguration
+    App\Model\TpeConfig:
+        arguments:
+            - parameters:
+                  bank: '%env(MONETICO_BANK)%'
+                  mode: '%env(MONETICO_MODE)%'
+                  tpe: '%env(MONETICO_TPE)%'
+                  key: '%env(MONETICO_KEY)%'
+                  company: '%env(MONETICO_COMPANY)%'
+                  debug: '%env(MONETICO_DEBUG)%'
+
     #Voters are tagged
     App\Security\Voter\:
         resource: '../src/Security/Voter'

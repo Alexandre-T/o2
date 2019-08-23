@@ -1,5 +1,12 @@
 monolog:
+    channels: ['tpe','main','console']
     handlers:
+        tpe:
+            # log all messages (since debug is the lowest level)
+            level:    debug
+            type:     stream
+            path:     '%kernel.logs_dir%/tpe.log'
+            channels: ["tpe"]
         main:
             type: stream
             path: "%kernel.logs_dir%/%kernel.environment%.log"
