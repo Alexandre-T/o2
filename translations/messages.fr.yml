@@ -330,6 +330,12 @@ form:
       bill-vat-number: 'Entrez le numéro de TVA de votre société qui apparaîtra sur toutes vos factures'
       bill-url: 'Entrez l’adresse du site qui apparaîtra sur la facture'
       bill-vat-percent: 'Entrez le taux de TVA qui apparaîtra sur la facture'
+      host-address: 'Entrez l’adresse physique de l’hébergeur'
+      host-form: 'Entrez le statut juridique de l’hébergeur'
+      host-name: 'Entrez le nom de l’hébergeur'
+      host-tel: 'Entrez le numéro de téléphone pour joindre l’hébergeur'
+      legacy-publication: 'Entrez le nom du responsable de la publication à contacter'
+      legacy-rcs: 'Entrez le numéro RCS de la société'
       mail-accountant: 'Entrez l’adresse email du comptable qui recevra un mail à chaque paiement'
       mail-programmer: 'Entrez l’adresse email du programmer qui recevra un mail à chaque commande de reprogrammation'
       mail-sender: 'Entrez l’adresse email de l’expéditeur qui expédira tous vos mails'
@@ -640,9 +646,16 @@ settings:
   bill-url: 'Facture : Adresse du site'
   bill-vat-number: 'Facture : Numéro de TVA'
   bill-vat-percent: 'Facture : Taux de TVA'
+  host-address: 'Adresse de l’hébergeur'
+  host-form: 'Statut juridique de l’hébergeur'
+  host-name: 'Hébergeur'
+  host-tel: 'Téléphone de l’hébergeur'
+  legacy-publication: 'Responsable de la publication'
+  legacy-rcs: 'Numéro RCS de la société'
   mail-accountant: 'Adresse email du comptable'
   mail-programmer: 'Adresse email du programmeur'
   mail-sender: 'Expéditeur de tous vos mails'
+
 
 table:
   order:
