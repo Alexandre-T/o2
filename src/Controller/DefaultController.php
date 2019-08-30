@@ -86,9 +86,9 @@ class DefaultController extends AbstractController
      *
      * @param SettingsManager $settingsManager the settings manager to retrieve data
      *
-     * @return Response
-     *
      * @throws SettingsException when data is non-existent
+     *
+     * @return Response
      */
     public function legacy(SettingsManager $settingsManager): Response
     {
@@ -97,10 +97,10 @@ class DefaultController extends AbstractController
         $data['legacy_society'] = $settingsManager->getValue('bill-name');
         $data['legacy_form'] = $settingsManager->getValue('bill-status');
         $data['legacy_address'] = $settingsManager->getValue('bill-street-address');
-        $data['legacy_address'] .= "\n" . $settingsManager->getValue('bill-complement');
-        $data['legacy_address'] .= "\n" . $settingsManager->getValue('bill-postal-code');
-        $data['legacy_address'] .= " " . $settingsManager->getValue('bill-locality');
-        $data['legacy_address'] .= "\n" . $settingsManager->getValue('bill-country');
+        $data['legacy_address'] .= "\n".$settingsManager->getValue('bill-complement');
+        $data['legacy_address'] .= "\n".$settingsManager->getValue('bill-postal-code');
+        $data['legacy_address'] .= ' '.$settingsManager->getValue('bill-locality');
+        $data['legacy_address'] .= "\n".$settingsManager->getValue('bill-country');
         $data['legacy_capital'] = $settingsManager->getValue('bill-status');
         $data['legacy_mail'] = $settingsManager->getValue('mail-sender');
         $data['legacy_tel'] = $settingsManager->getValue('bill-telephone');

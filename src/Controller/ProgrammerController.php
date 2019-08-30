@@ -69,7 +69,7 @@ class ProgrammerController extends AbstractPaginateController
 
         //Force download
         $file = $programmation->getFinalFile();
-        $filename = mb_convert_encoding($file->getOriginalName(),'ASCII');
+        $filename = mb_convert_encoding($file->getOriginalName(), 'ASCII');
 
         return $downloadHandler->downloadObject($file, 'file', null, $filename);
     }
@@ -87,7 +87,7 @@ class ProgrammerController extends AbstractPaginateController
     public function downloadOriginal(DownloadHandler $downloadHandler, Programmation $programmation): Response
     {
         $file = $programmation->getOriginalFile();
-        $filename = mb_convert_encoding($file->getOriginalName(),'ASCII');
+        $filename = mb_convert_encoding($file->getOriginalName(), 'ASCII');
 
         return $downloadHandler->downloadObject($file, 'file', null, $filename);
     }
