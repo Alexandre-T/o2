@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block meta %}
+    <meta http-equiv="refresh" content="600">
+{% endblock meta %}
+
 {% block title %}{{ 'title.programmer.programmation.list'|trans }} · {{ parent() }}{% endblock title %}
 
 {% block content_breadcrumb %}
