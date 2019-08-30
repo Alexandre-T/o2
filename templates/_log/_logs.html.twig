@@ -1,11 +1,11 @@
 {% for log in logs %}
     <tr>
         <td headers="logs-action"
-            class="text-center col-sm-1 row{{ log.version }}">
+            class="text-center row{{ log.version }}">
             <small class="badge badge-secondary">{{ ('entity.log.actions.' ~ log.action) | trans }}</small>
         </td>
         <td headers="logs-date"
-            class="text-center col-sm-2 row{{ log.version }}">
+            class="text-center row{{ log.version }}">
             <small class="d-block">{{ log.loggedAt | localizeddate('medium','medium') }}</small>
             {% if log.username is not empty %}
                 <small class="d-block">{{ log.username }}</small>
