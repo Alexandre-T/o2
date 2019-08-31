@@ -32,131 +32,85 @@ class SettingsFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Address for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-name');
-        $settings->setValue('Society example');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-name', 'Society example'));
 
         //Address for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-street-address');
-        $settings->setValue('42 boulevard Jean Jaurès');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-street-address', '42 boulevard Jean Jaurès'));
 
         //Complement for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-complement');
-        $settings->setValue('CEDEX 33000');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-complement', 'CEDEX 33000'));
 
         //Postal code for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-postal-code');
-        $settings->setValue('33160');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-postal-code', '33160'));
 
         //Locality for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-locality');
-        $settings->setValue('MÉRIGNAC');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-locality', 'MÉRIGNAC'));
 
         //Country for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-country');
-        $settings->setValue('FRANCE');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-country', 'FRANCE'));
 
         //Siret for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-siret');
-        $settings->setValue('SIRET: 699-42-996');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-siret', 'SIRET: 699-42-996'));
 
         //Status for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-status');
-        $settings->setValue("SARL au capital de 42,00\u{a0}€");
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-status', "SARL au capital de 42,00\u{a0}€"));
 
         //VAT percent for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-vat-percent');
-        $settings->setValue("20,00\u{a0}%");
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-vat-percent', "20,00\u{a0}%"));
 
         //Telephone for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-telephone');
-        $settings->setValue('06-06-06-06-06');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-telephone', '06-06-06-06-06'));
 
         //TVA-Number for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-vat-number');
-        $settings->setValue('XXX-333-YYY');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-vat-number', 'XXX-333-YYY'));
 
         //Telephone for bill.
-        $settings = new Settings();
-        $settings->setCode('bill-url');
-        $settings->setValue('www.example.org');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('bill-url', 'www.example.org'));
 
         //Mail sender.
-        $settings = new Settings();
-        $settings->setCode('mail-sender');
-        $settings->setValue('sender@example.org');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('mail-sender', 'sender@example.org'));
 
         //Mail accountant.
-        $settings = new Settings();
-        $settings->setCode('mail-accountant');
-        $settings->setValue('accountant@example.org');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('mail-accountant', 'accountant@example.org'));
 
         //Mail programmer.
-        $settings = new Settings();
-        $settings->setCode('mail-programmer');
-        $settings->setValue('programmer@example.org');
-        $manager->persist($settings);
+        $manager->persist($this->createSettings('mail-programmer', 'programmer@example.org'));
 
-        //RCS for legacy mentions.
-        $settings = new Settings();
-        $settings->setCode('legacy-rcs');
-        $settings->setValue('RCS-1234-5678');
-        $manager->persist($settings);
+        //RCS for legacy rcs.
+        $manager->persist($this->createSettings('legacy-rcs', 'RCS-1234-5678'));
 
-        //RCS for legacy mentions.
-        $settings = new Settings();
-        $settings->setCode('legacy-publication');
-        $settings->setValue('John Doe');
-        $manager->persist($settings);
+        //RCS for legacy publication director.
+        $manager->persist($this->createSettings('legacy-publication', 'John Doe'));
 
-        //Host for legacy mentions.
-        $settings = new Settings();
-        $settings->setCode('host-name');
-        $settings->setValue('HOST');
-        $manager->persist($settings);
+        //Host for hostname.
+        $manager->persist($this->createSettings('host-name', 'HOST'));
 
-        //Host for legacy mentions.
-        $settings = new Settings();
-        $settings->setCode('host-form');
-        $settings->setValue('HOST form');
-        $manager->persist($settings);
+        //Host for host status society form.
+        $manager->persist($this->createSettings('host-form', 'HOST form'));
 
-        //Host for legacy mentions.
-        $settings = new Settings();
-        $settings->setCode('host-address');
-        $settings->setValue('HOST address');
-        $manager->persist($settings);
+        //Host for host address.
+        $manager->persist($this->createSettings('host-address', 'HOST address'));
 
-        //Host for legacy mentions.
-        $settings = new Settings();
-        $settings->setCode('host-tel');
-        $settings->setValue('HOST tel');
-        $manager->persist($settings);
+        //Host for host tel.
+        $manager->persist($this->createSettings('host-tel', 'HOST tel'));
 
         $manager->flush();
+    }
+
+    /**
+     * Setting factory.
+     *
+     * @param string $code  the settings code
+     * @param string $value the settings value
+     *
+     * @return Settings
+     */
+    private function createSettings(string $code, string $value): Settings
+    {
+        $settings = new Settings();
+        $settings->setCode($code);
+        $settings->setValue($value);
+
+        return $settings;
     }
 }

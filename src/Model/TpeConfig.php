@@ -40,7 +40,7 @@ class TpeConfig
     /**
      * TpeConfig constructor.
      *
-     * @param $configuration
+     * @param array $configuration configuration provided by injection
      */
     public function __construct($configuration)
     {

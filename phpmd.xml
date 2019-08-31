@@ -28,7 +28,11 @@
     </rule>
     <!-- <rule ref="rulesets/codesize.xml/ExcessiveClassComplexity" /> -->
     <!-- Import the entire controversial code rule set -->
-    <rule ref="rulesets/controversial.xml"/>
+    <rule ref="rulesets/controversial.xml/CamelCaseClassName"/>
+    <rule ref="rulesets/controversial.xml/CamelCasePropertyName"/>
+    <rule ref="rulesets/controversial.xml/CamelCaseMethodName"/>
+    <rule ref="rulesets/controversial.xml/CamelCaseParameterName"/>
+    <rule ref="rulesets/controversial.xml/CamelCaseVariableName"/>
     <!-- Import the entire design code rule set -->
     <rule ref="rulesets/design.xml/ExitExpression"/>
     <rule ref="rulesets/design.xml/EvalExpression"/>
