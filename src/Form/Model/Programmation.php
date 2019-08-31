@@ -50,14 +50,10 @@ class Programmation implements ProgrammationInterface
     /**
      * Cylinder capacity.
      *
-     * @var string|float
+     * @var string
      *
-     * @Assert\Range(
-     *     min="0",
-     *     max="99",
-     *     minMessage="error.cylinder-capacity.min",
-     *     maxMessage="error.cylinder-capacity.max"
-     * )
+     * @Assert\NotBlank(message="error.cylinder-capacity.not-blank")
+     * @Assert\Length(max="16")
      */
     private $cylinderCapacity;
 
@@ -192,7 +188,7 @@ class Programmation implements ProgrammationInterface
     /**
      * Read.
      *
-     * @Assert\Choice(choices=ProgrammationInterface::READS, message="error.read.choice")
+     * @Assert\Choice(choices=ProgrammationInterface::READS)
      * @Assert\NotBlank
      *
      * @var int

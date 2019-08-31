@@ -220,7 +220,7 @@ class ProgrammationTest extends Unit
         self::assertEquals($this->programmation, $this->programmation->setCylinderCapacity($actual));
         self::assertEquals($expected, $this->programmation->getCylinderCapacity());
 
-        $actual = $expected = 42.42;
+        $actual = $expected = '42.42L';
         self::assertEquals($this->programmation, $this->programmation->setCylinderCapacity($actual));
         self::assertEquals($expected, $this->programmation->getCylinderCapacity());
     }

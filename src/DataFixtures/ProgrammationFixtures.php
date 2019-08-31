@@ -60,7 +60,7 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
                 $file = $this->getReference('file'.$index);
                 $programmation = new Programmation();
                 $programmation->setCustomer($customer);
-                $programmation->setCylinderCapacity(3.2);
+                $programmation->setCylinderCapacity('3.2');
                 $programmation->setGearAutomatic(ProgrammationInterface::GEAR_MANUAL);
                 $programmation->setComment('Comment'.$index);
                 $programmation->setEdcOff(true);

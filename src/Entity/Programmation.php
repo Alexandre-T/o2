@@ -81,9 +81,9 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Cylinder capacity.
      *
-     * @var string|float
+     * @var string
      *
-     * @ORM\Column(type="decimal", precision=7, scale=5)
+     * @ORM\Column(type="string", length=16)
      */
     private $cylinderCapacity;
 
@@ -383,9 +383,9 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Cylinder capacity.
      *
-     * @return float|string
+     * @return string
      */
-    public function getCylinderCapacity()
+    public function getCylinderCapacity(): ?string
     {
         return $this->cylinderCapacity;
     }
