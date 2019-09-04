@@ -50,6 +50,13 @@
                     </tr>
                     </tbody>
                 </table>
+                <address class="m-5">
+                    <strong class="d-block">{{ bill.customer.label }}</strong>
+                    <span class="d-block">{{ bill.customer.streetAddress }}</span>
+                    <span class="d-block">{{ bill.customer.complement }}</span>
+                    <span class="d-block">{{ bill.customer.postalCode }} {{ bill.customer.locality }}</span>
+                    <span class="d-block">{{ bill.customer.country | country }}</span>
+                </address>
             </div>
         </div>
         <table class="table table-bordered table-striped mt-5">
