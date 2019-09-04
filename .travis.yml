@@ -77,6 +77,9 @@ script:
   - if [ "$TRAVIS_PHP_VERSION" != "7.4snapshot" ]; then composer phpcsfixer ; fi
   - if [ "$TRAVIS_PHP_VERSION" != "7.4snapshot" ]; then composer phpcsfixer-test ; fi
 
+after_failure:
+  - cat tests/_output/*.fail.html
+
 after_success:
   - cp tests/_output/coverage.xml build/logs/clover.xml
   - php vendor/bin/php-coveralls -v
