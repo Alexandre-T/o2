@@ -174,6 +174,7 @@ class ProgrammationTest extends Unit
         self::assertEquals($this->programmation, $this->programmation->refreshCost());
         self::assertEquals($expected, $this->programmation->getCredit());
 
+        $expected = 15;
         $this->programmation->setEdcOff(false);
         $this->programmation->setEgrOff(false);
         $this->programmation->setFapOff(false);
@@ -182,7 +183,7 @@ class ProgrammationTest extends Unit
         self::assertEquals($this->programmation, $this->programmation->refreshCost());
         self::assertEquals($expected, $this->programmation->getCredit());
 
-        $expected = 15;
+        $expected = 20;
         $this->programmation->setEdcOff(false);
         $this->programmation->setEgrOff(true);
         $this->programmation->setFapOff(true);
@@ -191,7 +192,7 @@ class ProgrammationTest extends Unit
         self::assertEquals($this->programmation, $this->programmation->refreshCost());
         self::assertEquals($expected, $this->programmation->getCredit());
 
-        $expected = 20;
+        $expected = 25;
         $this->programmation->setEdcOff(true);
         $this->programmation->setEgrOff(true);
         $this->programmation->setFapOff(true);

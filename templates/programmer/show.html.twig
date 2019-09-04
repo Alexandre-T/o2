@@ -85,6 +85,14 @@
                 </div>
                 <div class="card-body">
                     <dl class="row">
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'programmation.cost' | trans }}</dt>
+                        <dd class="col-sm-6">
+                            {{ 'common.credits %credit%' | trans({'%credit%': programmation.credit}) }}
+                            <span class="fas fa-coins"></span>
+                        </dd>
+                    </dl>
+                    <hr/>
+                    <dl class="row">
                         <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.edc-off' | trans }}</dt>
                         <dd class="col-sm-4">{{ programmation.edcOff | badgeAsked }}</dd>
                         <dd class="col-sm-4">{{ programmation.edcStopped | badgeDone(programmation.deliveredAt) }}</dd>
