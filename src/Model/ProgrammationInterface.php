@@ -46,7 +46,7 @@ interface ProgrammationInterface
      * Promotion are subtracted to total.
      */
     public const PROMOTION_EGR_FAP = 5;
-    public const PROMOTION_STAGE_ONE_ETHANOL = 10;
+    public const PROMOTION_STAGE_ONE_ETHANOL = 5;
 
     /**
      * Constant for READ field.
