@@ -1,5 +1,4 @@
 monolog:
-    channels: ['tpe','main','console']
     handlers:
         tpe:
             # log all messages (since debug is the lowest level)
@@ -8,19 +7,26 @@ monolog:
             path:     '%kernel.logs_dir%/tpe.log'
             channels: ["tpe"]
         main:
-            type: stream
+            type: fingers_crossed
+            action_level: debug
+            handler: nested
+            excluded_404s:
+                # regex: exclude all 404 errors from the logs
+                - ^/
+        nested:
+            type: rotating_file
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
             channels: ["!event"]
-        # uncomment to get logging in your browser
-        # you may have to allow bigger header sizes in your Web server configuration
-        #firephp:
-        #    type: firephp
-        #    level: info
-        #chromephp:
-        #    type: chromephp
-        #    level: info
         console:
             type: console
             process_psr_3_messages: false
-            channels: ["!event", "!doctrine", "!console"]
+            channels: ["!event", "!doctrine"]
+        deprecation:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.deprecations.log"
+        deprecation_filter:
+            type: filter
+            handler: deprecation
+            max_level: info
+            channels: ["php"]
