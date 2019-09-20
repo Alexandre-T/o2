@@ -82,6 +82,10 @@ class PaymentController extends AbstractController
         } catch (Exception $e) {
             //I do not have the token.
             $this->addFlash('error', 'error.payment.non-existent');
+            $log->log(
+                LogLevel::WARNING,
+                "This order does not exists or has been already paid. Token does not exist."
+            );
 
             return $this->redirectToRoute('customer_order_credit');
         }
@@ -191,6 +195,11 @@ class PaymentController extends AbstractController
             $order = $orderManager->retrieveByUuid($uuid);
         } catch (NoOrderException $noOrderException) {
             $this->addFlash('error', 'error.payment.non-existent');
+
+            $logger->log(
+                LogLevel::WARNING,
+                "This order does not exists or has been already paid. Token does not exist."
+            );
 
             return $this->redirectToRoute('home');
         }
