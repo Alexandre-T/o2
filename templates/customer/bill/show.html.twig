@@ -21,7 +21,7 @@
                     {% if payment is not null %}
                     <span class="d-block">
                         {{ 'bill.method' | trans }}
-                        {{ 'data.' ~ payment.getDescription | trans }}
+                        {{ ('data.' ~ payment.description) | trans }}
                     </span>
                     {% endif %}
                     <span class="d-block">
