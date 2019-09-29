@@ -821,6 +821,8 @@ common:
   yes: 'Oui'
 
 message:
+  bill-new:
+    user-credited: 'La facture a été créé et le client a été crédité à l’instant'
   programmation:
     empty: 'Vous n’avez pas encore demandé de reprogrammation. Pour ce faire, n’hésitez pas à cliquer sur le bouton ci-dessous.'
     in-progress: 'Votre reprogrammation est en cours. Notre équipe travaille dessus.'

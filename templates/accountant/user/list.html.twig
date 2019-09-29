@@ -87,7 +87,7 @@
                             <span class="sr-only">{{ 'action.user.show.text' | trans }}</span>
                         </a>
                         {% endif %}
-                        <a class="btn btn-outline-secondary" title="{{ 'action.user.new-bill.title' | trans }}"
+                        <a class="btn btn-outline-secondary user-{{ loop.index }}" title="{{ 'action.user.new-bill.title' | trans }}"
                            href="{{ path('accountant_user_new', { 'user': user.id }) }}"
                            data-placement="left" data-toggle="tooltip">
                             <span class="fa fa-money-bill"></span>
