@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.accountant.text' | trans }}</li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.accountant.bill.new' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block container %}
+{{ form_start(form) }}
+<div class="row justify-content-md-center mb-5">
+    <div class="col-md-10">
+        <div class="card border-primary">
+            <div class="card-header">
+                <h1>
+                    <span class="fas fa-file-invoice-dollar"></span>
+                    {{ 'title.accountant.bill-new' | trans }}
+                </h1>
+            </div>
+            <div class="card-body">
+                <div class="row mb-5">
+                    <div class="col-6">
+                        <img src="{{ asset('img/o2programmation.png') }}" alt="{{ 'img.alt.logo' | trans }}">
+                        <address>
+                            <strong class="d-block">{{ settings('bill-name') }}</strong>
+                            <span class="d-block">{{ settings('bill-street-address') }}</span>
+                            <span class="d-block">{{ settings('bill-complement') }}</span>
+                            <span class="d-block">{{ settings('bill-postal-code') }} {{ settings('bill-locality') }}</span>
+                            <span class="d-block">{{ settings('bill-country') }}</span>
+                            <span class="d-block">{{ settings('bill-telephone') }}</span>
+                        </address>
+                        <div class="mt-5">
+                            <span class="d-block">
+                                {{ 'bill.expired' | trans }}
+                                {{ 'now' | localizeddate('short', 'none') }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <table class="table table-bordered table-striped text-center">
+                            <thead>
+                            <tr>
+                                <th colspan="3">{{ 'bill.title' | trans }}</th>
+                            </tr>
+                            <tr class="bg-secondary text-light">
+                                <th id="bill-number">{{ 'bill.number' | trans }}</th>
+                                <th id="bill-date">{{ 'bill.date' | trans }}</th>
+                                <th id="bill-client">{{ 'bill.customer' | trans }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td headers="bill-number">Numéro à venir</td>
+                                <td headers="bill-date">{{ 'now' | localizeddate('short','none') }}</td>
+                                <td headers="bill-client">{{ user.label }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <address class="m-5">
+                            <strong class="d-block">{{ user.label }}</strong>
+                            <span class="d-block">{{ user.streetAddress }}</span>
+                            <span class="d-block">{{ user.complement }}</span>
+                            <span class="d-block">{{ user.postalCode }} {{ user.locality }}</span>
+                            <span class="d-block">{{ user.country | country }}</span>
+                        </address>
+                    </div>
+                    <table class="table text-right table-striped">
+                        <thead>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-4"></th>
+                            <th scope="row" class="col-2">{{ 'table.order.quantity' | trans }}</th>
+                            <th scope="row" class="col-2">{{ 'table.order.unit-price' | trans }}</th>
+                            <th scope="row" class="col-2">{{ 'table.order.credits' | trans }}</th>
+                            <th scope="row" class="col-2">{{ 'table.order.price' | trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="d-flex">
+                            <td class="col-4">{{ form_label(form.ten) }}</td>
+                            <td class="col-2">{{ form_widget(form.ten) }}</td>
+                            <td class="col-2">{{ 100 | localizedcurrency('EUR') }}</td>
+                            <td class="col-2"><span
+                                        id="credit10">{{ (10 * form.ten.vars.value) | localizednumber }}</span></td>
+                            <td class="col-2"><span
+                                        id="price10">{{ (100 * form.ten.vars.value) | localizedcurrency('EUR') }}</span>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-4">{{ form_label(form.hundred) }}</td>
+                            <td class="col-2">{{ form_widget(form.hundred) }}</td>
+                            <td class="col-2">{{ 1000 | localizedcurrency('EUR') }}</td>
+                            <td class="col-2"><span
+                                        id="credit100">{{ (10 * form.hundred.vars.value) | localizednumber }}</span>
+                            </td>
+                            <td class="col-2"><span
+                                        id="price100">{{ (1000 * form.hundred.vars.value) | localizedcurrency('EUR') }}</span>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-4">{{ form_label(form.fiveHundred) }}</td>
+                            <td class="col-2">{{ form_widget(form.fiveHundred) }}</td>
+                            <td class="col-2">{{ 4500 | localizedcurrency('EUR') }}</td>
+                            <td class="col-2"><span
+                                        id="credit500">{{ (10 * form.fiveHundred.vars.value) | localizednumber }}</span>
+                            </td>
+                            <td class="col-2"><span
+                                        id="price500">{{ (4500 * form.fiveHundred.vars.value) | localizedcurrency('EUR') }}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr class="d-flex">
+                            <th scope="col" class="col-10">Prix H.T. total</th>
+                            <td class="col-2"><span id="totalHT">{{ order.price | localizedcurrency('EUR') }}</span>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="col" class="offset-8 col-2">TVA</th>
+                            <td class="col-2"><span id="totalVAT">{{ order.vat | localizedcurrency('EUR') }}</span></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="col" class="offset-8 col-2">Prix T.T.C. total</th>
+                            <td class="col-2"><span
+                                        id="totalTTC">{{ (order.vat + order.price) | localizedcurrency('EUR') }}</span>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                {{ form_widget(form) }}
+            </div>
+            <div class="card-footer text-right">
+                <button class="btn btn-primary" type="submit">
+                    <span class="fas fa-fw fa-comment-dollar mr-1"></span>
+                    {{ 'form.accountant-bill-new.field.submit' | trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+{% endblock %}
+
+    {% block title %}{{ 'title.accountant.bill.new'|trans }} · {{ parent() }}{% endblock title %}
+
+    {% block javascripts %}
+        {{ parent() }}
+        <script>
+            {{ include('_javascript/accountant-order-credit.js.twig') }}
+        </script>
+    {% endblock %}

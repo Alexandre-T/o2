@@ -1,3 +1,7 @@
+accountant:
+  credit:
+    credit: 'Oui, le créditer'
+    not-credit: 'Non, ne pas le créditer'
 action:
   bill:
     show:
@@ -57,6 +61,9 @@ action:
     password:
       text: 'Mot de passe'
       title: 'Modifier le mot de passe de l’utilisateur'
+    new-bill:
+      text: 'Nouvelle facture'
+      title: 'Enregistrer une nouvelle facture'
   url:
     title: 'Consulter ce site web (dans une nouvelle fenêtre)'
   settings:
@@ -266,6 +273,8 @@ form:
     old-password: 'Ancien mot de passe'
     original-file: 'Fichier d’origine'
     password: 'Mot de passe'
+    paid: 'Créditer le client'
+    payment-method: 'Moyen de paiement'
     person-type: 'Nature'
     postal-code: 'Code postal'
     power: 'Puissance'
@@ -390,6 +399,9 @@ form:
   programmation:
     field:
       submit: 'Commander'
+  accountant-bill-new:
+    field:
+      submit: 'Créer la facture'
 
 flash:
   mail-test:
@@ -516,6 +528,9 @@ nav:
       bill:
         text: 'Factures'
         title: 'Consultation des factures'
+      user:
+        text: 'Facture manuelle'
+        title: 'Créer manuellement une facture pour un client'
   home:
     text: 'Accueil'
     title: 'Retour à l’accueil'
@@ -668,7 +683,11 @@ title:
   accountant:
     bill:
       list: 'Liste des factures'
+      new: 'Nouvelle facture'
       show %number%: 'Facture %number%'
+    bill-new: 'Nouvelle facture'
+    user:
+      list: 'Sélectionner un utilisateur'
   customer:
     bill:
       list: 'Mes factures'
@@ -733,6 +752,8 @@ title:
 
 payments:
   no-payment: 'Aucun paiement'
+
+paypal_express_checkout: 'Paypal Express'
 
 read:
   real: 'Réelle'

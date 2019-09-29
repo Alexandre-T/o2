@@ -29,13 +29,21 @@
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="fas fa-fw fa-comment-dollar"></span> {{ 'nav.accountant.text' | trans }}
                         </a>
-                        {# BILL #}
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {# BILLS #}
                             <a class="dropdown-item {{ route starts with 'accountant_bill' ? 'active' }}"
                                href="{{ path('accountant_bill_list') }}" data-placement="left" data-toggle="tooltip"
                                title="{{ 'nav.accountant.submenu.bill.title' | trans }}">
                                 <span class="fas fa-fw fa-file-invoice-dollar"></span>
                                 {{ 'nav.accountant.submenu.bill.text' | trans }}
+                            </a>
+                            {# USERS #}
+{#                          {# TODO Changer cette route qui fait péter le truc au dessus #}
+                            <a class="dropdown-item {{ route == 'accountant_user_new' ? 'active' }}"
+                               href="{{ path('accountant_user_list') }}" data-placement="left" data-toggle="tooltip"
+                               title="{{ 'nav.accountant.submenu.user.title' | trans }}">
+                                <span class="fas fa-fw fa-file-invoice-dollar"></span>
+                                {{ 'nav.accountant.submenu.user.text' | trans }}
                             </a>
                         </div>
                     </li>

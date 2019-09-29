@@ -277,7 +277,7 @@ class PaymentController extends AbstractController
             $payment->setNumber(uniqid());
             $payment->setCurrencyCode('EUR');
             $payment->setTotalAmount((int) ($order->getAmount() * 100));
-            $payment->setDescription('Paiement demandé via '.$form->getData()->getMethod());
+            $payment->setDescription($form->getData()->getMethod());
             $payment->setClientId($this->getUser()->getId());
             $payment->setClientEmail($this->getUser()->getMail());
             $details = [];

@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.accountant.user.list'|trans }} · {{ parent() }}{% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.accountant.text' | trans }}</li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.accountant.user.list' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block headline %}
+    <h1>
+        <span class="fa fa-fw fa-users"></span>
+        {{ 'title.accountant.user.list'|trans }}
+    </h1>
+{% endblock %}
+
+{% set direction = pagination.getDirection() %}
+
+{% block container %}
+    <table class="table">
+        <thead>
+        <tr class="bg-light">
+            <th id="user-gravatar" class="align-middle"><span class="fa fa-user-tie ml-2"></span></th>
+            <th id="user-username" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.username' | trans, 'username') }}
+                <span class="{{ faSort(pagination.isSorted('username'), direction, 'alpha') }}"></span>
+            </th>
+            <th id="user-mail" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.email' | trans, 'mail') }}
+                <span class="{{ faSort(pagination.isSorted('mail'), direction, 'alpha') }}"></span>
+            </th>
+            <th id="user-credit" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.credit' | trans, 'credit') }}
+                <span class="{{ faSort(pagination.isSorted('credit'), direction, 'number') }}"></span>
+            </th>
+            <th id="user-roles" class="align-middle">{{ 'form.field.roles' | trans }}</th>
+            <th id="user-actions" class="align-middle"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in pagination %}
+            <tr>
+                <td headers="user-gravatar" class="align-middle">
+                    <img src="{{ user.mail | gravatarFilter(24) }}" width="24" height="24"
+                         alt="{{ 'form.field.gravatar' | trans }}"/>
+                </td>
+                <td headers="user-username" class="align-middle">{{ user.label }}</td>
+                <td headers="user-mail" class="align-middle">{{ user.mail }}</td>
+                <td headers="user-credit" class="align-middle">{{ user.credit }}</td>
+                <td headers="user-roles" class="align-middle">
+                    {% if user.accountant %}
+                        <span class="fas fa-comment-dollar text-success" data-toggle="tooltip" data-placement="bottom"
+                              data-title="{{ 'form.field.role.title.accountant' | trans }}"></span>
+                        <span class="sr-only">
+                            {{ 'form.field.role.title.accountant' | trans }}
+                        </span>
+                    {% endif %}
+                    {% if user.programmer %}
+                        <span class="fas fa-tachometer-alt text-success" data-toggle="tooltip" data-placement="bottom"
+                              data-title="{{ 'form.field.role.title.programmer' | trans }}"></span>
+                        <span class="sr-only">
+                            {{ 'form.field.role.title.programmer' | trans }}
+                        </span>
+                    {% endif %}
+                    {% if user.admin %}
+                        <span class="fas fa-user-shield text-success" data-toggle="tooltip" data-placement="bottom"
+                              data-title="{{ 'form.field.role.title.admin' | trans }}"></span>
+                        <span class="sr-only">
+                            {{ 'form.field.role.title.admin' | trans }}
+                        </span>
+                    {% endif %}
+                </td>
+                <td headers="user-actions" class="align-middle">
+                    <div class="btn-group">
+                        {% if app.user.admin %}
+                        <a class="btn btn-outline-secondary" title="{{ 'action.user.show.title' | trans }}"
+                           href="{{ path('administration_user_show', { 'id': user.id }) }}"
+                           data-placement="left" data-toggle="tooltip">
+                            <span class="fa fa-eye"></span>
+                            <span class="sr-only">{{ 'action.user.show.text' | trans }}</span>
+                        </a>
+                        {% endif %}
+                        <a class="btn btn-outline-secondary" title="{{ 'action.user.new-bill.title' | trans }}"
+                           href="{{ path('accountant_user_new', { 'user': user.id }) }}"
+                           data-placement="left" data-toggle="tooltip">
+                            <span class="fa fa-money-bill"></span>
+                            <span class="sr-only">{{ 'action.user.new-bill.text' | trans }}</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+{% endblock container %}
+
+{% block content_action %}
+{% endblock content_action %}

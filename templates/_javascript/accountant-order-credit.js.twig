@@ -1,7 +1,8 @@
+
 var updateSpan = function() {
-  let ten = $('#credit_form_ten').val();
-  let hundred = $('#credit_form_hundred').val();
-  let fiveHundred = $('#credit_form_fiveHundred').val();
+  let ten = $('#accountant_credit_form_ten').val();
+  let hundred = $('#accountant_credit_form_hundred').val();
+  let fiveHundred = $('#accountant_credit_form_fiveHundred').val();
 
   {{ include('_javascript/_calcul.js.twig') }}
 }
@@ -10,9 +11,9 @@ var updateSpan = function() {
 $(updateSpan);
 
 //After each update...
-$('#credit_form_ten').change(updateSpan);
-$('#credit_form_hundred').change(updateSpan);
-$('#credit_form_fiveHundred').change(updateSpan);
+$('#accountant_credit_form_ten').change(updateSpan);
+$('#accountant_credit_form_hundred').change(updateSpan);
+$('#accountant_credit_form_fiveHundred').change(updateSpan);
 
 //some useful functions
 var toFloat = function (value) {

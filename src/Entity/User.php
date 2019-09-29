@@ -204,6 +204,20 @@ class User implements EntityInterface, PersonInterface, PostalAddressInterface, 
     }
 
     /**
+     * Add credit to current user.
+     *
+     * @param int $credit credit to add to user
+     *
+     * @return User
+     */
+    public function addCredit(int $credit): self
+    {
+        $this->credit += $credit;
+
+        return $this;
+    }
+
+    /**
      * Order fluent adder.
      *
      * @param Order $order order to add

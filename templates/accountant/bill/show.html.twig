@@ -44,9 +44,9 @@
             </address>
             <div class="mt-5">
                 <span class="d-block">
-                    {{ 'bill.method' | trans }}
                     {% if payment is not null %}
-                        {{ payment.description }}
+                        {{ 'bill.method' | trans }}
+                        {{ ('data.' ~ payment.description) | trans }}
                     {% endif %}
                 </span>
                 <span class="d-block">

@@ -21,12 +21,12 @@
                     {% if payment is not null %}
                     <span class="d-block">
                         {{ 'bill.method' | trans }}
-                        {{ payment.getDescription }}
+                        {{ 'data.' ~ payment.getDescription | trans }}
                     </span>
                     {% endif %}
                     <span class="d-block">
                         {{ 'bill.expired' | trans }}
-                            {{ bill.createdAt | localizeddate('short', 'none') }}
+                        {{ bill.createdAt | localizeddate('short', 'none') }}
                     </span>
                 </div>
             </div>

@@ -100,6 +100,7 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
     {
         return $queryBuilder
+            ->addSelect('user.credit as HIDDEN credit')
             ->addSelect('user.mail as HIDDEN mail')
             ->addSelect('user.name as HIDDEN username')
         ;
