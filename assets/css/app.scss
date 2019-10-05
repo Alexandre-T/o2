@@ -3,6 +3,7 @@
 
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
+@import "~flag-icon-css/css/flag-icon.min.css";
 
 label.required {
   font-weight: bold;
@@ -90,7 +91,6 @@ label.required:after{
 .card-body .rotate i, .card-body .rotate svg {
   color: rgba(20, 20, 20, 0.15);
   position: absolute;
-  left: 0;
   left: auto;
   right: -10px;
   bottom: 0;

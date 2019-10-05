@@ -13,89 +13,23 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <ul class="navbar-nav mx-auto">
-                {% if is_granted('ROLE_USER') and not is_granted('ROLE_ACCOUNTANT') and not is_granted('ROLE_ADMIN') and not is_granted('ROLE_PROGRAMMER') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('customer_order_credit') }}" data-placement="bottom"
-                           title="{{ 'nav.customer.submenu.credit.title' | trans }}" data-toggle="tooltip">
-                            <span class="fa fa-fw fa-coins"></span>
-                            {{ 'home.credits %count%' | trans({'%count%': app.user.credit}) }}
-                        </a>
-                    </li>
+            <div class="navbar-nav ml-auto">
+                {% if is_granted('ROLE_USER') %}
+                    <a class="nav-item nav-link" href="{{ path('customer_order_credit') }}" data-placement="bottom"
+                       title="{{ 'nav.customer.submenu.credit.title' | trans }}" data-toggle="tooltip">
+                        <span class="fa fa-fw fa-coins"></span>
+                        {{ 'home.credits %count%' | trans({'%count%': app.user.credit}) }}
+                    </a>
                 {% endif %}
-                {% if is_granted('ROLE_ACCOUNTANT') %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="fas fa-fw fa-comment-dollar"></span> {{ 'nav.accountant.text' | trans }}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            {# BILLS #}
-                            <a class="dropdown-item {{ route starts with 'accountant_bill' ? 'active' }}"
-                               href="{{ path('accountant_bill_list') }}" data-placement="left" data-toggle="tooltip"
-                               title="{{ 'nav.accountant.submenu.bill.title' | trans }}">
-                                <span class="fas fa-fw fa-file-invoice-dollar"></span>
-                                {{ 'nav.accountant.submenu.bill.text' | trans }}
-                            </a>
-                            {# USERS #}
-{#                          {# TODO Changer cette route qui fait péter le truc au dessus #}
-                            <a class="dropdown-item {{ route == 'accountant_user_new' ? 'active' }}"
-                               href="{{ path('accountant_user_list') }}" data-placement="left" data-toggle="tooltip"
-                               title="{{ 'nav.accountant.submenu.user.title' | trans }}">
-                                <span class="fas fa-fw fa-file-invoice-dollar"></span>
-                                {{ 'nav.accountant.submenu.user.text' | trans }}
-                            </a>
-                        </div>
-                    </li>
-                {% endif %}
-                {% if is_granted('ROLE_PROGRAMMER') %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle {{ route starts with 'programmer_' ? 'active' }}" href="#"
-                           id="navbarProgrammerDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">
-                            <span class="fas fa-fw fa-tachometer-alt"></span> {{ 'nav.programmer.text' | trans }}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarProgrammerDropdown">
-                            <a class="dropdown-item {{ route == 'programmer_list' ? 'active' }}"
-                               href="{{ path('programmer_list') }}" data-placement="right" data-toggle="tooltip"
-                               title="{{ 'nav.programmer.submenu.command.text' | trans }}" >
-                                <span class="fas fa-fw fa-car-alt"></span>
-                                {{ 'nav.programmer.submenu.command.text' | trans }}
-                            </a>
-                        </div>
-                    </li>
-                {% endif %}
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item dropdown {{ route starts with 'administration' ? 'active' }}">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarAdminDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="fas fa-fw fa-user-shield"></span> {{ 'nav.admin.text' | trans }}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarAdminDropdown">
-                            {# Users #}
-                            <a class="dropdown-item {{ route starts with 'administration_user' ? 'active' }}"
-                               data-toggle="tooltip" href="{{ path('administration_user_index') }}"
-                               title="{{ 'nav.admin.submenu.users.title' | trans }}" data-placement="right">
-                                <span class="fas fa-fw fa-users-cog"></span>
-                                {{ 'nav.admin.submenu.users.text' | trans }}</a>
-                            {# Settings #}
-                            <a class="dropdown-item {{ route starts with 'administration_settings' ? 'active' }}"
-                               href="{{ path('administration_settings_list') }}" data-toggle="tooltip"
-                               data-placement="right" title="{{ 'nav.admin.submenu.settings.title' | trans }}" >
-                                <span class="fas fa-fw fa-cogs"></span>
-                                {{ 'nav.admin.submenu.settings.text' | trans }}
-                            </a>
-                            {# Mails #}
-                            <a class="dropdown-item {{ route starts with 'administration_mail' ? 'active' }}"
-                               href="{{ path('administration_mail_main') }}" data-toggle="tooltip"
-                               data-placement="right" title="{{ 'nav.admin.submenu.mail.title' | trans }}" >
-                                <span class="far fa-fw fa-envelope-open"></span>
-                                {{ 'nav.admin.submenu.mail.text' | trans }}
-                            </a>
-                        </div>
-                    </li>
-                {% endif %}
-            </ul>
+                <a class="nav-item nav-link" href="{{ path('language_french') }}" data-placement="bottom"
+                   title="{{ 'nav.user.submenu.language.french' | trans }}" data-toggle="tooltip">
+                    <span class="flag-icon flag-icon-fr "></span>
+                </a>
+                <a class="nav-item nav-link" href="{{ path('language_english') }}" data-placement="bottom"
+                   title="{{ 'nav.user.submenu.language.english' | trans }}" data-toggle="tooltip">
+                    <span class="flag-icon flag-icon-gb"></span>
+                </a>
+            </div>
             <div class="navbar-nav ml-auto">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <li class="nav-item dropdown {{ route starts with 'customer' ? 'active' }}">

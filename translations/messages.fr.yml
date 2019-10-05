@@ -404,6 +404,9 @@ form:
       submit: 'Créer la facture'
 
 flash:
+  language:
+    french: 'L’application est désormais en français'
+    english: 'L’application est désormais en anglais'
   mail-test:
     sender-not-declared: 'L’expéditeur n’est pas déclaré. Veuillez vérifier que toutes les données sont déclarées dans le menu Administration / Paramètres'
     sent: 'Aucun problème n’a été détecté lors de l’envoi du mail. Vérifiez que vous l’avez bien reçu. Si ce n’est pas le cas, deux causes sont possibles : Un mauvais paramétrage au niveau de votre server de messagerie, ou bien le mail a été détecté comme spam et intercepté par votre messagerie ou votre anti-spam'
@@ -459,6 +462,7 @@ instruction:
 img:
   alt:
     logo: 'Logo de l’entreprise'
+    french-flag: 'messages'
 
 instruction %number%: 'Instruction n°%number%'
 
@@ -553,6 +557,10 @@ nav:
   user:
     text: 'Utilisateurs'
     title: 'Gestion des utilisateurs'
+    submenu:
+      language:
+        french: 'messages'
+        english: 'messages'
   customer:
     submenu:
       bills:

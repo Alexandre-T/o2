@@ -42,11 +42,18 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @UniqueEntity(fields={"mail"},  message="error.mail.unique")
  */
-class User implements EntityInterface, PersonInterface, PostalAddressInterface, UserInterface, Serializable
+class User implements
+    EntityInterface,
+    LanguageInterface,
+    PersonInterface,
+    PostalAddressInterface,
+    UserInterface,
+    Serializable
 {
     /*
      * Trait declarations.
      */
+    use LanguageTrait;
     use PersonTrait;
     use PostalAddressTrait;
 

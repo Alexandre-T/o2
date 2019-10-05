@@ -7,6 +7,8 @@ error:
     blank: 'Veuillez fournir le fichier de programmation d’origine'
   gear:
     choice: 'La valeur entrée n’est pas autorisée. Veuillez choisir entre « automatique » et « manuel »'
+  language:
+    unknown: 'Ce langage n’est pas accepté. Ce site n’est disponible qu’en français et en anglais'
   locality:
     blank: 'La ville est obligatoire.'
   make:
