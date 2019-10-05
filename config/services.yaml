@@ -62,11 +62,11 @@ services:
             - { name: monolog.logger, channel: tpe }
             - 'controller.service_arguments'
 
-    #TPE COnfiguration
+    #TPE Configuration
     App\Model\TpeConfig:
         arguments:
             - parameters:
-                  bank: '%env(MONETICO_BANK)%'
+                  #bank: '%env(MONETICO_BANK)%'
                   mode: '%env(MONETICO_MODE)%'
                   tpe: '%env(MONETICO_TPE)%'
                   key: '%env(MONETICO_KEY)%'
