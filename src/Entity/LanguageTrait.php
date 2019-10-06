@@ -54,6 +54,27 @@ trait LanguageTrait
     }
 
     /**
+     * Is the locale set to English.
+     *
+     * @return bool
+     */
+    public function isEnglish(): bool
+    {
+        return LanguageInterface::ENGLISH === $this->getLanguage();
+    }
+
+    /**
+     * Is the locale set to French.
+     *
+     * @return bool
+     */
+    public function isFrench(): bool
+    {
+        return LanguageInterface::FRENCH === $this->getLanguage();
+    }
+
+
+    /**
      * Language fluent setter.
      *
      * @param string $language the new language alpha2 code

@@ -21,16 +21,18 @@
                         {{ 'home.credits %count%' | trans({'%count%': app.user.credit}) }}
                     </a>
                 {% endif %}
-                <a class="nav-item nav-link" href="{{ path('language_french') }}" data-placement="bottom"
-                   title="{{ 'nav.user.submenu.language.french' | trans }}" data-toggle="tooltip">
-                    <span class="flag-icon flag-icon-fr "></span>
-                    <span class="sr-only">Français</span>
-                </a>
-                <a class="nav-item nav-link" href="{{ path('language_english') }}" data-placement="bottom"
-                   title="{{ 'nav.user.submenu.language.english' | trans }}" data-toggle="tooltip">
-                    <span class="flag-icon flag-icon-gb"></span>
-                    <span class="sr-only">English</span>
-                </a>
+                {% if not is_granted('ROLE_USER') %}
+                    <a class="nav-item nav-link" href="{{ path('language_french') }}" data-placement="bottom"
+                       title="Basculer l’application en français" data-toggle="tooltip">
+                        <span class="flag-icon flag-icon-fr "></span>
+                        <span class="sr-only">Français</span>
+                    </a>
+                    <a class="nav-item nav-link" href="{{ path('language_english') }}" data-placement="bottom"
+                       title="Switch to english version" data-toggle="tooltip">
+                        <span class="flag-icon flag-icon-gb"></span>
+                        <span class="sr-only">English</span>
+                    </a>
+                {% endif %}
             </div>
             <div class="navbar-nav ml-auto">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
@@ -81,6 +83,21 @@
                                 <span class="fas fa-fw fa-key"></span>
                                 {{ 'nav.customer.submenu.password.text' | trans }}
                             </a>
+                            <div class="dropdown-divider"></div>
+                            {% if not app.user.isEnglish %}
+                            <a class="dropdown-item" href="{{ path('language_english') }}"
+                               data-toggle="tooltip" data-placement="left" title="Switch to english version">
+                                <span class="fa-fw flag-icon flag-icon-gb"></span>
+                                English
+                            </a>
+                            {% endif %}
+                            {% if not app.user.isFrench %}
+                            <a class="dropdown-item" href="{{ path('language_english') }}"
+                               data-toggle="tooltip" data-placement="left" title="Basculer l’application en anglais">
+                                <span class="fa-fw flag-icon flag-icon-fr"></span>
+                                Français
+                            </a>
+                            {% endif %}
                             <div class="dropdown-divider"></div>
                             {# Logout #}
                             <a class="dropdown-item" href="{{ path('security_logout') }}" data-toggle="tooltip"

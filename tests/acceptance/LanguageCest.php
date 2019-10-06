@@ -45,6 +45,8 @@ class LanguageCest
         $you->seeCurrentUrlEquals('/');
         $you->seeResponseCodeIsSuccessful();
         $you->see('Connexion');
+        $you->seeLink('English');
+        $you->dontSeeLink('French');
         $you->dontSee('Connection');
     }
 }

@@ -32,6 +32,20 @@ interface LanguageInterface
     public function getLanguage(): string;
 
     /**
+     * Is the locale set to English.
+     *
+     * @return bool
+     */
+    public function isEnglish(): bool;
+
+    /**
+     * Is the locale set to French.
+     *
+     * @return bool
+     */
+    public function isFrench(): bool;
+
+    /**
      * Language fluent setter.
      *
      * @param string $language new language
