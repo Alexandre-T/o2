@@ -20,7 +20,9 @@ namespace App\Entity;
  */
 interface LanguageInterface
 {
-    public const DEFAULT = 'FR';
+    public const DEFAULT = self::FRENCH;
+    public const ENGLISH = 'gb';
+    public const FRENCH = 'fr';
 
     /**
      * Get the profile language.
@@ -32,7 +34,7 @@ interface LanguageInterface
     /**
      * Language fluent setter.
      *
-     * @param string $language new language.
+     * @param string $language new language
      *
      * @see https://www.iso.org/obp/ui/
      *

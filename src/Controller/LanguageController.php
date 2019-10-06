@@ -16,9 +16,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\LanguageInterface;
-use App\Entity\User;
 use App\Manager\UserManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -33,13 +33,14 @@ class LanguageController extends AbstractPaginateController
      *
      * @Route("/english", name="english", methods={"get"})
      *
-     * @param UserManager $userManager user manager to save new default language.
+     * @param UserManager $userManager user manager to save new default language
+     * @param Request     $request     the request to set locale
      *
      * @return RedirectResponse
      */
-    public function english(UserManager $userManager): RedirectResponse
+    public function english(UserManager $userManager, Request $request): RedirectResponse
     {
-        $this->switchLanguage($userManager, 'GB');
+        $this->switchLanguage($userManager, $request, LanguageInterface::ENGLISH);
 
         $this->addFlash('success', 'flash.language.english');
 
@@ -51,13 +52,14 @@ class LanguageController extends AbstractPaginateController
      *
      * @Route("/french", name="french", methods={"get"})
      *
-     * @param UserManager $userManager user manager to save new default language.
+     * @param UserManager $userManager user manager to save new default language
+     * @param Request     $request     the request to set locale
      *
      * @return RedirectResponse
      */
-    public function french(UserManager $userManager): RedirectResponse
+    public function french(UserManager $userManager, Request $request): RedirectResponse
     {
-        $this->switchLanguage($userManager, 'FR');
+        $this->switchLanguage($userManager, $request, LanguageInterface::FRENCH);
 
         $this->addFlash('success', 'flash.language.french');
 
@@ -67,10 +69,11 @@ class LanguageController extends AbstractPaginateController
     /**
      * Switch parameters to new language.
      *
-     * @param UserManager $userManager user manager to save new language profile.
+     * @param UserManager $userManager user manager to save new language profile
+     * @param Request     $request     the request to set locale
      * @param string      $language    the language incoming from route
      */
-    private function switchLanguage(UserManager $userManager, string $language): void
+    private function switchLanguage(UserManager $userManager, Request $request, string $language): void
     {
         $user = $this->getUser();
         if ($user instanceof LanguageInterface) {
@@ -78,7 +81,7 @@ class LanguageController extends AbstractPaginateController
             $userManager->save($user);
         }
 
-        $_COOKIE['language'] = $language;
-        $_SESSION['language'] = $language;
+        $request->getSession()->set('_locale', $language);
+        $request->attributes->set('_locale', $language);
     }
 }

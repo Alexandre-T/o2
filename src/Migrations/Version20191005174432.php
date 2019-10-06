@@ -65,6 +65,6 @@ final class Version20191005174432 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql("ALTER TABLE ts_user ADD usr_language VARCHAR(2) DEFAULT 'FR' NOT NULL COMMENT 'Language'");
+        $this->addSql("ALTER TABLE ts_user ADD usr_language VARCHAR(2) DEFAULT 'fr' NOT NULL COMMENT 'Language'");
     }
 }

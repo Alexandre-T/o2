@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Validator\Constraints;
 
+use App\Entity\LanguageInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -50,7 +51,7 @@ class LanguageValueValidator extends ConstraintValidator
             // throw new UnexpectedValueException($value, 'string|int');
         }
 
-        if ('FR' !== $value && 'EN' !== $value) {
+        if (LanguageInterface::FRENCH !== $value && LanguageInterface::ENGLISH !== $value) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ string }}', $value)
                 ->addViolation()
