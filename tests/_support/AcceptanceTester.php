@@ -82,8 +82,4 @@ class AcceptanceTester extends Actor
         $this->seeCurrentUrlEquals('/');
         $this->seeLink('Déconnexion');
     }
-
-    /*
-     * Define custom actions here
-     */
 }

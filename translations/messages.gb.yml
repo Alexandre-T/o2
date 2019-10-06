@@ -1,0 +1,7 @@
+nav:
+  login:
+    text: 'Connection'
+    title: 'Connect to application'
+  logout:
+    text: 'Disconnection'
+    title: 'Déconnectez-vous de l’application'
