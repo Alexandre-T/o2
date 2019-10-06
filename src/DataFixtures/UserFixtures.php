@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\LanguageInterface;
 use App\Entity\PersonInterface;
 use App\Entity\User;
 use DateTimeImmutable;
@@ -169,6 +170,9 @@ class UserFixtures extends Fixture
             ->setName($label)
             ->setType(PersonInterface::PHYSIC)
         ;
+
+        $user->setLanguage(LanguageInterface::DEFAULT);
+
         $user
             ->setPostalCode('33000')
             ->setStreetAddress('rue du boulevard')
