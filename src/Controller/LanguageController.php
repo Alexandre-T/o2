@@ -15,21 +15,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Bill;
 use App\Entity\LanguageInterface;
-use App\Entity\Payment;
 use App\Entity\User;
-use App\Factory\BillFactory;
-use App\Form\AccountantCreditFormType;
-use App\Form\Model\AccountantCreditOrder;
-use App\Manager\BillManager;
-use App\Manager\OrderManager;
 use App\Manager\UserManager;
-use Payum\Core\Payum;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -39,24 +28,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class LanguageController extends AbstractPaginateController
 {
-    /**
-     * Switch to french language.
-     *
-     * @Route("/french", name="french", methods={"get"})
-     *
-     * @param UserManager $userManager user manager to save new default language.
-     *
-     * @return RedirectResponse
-     */
-    public function french(UserManager $userManager): RedirectResponse
-    {
-        $this->switchLanguage($userManager, 'FR');
-
-        $this->addFlash('success', 'flash.language.french');
-
-        return $this->redirectToRoute('home');
-    }
-
     /**
      * Switch to english language.
      *
@@ -71,6 +42,24 @@ class LanguageController extends AbstractPaginateController
         $this->switchLanguage($userManager, 'GB');
 
         $this->addFlash('success', 'flash.language.english');
+
+        return $this->redirectToRoute('home');
+    }
+
+    /**
+     * Switch to french language.
+     *
+     * @Route("/french", name="french", methods={"get"})
+     *
+     * @param UserManager $userManager user manager to save new default language.
+     *
+     * @return RedirectResponse
+     */
+    public function french(UserManager $userManager): RedirectResponse
+    {
+        $this->switchLanguage($userManager, 'FR');
+
+        $this->addFlash('success', 'flash.language.french');
 
         return $this->redirectToRoute('home');
     }

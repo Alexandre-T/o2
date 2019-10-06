@@ -84,7 +84,7 @@ class PaymentController extends AbstractController
             $this->addFlash('error', 'error.payment.non-existent');
             $log->log(
                 LogLevel::WARNING,
-                "This order does not exists or has been already paid. Token does not exist."
+                'This order does not exists or has been already paid. Token does not exist.'
             );
 
             return $this->redirectToRoute('customer_order_credit');
@@ -198,7 +198,7 @@ class PaymentController extends AbstractController
 
             $logger->log(
                 LogLevel::WARNING,
-                "This order does not exists or has been already paid. Token does not exist."
+                'This order does not exists or has been already paid. Token does not exist.'
             );
 
             return $this->redirectToRoute('home');

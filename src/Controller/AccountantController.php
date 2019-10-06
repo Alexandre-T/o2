@@ -46,6 +46,63 @@ class AccountantController extends AbstractPaginateController
     public const LIMIT_PER_PAGE = 25;
 
     /**
+     * Create a bill for selected user.
+     *
+     * @Route("/bill/new/{user}", name="user_new", methods={"get", "post"})
+     *
+     * @param User $user Next bill owner
+     * @param BillManager  $billManager  Bill manager to create bill
+     * @param OrderManager $orderManager Order manager to create order
+     * @param Payum        $payum        Payum manager
+     * @param Request      $request      Current request
+     * @param UserManager  $userManager  User manager
+     *
+     * @return Response
+     */
+    public function bill(
+     User $user,
+     BillManager $billManager,
+     OrderManager $orderManager,
+     Payum $payum,
+     Request $request,
+     UserManager $userManager
+    ): Response {
+        $order = $orderManager->getOrCreateCartedOrder($user);
+        $model = new AccountantCreditOrder();
+        $model->init($order);
+        $form = $this->createForm(AccountantCreditFormType::class, $model);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $orderManager->pushOrderedArticles($order, $model);
+            $orderManager->accountantValidate($order);
+            $bill = BillFactory::create($order, $user);
+            if ($model->isCredit()) {
+                $user->addCredit($order->getCredits());
+                $this->addFlash('info', 'message.bill-new.user-credited');
+            }
+
+            //Payment
+            $payment = $this->createPayment($payum, $model, $bill, $user);
+            $order->setPayment($payment);
+
+            //Save entities
+            $orderManager->save($order);
+            $billManager->save($bill);
+            $userManager->save($user);
+
+            //transform to bill
+            return $this->redirectToRoute('accountant_bill_show', ['id' => $bill->getId()]);
+        }
+
+        return $this->render('accountant/user/new-bill.html.twig', [
+            'form' => $form->createView(),
+            'order' => $order,
+            'user' => $user,
+        ]);
+    }
+
+    /**
      * Finds a bill entity, credit order then redirect user to list bill use case.
      *
      * @Route("/bill/credit/{bill}", name="bill_credit", methods={"get"})
@@ -139,6 +196,38 @@ class AccountantController extends AbstractPaginateController
     }
 
     /**
+     * Lists all user entities.
+     *
+     * @Route("/user", name="user_list", methods={"get"})
+     *
+     * @param UserManager $userManager the user manage to paginate users
+     * @param Request     $request     the requests to handle page and sorting
+     *
+     * @return Response|RedirectResponse
+     */
+    public function listUser(UserManager $userManager, Request $request): Response
+    {
+        if (!$this->validateSortedField($request, ['username', 'mail', 'credit'])) {
+            return $this->redirectToRoute('accountant_user_list');
+        }
+
+        //Query parameters check
+        $field = $this->getSortedField($request, 'username');
+        $sort = $this->getOrder($request);
+
+        $pagination = $userManager->paginate(
+            $request->query->getInt('page', 1),
+            self::LIMIT_PER_PAGE,
+            $field,
+            $sort
+        );
+
+        return $this->render('accountant/user/list.html.twig', [
+            'pagination' => $pagination,
+        ]);
+    }
+
+    /**
      * Finds and displays a bill to print.
      *
      * @Route("/bill/print/{id}", name="bill_print", methods={"get"})
@@ -192,94 +281,6 @@ class AccountantController extends AbstractPaginateController
     }
 
     /**
-     * Lists all user entities.
-     *
-     * @Route("/user", name="user_list", methods={"get"})
-     *
-     * @param UserManager $userManager the user manage to paginate users
-     * @param Request     $request     the requests to handle page and sorting
-     *
-     * @return Response|RedirectResponse
-     */
-    public function listUser(UserManager $userManager, Request $request): Response
-    {
-        if (!$this->validateSortedField($request, ['username', 'mail', 'credit'])) {
-            return $this->redirectToRoute('accountant_user_list');
-        }
-
-        //Query parameters check
-        $field = $this->getSortedField($request, 'username');
-        $sort = $this->getOrder($request);
-
-        $pagination = $userManager->paginate(
-            $request->query->getInt('page', 1),
-            self::LIMIT_PER_PAGE,
-            $field,
-            $sort
-        );
-
-        return $this->render('accountant/user/list.html.twig', [
-            'pagination' => $pagination,
-        ]);
-    }
-
-    /**
-     * Create a bill for selected user.
-     *
-     * @Route("/bill/new/{user}", name="user_new", methods={"get","post"})
-     *
-     * @param User         $user         Next bill owner
-     * @param BillManager  $billManager  Bill manager to create bill
-     * @param OrderManager $orderManager Order manager to create order
-     *
-     * @return Response
-     */
-    public function bill(
-     User $user,
-     BillManager $billManager,
-     OrderManager $orderManager,
-     Payum $payum,
-     Request $request,
-     UserManager $userManager
-    ): Response
-    {
-        $order = $orderManager->getOrCreateCartedOrder($user);
-        $model = new AccountantCreditOrder();
-        $model->init($order);
-        $form = $this->createForm(AccountantCreditFormType::class, $model);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $orderManager->pushOrderedArticles($order, $model);
-            $orderManager->accountantValidate($order);
-            $bill = BillFactory::create($order, $user);
-            if ($model->isCredit()) {
-                $user->addCredit($order->getCredits());
-                $this->addFlash('info', 'message.bill-new.user-credited');
-            }
-
-            //Payment
-            $payment = $this->createPayment($payum, $model, $bill, $user);
-            $order->setPayment($payment);
-
-            //Save entities
-            $orderManager->save($order);
-            $billManager->save($bill);
-            $userManager->save($user);
-
-            //transform to bill
-            return $this->redirectToRoute('accountant_bill_show', ['id' => $bill->getId()]);
-        }
-
-        return $this->render('accountant/user/new-bill.html.twig', [
-            'form' => $form->createView(),
-            'order' => $order,
-            'user' => $user
-        ]);
-    }
-
-    /**
-     *
      * @param Bill $bill
      * @param User $user
      *
@@ -304,6 +305,4 @@ class AccountantController extends AbstractPaginateController
 
         return $payment;
     }
-
-
 }

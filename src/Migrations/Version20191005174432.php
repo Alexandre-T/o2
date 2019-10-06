@@ -1,4 +1,15 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
 
 declare(strict_types=1);
 
@@ -22,10 +33,10 @@ final class Version20191005174432 extends AbstractMigration
      *
      * @throws DBALException
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE ts_user DROP usr_language');
     }
@@ -35,7 +46,7 @@ final class Version20191005174432 extends AbstractMigration
      *
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Language column';
     }
@@ -49,10 +60,10 @@ final class Version20191005174432 extends AbstractMigration
      *
      * @throws DBALException
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql("ALTER TABLE ts_user ADD usr_language VARCHAR(2) DEFAULT 'FR' NOT NULL COMMENT 'Language'");
     }

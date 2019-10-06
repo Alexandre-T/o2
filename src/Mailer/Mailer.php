@@ -63,7 +63,7 @@ class Mailer implements MailerInterface
      */
     public function __construct(
      Swift_Mailer $mailer,
-     UrlGeneratorInterface  $router,
+     UrlGeneratorInterface $router,
      EngineInterface $templating,
      array $parameters
     ) {

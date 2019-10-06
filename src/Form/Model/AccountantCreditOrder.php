@@ -24,6 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class AccountantCreditOrder extends CreditOrder
 {
+    public const GATEWAYS = ['paypal_express_checkout', 'monetico'];
     /**
      * The number of credit bought by five hundred.
      *
@@ -32,26 +33,6 @@ class AccountantCreditOrder extends CreditOrder
      * @var bool
      */
     private $credit = true;
-
-    public const GATEWAYS = ['paypal_express_checkout', 'monetico'];
-
-    /**
-     * @return bool
-     */
-    public function isCredit(): bool
-    {
-        return $this->credit;
-    }
-
-    /**
-     * @param bool $credit
-     * @return AccountantCreditOrder
-     */
-    public function setCredit(bool $credit): AccountantCreditOrder
-    {
-        $this->credit = $credit;
-        return $this;
-    }
 
     /**
      * @Assert\Choice(choices=PaymentMethod::GATEWAYS, message="error.method.choice")
@@ -68,6 +49,26 @@ class AccountantCreditOrder extends CreditOrder
     public function getMethod(): ?string
     {
         return $this->method;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCredit(): bool
+    {
+        return $this->credit;
+    }
+
+    /**
+     * @param bool $credit
+     *
+     * @return AccountantCreditOrder
+     */
+    public function setCredit(bool $credit): AccountantCreditOrder
+    {
+        $this->credit = $credit;
+
+        return $this;
     }
 
     /**
