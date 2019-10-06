@@ -25,6 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class AccountantCreditOrder extends CreditOrder
 {
     public const GATEWAYS = ['paypal_express_checkout', 'monetico'];
+
     /**
      * The number of credit bought by five hundred.
      *
@@ -52,6 +53,8 @@ class AccountantCreditOrder extends CreditOrder
     }
 
     /**
+     * Credit getter.
+     *
      * @return bool
      */
     public function isCredit(): bool
@@ -60,7 +63,9 @@ class AccountantCreditOrder extends CreditOrder
     }
 
     /**
-     * @param bool $credit
+     * Credit fluent setter.
+     *
+     * @param bool $credit true when accountant want to credit user.
      *
      * @return AccountantCreditOrder
      */

@@ -50,7 +50,7 @@ class AccountantController extends AbstractPaginateController
      *
      * @Route("/bill/new/{user}", name="user_new", methods={"get", "post"})
      *
-     * @param User $user Next bill owner
+     * @param User         $user         Next bill owner
      * @param BillManager  $billManager  Bill manager to create bill
      * @param OrderManager $orderManager Order manager to create order
      * @param Payum        $payum        Payum manager
@@ -281,8 +281,12 @@ class AccountantController extends AbstractPaginateController
     }
 
     /**
-     * @param Bill $bill
-     * @param User $user
+     * Create the payment.
+     *
+     * @param Payum                 $payum Payum manager
+     * @param AccountantCreditOrder $model Current data provided by form
+     * @param Bill                  $bill  The generated bill
+     * @param User                  $user  The billed user
      *
      * @return Payment
      */

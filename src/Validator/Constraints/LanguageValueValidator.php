@@ -25,8 +25,11 @@ class LanguageValueValidator extends ConstraintValidator
     /**
      * Validate value.
      *
-     * @param mixed      $value      the value to validate
-     * @param Constraint $constraint the constraint
+     * @param string|mixed $value      the value to validate
+     * @param Constraint   $constraint the constraint
+     *
+     * @throws UnexpectedTypeException  when $constraint is not an instance of LanguageValue
+     * @throws UnexpectedValueException when $value is not a string
      */
     public function validate($value, Constraint $constraint): void
     {
