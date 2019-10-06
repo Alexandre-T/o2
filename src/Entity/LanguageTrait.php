@@ -37,7 +37,7 @@ trait LanguageTrait
      *
      * @var string the language
      */
-    protected $language;
+    protected $language = LanguageInterface::DEFAULT;
 
     /**
      * Language getter.

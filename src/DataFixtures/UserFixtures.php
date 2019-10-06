@@ -171,7 +171,7 @@ class UserFixtures extends Fixture
             ->setType(PersonInterface::PHYSIC)
         ;
 
-        $user->setLanguage(LanguageInterface::DEFAULT);
+        $user->setLanguage(LanguageInterface::FRENCH);
 
         $user
             ->setPostalCode('33000')
