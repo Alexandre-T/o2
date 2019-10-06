@@ -73,7 +73,6 @@ trait LanguageTrait
         return LanguageInterface::FRENCH === $this->getLanguage();
     }
 
-
     /**
      * Language fluent setter.
      *

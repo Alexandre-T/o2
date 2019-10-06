@@ -27,6 +27,42 @@ class AccountantCest
      *
      * @param AcceptanceTester $you acceptance tester
      */
+    public function tryToCreateBill(AcceptanceTester $you): void
+    {
+        $you->wantTo('list users and create a bill');
+        $you->login('accountant');
+        $you->areOnPage('/accountant/user?sort=username&direction=desc&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->areOnPage('/accountant/user?sort=mail&direction=desc&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->areOnPage('/accountant/user?sort=credit&direction=desc&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->areOnPage('/accountant/user?sort=nonexistent&direction=desc&page=1');
+        $you->seeResponseCodeIsSuccessful();
+        $you->areOnPage('/accountant/user');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Society 17');
+        $you->click('Nouvelle facture', 'a.user-5');
+        $you->seeResponseCodeIsSuccessful();
+        $userId = $you->grabFromCurrentUrl('~(\d+)~');
+        $you->seeCurrentUrlEquals('/accountant/bill/new/'.$userId);
+        $you->fillField('Lot(s) de 10 crédits', '1');
+        $you->fillField('Lot(s) de 100 crédits', '2');
+        $you->fillField('Lot(s) de 500 crédits', '4');
+        $you->selectOption('accountant_credit_form[credit]', 1);
+        $you->selectOption('accountant_credit_form[method]', 'monetico');
+        $you->click('Créer la facture'); //Enregistrement et consultation de la facture
+        $you->seeResponseCodeIsSuccessful();
+        $billId = $you->grabFromCurrentUrl('~(\d+)~');
+        $you->seeCurrentUrlEquals('/accountant/bill/'.$billId);
+        $you->see('La facture a été créé et le client a été crédité à l’instant');
+    }
+
+    /**
+     * Try to list bills.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
     public function tryToListBills(AcceptanceTester $you): void
     {
         $you->wantTo('list bills and show an accessible one');
@@ -64,40 +100,5 @@ class AccountantCest
         $you->see('Les crédits de cette commande viennent d’être versés au client');
 
         $you->areOnPage('/accountant/bill/');
-    }
-    /**
-     * Try to list bills.
-     *
-     * @param AcceptanceTester $you acceptance tester
-     */
-    public function tryToCreateBill(AcceptanceTester $you): void
-    {
-        $you->wantTo('list users and create a bill');
-        $you->login('accountant');
-        $you->areOnPage('/accountant/user?sort=username&direction=desc&page=1');
-        $you->seeResponseCodeIsSuccessful();
-        $you->areOnPage('/accountant/user?sort=mail&direction=desc&page=1');
-        $you->seeResponseCodeIsSuccessful();
-        $you->areOnPage('/accountant/user?sort=credit&direction=desc&page=1');
-        $you->seeResponseCodeIsSuccessful();
-        $you->areOnPage('/accountant/user?sort=nonexistent&direction=desc&page=1');
-        $you->seeResponseCodeIsSuccessful();
-        $you->areOnPage('/accountant/user');
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('Society 17');
-        $you->click('Nouvelle facture', 'a.user-5');
-        $you->seeResponseCodeIsSuccessful();
-        $userId = $you->grabFromCurrentUrl('~(\d+)~');
-        $you->seeCurrentUrlEquals('/accountant/bill/new/'.$userId);
-        $you->fillField('Lot(s) de 10 crédits','1');
-        $you->fillField('Lot(s) de 100 crédits','2');
-        $you->fillField('Lot(s) de 500 crédits','4');
-        $you->selectOption('accountant_credit_form[credit]', 1);
-        $you->selectOption('accountant_credit_form[method]', 'monetico');
-        $you->click('Créer la facture'); //Enregistrement et consultation de la facture
-        $you->seeResponseCodeIsSuccessful();
-        $billId = $you->grabFromCurrentUrl('~(\d+)~');
-        $you->seeCurrentUrlEquals('/accountant/bill/'.$billId);
-        $you->see('La facture a été créé et le client a été crédité à l’instant');
     }
 }
