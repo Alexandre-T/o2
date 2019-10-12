@@ -39,14 +39,6 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
-    # Payment Listener to change order.
-    App\Listener\PaymentListener:
-        class: App\Listener\PaymentListener
-        autowire: true
-        tags:
-            - { name: 'kernel.event_listener', event: 'payment_instruction.state_change', method: 'onPaymentInstructionStateChange' }
-            - { name: 'kernel.event_listener', event: 'payment.state_change', method: 'onPaymentStateChange' }
-
     #Mailer come with parameters. Autowire is not available.
     App\Mailer\Mailer:
         arguments:
