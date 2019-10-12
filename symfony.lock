@@ -399,6 +399,9 @@
             "./config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "sokil/php-isocodes": {
+        "version": "2.0.3"
+    },
     "squizlabs/php_codesniffer": {
         "version": "3.0",
         "recipe": {

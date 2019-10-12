@@ -25,6 +25,7 @@ use App\Exception\NoOrderException;
 use App\Form\Model\CreditOrder;
 use App\Model\OrderInterface;
 use App\Repository\OrderRepository;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -39,6 +40,23 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * Const for the alias query.
      */
     public const ALIAS = 'order';
+
+    /**
+     * Accountant validate an order.
+     *
+     * @param Order $order the order to validate
+     */
+    public function accountantValidate(Order $order): void
+    {
+        $order->setStatusCredit(OrderInterface::CREDITED);
+        $order->setStatusOrder(OrderInterface::PAID);
+
+        $user = $order->getCustomer();
+        if (!$order->isCredited()) {
+            $user->setCredit($user->getCredit() + $order->getCredits());
+            $order->setStatusCredit(true);
+        }
+    }
 
     /**
      * Credit a customer.
@@ -284,7 +302,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Return the main repository.
      *
-     * @return EntityRepository|OrderRepository
+     * @return EntityRepository|OrderRepository|ObjectRepository
      */
     protected function getMainRepository(): EntityRepository
     {
@@ -345,22 +363,5 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     {
         $orderedArticle->copyPrice($article);
         $orderedArticle->setQuantity($quantity);
-    }
-
-    /**
-     * Accountant validate an order.
-     *
-     * @param Order $order the order to validate
-     */
-    public function accountantValidate(Order $order)
-    {
-        $order->setStatusCredit(OrderInterface::CREDITED);
-        $order->setStatusOrder(OrderInterface::PAID);
-
-        $user = $order->getCustomer();
-        if (!$order->isCredited()) {
-            $user->setCredit($user->getCredit() + $order->getCredits());
-            $order->setStatusCredit(true);
-        }
     }
 }

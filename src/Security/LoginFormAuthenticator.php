@@ -95,11 +95,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @param UserPasswordEncoderInterface $passwordEncoder the password encoder to test password sent with encrypted
      */
     public function __construct(
-     FormFactoryInterface         $formFactory,
-     FlashBagInterface            $flashBag,
-     LoggerInterface              $logger,
-     UrlGeneratorInterface        $urlGenerator,
-     TranslatorInterface          $translator,
+     FormFactoryInterface $formFactory,
+     FlashBagInterface $flashBag,
+     LoggerInterface $logger,
+     UrlGeneratorInterface $urlGenerator,
+     TranslatorInterface $translator,
      UserPasswordEncoderInterface $passwordEncoder
     ) {
         $this->flashBag = $flashBag;

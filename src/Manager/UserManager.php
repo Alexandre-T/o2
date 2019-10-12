@@ -18,6 +18,7 @@ namespace App\Manager;
 use App\Entity\EntityInterface;
 use App\Entity\Programmation;
 use App\Entity\User;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -109,7 +110,7 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Return the main repository.
      *
-     * @return EntityRepository
+     * @return EntityRepository|ObjectRepository
      */
     protected function getMainRepository(): EntityRepository
     {
