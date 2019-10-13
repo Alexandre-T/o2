@@ -9,6 +9,7 @@
         "ext-fileinfo": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-gettext": "*",
         "doctrine/doctrine-fixtures-bundle": "^3.1",
         "ekyna/payum-monetico-bundle": "^1.5",
         "gedmo/doctrine-extensions": "^2.4",

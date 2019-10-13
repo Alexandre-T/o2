@@ -114,17 +114,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     private $payerId;
 
     /**
-     * Payment instructions from Payum bundle.
-     *
-     * @var Payment
-     *
-     * @ORM\OneToOne(targetEntity="Payment", fetch="EAGER")
-     *
-     * @Gedmo\Versioned
-     */
-    private $payment;
-
-    /**
      * Price without taxes.
      *
      * @var float|string
@@ -187,6 +176,15 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     private $vat;
 
     /**
+     * All payments for the current order.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="order")
+     *
+     * @var Payment[]|ArrayCollection
+     */
+    private $payments;
+
+    /**
      * Order constructor.
      */
     public function __construct()
@@ -194,6 +192,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
         $this->orderedArticles = new ArrayCollection();
         $this->bills = new ArrayCollection();
         $this->generateUuid();
+        $this->payments = new ArrayCollection();
     }
 
     /**
@@ -323,16 +322,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     public function getPayerId(): ?string
     {
         return $this->payerId;
-    }
-
-    /**
-     * Payment getter.
-     *
-     * @return Payment
-     */
-    public function getPayment(): ?Payment
-    {
-        return $this->payment;
     }
 
     /**
@@ -547,20 +536,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     }
 
     /**
-     * Payment instruction fluent setter.
-     *
-     * @param Payment|null $payment payment instruction
-     *
-     * @return Order
-     */
-    public function setPayment(?Payment $payment): self
-    {
-        $this->payment = $payment;
-
-        return $this;
-    }
-
-    /**
      * Status credit fluent setter.
      *
      * @param bool $statusCredit the new credit status
@@ -608,5 +583,36 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     private function generateUuid(): void
     {
         $this->uuid = uniqid('', true);
+    }
+
+    /**
+     * @return Collection|Payment[]
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments[] = $payment;
+            $payment->setOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->contains($payment)) {
+            $this->payments->removeElement($payment);
+            // set the owning side to null (unless already changed)
+            if ($payment->getOrder() === $this) {
+                $payment->setOrder(null);
+            }
+        }
+
+        return $this;
     }
 }

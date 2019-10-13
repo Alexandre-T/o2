@@ -19,8 +19,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Payum\Core\Model\Payment as BasePayment;
 
 /**
- * @ORM\Table
+ * Payment class inherited from payum base payment.
+ *
+ * @ORM\Table(
+ *     indexes={
+ *         @ORM\Index(name="ndx_order",  columns={"order_id"})
+ *     }
+ * )
  * @ORM\Entity
+ *
+ *
  */
 class Payment extends BasePayment
 {
@@ -34,6 +42,11 @@ class Payment extends BasePayment
     protected $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="payments")
+     */
+    private $order;
+
+    /**
      * Id getter.
      *
      * @return int
@@ -41,5 +54,17 @@ class Payment extends BasePayment
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getOrder(): ?Order
+    {
+        return $this->order;
+    }
+
+    public function setOrder(?Order $order): self
+    {
+        $this->order = $order;
+
+        return $this;
     }
 }

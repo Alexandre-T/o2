@@ -76,5 +76,9 @@ services:
         tags:
             - { name: twig.extension }
 
+    App\Action\ConvertPaymentAction:
+      public: true
+      tags:
+        - { name: payum.action, factory: monetico }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

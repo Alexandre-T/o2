@@ -1,0 +1,4 @@
+ekyna_payum_monetico:
+  api:
+    mode: 'TEST'   # enum from Ekyna\Component\Payum\Monetico\Api\Api
+    debug: false   #true/false

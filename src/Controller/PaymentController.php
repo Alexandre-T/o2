@@ -52,7 +52,7 @@ class PaymentController extends AbstractController
      * Step3: When using paypal, i got the good status.
      * I analyse status to redirect user to the cancel page or to validate payment.
      *
-     * @Route("/analyse", name="customer_payment_analyse")
+     * @Route("/analyse", name="customer_payment_done")
      *
      * @param Request         $request         Request for form
      * @param BillManager     $billManager     bill manager
@@ -67,7 +67,7 @@ class PaymentController extends AbstractController
      *
      * NO SECURITY because user can logout just before payment
      */
-    public function analyse(
+    public function done(
      Request $request,
      BillManager $billManager,
      OrderManager $orderManager,
@@ -98,20 +98,9 @@ class PaymentController extends AbstractController
 
         // or Payum can fetch the model for you while executing a request (Preferred).
         $gateway->execute($status = new GetHumanStatus($token));
+        /** @var Payment $payment */
         $payment = $status->getFirstModel();
-
-        try {
-            $order = $orderManager->retrieveByPayment($payment);
-        } catch (NoOrderException $exception) {
-            $this->addFlash('error', 'error.payment.non-existent');
-
-            $log->log(
-                LogLevel::INFO,
-                "Payment {$payment->getId()} for undefined order canceled (payum status : {$status->getValue()})"
-            );
-
-            return $this->redirectToRoute('home');
-        }
+        $order = $payment->getOrder();
 
         if (!$status->isAuthorized() && !$status->isPending()) {
             $this->addFlash('warning', 'error.payment.canceled');
@@ -209,8 +198,8 @@ class PaymentController extends AbstractController
             $gatewayName = $token->getGatewayName();
             $gateway = $payum->getGateway($gatewayName);
             $gateway->execute($status = new GetHumanStatus($token));
-            $payment = $status->getFirstModel();
-            $order->setPayment($payment);
+//            $payment = $status->getFirstModel();
+//            $order->setPayment($payment);
         } catch (Exception $e) {
             $logger->warning('TOKEN INCONNU pour la commande $uuid');
             $token = 'unknown';
@@ -274,7 +263,7 @@ class PaymentController extends AbstractController
             $storage = $payum->getStorage(Payment::class);
             /** @var Payment $payment */
             $payment = $storage->create();
-            $payment->setNumber(uniqid());
+            $payment->setNumber(substr(uniqid(),0,12));
             $payment->setCurrencyCode('EUR');
             $payment->setTotalAmount((int) ($order->getAmount() * 100));
             $payment->setDescription($form->getData()->getMethod());
@@ -292,7 +281,7 @@ class PaymentController extends AbstractController
                 ['order' => $order->getId()],
                 UrlGeneratorInterface::ABSOLUTE_URL);
             $analyseUrl = $this->generateUrl(
-                'customer_payment_analyse',
+                'customer_payment_done',
                 [],
                 UrlGeneratorInterface::ABSOLUTE_URL);
 
@@ -303,16 +292,14 @@ class PaymentController extends AbstractController
             }
 
             if ('monetico' === $form->getData()->getMethod()) {
-                $details['return_url'] = $cancelUrl;
+                $details['success_url'] = $returnUrl;
                 $details['failure_url'] = $cancelUrl;
-                $analyseUrl = $returnUrl;
             }
 
             $payment->setDetails($details);
 
-            $order->setPayment($payment);
+            $payment->setOrder($order);
             $storage->update($payment);
-            $orderManager->save($order);
 
             $captureToken = $payum->getTokenFactory()->createCaptureToken(
                 $form->getData()->getMethod(),
