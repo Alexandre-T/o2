@@ -197,7 +197,7 @@ class PaymentController extends AbstractController
             $token = $payum->getHttpRequestVerifier()->verify($request);
             $gatewayName = $token->getGatewayName();
             $gateway = $payum->getGateway($gatewayName);
-            $gateway->execute($status = new GetHumanStatus($token));
+            $gateway->execute(/*$status =*/ new GetHumanStatus($token));
         } catch (Exception $e) {
             $logger->warning('TOKEN INCONNU pour la commande $uuid');
             $token = 'unknown';
