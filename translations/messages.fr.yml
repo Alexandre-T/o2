@@ -170,6 +170,7 @@ entity:
       family-name: 'Nouveau nom de famille'
       given-name: 'Nouveau prénom'
       label: 'Nouveau libellé'
+      language: 'Nouveau langage'
       locality: 'Nouvelle ville'
       mail: 'Nouvel email'
       name: 'Nouveau nom'
