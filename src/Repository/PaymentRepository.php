@@ -15,8 +15,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Payment;
 use App\Entity\Order;
+use App\Entity\Payment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -50,9 +50,9 @@ class PaymentRepository extends ServiceEntityRepository
     public function findByOrder(Order $order): array
     {
         return $this->findBy([
-            'order' => $order
-        ],[
-            'id' => 'desc'
+            'order' => $order,
+        ], [
+            'id' => 'desc',
         ]);
     }
 }

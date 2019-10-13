@@ -29,6 +29,7 @@ class PayumController extends AbstractController
 {
     /**
      * Prepare the payment.
+     *
      * @param Payum $payumManager the payum manager to create payment
      *
      * @Route("/method-choose", name="prepare")

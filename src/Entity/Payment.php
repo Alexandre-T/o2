@@ -26,9 +26,7 @@ use Payum\Core\Model\Payment as BasePayment;
  *         @ORM\Index(name="ndx_order",  columns={"order_id"})
  *     }
  * )
- * @ORM\Entity
- *
- *
+ * @ORM\Entity(repositoryClass="App\Repository\PaymentRepository")
  */
 class Payment extends BasePayment
 {
@@ -56,11 +54,23 @@ class Payment extends BasePayment
         return $this->id;
     }
 
+    /**
+     * Order getter.
+     *
+     * @return Order|null
+     */
     public function getOrder(): ?Order
     {
         return $this->order;
     }
 
+    /**
+     * Order fluent setter.
+     *
+     * @param Order|null $order Order
+     *
+     * @return Payment
+     */
     public function setOrder(?Order $order): self
     {
         $this->order = $order;

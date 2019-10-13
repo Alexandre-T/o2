@@ -49,7 +49,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PaymentController extends AbstractController
 {
     /**
-     * Step3: When using paypal, i got the good status.
+     * Step3: When using Paypal, i got the good status.
      * I analyse status to redirect user to the cancel page or to validate payment.
      *
      * @Route("/analyse", name="customer_payment_done")
@@ -198,14 +198,13 @@ class PaymentController extends AbstractController
             $gatewayName = $token->getGatewayName();
             $gateway = $payum->getGateway($gatewayName);
             $gateway->execute($status = new GetHumanStatus($token));
-//            $payment = $status->getFirstModel();
-//            $order->setPayment($payment);
         } catch (Exception $e) {
             $logger->warning('TOKEN INCONNU pour la commande $uuid');
             $token = 'unknown';
             $gatewayName = 'unknown';
         }
 
+        //TODO use status to save order only if it was not already completed by notification.
         //Save order
         $orderManager->validateAfterPaymentComplete($order);
         $bill = $billManager->retrieveOrCreateBill($order, $this->getUser());
@@ -263,7 +262,7 @@ class PaymentController extends AbstractController
             $storage = $payum->getStorage(Payment::class);
             /** @var Payment $payment */
             $payment = $storage->create();
-            $payment->setNumber(substr(uniqid(),0,12));
+            $payment->setNumber(substr(uniqid(), 0, 12));
             $payment->setCurrencyCode('EUR');
             $payment->setTotalAmount((int) ($order->getAmount() * 100));
             $payment->setDescription($form->getData()->getMethod());

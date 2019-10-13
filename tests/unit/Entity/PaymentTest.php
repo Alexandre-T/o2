@@ -61,16 +61,6 @@ class PaymentTest extends Unit
     }
 
     /**
-     * Test order getter and setter.
-     */
-    public function testOrder(): void
-    {
-        $order = new Order();
-        self::assertEquals($this->payment, $this->payment->setOrder($order));
-        self::assertEquals($order, $this->payment->getOrder());
-    }
-
-    /**
      * Test the constructor.
      */
     public function testConstructor(): void
@@ -79,5 +69,15 @@ class PaymentTest extends Unit
 
         self::assertNull($this->payment->getOrder());
         self::assertNull($this->payment->getId());
+    }
+
+    /**
+     * Test order getter and setter.
+     */
+    public function testOrder(): void
+    {
+        $order = new Order();
+        self::assertEquals($this->payment, $this->payment->setOrder($order));
+        self::assertEquals($order, $this->payment->getOrder());
     }
 }

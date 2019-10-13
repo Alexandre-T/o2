@@ -114,6 +114,15 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     private $payerId;
 
     /**
+     * All payments for the current order.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="order")
+     *
+     * @var Payment[]|ArrayCollection
+     */
+    private $payments;
+
+    /**
      * Price without taxes.
      *
      * @var float|string
@@ -176,15 +185,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     private $vat;
 
     /**
-     * All payments for the current order.
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Payment", mappedBy="order")
-     *
-     * @var Payment[]|ArrayCollection
-     */
-    private $payments;
-
-    /**
      * Order constructor.
      */
     public function __construct()
@@ -228,6 +228,23 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
         $this->refreshPrice();
         $this->refreshVat();
+
+        return $this;
+    }
+
+    /**
+     * Add a payment.
+     *
+     * @param Payment $payment the payment
+     *
+     * @return Order
+     */
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments[] = $payment;
+            $payment->setOrder($this);
+        }
 
         return $this;
     }
@@ -322,6 +339,14 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     public function getPayerId(): ?string
     {
         return $this->payerId;
+    }
+
+    /**
+     * @return Collection|Payment[]
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
     }
 
     /**
@@ -494,6 +519,26 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     }
 
     /**
+     * Remove a payment from list.
+     *
+     * @param Payment $payment Payment
+     *
+     * @return Order
+     */
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->contains($payment)) {
+            $this->payments->removeElement($payment);
+            // set the owning side to null (unless already changed)
+            if ($payment->getOrder() === $this) {
+                $payment->setOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Credits fluent setter.
      *
      * @param int $credits credit bought
@@ -583,36 +628,5 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     private function generateUuid(): void
     {
         $this->uuid = uniqid('', true);
-    }
-
-    /**
-     * @return Collection|Payment[]
-     */
-    public function getPayments(): Collection
-    {
-        return $this->payments;
-    }
-
-    public function addPayment(Payment $payment): self
-    {
-        if (!$this->payments->contains($payment)) {
-            $this->payments[] = $payment;
-            $payment->setOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function removePayment(Payment $payment): self
-    {
-        if ($this->payments->contains($payment)) {
-            $this->payments->removeElement($payment);
-            // set the owning side to null (unless already changed)
-            if ($payment->getOrder() === $this) {
-                $payment->setOrder(null);
-            }
-        }
-
-        return $this;
     }
 }
