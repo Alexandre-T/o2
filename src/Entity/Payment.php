@@ -51,7 +51,7 @@ class Payment extends BasePayment
      *
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

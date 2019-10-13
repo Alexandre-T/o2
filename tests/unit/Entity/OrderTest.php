@@ -104,7 +104,8 @@ class OrderTest extends Unit
         self::assertEquals('000000', $this->order->getLabel());
         self::assertEquals(OrderInterface::CARTED, $this->order->getStatusOrder());
         self::assertNull($this->order->getPayerId());
-        self::assertNull($this->order->getPayment());
+        self::assertNotNull($this->order->getPayments());
+        self::assertEmpty($this->order->getPayments());
         self::assertNull($this->order->getToken());
         self::assertNull($this->order->getVat());
         self::assertNotEmpty($this->order->getUuid());
@@ -199,12 +200,24 @@ class OrderTest extends Unit
     /**
      * Test PaymentInstruction setter and getter.
      */
-    public function testPayment(): void
+    public function testPayments(): void
     {
-        $actual = $expected = new Payment();
+        $payment = new Payment();
+        self::assertEquals($this->order, $this->order->addPayment($payment));
+        self::assertNotEmpty($this->order->getPayments());
+        self::assertContains($payment, $this->order->getPayments());
 
-        self::assertEquals($this->order, $this->order->setPayment($actual));
-        self::assertEquals($expected, $this->order->getPayment());
+        $anotherPayment = new Payment();
+        self::assertEquals($this->order, $this->order->addPayment($anotherPayment));
+        self::assertNotEmpty($this->order->getPayments());
+        self::assertContains($payment, $this->order->getPayments());
+        self::assertContains($anotherPayment, $this->order->getPayments());
+
+        self::assertEquals($this->order, $this->order->removePayment($payment));
+        self::assertNotContains($payment, $this->order->getPayments());
+        self::assertContains($anotherPayment, $this->order->getPayments());
+        self::assertEquals($this->order, $this->order->removePayment($anotherPayment));
+        self::assertEmpty($this->order->getPayments());
     }
 
     /**

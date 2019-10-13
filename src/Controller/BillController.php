@@ -17,6 +17,7 @@ namespace App\Controller;
 
 use App\Entity\Bill;
 use App\Manager\BillManager;
+use App\Manager\PaymentManager;
 use App\Security\Voter\BillVoter;
 use Doctrine\ORM\Query\QueryException as QueryExceptionAlias;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -79,17 +80,18 @@ class BillController extends AbstractPaginateController
      *
      * @Route("/{id}", name="show", methods={"get"})
      *
-     * @param Bill $bill The bill to display
+     * @param PaymentManager $paymentManager The payment manager
+     * @param Bill           $bill           The bill to display
      *
      * @return Response
      */
-    public function show(Bill $bill): Response
+    public function show(PaymentManager $paymentManager, Bill $bill): Response
     {
         // check for "show" access: calls all voters
         $this->denyAccessUnlessGranted(BillVoter::SHOW, $bill);
 
         $order = $bill->getOrder();
-        $payment = $order->getPayment();
+        $payment = $paymentManager->getValidPayment($order);
 
         return $this->render('customer/bill/show.html.twig', [
             'bill' => $bill,

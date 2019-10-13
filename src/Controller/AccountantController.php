@@ -23,6 +23,7 @@ use App\Form\AccountantCreditFormType;
 use App\Form\Model\AccountantCreditOrder;
 use App\Manager\BillManager;
 use App\Manager\OrderManager;
+use App\Manager\PaymentManager;
 use App\Manager\UserManager;
 use Payum\Core\Payum;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -84,7 +85,7 @@ class AccountantController extends AbstractPaginateController
 
             //Payment
             $payment = $this->createPayment($payum, $model, $bill, $user);
-            $order->setPayment($payment);
+            $order->addPayment($payment);
 
             //Save entities
             $orderManager->save($order);
@@ -232,17 +233,18 @@ class AccountantController extends AbstractPaginateController
      *
      * @Route("/bill/print/{id}", name="bill_print", methods={"get"})
      *
-     * @param Bill $bill The bill to print
+     * @param PaymentManager $paymentManager The order manager to get last payment
+     * @param Bill           $bill           The bill to print
      *
      * @return Response
      */
-    public function print(Bill $bill): Response
+    public function print(PaymentManager $paymentManager, Bill $bill): Response
     {
         $order = $bill->getOrder();
         $payment = null;
 
         if (null !== $order) {
-            $payment = $order->getPayment();
+            $payment = $paymentManager->getValidPayment($order);
         }
 
         return $this->render('accountant/bill/print.html.twig', [
@@ -257,19 +259,20 @@ class AccountantController extends AbstractPaginateController
      *
      * @Route("/bill/{id}", name="bill_show", methods={"get"})
      *
-     * @param Bill        $bill        The bill to display
-     * @param BillManager $billManager The bill manager
+     * @param Bill           $bill           The bill to display
+     * @param BillManager    $billManager    The bill manager
+     * @param PaymentManager $paymentManager The payment manager
      *
      * @return Response
      */
-    public function show(Bill $bill, BillManager $billManager): Response
+    public function show(Bill $bill, BillManager $billManager, PaymentManager $paymentManager): Response
     {
         $payment = null;
         $logs = $billManager->retrieveLogs($bill);
         $order = $bill->getOrder();
 
         if (null !== $order) {
-            $payment = $order->getPayment();
+            $payment = $paymentManager->getValidPayment($order);
         }
 
         return $this->render('accountant/bill/show.html.twig', [
