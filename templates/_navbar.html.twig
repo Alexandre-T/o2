@@ -33,6 +33,30 @@
                         <span class="sr-only">English</span>
                     </a>
                 {% endif %}
+                {% if settings('service-status') is same as (0) %}
+                    <div class="ml-5 navbar-text">
+                        <span class="badge badge-pill badge-success" data-toggle="tooltip"
+                              data-title="{{ 'service.status.open.title' | trans}}">
+                            {{ 'service.status.open.text' | trans}}
+                        </span>
+                    </div>
+                {% endif %}
+                {% if settings('service-status') is same as (1) %}
+                    <div class="ml-5 navbar-text">
+                        <span class="badge badge-pill badge-warning" data-toggle="tooltip"
+                          data-title="{{ 'service.status.close.title' | trans}}">
+                            {{ 'service.status.close.text' | trans}}
+                        </span>
+                    </div>
+                {% endif %}
+                {% if settings('service-status') is same as (2) %}
+                    <div class="ml-5 navbar-text">
+                        <span class="badge badge-pill badge-danger" data-toggle="tooltip"
+                        data-title="{{ 'service.status.vacancy.title %date%' | trans({'%date%': settings('service-until') | localizeddate('long', 'none')})}}">
+                        {{ 'service.status.vacancy.text' | trans}}
+                        </span>
+                    </div>
+                {% endif %}
             </div>
             <div class="navbar-nav ml-auto">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}

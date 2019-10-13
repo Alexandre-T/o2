@@ -16,8 +16,11 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\Settings;
+use App\Model\ServiceStatusInterface;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
 
 /**
  * Settings fixtures.
@@ -28,6 +31,8 @@ class SettingsFixtures extends Fixture
      * Load settings.
      *
      * @param ObjectManager $manager manager to save data
+     *
+     * @throws Exception cannot happened because DateTimeImmutable constructor is used without param.
      */
     public function load(ObjectManager $manager): void
     {
@@ -94,22 +99,30 @@ class SettingsFixtures extends Fixture
         //Host for host tel.
         $manager->persist($this->createSettings('host-tel', 'HOST tel'));
 
+        //Status of the service.
+        $manager->persist($this->createSettings('service-status', ServiceStatusInterface::CLOSE));
+
+        //Service is close until...
+        $manager->persist($this->createSettings('service-until', new DateTimeImmutable()));
+
         $manager->flush();
     }
 
     /**
      * Setting factory.
      *
-     * @param string $code  the settings code
-     * @param string $value the settings value
+     * @param string $code      the settings code
+     * @param string $value     the settings value
+     * @param bool   $updatable set to true if administrator can change value
      *
      * @return Settings
      */
-    private function createSettings(string $code, string $value): Settings
+    private function createSettings(string $code, $value, $updatable = true): Settings
     {
         $settings = new Settings();
         $settings->setCode($code);
         $settings->setValue($value);
+        $settings->setUpdatable($updatable);
 
         return $settings;
     }

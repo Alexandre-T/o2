@@ -18,6 +18,7 @@ namespace App\Controller;
 use App\Entity\Settings;
 use App\Form\SettingsFormType;
 use App\Manager\SettingsManager;
+use Doctrine\ORM\Query\QueryException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,7 +80,7 @@ class SettingsController extends AbstractPaginateController
     }
 
     /**
-     * Lists all settings entities.
+     * Lists only updatable settings entities.
      *
      * @Route("/", name="list", methods={"get"})
      *
@@ -87,6 +88,8 @@ class SettingsController extends AbstractPaginateController
      * @param Request         $request         the requests to handle page and sorting
      *
      * @return Response|RedirectResponse
+     *
+     * @throws QueryException should not happen because criteria are fixed
      */
     public function list(SettingsManager $settingsManager, Request $request): Response
     {
@@ -98,7 +101,7 @@ class SettingsController extends AbstractPaginateController
         $field = $this->getSortedField($request, 'code');
         $sort = $this->getOrder($request);
 
-        $pagination = $settingsManager->paginate(
+        $pagination = $settingsManager->paginateUpdatable(
             $request->query->getInt('page', 1),
             self::LIMIT_PER_PAGE,
             $field,

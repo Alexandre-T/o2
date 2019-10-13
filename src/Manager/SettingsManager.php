@@ -19,9 +19,12 @@ use App\Entity\EntityInterface;
 use App\Entity\Settings;
 use App\Exception\SettingsException;
 use App\Repository\SettingsRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * Settings manager class.
@@ -87,6 +90,26 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
     public function isDeletable(EntityInterface $entity): bool
     {
         return false;
+    }
+
+    /**
+     * Paginate updatable settings.
+     *
+     * @param int    $page      number of page
+     * @param int    $limit     limit of bills per page
+     * @param string $sortField sort field
+     * @param string $sortOrder sort order
+     *
+     * @throws QueryException when criteria is not valid
+     *
+     * @return PaginationInterface
+     */
+    public function paginateUpdatable(int $page, int $limit, string $sortField, string $sortOrder): PaginationInterface
+    {
+        $criteria = Criteria::create();
+        $expression = $criteria::expr()->eq('updatable', true);
+        $criteria->where($expression);
+        return $this->paginateWithCriteria($criteria, $page, $limit, $sortField, $sortOrder);
     }
 
     /**

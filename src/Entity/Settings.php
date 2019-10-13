@@ -70,6 +70,13 @@ class Settings implements EntityInterface
     private $value;
 
     /**
+     * The administrator can only edit which are updatable.
+     *
+     * @ORM\Column(type="boolean", options={"default": true})
+     */
+    private $updatable = true;
+
+    /**
      * Settings constructor.
      *
      * Value is set to null, then null is serialized
@@ -147,6 +154,30 @@ class Settings implements EntityInterface
     public function setValue($value): self
     {
         $this->value = serialize($value);
+
+        return $this;
+    }
+
+    /**
+     * Is this settings updatable?
+     *
+     * @return bool|null
+     */
+    public function isUpdatable(): bool
+    {
+        return $this->updatable;
+    }
+
+    /**
+     * Updatable fluent setter.
+     *
+     * @param bool $updatable the new status of setting
+     *
+     * @return self
+     */
+    public function setUpdatable(bool $updatable): self
+    {
+        $this->updatable = $updatable;
 
         return $this;
     }

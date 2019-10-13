@@ -852,3 +852,14 @@ home:
   pending-programmations: 'Programmations en attente'
   credits %count%: '{0}Aucun crédit|{1} %count% crédit |]1,Inf[ %count% crédits'
 payment %number%: 'Paiement numéro %number%'
+service:
+  status:
+    open:
+      text: 'Ouvert'
+      title: 'Le service de programmation est ouvert, vous pouvez envoyer vos fichiers.'
+    close:
+      text: 'Fermé'
+      title: 'Le service de programmation est fermé pour le moment.'
+    vacancy:
+      text: 'En vacances'
+      title %date%: 'Nous sommes en vacances, le service est fermé jusqu’au %date%.'

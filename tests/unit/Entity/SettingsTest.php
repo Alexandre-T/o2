@@ -82,6 +82,8 @@ class SettingsTest extends Unit
         self::assertNull($this->settings->getValue());
         self::assertNotNull($this->settings->getLabel());
         self::assertEmpty($this->settings->getLabel());
+        self::assertNotNull($this->settings->isUpdatable());
+        self::assertTrue($this->settings->isUpdatable());
     }
 
     /**
@@ -119,5 +121,16 @@ class SettingsTest extends Unit
         self::assertEquals($expected, $this->settings->getValue());
         self::assertIsObject($this->settings->getValue());
         self::assertInstanceOf(Settings::class, $this->settings->getValue());
+    }
+
+    /**
+     * Test updatable getter and setter.
+     */
+    public function testUpdatable(): void
+    {
+        self::assertEquals($this->settings, $this->settings->setUpdatable(false));
+        self::assertFalse($this->settings->isUpdatable());
+        self::assertEquals($this->settings, $this->settings->setUpdatable(true));
+        self::assertTrue($this->settings->isUpdatable());
     }
 }
