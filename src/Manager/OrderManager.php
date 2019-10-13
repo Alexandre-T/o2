@@ -25,6 +25,7 @@ use App\Exception\NoOrderException;
 use App\Form\Model\CreditOrder;
 use App\Model\OrderInterface;
 use App\Repository\OrderRepository;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -301,7 +302,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Return the main repository.
      *
-     * @return EntityRepository|OrderRepository
+     * @return EntityRepository|OrderRepository|ObjectRepository
      */
     protected function getMainRepository(): EntityRepository
     {

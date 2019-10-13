@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -23,6 +24,13 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20190707140745 extends AbstractMigration
 {
+    /**
+     * Downgrade database.
+     *
+     * @param Schema $schema the schema is not used
+     *
+     * @throws DBALException
+     */
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
@@ -50,11 +58,23 @@ final class Version20190707140745 extends AbstractMigration
         $this->addSql('DROP TABLE ext_log_entries');
     }
 
+    /**
+     * Description getter.
+     *
+     * @return string
+     */
     public function getDescription(): string
     {
-        return '';
+        return 'Database first build';
     }
 
+    /**
+     * Upgrade database.
+     *
+     * @param Schema $schema the schema is not used
+     *
+     * @throws DBALException
+     */
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs

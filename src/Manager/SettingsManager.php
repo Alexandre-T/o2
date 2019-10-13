@@ -19,6 +19,7 @@ use App\Entity\EntityInterface;
 use App\Entity\Settings;
 use App\Exception\SettingsException;
 use App\Repository\SettingsRepository;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
@@ -113,7 +114,7 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
     /**
      * Main repository getter.
      *
-     * @return SettingsRepository|EntityRepository
+     * @return SettingsRepository|EntityRepository|ObjectRepository
      */
     protected function getMainRepository(): EntityRepository
     {

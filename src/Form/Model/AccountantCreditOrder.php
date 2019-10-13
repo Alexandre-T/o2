@@ -65,7 +65,7 @@ class AccountantCreditOrder extends CreditOrder
     /**
      * Credit fluent setter.
      *
-     * @param bool $credit true when accountant want to credit user
+     * @param bool $credit True if you want to credit user
      *
      * @return AccountantCreditOrder
      */

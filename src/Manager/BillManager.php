@@ -22,6 +22,7 @@ use App\Entity\User;
 use App\Factory\BillFactory;
 use App\Repository\BillRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
@@ -153,7 +154,7 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Return the main repository.
      *
-     * @return EntityRepository|BillRepository
+     * @return EntityRepository|BillRepository|ObjectRepository
      */
     protected function getMainRepository(): EntityRepository
     {
