@@ -26,6 +26,7 @@ use App\Form\UploadProgrammationFormType;
 use App\Mailer\MailerInterface;
 use App\Manager\ProgrammationManager;
 use App\Manager\SettingsManager;
+use App\Model\ServiceStatusInterface;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -50,6 +51,28 @@ class ProgrammerController extends AbstractPaginateController
      */
     public const LIMIT_PER_PAGE = 25;
 
+    /**
+     * Close the service programmation.
+     *
+     * @Route("/status/close", name="status_close", methods={"get"})
+     *
+     * @param SettingsManager $settingsManager the settings manager
+     *
+     * @return RedirectResponse
+     *
+     * @throws SettingsException if service-status does not exist
+     */
+    public function close(SettingsManager $settingsManager): RedirectResponse
+    {
+        $this->addFlash('success', 'flash.service-status.closed');
+        /** @var Settings $status */
+        $status = $settingsManager->getSetting('service-status');
+        $status->setValue(ServiceStatusInterface::CLOSE);
+        $settingsManager->save($status);
+
+        return $this->redirectToRoute('home');
+    }
+    
     /**
      * Download programmation final file.
      *
@@ -141,6 +164,28 @@ class ProgrammerController extends AbstractPaginateController
         return $this->render('programmer/show.html.twig', [
             'programmation' => $programmation,
         ]);
+    }
+
+    /**
+     * Open the service programmation.
+     *
+     * @Route("/status/open", name="status_open", methods={"get"})
+     *
+     * @param SettingsManager $settingsManager the settings manager
+     *
+     * @return RedirectResponse
+     *
+     * @throws SettingsException if service-status does not exist
+     */
+    public function open(SettingsManager $settingsManager): RedirectResponse
+    {
+        $this->addFlash('success', 'flash.service-status.opened');
+        /** @var Settings $status */
+        $status = $settingsManager->getSetting('service-status');
+        $status->setValue(ServiceStatusInterface::OPEN);
+        $settingsManager->save($status);
+
+        return $this->redirectToRoute('home');
     }
 
     /**

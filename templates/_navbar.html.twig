@@ -35,18 +35,32 @@
                 {% endif %}
                 {% if settings('service-status') is same as (0) %}
                     <div class="ml-5 navbar-text">
-                        <span class="badge badge-pill badge-success" data-toggle="tooltip"
-                              data-title="{{ 'service.status.open.title' | trans}}">
-                            {{ 'service.status.open.text' | trans}}
-                        </span>
+                        {% if is_granted('ROLE_PROGRAMMER') %}
+                            <a href="{{ path('programmer_status_close') }}" class="badge badge-pill badge-success"
+                               data-toggle="tooltip" data-title="{{ 'service.status.to-close.title' | trans}}">
+                                {{ 'service.status.open.text' | trans}}
+                            </a>
+                        {% else %}
+                            <span class="badge badge-pill badge-success" data-toggle="tooltip"
+                                  data-title="{{ 'service.status.open.title' | trans}}">
+                                {{ 'service.status.open.text' | trans}}
+                            </span>
+                        {% endif %}
                     </div>
                 {% endif %}
                 {% if settings('service-status') is same as (1) %}
                     <div class="ml-5 navbar-text">
-                        <span class="badge badge-pill badge-warning" data-toggle="tooltip"
-                          data-title="{{ 'service.status.close.title' | trans}}">
-                            {{ 'service.status.close.text' | trans}}
-                        </span>
+                        {% if is_granted('ROLE_PROGRAMMER') %}
+                            <a href="{{ path('programmer_status_open') }}" class="text-black-50 badge badge-pill badge-warning"
+                               data-toggle="tooltip" data-title="{{ 'service.status.to-open.title' | trans}}">
+                                {{ 'service.status.close.text' | trans}}
+                            </a>
+                        {% else %}
+                            <span class="badge badge-pill badge-warning" data-toggle="tooltip"
+                              data-title="{{ 'service.status.close.title' | trans}}">
+                                {{ 'service.status.close.text' | trans}}
+                            </span>
+                        {% endif %}
                     </div>
                 {% endif %}
                 {% if settings('service-status') is same as (2) %}

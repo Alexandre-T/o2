@@ -442,6 +442,8 @@ flash:
     not-updated: 'Attention ! Votre profil n’a pas été mis à jour.'
     updated: 'Votre profil a correctement été mis à jour.'
   service-status:
+    closed: 'Le service de reprogrammation est désormais fermé.'
+    opened: 'Le service de reprogrammation est désormais ouvert.'
     updated: 'Le statut du service de reprogrammation a été mis à jour.'
 
 gear:
@@ -881,3 +883,7 @@ service:
     vacancy:
       text: 'En vacances'
       title %date%: 'Nous sommes en vacances, le service est fermé jusqu’au %date%.'
+    to-open:
+      title: 'Raccourci : Cliquez sur ce lien pour ouvrir instantanément le service de reprogrammation'
+    to-close:
+      title: 'Raccourci : Cliquez sur ce lien pour fermer instantanément le service de reprogrammation'
