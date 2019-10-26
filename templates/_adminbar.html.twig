@@ -39,9 +39,15 @@
                             <div class="dropdown-menu" aria-labelledby="navbarProgrammerDropdown">
                                 <a class="dropdown-item {{ route == 'programmer_list' ? 'active' }}"
                                    href="{{ path('programmer_list') }}" data-placement="right" data-toggle="tooltip"
-                                   title="{{ 'nav.programmer.submenu.command.text' | trans }}" >
+                                   title="{{ 'nav.programmer.submenu.command.title' | trans }}" >
                                     <span class="fas fa-fw fa-car-alt"></span>
                                     {{ 'nav.programmer.submenu.command.text' | trans }}
+                                </a>
+                                <a class="dropdown-item {{ route == 'programmer_status' ? 'active' }}"
+                                   href="{{ path('programmer_status') }}" data-placement="right" data-toggle="tooltip"
+                                   title="{{ 'nav.programmer.submenu.status.title' | trans }}" >
+                                    <span class="fas fa-fw fa-car-alt"></span>
+                                    {{ 'nav.programmer.submenu.status.text' | trans }}
                                 </a>
                             </div>
                         </li>

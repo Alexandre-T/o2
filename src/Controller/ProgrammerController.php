@@ -17,8 +17,11 @@ namespace App\Controller;
 
 use App\Entity\File;
 use App\Entity\Programmation;
+use App\Entity\Settings;
 use App\Exception\SettingsException;
+use App\Form\Model\ServiceStatus;
 use App\Form\Model\UploadProgrammation;
+use App\Form\ServiceStatusFormType;
 use App\Form\UploadProgrammationFormType;
 use App\Mailer\MailerInterface;
 use App\Manager\ProgrammationManager;
@@ -127,7 +130,7 @@ class ProgrammerController extends AbstractPaginateController
     /**
      * Finds and displays a programmation entity.
      *
-     * @Route("/{id}", name="show", methods={"get"})
+     * @Route("/show/{id}", name="show", methods={"get"})
      *
      * @param Programmation $programmation The programmation to display
      *
@@ -137,6 +140,45 @@ class ProgrammerController extends AbstractPaginateController
     {
         return $this->render('programmer/show.html.twig', [
             'programmation' => $programmation,
+        ]);
+    }
+
+    /**
+     * Alter the status of the programmation service.
+     *
+     * @Route("/status", name="status", methods={"get", "post"})
+     *
+     * @param Request         $request  the request to test sent data
+     * @param SettingsManager $settingsManager the manager to get settings
+     *
+     * @return Response
+     * @throws SettingsException
+     */
+    public function status(Request $request, SettingsManager $settingsManager): Response
+    {
+        $model = new ServiceStatus();
+        $model->setEndAt($settingsManager->getValue('service-until'));
+        $model->setStatus($settingsManager->getValue('service-status'));
+
+        $form = $this->createForm(ServiceStatusFormType::class, $model);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'flash.service-status.updated');
+            /** @var Settings $until */
+            $until = $settingsManager->getSetting('service-until');
+            /** @var Settings $status */
+            $status = $settingsManager->getSetting('service-status');
+            $until->setValue($form->getData()->getEndAt());
+            $status->setValue($form->getData()->getStatus());
+            $settingsManager->save($until);
+            $settingsManager->save($status);
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('programmer/service-status.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

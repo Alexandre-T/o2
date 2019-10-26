@@ -15,15 +15,14 @@ declare(strict_types=1);
 
 namespace App\Form\Type;
 
-use App\Model\ServiceStatusInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ServiceStatusType
+ * Service-Until Type
  */
-class ServiceStatusType extends AbstractType
+class ServiceUntilType extends AbstractType
 {
     /**
      * Set default options.
@@ -35,17 +34,9 @@ class ServiceStatusType extends AbstractType
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'label' => 'form.field.status-service',
-            'choices' => [
-                'service.status.open.text' => ServiceStatusInterface::OPEN,
-                'service.status.close.text' => ServiceStatusInterface::CLOSE,
-                'service.status.vacancy.text' => ServiceStatusInterface::VACANCY,
-            ],
-            'help' => 'form.help.status-service',
+            'label' => 'form.field.status-until',
+            'help' => 'form.help.status-until',
             'required' => true,
-            'expanded' => true,
-            'multiple' => false,
-            'attr' => ['class' => 'form-check-inline p-0 pt-2 m-0'],
         ]);
     }
 
@@ -56,6 +47,6 @@ class ServiceStatusType extends AbstractType
      */
     public function getParent()
     {
-        return ChoiceType::class;
+        return DateType::class;
     }
 }

@@ -301,6 +301,8 @@ form:
     stage-one-ethanol: 'Stage 1 + éthanol : 15 crédits'
     stage-one: 'Stage 1 : 10 crédits'
     stage-one-done: 'Stage 1 effectué'
+    status-service: 'Statut du service de reprogrammation'
+    status-until: 'En vacances jusqu’au'
     street-address: 'Adresse'
     telephone: 'Téléphone'
     tos: 'J’ai lu les conditions d’utilisation du service'
@@ -352,6 +354,8 @@ form:
       service-until: 'Sélectionnez la date de réouverture du service de reprogrammation'
       service-status: 'Sélectionnez le statut du service de reprogrammation'
     society: 'Entrez le nom de la société'
+    status-service: 'Indiquez le nouveau statut du service de reprogrammation'
+    status-until: 'Cette date n’est utile que pour indiquer la date de fin des vacances'
     street-address: 'Entrez l’adresse'
     telephone: 'Entrez votre numéro de téléphone'
     tos: 'Veuillez lire les conditions d’utilisations du service.'
@@ -405,6 +409,9 @@ form:
   accountant-bill-new:
     field:
       submit: 'Créer la facture'
+  service-status:
+    field:
+      submit: 'messages'
 
 flash:
   language:
@@ -434,6 +441,8 @@ flash:
   profile:
     not-updated: 'Attention ! Votre profil n’a pas été mis à jour.'
     updated: 'Votre profil a correctement été mis à jour.'
+  service-status:
+    updated: 'Le statut du service de reprogrammation a été mis à jour.'
 
 gear:
   automatic: 'Automatique'
@@ -554,6 +563,9 @@ nav:
       command:
         text: 'Fichiers en cours'
         title: 'Consultation des commandes de fichiers en cours'
+      status:
+        text: 'Statut du service'
+        title: 'Modifier le statut du service de reprogrammation'
   register:
     text: 'Inscription'
     title: 'Accès à la procédure d’inscription'
@@ -716,6 +728,7 @@ title:
       new: 'Commander un fichier de reprogrammation'
       show: 'Votre reprogrammation'
       list: 'Vos reprogrammations'
+      service-status: 'messages'
   default:
     tos: 'Conditions d’utilisation'
     legacy: 'Mentions légales'
@@ -761,6 +774,7 @@ title:
     programmation:
       list: 'Liste des reprogrammations'
       show: 'Programmation'
+      service-status: 'messages'
     main: 'Programmateur'
 
 payments:

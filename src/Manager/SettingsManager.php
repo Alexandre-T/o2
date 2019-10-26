@@ -121,6 +121,27 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
     }
 
     /**
+     * Get a setting or throw an exception.
+     *
+     * @param string $code the code of setting
+     *
+     * @return Settings
+     *
+     * @throws SettingsException when code does not exist
+     */
+    public function getSetting(string $code): Settings
+    {
+        /** @var ?Settings $setting */
+        $setting = $this->repository->findOneByCode($code);
+
+        if (!$setting instanceof Settings) {
+            throw new SettingsException("{$code} is not a code set in settings repository.");
+        }
+
+        return $setting;
+    }
+
+    /**
      * This method will add the HIDDEN field, the sortable field.
      *
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
