@@ -44,7 +44,7 @@
                 <td headers="settings-code" class="align-middle">
                     {{ ('settings.' ~ setting.code) | trans }}
                 </td>
-                <td headers="setting-value" class="align-middle">{{ setting.value }}</td>
+                <td headers="setting-value" class="align-middle">{{ setting.value | setting(setting.code) }}</td>
                 <td headers="setting-actions" class="align-middle">
                     <div class="btn-group">
                         <a class="btn btn-outline-secondary" title="{{ 'action.settings.edit.title' | trans }}"

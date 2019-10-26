@@ -349,6 +349,8 @@ form:
       mail-accountant: 'Entrez l’adresse email du comptable qui recevra un mail à chaque paiement'
       mail-programmer: 'Entrez l’adresse email du programmer qui recevra un mail à chaque commande de reprogrammation'
       mail-sender: 'Entrez l’adresse email de l’expéditeur qui expédira tous vos mails'
+      service-until: 'Sélectionnez la date de réouverture du service de reprogrammation'
+      service-status: 'Sélectionnez le statut du service de reprogrammation'
     society: 'Entrez le nom de la société'
     street-address: 'Entrez l’adresse'
     telephone: 'Entrez votre numéro de téléphone'
@@ -679,6 +681,8 @@ settings:
   mail-accountant: 'Adresse email du comptable'
   mail-programmer: 'Adresse email du programmeur'
   mail-sender: 'Expéditeur de tous vos mails'
+  service-until: 'Service fermé jusqu’au'
+  service-status: 'Statut du service de reprogrammation'
 
 
 table:

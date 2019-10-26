@@ -57,8 +57,20 @@ class SettingsController extends AbstractPaginateController
      SettingsManager $settingsManager,
      TranslatorInterface $trans
     ): Response {
+        switch ($settings->getCode()) {
+            case 'service-until':
+                $type = 'date';
+                break;
+            case 'service-status':
+                $type = 'status';
+                break;
+            default:
+                $type = 'string';
+        }
+
         $editForm = $this->createForm(SettingsFormType::class, $settings, [
             'code' => $settings->getCode(),
+            'value_class' => $type
         ]);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {

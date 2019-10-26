@@ -16,8 +16,10 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\Settings;
+use App\Form\Type\ServiceStatusType;
 use App\Exception\SettingsException;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -100,6 +102,10 @@ class SettingsFormType extends AbstractType
                 return TextType::class;
             case 'int':
                 return IntegerType::class;
+            case 'date':
+                return DateType::class;
+            case 'status':
+                return ServiceStatusType::class;
         }
 
         throw new SettingsException("{$valueClass} is not implemented by SettingsFormType");
