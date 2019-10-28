@@ -196,7 +196,7 @@ class ProgrammerController extends AbstractPaginateController
      * @param Request         $request         the request to test sent data
      * @param SettingsManager $settingsManager the manager to get settings
      *
-     * @throws SettingsException
+     * @throws SettingsException if service-until or service-status are non-existent
      *
      * @return Response
      */

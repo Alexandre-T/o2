@@ -30,6 +30,7 @@ class SettingExtension extends AbstractExtension
      * @var Environment
      */
     private $env;
+
     /**
      * Translator.
      *
@@ -79,7 +80,7 @@ class SettingExtension extends AbstractExtension
      * Setting filter.
      *
      * @param mixed $value the value from setting
-     * @param mixed $code
+     * @param mixed $code  the ettings code
      *
      * @return string
      */
@@ -105,7 +106,7 @@ class SettingExtension extends AbstractExtension
     /**
      * Service status translator.
      *
-     * @param int $value
+     * @param int $value Service value to translate
      *
      * @return string the current status
      */
