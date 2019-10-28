@@ -40,7 +40,7 @@ class DeleteFormType extends AbstractType
     /**
      * Default configuration.
      *
-     * @param OptionsResolver $resolver the opstions resolver
+     * @param OptionsResolver $resolver the options resolver
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
