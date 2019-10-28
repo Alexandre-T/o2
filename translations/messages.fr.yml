@@ -148,6 +148,8 @@ data:
   paypal_express_checkout: 'Paypal Express™'
   monetico: 'Carte bancaire (CIC™)'
 
+Day: 'Jour'
+
 empty: 'vide'
 
 entity:
@@ -301,7 +303,7 @@ form:
     stage-one-ethanol: 'Stage 1 + éthanol : 15 crédits'
     stage-one: 'Stage 1 : 10 crédits'
     stage-one-done: 'Stage 1 effectué'
-    status-service: 'Statut du service de reprogrammation'
+    status-service: 'Statut du service'
     status-until: 'En vacances jusqu’au'
     street-address: 'Adresse'
     telephone: 'Téléphone'
@@ -411,7 +413,7 @@ form:
       submit: 'Créer la facture'
   service-status:
     field:
-      submit: 'messages'
+      submit: 'Modifier le statut du service'
 
 flash:
   language:
@@ -476,7 +478,7 @@ instruction:
 img:
   alt:
     logo: 'Logo de l’entreprise'
-    french-flag: 'messages'
+    french-flag: 'Drapeau français'
 
 instruction %number%: 'Instruction n°%number%'
 
@@ -524,6 +526,8 @@ modal:
       confirm: 'Demande de confirmation'
       core: 'Vous êtes sur le point de supprimer cette fiche de l’application. Êtes-vous sûr de vouloir poursuivre ?'
       yes: 'Oui, supprimer !'
+
+Month: 'Mois'
 
 nav:
   admin:
@@ -576,8 +580,8 @@ nav:
     title: 'Gestion des utilisateurs'
     submenu:
       language:
-        french: 'messages'
-        english: 'messages'
+        french: 'Français'
+        english: 'English' #Do not translate
   customer:
     submenu:
       bills:
@@ -730,7 +734,7 @@ title:
       new: 'Commander un fichier de reprogrammation'
       show: 'Votre reprogrammation'
       list: 'Vos reprogrammations'
-      service-status: 'messages'
+      service-status: 'Statut du service de reprogrammation'
   default:
     tos: 'Conditions d’utilisation'
     legacy: 'Mentions légales'
@@ -776,7 +780,7 @@ title:
     programmation:
       list: 'Liste des reprogrammations'
       show: 'Programmation'
-      service-status: 'messages'
+      service-status: 'Statut du service de reprogrammation'
     main: 'Programmateur'
 
 payments:
@@ -887,3 +891,4 @@ service:
       title: 'Raccourci : Cliquez sur ce lien pour ouvrir instantanément le service de reprogrammation'
     to-close:
       title: 'Raccourci : Cliquez sur ce lien pour fermer instantanément le service de reprogrammation'
+Year: 'Année'

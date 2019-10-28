@@ -64,9 +64,10 @@
                     </div>
                 {% endif %}
                 {% if settings('service-status') is same as (2) %}
+                    {% set date = max(settings('service-until'), date('now')) %}
                     <div class="ml-5 navbar-text">
                         <span class="badge badge-pill badge-danger" data-toggle="tooltip"
-                        data-title="{{ 'service.status.vacancy.title %date%' | trans({'%date%': settings('service-until') | localizeddate('long', 'none')})}}">
+                        data-title="{{ 'service.status.vacancy.title %date%' | trans({'%date%': date | localizeddate('long', 'none')})}}">
                         {{ 'service.status.vacancy.text' | trans}}
                         </span>
                     </div>

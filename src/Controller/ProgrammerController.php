@@ -185,7 +185,7 @@ class ProgrammerController extends AbstractPaginateController
         $status->setValue(ServiceStatusInterface::OPEN);
         $settingsManager->save($status);
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('programmer_list');
     }
 
     /**
@@ -193,7 +193,7 @@ class ProgrammerController extends AbstractPaginateController
      *
      * @Route("/status", name="status", methods={"get", "post"})
      *
-     * @param Request         $request  the request to test sent data
+     * @param Request         $request         the request to test sent data
      * @param SettingsManager $settingsManager the manager to get settings
      *
      * @return Response
