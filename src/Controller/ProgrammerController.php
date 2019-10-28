@@ -58,9 +58,9 @@ class ProgrammerController extends AbstractPaginateController
      *
      * @param SettingsManager $settingsManager the settings manager
      *
-     * @return RedirectResponse
-     *
      * @throws SettingsException if service-status does not exist
+     *
+     * @return RedirectResponse
      */
     public function close(SettingsManager $settingsManager): RedirectResponse
     {
@@ -72,7 +72,7 @@ class ProgrammerController extends AbstractPaginateController
 
         return $this->redirectToRoute('home');
     }
-    
+
     /**
      * Download programmation final file.
      *
@@ -151,6 +151,28 @@ class ProgrammerController extends AbstractPaginateController
     }
 
     /**
+     * Open the service programmation.
+     *
+     * @Route("/status/open", name="status_open", methods={"get"})
+     *
+     * @param SettingsManager $settingsManager the settings manager
+     *
+     * @throws SettingsException if service-status does not exist
+     *
+     * @return RedirectResponse
+     */
+    public function open(SettingsManager $settingsManager): RedirectResponse
+    {
+        $this->addFlash('success', 'flash.service-status.opened');
+        /** @var Settings $status */
+        $status = $settingsManager->getSetting('service-status');
+        $status->setValue(ServiceStatusInterface::OPEN);
+        $settingsManager->save($status);
+
+        return $this->redirectToRoute('programmer_list');
+    }
+
+    /**
      * Finds and displays a programmation entity.
      *
      * @Route("/show/{id}", name="show", methods={"get"})
@@ -167,28 +189,6 @@ class ProgrammerController extends AbstractPaginateController
     }
 
     /**
-     * Open the service programmation.
-     *
-     * @Route("/status/open", name="status_open", methods={"get"})
-     *
-     * @param SettingsManager $settingsManager the settings manager
-     *
-     * @return RedirectResponse
-     *
-     * @throws SettingsException if service-status does not exist
-     */
-    public function open(SettingsManager $settingsManager): RedirectResponse
-    {
-        $this->addFlash('success', 'flash.service-status.opened');
-        /** @var Settings $status */
-        $status = $settingsManager->getSetting('service-status');
-        $status->setValue(ServiceStatusInterface::OPEN);
-        $settingsManager->save($status);
-
-        return $this->redirectToRoute('programmer_list');
-    }
-
-    /**
      * Alter the status of the programmation service.
      *
      * @Route("/status", name="status", methods={"get", "post"})
@@ -196,8 +196,9 @@ class ProgrammerController extends AbstractPaginateController
      * @param Request         $request         the request to test sent data
      * @param SettingsManager $settingsManager the manager to get settings
      *
-     * @return Response
      * @throws SettingsException
+     *
+     * @return Response
      */
     public function status(Request $request, SettingsManager $settingsManager): Response
     {

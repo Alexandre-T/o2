@@ -25,18 +25,17 @@ use Twig\TwigFilter;
 class SettingExtension extends AbstractExtension
 {
     /**
-     * Translator.
-     *
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
      * Twig environment.
      *
      * @var Environment
      */
     private $env;
+    /**
+     * Translator.
+     *
+     * @var TranslatorInterface
+     */
+    private $translator;
 
     /**
      * SettingExtension constructor.
@@ -80,6 +79,7 @@ class SettingExtension extends AbstractExtension
      * Setting filter.
      *
      * @param mixed $value the value from setting
+     * @param mixed $code
      *
      * @return string
      */
@@ -87,7 +87,7 @@ class SettingExtension extends AbstractExtension
     {
         if ($value instanceof DateTimeInterface) {
             switch ($code) {
-                case 'service-until' :
+                case 'service-until':
                     return twig_localized_date_filter($this->env, $value, 'long', 'none');
             }
 
@@ -106,6 +106,7 @@ class SettingExtension extends AbstractExtension
      * Service status translator.
      *
      * @param int $value
+     *
      * @return string the current status
      */
     private function getServiceStatus(int $value): string

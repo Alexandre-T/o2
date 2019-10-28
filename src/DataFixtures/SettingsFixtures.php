@@ -32,7 +32,7 @@ class SettingsFixtures extends Fixture
      *
      * @param ObjectManager $manager manager to save data
      *
-     * @throws Exception cannot happened because DateTimeImmutable constructor is used without param.
+     * @throws Exception cannot happened because DateTimeImmutable constructor is used without param
      */
     public function load(ObjectManager $manager): void
     {

@@ -57,6 +57,13 @@ class Settings implements EntityInterface
     private $identifier;
 
     /**
+     * The administrator can only edit which are updatable.
+     *
+     * @ORM\Column(type="boolean", options={"default": true})
+     */
+    private $updatable = true;
+
+    /**
      * Value.
      *
      * Value is store as a serialized data.
@@ -68,13 +75,6 @@ class Settings implements EntityInterface
      * @Gedmo\Versioned
      */
     private $value;
-
-    /**
-     * The administrator can only edit which are updatable.
-     *
-     * @ORM\Column(type="boolean", options={"default": true})
-     */
-    private $updatable = true;
 
     /**
      * Settings constructor.
@@ -131,6 +131,16 @@ class Settings implements EntityInterface
     }
 
     /**
+     * Is this settings updatable?
+     *
+     * @return bool|null
+     */
+    public function isUpdatable(): bool
+    {
+        return $this->updatable;
+    }
+
+    /**
      * Code fluent setter.
      *
      * @param string $code code identifier
@@ -145,30 +155,6 @@ class Settings implements EntityInterface
     }
 
     /**
-     * Value setter.
-     *
-     * @param mixed $value unserialized value
-     *
-     * @return Settings
-     */
-    public function setValue($value): self
-    {
-        $this->value = serialize($value);
-
-        return $this;
-    }
-
-    /**
-     * Is this settings updatable?
-     *
-     * @return bool|null
-     */
-    public function isUpdatable(): bool
-    {
-        return $this->updatable;
-    }
-
-    /**
      * Updatable fluent setter.
      *
      * @param bool $updatable the new status of setting
@@ -178,6 +164,20 @@ class Settings implements EntityInterface
     public function setUpdatable(bool $updatable): self
     {
         $this->updatable = $updatable;
+
+        return $this;
+    }
+
+    /**
+     * Value setter.
+     *
+     * @param mixed $value unserialized value
+     *
+     * @return Settings
+     */
+    public function setValue($value): self
+    {
+        $this->value = serialize($value);
 
         return $this;
     }

@@ -59,6 +59,27 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
     }
 
     /**
+     * Get a setting or throw an exception.
+     *
+     * @param string $code the code of setting
+     *
+     * @throws SettingsException when code does not exist
+     *
+     * @return Settings
+     */
+    public function getSetting(string $code): Settings
+    {
+        /** @var ?Settings $setting */
+        $setting = $this->repository->findOneByCode($code);
+
+        if (!$setting instanceof Settings) {
+            throw new SettingsException("{$code} is not a code set in settings repository.");
+        }
+
+        return $setting;
+    }
+
+    /**
      * Retrieve value for code provided.
      *
      * @param string $code settings code
@@ -109,6 +130,7 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
         $criteria = Criteria::create();
         $expression = $criteria::expr()->eq('updatable', true);
         $criteria->where($expression);
+
         return $this->paginateWithCriteria($criteria, $page, $limit, $sortField, $sortOrder);
     }
 
@@ -118,27 +140,6 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
     public function refresh(): void
     {
         self::$data = null;
-    }
-
-    /**
-     * Get a setting or throw an exception.
-     *
-     * @param string $code the code of setting
-     *
-     * @return Settings
-     *
-     * @throws SettingsException when code does not exist
-     */
-    public function getSetting(string $code): Settings
-    {
-        /** @var ?Settings $setting */
-        $setting = $this->repository->findOneByCode($code);
-
-        if (!$setting instanceof Settings) {
-            throw new SettingsException("{$code} is not a code set in settings repository.");
-        }
-
-        return $setting;
     }
 
     /**

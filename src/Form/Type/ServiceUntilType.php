@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Service-Until Type
+ * Service-Until Type.
  */
 class ServiceUntilType extends AbstractType
 {

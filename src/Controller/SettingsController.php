@@ -70,7 +70,7 @@ class SettingsController extends AbstractPaginateController
 
         $editForm = $this->createForm(SettingsFormType::class, $settings, [
             'code' => $settings->getCode(),
-            'value_class' => $type
+            'value_class' => $type,
         ]);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -99,9 +99,9 @@ class SettingsController extends AbstractPaginateController
      * @param SettingsManager $settingsManager the settings manage to paginate settings
      * @param Request         $request         the requests to handle page and sorting
      *
-     * @return Response|RedirectResponse
-     *
      * @throws QueryException should not happen because criteria are fixed
+     *
+     * @return Response|RedirectResponse
      */
     public function list(SettingsManager $settingsManager, Request $request): Response
     {

@@ -54,7 +54,7 @@ class ProgrammerCest
      *
      * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToChangeStatus(AcceptanceTester $you): void 
+    public function tryToChangeStatus(AcceptanceTester $you): void
     {
         $you->wantTo('open the service');
         $you->login('programmer');

@@ -1,4 +1,15 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
 
 declare(strict_types=1);
 
@@ -17,12 +28,13 @@ final class Version20191013173039 extends AbstractMigration
      * Drop updatable settings.
      *
      * @param Schema $schema not used
+     *
      * @throws DBALException
      */
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE ts_settings DROP updatable');
     }
@@ -32,7 +44,7 @@ final class Version20191013173039 extends AbstractMigration
      *
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Updatable settings features';
     }
@@ -44,10 +56,10 @@ final class Version20191013173039 extends AbstractMigration
      *
      * @throws DBALException
      */
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+        $this->abortIf('mysql' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE ts_settings ADD updatable TINYINT(1) DEFAULT \'1\' NOT NULL');
     }
