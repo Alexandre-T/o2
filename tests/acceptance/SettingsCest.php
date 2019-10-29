@@ -37,6 +37,8 @@ class SettingsCest
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/administration/settings/');
         $you->dontSee('settings.'); //all is translated
+        $you->click('Paramètre'); // change order
+        $you->seeResponseCodeIsSuccessful();
         $you->click('Modifier ce paramètre');
         $settingId = $you->grabFromCurrentUrl('~(\d+)~');
         $you->seeCurrentUrlEquals('/administration/settings/'.$settingId.'/edit');

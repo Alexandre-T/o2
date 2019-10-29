@@ -62,7 +62,7 @@ class ProgrammationCest
         //Programmer try to download a non-existent programmation
         $you->areOnPage('/programmer/download-final/'.$programIdentifier);
         $you->seeResponseCodeIsSuccessful();
-        $you->seeCurrentUrlEquals('/programmer/'.$programIdentifier);
+        $you->seeCurrentUrlEquals('/programmer/show/'.$programIdentifier);
         $you->see('Le fichier de reprogrammation n’est pas encore disponible');
         $you->see('Le client est en attente de son fichier de reprogrammation');
         $you->seeLink('Télécharger la programmation initiale');
@@ -74,7 +74,7 @@ class ProgrammationCest
         $you->selectOption('upload_programmation_form[edcStopped]', '1');
         $you->click('Envoyer la reprogrammation au client');
         $you->seeResponseCodeIsSuccessful();
-        $you->seeCurrentUrlEquals('/programmer/'.$programIdentifier);
+        $you->seeCurrentUrlEquals('/programmer/show/'.$programIdentifier);
         $you->see('La reprogrammation est terminée. Le client peut télécharger sa nouvelle cartographie');
         $you->click('Télécharger la reprogrammation');
         $you->seeResponseCodeIsSuccessful();
