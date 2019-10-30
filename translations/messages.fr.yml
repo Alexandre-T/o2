@@ -313,6 +313,10 @@ form:
     version: 'Version'
     value: 'Valeur'
     year: 'Année'
+    explanation: 'Explications'
+    vat: 'Taux de TVA'
+    accountant: 'Comptable'
+    decision: 'Décision'
   help:
     article-10: 'Sélectionnez la quantité de lots de 10 crédits'
     article-100: 'Sélectionnez la quantité de lots de 100 crédits'
@@ -553,6 +557,9 @@ nav:
       user:
         text: 'Facture manuelle'
         title: 'Créer manuellement une facture pour un client'
+      vat:
+        text: 'Taux de TVA à changer'
+        title: 'Valider/Refuser les demandes de changement de taux de TVA de vos clients'
   home:
     text: 'Accueil'
     title: 'Retour à l’accueil'
@@ -719,6 +726,8 @@ title:
     bill-new: 'Nouvelle facture'
     user:
       list: 'Sélectionner un utilisateur'
+    asked-vat:
+      list: 'Demande de changement de taux de TVA'
   customer:
     bill:
       list: 'Mes factures'
@@ -840,6 +849,7 @@ programmation:
     response: 'Réponse de notre équipe :'
   customer: 'Client'
 common:
+  accepted: 'Accepté'
   asked: 'Demandé'
   credits %credit%: '%credit% crédits' #plurial is the only available
   done: 'Réalisé'
@@ -850,6 +860,8 @@ common:
   not-done: 'Non réalisé'
   paypal: 'Paypal Express'
   programmation: 'Programmation'
+  rejected: 'Rejeté'
+  undecided: 'À statuer'
   vehicle: 'Véhicule'
   yes: 'Oui'
 

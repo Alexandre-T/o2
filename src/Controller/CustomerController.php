@@ -208,4 +208,18 @@ class CustomerController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * Show current VAT profile.
+     *
+     * @Route("/vat", name="vat")
+     *
+     * @return Response
+     */
+    public function showVat(): Response
+    {
+        return $this->render('customer/vat.html.twig', [
+            'vat' => $this->getUser(),
+        ]);
+    }
 }

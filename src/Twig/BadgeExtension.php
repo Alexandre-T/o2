@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
+use App\Entity\AskedVat;
 use App\Entity\Bill;
 use App\Model\OrderInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -54,6 +55,27 @@ class BadgeExtension extends AbstractExtension
         }
 
         return $this->getBadge('secondary', 'common.non-asked');
+    }
+
+    /**
+     * Badge for the asked vat status filter filter.
+     *
+     * @param mixed|bool $data data converted to accepted or rejected or undecided
+     *
+     * @return string
+     */
+    public function badgeAskedVatFilter($data): string
+    {
+        //FIXME TEST IT
+        switch($data) {
+            case AskedVat::REJECTED:
+               return $this->getBadge('dark', 'common.rejected');
+            case AskedVat::ACCEPTED:
+                return $this->getBadge('success', 'common.accepted');
+            default:
+                return $this->getBadge('secondary', 'common.undecided');
+        }
+
     }
 
     /**
@@ -212,6 +234,11 @@ class BadgeExtension extends AbstractExtension
     public function getFilters()
     {
         return [
+            'badgeAskedVatFilter' => new TwigFilter(
+                'badgeAskedVat',
+                [$this, 'badgeAskedVatFilter'],
+                ['is_safe' => ['html']]
+            ),
             'badgeAskedFilter' => new TwigFilter(
                 'badgeAsked',
                 [$this, 'badgeAskedFilter'],

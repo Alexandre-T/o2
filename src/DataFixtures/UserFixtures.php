@@ -169,6 +169,7 @@ class UserFixtures extends Fixture
             ->setGivenName('John')
             ->setName($label)
             ->setType(PersonInterface::PHYSIC)
+            ->setVat('20.0');
         ;
 
         $user->setLanguage(LanguageInterface::FRENCH);

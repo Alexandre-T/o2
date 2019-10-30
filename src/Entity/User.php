@@ -42,7 +42,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @UniqueEntity(fields={"mail"},  message="error.mail.unique")
  */
-class User implements EntityInterface, LanguageInterface, PersonInterface, PostalAddressInterface, UserInterface, Serializable
+class User implements EntityInterface, LanguageInterface, PersonInterface, PostalAddressInterface, Serializable, UserInterface
 {
     /*
      * Trait declarations.
@@ -55,11 +55,11 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * Initial roles.
      */
     public const INITIAL_ROLES = [self::ROLE_USER];
-    public const ROLE_ACCOUNTANT = 'ROLE_ACCOUNTANT';
 
     /**
      * Each available roles.
      */
+    public const ROLE_ACCOUNTANT = 'ROLE_ACCOUNTANT';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const ROLE_PROGRAMMER = 'ROLE_PROGRAMMER';
     public const ROLE_USER = 'ROLE_USER';
@@ -176,6 +176,16 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * @ORM\Column(type="boolean", name="usr_tos", options={"comment": "TOS accepted"})
      */
     private $tos = false;
+
+    /**
+     * VAT has no dependency and can be fix by admin.
+     * But in fact, there is three profiles default (20%) DOM(8.50%) INTRA(0%)
+     *
+     * @var string|float
+     *
+     * @ORM\Column(type="decimal", precision=4, scale=2)
+     */
+    private $vat;
 
     /**
      * User constructor.
@@ -560,6 +570,7 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
                 $this->roles,
                 $this->society,
                 $this->type,
+                $this->vat,
             ]
         );
     }
@@ -714,7 +725,8 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
             $this->resettingToken,
             $this->roles,
             $this->society,
-            $this->type
+            $this->type,
+            $this->vat
             ) = unserialize($serialized);
     }
 
@@ -740,5 +752,29 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
                 ->addViolation()
             ;
         }
+    }
+
+    /**
+     * VAT Getter.
+     *
+     * @return string|null
+     */
+    public function getVat(): ?string
+    {
+        return $this->vat;
+    }
+
+    /**
+     * VAT Fluent setter.
+     *
+     * @param string $vat the new VAT in decimal
+     *
+     * @return $this
+     */
+    public function setVat(string $vat): self
+    {
+        $this->vat = $vat;
+
+        return $this;
     }
 }

@@ -21,6 +21,7 @@ use App\Entity\User;
 use App\Factory\BillFactory;
 use App\Form\AccountantCreditFormType;
 use App\Form\Model\AccountantCreditOrder;
+use App\Manager\AskedVatManager;
 use App\Manager\BillManager;
 use App\Manager\OrderManager;
 use App\Manager\PaymentManager;
@@ -225,6 +226,42 @@ class AccountantController extends AbstractPaginateController
 
         return $this->render('accountant/user/list.html.twig', [
             'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * Lists all asked-vat entities.
+     *
+     * @Route("/vat", name="vat_list", methods={"get"})
+     *
+     * @param AskedVatManager $vatManager the user manage to paginate users
+     * @param Request         $request    the requests to handle page and sorting
+     *
+     * @return Response|RedirectResponse
+     */
+    public function listVat(AskedVatManager $vatManager, Request $request): Response
+    {
+        if (!$this->validateSortedField($request, ['createdAt', 'customers'])) {
+            return $this->redirectToRoute('accountant_vat_list');
+        }
+
+        //Query parameters check
+        $field = $this->getSortedField($request, 'createdAt');
+        $sort = $this->getOrder($request, 'desc');
+        $highlight = $request->get('highlight', 0);
+        $color = $request->get('color', 'info');
+
+        $pagination = $vatManager->paginate(
+            $request->query->getInt('page', 1),
+            self::LIMIT_PER_PAGE,
+            $field,
+            $sort
+        );
+
+        return $this->render('accountant/vat/list.html.twig', [
+            'pagination' => $pagination,
+            'highlight' => $highlight,
+            'color' => $color,
         ]);
     }
 

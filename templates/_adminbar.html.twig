@@ -26,6 +26,12 @@
                                     <span class="fas fa-fw fa-file-invoice-dollar"></span>
                                     {{ 'nav.accountant.submenu.user.text' | trans }}
                                 </a>
+                                <a class="dropdown-item {{ route == 'accountant_vat_list' ? 'active' }}"
+                                   href="{{ path('accountant_vat_list') }}" data-placement="left" data-toggle="tooltip"
+                                   title="{{ 'nav.accountant.submenu.vat.title' | trans }}">
+                                    <span class="fas fa-fw fa-hand-holding-usd"></span>
+                                    {{ 'nav.accountant.submenu.vat.text' | trans }}
+                                </a>
                             </div>
                         </li>
                     {% endif %}

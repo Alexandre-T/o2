@@ -1,4 +1,6 @@
 error:
+  asked-vat-status:
+    choices: 'Ce statut n’est pas valide.'
   credit:
     empty: 'Vous ne disposez pas de suffisamment de crédits pour commander cette programmation.'
   'cylinder-capacity':
