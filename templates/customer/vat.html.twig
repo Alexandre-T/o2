@@ -15,20 +15,24 @@
 {% endblock %}
 
 {% block container %}
+    {{ form_start(form) }}
     <div class="row justify-content-md-center mb-5">
         <div class="col-md-10">
             <div class="card border-primary">
                 <div class="card-header">
                     <h1>
-                        <span class="fas fa-user-cog"></span>
+                        <span class="fas fa-hand-holding-usd"></span>
                         {{ 'title.customer.vat' | trans }}
                     </h1>
                 </div>
                 <div class="card-body">
-
+                    <p class="alert alert-info">
+                        {{ 'message.vat %vat%' | trans({'%vat%': ( app.user.vat |localizednumber)}) }}
+                    </p>
+                    {{ form(form) }}
                 </div>
                 <div class="card-footer text-right">
-                    <button class="btn btn-primary {% vat.isVatUpdating %}disable{% endif %}" type="submit">
+                    <button class="btn btn-primary" type="submit">
                         <span class="fas fa-fw fa-user-cog"></span>
                         {{ 'link.vat-update.text' | trans }}
                     </button>
@@ -36,4 +40,5 @@
             </div>
         </div>
     </div>
+    {{ form_end(form) }}
 {% endblock %}

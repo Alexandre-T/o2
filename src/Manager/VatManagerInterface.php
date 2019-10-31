@@ -11,6 +11,8 @@ interface VatManagerInterface
     public const DOMTOM_VAT = 8.5;
     public const EUROPE_VAT = 0.0;
 
+    public const VATS = ['0.00', '8.50', '20.00'];
+
     public const DEFAULT = 0;
     public const DOMTOM = 1;
     public const EUROPE = 2;

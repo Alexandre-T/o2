@@ -116,6 +116,12 @@
                                 <span class="fas fa-fw fa-user-cog"></span>
                                 {{ 'nav.customer.submenu.profile.text' | trans }}
                             </a>
+                            {# User vat #}
+                            <a class="dropdown-item {{ route == 'customer_vat' ? 'active' }}" href="{{ path('customer_vat') }}"
+                               data-toggle="tooltip" data-placement="left" title="{{ 'nav.customer.submenu.vat.title' | trans }}">
+                                <span class="fas fa-fw fa-hand-holding-usd"></span>
+                                {{ 'nav.customer.submenu.vat.text' | trans }}
+                            </a>
                             {# User password #}
                             <a class="dropdown-item {{ route == 'customer_password' ? 'active' }}" href="{{ path('customer_password') }}"
                                data-toggle="tooltip" data-placement="left" title="{{ 'nav.customer.submenu.password.title' | trans }}">

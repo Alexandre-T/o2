@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\AskedVat;
 use App\Entity\File;
 use App\Entity\Programmation;
 use App\Entity\User;
@@ -23,10 +24,13 @@ use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
 use App\Form\Model\CreditOrder;
 use App\Form\Model\Programmation as ProgrammationModel;
+use App\Form\Model\Vat;
 use App\Form\PasswordFormType;
 use App\Form\ProfileFormType;
 use App\Form\ProgrammationFormType;
+use App\Form\VatFormType;
 use App\Mailer\MailerInterface;
+use App\Manager\AskedVatManager;
 use App\Manager\OrderManager;
 use App\Manager\ProgrammationManager;
 use App\Manager\SettingsManager;
@@ -210,16 +214,40 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * Show current VAT profile.
+     * Show and update current VAT profile.
      *
      * @Route("/vat", name="vat")
      *
+     * @param Request         $request         The request to handle data form
+     * @param AskedVatManager $askedVatManager the manager to save data
      * @return Response
      */
-    public function showVat(): Response
+    public function updateVat(Request $request, AskedVatManager $askedVatManager): Response
     {
+        $user = $this->getUser();
+        $model = new Vat();
+        $model->setVat($user->getVat());
+        $model->setExplanation($user->getBillIndication());
+        $form = $this->createForm(VatFormType::class, $model);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $asked = new AskedVat();
+            $asked->setVat($form->getData()->getVat());
+            $asked->setCode($form->getData()->getExplanation());
+            $asked->setCustomer($user);
+            $askedVatManager->save($asked);
+
+            $this->addFlash('success', 'flash.asked-vat.sent');
+
+            //TODO sent a mail to accountant
+
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('customer/vat.html.twig', [
-            'vat' => $this->getUser(),
+            'user' => $this->getUser(),
+            'form' => $form->createView(),
         ]);
     }
 }

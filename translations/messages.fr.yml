@@ -1,3 +1,4 @@
+
 accountant:
   credit:
     credit: 'Oui, le créditer'
@@ -340,6 +341,7 @@ form:
     complement: 'Entrez le complément d’adresse'
     country: 'Choisissez le pays parmi cette liste'
     email: 'Entrez votre adresse email'
+    explanation: 'Entrez votre code postal (pour le taux DOM/TOM) ou votre numéro de TVA Intracommunautaire (pour le taux européen)'
     family-name: 'Entrez son nom de famille'
     given-name: 'Entrez son prénom'
     locality: 'Entrez la ville'
@@ -439,6 +441,7 @@ flash:
   asked-vat:
     accepted: 'Le changement de taux de TVA a été accepté'
     rejected: 'Le changement de taux de TVA a été rejeté'
+    sent: 'La demande de changement de taux de TVA a bien été envoyée à notre service comptable.'
   language:
     french: 'L’application est désormais en français'
     english: 'L’application est désormais en anglais'
@@ -541,6 +544,8 @@ link:
   password-lost:
     text: 'Mot de passe perdu ?'
     title: 'Accédez au formulaire de récupération de mot de passe.'
+  vat-update:
+    text: 'Envoyer la demande'
 
 modal:
   entity:
@@ -631,6 +636,9 @@ nav:
       bill:
         text: 'Mes factures'
         title: 'Consulter mes factures'
+      vat:
+        text: 'Mon taux de TVA'
+        title: 'Formulaire de demande de changement de taux de TVA'
   lost-password:
     text: 'Mot de passe perdu'
   reset-password:
@@ -763,6 +771,7 @@ title:
       show: 'Votre reprogrammation'
       list: 'Vos reprogrammations'
       service-status: 'Statut du service de reprogrammation'
+    vat: 'Demande de changement de taux de TVA'
   default:
     tos: 'Conditions d’utilisation'
     legacy: 'Mentions légales'
@@ -898,6 +907,7 @@ message:
     comment: 'Votre commentaire à la commande :'
   mail:
     process %email%: 'Ce formulaire vous permet de tester la procédure complète d’envoi de mail. En cliquant sur le bouton ci-dessous, vous demandez au serveur d’envoyer un mail à %email%. En vous connectant sur la messagerie cliente, vous saurez si le système est pleinement opérationnel ou non.'
+  vat %vat%: 'Votre taux de TVA actuel est de %vat%%. Pour le modifier, veuillez remplir le formulaire ci-dessous.'
 home:
   users: 'Clients'
   programmations: 'Programmations'

@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -31,12 +31,33 @@ class VatType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $resolver->setDefaults([
+            'domtom' => false,
+        ]);
+
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
             'label' => 'form.field.vat',
             'help' => 'form.help.vat',
             'required' => true,
+            'multiple' => false,
+            'expanded' => true,
+            'choices' => [
+                '8.50' => '8.50',
+                '20.00' => '20.00',
+                '0.00' => '0.00',
+            ],
+            'choice_label' => function ($choice, $key, $value) {
+                switch($choice) {
+                    case 0:
+                        return 'form.field.vat-europe';
+                    case 8.5:
+                        return 'form.field.vat-domtom';
+                    default:
+                        return 'form.field.vat-default';
+                }
+            },
         ]);
     }
 
@@ -47,6 +68,6 @@ class VatType extends AbstractType
      */
     public function getParent()
     {
-        return NumberType::class;
+        return ChoiceType::class;
     }
 }
