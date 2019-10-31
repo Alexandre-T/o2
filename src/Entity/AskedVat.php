@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Gedmo\Loggable
  *
  */
-class AskedVat
+class AskedVat implements EntityInterface
 {
     const ACCEPTED = 1;
     const REJECTED = 2;
@@ -243,5 +243,15 @@ class AskedVat
     public function getCreatedAt(): DateTimeInterface
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Return the label of entity.
+     *
+     * @return string
+     */
+    public function getLabel(): string
+    {
+        return $this->getCustomer()->getLabel();
     }
 }

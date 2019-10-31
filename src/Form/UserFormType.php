@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\User;
+use App\Form\Type\BillIndicationType;
 use App\Form\Type\ComplementType;
 use App\Form\Type\CountryType;
 use App\Form\Type\CreditType;
@@ -30,6 +31,7 @@ use App\Form\Type\SocietyType;
 use App\Form\Type\StreetAddressType;
 use App\Form\Type\TelephoneType;
 use App\Form\Type\VatNumberType;
+use App\Form\Type\VatType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -75,6 +77,8 @@ class UserFormType extends AbstractType
             ->add('name', FamilyNameType::class)
             ->add('society', SocietyType::class)
             ->add('vatNumber', VatNumberType::class)
+            ->add('vat', VatType::class)
+            ->add('billIndication', BillIndicationType::class)
             ->add('streetAddress', StreetAddressType::class)
             ->add('complement', ComplementType::class)
             ->add('postalCode', PostalCodeType::class)

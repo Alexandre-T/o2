@@ -97,6 +97,15 @@ action:
   mail:
     main:
       text: 'Envoyer le mail de test'
+  accountant:
+    accept:
+      text: 'Accepter'
+      title: 'Accepter la demande de changement du taux de TVA'
+    show:
+      title: 'Consulter la liste des demandes de changement de taux de TVA'
+    reject:
+      text: 'Rejeter'
+      title: 'Rejeter la demande de changement de taux de TVA'
 
 administration:
   created:
@@ -162,6 +171,7 @@ entity:
       delete: 'Suppression'
       update: 'Modification'
     data:
+      bill-indication: 'Nouvelle indication facture'
       canceled-at: 'Nouvelle date d’annulation'
       complement: 'Nouveau complément'
       created-at: 'Nouvelle date de création'
@@ -242,6 +252,7 @@ form:
     article-10: 'Lot(s) de 10 crédits'
     article-100: 'Lot(s) de 100 crédits'
     article-500: 'Lot(s) de 500 crédits'
+    bill-indication: 'Indication sur facture'
     credit: 'Crédits'
     complement: 'Complément'
     comment: 'Vos remarques'
@@ -314,13 +325,17 @@ form:
     value: 'Valeur'
     year: 'Année'
     explanation: 'Explications'
-    vat: 'Taux de TVA'
     accountant: 'Comptable'
     decision: 'Décision'
+    vat: 'Taux de TVA'
+    vat-default: 'Taux normal (20%)'
+    vat-europe: 'Taux Union Européenne (0%)'
+    vat-domtom: 'Taux DOM-TOM (8,5%)'
   help:
     article-10: 'Sélectionnez la quantité de lots de 10 crédits'
     article-100: 'Sélectionnez la quantité de lots de 100 crédits'
     article-500: 'Sélectionnez la quantité de lots de 500 crédits'
+    bill-indication: 'Indiquez ici ce qui justifie un taux de TVA différent (DOM/TOM ou TVA Intracommunautaire)'
     credit: 'Entrez le nouveau nombre de crédit de ce client'
     complement: 'Entrez le complément d’adresse'
     country: 'Choisissez le pays parmi cette liste'
@@ -335,6 +350,7 @@ form:
     postal-code: 'Entrez le code postal'
     repeat-password: 'Confirmez votre mot de passe'
     roles: 'Sélectionnez le rôle de l’utilisateur'
+    vat: 'Taux de TVA propre à ce client'
     setting:
       bill-complement: 'Entrez la seconde ligne de l’adresse qui apparaîtra sur toutes vos factures'
       bill-country: 'Entrez le pays de votre société qui apparaîtra sur toutes vos factures'
@@ -420,6 +436,9 @@ form:
       submit: 'Modifier le statut du service'
 
 flash:
+  asked-vat:
+    accepted: 'Le changement de taux de TVA a été accepté'
+    rejected: 'Le changement de taux de TVA a été rejeté'
   language:
     french: 'L’application est désormais en français'
     english: 'L’application est désormais en anglais'

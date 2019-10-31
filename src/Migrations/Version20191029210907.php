@@ -26,6 +26,7 @@ final class Version20191029210907 extends AbstractMigration
         $this->addSql('ALTER TABLE te_askedvat ADD CONSTRAINT FK_82CF274C9395C3F3 FOREIGN KEY (customer_id) REFERENCES ts_user (usr_id)');
         $this->addSql('ALTER TABLE te_askedvat ADD CONSTRAINT FK_82CF274C9582AA74 FOREIGN KEY (accountant_id) REFERENCES ts_user (usr_id)');
         $this->addSql('ALTER TABLE ts_user ADD vat NUMERIC(4, 2) NULL');
+        $this->addSql('ALTER TABLE ts_user ADD bill_indication VARCHAR(63) DEFAULT NULL');
         $this->addSql('UPDATE ts_user SET vat=\'20.00\' WHERE vat IS NULL');
         $this->addSql('ALTER TABLE ts_user MODIFY vat NUMERIC(4, 2) NOT NULL');
     }
@@ -37,5 +38,6 @@ final class Version20191029210907 extends AbstractMigration
 
         $this->addSql('DROP TABLE te_askedvat');
         $this->addSql('ALTER TABLE ts_user DROP vat');
+        $this->addSql('ALTER TABLE ts_user DROP bill_indication');
     }
 }

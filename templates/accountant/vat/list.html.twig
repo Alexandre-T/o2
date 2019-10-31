@@ -71,7 +71,20 @@
                                 <span class="sr-only">{{ 'action.user.show.text' | trans }}</span>
                             </a>
                         {% endif %}
-                        {# FIXME add accept and reject links #}
+                        {% if asked.status == 0 %}
+                            <a class="btn btn-outline-success" title="{{ 'action.accountant.accept.title' | trans }}"
+                               href="{{ path('accountant_vat_accept', { 'asked': asked.id }) }}"
+                               data-placement="left" data-toggle="tooltip">
+                                <span class="fa fa-check"></span>
+                                <span class="sr-only">{{ 'action.accountant.accept.text' | trans }}</span>
+                            </a>
+                            <a class="btn btn-outline-danger" title="{{ 'action.accountant.reject.title' | trans }}"
+                               href="{{ path('accountant_vat_reject', { 'asked': asked.id }) }}"
+                               data-placement="left" data-toggle="tooltip">
+                                <span class="fa fa-times"></span>
+                                <span class="sr-only">{{ 'action.accountant.reject.text' | trans }}</span>
+                            </a>
+                        {% endif %}
                     </div>
                 </td>
             </tr>

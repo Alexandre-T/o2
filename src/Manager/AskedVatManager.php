@@ -7,6 +7,7 @@ use App\Entity\EntityInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 
 /**
  * User Manager.
@@ -21,13 +22,25 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
     /**
      * Accountant can accept the new Vat of this customer.
      *
-     * @param AskedVat $askedVat the customer
+     * @param AskedVat $askedVat   the customer
+     * @param User     $accountant the accountant
      */
-    public function acceptVat(AskedVat $askedVat): void
+    public function acceptVat(AskedVat $askedVat, User $accountant): void
     {
         $customer = $askedVat->getCustomer();
         $askedVat->setStatus(AskedVat::ACCEPTED);
+        $askedVat->setAccountant($accountant);
         $customer->setVat($askedVat->getVat());
+        $customer->setBillIndication($askedVat->getCode());
+
+        try {
+            $this->entityManager->beginTransaction();
+            $this->save($customer);
+            $this->save($askedVat);
+            $this->entityManager->commit();
+        } catch (Exception $exception) {
+            $this->entityManager->rollback();
+        }
     }
 
     /**
@@ -64,11 +77,15 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
     /**
      * Accountant rejectVat of customer
      *
-     * @param User $customer the customer
+     * @param AskedVat $askedVat   asked vat
+     * @param User     $accountant accountant
      */
-    public function rejectVat(User $customer): void
+    public function rejectVat(AskedVat $askedVat, User $accountant): void
     {
+        $askedVat->setStatus(AskedVat::REJECTED);
+        $askedVat->setAccountant($accountant);
 
+        $this->save($askedVat);
     }
 
     /**

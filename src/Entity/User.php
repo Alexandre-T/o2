@@ -184,8 +184,25 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * @var string|float
      *
      * @ORM\Column(type="decimal", precision=4, scale=2)
+     *
+     * @Assert\Range(min="0", max="99.99")
+     *
+     * @Gedmo\Versioned
      */
     private $vat;
+
+    /**
+     * Indication published in bills to explain why the default vat is not at the default value.
+     *
+     * @var string
+     *
+     * @ORM\Column(type="string", length=63, nullable=true)
+     *
+     * @Assert\Length(max="63")
+     *
+     * @Gedmo\Versioned
+     */
+    private $billIndication;
 
     /**
      * User constructor.
@@ -774,6 +791,30 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
     public function setVat(string $vat): self
     {
         $this->vat = $vat;
+
+        return $this;
+    }
+
+    /**
+     * Bill indication getter.
+     *
+     * @return string|null
+     */
+    public function getBillIndication(): ?string
+    {
+        return $this->billIndication;
+    }
+
+    /**
+     * Bill indication fluent setter.
+     *
+     * @param string|null $billIndication the new bill indication
+     *
+     * @return $this
+     */
+    public function setBillIndication(?string $billIndication): self
+    {
+        $this->billIndication = $billIndication;
 
         return $this;
     }

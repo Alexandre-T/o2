@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\AskedVat;
 use App\Entity\Bill;
 use App\Entity\Payment;
 use App\Entity\User;
@@ -46,6 +47,25 @@ class AccountantController extends AbstractPaginateController
      * Limit of bills per page for listing.
      */
     public const LIMIT_PER_PAGE = 25;
+
+    /**
+     * Accountant (current user) accept vat asked by customer.
+     *
+     * @Route("/vat/accept/{asked}", name="vat_accept", methods={"get"})
+     *
+     * @param AskedVatManager $askedVatManager the asked manager
+     * @param AskedVat        $asked           the asked vat entity
+     *
+     * @return RedirectResponse
+     */
+    public function accept(AskedVatManager $askedVatManager, AskedVat $asked): RedirectResponse
+    {
+        $askedVatManager->acceptVat($asked, $this->getUser());
+        $this->addFlash('success', 'flash.asked-vat.accepted');
+        //FIXME Send a mail to user
+
+        return $this->redirectToRoute('accountant_vat_list');
+    }
 
     /**
      * Create a bill for selected user.
@@ -291,6 +311,25 @@ class AccountantController extends AbstractPaginateController
         ]);
     }
 
+    /**
+     * Accountant (current user) reject vat asked by customer.
+     *
+     * @Route("/vat/reject/{asked}", name="vat_reject", methods={"get"})
+     *
+     * @param AskedVatManager $askedVatManager the asked manager
+     * @param AskedVat        $asked           the asked vat entity
+     *
+     * @return RedirectResponse
+     */
+    public function reject(AskedVatManager $askedVatManager, AskedVat $asked): RedirectResponse
+    {
+        $askedVatManager->rejectVat($asked, $this->getUser());
+        $this->addFlash('success', 'flash.asked-vat.rejected');
+
+        //FIXME Send a mail to user
+
+        return $this->redirectToRoute('accountant_vat_list');
+    }
     /**
      * Finds and displays a bill entity.
      *
