@@ -30,13 +30,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class Mailer implements MailerInterface
 {
     /**
-     * The logger interface.
-     *
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
      * Swift mailer.
      *
      * @var Swift_Mailer
@@ -51,18 +44,24 @@ class Mailer implements MailerInterface
     protected $router;
 
     /**
-     * Default settings from setting manager.
-     *
-     * @var SettingsManager
-     */
-    private $settingsManager;
-
-    /**
      * Twig engine.
      *
      * @var EngineInterface
      */
     protected $templating;
+    /**
+     * The logger interface.
+     *
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * Default settings from setting manager.
+     *
+     * @var SettingsManager
+     */
+    private $settingsManager;
 
     /**
      * Mailer constructor.
@@ -86,6 +85,51 @@ class Mailer implements MailerInterface
         $this->router = $router;
         $this->templating = $templating;
         $this->settingsManager = $settingsManager;
+    }
+
+    /**
+     * Send a mail to accountant to alert him that a customer is asking for a new VAT.
+     *
+     * @param AskedVat $asked the asked vat
+     *
+     * @throws SettingsException when settings are not in database
+     *
+     * @return int the number of mails sent (shall be 1)
+     */
+    public function sendAskedVat(AskedVat $asked): int
+    {
+        $html = $this->getHtmlAskedVat($asked);
+        $txt = $this->getTxtAskedVat($asked);
+        $from = $this->getDefaultSender();
+        $to = $this->getAccountantMail();
+
+        return $this->sendEmailMessage($html, $txt, $from, $to);
+    }
+
+    /**
+     * Send a mail to customer to inform him that accountant accepted his new VAT rate.
+     *
+     * @param AskedVat $asked the asked vat entity
+     *
+     * @return int
+     */
+    public function sendAskedVatAccepted(AskedVat $asked): int
+    {
+        // TODO: Implement sendAskedVatAccepted() method.
+        return 0;
+    }
+
+    /**
+     * Send a mail to customer to inform him that accountant rejected his new VAT rate.
+     *
+     * @param AskedVat $asked the asked vat entity
+     *
+     * @return int
+     */
+    public function sendAskedVatRejected(AskedVat $asked): int
+    {
+        // TODO: Implement sendAskedVatRejected() method.
+        return 0;
     }
 
     /**
@@ -172,7 +216,7 @@ class Mailer implements MailerInterface
         try {
             $this->sendEmailMessage($renderHtml, $renderTxt, $this->getDefaultSender(), $user->getMail());
         } catch (SettingsException $exception) {
-            $this->logger->warning('Unable to send mail, because of settings exception:'. $exception->getMessage());
+            $this->logger->warning('Unable to send mail, because of settings exception:'.$exception->getMessage());
         }
     }
 
@@ -238,25 +282,6 @@ class Mailer implements MailerInterface
     }
 
     /**
-     * Send a mail to accountant to alert him that a customer is asking for a new VAT.
-     *
-     * @param AskedVat $asked the asked vat
-     *
-     * @return int the number of mails sent (shall be 1)
-     *
-     * @throws SettingsException when settings are not in database
-     */
-    public function sendAskedVat(AskedVat $asked): int
-    {
-        $html = $this->getHtmlAskedVat($asked);
-        $txt = $this->getTxtAskedVat($asked);
-        $from = $this->getDefaultSender();
-        $to = $this->getAccountantMail();
-
-        return $this->sendEmailMessage($html, $txt, $from, $to);
-    }
-
-    /**
      * Send a mail.
      *
      * @param string       $html      the mail body in html
@@ -284,27 +309,27 @@ class Mailer implements MailerInterface
     }
 
     /**
-     * Return the default sender.
-     *
-     * @return string
-     *
-     * @throws SettingsException if mail-sender does not exists
-     */
-    private function getDefaultSender(): string
-    {
-        return (string) $this->settingsManager->getValue('mail-sender');
-    }
-
-    /**
      * Return the accountant mail.
      *
-     * @return string
-     *
      * @throws SettingsException if mail-accountant does not exists
+     *
+     * @return string
      */
     private function getAccountantMail(): string
     {
         return (string) $this->settingsManager->getValue('mail-accountant');
+    }
+
+    /**
+     * Return the default sender.
+     *
+     * @throws SettingsException if mail-sender does not exists
+     *
+     * @return string
+     */
+    private function getDefaultSender(): string
+    {
+        return (string) $this->settingsManager->getValue('mail-sender');
     }
 
     /**
@@ -315,7 +340,7 @@ class Mailer implements MailerInterface
     private function getHtmlAskedVat(AskedVat $asked): string
     {
         return $this->templating->render('mail/new-asked-vat.html.twig', [
-            'asked' => $asked
+            'asked' => $asked,
         ]);
     }
 
@@ -327,7 +352,7 @@ class Mailer implements MailerInterface
     private function getTxtAskedVat(AskedVat $asked): string
     {
         return $this->templating->render('mail/new-asked-vat.txt.twig', [
-            'asked' => $asked
+            'asked' => $asked,
         ]);
     }
 }

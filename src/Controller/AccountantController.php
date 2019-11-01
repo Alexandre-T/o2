@@ -22,6 +22,7 @@ use App\Entity\User;
 use App\Factory\BillFactory;
 use App\Form\AccountantCreditFormType;
 use App\Form\Model\AccountantCreditOrder;
+use App\Mailer\MailerInterface;
 use App\Manager\AskedVatManager;
 use App\Manager\BillManager;
 use App\Manager\OrderManager;
@@ -55,14 +56,15 @@ class AccountantController extends AbstractPaginateController
      *
      * @param AskedVatManager $askedVatManager the asked manager
      * @param AskedVat        $asked           the asked vat entity
+     * @param MailerInterface $mailer          the mailer interface to send to customer that new rate is accepted
      *
      * @return RedirectResponse
      */
-    public function accept(AskedVatManager $askedVatManager, AskedVat $asked): RedirectResponse
+    public function accept(AskedVatManager $askedVatManager, AskedVat $asked, MailerInterface $mailer): RedirectResponse
     {
         $askedVatManager->acceptVat($asked, $this->getUser());
         $this->addFlash('success', 'flash.asked-vat.accepted');
-        //FIXME Send a mail to user
+        $mailer->sendAskedVatAccepted($asked);
 
         return $this->redirectToRoute('accountant_vat_list');
     }
@@ -318,15 +320,15 @@ class AccountantController extends AbstractPaginateController
      *
      * @param AskedVatManager $askedVatManager the asked manager
      * @param AskedVat        $asked           the asked vat entity
+     * @param MailerInterface $mailer          the mailer interface to send to customer that new rate is accepted
      *
      * @return RedirectResponse
      */
-    public function reject(AskedVatManager $askedVatManager, AskedVat $asked): RedirectResponse
+    public function reject(AskedVatManager $askedVatManager, AskedVat $asked, MailerInterface $mailer): RedirectResponse
     {
         $askedVatManager->rejectVat($asked, $this->getUser());
         $this->addFlash('success', 'flash.asked-vat.rejected');
-
-        //FIXME Send a mail to user
+        $mailer->sendAskedVatRejected($asked);
 
         return $this->redirectToRoute('accountant_vat_list');
     }

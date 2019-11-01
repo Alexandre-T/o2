@@ -24,6 +24,33 @@ use App\Entity\User;
 interface MailerInterface
 {
     /**
+     * Send a mail to accountant to alert him that a customer is asking for a new VAT.
+     *
+     * @param AskedVat $asked the asked vat
+     *
+     * @return int the number of mails sent (shall be 1)
+     */
+    public function sendAskedVat(AskedVat $asked): int;
+
+    /**
+     * Send a mail to customer to inform him that accountant accepted his new VAT rate.
+     *
+     * @param AskedVat $asked the asked vat entity
+     *
+     * @return int
+     */
+    public function sendAskedVatAccepted(AskedVat $asked): int;
+
+    /**
+     * Send a mail to customer to inform him that accountant rejected his new VAT rate.
+     *
+     * @param AskedVat $asked the asked vat entity
+     *
+     * @return int
+     */
+    public function sendAskedVatRejected(AskedVat $asked): int;
+
+    /**
      * Send a mail to accountant from sender to inform about the new order and the new bill.
      *
      * @param Order  $order      the new order
@@ -71,13 +98,4 @@ interface MailerInterface
      * @return int
      */
     public function sendTestMail(string $email): int;
-
-    /**
-     * Send a mail to accountant to alert him that a customer is asking for a new VAT.
-     *
-     * @param AskedVat $asked the asked vat
-     *
-     * @return int the number of mails sent (shall be 1)
-     */
-    public function sendAskedVat(AskedVat $asked): int;
 }
