@@ -112,6 +112,29 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
     }
 
     /**
+     * Ask Vat.
+     *
+     * We suppose that values are tested
+     *
+     * @param User        $customer    the customer asking a new vat
+     * @param string      $vat         the new vat
+     * @param string|null $explanation the explanation if necessary
+     *
+     * @return AskedVat
+     */
+    public function askVat(User $customer, string $vat, ?string $explanation): AskedVat
+    {
+        switch ((float) $vat) {
+            case self::EUROPE_VAT:
+                return $this->askEuropeVat($customer, $explanation);
+            case self::DOMTOM_VAT:
+                return $this->askDomVat($customer, $explanation);
+            default:
+                return $this->askDefaultVat($customer);
+        }
+    }
+
+    /**
      * Return default alias.
      */
     public function getDefaultAlias(): string
@@ -153,27 +176,6 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
         $askedVat->setAccountant($accountant);
 
         $this->save($askedVat);
-    }
-
-    /**
-     * Ask Vat.
-     *
-     * We suppose that values are tested
-     *
-     * @param User        $customer    the customer asking a new vat
-     * @param string      $vat         the new vat
-     * @param string|null $explanation the explanation if necessary
-     */
-    public function askVat(User $customer, string $vat, ?string $explanation): AskedVat
-    {
-        switch ((float) $vat) {
-            case self::EUROPE_VAT:
-                return $this->askEuropeVat($customer, $explanation);
-            case self::DOMTOM_VAT:
-                return $this->askDomVat($customer, $explanation);
-            default:
-                return $this->askDefaultVat($customer);
-        }
     }
 
     /**
