@@ -15,16 +15,27 @@ declare(strict_types=1);
 
 namespace App\Mailer;
 
+use App\Entity\AskedVat;
 use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\Programmation;
 use App\Entity\User;
+use App\Exception\SettingsException;
+use App\Manager\SettingsManager;
+use Psr\Log\LoggerInterface;
 use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Mailer implements MailerInterface
 {
+    /**
+     * The logger interface.
+     *
+     * @var LoggerInterface
+     */
+    private $logger;
+
     /**
      * Swift mailer.
      *
@@ -40,6 +51,13 @@ class Mailer implements MailerInterface
     protected $router;
 
     /**
+     * Default settings from setting manager.
+     *
+     * @var SettingsManager
+     */
+    private $settingsManager;
+
+    /**
      * Twig engine.
      *
      * @var EngineInterface
@@ -47,30 +65,27 @@ class Mailer implements MailerInterface
     protected $templating;
 
     /**
-     * Parameters.
-     *
-     * @var array sender, etc
-     */
-    private $parameters;
-
-    /**
      * Mailer constructor.
      *
-     * @param Swift_Mailer          $mailer     mailer
-     * @param UrlGeneratorInterface $router     the url generator
-     * @param EngineInterface       $templating the templating engine
-     * @param array                 $parameters the env parameters (expediter)
+     * @param LoggerInterface       $logger          logger service
+     * @param Swift_Mailer          $mailer          mailer service
+     * @param UrlGeneratorInterface $router          the url generator
+     * @param EngineInterface       $templating      the templating engine
+     * @param SettingsManager       $settingsManager the settings manager to retrieve settings
      */
     public function __construct(
+     LoggerInterface $logger,
      Swift_Mailer $mailer,
+     //TODO remove it, i can use url function in view to get an absolute url!
      UrlGeneratorInterface $router,
      EngineInterface $templating,
-     array $parameters
+     SettingsManager $settingsManager
     ) {
+        $this->logger = $logger;
         $this->mailer = $mailer;
         $this->router = $router;
         $this->templating = $templating;
-        $this->parameters = $parameters['parameters'];
+        $this->settingsManager = $settingsManager;
     }
 
     /**
@@ -154,7 +169,11 @@ class Mailer implements MailerInterface
             'confirmationUrl' => $url,
         ]);
 
-        $this->sendEmailMessage($renderHtml, $renderTxt, $this->parameters['from'], $user->getMail());
+        try {
+            $this->sendEmailMessage($renderHtml, $renderTxt, $this->getDefaultSender(), $user->getMail());
+        } catch (SettingsException $exception) {
+            $this->logger->warning('Unable to send mail, because of settings exception:'. $exception->getMessage());
+        }
     }
 
     /**
@@ -219,6 +238,25 @@ class Mailer implements MailerInterface
     }
 
     /**
+     * Send a mail to accountant to alert him that a customer is asking for a new VAT.
+     *
+     * @param AskedVat $asked the asked vat
+     *
+     * @return int the number of mails sent (shall be 1)
+     *
+     * @throws SettingsException when settings are not in database
+     */
+    public function sendAskedVat(AskedVat $asked): int
+    {
+        $html = $this->getHtmlAskedVat($asked);
+        $txt = $this->getTxtAskedVat($asked);
+        $from = $this->getDefaultSender();
+        $to = $this->getAccountantMail();
+
+        return $this->sendEmailMessage($html, $txt, $from, $to);
+    }
+
+    /**
      * Send a mail.
      *
      * @param string       $html      the mail body in html
@@ -243,5 +281,53 @@ class Mailer implements MailerInterface
         ;
 
         return $this->mailer->send($message);
+    }
+
+    /**
+     * Return the default sender.
+     *
+     * @return string
+     *
+     * @throws SettingsException if mail-sender does not exists
+     */
+    private function getDefaultSender(): string
+    {
+        return (string) $this->settingsManager->getValue('mail-sender');
+    }
+
+    /**
+     * Return the accountant mail.
+     *
+     * @return string
+     *
+     * @throws SettingsException if mail-accountant does not exists
+     */
+    private function getAccountantMail(): string
+    {
+        return (string) $this->settingsManager->getValue('mail-accountant');
+    }
+
+    /**
+     * Get the html content when accountant is alerted that a customer is asking a new vat rate.
+     *
+     * @return string
+     */
+    private function getHtmlAskedVat(AskedVat $asked): string
+    {
+        return $this->templating->render('mail/new-asked-vat.html.twig', [
+            'asked' => $asked
+        ]);
+    }
+
+    /**
+     * Get the html content when accountant is alerted that a customer is asking a new vat rate.
+     *
+     * @return string
+     */
+    private function getTxtAskedVat(AskedVat $asked): string
+    {
+        return $this->templating->render('mail/new-asked-vat.txt.twig', [
+            'asked' => $asked
+        ]);
     }
 }

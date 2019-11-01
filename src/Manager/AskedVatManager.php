@@ -1,4 +1,17 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
+
+declare(strict_types=1);
 
 namespace App\Manager;
 
@@ -17,7 +30,7 @@ use Exception;
  * @author  Alexandre Tranchant <alexandre.tranchant@gmail.com>
  * @license CeCILL-B V1
  */
-class AskedVatManager extends AbstractRepositoryManager implements ManagerInterface
+class AskedVatManager extends AbstractRepositoryManager implements ManagerInterface, VatManagerInterface
 {
     /**
      * Accountant can accept the new Vat of this customer.
@@ -44,23 +57,39 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
     }
 
     /**
-     * Customer ask the defaultVat
+     * Customer ask the defaultVat.
      *
      * @param User $customer the customer
+     *
+     * @return AskedVat
      */
-    public function askDefaultVat(User $customer): void
+    public function askDefaultVat(User $customer): AskedVat
     {
+        $asked = new AskedVat();
+        $asked->setVat((string) VatManagerInterface::DEFAULT_VAT);
+        $asked->setCustomer($customer);
+        $this->save($asked);
 
+        return $asked;
     }
 
     /**
      * Customer ask the DOM VAT.
      *
-     * @param User $customer the customer
+     * @param User   $customer   the customer
+     * @param string $postalCode the postal code of customer
+     *
+     * @return AskedVat
      */
-    public function askDomVat(User $customer): void
+    public function askDomVat(User $customer, string $postalCode): AskedVat
     {
+        $asked = new AskedVat();
+        $asked->setVat((string) VatManagerInterface::DOMTOM_VAT);
+        $asked->setCustomer($customer);
+        $asked->setCode($postalCode);
+        $this->save($asked);
 
+        return $asked;
     }
 
     /**
@@ -68,24 +97,18 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
      *
      * @param User   $customer the customer
      * @param string $vatIntra Customer Intra VAT number
-     */
-    public function askEuropeVat(User $customer, string $vatIntra): void
-    {
-
-    }
-
-    /**
-     * Accountant rejectVat of customer
      *
-     * @param AskedVat $askedVat   asked vat
-     * @param User     $accountant accountant
+     * @return AskedVat
      */
-    public function rejectVat(AskedVat $askedVat, User $accountant): void
+    public function askEuropeVat(User $customer, string $vatIntra): AskedVat
     {
-        $askedVat->setStatus(AskedVat::REJECTED);
-        $askedVat->setAccountant($accountant);
+        $asked = new AskedVat();
+        $asked->setVat((string) VatManagerInterface::EUROPE_VAT);
+        $asked->setCustomer($customer);
+        $asked->setCode($vatIntra);
+        $this->save($asked);
 
-        $this->save($askedVat);
+        return $asked;
     }
 
     /**
@@ -107,16 +130,6 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
     }
 
     /**
-     * Main repository getter.
-     *
-     * @return EntityRepository
-     */
-    protected function getMainRepository(): EntityRepository
-    {
-        return $this->entityManager->getRepository(AskedVat::class);
-    }
-
-    /**
      * Is this entity deletable?
      *
      * @param EntityInterface $entity entity to test
@@ -126,6 +139,41 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
     public function isDeletable(EntityInterface $entity): bool
     {
         return $entity instanceof AskedVat;
+    }
+
+    /**
+     * Accountant rejectVat of customer.
+     *
+     * @param AskedVat $askedVat   asked vat
+     * @param User     $accountant accountant
+     */
+    public function rejectVat(AskedVat $askedVat, User $accountant): void
+    {
+        $askedVat->setStatus(AskedVat::REJECTED);
+        $askedVat->setAccountant($accountant);
+
+        $this->save($askedVat);
+    }
+
+    /**
+     * Ask Vat.
+     *
+     * We suppose that values are tested
+     *
+     * @param User        $customer    the customer asking a new vat
+     * @param string      $vat         the new vat
+     * @param string|null $explanation the explanation if necessary
+     */
+    public function askVat(User $customer, string $vat, ?string $explanation): AskedVat
+    {
+        switch ((float) $vat) {
+            case self::EUROPE_VAT:
+                return $this->askEuropeVat($customer, $explanation);
+            case self::DOMTOM_VAT:
+                return $this->askDomVat($customer, $explanation);
+            default:
+                return $this->askDefaultVat($customer);
+        }
     }
 
     /**
@@ -144,5 +192,15 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
             ->addSelect('customer.name as HIDDEN customers')
             ->addSelect('askedVat.createdAt as HIDDEN createdAt')
             ;
+    }
+
+    /**
+     * Main repository getter.
+     *
+     * @return EntityRepository
+     */
+    protected function getMainRepository(): EntityRepository
+    {
+        return $this->entityManager->getRepository(AskedVat::class);
     }
 }

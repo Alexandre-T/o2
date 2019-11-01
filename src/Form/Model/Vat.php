@@ -34,16 +34,6 @@ class Vat
     private $actual = '20.00';
 
     /**
-     * The vat percent.
-     *
-     * @Assert\Range(min="0",max="99")
-     * @Assert\NotNull
-     *
-     * @var string
-     */
-    private $vat;
-
-    /**
      * The explanation to help accountant to decide.
      *
      * @Assert\Length(max="63")
@@ -53,27 +43,23 @@ class Vat
     private $explanation;
 
     /**
-     * Vat getter.
+     * The vat percent.
+     *
+     * @Assert\Range(min="0", max="99")
+     * @Assert\NotNull
+     *
+     * @var string
+     */
+    private $vat;
+
+    /**
+     * The actual vat getter.
      *
      * @return string
      */
-    public function getVat(): ?string
+    public function getActual(): string
     {
-        return $this->vat;
-    }
-
-    /**
-     * Mail fluent setter.
-     *
-     * @param string $vat mail of user who lost its password
-     *
-     * @return Vat
-     */
-    public function setVat(?string $vat): Vat
-    {
-        $this->vat = $vat;
-
-        return $this;
+        return $this->actual;
     }
 
     /**
@@ -87,15 +73,53 @@ class Vat
     }
 
     /**
+     * Vat getter.
+     *
+     * @return string
+     */
+    public function getVat(): ?string
+    {
+        return $this->vat;
+    }
+
+    /**
+     * The actual vat setter.
+     *
+     * @param string $actual the customer actual vat
+     *
+     * @return Vat
+     */
+    public function setActual(string $actual): self
+    {
+        $this->actual = $actual;
+
+        return $this;
+    }
+
+    /**
      * Explanation fluent setter.
      *
-     * @param string|null $explanation the new explanation.
+     * @param string|null $explanation the new explanation
      *
      * @return Vat
      */
     public function setExplanation(?string $explanation): Vat
     {
         $this->explanation = $explanation;
+
+        return $this;
+    }
+
+    /**
+     * Mail fluent setter.
+     *
+     * @param string $vat mail of user who lost its password
+     *
+     * @return Vat
+     */
+    public function setVat(?string $vat): Vat
+    {
+        $this->vat = $vat;
 
         return $this;
     }
@@ -115,7 +139,7 @@ class Vat
             ;
         }
 
-        if (empty($this->getExplanation()) && !$this->isVatDefault()){
+        if (empty($this->getExplanation()) && !$this->isVatDefault()) {
             $message = 'error.vat.empty-europe';
             if ((float) $this->getVat() === (float) VatManagerInterface::DOMTOM_VAT) {
                 $message = 'error.vat.empty-domtom';
@@ -135,30 +159,6 @@ class Vat
     private function isVatChanged(): bool
     {
         return $this->getVat() !== $this->getActual();
-    }
-
-    /**
-     * The actual vat getter.
-     *
-     * @return string
-     */
-    public function getActual(): string
-    {
-        return $this->actual;
-    }
-
-    /**
-     * The actual vat setter.
-     *
-     * @param string $actual the customer actual vat
-     *
-     * @return Vat
-     */
-    public function setActual(string $actual): self
-    {
-        $this->actual = $actual;
-
-        return $this;
     }
 
     /**

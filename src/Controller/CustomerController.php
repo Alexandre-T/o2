@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\AskedVat;
 use App\Entity\File;
 use App\Entity\Programmation;
 use App\Entity\User;
@@ -218,30 +217,29 @@ class CustomerController extends AbstractController
      *
      * @Route("/vat", name="vat")
      *
-     * @param Request         $request         The request to handle data form
+     * @param Request         $request         the request to handle data form
      * @param AskedVatManager $askedVatManager the manager to save data
+     *
      * @return Response
      */
-    public function updateVat(Request $request, AskedVatManager $askedVatManager): Response
+    public function updateVat(Request $request, AskedVatManager $askedVatManager, MailerInterface $mailer): Response
     {
-        $user = $this->getUser();
+        $customer = $this->getUser();
         $model = new Vat();
-        $model->setVat($user->getVat());
-        $model->setExplanation($user->getBillIndication());
-        $model->setActual($user->getVat());
+        $model->setVat($customer->getVat());
+        $model->setExplanation($customer->getBillIndication());
+        $model->setActual($customer->getVat());
         $form = $this->createForm(VatFormType::class, $model);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $asked = new AskedVat();
-            $asked->setVat($form->getData()->getVat());
-            $asked->setCode($form->getData()->getExplanation());
-            $asked->setCustomer($user);
-            $askedVatManager->save($asked);
+            /** @var Vat $data */
+            $data = $form->getData();
+            $asked = $askedVatManager->askVat($customer, $data->getVat(), $data->getExplanation());
 
             $this->addFlash('success', 'flash.asked-vat.sent');
 
-            //TODO sent a mail to accountant
+            $mailer->sendAskedVat($asked);
 
             return $this->redirectToRoute('home');
         }

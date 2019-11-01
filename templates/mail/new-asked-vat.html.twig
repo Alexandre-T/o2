@@ -1,0 +1,28 @@
+{% trans_default_domain('mail') %}
+<h3>{{ 'title.new-asked-vat' | trans }}</h3>
+<p>{{ 'explanation.new-asked-vat' | trans }}</p>
+<ul>
+    <li>{{ 'li.customer %customer%' | trans({'%customer%': asked.customer.label}) }}</li>
+    <li>{{ 'li.actual-vat %actual%' | trans({'%actual%': (asked.customer.vat | localizednumber)}) }}</li>
+    <li>{{ 'li.new-vat %vat%' | trans({'%vat%': (asked.vat | localizednumber)}) }}</li>
+    <li>{{ 'li.new-vat %explanation%' | trans({'%explanation%': asked.code}) }}</li>
+    <li>{{ 'li.postal-code %postal%' | trans({'%postal%': asked.customer.postalCode}) }}</li>
+    <li>{{ 'li.vat-number %number%' | trans({'%number%': asked.customer.vatNumber}) }}</li>
+</ul>
+<ol>
+    <li>
+        <a href="{{ url('accountant_vat_list') }}" title="{{ 'link.asked-list.title' | trans}}">
+            {{ 'link.asked-list.text' | trans}}
+        </a>
+    </li>
+    <li>
+        <a href="{{ url('accountant_vat_accept', {'asked': asked.id}) }}" title="{{ 'link.asked-accept.title' | trans}}">
+            {{ 'link.asked-accept.text' | trans}}
+        </a>
+    </li>
+    <li>
+        <a href="{{ url('accountant_vat_reject', {'asked': asked.id}) }}" title="{{ 'link.asked-reject.title' | trans}}">
+            {{ 'link.asked-reject.text' | trans}}
+        </a>
+    </li>
+</ol>

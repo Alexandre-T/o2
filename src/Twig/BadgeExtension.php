@@ -66,16 +66,14 @@ class BadgeExtension extends AbstractExtension
      */
     public function badgeAskedVatFilter($data): string
     {
-        //FIXME TEST IT
-        switch($data) {
+        switch ($data) {
             case AskedVat::REJECTED:
-               return $this->getBadge('dark', 'common.rejected');
+                return $this->getBadge('dark', 'common.rejected');
             case AskedVat::ACCEPTED:
                 return $this->getBadge('success', 'common.accepted');
             default:
                 return $this->getBadge('secondary', 'common.undecided');
         }
-
     }
 
     /**

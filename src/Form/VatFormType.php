@@ -63,7 +63,7 @@ class VatFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Vat::class,
             'domtom' => false,
-            'vat' => VatManagerInterface::DEFAULT_VAT
+            'vat' => VatManagerInterface::DEFAULT_VAT,
         ]);
 
         parent::configureOptions($resolver);

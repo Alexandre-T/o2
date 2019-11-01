@@ -49,7 +49,7 @@ class VatType extends AbstractType
                 '0.00' => '0.00',
             ],
             'choice_label' => function ($choice, $key, $value) {
-                switch($choice) {
+                switch ($choice) {
                     case 0:
                         return 'form.field.vat-europe';
                     case 8.5:

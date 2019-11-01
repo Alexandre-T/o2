@@ -330,6 +330,7 @@ class AccountantController extends AbstractPaginateController
 
         return $this->redirectToRoute('accountant_vat_list');
     }
+
     /**
      * Finds and displays a bill entity.
      *

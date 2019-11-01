@@ -1,4 +1,17 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -14,37 +27,13 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class AskedVatRepository extends ServiceEntityRepository
 {
+    /**
+     * AskedVatRepository constructor.
+     *
+     * @param ManagerRegistry $registry provided by injection dependencies
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, AskedVat::class);
     }
-
-    // /**
-    //  * @return AskedVat[] Returns an array of AskedVat objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?AskedVat
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

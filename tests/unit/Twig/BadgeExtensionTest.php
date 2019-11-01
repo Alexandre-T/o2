@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Twig;
 
+use App\Entity\AskedVat;
 use App\Entity\Bill;
 use App\Model\OrderInterface;
 use App\Tests\UnitTester;
@@ -88,6 +89,24 @@ class BadgeExtensionTest extends Unit
         $actual = false;
         $expected = '<span class="badge badge-secondary">trans.common.non-asked</span>';
         self::assertEquals($expected, $this->extension->badgeAskedFilter($actual));
+    }
+
+    /**
+     * Test asked vat filter.
+     */
+    public function testBadgeAskedVatFilter(): void
+    {
+        $actual = AskedVat::ACCEPTED;
+        $expected = '<span class="badge badge-success">trans.common.accepted</span>';
+        self::assertEquals($expected, $this->extension->badgeAskedVatFilter($actual));
+
+        $actual = AskedVat::REJECTED;
+        $expected = '<span class="badge badge-dark">trans.common.rejected</span>';
+        self::assertEquals($expected, $this->extension->badgeAskedVatFilter($actual));
+
+        $actual = AskedVat::UNDECIDED;
+        $expected = '<span class="badge badge-secondary">trans.common.undecided</span>';
+        self::assertEquals($expected, $this->extension->badgeAskedVatFilter($actual));
     }
 
     /**
@@ -245,7 +264,7 @@ class BadgeExtensionTest extends Unit
     public function testGetFilters(): void
     {
         self::assertIsArray($this->extension->getFilters());
-        self::assertCount(9, $this->extension->getFilters());
+        self::assertCount(10, $this->extension->getFilters());
         foreach ($this->extension->getFilters() as $key => $filter) {
             /* @var TwigFilter $filter the filter to test */
             self::assertInstanceOf(TwigFilter::class, $filter);

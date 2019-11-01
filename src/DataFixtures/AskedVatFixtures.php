@@ -28,6 +28,19 @@ use Doctrine\Common\Persistence\ObjectManager;
 class AskedVatFixtures extends Fixture implements DependentFixtureInterface
 {
     /**
+     * This method must return an array of fixtures classes
+     * on which the implementing class depends on.
+     *
+     * @return array
+     */
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+        ];
+    }
+
+    /**
      * Load articles.
      *
      * @param ObjectManager $manager manager to save data
@@ -112,19 +125,6 @@ class AskedVatFixtures extends Fixture implements DependentFixtureInterface
         ));
 
         $manager->flush();
-    }
-
-    /**
-     * This method must return an array of fixtures classes
-     * on which the implementing class depends on.
-     *
-     * @return array
-     */
-    public function getDependencies()
-    {
-        return [
-            UserFixtures::class,
-        ];
     }
 
     /**

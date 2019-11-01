@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Mailer;
 
+use App\Entity\AskedVat;
 use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\Programmation;
@@ -70,4 +71,13 @@ interface MailerInterface
      * @return int
      */
     public function sendTestMail(string $email): int;
+
+    /**
+     * Send a mail to accountant to alert him that a customer is asking for a new VAT.
+     *
+     * @param AskedVat $asked the asked vat
+     *
+     * @return int the number of mails sent (shall be 1)
+     */
+    public function sendAskedVat(AskedVat $asked): int;
 }

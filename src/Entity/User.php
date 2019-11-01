@@ -65,6 +65,19 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
     public const ROLE_USER = 'ROLE_USER';
 
     /**
+     * Indication published in bills to explain why the default vat is not at the default value.
+     *
+     * @var string
+     *
+     * @ORM\Column(type="string", length=63, nullable=true)
+     *
+     * @Assert\Length(max="63")
+     *
+     * @Gedmo\Versioned
+     */
+    private $billIndication;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="customer")
      */
     private $bills;
@@ -179,7 +192,7 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * VAT has no dependency and can be fix by admin.
-     * But in fact, there is three profiles default (20%) DOM(8.50%) INTRA(0%)
+     * But in fact, there is three profiles default (20%) DOM(8.50%) INTRA(0%).
      *
      * @var string|float
      *
@@ -190,19 +203,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * @Gedmo\Versioned
      */
     private $vat;
-
-    /**
-     * Indication published in bills to explain why the default vat is not at the default value.
-     *
-     * @var string
-     *
-     * @ORM\Column(type="string", length=63, nullable=true)
-     *
-     * @Assert\Length(max="63")
-     *
-     * @Gedmo\Versioned
-     */
-    private $billIndication;
 
     /**
      * User constructor.
@@ -305,6 +305,16 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
         $this->plainPassword = null;
 
         return $this;
+    }
+
+    /**
+     * Bill indication getter.
+     *
+     * @return string|null
+     */
+    public function getBillIndication(): ?string
+    {
+        return $this->billIndication;
     }
 
     /**
@@ -440,6 +450,16 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
     public function getUsername(): string
     {
         return (string) $this->getMail();
+    }
+
+    /**
+     * VAT Getter.
+     *
+     * @return string|null
+     */
+    public function getVat(): ?string
+    {
+        return $this->vat;
     }
 
     /**
@@ -593,6 +613,20 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
     }
 
     /**
+     * Bill indication fluent setter.
+     *
+     * @param string|null $billIndication the new bill indication
+     *
+     * @return $this
+     */
+    public function setBillIndication(?string $billIndication): self
+    {
+        $this->billIndication = $billIndication;
+
+        return $this;
+    }
+
+    /**
      * Credit fluent setter.
      *
      * @param int $credit new credit value
@@ -723,6 +757,20 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
     }
 
     /**
+     * VAT Fluent setter.
+     *
+     * @param string $vat the new VAT in decimal
+     *
+     * @return $this
+     */
+    public function setVat(string $vat): self
+    {
+        $this->vat = $vat;
+
+        return $this;
+    }
+
+    /**
      * Constructs the object.
      *
      * @see http://php.net/manual/en/serializable.unserialize.php
@@ -769,53 +817,5 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
                 ->addViolation()
             ;
         }
-    }
-
-    /**
-     * VAT Getter.
-     *
-     * @return string|null
-     */
-    public function getVat(): ?string
-    {
-        return $this->vat;
-    }
-
-    /**
-     * VAT Fluent setter.
-     *
-     * @param string $vat the new VAT in decimal
-     *
-     * @return $this
-     */
-    public function setVat(string $vat): self
-    {
-        $this->vat = $vat;
-
-        return $this;
-    }
-
-    /**
-     * Bill indication getter.
-     *
-     * @return string|null
-     */
-    public function getBillIndication(): ?string
-    {
-        return $this->billIndication;
-    }
-
-    /**
-     * Bill indication fluent setter.
-     *
-     * @param string|null $billIndication the new bill indication
-     *
-     * @return $this
-     */
-    public function setBillIndication(?string $billIndication): self
-    {
-        $this->billIndication = $billIndication;
-
-        return $this;
     }
 }
