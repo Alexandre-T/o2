@@ -29,7 +29,9 @@
                     <p class="alert alert-info">
                         {{ 'message.vat %vat%' | trans({'%vat%': ( app.user.vat |localizednumber)}) }}
                     </p>
-                    {{ form(form) }}
+                    <p class="text-justify"><small>{{ 'info.vat.europe' | trans }}</small></p>
+                    <p class="text-justify"><small>{{ 'info.vat.domtom' | trans }}</small></p>
+                    {{ form_widget(form) }}
                 </div>
                 <div class="card-footer text-right">
                     <button class="btn btn-primary" type="submit">

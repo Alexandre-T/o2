@@ -228,6 +228,7 @@ class CustomerController extends AbstractController
         $model = new Vat();
         $model->setVat($user->getVat());
         $model->setExplanation($user->getBillIndication());
+        $model->setActual($user->getVat());
         $form = $this->createForm(VatFormType::class, $model);
         $form->handleRequest($request);
 

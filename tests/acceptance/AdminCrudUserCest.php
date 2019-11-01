@@ -48,6 +48,8 @@ class AdminCrudUserCest
         $you->fillField('Confirmation', 'foobar');
         $you->fillField('Crédits', '42');
         $you->selectOption('app_user[type]', 1);
+        $you->selectOption('app_user[vat]', '8.50');
+        $you->fillField('Indication sur facture', '97100');
         $you->fillField('Prénom', 'Prénom');
         $you->fillField('Nom de famille', 'Nom de famille');
         $you->fillField('Société', 1);
@@ -77,6 +79,8 @@ class AdminCrudUserCest
         $you->seeCurrentUrlEquals("/administration/user/{$identifier}/edit");
         $you->dontSee('Confirmation', 'label');
         $you->fillField('Nom de famille', 'AACodeception');
+        $you->selectOption('app_user[vat]', '20.00');
+        $you->fillField('Indication sur facture', '');
         $you->checkOption('#app_user_roles_0');
         $you->click('Éditer', '.btn-primary');
         $you->seeResponseCodeIsSuccessful();

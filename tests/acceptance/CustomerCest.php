@@ -171,6 +171,40 @@ class CustomerCest
     }
 
     /**
+     * Try to send a new empty vat profile.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToSendVat(AcceptanceTester $you): void
+    {
+        $you->wantTo('send an empty vat profile.');
+        $you->login('customer');
+        $you->amOnPage('/customer/vat');
+        $you->see('Votre taux de TVA actuel est de 20%. Pour le modifier, veuillez remplir le formulaire ci-dessous.');
+        $you->click('Envoyer la demande');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Le nouveau taux de TVA est identique au taux actuel. Demande rejetée');
+        $you->fillField('Explications', '');
+        $you->selectOption('app_vat[vat]', '8.50');
+        $you->click('Envoyer la demande');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Veuillez confirmer votre code postal.');
+        $you->selectOption('app_vat[vat]', '0.00');
+        $you->fillField('Explications', '');
+        $you->click('Envoyer la demande');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Veuillez confirmer votre numéro de TVA intra-communautaire.');
+
+        $you->wantTo('send a valid vat profile.');
+        $you->fillField('Explications', '97100');
+        $you->selectOption('app_vat[vat]', '8.50');
+        $you->click('Envoyer la demande');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/');
+        $you->see('La demande de changement de taux de TVA a bien été envoyée à notre service comptable.');
+    }
+
+    /**
      * Try to send a password form with too long field.
      *
      * @param AcceptanceTester $you the acceptance tester

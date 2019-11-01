@@ -35,11 +35,17 @@
                 {{ knp_pagination_sortable(pagination, 'form.field.customer' | trans, 'customer') }}
                 <span class="{{ faSort(pagination.isSorted('customer'), direction, 'alpha') }}"></span>
             </th>
-            <th id="asked-vat-number" class="align-middle">
+            <th id="asked-bill-indication" class="align-middle">
                 {{ 'form.field.explanation' | trans }}
             </th>
-            <th id="asked-vat-asked" class="align-middle">
+            <th id="asked-vat" class="align-middle">
                 {{ 'form.field.vat' | trans }}
+            </th>
+            <th id="asked-vat-number" class="align-middle">
+                {{ 'form.field.vat-number' | trans }}
+            </th>
+            <th id="asked-postal-code" class="align-middle">
+                {{ 'form.field.postal-code' | trans }}
             </th>
             <th id="asked-vat-accountant" class="align-middle">{{ 'form.field.accountant' | trans }}</th>
             <th id="asked-vat-decision" class="align-middle">{{ 'form.field.decision' | trans }}</th>
@@ -53,8 +59,10 @@
                     {{ asked.createdAt | localizeddate('medium', 'medium') }}
                 </td>
                 <td headers="asked-customer" class="align-middle">{{ asked.customer.label }}</td>
-                <td headers="asked-vat-number" class="align-middle">{{ asked.code }}</td>
-                <td headers="asked-vat-asked" class="align-middle">{{ (asked.vat) | localizednumber('decimal') }}%</td>
+                <td headers="asked-vat-bill-indication" class="align-middle">{{ asked.code }}</td>
+                <td headers="asked-vat" class="align-middle">{{ asked.vat | localizednumber('decimal') }}%</td>
+                <td headers="asked-vat-number" class="align-middle">{{ asked.vat-number }}%</td>
+                <td headers="asked-postal-code" class="align-middle">{{ asked.postal-code }}%</td>
                 <td headers="asked-vat-accountant" class="align-middle">
                     {% if asked.accountant is not null %}
                         {{ asked.accountant.label }}

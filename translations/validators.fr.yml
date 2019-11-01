@@ -59,6 +59,10 @@ error:
     blank: 'L’adresse postale est obligatoire.'
   tos:
     blank: 'Vous devez accepter les CGU pour vous inscrire.'
+  vat:
+    empty-domtom: 'Veuillez confirmer votre code postal.'
+    empty-europe: 'Veuillez confirmer votre numéro de TVA intra-communautaire.'
+    same: 'Le nouveau taux de TVA est identique au taux actuel. Demande rejetée !'
   version:
     blank: 'La version du véhicule doit être fournie.'
   year:

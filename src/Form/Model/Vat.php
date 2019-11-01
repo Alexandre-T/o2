@@ -15,7 +15,9 @@ declare(strict_types=1);
 
 namespace App\Form\Model;
 
+use App\Manager\VatManagerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Vat update model form.
@@ -24,6 +26,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Vat
 {
+    /**
+     * The actual vat percent.
+     *
+     * @var string
+     */
+    private $actual = '20.00';
+
     /**
      * The vat percent.
      *
@@ -87,6 +96,78 @@ class Vat
     public function setExplanation(?string $explanation): Vat
     {
         $this->explanation = $explanation;
+
         return $this;
+    }
+
+    /**
+     * Is this order valid?
+     *
+     * @Assert\Callback
+     *
+     * @param ExecutionContextInterface $context the context to report error
+     */
+    public function validate(ExecutionContextInterface $context): void
+    {
+        if (!$this->isVatChanged()) {
+            $context->buildViolation('error.vat.same')
+                ->addViolation()
+            ;
+        }
+
+        if (empty($this->getExplanation()) && !$this->isVatDefault()){
+            $message = 'error.vat.empty-europe';
+            if ((float) $this->getVat() === (float) VatManagerInterface::DOMTOM_VAT) {
+                $message = 'error.vat.empty-domtom';
+            }
+
+            $context->buildViolation($message)
+                ->addViolation()
+            ;
+        }
+    }
+
+    /**
+     * Is the asked VAT different from the customer actual vat?
+     *
+     * @return bool
+     */
+    private function isVatChanged(): bool
+    {
+        return $this->getVat() !== $this->getActual();
+    }
+
+    /**
+     * The actual vat getter.
+     *
+     * @return string
+     */
+    public function getActual(): string
+    {
+        return $this->actual;
+    }
+
+    /**
+     * The actual vat setter.
+     *
+     * @param string $actual the customer actual vat
+     *
+     * @return Vat
+     */
+    public function setActual(string $actual): self
+    {
+        $this->actual = $actual;
+
+        return $this;
+    }
+
+    /**
+     * Is asked vat set to the default value.
+     *
+     * @return bool
+     */
+    private function isVatDefault(): bool
+    {
+        return (float) $this->getVat() === (float) VatManagerInterface::DEFAULT_VAT;
     }
 }
