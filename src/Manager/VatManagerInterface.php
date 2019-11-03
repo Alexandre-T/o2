@@ -20,14 +20,11 @@ use App\Entity\User;
 
 interface VatManagerInterface
 {
-    public const DEFAULT = 0;
-    public const DEFAULT_VAT = 20.0;
-    public const DOMTOM = 1;
-    public const DOMTOM_VAT = 8.5;
-    public const EUROPE = 2;
-    public const EUROPE_VAT = 0.0;
+    public const DEFAULT_VAT = 0.2000;
+    public const DOMTOM_VAT = 0.0850;
+    public const EUROPE_VAT = 0.0000;
 
-    public const VATS = ['0.00', '8.50', '20.00'];
+    public const VATS = ['0.0000', '0.0850', '0.2000'];
 
     /**
      * Accountant can accept the new Vat of this customer.

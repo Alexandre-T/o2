@@ -41,7 +41,6 @@ class AskedVat implements EntityInterface
 {
     public const ACCEPTED = 1;
     public const REJECTED = 2;
-
     public const STATUS = [self::ACCEPTED, self::REJECTED, self::UNDECIDED];
     public const UNDECIDED = 0;
 
@@ -104,7 +103,7 @@ class AskedVat implements EntityInterface
     /**
      * The VAT asked by customer.
      *
-     * @ORM\Column(type="decimal", precision=4, scale=2)
+     * @ORM\Column(type="decimal", precision=4, scale=4)
      *
      * @Gedmo\Versioned
      */

@@ -2,8 +2,8 @@
 {{ 'title.new-asked-vat' | trans }}
 {{ 'explanation.new-asked-vat' | trans }}
 * {{ 'li.customer %customer%' | trans({'%customer%': asked.customer.label}) }}
-* {{ 'li.actual-vat %actual%' | trans({'%actual%': (asked.customer.vat | localizednumber)}) }}
-* {{ 'li.new-vat %vat%' | trans({'%vat%': (asked.vat | localizednumber)}) }}
+* {{ 'li.actual-vat %actual%' | trans({'%actual%': (asked.customer.vat | localizednumber('percent'))}) }}
+* {{ 'li.new-vat %vat%' | trans({'%vat%': (asked.vat | localizednumber('percent'))}) }}
 * {{ 'li.new-vat %explanation%' | trans({'%explanation%': asked.code}) }}
 * {{ 'li.postal-code %postal%' | trans({'%postal%': asked.customer.postalCode}) }}
 * {{ 'li.vat-number %number%' | trans({'%number%': asked.customer.vatNumber}) }}

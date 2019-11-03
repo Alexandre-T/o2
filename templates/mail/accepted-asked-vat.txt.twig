@@ -1,0 +1,3 @@
+{% trans_default_domain('mail') %}
+{{ 'title.accepted-asked-vat' | trans }}
+{{ 'explanation.accepted-asked-vat %vat%' | trans({'%vat%': (asked.vat | localizednumber('percent'))}) }}

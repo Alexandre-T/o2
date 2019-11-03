@@ -1,0 +1,8 @@
+{% trans_default_domain('mail') %}
+<h3>{{ 'title.rejected-asked-vat' | trans }}</h3>
+<p>
+    {{ 'explanation.rejected-asked-vat %vat% %actual%' | trans({
+        '%actual%': (asked.customer.vat | localizednumber),
+        '%vat%': (asked.vat | localizednumber)
+    }) }}
+</p>

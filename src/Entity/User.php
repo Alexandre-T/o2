@@ -65,6 +65,11 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
     public const ROLE_USER = 'ROLE_USER';
 
     /**
+     * Initial vat.
+     */
+    public const DEFAULT_VAT = '0.2000';
+
+    /**
      * Indication published in bills to explain why the default vat is not at the default value.
      *
      * @var string
@@ -196,13 +201,13 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      *
      * @var string|float
      *
-     * @ORM\Column(type="decimal", precision=4, scale=2)
+     * @ORM\Column(type="decimal", precision=4, scale=4)
      *
-     * @Assert\Range(min="0", max="99.99")
+     * @Assert\Range(min="0", max="1")
      *
      * @Gedmo\Versioned
      */
-    private $vat;
+    private $vat = self::DEFAULT_VAT;
 
     /**
      * User constructor.

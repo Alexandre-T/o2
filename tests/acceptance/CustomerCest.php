@@ -283,11 +283,11 @@ class CustomerCest
         $you->seeResponseCodeIsSuccessful();
         $you->see('Le nouveau taux de TVA est identique au taux actuel. Demande rejetée');
         $you->fillField('Explications', '');
-        $you->selectOption('app_vat[vat]', '8.50');
+        $you->selectOption('app_vat[vat]', '0.0850');
         $you->click('Envoyer la demande');
         $you->seeResponseCodeIsSuccessful();
         $you->see('Veuillez confirmer votre code postal.');
-        $you->selectOption('app_vat[vat]', '0.00');
+        $you->selectOption('app_vat[vat]', '0.0000');
         $you->fillField('Explications', '');
         $you->click('Envoyer la demande');
         $you->seeResponseCodeIsSuccessful();
@@ -295,7 +295,7 @@ class CustomerCest
 
         $you->wantTo('send a valid vat profile.');
         $you->fillField('Explications', '97100');
-        $you->selectOption('app_vat[vat]', '8.50');
+        $you->selectOption('app_vat[vat]', '0.0850');
         $you->click('Envoyer la demande');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/');

@@ -7,6 +7,8 @@ title:
   new-programmation: 'V-Mod Engineering : Nouvelle reprogrammation commandée'
   programmation-done: 'V-Mod Engineering : Votre reprogrammation est prête'
   new-asked-vat: 'V-Mod Engineering : Demande de changement de taux de TVA'
+  accepted-asked-vat: 'V-Mod Engineering : Demande de changement de taux de TVA acceptée'
+  rejected-asked-vat: 'V-Mod Engineering : Demande de changement de taux de TVA rejetée'
 link:
   reset:
     text: 'Accéder au formulaire'
@@ -39,6 +41,8 @@ explanation:
   new-programmation %mail%: 'Une nouvelle reprogrammation a été demandée par %mail%'
   programmation-done %make% %model%: 'La reprogrammation concernant votre %make% %model% est prête. Ci-dessous, vous trouverez les liens pour télécharger votre reprogrammation et pour consulter la récapitulation de votre commande.'
   new-asked-vat: 'Un client vient de demander à changer de taux de TVA. S’il demande un taux de 8.5%, vérifier que son code postal commence bien 97. S’il demande un taux de 0%, vérifier qu’il donne bien dans les explications le numéro de TVA Intracommunautaire.'
+  accepted-asked-vat %vat%: 'Votre demande de changement de taux de TVA a été acceptée par notre service comptable. Le taux de %vat% s’appliquera pour vos prochaines commandes.'
+  rejected-asked-vat %vat% %actual%: 'Votre demande pour obtenir un taux de TVA de %vat% n’a pas été acceptée en l’état. Le taux actuel de %vat% s’appliquera donc à vos prochaines commandes. N’hésitez pas à nous contacter en répondant à ce mail pour nous apporter plus de précisions ou pour mieux justifier votre précédente demande.'
 new-payment:
   description %mail% %amount% %credits%: 'Le nouveau paiement a été réalisé par %mail% pour un montant total de %amount% T.T.C. afin d’acheter %credits% crédits.'
 programmation:
@@ -52,7 +56,7 @@ programmation:
 li:
   postal-code %postal%: 'Code postal du client : %postal%'
   new-vat %explanation%: 'Explications fournies par le client : %explanation%'
-  new-vat %vat%: 'Nouveau taux de TVA demandé : %vat%%'
+  new-vat %vat%: 'Nouveau taux de TVA demandé : %vat%'
   customer %customer%: 'mail'
-  actual-vat %actual%: 'Taux de TVA actuel : %actual%%'
+  actual-vat %actual%: 'Taux de TVA actuel : %actual%'
   vat-number %number%: 'Numéro de TVA Intracommunautaire existant : %number%'

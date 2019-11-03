@@ -44,15 +44,17 @@ class VatType extends AbstractType
             'multiple' => false,
             'expanded' => true,
             'choices' => [
-                '8.50' => '8.50',
-                '20.00' => '20.00',
-                '0.00' => '0.00',
+                '0.0850' => '0.0850',
+                '0.2000' => '0.2000',
+                '0.0000' => '0.0000',
             ],
             'choice_label' => function ($choice, $key, $value) {
+                dump($choice);
                 switch ($choice) {
-                    case 0:
+                    //TODO change with constant
+                    case 0.0000:
                         return 'form.field.vat-europe';
-                    case 8.5:
+                    case 0.0850:
                         return 'form.field.vat-domtom';
                     default:
                         return 'form.field.vat-default';

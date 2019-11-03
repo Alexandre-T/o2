@@ -56,13 +56,13 @@
         {% for asked in pagination %}
             <tr>
                 <td headers="asked-created-at" class="align-middle">
-                    {{ asked.createdAt | localizeddate('medium', 'medium') }}
+                    {{ asked.createdAt | localizeddate('short', 'short') }}
                 </td>
                 <td headers="asked-customer" class="align-middle">{{ asked.customer.label }}</td>
                 <td headers="asked-vat-bill-indication" class="align-middle">{{ asked.code }}</td>
-                <td headers="asked-vat" class="align-middle">{{ asked.vat | localizednumber('decimal') }}%</td>
-                <td headers="asked-vat-number" class="align-middle">{{ asked.vat-number }}%</td>
-                <td headers="asked-postal-code" class="align-middle">{{ asked.postal-code }}%</td>
+                <td headers="asked-vat" class="align-middle">{{ asked.vat | vat }}</td>
+                <td headers="asked-vat-number" class="align-middle">{{ asked.customer.vatNumber }}</td>
+                <td headers="asked-postal-code" class="align-middle">{{ asked.customer.postalCode }}</td>
                 <td headers="asked-vat-accountant" class="align-middle">
                     {% if asked.accountant is not null %}
                         {{ asked.accountant.label }}

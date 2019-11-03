@@ -49,6 +49,7 @@ class Mailer implements MailerInterface
      * @var EngineInterface
      */
     protected $templating;
+
     /**
      * The logger interface.
      *
@@ -92,16 +93,20 @@ class Mailer implements MailerInterface
      *
      * @param AskedVat $asked the asked vat
      *
-     * @throws SettingsException when settings are not in database
-     *
      * @return int the number of mails sent (shall be 1)
      */
     public function sendAskedVat(AskedVat $asked): int
     {
+        try {
+            $from = $this->getDefaultSender();
+            $to = $this->getAccountantMail();
+        } catch (SettingsException $e) {
+            $this->logSettingsException($e);
+            return 0;
+        }
+
         $html = $this->getHtmlAskedVat($asked);
         $txt = $this->getTxtAskedVat($asked);
-        $from = $this->getDefaultSender();
-        $to = $this->getAccountantMail();
 
         return $this->sendEmailMessage($html, $txt, $from, $to);
     }
@@ -115,8 +120,18 @@ class Mailer implements MailerInterface
      */
     public function sendAskedVatAccepted(AskedVat $asked): int
     {
-        // TODO: Implement sendAskedVatAccepted() method.
-        return 0;
+        try {
+            $from = $this->getAccountantMail();
+        } catch (SettingsException $e) {
+            $this->logSettingsException($e);
+            return 0;
+        }
+        
+        $html = $this->getHtmlAskedVatAccepted($asked);
+        $txt = $this->getTxtAskedVatAccepted($asked);
+        $to = $asked->getCustomer()->getMail();
+        
+        return $this->sendEmailMessage($html, $txt, $from, $to);
     }
 
     /**
@@ -128,8 +143,18 @@ class Mailer implements MailerInterface
      */
     public function sendAskedVatRejected(AskedVat $asked): int
     {
-        // TODO: Implement sendAskedVatRejected() method.
-        return 0;
+        try {
+            $from = $this->getAccountantMail();
+        } catch (SettingsException $e) {
+            $this->logSettingsException($e);
+            return 0;
+        }
+
+        $html = $this->getHtmlAskedVatRejected($asked);
+        $txt = $this->getTxtAskedVatRejected($asked);
+        $to = $asked->getCustomer()->getMail();
+
+        return $this->sendEmailMessage($html, $txt, $from, $to);
     }
 
     /**
@@ -335,6 +360,8 @@ class Mailer implements MailerInterface
     /**
      * Get the html content when accountant is alerted that a customer is asking a new vat rate.
      *
+     * @param AskedVat $asked the entity recorded
+     * 
      * @return string
      */
     private function getHtmlAskedVat(AskedVat $asked): string
@@ -345,8 +372,38 @@ class Mailer implements MailerInterface
     }
 
     /**
+     * Get the html content when accountant accepted a new vat rate for a customer.
+     *
+     * @param AskedVat $asked the entity recorded
+     * 
+     * @return string
+     */
+    private function getHtmlAskedVatAccepted(AskedVat $asked): string
+    {
+        return $this->templating->render('mail/accepted-asked-vat.html.twig', [
+            'asked' => $asked,
+        ]);
+    }
+
+    /**
+     * Get the html content when accountant accepted a new vat rate for a customer
+     *
+     * @param AskedVat $asked the entity recorded
+     * 
+     * @return string
+     */
+    private function getHtmlAskedVatRejected(AskedVat $asked): string
+    {
+        return $this->templating->render('mail/rejected-asked-vat.html.twig', [
+            'asked' => $asked,
+        ]);
+    }
+
+    /**
      * Get the html content when accountant is alerted that a customer is asking a new vat rate.
      *
+     * @param AskedVat $asked the entity recorded
+     * 
      * @return string
      */
     private function getTxtAskedVat(AskedVat $asked): string
@@ -354,5 +411,47 @@ class Mailer implements MailerInterface
         return $this->templating->render('mail/new-asked-vat.txt.twig', [
             'asked' => $asked,
         ]);
+    }
+
+    /**
+     * Get the txt content when accountant accepted a new vat rate for a customer.
+     *
+     * @param AskedVat $asked the entity recorded
+     *
+     * @return string
+     */
+    private function getTxtAskedVatAccepted(AskedVat $asked): string
+    {
+        return $this->templating->render('mail/accepted-asked-vat.txt.twig', [
+            'asked' => $asked,
+        ]);
+    }
+
+    /**
+     * Get the txt content when accountant accepted a new vat rate for a customer
+     *
+     * @param AskedVat $asked the entity recorded
+     *
+     * @return string
+     */
+    private function getTxtAskedVatRejected(AskedVat $asked): string
+    {
+        return $this->templating->render('mail/rejected-asked-vat.txt.twig', [
+            'asked' => $asked,
+        ]);
+    }
+
+    /**
+     * Log any settings exception.
+     * 
+     * @param SettingsException $exception the exception throws when asking a non-existent setting.
+     * 
+     * @return int Zero because no mail was sent
+     */
+    private function logSettingsException(SettingsException $exception): int
+    {
+        $this->logger->warning('Unable to send mail, because of settings exception:'.$exception->getMessage());
+        
+        return 0;
     }
 }

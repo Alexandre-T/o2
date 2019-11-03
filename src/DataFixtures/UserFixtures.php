@@ -18,6 +18,7 @@ namespace App\DataFixtures;
 use App\Entity\LanguageInterface;
 use App\Entity\PersonInterface;
 use App\Entity\User;
+use App\Manager\VatManagerInterface;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -94,6 +95,21 @@ class UserFixtures extends Fixture
                     ->setSociety("Society {$index}")
                     ->setType(0 === $index % 2)
                 ;
+                if (0 === $index % 8) {
+                    $user->setVat((string) VatManagerInterface::DOMTOM_VAT);
+                    $user->setPostalCode('97200');
+                    $user->setLocality('Saint-Denis');
+                    $user->setBillIndication('97200');
+                }
+
+                if (0 === $index % 10) {
+                    $user->setVat((string) VatManagerInterface::EUROPE_VAT);
+                    $user->setCountry('DE');
+                    $user->setLocality('Berlin');
+                    $user->setVatNumber('TVA-BERLIN-CODE');
+                    $user->setBillIndication('TVA-BERLIN-CODE');
+                }
+
                 $manager->persist($user);
                 $this->addReference("user_customer-{$index}", $user);
             }
@@ -169,7 +185,6 @@ class UserFixtures extends Fixture
             ->setGivenName('John')
             ->setName($label)
             ->setType(PersonInterface::PHYSIC)
-            ->setVat('20.0')
         ;
 
         $user->setLanguage(LanguageInterface::FRENCH);
