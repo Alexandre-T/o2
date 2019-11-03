@@ -102,6 +102,7 @@ class Mailer implements MailerInterface
             $to = $this->getAccountantMail();
         } catch (SettingsException $e) {
             $this->logSettingsException($e);
+
             return 0;
         }
 
@@ -124,13 +125,14 @@ class Mailer implements MailerInterface
             $from = $this->getAccountantMail();
         } catch (SettingsException $e) {
             $this->logSettingsException($e);
+
             return 0;
         }
-        
+
         $html = $this->getHtmlAskedVatAccepted($asked);
         $txt = $this->getTxtAskedVatAccepted($asked);
         $to = $asked->getCustomer()->getMail();
-        
+
         return $this->sendEmailMessage($html, $txt, $from, $to);
     }
 
@@ -147,6 +149,7 @@ class Mailer implements MailerInterface
             $from = $this->getAccountantMail();
         } catch (SettingsException $e) {
             $this->logSettingsException($e);
+
             return 0;
         }
 
@@ -361,7 +364,7 @@ class Mailer implements MailerInterface
      * Get the html content when accountant is alerted that a customer is asking a new vat rate.
      *
      * @param AskedVat $asked the entity recorded
-     * 
+     *
      * @return string
      */
     private function getHtmlAskedVat(AskedVat $asked): string
@@ -375,7 +378,7 @@ class Mailer implements MailerInterface
      * Get the html content when accountant accepted a new vat rate for a customer.
      *
      * @param AskedVat $asked the entity recorded
-     * 
+     *
      * @return string
      */
     private function getHtmlAskedVatAccepted(AskedVat $asked): string
@@ -386,10 +389,10 @@ class Mailer implements MailerInterface
     }
 
     /**
-     * Get the html content when accountant accepted a new vat rate for a customer
+     * Get the html content when accountant accepted a new vat rate for a customer.
      *
      * @param AskedVat $asked the entity recorded
-     * 
+     *
      * @return string
      */
     private function getHtmlAskedVatRejected(AskedVat $asked): string
@@ -403,7 +406,7 @@ class Mailer implements MailerInterface
      * Get the html content when accountant is alerted that a customer is asking a new vat rate.
      *
      * @param AskedVat $asked the entity recorded
-     * 
+     *
      * @return string
      */
     private function getTxtAskedVat(AskedVat $asked): string
@@ -428,7 +431,7 @@ class Mailer implements MailerInterface
     }
 
     /**
-     * Get the txt content when accountant accepted a new vat rate for a customer
+     * Get the txt content when accountant accepted a new vat rate for a customer.
      *
      * @param AskedVat $asked the entity recorded
      *
@@ -443,15 +446,15 @@ class Mailer implements MailerInterface
 
     /**
      * Log any settings exception.
-     * 
-     * @param SettingsException $exception the exception throws when asking a non-existent setting.
-     * 
+     *
+     * @param SettingsException $exception the exception throws when asking a non-existent setting
+     *
      * @return int Zero because no mail was sent
      */
     private function logSettingsException(SettingsException $exception): int
     {
         $this->logger->warning('Unable to send mail, because of settings exception:'.$exception->getMessage());
-        
+
         return 0;
     }
 }

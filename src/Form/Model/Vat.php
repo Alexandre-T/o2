@@ -31,7 +31,7 @@ class Vat
      *
      * @var string
      */
-    private $actual = '20.00';
+    private $actual = '0.2000';
 
     /**
      * The explanation to help accountant to decide.

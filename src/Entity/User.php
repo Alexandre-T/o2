@@ -26,6 +26,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+// phpcs:disable Generic.Files.LineLength.MaxExceeded
+
 /**
  * Entity User.
  *
@@ -44,12 +46,18 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class User implements EntityInterface, LanguageInterface, PersonInterface, PostalAddressInterface, Serializable, UserInterface
 {
+    // phpcs:enable
     /*
      * Trait declarations.
      */
     use LanguageTrait;
     use PersonTrait;
     use PostalAddressTrait;
+
+    /**
+     * Initial vat.
+     */
+    public const DEFAULT_VAT = '0.2000';
 
     /**
      * Initial roles.
@@ -63,11 +71,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
     public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const ROLE_PROGRAMMER = 'ROLE_PROGRAMMER';
     public const ROLE_USER = 'ROLE_USER';
-
-    /**
-     * Initial vat.
-     */
-    public const DEFAULT_VAT = '0.2000';
 
     /**
      * Indication published in bills to explain why the default vat is not at the default value.

@@ -219,6 +219,7 @@ class CustomerController extends AbstractController
      *
      * @param Request         $request         the request to handle data form
      * @param AskedVatManager $askedVatManager the manager to save data
+     * @param MailerInterface $mailer          the mailer to send a mail
      *
      * @return Response
      */

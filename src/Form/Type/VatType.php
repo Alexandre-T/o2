@@ -48,8 +48,7 @@ class VatType extends AbstractType
                 '0.2000' => '0.2000',
                 '0.0000' => '0.0000',
             ],
-            'choice_label' => function ($choice, $key, $value) {
-                dump($choice);
+            'choice_label' => function ($choice) {
                 switch ($choice) {
                     //TODO change with constant
                     case 0.0000:

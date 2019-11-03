@@ -22,25 +22,25 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Twig\Environment;
+use Twig\Error\SyntaxError;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Twig\Error\SyntaxError;
 
 class NumberExtension extends AbstractExtension
 {
-    /**
-     * The locale coming from session or user language.
-     *
-     * @var string
-     */
-    private $locale;
-
     /**
      * Twig environment to forward it to intl extension.
      *
      * @var Environment
      */
     private $environment;
+
+    /**
+     * The locale coming from session or user language.
+     *
+     * @var string
+     */
+    private $locale;
 
     /**
      * Number Extension constructor.
@@ -65,6 +65,58 @@ class NumberExtension extends AbstractExtension
                 $this->locale = $this->convert($user->getLanguage());
             }
         }
+    }
+
+    /**
+     * Format a localized currency. It override the locale with user language if not provided.
+     *
+     * @param mixed       $number   the number to format
+     * @param string|null $currency the currency to format
+     * @param string|null $locale   the locale or user language if not provided
+     *
+     * @return string
+     */
+    public function currencyFilter($number, string $currency = 'EUR', string $locale = null): string
+    {
+        $locale = $this->getLocale($locale);
+
+        return twig_localized_currency_filter($number, $currency, $locale);
+    }
+
+    /**
+     * The date filter.
+     *
+     * @param mixed  $date       the date to convert
+     * @param string $dateFormat the date format
+     * @param string $timeFormat the time format
+     * @param null   $locale     the optional locale will replace current locale when provided
+     * @param null   $timezone   the timezone
+     * @param null   $format     the format
+     * @param string $calendar   the calendar
+     *
+     * @return bool|false|string
+     */
+    public function dateFilter(
+     $date,
+     $dateFormat = 'medium',
+     $timeFormat = 'medium',
+     $locale = null,
+     $timezone = null,
+     $format = null,
+     $calendar = 'gregorian'
+    ): string {
+        $locale = $this->getLocale($locale);
+
+        return twig_localized_date_filter(
+            $this->environment,
+            $date,
+            $dateFormat,
+            $timeFormat,
+            $locale,
+            $timezone,
+            $format,
+            $calendar
+        );
     }
 
     /**
@@ -118,6 +170,29 @@ class NumberExtension extends AbstractExtension
     }
 
     /**
+     * Format a localized number. It override the locale with user language if not provided.
+     *
+     * @param mixed       $number the number to format
+     * @param string      $style  the style
+     * @param string      $type   the type
+     * @param string|null $locale the locale or user language if not provided
+     *
+     * @throws SyntaxError by twig intl extension
+     *
+     * @return string
+     */
+    public function numberFilter(
+     $number,
+     string $style = 'decimal',
+     string $type = 'default',
+     string $locale = null
+    ): string {
+        $locale = $this->getLocale($locale);
+
+        return twig_localized_number_filter($number, $style, $type, $locale);
+    }
+
+    /**
      * Percent filter.
      *
      * @param mixed       $number   the number to convert
@@ -134,13 +209,13 @@ class NumberExtension extends AbstractExtension
         $formatter = NumberFormatter::create($locale, NumberFormatter::PERCENT);
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $decimals);
 
-        static $typeValues = array(
+        static $typeValues = [
             'default' => NumberFormatter::TYPE_DEFAULT,
             'int32' => NumberFormatter::TYPE_INT32,
             'int64' => NumberFormatter::TYPE_INT64,
             'double' => NumberFormatter::TYPE_DOUBLE,
             'currency' => NumberFormatter::TYPE_CURRENCY,
-        );
+        ];
 
         if (!isset($typeValues[$type])) {
             $type = 'default';
@@ -150,75 +225,7 @@ class NumberExtension extends AbstractExtension
     }
 
     /**
-     * Format a localized currency. It override the locale with user language if not provided.
-     * 
-     * @param mixed       $number   the number to format
-     * @param string|null $currency the currency to format
-     * @param string|null $locale   the locale or user language if not provided
-     * 
-     * @return string
-     */
-    public function currencyFilter($number, string $currency = 'EUR', string $locale = null): string
-    {
-        $locale = $this->getLocale($locale);
-        
-        return twig_localized_currency_filter($number, $currency, $locale);
-    }
-    
-    /**
-     * Format a localized number. It override the locale with user language if not provided.
-     * 
-     * @param mixed       $number the number to format
-     * @param string      $style  the style
-     * @param string      $type   the type
-     * @param string|null $locale the locale or user language if not provided
-     * 
-     * @return string
-     * 
-     * @throws SyntaxError by twig intl extension
-     */
-    public function numberFilter(
-     $number, 
-     string $style = 'decimal', 
-     string $type = 'default', 
-     string $locale = null
-    ): string {
-        $locale = $this->getLocale($locale);
-        
-        return twig_localized_number_filter($number, $style, $type, $locale);
-    }
-    
-    /**
-     * The date filter.
-     *
-     * @param mixed  $date       the date to convert
-     * @param string $dateFormat the date format
-     * @param string $timeFormat the time format
-     * @param null   $locale     the optional locale will replace current locale when provided
-     * @param null   $timezone   the timezone
-     * @param null   $format     the format
-     * @param string $calendar   the calendar
-     *
-     * @return bool|false|string
-     */
-    public function dateFilter($date, $dateFormat = 'medium', $timeFormat = 'medium', $locale = null, $timezone = null, $format = null, $calendar = 'gregorian')
-    {
-        $locale = $this->getLocale($locale);
-
-        return twig_localized_date_filter(
-            $this->environment,
-            $date,
-            $dateFormat,
-            $timeFormat,
-            $locale,
-            $timezone,
-            $format,
-            $calendar
-        );
-    }
-
-    /**
-     * Convert gb to en-gb and others to fr-fr
+     * Convert gb to en-gb and others to fr-fr.
      *
      * @param string $language the code language
      *
