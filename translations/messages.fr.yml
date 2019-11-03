@@ -439,8 +439,8 @@ form:
 
 flash:
   asked-vat:
-    accepted: 'Le changement de taux de TVA a été accepté'
-    rejected: 'Le changement de taux de TVA a été rejeté'
+    accepted: 'Le changement de taux de TVA a été accepté.'
+    rejected: 'Le changement de taux de TVA a été rejeté.'
     sent: 'La demande de changement de taux de TVA a bien été envoyée à notre service comptable.'
   language:
     french: 'L’application est désormais en français'
