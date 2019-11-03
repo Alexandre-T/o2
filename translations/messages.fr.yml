@@ -910,7 +910,7 @@ message:
     comment: 'Votre commentaire à la commande :'
   mail:
     process %email%: 'Ce formulaire vous permet de tester la procédure complète d’envoi de mail. En cliquant sur le bouton ci-dessous, vous demandez au serveur d’envoyer un mail à %email%. En vous connectant sur la messagerie cliente, vous saurez si le système est pleinement opérationnel ou non.'
-  vat %vat%: 'Votre taux de TVA actuel est de %vat%%. Pour le modifier, veuillez remplir le formulaire ci-dessous.'
+  vat %vat%: 'Votre taux de TVA actuel est de %vat%. Pour le modifier, veuillez remplir le formulaire ci-dessous.'
 home:
   users: 'Clients'
   programmations: 'Programmations'
