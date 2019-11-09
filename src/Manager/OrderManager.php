@@ -214,7 +214,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $order->setPrice(0);
         $order->setVat(0);
         $vatRate = (float) $order->getCustomer()->getVat();
-
         $methods[10] = 'getTen';
         $methods[100] = 'getHundred';
         $methods[500] = 'getFiveHundred';
@@ -326,8 +325,9 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $orderedArticle = new OrderedArticle();
         $orderedArticle->setArticle($article);
         $orderedArticle->setOrder($order);
-        $orderedArticle->copyPrice($article);
-        $orderedArticle->setVat($vat); //Override with customer VAT rate
+//        $orderedArticle->copyPrice($article); //FIXME DELETE THIS FUNCTION
+        $orderedArticle->setPrice($article->getPrice());
+        $orderedArticle->setVat($article->getPrice() * $vat); //Override with customer VAT rate
         $orderedArticle->setQuantity($quantity);
         $order->addOrderedArticle($orderedArticle);
 
@@ -346,16 +346,16 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     {
         $quantity = max(0, $quantity);
         $orderedArticle = $order->getOrderedByArticle($article);
-        $vatRate = (float)$order->getCustomer()->getVat();
+        $vatRate = (float) $order->getCustomer()->getVat();
         if (null === $orderedArticle) {
             $this->createdOrderedArticle($order, $article, $quantity, $vatRate);
         } elseif ($orderedArticle instanceof OrderedArticle) {
-            $this->updateOrderedArticle($orderedArticle, $article, $quantity);
+            $this->updateOrderedArticle($orderedArticle, $article, $quantity, $vatRate);
         }
 
         $order->setCredits($quantity * $article->getCredit() + $order->getCredits());
         $order->setPrice($quantity * (float) $article->getPrice() + $order->getPrice());
-        $order->setVat($quantity * $vat + $order->getVat());
+        $order->setVat($quantity * (float) $article->getPrice() * $vat + $order->getVat());
     }
 
     /**
@@ -364,10 +364,18 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param OrderedArticle $orderedArticle ordered article
      * @param Article        $article        article
      * @param int            $quantity       new quantity
+     * @param float          $vateRate       vat rate
      */
-    private function updateOrderedArticle(OrderedArticle $orderedArticle, Article $article, int $quantity): void
-    {
-        $orderedArticle->copyPrice($article);
+    private function updateOrderedArticle(
+     OrderedArticle $orderedArticle,
+     Article $article,
+     int $quantity,
+     float $vateRate
+    ): void {
+        // $orderedArticle->copyPrice($article); FIXME DELETE THIS FUNCTION
+
+        $orderedArticle->setPrice($article->getPrice());
+        $orderedArticle->setVat($article->getPrice() * $vateRate);
         $orderedArticle->setQuantity($quantity);
     }
 }
