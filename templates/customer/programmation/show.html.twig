@@ -49,9 +49,9 @@
                         <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.cylinder-capacity' | trans }}</dt>
                         <dd class="col-sm-6">{{ programmation.cylinderCapacity }}</dd>
                         <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.power' | trans }}</dt>
-                        <dd class="col-sm-6">{{ programmation.power |localizednumber }}</dd>
+                        <dd class="col-sm-6">{{ programmation.power | integer }}</dd>
                         <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.odometer' | trans }}</dt>
-                        <dd class="col-sm-6">{{ programmation.odometer |localizednumber }}</dd>
+                        <dd class="col-sm-6">{{ programmation.odometer |decimal }}</dd>
                         <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.gear' | trans }}</dt>
                         <dd class="col-sm-6">{{ programmation.gearAutomatic | spanGear }}</dd>
                     </dl>

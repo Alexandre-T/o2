@@ -127,14 +127,20 @@ class NumberExtension extends AbstractExtension
     public function getFilters()
     {
         return [
+            'credit' => new TwigFilter(
+                'credit',
+                [$this, 'integerFilter'],
+                []
+            ),
+
             'date' => new TwigFilter(
                 'app_date',
                 [$this, 'dateFilter'],
                 []
             ),
 
-            'credit' => new TwigFilter(
-                'credit',
+            'decimal' => new TwigFilter(
+                'decimal',
                 [$this, 'numberFilter'],
                 []
             ),
@@ -145,8 +151,14 @@ class NumberExtension extends AbstractExtension
                 []
             ),
 
+            'integer' => new TwigFilter(
+                'integer',
+                [$this, 'integerFilter'],
+                []
+            ),
+
             'percent' => new TwigFilter(
-                'localizedpercent',
+                'percent',
                 [$this, 'percentFilter'],
                 []
             ),
@@ -167,6 +179,39 @@ class NumberExtension extends AbstractExtension
     public function getName()
     {
         return 'app_percent_extension';
+    }
+
+    /**
+     * Integer filter.
+     *
+     * @param mixed       $number the number to convert
+     * @param string|null $locale the locale
+     * @param string      $type   the type of the number
+     *
+     * @return string
+     */
+    public function integerFilter($number, string $locale = null, string $type = 'int64'): string
+    {
+        $locale = null !== $locale ? $locale : $this->locale;
+
+        $formatter = NumberFormatter::create($locale, NumberFormatter::DECIMAL);
+        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
+        $formatter->setAttribute(NumberFormatter::MIN_FRACTION_DIGITS, 0);
+        $formatter->setAttribute(NumberFormatter::MAX_FRACTION_DIGITS, 0);
+
+        static $typeValues = [
+            'default' => NumberFormatter::TYPE_DEFAULT,
+            'int32' => NumberFormatter::TYPE_INT32,
+            'int64' => NumberFormatter::TYPE_INT64,
+            'double' => NumberFormatter::TYPE_DOUBLE,
+            'currency' => NumberFormatter::TYPE_CURRENCY,
+        ];
+
+        if (!isset($typeValues[$type])) {
+            $type = 'default';
+        }
+
+        return $formatter->format($number, $typeValues[$type]);
     }
 
     /**

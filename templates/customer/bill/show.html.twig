@@ -75,7 +75,7 @@
                 <tr>
                     <td headers="item-reference">{{ items.article.code }}</td>
                     <td headers="item-description">{{ ('article.' ~ items.article.code ~ '.text') | trans }}</td>
-                    <td class="text-right" headers="item-quantity">{{ items.quantity | localizednumber }}</td>
+                    <td class="text-right" headers="item-quantity">{{ items.quantity | integer }}</td>
                     <td class="text-right"
                         headers="item-unit-price">{{ items.article.price | euro }}</td>
                     <td class="text-right"
