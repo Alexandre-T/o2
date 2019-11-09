@@ -325,7 +325,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $orderedArticle = new OrderedArticle();
         $orderedArticle->setArticle($article);
         $orderedArticle->setOrder($order);
-//        $orderedArticle->copyPrice($article); //FIXME DELETE THIS FUNCTION
         $orderedArticle->setPrice($article->getPrice());
         $orderedArticle->setVat($article->getPrice() * $vat); //Override with customer VAT rate
         $orderedArticle->setQuantity($quantity);
@@ -372,7 +371,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      int $quantity,
      float $vateRate
     ): void {
-        // $orderedArticle->copyPrice($article); FIXME DELETE THIS FUNCTION
 
         $orderedArticle->setPrice($article->getPrice());
         $orderedArticle->setVat($article->getPrice() * $vateRate);

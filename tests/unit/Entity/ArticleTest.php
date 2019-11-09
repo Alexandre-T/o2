@@ -79,7 +79,6 @@ class ArticleTest extends Unit
         self::assertNull($this->article->getCredit());
         self::assertNull($this->article->getId());
         self::assertNull($this->article->getPrice());
-        self::assertNull($this->article->getVat());
     }
 
     /**
@@ -91,5 +90,16 @@ class ArticleTest extends Unit
 
         self::assertEquals($this->article, $this->article->setCredit($actual));
         self::assertEquals($expected, $this->article->getCredit());
+    }
+    
+    /**
+     * Test Price setter and getter.
+     */
+    public function testPrice(): void
+    {
+        $expected = $actual = 42.42;
+
+        self::assertEquals($this->article, $this->article->setPrice($actual));
+        self::assertEquals($expected, $this->article->getPrice());
     }
 }

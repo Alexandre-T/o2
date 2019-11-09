@@ -163,10 +163,12 @@ class OrderTest extends Unit
 
         $anotherArticle = new Article();
         $anotherArticle->setPrice($actualPrice);
-        $anotherArticle->setVat($actualVat);
         $anotherOrdered = new OrderedArticle();
         $anotherOrdered->setArticle($anotherArticle);
+        $anotherOrdered->setPrice($anotherArticle->getPrice());
+        $anotherOrdered->setVat($actualVat);
         $anotherOrdered->setQuantity(2);
+        //FIXME
         self::assertEquals($orderedArticle, $this->order->getOrderedByArticle($article));
         self::assertNull($this->order->getOrderedByArticle($anotherArticle));
 

@@ -125,7 +125,6 @@ class OrderedArticle implements PriceInterface
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
-        $this->copyPrice($article);
 
         return $this;
     }

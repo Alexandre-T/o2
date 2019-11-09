@@ -32,13 +32,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @Gedmo\Loggable
  */
-class Article implements PriceInterface
+class Article
 {
-    /*
-     * Trait declaration.
-     */
-    use PriceTrait;
-
     /**
      * Article unique code.
      *
@@ -82,17 +77,6 @@ class Article implements PriceInterface
     private $price;
 
     /**
-     * VAT price in euro.
-     *
-     * @var float|string
-     *
-     * @ORM\Column(type="decimal", precision=7, scale=2)
-     *
-     * @Gedmo\Versioned
-     */
-    private $vat;
-
-    /**
      * Code getter.
      *
      * @return string|null
@@ -123,6 +107,16 @@ class Article implements PriceInterface
     }
 
     /**
+     * Price getter.
+     *
+     * @return float|string
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
      * Code fluent setter.
      *
      * @param string $code unique code of article
@@ -146,6 +140,20 @@ class Article implements PriceInterface
     public function setCredit(int $credit): self
     {
         $this->credit = $credit;
+
+        return $this;
+    }
+
+    /**
+     * Price fluent setter.
+     *
+     * @param float|string $price new price
+     *
+     * @return Article
+     */
+    public function setPrice($price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

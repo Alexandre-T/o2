@@ -136,12 +136,13 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      int $hundred = 0,
      int $fiveHundred = 0
     ): Order {
+        $vatRate = (float) $customer->getVat();
         $order = new Order();
         $order->setCustomer($customer);
         $order->setStatusOrder(OrderInterface::CARTED);
-        $order->addOrderedArticle($this->createOrdered($this->ten, $ten));
-        $order->addOrderedArticle($this->createOrdered($this->hundred, $hundred));
-        $order->addOrderedArticle($this->createOrdered($this->fiveHundred, $fiveHundred));
+        $order->addOrderedArticle($this->createOrdered($this->ten, $ten, $vatRate));
+        $order->addOrderedArticle($this->createOrdered($this->hundred, $hundred, $vatRate));
+        $order->addOrderedArticle($this->createOrdered($this->fiveHundred, $fiveHundred, $vatRate));
         $order->setCredits($ten * 10 + $hundred * 100 + $fiveHundred * 500);
         $order->refreshPrice();
         $order->refreshVat();
@@ -154,15 +155,17 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      *
      * @param Article $article  Associated article
      * @param int     $quantity Quantity ordered
+     * @param float   $vatRate  Customer vat rate
      *
      * @return OrderedArticle
      */
-    private function createOrdered(Article $article, int $quantity): OrderedArticle
+    private function createOrdered(Article $article, int $quantity, float $vatRate): OrderedArticle
     {
         $ordered = new OrderedArticle();
         $ordered->setArticle($article);
         $ordered->setQuantity($quantity);
-        $ordered->copyPrice($article);
+        $ordered->setPrice($article->getPrice());
+        $ordered->setVat($article->getPrice() * $vatRate);
 
         return $ordered;
     }
