@@ -6,7 +6,7 @@
         </td>
         <td headers="logs-date"
             class="text-center row{{ log.version }}">
-            <small class="d-block">{{ log.loggedAt | localizeddate('medium','medium') }}</small>
+            <small class="d-block">{{ log.loggedAt | app_date('medium','medium') }}</small>
             {% if log.username is not empty %}
                 <small class="d-block">{{ log.username }}</small>
             {% endif %}

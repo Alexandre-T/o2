@@ -14,7 +14,7 @@
             <td headers="trArticle" class="col-4">{{ ('form.field.article-' ~ ordered.article.credit) | trans }}</td>
             <td headers="trQuantity" class="col-2">{{ ordered.quantity }}</td>
             <td headers="trUnit" class="col-2">{{ ordered.article.price | euro }}</td>
-            <td headers="trCredit" class="col-2">{{ (ordered.quantity * ordered.article.credit) | localizednumber }}</td>
+            <td headers="trCredit" class="col-2">{{ (ordered.quantity * ordered.article.credit) | credit }}</td>
             <td headers="trPrice" class="col-2">{{ (ordered.quantity * ordered.article.price) | euro }}</td>
         </tr>
     {% endfor %}
@@ -23,7 +23,7 @@
     <tr class="d-flex">
         {# TODO Translate #}
         <th scope="col" class="col-10">Crédits total</th>
-        <td class="col-2 pr-4">{{ order.credits | localizednumber }}</td>
+        <td class="col-2 pr-4">{{ order.credits | credit }}</td>
     </tr>
     <tr class="d-flex">
         {# TODO Translate #}

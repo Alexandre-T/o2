@@ -57,7 +57,7 @@
         {% for programmation in pagination %}
             <tr>
                 <td headers="programmation-created-at" class="align-middle">
-                    {{ programmation.createdAt | localizeddate('short', 'short') }}
+                    {{ programmation.createdAt | app_date('short', 'short') }}
                 </td>
                 <td headers="programmation-user" class="align-middle">
                     {{ programmation.customer.label }}
@@ -72,7 +72,7 @@
                     {% if programmation.deliveredAt is empty %}
                         {{ 'common.in-progress' | trans }}
                     {% else %}
-                        {{ 'programmation.deliveredAt %date%' | trans({'%date%': programmation.deliveredAt | localizeddate('short', 'none')}) }}
+                        {{ 'programmation.deliveredAt %date%' | trans({'%date%': programmation.deliveredAt | app_date('short', 'none')}) }}
                     {% endif %}
                 </td>
                 <td headers="programmation-actions" class="align-middle">

@@ -56,7 +56,7 @@
         {% for asked in pagination %}
             <tr>
                 <td headers="asked-created-at" class="align-middle">
-                    {{ asked.createdAt | localizeddate('short', 'short') }}
+                    {{ asked.createdAt | app_date('short', 'short') }}
                 </td>
                 <td headers="asked-customer" class="align-middle">{{ asked.customer.label }}</td>
                 <td headers="asked-vat-bill-indication" class="align-middle">{{ asked.code }}</td>

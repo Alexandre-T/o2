@@ -127,21 +127,21 @@ class NumberExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            'euro' => new TwigFilter(
-                'euro',
-                [$this, 'currencyFilter'],
-                []
-            ),
-
             'date' => new TwigFilter(
-                'localizeddate',
+                'app_date',
                 [$this, 'dateFilter'],
                 []
             ),
 
-            'number' => new TwigFilter(
-                'localizednumber',
+            'credit' => new TwigFilter(
+                'credit',
                 [$this, 'numberFilter'],
+                []
+            ),
+
+            'euro' => new TwigFilter(
+                'euro',
+                [$this, 'currencyFilter'],
                 []
             ),
 

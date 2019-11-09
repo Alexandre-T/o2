@@ -26,7 +26,7 @@
                     {% endif %}
                     <span class="d-block">
                         {{ 'bill.expired' | trans }}
-                        {{ bill.createdAt | localizeddate('short', 'none') }}
+                        {{ bill.createdAt | app_date('short', 'none') }}
                     </span>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                     <tbody>
                     <tr>
                         <td headers="bill-number">{{ bill.label }}</td>
-                        <td headers="bill-date">{{ bill.createdAt | localizeddate('short','none') }}</td>
+                        <td headers="bill-date">{{ bill.createdAt | app_date('short','none') }}</td>
                         <td headers="bill-client">{{ bill.customer.label }}</td>
                     </tr>
                     </tbody>

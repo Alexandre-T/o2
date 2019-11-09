@@ -7,6 +7,6 @@
 {{ 'new-payment.description %mail% %amount% %credits%' | trans({
         '%mail%': mail,
         '%amount%': amount|euro,
-        '%credits%': credits|localizednumber
+        '%credits%': credits|credit
     })
 }}

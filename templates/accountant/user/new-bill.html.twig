@@ -38,7 +38,7 @@
                         <div class="mt-5">
                             <span class="d-block">
                                 {{ 'bill.expired' | trans }}
-                                {{ 'now' | localizeddate('short', 'none') }}
+                                {{ 'now' | app_date('short', 'none') }}
                             </span>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             <tbody>
                             <tr>
                                 <td headers="bill-number">Numéro à venir</td>
-                                <td headers="bill-date">{{ 'now' | localizeddate('short','none') }}</td>
+                                <td headers="bill-date">{{ 'now' | app_date('short','none') }}</td>
                                 <td headers="bill-client">{{ user.label }}</td>
                             </tr>
                             </tbody>
@@ -86,7 +86,7 @@
                             <td class="col-2">{{ form_widget(form.ten) }}</td>
                             <td class="col-2">{{ 100 | euro }}</td>
                             <td class="col-2"><span
-                                        id="credit10">{{ (10 * form.ten.vars.value) | localizednumber }}</span></td>
+                                        id="credit10">{{ (10 * form.ten.vars.value) | credit }}</span></td>
                             <td class="col-2"><span
                                         id="price10">{{ (100 * form.ten.vars.value) | euro }}</span>
                             </td>
@@ -96,7 +96,7 @@
                             <td class="col-2">{{ form_widget(form.hundred) }}</td>
                             <td class="col-2">{{ 1000 | euro }}</td>
                             <td class="col-2"><span
-                                        id="credit100">{{ (10 * form.hundred.vars.value) | localizednumber }}</span>
+                                        id="credit100">{{ (10 * form.hundred.vars.value) | credit }}</span>
                             </td>
                             <td class="col-2"><span
                                         id="price100">{{ (1000 * form.hundred.vars.value) | euro }}</span>
@@ -107,7 +107,7 @@
                             <td class="col-2">{{ form_widget(form.fiveHundred) }}</td>
                             <td class="col-2">{{ 4500 | euro }}</td>
                             <td class="col-2"><span
-                                        id="credit500">{{ (10 * form.fiveHundred.vars.value) | localizednumber }}</span>
+                                        id="credit500">{{ (10 * form.fiveHundred.vars.value) | credit }}</span>
                             </td>
                             <td class="col-2"><span
                                         id="price500">{{ (4500 * form.fiveHundred.vars.value) | euro }}</span>
