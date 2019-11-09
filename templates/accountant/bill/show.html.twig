@@ -217,7 +217,7 @@
                 <dt class="col-sm-4 text-truncate text-right">{{ 'payment.number' | trans }}</dt>
                 <dd class="col-sm-8">{{ payment.number }}</dd>
                 <dt class="col-sm-4 text-truncate text-right">{{ 'payment.total-amount' | trans }}</dt>
-                <dd class="col-sm-8">{{ payment.totalAmount | localizedcurrency(payment.currencyCode) }}</dd>
+                <dd class="col-sm-8">{{ payment.totalAmount | euro(payment.currencyCode) }}</dd>
             </dl>
         {% endif %}
     </div>
