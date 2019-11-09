@@ -3,8 +3,8 @@
 <p>{{ 'explanation.new-asked-vat' | trans }}</p>
 <ul>
     <li>{{ 'li.customer %customer%' | trans({'%customer%': asked.customer.label}) }}</li>
-    <li>{{ 'li.actual-vat %actual%' | trans({'%actual%': (asked.customer.vat | localizednumber('percent'))}) }}</li>
-    <li>{{ 'li.new-vat %vat%' | trans({'%vat%': (asked.vat | localizednumber('percent'))}) }}</li>
+    <li>{{ 'li.actual-vat %actual%' | trans({'%actual%': (asked.customer.vat | vat)}) }}</li>
+    <li>{{ 'li.new-vat %vat%' | trans({'%vat%': (asked.vat | vat)}) }}</li>
     <li>{{ 'li.new-vat %explanation%' | trans({'%explanation%': asked.code}) }}</li>
     <li>{{ 'li.postal-code %postal%' | trans({'%postal%': asked.customer.postalCode}) }}</li>
     <li>{{ 'li.vat-number %number%' | trans({'%number%': asked.customer.vatNumber}) }}</li>

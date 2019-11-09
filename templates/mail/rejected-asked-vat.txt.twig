@@ -1,6 +1,6 @@
 {% trans_default_domain('mail') %}
 {{ 'title.rejected-asked-vat' | trans }}
 {{ 'explanation.rejected-asked-vat %vat% %actual%' | trans({
-    '%actual%': (asked.customer.vat | localizednumber('percent')),
-    '%vat%': (asked.vat | localizednumber('percent'))
+    '%actual%': (asked.customer.vat | vat),
+    '%vat%': (asked.vat | vat)
 }) }}
