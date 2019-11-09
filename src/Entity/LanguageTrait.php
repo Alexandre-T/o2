@@ -54,6 +54,22 @@ trait LanguageTrait
     }
 
     /**
+     * Locale getter.
+     * Return fr-FR or en-US.
+     *
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        switch ($this->getLanguage()) {
+            case LanguageInterface::ENGLISH:
+                return 'en-GB';
+            default:
+                return 'fr-FR';
+        }
+    }
+
+    /**
      * Is the locale set to English.
      *
      * @return bool

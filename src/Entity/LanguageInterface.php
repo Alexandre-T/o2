@@ -32,6 +32,13 @@ interface LanguageInterface
     public function getLanguage(): string;
 
     /**
+     * Get the profile locale (fr-FR, en-US).
+     *
+     * @return string
+     */
+    public function getLocale(): string;
+
+    /**
      * Is the locale set to English.
      *
      * @return bool
