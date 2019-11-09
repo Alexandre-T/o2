@@ -57,7 +57,7 @@
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.ten) }}</td>
                                 <td class="col-2">{{ form_widget(form.ten) }}</td>
-                                <td class="col-2">{{ 100 | localizedcurrency('EUR') }}</td>
+                                <td class="col-2">{{ 100 | localizedeuro }}</td>
                                 <td class="col-2"><span id="credit10">{{ (10 * form.ten.vars.value) | localizednumber }}</span></td>
                                 <td class="col-2"><span id="price10">{{ (100 * form.ten.vars.value) | localizedcurrency('EUR') }}</span></td>
                             </tr>
@@ -108,6 +108,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-    {{ include('_javascript/order-credit.js.twig') }}
+    {{ include('_javascript/order-credit.js.twig', {'vat': app.user.vat}) }}
     </script>
 {% endblock %}

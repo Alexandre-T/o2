@@ -3,7 +3,7 @@ var updateSpan = function() {
   let hundred = $('#credit_form_hundred').val();
   let fiveHundred = $('#credit_form_fiveHundred').val();
 
-  {{ include('_javascript/_calcul.js.twig') }}
+  {{ include('_javascript/_calcul.js.twig', {'vat': vat}) }}
 }
 
 //when document is ready, I actualize.
@@ -16,8 +16,14 @@ $('#credit_form_fiveHundred').change(updateSpan);
 
 //some useful functions
 var toFloat = function (value) {
-  return parseFloat(value).toLocaleString(window.document.documentElement.lang);
+  return parseFloat(value).toLocaleString(
+          '{{ app.user.locale | escape('js')}}',
+          {style: "decimal", minimumFractionDigits: 0}
+  );
 }
 var toCurrency = function (value) {
-  return toFloat(value) + ',00 €';
+  return parseFloat(value).toLocaleString(
+          '{{ app.user.locale | escape('js')}}',
+          {style: "currency", currency: "EUR", minimumFractionDigits: 2}
+  );
 }

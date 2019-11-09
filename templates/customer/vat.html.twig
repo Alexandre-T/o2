@@ -27,7 +27,7 @@
                 </div>
                 <div class="card-body">
                     <p class="alert alert-info">
-                        {{ 'message.vat %vat%' | trans({'%vat%': ( app.user.vat |localizednumber('percent'))}) }}
+                        {{ 'message.vat %vat%' | trans({'%vat%': ( app.user.vat | vat)}) }}
                     </p>
                     <p class="text-justify"><small>{{ 'info.vat.europe' | trans }}</small></p>
                     <p class="text-justify"><small>{{ 'info.vat.domtom' | trans }}</small></p>

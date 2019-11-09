@@ -1,9 +1,10 @@
+
 $('#credit10').html(toFloat(ten * 10))
-$('#price10').html(toCurrency(ten * 100 + ',00 €'));
+$('#price10').html(toCurrency(ten * 100 + ' €'));
 $('#credit100').html(toFloat(hundred * 100));
-$('#price100').html(toCurrency(hundred * 1000 + ',00 €'));
+$('#price100').html(toCurrency(hundred * 1000 + ' €'));
 $('#credit500').html(toFloat(fiveHundred * 500));
 $('#price500').html(toCurrency(fiveHundred * 4500));
-$('#totalHT').html(toCurrency(ten * 100 + hundred * 1000 + fiveHundred * 4500 + ',00 €'));
-$('#totalVAT').html(toCurrency((ten * 100 + hundred * 1000 + fiveHundred * 4500) * 0.2 + ',00 €'));
-$('#totalTTC').html(toCurrency((ten * 100 + hundred * 1000 + fiveHundred * 4500) * 1.2 + ',00 €'));
+$('#totalHT').html(toCurrency(ten * 100 + hundred * 1000 + fiveHundred * 4500 + ' €'));
+$('#totalVAT').html(toCurrency((ten * 100 + hundred * 1000 + fiveHundred * 4500) * {{ vat }} + ' €'));
+$('#totalTTC').html(toCurrency((ten * 100 + hundred * 1000 + fiveHundred * 4500) * {{ vat + 1 }} + ' €'));

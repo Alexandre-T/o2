@@ -208,10 +208,12 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     {
         $articleRepository = $this->entityManager->getRepository(Article::class);
         /** @var Article[] $articles */
+        //TODO SPRINT2: change the find all by another filter
         $articles = $articleRepository->findAll();
         $order->setCredits(0);
         $order->setPrice(0);
         $order->setVat(0);
+        $vatRate = (float) $order->getCustomer()->getVat();
 
         $methods[10] = 'getTen';
         $methods[100] = 'getHundred';
@@ -219,7 +221,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
 
         foreach ($articles as $article) {
             if (array_key_exists($article->getCredit(), $methods)) {
-                $this->updateOrder($order, $article, $model->{$methods[$article->getCredit()]}());
+                $this->updateOrder($order, $article, $model->{$methods[$article->getCredit()]}(), $vatRate);
             }
         }
     }
@@ -315,15 +317,17 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param Order   $order    linked order
      * @param Article $article  linked article
      * @param int     $quantity quantity wanted
+     * @param float   $vat      the vate rate coming from customer
      *
      * @return OrderedArticle
      */
-    private function createdOrderedArticle(Order $order, Article $article, int $quantity): OrderedArticle
+    private function createdOrderedArticle(Order $order, Article $article, int $quantity, float $vat): OrderedArticle
     {
         $orderedArticle = new OrderedArticle();
         $orderedArticle->setArticle($article);
         $orderedArticle->setOrder($order);
         $orderedArticle->copyPrice($article);
+        $orderedArticle->setVat($vat); //Override with customer VAT rate
         $orderedArticle->setQuantity($quantity);
         $order->addOrderedArticle($orderedArticle);
 
@@ -336,20 +340,22 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param Order   $order    linked order
      * @param Article $article  linked article
      * @param int     $quantity quantity wanted
+     * @param float   $vat      vat rate coming from user
      */
-    private function updateOrder(Order $order, Article $article, int $quantity): void
+    private function updateOrder(Order $order, Article $article, int $quantity, float $vat): void
     {
         $quantity = max(0, $quantity);
         $orderedArticle = $order->getOrderedByArticle($article);
+        $vatRate = (float)$order->getCustomer()->getVat();
         if (null === $orderedArticle) {
-            $this->createdOrderedArticle($order, $article, $quantity);
+            $this->createdOrderedArticle($order, $article, $quantity, $vatRate);
         } elseif ($orderedArticle instanceof OrderedArticle) {
             $this->updateOrderedArticle($orderedArticle, $article, $quantity);
         }
 
         $order->setCredits($quantity * $article->getCredit() + $order->getCredits());
         $order->setPrice($quantity * (float) $article->getPrice() + $order->getPrice());
-        $order->setVat($quantity * (float) $article->getVat() + $order->getVat());
+        $order->setVat($quantity * $vat + $order->getVat());
     }
 
     /**
