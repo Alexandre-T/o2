@@ -127,8 +127,8 @@ class NumberExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            'currency' => new TwigFilter(
-                'localizedcurrency',
+            'euro' => new TwigFilter(
+                'euro',
                 [$this, 'currencyFilter'],
                 []
             ),

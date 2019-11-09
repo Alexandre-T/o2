@@ -57,37 +57,37 @@
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.ten) }}</td>
                                 <td class="col-2">{{ form_widget(form.ten) }}</td>
-                                <td class="col-2">{{ 100 | localizedeuro }}</td>
+                                <td class="col-2">{{ 100 | euro }}</td>
                                 <td class="col-2"><span id="credit10">{{ (10 * form.ten.vars.value) | localizednumber }}</span></td>
-                                <td class="col-2"><span id="price10">{{ (100 * form.ten.vars.value) | localizedcurrency('EUR') }}</span></td>
+                                <td class="col-2"><span id="price10">{{ (100 * form.ten.vars.value) | euro }}</span></td>
                             </tr>
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.hundred) }}</td>
                                 <td class="col-2">{{ form_widget(form.hundred) }}</td>
-                                <td class="col-2">{{ 1000 | localizedcurrency('EUR') }}</td>
+                                <td class="col-2">{{ 1000 | euro }}</td>
                                 <td class="col-2"><span id="credit100">{{ (10 * form.hundred.vars.value) | localizednumber }}</span></td>
-                                <td class="col-2"><span id="price100">{{ (1000 * form.hundred.vars.value) | localizedcurrency('EUR') }}</span></td>
+                                <td class="col-2"><span id="price100">{{ (1000 * form.hundred.vars.value) | euro }}</span></td>
                             </tr>
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.fiveHundred) }}</td>
                                 <td class="col-2">{{ form_widget(form.fiveHundred) }}</td>
-                                <td class="col-2">{{ 4500 | localizedcurrency('EUR') }}</td>
+                                <td class="col-2">{{ 4500 | euro }}</td>
                                 <td class="col-2"><span id="credit500">{{ (10 * form.fiveHundred.vars.value) | localizednumber }}</span></td>
-                                <td class="col-2"><span id="price500">{{ (4500 * form.fiveHundred.vars.value) | localizedcurrency('EUR') }}</span></td>
+                                <td class="col-2"><span id="price500">{{ (4500 * form.fiveHundred.vars.value) | euro }}</span></td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr class="d-flex">
                                 <th scope="col" class="col-10">Prix H.T. total</th>
-                                <td class="col-2"><span id="totalHT">{{ order.price | localizedcurrency('EUR') }}</span></td>
+                                <td class="col-2"><span id="totalHT">{{ order.price | euro }}</span></td>
                             </tr>
                             <tr class="d-flex">
                                 <th scope="col" class="offset-8 col-2">TVA</th>
-                                <td class="col-2"><span id="totalVAT">{{ order.vat | localizedcurrency('EUR') }}</span></td>
+                                <td class="col-2"><span id="totalVAT">{{ order.vat | euro }}</span></td>
                             </tr>
                             <tr class="d-flex">
                                 <th scope="col" class="offset-8 col-2">Prix T.T.C. total</th>
-                                <td class="col-2"><span id="totalTTC">{{ (order.vat + order.price) | localizedcurrency('EUR') }}</span></td>
+                                <td class="col-2"><span id="totalTTC">{{ (order.vat + order.price) | euro }}</span></td>
                             </tr>
                         </tfoot>
                     </table>

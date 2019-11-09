@@ -69,9 +69,9 @@
                             <tr class="d-flex">
                                 <td headers="trArticle" class="col-4">{{ ('form.field.article-' ~ ordered.article.credit) | trans }}</td>
                                 <td headers="trQuantity" class="col-2">{{ ordered.quantity }}</td>
-                                <td headers="trUnit" class="col-2">{{ ordered.article.price | localizedcurrency('EUR') }}</td>
+                                <td headers="trUnit" class="col-2">{{ ordered.article.price | euro }}</td>
                                 <td headers="trCredit" class="col-2">{{ (ordered.quantity * ordered.article.credit) | localizednumber }}</td>
-                                <td headers="trPrice" class="col-2">{{ (ordered.quantity * ordered.article.price) | localizedcurrency('EUR') }}</td>
+                                <td headers="trPrice" class="col-2">{{ (ordered.quantity * ordered.article.price) | euro }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
@@ -82,15 +82,15 @@
                         </tr>
                         <tr class="d-flex">
                             <th scope="col" class="offset-8 col-2">Prix H.T. total</th>
-                            <td class="col-2">{{ order.price | localizedcurrency('EUR') }}</td>
+                            <td class="col-2">{{ order.price | euro }}</td>
                         </tr>
                         <tr class="d-flex">
                             <th scope="col" class="offset-8 col-2">TVA</th>
-                            <td class="col-2">{{ order.vat | localizedcurrency('EUR') }}</td>
+                            <td class="col-2">{{ order.vat | euro }}</td>
                         </tr>
                         <tr class="d-flex">
                             <th scope="col" class="offset-8 col-2">Prix T.T.C. total</th>
-                            <td class="col-2">{{ (order.vat + order.price) | localizedcurrency('EUR') }}</td>
+                            <td class="col-2">{{ (order.vat + order.price) | euro }}</td>
                         </tr>
                         </tfoot>
                     </table>

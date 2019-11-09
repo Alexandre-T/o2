@@ -47,7 +47,7 @@
                     {{ bill.label }}
                 </td>
                 <td headers="bill-number" class="align-middle">
-                    {{ bill.amount | localizedcurrency('EUR') }}
+                    {{ bill.amount | euro }}
                 </td>
                 <td headers="bill-status" class="align-middle">
                     {{ bill.order.statusOrder | badgeStatusOrder }}

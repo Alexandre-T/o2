@@ -55,7 +55,7 @@
                     {{ bill.label }}
                 </td>
                 <td headers="bill-number" class="align-middle">
-                    {{ bill.amount | localizedcurrency('EUR') }}
+                    {{ bill.amount | euro }}
                 </td>
                 <td headers="bill-number" class="align-middle">
                     {{ bill.customer.label }}

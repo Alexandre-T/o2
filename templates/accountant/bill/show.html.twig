@@ -102,11 +102,11 @@
                 <td headers="item-description">{{ ('article.' ~ items.article.code ~ '.text') | trans }}</td>
                 <td class="text-right" headers="item-quantity">{{ items.quantity | localizednumber }}</td>
                 <td class="text-right"
-                    headers="item-unit-price">{{ items.article.price | localizedcurrency('EUR') }}</td>
+                    headers="item-unit-price">{{ items.article.price | euro }}</td>
                 <td class="text-right"
-                    headers="item-price">{{ (items.article.price * items.quantity) | localizedcurrency('EUR') }}</td>
+                    headers="item-price">{{ (items.article.price * items.quantity) | euro }}</td>
                 <td class="text-right"
-                    headers="item-vat">{{ (items.article.vat * items.quantity) | localizedcurrency('EUR') }}</td>
+                    headers="item-vat">{{ (items.article.vat * items.quantity) | euro }}</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -129,13 +129,13 @@
         <tbody class="text-right">
         <tr>
             <td headers="bill-vat-percent">{{ settings('bill-vat-percent') }}</td>
-            <td headers="bill-base">{{ bill.vat | localizedcurrency('EUR') }}</td>
-            <td headers="bill-total-vat">{{ bill.vat | localizedcurrency('EUR') }}</td>
-            <td headers="bill-total-price">{{ bill.price | localizedcurrency('EUR') }}</td>
-            <td headers="bill-total-vat">{{ bill.vat | localizedcurrency('EUR') }}</td>
-            <td headers="bill-total">{{ bill.amount | localizedcurrency('EUR') }}</td>
-            <td headers="bill-already-paid">{{ bill.alreadyPaid | localizedcurrency('EUR') }}</td>
-            <td headers="bill-to-paid">{{ bill.toPaid | localizedcurrency('EUR') }}</td>
+            <td headers="bill-base">{{ bill.vat | euro }}</td>
+            <td headers="bill-total-vat">{{ bill.vat | euro }}</td>
+            <td headers="bill-total-price">{{ bill.price | euro }}</td>
+            <td headers="bill-total-vat">{{ bill.vat | euro }}</td>
+            <td headers="bill-total">{{ bill.amount | euro }}</td>
+            <td headers="bill-already-paid">{{ bill.alreadyPaid | euro }}</td>
+            <td headers="bill-to-paid">{{ bill.toPaid | euro }}</td>
         </tr>
         </tbody>
     </table>
