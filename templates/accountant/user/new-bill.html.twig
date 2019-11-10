@@ -152,6 +152,6 @@
     {% block javascripts %}
         {{ parent() }}
         <script>
-            {{ include('_javascript/accountant-order-credit.js.twig') }}
+            {{ include('_javascript/accountant-order-credit.js.twig', {'vat': order.customer.vat}) }}
         </script>
     {% endblock %}

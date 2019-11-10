@@ -80,9 +80,9 @@ class AccountantCest
         $you->see('480,00');
         $you->see('Payée');
         $you->click('Consulter', 'a.btn');
-        $you->seeResponseCodeIsSuccessful();
         $billId = $you->grabFromCurrentUrl('~(\d+)~');
         $you->seeCurrentUrlEquals('/accountant/bill/'.$billId);
+        $you->seeResponseCodeIsSuccessful();
         $you->click('Factures'); //retour sur le listing
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/accountant/bill');
