@@ -63,6 +63,27 @@ class AccountantCest
      *
      * @param AcceptanceTester $you acceptance tester
      */
+    public function tryToListAskedVat(AcceptanceTester $you): void
+    {
+        $you->wantTo('list vats');
+        $you->login('accountant');
+        $you->areOnPage('/accountant/vat');
+        $you->seeResponseCodeIsSuccessful();
+        $you->wantTo('accept a vat');
+        $you->click('Accepter', 'a.btn');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Le changement de taux de TVA a été accepté');
+        $you->wantTo('reject a vat');
+        $you->click('Rejeter', 'a.btn');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Le changement de taux de TVA a été rejeté');
+    }
+
+    /**
+     * Try to list bills.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
     public function tryToListBills(AcceptanceTester $you): void
     {
         $you->wantTo('list bills and show an accessible one');
@@ -98,26 +119,5 @@ class AccountantCest
         $uri = '/accountant/bill?page=2&sort=number&highlight='.$billId.'&direction=asc&color=success';
         $you->seeCurrentUrlEquals($uri);
         $you->see('Les crédits de cette commande viennent d’être versés au client');
-    }
-
-    /**
-     * Try to list bills.
-     *
-     * @param AcceptanceTester $you acceptance tester
-     */
-    public function tryToListAskedVat(AcceptanceTester $you): void
-    {
-        $you->wantTo('list vats');
-        $you->login('accountant');
-        $you->areOnPage('/accountant/vat');
-        $you->seeResponseCodeIsSuccessful();
-        $you->wantTo('accept a vat');
-        $you->click('Accepter', 'a.btn');
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('Le changement de taux de TVA a été accepté');
-        $you->wantTo('reject a vat');
-        $you->click('Rejeter', 'a.btn');
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('Le changement de taux de TVA a été rejeté');
     }
 }

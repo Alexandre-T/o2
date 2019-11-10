@@ -371,7 +371,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      int $quantity,
      float $vateRate
     ): void {
-
         $orderedArticle->setPrice($article->getPrice());
         $orderedArticle->setVat($article->getPrice() * $vateRate);
         $orderedArticle->setQuantity($quantity);

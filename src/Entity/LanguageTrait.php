@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Validator\Constraints as AppAssert;
+use \App\Entity\LanguageInterface as LanguageInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -37,7 +38,7 @@ trait LanguageTrait
      *
      * @var string the language
      */
-    protected $language = LanguageInterface::DEFAULT;
+    protected $language = LanguageInterface::INITIAL;
 
     /**
      * Language getter.
@@ -47,7 +48,7 @@ trait LanguageTrait
     public function getLanguage(): string
     {
         if (null === $this->language) {
-            $this->language = LanguageInterface::DEFAULT;
+            $this->language = LanguageInterface::INITIAL;
         }
 
         return $this->language;

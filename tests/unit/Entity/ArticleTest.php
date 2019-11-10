@@ -91,7 +91,7 @@ class ArticleTest extends Unit
         self::assertEquals($this->article, $this->article->setCredit($actual));
         self::assertEquals($expected, $this->article->getCredit());
     }
-    
+
     /**
      * Test Price setter and getter.
      */

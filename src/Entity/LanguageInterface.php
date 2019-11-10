@@ -20,7 +20,7 @@ namespace App\Entity;
  */
 interface LanguageInterface
 {
-    public const DEFAULT = self::FRENCH;
+    public const INITIAL = 'fr';
     public const ENGLISH = 'gb';
     public const FRENCH = 'fr';
 
