@@ -143,10 +143,10 @@ class OrderTest extends Unit
      */
     public function testNature(): void
     {
-        $actual = OrderInterface::NATURE_CREDIT;
+        $actual = $expected = OrderInterface::NATURE_CREDIT;
 
         self::assertEquals($this->order, $this->order->setNature($actual));
-        self::assertTrue($this->order->getNature());
+        self::assertEquals($expected, $this->order->getNature());
     }
 
     /**
