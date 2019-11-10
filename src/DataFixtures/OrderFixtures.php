@@ -78,22 +78,22 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $this->fiveHundred = $this->getReference('article_500');
 
             //Customer had only clicked on order-credit.
-            $carted = $this->createOrder($customer, 0);
+            $carted = $this->createCreditOrder($customer, 0);
             $manager->persist($carted);
 
             //Customer had clicked on order-credit and select some items.
             $customer = $this->getReference('user_customer-1');
-            $carted = $this->createOrder($customer, 1, 2, 3);
+            $carted = $this->createCreditOrder($customer, 1, 2, 3);
             $manager->persist($carted);
 
             //Customer had clicked on order-credit and select paypal_express.
             $customer = $this->getReference('user_customer-2');
-            $carted = $this->createOrder($customer, 2, 0, 0);
+            $carted = $this->createCreditOrder($customer, 2, 0, 0);
             $manager->persist($carted);
 
             //Customer had clicked on order-credit and select paypal_express and canceled payment.
             $customer = $this->getReference('user_customer-7');
-            $carted = $this->createOrder($customer, 3, 0, 0);
+            $carted = $this->createCreditOrder($customer, 3, 0, 0);
             //TODO create payment
             //Canceled (Nothing to do ?)
             //TODO On controller::PaymentCanceled Do something to trace it.
@@ -104,7 +104,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $customer = $this->getReference('user_customer-4');
             foreach (range(1, 30) as $index) {
                 $quantity = ($index % 8) + 1;
-                $carted = $this->createOrder($customer, $quantity, 0, 0);
+                $carted = $this->createCreditOrder($customer, $quantity, 0, 0);
                 //TODO create payment,
                 //TODO Payment
                 //Create bill with confirmation.
@@ -130,7 +130,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      *
      * @return Order
      */
-    private function createOrder(
+    private function createCreditOrder(
      User $customer,
      int $ten,
      int $hundred = 0,
@@ -144,6 +144,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         $order->addOrderedArticle($this->createOrdered($this->hundred, $hundred, $vatRate));
         $order->addOrderedArticle($this->createOrdered($this->fiveHundred, $fiveHundred, $vatRate));
         $order->setCredits($ten * 10 + $hundred * 100 + $fiveHundred * 500);
+        $order->setNature(OrderInterface::NATURE_CREDIT);
         $order->refreshPrice();
         $order->refreshVat();
 

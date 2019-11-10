@@ -1,4 +1,3 @@
-
 accountant:
   credit:
     credit: 'Oui, le créditer'
@@ -121,6 +120,8 @@ administration:
 Address: 'Adresse'
 
 article:
+  cmdslave:
+    text: 'CMD-Slave'
   CRED0010:
     text: 'Lot de 10 crédits'
   CRED0100:
@@ -642,6 +643,9 @@ nav:
       vat:
         text: 'Mon taux de TVA'
         title: 'Formulaire de demande de changement de taux de TVA'
+      cmd:
+        title: 'Formulaire d’achat d’un CMD Slave'
+        text: 'Acheter un CMD Slave'
   lost-password:
     text: 'Mot de passe perdu'
   reset-password:
@@ -775,11 +779,12 @@ title:
       list: 'Vos reprogrammations'
       service-status: 'Statut du service de reprogrammation'
     vat: 'Demande de changement de taux de TVA'
+    order-cmd: 'Commande d’un CMD Slave'
   default:
     tos: 'Conditions d’utilisation'
     legacy: 'Mentions légales'
   security:
-    login: Connexion
+    login: 'Connexion'
     password-lost: 'Mot de passe perdu'
     password-reset: 'Réinitialisation du mot de passe'
     register: 'Inscription'

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.customer.order-cmd' | trans }}  &bull; {{ parent() }} {% endblock %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.customer.main' | trans }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'title.customer.order-cmd' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block container %}
+    {{ form_start(form) }}
+    <div class="row justify-content-md-center mb-5">
+        <div class="col-md-10">
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h1>
+                        <span class="fas fa-file"></span>
+                        {{ 'title.customer.order-cmd' | trans }}
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <table class="table text-right table-striped">
+                        <thead>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-6"></th>
+                            <th scope="row" class="col-2">{{ 'table.order.quantity' | trans }}</th>
+                            <th scope="row" class="col-2">{{ 'table.order.unit-price' | trans }}</th>
+                            <th scope="row" class="col-2">{{ 'table.order.price' | trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="d-flex">
+                            <td class="col-6">{{ ('article.cmdslave.text') | trans }}</td>
+                            <td class="col-2">1</td>
+                            <td class="col-2">{{ article.price | euro }}</td>
+                            <td class="col-2">{{ article.price | euro }}</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr class="d-flex">
+                            <th scope="col" class="col-10">Prix H.T. total</th>
+                            <td class="col-2"><span id="totalHT">{{ order.price | euro }}</span></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="col" class="offset-8 col-2">TVA</th>
+                            <td class="col-2"><span id="totalVAT">{{ order.vat | euro }}</span></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="col" class="offset-8 col-2">Prix T.T.C. total</th>
+                            <td class="col-2"><span id="totalTTC">{{ (order.vat + order.price) | euro }}</span></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    {{ form_widget(form) }}
+                </div>
+                <div class="card-footer text-right">
+                    <button class="btn btn-primary" type="submit">
+                        <span class="fas fa-fw fa-coins mr-1"></span>
+                        {{ 'form.order-credit.field.submit' | trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

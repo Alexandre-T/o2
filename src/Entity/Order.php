@@ -89,6 +89,15 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     private $identifier;
 
     /**
+     * Nature of order.
+     *
+     * @ORM\Column(type="smallint")
+     *
+     * @Gedmo\Versioned
+     */
+    private $nature;
+
+    /**
      * Ordered articles.
      *
      * @var Collection|OrderedArticle[]
@@ -297,6 +306,16 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     public function getLabel(): string
     {
         return sprintf('%06d', $this->identifier);
+    }
+
+    /**
+     * Nature getter.
+     *
+     * @return int|null
+     */
+    public function getNature(): ?int
+    {
+        return $this->nature;
     }
 
     /**
@@ -562,6 +581,20 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     public function setCustomer(?User $customer): self
     {
         $this->customer = $customer;
+
+        return $this;
+    }
+
+    /**
+     * Nature fluent setter.
+     *
+     * @param int $nature the nature
+     *
+     * @return $this
+     */
+    public function setNature(int $nature): self
+    {
+        $this->nature = $nature;
 
         return $this;
     }

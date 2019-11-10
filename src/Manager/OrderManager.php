@@ -21,9 +21,11 @@ use App\Entity\Order;
 use App\Entity\OrderedArticle;
 use App\Entity\Payment;
 use App\Entity\User;
+use App\Exception\NoArticleException;
 use App\Exception\NoOrderException;
 use App\Form\Model\CreditOrder;
 use App\Model\OrderInterface;
+use App\Repository\ArticleRepository;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
@@ -88,7 +90,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        $orders = $repository->findByUserAndStatusOrder($user, OrderInterface::CARTED);
+        $orders = $repository->findByUserAndStatusCreditOrder($user, OrderInterface::CARTED);
 
         if (null === $orders || empty($orders)) {
             throw new NoOrderException('No carted order for this user');
@@ -129,7 +131,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        $orders = $repository->findByUserNonEmptyStatusOrder($user, OrderInterface::CARTED);
+        $orders = $repository->findByUserNonEmptyStatusCreditOrder($user, OrderInterface::CARTED);
 
         if (null === $orders || empty($orders)) {
             throw new NoOrderException('No carted order for this user');
@@ -150,7 +152,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        $order = $repository->findOneByUserAndCarted($user);
+        $order = $repository->findOneByUserAndCartedCreditOrder($user);
 
         if (null === $order) {
             $order = new Order();
@@ -169,21 +171,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     public function getQueryBuilder()
     {
         return $this->repository->createQueryBuilder(self::ALIAS);
-    }
-
-    /**
-     * Has this customer a carted order or not?
-     *
-     * @param User $user user filter
-     *
-     * @return bool
-     */
-    public function hasCartedOrder(User $user)
-    {
-        /** @var OrderRepository $repository */
-        $repository = $this->getMainRepository();
-
-        return 0 !== $repository->countByUserAndStatusOrder($user, OrderInterface::CARTED);
     }
 
     /**
@@ -374,5 +361,83 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $orderedArticle->setPrice($article->getPrice());
         $orderedArticle->setVat($article->getPrice() * $vateRate);
         $orderedArticle->setQuantity($quantity);
+    }
+
+    /**
+     * Retrieve a CMD carted order or creates a CMD Slave order
+     *
+     * @param User $user the user which wants to order a cmd slave
+     *
+     * @return Order
+     *
+     * @throws NoArticleException if cmdslave article does not exist in database
+     */
+    public function retrieveOrCreateCmdOrder(User $user): Order
+    {
+        /** @var OrderRepository $repository */
+        $repository = $this->getMainRepository();
+
+        $orders = $repository->findCmdByUserAndStatusOrder($user, OrderInterface::CARTED);
+
+        if (null === $orders || empty($orders)) {
+            return $this->createdCmdArticle($user);
+        }
+
+        $order = $orders[0];
+        $this->verifyVat($order);
+
+        return $order;
+    }
+
+    /**
+     * Create an order with a cml artcle.
+     *
+     * @param User $user the customer
+     *
+     * @return Order
+     *
+     * @throws NoArticleException when cmdslave does not exist
+     */
+    private function createdCmdArticle(User $user): Order
+    {
+        /** @var ArticleRepository $repository */
+        $repository = $this->entityManager->getRepository(Article::class);
+        $article = $repository->findOneByCode('cmdslave');
+
+        if (!$article instanceof Article) {
+            throw new NoArticleException('Article with code cmdslave does not exist.');
+        }
+
+        $orderedArticle = new OrderedArticle();
+        $orderedArticle->setArticle($article);
+        $orderedArticle->setQuantity(1);
+        $orderedArticle->setPrice($article->getPrice());
+        $orderedArticle->setVat($article->getPrice() * $user->getVat());
+
+        $order = new Order();
+        $order->setCustomer($user);
+        $order->setCredits(0);
+        $order->setNature(OrderInterface::NATURE_CMD);
+        $order->setStatusOrder(OrderInterface::CARTED);
+        $order->addOrderedArticle($orderedArticle);
+        $order->refreshPrice();
+        $order->refreshVat();
+
+        return $order;
+    }
+
+    /**
+     * Verify VAT of an order.
+     *
+     * @param Order $order the order to verify
+     */
+    private function verifyVat(Order $order): void
+    {
+        $vateRate = $order->getCustomer()->getVat();
+        $order->setVat(0);
+        foreach ($order->getOrderedArticles() as $orderedArticle) {
+            $orderedArticle->setVat($orderedArticle->getPrice() * $vateRate);
+            $order->setVat($order->getVat() + $orderedArticle->getVat());
+        }
     }
 }

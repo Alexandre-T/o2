@@ -30,4 +30,10 @@ interface OrderInterface
     public const NON_CREDITED = false;
     public const PAID = 2;
     public const PENDING = 3;
+
+    /**
+     * Constants for nature
+     */
+    public const NATURE_CREDIT = 1;
+    public const NATURE_CMD = 2;
 }

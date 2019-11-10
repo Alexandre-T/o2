@@ -18,7 +18,9 @@ namespace App\Controller;
 use App\Entity\File;
 use App\Entity\Programmation;
 use App\Entity\User;
+use App\Exception\NoArticleException;
 use App\Exception\SettingsException;
+use App\Form\ChoosePaymentMethodType;
 use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
 use App\Form\Model\CreditOrder;
@@ -29,6 +31,7 @@ use App\Form\ProfileFormType;
 use App\Form\ProgrammationFormType;
 use App\Form\VatFormType;
 use App\Mailer\MailerInterface;
+use App\Manager\ArticleManager;
 use App\Manager\AskedVatManager;
 use App\Manager\OrderManager;
 use App\Manager\ProgrammationManager;
@@ -143,6 +146,41 @@ class CustomerController extends AbstractController
         return $this->render('customer/order-credit.html.twig', [
             'form' => $form->createView(),
             'order' => $order,
+        ]);
+    }
+
+    /**
+     * Step1: Customer orders cmd.
+     *
+     * @Route("/order-cmd", name="order_cmd")
+     *
+     * @param Request        $request        Request handling data
+     * @param OrderManager   $orderManager   Command manager
+     * @param ArticleManager $articleManager Article manager
+     *
+     * @return Response|RedirectResponse
+     *
+     * @throws NoArticleException when cmdslave article does not exists
+     */
+    public function orderCmd(Request $request, OrderManager $orderManager, ArticleManager $articleManager): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $order = $orderManager->retrieveOrCreateCmdOrder($user);
+        $form = $this->createForm(ChoosePaymentMethodType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $orderManager->save($order);
+            dd('ok');
+        }
+
+        $article = $articleManager->retrieveByCode('cmdslave');
+
+        return $this->render('customer/order-cmd.html.twig', [
+            'form' => $form->createView(),
+            'order' => $order,
+            'article' => $article,
         ]);
     }
 

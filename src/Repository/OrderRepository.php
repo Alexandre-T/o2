@@ -44,34 +44,6 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * Count orders for user and code provided.
-     *
-     * @param User $user        user filter
-     * @param int  $statusOrder status order filter
-     *
-     * @return int
-     */
-    public function countByUserAndStatusOrder(User $user, int $statusOrder): int
-    {
-        $queryBuilder = $this->createQueryBuilder('o');
-
-        try {
-            return $queryBuilder
-                ->select($queryBuilder->expr()->count('1'))
-                ->where('o.customer = :customer')
-                ->andWhere('o.statusOrder = :statusOrder')
-                ->setParameter('customer', $user)
-                ->setParameter('statusOrder', $statusOrder)
-                ->getQuery()
-                ->getSingleScalarResult()
-            ;
-        } catch (NonUniqueResultException $e) {
-            //This code could not be reached.
-            return 0;
-        }
-    }
-
-    /**
      * Get order for user and code provided.
      *
      * @param User $user        user filter
@@ -79,15 +51,17 @@ class OrderRepository extends ServiceEntityRepository
      *
      * @return Order[]
      */
-    public function findByUserAndStatusOrder(User $user, int $statusOrder): array
+    public function findByUserAndStatusCreditOrder(User $user, int $statusOrder): array
     {
         $queryBuilder = $this->createQueryBuilder('o');
 
         return $queryBuilder
             ->where('o.customer = :customer')
             ->andWhere('o.code = :code')
+            ->andWhere('o.nature = :nature')
             ->setParameter('customer', $user)
             ->setParameter('statusOrder', $statusOrder)
+            ->setParameter('nature', OrderInterface::NATURE_CREDIT)
             ->getQuery()
             ->getResult()
         ;
@@ -101,16 +75,18 @@ class OrderRepository extends ServiceEntityRepository
      *
      * @return Order[]
      */
-    public function findByUserNonEmptyStatusOrder(User $user, int $code): array
+    public function findByUserNonEmptyStatusCreditOrder(User $user, int $code): array
     {
         $queryBuilder = $this->createQueryBuilder('o');
 
         return $queryBuilder
             ->where('o.customer = :customer')
             ->andWhere('o.statusOrder = :statusOrder')
+            ->andWhere('o.nature = :nature')
             ->andWhere('o.price > 0')
             ->setParameter('customer', $user)
             ->setParameter('statusOrder', $code)
+            ->setParameter('nature', OrderInterface::NATURE_CREDIT)
             ->getQuery()
             ->getResult()
             ;
@@ -164,7 +140,7 @@ class OrderRepository extends ServiceEntityRepository
      *
      * @return Order|null
      */
-    public function findOneByUserAndCarted(User $customer): ?Order
+    public function findOneByUserAndCartedCreditOrder(User $customer): ?Order
     {
         try {
             return $this->createQueryBuilder('c')
@@ -177,8 +153,6 @@ class OrderRepository extends ServiceEntityRepository
                 ->getOneOrNullResult()
             ;
         } catch (NonUniqueResultException $e) {
-            dd($e);
-
             return null;
         }
     }
@@ -193,5 +167,31 @@ class OrderRepository extends ServiceEntityRepository
     public function findOneByUuid(string $uuid): ?Order
     {
         return $this->findOneBy(['uuid' => $uuid]);
+    }
+
+    /**
+     * Get order for user and code provided.
+     *
+     * @param User $user        user filter
+     * @param int  $statusOrder status order filter
+     *
+     * @return Order[]
+     */
+    public function findCmdByUserAndStatusOrder(User $user, int $statusOrder): array
+    {
+        $queryBuilder = $this->createQueryBuilder('o');
+
+        return $queryBuilder
+            ->join('o.orderedArticles', 'oa')
+            ->where('o.customer = :customer')
+            ->andWhere('o.statusOrder = :statusOrder')
+            ->andWhere('o.price > 0')
+            ->andWhere('o.nature = :nature')
+            ->setParameter('customer', $user)
+            ->setParameter('statusOrder', $statusOrder)
+            ->setParameter('nature', Order::NATURE_CMD)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 }

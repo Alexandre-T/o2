@@ -102,6 +102,7 @@ class OrderTest extends Unit
         self::assertNull($this->order->getId());
         self::assertNotNull($this->order->getLabel());
         self::assertEquals('000000', $this->order->getLabel());
+        self::assertNull($this->order->getNature());
         self::assertEquals(OrderInterface::CARTED, $this->order->getStatusOrder());
         self::assertNull($this->order->getPayerId());
         self::assertNotNull($this->order->getPayments());
@@ -135,6 +136,17 @@ class OrderTest extends Unit
 
         self::assertEquals($this->order, $this->order->setCustomer($actual));
         self::assertEquals($expected, $this->order->getCustomer());
+    }
+
+    /**
+     * Test Nature setter and getter.
+     */
+    public function testNature(): void
+    {
+        $actual = OrderInterface::NATURE_CREDIT;
+
+        self::assertEquals($this->order, $this->order->setNature($actual));
+        self::assertTrue($this->order->getNature());
     }
 
     /**
@@ -235,7 +247,7 @@ class OrderTest extends Unit
     }
 
     /**
-     * Test Price setter and getter.
+     * Test Status credit setter and getter.
      */
     public function testStatusCredit(): void
     {

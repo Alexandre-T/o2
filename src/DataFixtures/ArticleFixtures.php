@@ -49,15 +49,23 @@ class ArticleFixtures extends Fixture
         $fiveHundred->setPrice(4500);
         $fiveHundred->setCredit(500);
 
+        //cmd Slave.
+        $cmdSlave = new Article();
+        $cmdSlave->setCode('cmdslave');
+        $cmdSlave->setPrice(700);
+        $cmdSlave->setCredit(0);
+
         //These references are used.
         $this->addReference('article_10', $ten);
         $this->addReference('article_100', $hundred);
         $this->addReference('article_500', $fiveHundred);
+        $this->addReference('cmd_slave', $cmdSlave);
 
         //Persist prod data
         $manager->persist($ten);
         $manager->persist($hundred);
         $manager->persist($fiveHundred);
+        $manager->persist($cmdSlave);
 
         $manager->flush();
     }
