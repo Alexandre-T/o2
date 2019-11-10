@@ -156,6 +156,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
 
         if (null === $order) {
             $order = new Order();
+            $order->setNature(OrderInterface::NATURE_CREDIT);
             $order->setCustomer($user);
             $order->setStatusOrder(OrderInterface::CARTED);
         }
