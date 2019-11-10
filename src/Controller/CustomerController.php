@@ -119,40 +119,6 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * Step1: Customer select items.
-     *
-     * @Route("/order-credit", name="order_credit")
-     *
-     * @param Request      $request      Request handling data
-     * @param OrderManager $orderManager Command manager
-     *
-     * @return Response|RedirectResponse
-     */
-    public function orderCredit(Request $request, OrderManager $orderManager): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-        $order = $orderManager->getOrCreateCartedOrder($user);
-        $model = new CreditOrder();
-        $model->init($order);
-        $form = $this->createForm(CreditFormType::class, $model);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $orderManager->pushOrderedArticles($order, $model);
-            $orderManager->save($order);
-            $this->addFlash('success', 'flash.order.step1');
-
-            return $this->redirectToRoute('customer_payment_method');
-        }
-
-        return $this->render('customer/order-credit.html.twig', [
-            'form' => $form->createView(),
-            'order' => $order,
-        ]);
-    }
-
-    /**
      * Step1: Customer orders cmd.
      *
      * @Route("/order-cmd", name="order_cmd")
@@ -163,9 +129,9 @@ class CustomerController extends AbstractController
      * @param PaymentManager $paymentManager the payment manager
      * @param Payum          $payum          The payum manager
      *
-     * @return Response|RedirectResponse
-     *
      * @throws NoArticleException when cmdslave article does not exists
+     *
+     * @return Response|RedirectResponse
      */
     public function orderCmd(
      Request $request,
@@ -226,6 +192,40 @@ class CustomerController extends AbstractController
             'form' => $form->createView(),
             'order' => $order,
             'article' => $article,
+        ]);
+    }
+
+    /**
+     * Step1: Customer select items.
+     *
+     * @Route("/order-credit", name="order_credit")
+     *
+     * @param Request      $request      Request handling data
+     * @param OrderManager $orderManager Command manager
+     *
+     * @return Response|RedirectResponse
+     */
+    public function orderCredit(Request $request, OrderManager $orderManager): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $order = $orderManager->getOrCreateCartedOrder($user);
+        $model = new CreditOrder();
+        $model->init($order);
+        $form = $this->createForm(CreditFormType::class, $model);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $orderManager->pushOrderedArticles($order, $model);
+            $orderManager->save($order);
+            $this->addFlash('success', 'flash.order.step1');
+
+            return $this->redirectToRoute('customer_payment_method');
+        }
+
+        return $this->render('customer/order-credit.html.twig', [
+            'form' => $form->createView(),
+            'order' => $order,
         ]);
     }
 

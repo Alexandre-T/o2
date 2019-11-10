@@ -20,9 +20,9 @@ namespace App\Entity;
  */
 interface LanguageInterface
 {
-    public const INITIAL = 'fr';
     public const ENGLISH = 'gb';
     public const FRENCH = 'fr';
+    public const INITIAL = 'fr';
 
     /**
      * Get the profile language.

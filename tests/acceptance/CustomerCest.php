@@ -278,7 +278,7 @@ class CustomerCest
         $you->wantTo('send an empty vat profile.');
         $you->login('customer');
         $you->amOnPage('/customer/vat');
-        $you->see("Votre taux de TVA actuel est de 8,50 %. Pour le modifier, veuillez remplir le formulaire");
+        $you->see('Votre taux de TVA actuel est de 8,50 %. Pour le modifier, veuillez remplir le formulaire');
         $you->click('Envoyer la demande');
         $you->seeResponseCodeIsSuccessful();
         $you->see('Le nouveau taux de TVA est identique au taux actuel. Demande rejetée');

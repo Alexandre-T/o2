@@ -93,6 +93,32 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
+     * Get order for user and code provided.
+     *
+     * @param User $user        user filter
+     * @param int  $statusOrder status order filter
+     *
+     * @return Order[]
+     */
+    public function findCmdByUserAndStatusOrder(User $user, int $statusOrder): array
+    {
+        $queryBuilder = $this->createQueryBuilder('o');
+
+        return $queryBuilder
+            ->join('o.orderedArticles', 'oa')
+            ->where('o.customer = :customer')
+            ->andWhere('o.statusOrder = :statusOrder')
+            ->andWhere('o.price > 0')
+            ->andWhere('o.nature = :nature')
+            ->setParameter('customer', $user)
+            ->setParameter('statusOrder', $statusOrder)
+            ->setParameter('nature', Order::NATURE_CMD)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
      * Find the last one paid order.
      *
      * Code not used!
@@ -167,31 +193,5 @@ class OrderRepository extends ServiceEntityRepository
     public function findOneByUuid(string $uuid): ?Order
     {
         return $this->findOneBy(['uuid' => $uuid]);
-    }
-
-    /**
-     * Get order for user and code provided.
-     *
-     * @param User $user        user filter
-     * @param int  $statusOrder status order filter
-     *
-     * @return Order[]
-     */
-    public function findCmdByUserAndStatusOrder(User $user, int $statusOrder): array
-    {
-        $queryBuilder = $this->createQueryBuilder('o');
-
-        return $queryBuilder
-            ->join('o.orderedArticles', 'oa')
-            ->where('o.customer = :customer')
-            ->andWhere('o.statusOrder = :statusOrder')
-            ->andWhere('o.price > 0')
-            ->andWhere('o.nature = :nature')
-            ->setParameter('customer', $user)
-            ->setParameter('statusOrder', $statusOrder)
-            ->setParameter('nature', Order::NATURE_CMD)
-            ->getQuery()
-            ->getResult()
-            ;
     }
 }

@@ -155,7 +155,7 @@ class PaymentController extends AbstractController
         $log->log(LogLevel::INFO, 'Payment canceled : order '.$order->getId());
 
         $route = 'customer_order_credit';
-        if(OrderInterface::NATURE_CMD === $order->getNature()) {
+        if (OrderInterface::NATURE_CMD === $order->getNature()) {
             $route = 'customer_order_cmd';
         }
 
@@ -313,7 +313,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
-        /**
+    /**
      * Prepare and send mail.
      *
      * @param LoggerInterface $logger          logger interface to log alerts

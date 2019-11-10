@@ -251,6 +251,32 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
+     * Retrieve a CMD carted order or creates a CMD Slave order.
+     *
+     * @param User $user the user which wants to order a cmd slave
+     *
+     * @throws NoArticleException if cmdslave article does not exist in database
+     *
+     * @return Order
+     */
+    public function retrieveOrCreateCmdOrder(User $user): Order
+    {
+        /** @var OrderRepository $repository */
+        $repository = $this->getMainRepository();
+
+        $orders = $repository->findCmdByUserAndStatusOrder($user, OrderInterface::CARTED);
+
+        if (null === $orders || empty($orders)) {
+            return $this->createdCmdArticle($user);
+        }
+
+        $order = $orders[0];
+        $this->verifyVat($order);
+
+        return $order;
+    }
+
+    /**
      * Set order as paid and credits user.
      *
      * @param Order $order order to put at paid
@@ -295,6 +321,43 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     protected function getMainRepository(): EntityRepository
     {
         return $this->entityManager->getRepository(Order::class);
+    }
+
+    /**
+     * Create an order with a cml artcle.
+     *
+     * @param User $user the customer
+     *
+     * @throws NoArticleException when cmdslave does not exist
+     *
+     * @return Order
+     */
+    private function createdCmdArticle(User $user): Order
+    {
+        /** @var ArticleRepository $repository */
+        $repository = $this->entityManager->getRepository(Article::class);
+        $article = $repository->findOneByCode('cmdslave');
+
+        if (!$article instanceof Article) {
+            throw new NoArticleException('Article with code cmdslave does not exist.');
+        }
+
+        $orderedArticle = new OrderedArticle();
+        $orderedArticle->setArticle($article);
+        $orderedArticle->setQuantity(1);
+        $orderedArticle->setPrice($article->getPrice());
+        $orderedArticle->setVat($article->getPrice() * $user->getVat());
+
+        $order = new Order();
+        $order->setCustomer($user);
+        $order->setCredits(0);
+        $order->setNature(OrderInterface::NATURE_CMD);
+        $order->setStatusOrder(OrderInterface::CARTED);
+        $order->addOrderedArticle($orderedArticle);
+        $order->refreshPrice();
+        $order->refreshVat();
+
+        return $order;
     }
 
     /**
@@ -361,69 +424,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $orderedArticle->setPrice($article->getPrice());
         $orderedArticle->setVat($article->getPrice() * $vateRate);
         $orderedArticle->setQuantity($quantity);
-    }
-
-    /**
-     * Retrieve a CMD carted order or creates a CMD Slave order
-     *
-     * @param User $user the user which wants to order a cmd slave
-     *
-     * @return Order
-     *
-     * @throws NoArticleException if cmdslave article does not exist in database
-     */
-    public function retrieveOrCreateCmdOrder(User $user): Order
-    {
-        /** @var OrderRepository $repository */
-        $repository = $this->getMainRepository();
-
-        $orders = $repository->findCmdByUserAndStatusOrder($user, OrderInterface::CARTED);
-
-        if (null === $orders || empty($orders)) {
-            return $this->createdCmdArticle($user);
-        }
-
-        $order = $orders[0];
-        $this->verifyVat($order);
-
-        return $order;
-    }
-
-    /**
-     * Create an order with a cml artcle.
-     *
-     * @param User $user the customer
-     *
-     * @return Order
-     *
-     * @throws NoArticleException when cmdslave does not exist
-     */
-    private function createdCmdArticle(User $user): Order
-    {
-        /** @var ArticleRepository $repository */
-        $repository = $this->entityManager->getRepository(Article::class);
-        $article = $repository->findOneByCode('cmdslave');
-
-        if (!$article instanceof Article) {
-            throw new NoArticleException('Article with code cmdslave does not exist.');
-        }
-
-        $orderedArticle = new OrderedArticle();
-        $orderedArticle->setArticle($article);
-        $orderedArticle->setQuantity(1);
-        $orderedArticle->setPrice($article->getPrice());
-        $orderedArticle->setVat($article->getPrice() * $user->getVat());
-
-        $order = new Order();
-        $order->setCustomer($user);
-        $order->setCredits(0);
-        $order->setNature(OrderInterface::NATURE_CMD);
-        $order->setStatusOrder(OrderInterface::CARTED);
-        $order->addOrderedArticle($orderedArticle);
-        $order->refreshPrice();
-        $order->refreshVat();
-
-        return $order;
     }
 
     /**

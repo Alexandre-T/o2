@@ -62,24 +62,6 @@ class PaymentManager
     }
 
     /**
-     * Return the last payment.
-     *
-     * @param Order $order the order to find payments
-     *
-     * @return Payment|null
-     */
-    public function getValidPayment(Order $order): ?Payment
-    {
-        $payments = $this->repository->findByOrder($order);
-
-        foreach ($payments as $payment) {
-            return $payment;
-        }
-
-        return null;
-    }
-
-    /**
      * Create a payment.
      *
      * @param Payum  $payum       Payum manager
@@ -142,5 +124,23 @@ class PaymentManager
         }
 
         return $paypalCheckoutParams;
+    }
+
+    /**
+     * Return the last payment.
+     *
+     * @param Order $order the order to find payments
+     *
+     * @return Payment|null
+     */
+    public function getValidPayment(Order $order): ?Payment
+    {
+        $payments = $this->repository->findByOrder($order);
+
+        foreach ($payments as $payment) {
+            return $payment;
+        }
+
+        return null;
     }
 }
