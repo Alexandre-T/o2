@@ -34,10 +34,12 @@ use App\Mailer\MailerInterface;
 use App\Manager\ArticleManager;
 use App\Manager\AskedVatManager;
 use App\Manager\OrderManager;
+use App\Manager\PaymentManager;
 use App\Manager\ProgrammationManager;
 use App\Manager\SettingsManager;
 use App\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Payum\Core\Payum;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,6 +47,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Customer controller.
@@ -155,15 +158,22 @@ class CustomerController extends AbstractController
      * @Route("/order-cmd", name="order_cmd")
      *
      * @param Request        $request        Request handling data
-     * @param OrderManager   $orderManager   Command manager
      * @param ArticleManager $articleManager Article manager
+     * @param OrderManager   $orderManager   Command manager
+     * @param PaymentManager $paymentManager the payment manager
+     * @param Payum          $payum          The payum manager
      *
      * @return Response|RedirectResponse
      *
      * @throws NoArticleException when cmdslave article does not exists
      */
-    public function orderCmd(Request $request, OrderManager $orderManager, ArticleManager $articleManager): Response
-    {
+    public function orderCmd(
+     Request $request,
+     ArticleManager $articleManager,
+     OrderManager $orderManager,
+     PaymentManager $paymentManager,
+     Payum $payum
+    ): Response {
         /** @var User $user */
         $user = $this->getUser();
         $order = $orderManager->retrieveOrCreateCmdOrder($user);
@@ -172,7 +182,42 @@ class CustomerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $orderManager->save($order);
-            dd('ok');
+            $details = [];
+
+            //Get routes
+            $returnUrl = $this->generateUrl(
+                'customer_payment_complete',
+                ['uuid' => $order->getUuid()],
+                UrlGeneratorInterface::ABSOLUTE_URL);
+            $cancelUrl = $this->generateUrl(
+                'customer_payment_cancel',
+                ['order' => $order->getId()],
+                UrlGeneratorInterface::ABSOLUTE_URL);
+            $analyseUrl = $this->generateUrl(
+                'customer_payment_done',
+                [],
+                UrlGeneratorInterface::ABSOLUTE_URL);
+
+            if ('paypal_express_checkout' === $form->getData()->getMethod()) {
+                $details = array_merge($details, $paymentManager->getPaypalCheckoutParams($order));
+                $details['cancel_url'] = $cancelUrl;
+                $details['return_url'] = $returnUrl;
+            }
+
+            if ('monetico' === $form->getData()->getMethod()) {
+                $details['success_url'] = $returnUrl;
+                $details['failure_url'] = $cancelUrl;
+            }
+
+            $payment = $paymentManager->createPayment($payum, $order, $details, $form->getData()->getMethod());
+
+            $captureToken = $payum->getTokenFactory()->createCaptureToken(
+                $form->getData()->getMethod(),
+                $payment,
+                $analyseUrl
+            );
+
+            return $this->redirect($captureToken->getTargetUrl());
         }
 
         $article = $articleManager->retrieveByCode('cmdslave');

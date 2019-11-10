@@ -25,7 +25,9 @@ use App\Form\Model\PaymentMethod;
 use App\Mailer\MailerInterface;
 use App\Manager\BillManager;
 use App\Manager\OrderManager;
+use App\Manager\PaymentManager;
 use App\Manager\SettingsManager;
+use App\Model\OrderInterface;
 use Exception;
 use Payum\Core\Payum;
 use Payum\Core\Request\GetHumanStatus;
@@ -39,7 +41,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Payment controller .
@@ -104,13 +105,17 @@ class PaymentController extends AbstractController
 
         if (!$status->isAuthorized() && !$status->isPending()) {
             $this->addFlash('warning', 'error.payment.canceled');
+            $route = 'customer_payment_method';
+            if (OrderInterface::NATURE_CMD === $order->getNature()) {
+                $route = 'customer_order_cmd';
+            }
 
             $log->log(
                 LogLevel::INFO,
                 "Payment{$payment->getId()} for order{$order->getId()} canceled (payum status: {$status->getValue()})"
             );
 
-            return $this->redirectToRoute('customer_payment_method');
+            return $this->redirectToRoute($route);
         }
 
         //Save order
@@ -149,7 +154,12 @@ class PaymentController extends AbstractController
         $this->addFlash('warning', 'error.payment.canceled');
         $log->log(LogLevel::INFO, 'Payment canceled : order '.$order->getId());
 
-        return $this->redirectToRoute('customer_order_credit');
+        $route = 'customer_order_credit';
+        if(OrderInterface::NATURE_CMD === $order->getNature()) {
+            $route = 'customer_order_cmd';
+        }
+
+        return $this->redirectToRoute($route);
     }
 
     /**
@@ -228,10 +238,10 @@ class PaymentController extends AbstractController
      *
      * @Route("/method-choose", name="customer_payment_method")
      *
-     * @param Request             $request      Request for form
-     * @param OrderManager        $orderManager Command manager
-     * @param Payum               $payum        Payum manager
-     * @param TranslatorInterface $trans        the translator interface to translate data for Paypal page
+     * @param Request        $request        Request for form
+     * @param OrderManager   $orderManager   Command manager
+     * @param PaymentManager $paymentManager the payment manager to create payment entity
+     * @param Payum          $payum          Payum manager
      *
      * @return Response|RedirectResponse
      *
@@ -240,8 +250,8 @@ class PaymentController extends AbstractController
     public function paymentMethod(
      Request $request,
      OrderManager $orderManager,
-     Payum $payum,
-     TranslatorInterface $trans
+     PaymentManager $paymentManager,
+     Payum $payum
     ): Response {
         $user = $this->getUser();
         try {
@@ -259,15 +269,6 @@ class PaymentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $storage = $payum->getStorage(Payment::class);
-            /** @var Payment $payment */
-            $payment = $storage->create();
-            $payment->setNumber(substr(uniqid(), 0, 12));
-            $payment->setCurrencyCode('EUR');
-            $payment->setTotalAmount((int) ($order->getAmount() * 100));
-            $payment->setDescription($form->getData()->getMethod());
-            $payment->setClientId($this->getUser()->getId());
-            $payment->setClientEmail($this->getUser()->getMail());
             $details = [];
 
             //Get routes
@@ -285,7 +286,7 @@ class PaymentController extends AbstractController
                 UrlGeneratorInterface::ABSOLUTE_URL);
 
             if ('paypal_express_checkout' === $form->getData()->getMethod()) {
-                $details = array_merge($details, $this->getPaypalCheckoutParams($order, $trans));
+                $details = array_merge($details, $paymentManager->getPaypalCheckoutParams($order));
                 $details['cancel_url'] = $cancelUrl;
                 $details['return_url'] = $returnUrl;
             }
@@ -295,10 +296,7 @@ class PaymentController extends AbstractController
                 $details['failure_url'] = $cancelUrl;
             }
 
-            $payment->setDetails($details);
-
-            $payment->setOrder($order);
-            $storage->update($payment);
+            $payment = $paymentManager->createPayment($payum, $order, $details, $form->getData()->getMethod());
 
             $captureToken = $payum->getTokenFactory()->createCaptureToken(
                 $form->getData()->getMethod(),
@@ -315,44 +313,7 @@ class PaymentController extends AbstractController
         ]);
     }
 
-    /**
-     * Paypal checkout params getter.
-     *
-     * @param Order               $order order
-     * @param TranslatorInterface $trans to translate description for paypal
-     *
-     * @return array
-     */
-    private function getPaypalCheckoutParams(Order $order, TranslatorInterface $trans): array
-    {
-        $paypalCheckoutParams = [
-            'PAYMENTREQUEST_0_DESC' => $trans->trans('payment.paypal.description %credit% %amount%', [
-                '%credit%' => $order->getCredits(),
-                '%amount%' => $order->getAmount(),
-            ]),
-            'PAYMENTREQUEST_0_ITEMAMT' => $order->getPrice(),
-            'PAYMENTREQUEST_0_SHIPPINGAMT' => 0,
-            'PAYMENTREQUEST_0_TAXAMT' => $order->getVat(),
-            'PAYMENTREQUEST_0_SHIPDISCAMT' => 0,
-        ];
-
-        $item = 0;
-        foreach ($order->getOrderedArticles() as $orderedArticle) {
-            if ($orderedArticle->getQuantity()) {
-                $paypalCheckoutParams['L_PAYMENTREQUEST_0_AMT'.$item] = $orderedArticle->getArticle()->getPrice();
-                $paypalCheckoutParams['L_PAYMENTREQUEST_0_QTY'.$item] = $orderedArticle->getQuantity();
-                $paypalCheckoutParams['L_PAYMENTREQUEST_0_TAXAMT'.$item] = $orderedArticle->getArticle()->getVat();
-                $paypalCheckoutParams['L_PAYMENTREQUEST_0_NAME'.$item] = $trans->trans(
-                    "article.{$orderedArticle->getArticle()->getCode()}.text"
-                );
-                ++$item;
-            }
-        }
-
-        return $paypalCheckoutParams;
-    }
-
-    /**
+        /**
      * Prepare and send mail.
      *
      * @param LoggerInterface $logger          logger interface to log alerts
