@@ -77,11 +77,11 @@
                     <td headers="item-description">{{ ('article.' ~ items.article.code ~ '.text') | trans }}</td>
                     <td class="text-right" headers="item-quantity">{{ items.quantity | integer }}</td>
                     <td class="text-right"
-                        headers="item-unit-price">{{ items.article.price | euro }}</td>
+                        headers="item-unit-price">{{ items.price | euro }}</td>
                     <td class="text-right"
-                        headers="item-price">{{ (items.article.price * items.quantity) | euro }}</td>
+                        headers="item-price">{{ (items.price * items.quantity) | euro }}</td>
                     <td class="text-right"
-                        headers="item-vat">{{ (items.article.vat * items.quantity) | euro }}</td>
+                        headers="item-vat">{{ (items.vat * items.quantity) | euro }}</td>
                 </tr>
             {% endfor %}
             </tbody>

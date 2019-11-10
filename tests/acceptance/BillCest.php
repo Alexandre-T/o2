@@ -43,9 +43,9 @@ class BillCest
         $you->see('480');
         $you->see('Payée');
         $you->click('Consulter', 'a.btn');
-        $you->seeResponseCodeIsSuccessful();
         $billId = $you->grabFromCurrentUrl('~(\d+)~');
         $you->seeCurrentUrlEquals('/customer/bill/'.$billId);
+        $you->seeResponseCodeIsSuccessful();
         $you->wantTo('show a non-accessible one');
         $you->amOnPage('/logout');
         $you->seeResponseCodeIsSuccessful();
