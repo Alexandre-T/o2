@@ -86,8 +86,9 @@ class CustomerCest
         $you->areOnPage('/customer/order-cmd');
         $you->selectOption('choose_payment_method[method]','paypal_express_checkout');
         $you->click('Enregistrer votre commande');
-        $you->seeResponseCodeIs(404);
-        //because paypal is self forwarding
+//        $you->seeResponseCodeIsSuccessful();
+        $token = $you->grabFromCurrentUrl('~/payment/capture/([\w|-]+)~');
+        $you->seeCurrentUrlEquals('/payment/capture/'. $token);
     }
 
     /**
