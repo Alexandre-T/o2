@@ -40,7 +40,7 @@
         </thead>
         <tbody>
         {% for setting in pagination %}
-            <tr>
+            <tr class="{{ setting.code }}">
                 <td headers="settings-code" class="align-middle">
                     {{ ('settings.' ~ setting.code) | trans }}
                 </td>

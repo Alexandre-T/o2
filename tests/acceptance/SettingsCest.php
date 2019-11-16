@@ -39,7 +39,7 @@ class SettingsCest
         $you->dontSee('settings.'); //all is translated
         $you->click('Paramètre'); // change order
         $you->seeResponseCodeIsSuccessful();
-        $you->click('Modifier ce paramètre');
+        $you->click('Modifier ce paramètre','tr.legacy-rcs');
         $settingId = $you->grabFromCurrentUrl('~(\d+)~');
         $you->seeCurrentUrlEquals('/administration/settings/'.$settingId.'/edit');
         $you->fillField('app_settings[value]', 'toto');
@@ -47,5 +47,48 @@ class SettingsCest
         $you->seeResponseCodeIsSuccessful();
         $you->areOnPage('/administration/settings/');
         $you->see('toto');
+    }
+
+    /**
+     * Try to update date settings.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToUpdateDateSettings(AcceptanceTester $you): void
+    {
+        $you->wantTo('list all settings');
+        $you->login('administrator');
+        $you->areOnPage('/administration/settings');
+        $you->seeResponseCodeIsSuccessful();
+        $you->click('Modifier ce paramètre', 'tr.service-until');
+        $settingId = $you->grabFromCurrentUrl('~(\d+)~');
+        $you->seeCurrentUrlEquals('/administration/settings/'.$settingId.'/edit');
+        $you->see('Service fermé jusqu’au');
+        $you->selectOption('app_settings[value][day]', '21');
+        $you->selectOption('app_settings[value][month]', '12');
+        $you->selectOption('app_settings[value][year]', '2020');
+        $you->click('Éditer', 'button.btn');
+        $you->seeResponseCodeIsSuccessful();
+    }
+
+    /**
+     * Try to update status settings.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToUpdateStatusSettings(AcceptanceTester $you): void
+    {
+        $you->wantTo('list all settings');
+        $you->login('administrator');
+        $you->areOnPage('/administration/settings');
+        $you->seeResponseCodeIsSuccessful();
+        $you->click('Modifier ce paramètre', 'tr.service-status');
+        $settingId = $you->grabFromCurrentUrl('~(\d+)~');
+        $you->seeCurrentUrlEquals('/administration/settings/'.$settingId.'/edit');
+        $you->see('Statut du service de reprogrammation');
+        $you->selectOption('app_settings[value]', '2');
+        $you->click('Éditer', 'button.btn');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('En vacances');
     }
 }
