@@ -56,6 +56,9 @@ class AccountantCest
         $billId = $you->grabFromCurrentUrl('~(\d+)~');
         $you->seeCurrentUrlEquals('/accountant/bill/'.$billId);
         $you->see('La facture a été créé et le client a été crédité à l’instant');
+        $you->wantToTest('print page');
+        $you->areOnPage('/accountant/bill/print/'.$billId);
+        $you->seeResponseCodeIsSuccessful();
     }
 
     /**
@@ -119,5 +122,11 @@ class AccountantCest
         $uri = '/accountant/bill?page=2&sort=number&highlight='.$billId.'&direction=asc&color=success';
         $you->seeCurrentUrlEquals($uri);
         $you->see('Les crédits de cette commande viennent d’être versés au client');
+        $you->wantToTest('that accountant cannot refresh and credit twice a user');
+        $you->areOnPage('/accountant/bill/credit/'.$billId);
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Les crédits de cette commande ont déjà été versé à ce client.');
+        $uri = '/accountant/bill?page=1&sort=number&highlight='.$billId.'&direction=asc&color=warning';
+        $you->seeCurrentUrlEquals($uri);
     }
 }

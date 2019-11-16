@@ -159,31 +159,6 @@ class AccountantController extends AbstractPaginateController
     }
 
     /**
-     * Finds and displays a bill entity.
-     * Redirect user to show page.
-     *
-     * @Route("/bill/credit/{bill}/show", name="bill_credit_show", methods={"get"})
-     *
-     * @param Bill         $bill         The bill to display
-     * @param OrderManager $orderManager The order manager
-     *
-     * @return RedirectResponse
-     */
-    public function creditAndShow(Bill $bill, OrderManager $orderManager): RedirectResponse
-    {
-        if ($bill->getOrder()->isCredited()) {
-            $this->addFlash('warning', 'flash.order.already-credited');
-
-            return $this->redirectToRoute('accountant_bill_show', ['id' => $bill->getId()]);
-        }
-
-        $orderManager->credit($bill->getOrder());
-        $this->addFlash('success', 'flash.order.credited');
-
-        return $this->redirectToRoute('accountant_bill_show', ['id' => $bill->getId()]);
-    }
-
-    /**
      * Lists all bill entities.
      *
      * @Route("/bill", name="bill_list", methods={"get"})
