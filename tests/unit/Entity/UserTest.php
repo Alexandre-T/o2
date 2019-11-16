@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Bill;
+use App\Entity\LanguageInterface;
 use App\Entity\Order;
 use App\Entity\PersonInterface;
 use App\Entity\Programmation;
@@ -102,6 +103,8 @@ class UserTest extends Unit
         self::assertNotNull($this->user->getLabel());
         self::assertEmpty($this->user->getLabel());
         self::assertNull($this->user->getGivenName());
+        self::assertEquals(LanguageInterface::INITIAL, $this->user->getLanguage());
+        self::assertEquals('fr-FR', $this->user->getLocale());
         self::assertNull($this->user->getMail());
         self::assertNull($this->user->getName());
         self::assertNull($this->user->getPassword());
@@ -114,6 +117,10 @@ class UserTest extends Unit
         self::assertEquals(PersonInterface::PHYSIC, $this->user->getType());
         self::assertIsBool($this->user->getType());
         self::assertIsBool($this->user->isTos());
+        self::assertIsBool($this->user->isEnglish());
+        self::assertIsBool($this->user->isFrench());
+        self::assertFalse($this->user->isEnglish());
+        self::assertTrue($this->user->isFrench());
         self::assertFalse($this->user->isTos());
         self::assertNotNull($this->user->getUsername());
         self::assertEmpty($this->user->getUsername());
@@ -184,6 +191,18 @@ class UserTest extends Unit
 
         $this->user->setName(null);
         self::assertEquals('', $this->user->getLabel());
+    }
+
+    /**
+     * Test language trait
+     */
+    public function testLanguage()
+    {
+        $actual = $expected = LanguageInterface::ENGLISH;
+
+        self::assertEquals($this->user, $this->user->setLanguage($actual));
+        self::assertEquals($expected, $this->user->getLanguage());
+        self::assertEquals('en-GB', $this->user->getLocale());
     }
 
     /**

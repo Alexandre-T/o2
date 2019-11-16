@@ -174,6 +174,10 @@ class AskedVat implements EntityInterface
      */
     public function getLabel(): string
     {
+        if (null === $this->getCustomer()) {
+            return '';
+        }
+
         return $this->getCustomer()->getLabel();
     }
 
