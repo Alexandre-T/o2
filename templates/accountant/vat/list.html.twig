@@ -32,8 +32,8 @@
                 <span class="{{ faSort(pagination.isSorted('createdAt'), direction, 'alpha') }}"></span>
             </th>
             <th id="asked-customer" class="align-middle">
-                {{ knp_pagination_sortable(pagination, 'form.field.customer' | trans, 'customer') }}
-                <span class="{{ faSort(pagination.isSorted('customer'), direction, 'alpha') }}"></span>
+                {{ knp_pagination_sortable(pagination, 'form.field.customer' | trans, 'customers') }}
+                <span class="{{ faSort(pagination.isSorted('customers'), direction, 'alpha') }}"></span>
             </th>
             <th id="asked-bill-indication" class="align-middle">
                 {{ 'form.field.explanation' | trans }}

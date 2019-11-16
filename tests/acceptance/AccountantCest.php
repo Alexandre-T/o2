@@ -68,10 +68,11 @@ class AccountantCest
      */
     public function tryToListAskedVat(AcceptanceTester $you): void
     {
-        $you->wantTo('list vats');
+        $you->wantTo('list vats with a bad sort field');
         $you->login('accountant');
-        $you->areOnPage('/accountant/vat');
+        $you->areOnPage('/accountant/vat?sort=toto');
         $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/accountant/vat');
         $you->wantTo('accept a vat');
         $you->click('Accepter', 'a.btn');
         $you->seeResponseCodeIsSuccessful();
@@ -80,6 +81,14 @@ class AccountantCest
         $you->click('Rejeter', 'a.btn');
         $you->seeResponseCodeIsSuccessful();
         $you->see('Le changement de taux de TVA a été rejeté');
+        $you->wantTo('list vats with a bad sort field');
+        $you->areOnPage('/accountant/vat?sort=createdAt');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/accountant/vat?sort=createdAt');
+        $you->areOnPage('/accountant/vat?sort=customers');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/accountant/vat?sort=customers');
+
     }
 
     /**
