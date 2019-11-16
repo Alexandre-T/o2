@@ -31,7 +31,7 @@ class CustomerCest
     {
         $you->wantTo('buy credits without order');
         $you->login('customer-8');
-        $you->amOnPage('/payment/method-choose');
+        $you->areOnPage('/payment/method-choose');
         $you->seeResponseCodeIsSuccessful();
         $you->canSeeCurrentUrlEquals('/customer/order-credit');
     }
@@ -45,7 +45,7 @@ class CustomerCest
     {
         $you->wantTo('update my password.');
         $you->login('customer');
-        $you->amOnPage('/customer/password');
+        $you->areOnPage('/customer/password');
         $you->fillField('Ancien mot de passe', 'bidon');
         $you->fillField('Nouveau mot de passe', 'customer');
         $you->fillField('Confirmation', 'customer');
@@ -58,6 +58,40 @@ class CustomerCest
     }
 
     /**
+     * Try to order cmd slave.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToOrderCmdWithMonetico(AcceptanceTester $you): void
+    {
+        $you->wantTo('connect as customer and try to order a cmd slave');
+        $you->login('customer');
+        $you->areOnPage('/customer/order-cmd');
+        $you->selectOption('choose_payment_method[method]','monetico');
+        $you->click('Enregistrer votre commande');
+        $you->seeResponseCodeIsSuccessful();
+        $token = $you->grabFromCurrentUrl('~/payment/capture/([\w|-]+)~');
+        $you->seeCurrentUrlEquals('/payment/capture/'. $token);
+    }
+
+    /**
+     * Try to order cmd slave with paypal.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToOrderCmdWithPaypal(AcceptanceTester $you): void
+    {
+        $you->wantTo('connect as customer and try to order a cmd slave');
+        $you->login('customer');
+        $you->areOnPage('/customer/order-cmd');
+        $you->selectOption('choose_payment_method[method]','paypal_express_checkout');
+        $you->click('Enregistrer votre commande');
+        $you->seeResponseCodeIsSuccessful();
+        $token = $you->grabFromCurrentUrl('~/payment/capture/([\w|-]+)~');
+        $you->seeCurrentUrlEquals('/payment/capture/'. $token);
+    }
+
+    /**
      * Try to order some credit.
      *
      * @param AcceptanceTester $you acceptance tester
@@ -66,7 +100,7 @@ class CustomerCest
     {
         $you->wantTo('connect as customer and try to order some credits');
         $you->login('customer');
-        $you->amOnPage('/customer/order-credit');
+        $you->areOnPage('/customer/order-credit');
         $you->fillField('Lot(s) de 10 crédits', 4);
         $you->fillField('Lot(s) de 100 crédits', 1);
         $you->fillField('Lot(s) de 500 crédits', 2);
@@ -133,7 +167,7 @@ class CustomerCest
     {
         $you->wantTo('send an empty password form.');
         $you->login('customer');
-        $you->amOnPage('/customer/password');
+        $you->areOnPage('/customer/password');
         $you->fillField('Ancien mot de passe', '');
         $you->fillField('Nouveau mot de passe', '');
         $you->fillField('Confirmation', '');
@@ -155,7 +189,7 @@ class CustomerCest
     {
         $you->wantTo('send an empty profile form.');
         $you->login('customer');
-        $you->amOnPage('/customer/profile');
+        $you->areOnPage('/customer/profile');
         $you->fillField('Nom de famille', '');
         $you->fillField('Adresse', '');
         $you->fillField('Code postal', '');
@@ -181,7 +215,7 @@ class CustomerCest
 
         $you->wantTo('send a too long profile form.');
         $you->login('customer');
-        $you->amOnPage('/customer/password');
+        $you->areOnPage('/customer/password');
         $you->fillField('Ancien mot de passe', $password);
         $you->fillField('Nouveau mot de passe', $password);
         $you->fillField('Confirmation', $password);
@@ -206,7 +240,7 @@ class CustomerCest
 
         $you->wantTo('send a too long profile form.');
         $you->login('customer');
-        $you->amOnPage('/customer/profile');
+        $you->areOnPage('/customer/profile');
         $you->fillField('Prénom', $label);
         $you->fillField('Nom de famille', $label);
         $you->fillField('Téléphone', $telephone);
@@ -236,7 +270,7 @@ class CustomerCest
     {
         $you->wantTo('send customer as a physic person without its name.');
         $you->login('customer');
-        $you->amOnPage('/customer/profile');
+        $you->areOnPage('/customer/profile');
         //Physic person
         $you->selectOption('app_profile[type]', 1);
         $you->fillField('Nom de famille', '');
@@ -257,7 +291,7 @@ class CustomerCest
     {
         $you->wantTo('send customer as a society without its name.');
         $you->login('customer');
-        $you->amOnPage('/customer/profile');
+        $you->areOnPage('/customer/profile');
         //Société
         $you->selectOption('app_profile[type]', 0);
         $you->click('Enregistrer les modifications');
@@ -277,7 +311,7 @@ class CustomerCest
     {
         $you->wantTo('send an empty vat profile.');
         $you->login('customer');
-        $you->amOnPage('/customer/vat');
+        $you->areOnPage('/customer/vat');
         $you->see('Votre taux de TVA actuel est de');
         $you->click('Envoyer la demande');
         $you->seeResponseCodeIsSuccessful();
@@ -311,7 +345,7 @@ class CustomerCest
     {
         $you->wantTo('update customer.');
         $you->login('customer');
-        $you->amOnPage('/customer/profile');
+        $you->areOnPage('/customer/profile');
         $you->selectOption('app_profile[type]', 1);
         $you->fillField('Nom de famille', 'Nom de famille');
         $you->fillField('Adresse', 'rue de Bordeaux');
@@ -334,7 +368,7 @@ class CustomerCest
     {
         $you->wantTo('update my password.');
         $you->login('customer');
-        $you->amOnPage('/customer/password');
+        $you->areOnPage('/customer/password');
         $you->fillField('Ancien mot de passe', 'customer');
         $you->fillField('Nouveau mot de passe', 'customer');
         $you->fillField('Confirmation', 'customer');
