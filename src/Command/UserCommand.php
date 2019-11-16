@@ -59,7 +59,7 @@ class UserCommand extends Command
             ->setDescription('Create a new user')
             ->addArgument('label', InputArgument::REQUIRED, 'Nom de l’utilisateur')
             ->addArgument('mail', InputArgument::REQUIRED, 'Email de l’utilisateur')
-            ->addArgument('password', InputArgument::OPTIONAL, 'Email de l’utilisateur')
+            ->addArgument('password', InputArgument::REQUIRED, 'Mot de passe de l’utilisateur')
             ->addOption('admin', null, InputOption::VALUE_NONE, 'Crée un administrateur')
         ;
     }
@@ -98,13 +98,15 @@ class UserCommand extends Command
             $user->setPlainPassword($password);
         }
 
+        $message = 'User created.';
         if (!empty($input->getOption('admin'))) {
+            $message = 'Admin user created.';
             $user->setRoles(['ROLE_ADMIN']);
         }
 
         $this->objectManager->persist($user);
         $this->objectManager->flush();
 
-        $inOut->success('User created.');
+        $inOut->success($message);
     }
 }
