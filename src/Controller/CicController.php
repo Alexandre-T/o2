@@ -51,7 +51,7 @@ class CicController
     {
         $data = empty($_POST) ? $_GET : $_POST;
 
-        if (null === $data) {
+        if (empty($data)) {
             return new Response(Api::NOTIFY_FAILURE);
         }
 
