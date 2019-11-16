@@ -80,6 +80,8 @@ class AcceptanceTester extends Actor
         $this->click('Se connecter');
         $this->seeResponseCodeIsSuccessful();
         $this->seeCurrentUrlEquals('/');
-        $this->seeLink('Déconnexion');
+        //We can no more test that we see link deconnection, because user can be english or french
+        $this->dontSeeLink('Se connecter');
+        $this->dontSeeLink('Connect');
     }
 }

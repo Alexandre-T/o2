@@ -23,30 +23,63 @@ namespace App\Tests;
 class LanguageCest
 {
     /**
-     * Test the home page which shall be in french.
+     * Test the home page which shall be in French.
      *
      * @param AcceptanceTester $you the acceptance tester
      */
     public function tryToTestHomePage(AcceptanceTester $you): void
     {
-        $you->wantToTest('I see V-Mod Engineering');
+        $you->wantToTest('I see a french interface');
         $you->amOnPage('/');
         $you->seeResponseCodeIsSuccessful();
         $you->see('Connexion');
         $you->dontSee('Connection');
+        $you->wantToTest('I can swap in english interface');
         $you->click('English');
         $you->seeCurrentUrlEquals('/');
         $you->seeResponseCodeIsSuccessful();
         $you->dontSee('Connexion');
         $you->see('Connection');
+        $you->wantToTest('I can swap back to a french interface');
+        $you->click('Français');
+        $you->seeCurrentUrlEquals('/');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Connexion');
+        $you->dontSee('Connection');
+    }
 
-        //We connect with a french user and we should return into french language
+    /**
+     * Test the home page with a french user.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToTestHomePageAsFrenchUser(AcceptanceTester $you): void
+    {
+        $you->wantToTest('We connect with a french user and we shall return into french language');
+        //prepare the test
+        $you->areOnPage('/');
+        $you->click('English');
+        $you->seeResponseCodeIsSuccessful();
+        //test is ready, interface is in english mode
         $you->login('all');
         $you->seeCurrentUrlEquals('/');
         $you->seeResponseCodeIsSuccessful();
         $you->see('Connexion');
         $you->seeLink('English');
-        $you->dontSeeLink('French');
+        $you->dontSeeLink('Français');
         $you->dontSee('Connection');
+        $you->wantToTest('The french user can swap in english');
+        $you->click('English');
+        $you->seeResponseCodeIsSuccessful();
+        $you->dontSeeLink('English');
+        $you->seeLink('Français');
+        $you->dontSeeLink('Déconnexion');
+        $you->seeLink('Disconnection');
+        $you->click('Français');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeLink('English');
+        $you->dontSeeLink('Français');
+        $you->seeLink('Déconnexion');
+        $you->dontSeeLink('Disconnection');
     }
 }
