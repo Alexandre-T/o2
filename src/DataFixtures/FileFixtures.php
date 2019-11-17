@@ -36,7 +36,7 @@ class FileFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         if (in_array(getenv('APP_ENV'), ['dev', 'test'])) {
-            foreach (range(1, 10) as $index) {
+            foreach (range(1, 40) as $index) {
                 $file = new File();
 
                 $file->setName('upload.txt');

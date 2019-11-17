@@ -83,13 +83,27 @@
                             <span class="far fa-eye"></span>
                             <span class="sr-only">{{ 'action.programmation.show.text' | trans }}</span>
                         </a>
-                        <a class="btn btn-outline-secondary" data-placement="left" data-toggle="tooltip"
-                           title="{{ 'action.programmation.download-original.title' | trans }}"
-                           href="{{ path('programmer_download_original', { 'id': programmation.id }) }}">
-                            <span class="fas fa-download"></span>
-                            <span class="sr-only">{{ 'action.programmation.download-original.text' | trans }}</span>
-                        </a>
-                        {% if programmation.deliveredAt is not empty %}
+                        {% if programmation.originalObsolete %}
+                            <span class="btn btn-secondary" data-placement="left" data-toggle="tooltip"
+                                  title="{{ 'action.programmation.obsolete.title' | trans }}">
+                                    <span class="fas fa-archive"></span>
+                                    <span class="sr-only">{{ 'action.programmation.obsolete.text' | trans }}</span>
+                                </span>
+                        {% else %}
+                            <a class="btn btn-outline-secondary" data-placement="left" data-toggle="tooltip"
+                               title="{{ 'action.programmation.download-original.title' | trans }}"
+                               href="{{ path('programmer_download_original', { 'id': programmation.id }) }}">
+                                <span class="fas fa-download"></span>
+                                <span class="sr-only">{{ 'action.programmation.download-original.text' | trans }}</span>
+                            </a>
+                        {% endif %}
+                        {% if programmation.deliveredObsolete %}
+                            <span class="btn btn-secondary" data-placement="left" data-toggle="tooltip"
+                              title="{{ 'action.programmation.obsolete.title' | trans }}">
+                                    <span class="fas fa-archive"></span>
+                                    <span class="sr-only">{{ 'action.programmation.obsolete.text' | trans }}</span>
+                                </span>
+                        {% elseif programmation.deliveredAt is not empty %}
                         <a class="btn btn-outline-secondary" title="{{ 'action.programmation.download.title' | trans }}"
                            href="{{ path('programmer_download_final', { 'id': programmation.id }) }}"
                            data-placement="left" data-toggle="tooltip">

@@ -15,10 +15,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Model\Obsolete;
 use App\Model\ProgrammationInterface;
 use App\Utils\CostCalculator;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -566,6 +568,34 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function getYear(): ?int
     {
         return $this->year;
+    }
+
+    /**
+     * Is the delivered file obsolete?
+     *
+     * @return bool
+     *
+     * @throws Exception this shall not happen
+     */
+    public function isDeliveredObsolete(): bool
+    {
+        if (null === $this->getDeliveredAt()) {
+            return false;
+        }
+
+        return Obsolete::isObsolete($this->getDeliveredAt());
+    }
+
+    /**
+     * Is the created date obsolete?
+     *
+     * @return bool
+     *
+     * @throws Exception this hall not happen
+     */
+    public function isOriginalObsolete(): bool
+    {
+        return Obsolete::isObsolete($this->getCreatedAt());
     }
 
     /**

@@ -122,12 +122,20 @@
                     {{ 'message.programmation.customer-waiting' | trans }}
                 </div>
                 <div class="d-flex justify-content-around">
-                    <a href="{{ path('programmer_download_original', {'id': programmation.id}) }}"
-                       data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4 animated bounceInLeft"
-                       title="{{ 'action.programmer.download-original.title' | trans }}">
-                        <span class="fas fa-fw fa-download"></span>
-                        <strong>{{ 'action.programmer.download-original.text' | trans }}</strong>
-                    </a>
+                    {% if programmation.originalObsolete %}
+                        <span data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4"
+                           title="{{ 'action.programmation.obsolete.title' | trans }}">
+                            <span class="fas fa-fw fa-archive"></span>
+                            <strong>{{ 'action.programmation.obsolete.text' | trans }}</strong>
+                        </span>
+                    {% else %}
+                        <a href="{{ path('programmer_download_original', {'id': programmation.id}) }}"
+                           data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4 animated bounceInLeft"
+                           title="{{ 'action.programmer.download-original.title' | trans }}">
+                            <span class="fas fa-fw fa-download"></span>
+                            <strong>{{ 'action.programmer.download-original.text' | trans }}</strong>
+                        </a>
+                    {% endif %}
                     <a href="{{ path('programmer_upload', {'id': programmation.id}) }}" data-toggle="tooltip"
                        data-placement="bottom" class="btn btn-primary p-4 animated bounceInRight"
                        title="{{ 'action.programmation.form.title' | trans }}">
@@ -144,18 +152,34 @@
                     {{ 'message.programmer.done' | trans }}
                 </div>
                 <div class="text-center">
-                    <a href="{{ path('programmer_download_original', {'id': programmation.id}) }}"
-                       data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4 animated bounceIn"
-                       title="{{ 'action.programmer.download-original.title' | trans }}">
-                        <span class="fas fa-fw fa-download"></span>
-                        <strong>{{ 'action.programmer.download-original.text' | trans }}</strong>
-                    </a>
-                    <a href="{{ path('programmer_download_final', {'id': programmation.id}) }}"
-                       data-toggle="tooltip" data-placement="bottom" class="btn btn-primary p-4 animated bounceIn"
-                       title="{{ 'action.programmer.download-final.title' | trans }}">
-                        <span class="fas fa-fw fa-download"></span>
-                        <strong>{{ 'action.programmer.download-final.text' | trans }}</strong>
-                    </a>
+                    {% if programmation.originalObsolete %}
+                        <span data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4"
+                              title="{{ 'action.programmation.obsolete.title' | trans }}">
+                            <span class="fas fa-fw fa-archive"></span>
+                            <strong>{{ 'action.programmation.obsolete.text' | trans }}</strong>
+                        </span>
+                    {% else %}
+                        <a href="{{ path('programmer_download_original', {'id': programmation.id}) }}"
+                           data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4 animated bounceInLeft"
+                           title="{{ 'action.programmer.download-original.title' | trans }}">
+                            <span class="fas fa-fw fa-download"></span>
+                            <strong>{{ 'action.programmer.download-original.text' | trans }}</strong>
+                        </a>
+                    {% endif %}
+                    {% if programmation.deliveredObsolete %}
+                        <span data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4"
+                          title="{{ 'action.programmation.obsolete.title' | trans }}">
+                            <span class="fas fa-fw fa-archive"></span>
+                            <strong>{{ 'action.programmation.obsolete.text' | trans }}</strong>
+                        </span>
+                    {% else %}
+                        <a href="{{ path('programmer_download_final', {'id': programmation.id}) }}"
+                           data-toggle="tooltip" data-placement="bottom" class="btn btn-primary p-4 animated bounceIn"
+                           title="{{ 'action.programmer.download-final.title' | trans }}">
+                            <span class="fas fa-fw fa-download"></span>
+                            <strong>{{ 'action.programmer.download-final.text' | trans }}</strong>
+                        </a>
+                    {% endif %}
                 </div>
             {% endif %}
             </div>

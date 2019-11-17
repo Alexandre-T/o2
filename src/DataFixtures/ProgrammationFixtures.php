@@ -19,10 +19,16 @@ use App\Entity\File;
 use App\Entity\Programmation;
 use App\Entity\User;
 use App\Model\ProgrammationInterface;
+use DateInterval;
+use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Programmation fixtures.
@@ -53,35 +59,115 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         if (in_array(getenv('APP_ENV'), ['dev', 'test'])) {
-            /** @var User $customer */
-            $customer = $this->getReference('user_customer');
-            foreach (range(1, 10) as $index) {
+            foreach (range(1, 40) as $index) {
                 /** @var File $file */
-                $file = $this->getReference('file'.$index);
-                $programmation = new Programmation();
-                $programmation->setCustomer($customer);
-                $programmation->setCylinderCapacity('3.2');
-                $programmation->setGearAutomatic(ProgrammationInterface::GEAR_MANUAL);
-                $programmation->setComment('Comment'.$index);
-                $programmation->setEdcOff(true);
-                $programmation->setOdb(ProgrammationInterface::ODB_BOOT);
-                $programmation->setOdometer(30000 + $index);
-                $programmation->setOriginalFile($file);
-                $programmation->setMake('Make'.$index);
-                $programmation->setModel('Model'.$index);
-                $programmation->setOriginalFile($file);
-                $programmation->setPower(100 + $index);
-                $programmation->setProtocol('Protocol'.$index);
-                $programmation->setRead(ProgrammationInterface::READ_REAL);
-                $programmation->setReaderTool("ReaderTool{$index}");
-                $programmation->setSerial("Serial{$index}");
-                $programmation->setVersion("Version{$index}");
-                $programmation->setYear(2009);
-                $programmation->refreshCost();
+                $programmation = $this->createProgrammation($index);
+                if (empty($index % 4)) {
+                    $this->close($programmation, $index);
+                }
+
+                if (empty($index % 8)) {
+                    $this->obsolete($programmation, $index);
+                }
+
                 $manager->persist($programmation);
             }
         }
 
         $manager->flush();
+    }
+
+    /**
+     * Create a programmation.
+     *
+     * @param $index
+     * @return Programmation
+     */
+    private function createProgrammation($index): Programmation
+    {
+        /** @var File $file */
+        $file = $this->getReference('file'.$index);
+        /** @var User $customer */
+        $customer = $this->getReference('user_customer');
+        $programmation = new Programmation();
+        $programmation->setCustomer($customer);
+        $programmation->setCylinderCapacity('3.2');
+        $programmation->setGearAutomatic(ProgrammationInterface::GEAR_MANUAL);
+        $programmation->setComment('Comment'.$index);
+        $programmation->setEdcOff(true);
+        $programmation->setOdb(ProgrammationInterface::ODB_BOOT);
+        $programmation->setOdometer(30000 + $index);
+        $programmation->setOriginalFile($file);
+        $programmation->setMake('Make'.$index);
+        $programmation->setModel('Model'.$index);
+        $programmation->setOriginalFile($file);
+        $programmation->setPower(100 + $index);
+        $programmation->setProtocol('Protocol'.$index);
+        $programmation->setRead(ProgrammationInterface::READ_REAL);
+        $programmation->setReaderTool("ReaderTool{$index}");
+        $programmation->setSerial("Serial{$index}");
+        $programmation->setVersion("Version{$index}");
+        $programmation->setYear(2009);
+        $programmation->refreshCost();
+
+        return $programmation;
+    }
+
+    /**
+ * The obsolete programmation.
+ *
+ * @param Programmation $programmation the programmation to set obsolete
+ *
+ * @throws ReflectionException
+ */
+    private function obsolete(Programmation $programmation, $index): void
+    {
+        $oldDate = new DateTime('now');
+        $oldDate->sub(new DateInterval('P2M'));
+        /** @var File $file */
+        $file = $this->getReference('file' . $index);
+        $programmation->setDeliveredAt($oldDate);
+        $programmation->setFinalFile($file);
+        $programmation->setEdcStopped(true);
+        $programmation->setEgrStopped(true);
+        $programmation->setEthanolDone(false);
+        $programmation->setFapStopped(true);
+        $programmation->setStageOneDone(false);
+        $this->setCreatedAt($programmation, $oldDate);
+    }
+
+    /**
+     * The obsolete programmation.
+     *
+     * @param Programmation $programmation the programmation to set obsolete
+     * @param int $index the index of programmation to find a file
+     */
+    private function close(Programmation $programmation, int $index): void
+    {
+        /** @var File $file */
+        $file = $this->getReference('file' . $index);
+        $programmation->setDeliveredAt(new DateTimeImmutable());
+        $programmation->setFinalFile($file);
+        $programmation->setEdcStopped(true);
+        $programmation->setEgrStopped(true);
+        $programmation->setEthanolDone(false);
+        $programmation->setFapStopped(true);
+        $programmation->setStageOneDone(false);
+    }
+
+    /**
+     * Update creation date.
+     *
+     * @param Programmation $programmation the programmation to update
+     * @param DateTimeInterface $date the new date
+     *
+     * @throws ReflectionException when programmation does not have a createdAt property (so never)
+     */
+    private function setCreatedAt(Programmation $programmation, DateTimeInterface $date): void
+    {
+        $reflection = new ReflectionClass($programmation);
+        $property = $reflection->getProperty('createdAt');
+        $property->setAccessible(true);
+        $property->setValue($programmation, $date);
     }
 }

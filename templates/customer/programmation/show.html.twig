@@ -66,6 +66,10 @@
                         <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.protocol' | trans }}</dt>
                         <dd class="col-sm-6">{{ programmation.protocol }}</dd>
                     </dl>
+                    <dl class="row">
+                        <dt class="col-sm-6 text-truncate text-right">{{ 'form.field.created-at' | trans }}</dt>
+                        <dd class="col-sm-6">{{ programmation.createdAt | app_date }}</dd>
+                    </dl>
                 </div>
             </div>
         </div>
@@ -120,12 +124,20 @@
                         {{ 'message.programmation.done' | trans }}
                     </div>
                     <div class="text-center">
-                        <a href="{{ path('customer_programmation_download', {'id': programmation.id}) }}"
-                           data-toggle="tooltip" data-placement="bottom" class="btn btn-primary p-4 animated bounceIn"
-                           title="{{ 'action.programmation.download.title' | trans }}">
-                            <span class="fas fa-fw fa-download"></span>
-                            <strong>{{ 'action.programmation.download.text' | trans }}</strong>
-                        </a>
+                        {% if programmation.deliveredObsolete %}
+                            <span data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4"
+                                  title="{{ 'action.programmation.obsolete.title' | trans }}">
+                                <span class="fas fa-fw fa-archive"></span>
+                                <strong>{{ 'action.programmation.obsolete.text' | trans }}</strong>
+                            </span>
+                        {% else %}
+                            <a href="{{ path('customer_programmation_download', {'id': programmation.id}) }}"
+                               data-toggle="tooltip" data-placement="bottom" class="btn btn-primary p-4 animated bounceIn"
+                               title="{{ 'action.programmation.download.title' | trans }}">
+                                <span class="fas fa-fw fa-download"></span>
+                                <strong>{{ 'action.programmation.download.text' | trans }}</strong>
+                            </a>
+                        {% endif %}
                     </div>
                 {% endif %}
             </div>

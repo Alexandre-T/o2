@@ -85,6 +85,9 @@ action:
     form:
       title: 'Transmettre la nouvelle cartographie'
       text: 'Nouvelle cartographie'
+    obsolete:
+      text: 'Obsolète'
+      title: 'Ce fichier est obsolète et ne peut plus être installé sur un véhicule'
   upload-programmation:
     text: 'Envoyer la reprogrammation au client'
   programmer:

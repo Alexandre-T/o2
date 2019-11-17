@@ -21,7 +21,6 @@ use App\Entity\User;
 use App\Tests\UnitTester;
 use Codeception\Test\Unit;
 use DateTimeImmutable;
-use ReflectionException;
 
 /**
  * Bill entity unit tests.
@@ -110,8 +109,6 @@ class BillTest extends Unit
 
     /**
      * Test Number setter and getter.
-     *
-     * @throws ReflectionException on reflection error
      */
     public function testNumberAt(): void
     {
