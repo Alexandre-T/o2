@@ -1,0 +1,62 @@
+common:
+  asked: 'Asked'
+  non-asked: 'Non asked'
+title:
+  password-lost: 'V-Mod Engineering: Password initialization'
+  new-payment: 'V-Mod Engineering: New online payment'
+  new-programmation: 'V-Mod Engineering: New programmation ordered'
+  programmation-done: 'V-Mod Engineering: Programmation is ready'
+  new-asked-vat: 'V-Mod Engineering: New VAT rate request'
+  accepted-asked-vat: 'V-Mod Engineering: Vat rate request accepted'
+  rejected-asked-vat: 'V-Mod Engineering: Vat rate request rejected'
+link:
+  reset:
+    text: 'Access to form'
+  download-bill:
+    text: 'Bill'
+    title: 'Display the bill'
+  download-original-file:
+    title: 'Download original file'
+    text: 'Download improved file'
+  programmation-show:
+    title: 'Display your programmation'
+    text: 'Display your programmation'
+  download-final-file:
+    title: 'Download final file'
+    text: 'Download'
+  asked-list:
+    text: 'Display VAT rate requests'
+    title: 'Display all pending VAT rate requests'
+  asked-accept:
+    text: 'Accept this request'
+    title: 'Accept this request'
+  asked-reject:
+    text: 'Reject this request'
+    title: 'Reject this request'
+explanation:
+  password-lost:
+    declaration: 'You have declared that you lost your password. '
+    how-to: 'By clicking on this link, you will be forward to an online form which allow you to choose a new password.'
+  new-payment: 'An online payment was just done.'
+  new-programmation %mail%: 'A new programmation has been requested by %mail%'
+  programmation-done %make% %model%: 'The programmation about you %make% %model% is ready. Above, you will find links to download you files and look at the details of your order.'
+  new-asked-vat: 'Customer just ask a new VAT rate.'
+  accepted-asked-vat %vat%: 'Your request for a new VAT rage has been accepted by our accountant service.'
+  rejected-asked-vat %vat% %actual%: 'Your request for a new VAT rage has been accepted by our accountant service.'
+new-payment:
+  description %mail% %amount% %credits%: 'The new payment was made by %mail% for a total amount of %amount%  in order to buy %credits% credits.'
+programmation:
+  make: 'Vehicle make'
+  model: 'Vehicle model'
+  edc15: 'EDC15'
+  egr: 'EGR Off'
+  fap: 'FAP Off'
+  ethanol: 'Ethanol'
+  stageOne: 'Stage 1'
+li:
+  postal-code %postal%: 'Customer postal code: %postal%'
+  new-vat %explanation%: 'Explanation provided by customer: %explanation%'
+  new-vat %vat%: 'New requested VAT rate: %vat%'
+  customer %customer%: 'Customer: %customer%'
+  actual-vat %actual%: 'Current VAT rate: %actual%'
+  vat-number %number%: 'VAT number: %number%'

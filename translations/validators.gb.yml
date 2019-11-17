@@ -1,0 +1,70 @@
+error:
+  asked-vat-status:
+    choices: 'This status is not valid.'
+  credit:
+    empty: 'You do not have enough credit for this programmation.'
+  'cylinder-capacity':
+    not-blank : 'Cylinder capacity cannot be blank'
+  file:
+    blank: 'Please provide original file'
+  gear:
+    choice: 'This value is not accepted. Please choose between "automatique" and "manual"'
+  language:
+    unknown: 'This language is not accepted. This website is only available in french and in english.'
+  locality:
+    blank: 'The locality cannot be blank.'
+  make:
+    blank: 'Make cannot be blank.'
+  mail:
+    blank: 'Email address cannot be blank.'
+    unique:
+      'Its seems that you already have an account on our website!'
+  method:
+    choice: 'This payment method is not available.'
+  model:
+    blank: 'The model cannot be blank.'
+  name:
+    blank: 'Your family name cannot be blank.'
+  odb:
+    choice: 'ODB mode is not valid'
+  odometer:
+    min: 'Odometer shall be greater than 10 km.'
+    max: 'Odometer shall be lesser than 500 000 km.'
+  old-password:
+    blank:
+      'Your current password cannot be blank.'
+    not-match:
+      'Ther entered password does not match with your current password.'
+  order:
+    empty: 'Your order does not contain credit. Please select at least one pack!'
+  plain-password:
+    blank: 'Password cannot be blank.'
+    repeated: 'Passwords are different.'
+  postal-code:
+    blank: 'Postal code cannot be blank.'
+  power:
+    min: 'Power shall be greater than 1'
+    max: 'Power shall be lesser than 1'
+  programmation:
+    empty: 'Please select options for your programmation'
+  quantity:
+    greater-than-or-equal-zero: 'Please provide a number greater or equal to 0'
+  reader-tool:
+    blank: 'Reader tool cannot be blank.'
+  serial:
+    blank: 'Serial number cannot be blank.'
+  society:
+    blank: 'Company name cannot be blank.'
+  street-address:
+    blank: 'Street address cannot be blank.'
+  tos:
+    blank: 'Please read and accept TOS.'
+  vat:
+    empty-domtom: 'Please confirm your postal code.'
+    empty-europe: 'Please confirm your VAT number.'
+    same: 'VAT rate does not change. Request automatically rejected'
+  version:
+    blank: 'Version cannot be blank.'
+  year:
+    min: 'Year of car shall be greater than 1900'
+    max: 'Year cannot be so great!'
