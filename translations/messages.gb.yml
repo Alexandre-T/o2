@@ -1,0 +1,949 @@
+accountant:
+  credit:
+    credit: 'Yes, credit him'
+    not-credit: 'No, do not credit him'
+action:
+  bill:
+    show:
+      title: 'Consult the bill'
+      text: 'Consult'
+    list:
+      text: 'Bills list'
+      title: 'Consult the bills list'
+    credit:
+      text: 'Credit customer'
+      title %quantity%: 'Pay customer %quantity% crédits pending'
+    print:
+      text: 'Print'
+      title: 'Show this bill in fullscreen for printing'
+  close: 'Close'
+  email:
+    title: 'Send a mail'
+  export-mail:
+    text: 'Mail adresses'
+    title: 'Export all email addresses.'
+  entity:
+    create:
+      text: 'Create'
+    delete:
+      text: 'Delete'
+      title: 'Delete'
+    edit:
+      text: 'Edit'
+      title: 'Edit'
+    list:
+      text: 'List'
+      title: 'Go back to the full list'
+    show:
+      text: 'Consult'
+      title: 'Consult sheet'
+  next: 'Next'
+  previous: 'Previous'
+  save:
+    text: 'Save'
+  search: 'Search'
+  user:
+    create:
+      text: 'Create'
+      title: 'Create a new user'
+    delete:
+      text: 'Delete'
+      title: 'Delete this user'
+    edit:
+      text: 'Edit'
+      title: 'Edit this user'
+    list:
+      text: 'List'
+      title: 'Go to the user list'
+    show:
+      text: 'Consult'
+      title: 'Consult user sheet'
+    password:
+      text: 'Password'
+      title: 'Update user password'
+    new-bill:
+      text: 'New bill'
+      title: 'Save a new bill'
+  url:
+    title: 'Show the website (in a new window)'
+  settings:
+    edit:
+      text: 'Edit'
+      title: 'Update this parameter'
+    list:
+      title: 'Go back to settings'
+  programmation:
+    show:
+      text: 'Your programmation'
+      title: 'Consult your programmation'
+    download:
+      title: 'Download a new programmation'
+      text: 'New programmation'
+    download-original:
+      title: 'Download customer filer'
+      text: 'Customer file'
+    form:
+      title: 'Forward the new programmation'
+      text: 'New programmation'
+    obsolete:
+      text: 'Obsolete'
+      title: 'This file is obsolete and can no more be installed on a car'
+  upload-programmation:
+    text: 'Send the programmation to customer'
+  programmer:
+    download-original:
+      text: 'Download original programmation'
+      title: 'Download the original programmation sent by customer'
+    download-final:
+      text: 'Download the new programmation'
+      title: 'Download the new programmation sent to customer'
+  mail:
+    main:
+      text: 'Send the test mail'
+  accountant:
+    accept:
+      text: 'Accept'
+      title: 'Accept the new VAT rate'
+    show:
+      title: 'Show the asked VAT rate list'
+    reject:
+      text: 'Reject'
+      title: 'Reject the new VAT rate'
+
+administration:
+  created:
+    at: 'Creation'
+    by: 'Created by'
+  updated:
+    at: 'Last update'
+  user:
+    title %name%: 'User %name% sheet'
+    updated %name%: 'Modification of user %name%'
+
+Address: 'Adress'
+
+article:
+  cmdslave:
+    text: 'CMD-Slave'
+  CRED0010:
+    text: 'Pack of 10 credits'
+  CRED0100:
+    text: 'Pack of 100 credits'
+  CRED0500:
+    text: 'Pack of 500 credits'
+
+bill:
+  base: 'Base'
+  canceled: 'Canceled'
+  customer: 'Customer'
+  date: 'Date'
+  method: 'Payment method:'
+  non-paid: 'Not paid'
+  non-canceled: 'Not canceled'
+  number: 'Number'
+  paid: 'Paid'
+  status: 'Status'
+  title: 'Bill'
+  expired: 'Due date:'
+  penalities: 'Late payment penalties at the annual rate of: 10.05% - Discount in case of advance payment: 1.50%'
+  indemnities: 'Flat-rate compensation for recovery costs in case of late payment: € 40.00'
+  price: 'Price'
+  tos %url%: 'The customer acknowledges having read our terms and conditions visible on our website: %url%'
+  total: 'Total Price'
+  total-price: 'Total without taxes'
+  total-vat: 'VAT'
+  tva-percent: '% VAT'
+  already-paid: 'Already paid'
+  to-paid: 'Net to pay'
+
+Browse: 'Browse'
+
+data:
+  paypal_express_checkout: 'Paypal Express™'
+  monetico: 'Credit card (CIC™)'
+
+Day: 'Day'
+
+empty: 'empty'
+
+entity:
+  global-information: 'Generalities'
+  information: 'Information'
+  log:
+    action: 'Action'
+    actions:
+      create: 'Creation'
+      delete: 'Delete'
+      update: 'Update'
+    data:
+      bill-indication: 'New bill indication'
+      canceled-at: 'New cancel date'
+      complement: 'New complement'
+      created-at: 'New creation date'
+      credit: 'Credits'
+      country: 'New credits'
+      customer: 'New customer'
+      email: 'New mail'
+      family-name: 'New family name'
+      given-name: 'New given name'
+      label: 'New label'
+      language: 'New language'
+      locality: 'New locality'
+      mail: 'New mail'
+      name: 'New name'
+      nationality: 'New nationality'
+      number: 'New bill number'
+      order: 'New ordere'
+      paid-at: 'New payment date'
+      password: 'New password'
+      post-office-box-number: 'New post office box number'
+      postal-code: 'New postal code'
+      price: 'New price'
+      resetting-at: 'Token asked at'
+      resetting-token: 'Resetting token'
+      roles: 'New roles'
+      service: 'New service'
+      society: 'New society'
+      street-address: 'New street address'
+      telephone: 'New telephone'
+      type: 'New type'
+      value: 'New value'
+      vat: 'New VAT'
+      vat-number: 'New vat number'
+    date: 'Date'
+    explanation: 'This tab lists all the changes that have occurred for the current form.'
+    new-value: 'New value(s)'
+    title: 'Track updates'
+    user: 'Author'
+    version: 'Version'
+    society-physic: 'Physic'
+    society-morale: 'Morale'
+  settings:
+    updated %label%: 'The parameter "%label%" has been updated'
+  tab:
+    address-logs: 'Address updates'
+    general: 'Generalities'
+    logs: 'Logs'
+    informations: 'Information'
+    contacts: 'Contacts'
+    order: 'Order'
+    payment: 'Payment'
+  user:
+    created %name%: 'The user named "%name%" has been created with succes.'
+    deleted %name%: 'The user named "%name%" has been deleted with succes.'
+    updated %name%: 'The user named "%name%" has been updated with succes..'
+    password %name%: 'The password of user named "%name%" has been updated with succes.'
+  programmation:
+    uploaded: 'Programmation has been uploaded. Customer can now download it.'
+
+error:
+  communication: 'Ou server was unable to contact the payment online-service. Please try again!'
+  payment:
+    canceled: 'The payment process has been canceled.'
+    non-existent: 'This pending order does not exist or is already paid.'
+  payment-instruction: 'An error occurred in payment service. Please try an other payment method!'
+
+explanations:
+  password-lost: 'If you have forgotten your password, enter your mail address. A mail will be sent to you with instructions to update it.'
+  password-reset: 'You have declared that you loosed your password, please provide a new password.'
+
+form:
+  error:
+    country: 'The selected country is not valid, please select a country from the list.'
+    loading:
+      service: 'An error occurred while loading the services of this organization.'
+  field:
+    amount: 'Amount'
+    article-10: 'Pack(s) of 10 credits'
+    article-100: 'Pack(s) of 100 credits'
+    article-500: 'Pack(s) of 500 credits'
+    bill-indication: 'Bill indication'
+    cat-stopped: 'Catalytic done'
+    credit: 'Credits'
+    complement: 'Complement'
+    comment: 'Comments'
+    country: 'Country'
+    created-at: 'Sent date'
+    customer: 'Customer'
+    cylinder-capacity: 'Cylinder capacity'
+    delivered-at: 'Delivered at'
+    edc-off: 'EDC 15: 5 credits'
+    edc-stopped: 'EDC stopped'
+    egr-off: 'EGR Off: 5 credits'
+    egr-fap-off: 'EGR and FAP Off: 5 credits'
+    egr-stopped: 'EGR stopped'
+    email: 'Email address'
+    ethanol: 'Ethanol (only): 10 credits'
+    ethanol-done: 'Ethanol done'
+    fap-off: 'FAP Off: 5 credits'
+    fap-stopped: 'FAP stopped'
+    family-name: 'Family name'
+    final-file: 'Final file'
+    gear: 'Gear'
+    gear-done: 'Gear done'
+    given-name: 'Given name'
+    gravatar: 'User gravatar'
+    label: 'Label'
+    locality: 'Locality'
+    make: 'Make'
+    model: 'Model'
+    new-password: 'New password'
+    number: 'Number'
+    odb: 'ODB'
+    odometer: 'Odometer'
+    old-password: 'Old password'
+    original-file: 'Original file'
+    password: 'Password'
+    paid: 'Credit customer'
+    payment-method: 'Payment method'
+    person-type: 'Person type'
+    postal-code: 'Postal code'
+    power: 'Power'
+    protocol: 'Protocol'
+    read: 'Read'
+    reader-tool: 'Reader tool'
+    repeat-password: 'Repeat password'
+    response: 'Response to customer'
+    role:
+      option:
+        admin: 'Administrator who can manage user privileges.'
+        accountant: 'Accountant able to manage credits and invoices.'
+        programmer: 'Programmer who can act on the files.'
+        user: 'Standard customer.'
+      title:
+        accountant: 'Accountant'
+        admin: 'Administrator'
+        programmer: 'Programmer'
+    roles: 'User privileges'
+    serial: 'Serial number'
+    settings: 'Settings'
+    society: 'Society'
+    stage-one-ethanol: 'Stage 1 + ethanol: 15 crédits'
+    stage-one: 'Stage 1: 10 credits'
+    stage-one-done: 'Stage 1 done'
+    status-service: 'Service status'
+    status-until: 'Status until'
+    street-address: 'Adress'
+    telephone: 'Phone'
+    tos: 'I have read the terms of the service'
+    username: 'Username'
+    vat-number: 'VAT number'
+    version: 'Version'
+    value: 'Value'
+    year: 'Year'
+    explanation: 'Explanations'
+    accountant: 'Accountant'
+    decision: 'Decision'
+    vat: 'Vate rate'
+    vat-default: 'Normal rate (20%)'
+    vat-europe: 'European rate (0%)'
+    vat-domtom: 'DOM-TOM rate (8,5%)'
+    cat-off: 'Catalytic: 5 crédits'
+    gear-off: 'Gear: 10 crédits'
+  help:
+    article-10: 'Select the quantity of 10 credits packs'
+    article-100: 'Select the quantity of 100 credits packs'
+    article-500: 'Select the quantity of 500 credits packs'
+    bill-indication: 'Indicate here what justifies a different VAT rate (DOM / TOM or VAT Intracommunity)'
+    credit: 'Enter the credits of this customer'
+    complement: 'Enter address complement'
+    country: 'Choose a credit in this list'
+    email: 'Enter an address mail'
+    explanation: 'Enter your postal (for DOM/TOM rate) or your VAT Intracommunity (for european VAT)'
+    family-name: 'Enter your family name'
+    given-name: 'Enter your given name'
+    locality: 'Enter your city'
+    new-password: 'Enter your new password'
+    old-password: 'Enter your old password'
+    password: 'Enter your password'
+    person-type: 'Are you a professionnal or a private customer?'
+    postal-code: 'Enter your postal code'
+    repeat-password: 'Confirm your password'
+    roles: 'Select user roles'
+    vat: 'Vat of this customer'
+    setting:
+      bill-complement: 'Enter the address complement which will appear on all bills'
+      bill-country: 'Enter the county which will appear on all bills'
+      bill-locality: 'Enter the city which will appear on all bills'
+      bill-society: 'Enter the society name which will appear on all bills'
+      bill-postal-code: 'Enter the postal code which will appear on all bills'
+      bill-siret: 'Enter the SIRET which will appear on all bills. Example: "SIRET : 666-42-42"'
+      bill-status: 'Enter the capital sold which will appear on all bills. Example : SAS au capital de € 42.00'
+      bill-telephone: 'Enter the phone number which will appear on all bills'
+      bill-street-adress: 'Enter the street address which will appear on all bills'
+      bill-vat-number: 'Enter the VAT number which will appear on all bills'
+      bill-url: 'Enter the website URL which will appear on all bills'
+      bill-vat-percent: 'Enter the VAT rate which will appear on all bills'
+      host-address: 'Enter the host address of website provider'
+      host-form: 'Enter the juridic status of website provider'
+      host-name: 'Enter the host name of website provider'
+      host-tel: 'Enter the phone number of website provider'
+      legacy-publication: 'Enter the legacy publication'
+      legacy-rcs: 'Enter the RCS legacy number'
+      mail-accountant: 'Enter accountant mail which will receive a mail per paiement'
+      mail-programmer: 'Enter the programmer mail which will receive a mail per programmation order'
+      mail-sender: 'Enter the mail which will appears as sender for each mail'
+      service-until: 'Select the next opening date of programmation service'
+      service-status: 'Select the status of programmation service'
+    society: 'Enter the name society'
+    status-service: 'Chosse the new status of the programmation service'
+    status-until: 'This date is only useful when programmation service is on vacation'
+    street-address: 'Enter street address'
+    telephone: 'Enter the phone number'
+    tos: 'Please read term of services.'
+    username: 'Enter th given and family names'
+    vat-number: 'Enter your intracommunity VAT number'
+  label:
+    paypal_express_checkout: 'Paid via Paypal Express'
+  legend:
+    method: 'Payment method'
+  loading:
+    service: 'Loading services of this organization'
+  placeholder:
+    member-of: 'Select an organization'
+    service: 'Please select an organization'
+    new-service ${organization}: 'Select a service of "${organization}"'
+  login:
+    field:
+      submit: 'Login'
+  register:
+    field:
+      submit: 'Register'
+  service:
+    field:
+      name: 'Service'
+    help:
+      name: 'Enter service name'
+  submit:
+    search: 'Search'
+    export-mail: 'Mail export'
+  profile:
+    field:
+      submit: 'Save'
+  password:
+    field:
+      submit: 'Save new password'
+  password-lost:
+    field:
+      submit: 'Ask a resetting password mail'
+  password-reset:
+    field:
+      submit: 'Init password'
+  order-credit:
+    field:
+      submit: 'Save your order'
+  buy-credit:
+    field:
+      submit: 'Continue'
+  programmation:
+    field:
+      submit: 'Order'
+  accountant-bill-new:
+    field:
+      submit: 'Create bill'
+  service-status:
+    field:
+      submit: 'Update service status'
+
+flash:
+  asked-vat:
+    accepted: 'The new VAT rate has been accepted.'
+    rejected: 'The new VAT rate has been rejected.'
+    sent: 'This new Vat rate has been sent to our accountant service.'
+  language:
+    french: 'Interface is now in french'
+    english: 'Interface is now in english'
+  mail-test:
+    sender-not-declared: 'Sender was not declared. Please verify that all data has been sent in Administrator > Settings submenu'
+    sent: 'No problem has been detected during mail submission. Please, verify that you have received it. If this is not the case, two causes are possible: A wrong setting at your mail server, or the mail has been detected as spam and intercepted by your email or your anti-spam'
+    not-sent: 'A problem was detected when sending the email. View the application logs and reconfigure the values of the mail server used.'
+  order:
+    already-credited: 'Credit of this order have already been credited.'
+    credited: 'Credit of this order have been credited to customer.'
+    no-step1: 'Your order was not found. Please create one more time.'
+    step1: 'Your order has been saved, please choose payment method.'
+  password-lost:
+    sent: 'A mail to change your password has been sent. Please look at your mailbox!'
+  password:
+    not-updated: 'Be careful, your password has not been updated.'
+    updated: 'Your password is updated.'
+  password-reset:
+    done: 'Your password has benn initialized. You can now login.'
+    out-of-date: 'The mail to update password is obsolete. Please ask for a mail with new instruction.'
+  programmation:
+    final-file:
+      not-available: 'The programmation is file is not available!'
+  programmation-purchased: 'Your order has been received. Please wait, our team will reply.'
+  profile:
+    not-updated: 'Be careful, your profile has not been updated.'
+    updated: 'Your profile has been updated.'
+  service-status:
+    closed: 'Our programmation service is currently closed.'
+    opened: 'Our programmation service is currently opened.'
+    updated: 'Our programmation service status was updated.'
+
+gear:
+  automatic: 'Automatic'
+  manual: 'Manual'
+
+info:
+  vat:
+    europe: 'Non-French European companies may not pay VAT rather than ask for a refund later. To do this, please select the 0% rate and enter your EU VAT number. If it is informed and referenced, our accounting department will validate your request and your next orders will no longer be subject to VAT.'
+    domtom: 'Non-metropolitan French domiciled in the DOM / TOM may request the preferential VAT rate of 8.50%. To do this, please confirm your postal code in the "Explanations" field. If it is completed and if it corresponds to your permanent address, our accounting department will validate your request and your next orders will be subject to the preferential VAT rate.'
+  payment:
+    pending %credit% %payment-system%: 'You used %payment-system%, but %payment-system% has classified your paiment as "pending". This is a normal procedure for payments over 100 €. Your% credit% credits have been added to your balance. You can now order your reprogramming.'
+
+instruction:
+  method:
+    paypal_express_checkout: 'Paypal Express'
+  closed: 'Instruction closed'
+  createdAt: 'Instruction created at'
+  updatedAt: 'Instruction updated at'
+  approved-amount: 'Approved amount'
+  approving-amount: 'Approving amount'
+  credited-amount: 'Credited amount'
+  crediting-amount: 'Crediting amount'
+  deposited-amount: 'Deposited amount'
+  depositing-amount: 'Depositing amount'
+  invalid: 'Invalid paiment instruction'
+  new: 'New paiment instruction'
+  reversing-approved-amount: 'Reversing approved amount'
+  reversing-credited-amount: 'Reversing credited amount'
+  reversing-deposited-amount: 'Reversing deposited amound'
+  valid: 'Valid payment instruction'
+
+img:
+  alt:
+    logo: 'Society logo'
+    english-flag: 'English flag'
+    french-flag: 'French flag'
+
+instruction %number%: 'Instruction n°%number%'
+
+item:
+  reference: 'Reference'
+  description: 'Description'
+  quantity: 'Quantity'
+  unit-price: 'Unit price'
+  price: 'Price'
+  vat: 'Amount total'
+
+legacy:
+  society: 'Society'
+  form: 'Company name'
+  address: 'Establishment address'
+  capital: 'Capital amount'
+  mail: 'Mail contact'
+  tel: 'Phone number'
+  rcs: 'Registration number in the Trade and Companies Register (RCS)'
+  tva: 'Individual tax identification number. Intra-Community VAT number'
+  publication: 'Publication director'
+  host:
+    title: 'Host name'
+    name: 'Name'
+    form: 'Company name'
+    address: 'Address'
+    tel: 'Phone'
+  cgv: 'Terms of service'
+  cookie:
+    title: 'Information about cookies'
+    explanations : 'This site uses only one cookie, called a session cookie. This cookie is used only to prevent you from reconnecting between each page of the site. It is necessary for the proper functioning of the site for our customers.'
+
+link:
+  password-lost:
+    text: 'Password forgotten?'
+    title: 'Go to the recovery password form.'
+  vat-update:
+    text: 'Sent request'
+
+modal:
+  entity:
+    delete:
+      cancel: 'Cancel'
+      confirm: 'Confirmation modal box'
+      core: 'You are about to delete this listing from the app. Are you sure you want to continue?'
+      yes: 'Yes, delete it!'
+
+Month: 'Month'
+
+nav:
+  admin:
+    title: 'Administration features'
+    text: 'Administrator'
+    submenu:
+      settings:
+        text: 'Settings'
+        title: 'Application settings'
+      users:
+        text: 'Users'
+        title: 'USer management'
+      mail:
+        text: 'Mails'
+        title: 'Mail send tool'
+  accountant:
+    title: 'Accountant features'
+    text: 'Accountant'
+    submenu:
+      bill:
+        text: 'Bills'
+        title: 'List all bills'
+      user:
+        text: 'Manual bill'
+        title: 'Create a bill for a customer'
+      vat:
+        text: 'Vat rate to update'
+        title: 'Accept/Reject request to change VAT rate'
+  home:
+    text: 'Home'
+    title: 'Back to home'
+  login:
+    text: 'Connection'
+    title: 'Login on application'
+  logout:
+    text: 'Disconnection'
+    title: 'Logout'
+  programmer:
+    text: 'Programmer'
+    title: 'Programmer tools'
+    submenu:
+      command:
+        text: 'Pending files'
+        title: 'Show pending files'
+      status:
+        text: 'Service status'
+        title: 'Update status of programmation service'
+  register:
+    text: 'Register'
+    title: 'Access to registration form'
+  user:
+    text: 'Users'
+    title: 'Users management'
+    submenu:
+      language:
+        french: 'Français' #Do not translate
+        english: 'English' #Do not translate
+  customer:
+    submenu:
+      bills:
+        text: 'My bills'
+        title: 'Show all your bills'
+      credit:
+        text: 'Buy credits'
+        title: 'Buy new credits'
+      files:
+        text: 'My file'
+        title: 'Show all your bills'
+      profile:
+        text: 'My profile'
+        title: 'Edit your profile'
+      order:
+        text: 'Order a file'
+        title: 'Order a new programmation file'
+      password:
+        text: 'My password'
+        title: 'Change your password'
+      bill:
+        text: 'My bills'
+        title: 'Show all your bills'
+      vat:
+        text: 'My VAT rate'
+        title: 'Form t request a new VAT rate'
+      cmd:
+        title: 'Form to order a new CMD Slave'
+        text: 'Buy a new CMD slave'
+  lost-password:
+    text: 'Forgotten password'
+  reset-password:
+    text: 'New password form'
+
+odb:
+  boot: 'Boot'
+  odb: 'ODB'
+
+order:
+  canceled: 'Canceled'
+  credited: 'Credited'
+  paid: 'Paid'
+  pending: 'Pending'
+  not-credited: 'Not credited'
+  title: 'Order'
+  payment: 'Payment'
+order %name%: 'Order number %name%'
+order %number%: 'Order number %number%'
+
+payment:
+  approving : 'Approving payment'
+  approved: 'Approved payment'
+  approved-amount: 'Approved amount'
+  approving-amount: 'Approving amount'
+  attention-required: 'Attention required'
+  canceled: 'Payment canceled'
+  createdAt: 'Payment created at'
+  credited-amount: 'Credited amount'
+  crediting-amount: 'Crediting amount'
+  deposited-amount: 'Deposited amount'
+  depositing: 'Depositing paymnet'
+  depositing-amount: 'Depositing amount'
+  deposited: 'Deposited payment'
+  expired: 'Expired payment'
+  failed: 'Failed payment'
+  new: 'New payment'
+  paypal:
+    description %credit% %amount%: 'Purchase %credit% credits for € %amount%'
+  reversing-approved-amount: 'Reversing approved amount'
+  reversing-credited-amount: 'Reversing credited amount'
+  reversing-deposited-amount: 'Reversing deposited amount'
+  target-amount: 'Target amount'
+  updatedAt: 'Payment updated at'
+  payments: 'Paymnets'
+  corresponding-financial-transaction: 'Corresponding financial transaction'
+  bank-account: 'Bank account'
+  client: 'Customer'
+  client-email: 'Customer email'
+  client-id: 'Customer id'
+  credit-card: 'Credit card'
+  description: 'Payment method'
+  currency-code: 'Currency code'
+  number: 'Number'
+  total-amount: 'Total amount'
+
+ROLE_ADMIN: 'Administrator who can manage other users.'
+ROLE_CUSTOMER: 'Customer.'
+ROLE_ACCOUNTANT: 'Accountant who can manage credits, invoices and bills.'
+ROLE_PROGRAMMER: 'Programmer who can return programmation files to customers.'
+ROLE_USER: 'Customer.'
+
+security:
+  connection:
+    successful %username%: "Successful authentication. Welcome %username%!"
+    failed: 'This email address is not referenced in the application or the password is wrong.'
+step:
+  payment:
+    1: 'Order'
+    2: 'Payment method'
+    3: 'Paymnet'
+
+settings:
+  bill-complement: 'Bill : Address complement'
+  bill-country: 'Bill : Country'
+  bill-locality: 'Bill : Locality'
+  bill-name: 'Bill : Society'
+  bill-postal-code: 'Bill : Postal code'
+  bill-siret: 'Bill : Society SIRET'
+  bill-status: 'Bill : Status and capital of society'
+  bill-street-address: 'Bill : Adress'
+  bill-telephone: 'Bill : phone'
+  bill-url: 'Bill : website URL'
+  bill-vat-number: 'Bill : VAT number'
+  bill-vat-percent: 'Bill : VAT rate'
+  host-address: 'Address of the host'
+  host-form: 'Juridic status of the host'
+  host-name: 'Host'
+  host-tel: 'Phone number of the host'
+  legacy-publication: 'Legacy publication'
+  legacy-rcs: 'Legacy RCS'
+  mail-accountant: 'Accountant mail'
+  mail-programmer: 'Programmer mail'
+  mail-sender: 'Mail sender'
+  service-until: 'Service close until'
+  service-status: 'Programmation service status'
+
+table:
+  order:
+    credits: 'Credits'
+    price: 'Amount'
+    quantity: 'Quantity'
+    unit-price: 'Unit price'
+
+title:
+  accountant:
+    bill:
+      list: 'Bills list'
+      new: 'New bill'
+      show %number%: 'Bill %number%'
+    bill-new: 'New bill'
+    user:
+      list: 'Select a customer'
+    asked-vat:
+      list: 'VAT rate requests'
+  customer:
+    bill:
+      list: 'My bills'
+      show %number%: 'My bill %number%'
+    buy-credit: 'Payment method'
+    main: 'My account'
+    profile: 'My profile'
+    password: 'My password'
+    order-credit: 'Order credits'
+    payment-complete: 'Payment completed'
+    payment-complete %payment-system%: 'Payment via %payment-system%'
+    programmation:
+      new: 'Order a new programmation file'
+      show: 'Your programmation file'
+      list: 'Your programmation files'
+      service-status: 'Programmation status service'
+    vat: 'VAT rate request'
+    order-cmd: 'CMD Slave order'
+  default:
+    tos: 'Terms of services'
+    legacy: 'Legacy terms'
+  security:
+    login: 'Login'
+    password-lost: 'Password lost'
+    password-reset: 'Password reset'
+    register: 'Register'
+    society:
+      show %name%: 'Society "%name%"'
+    user:
+      create: 'Create a new user'
+      edit: 'Edit a user'
+      edit %name%: 'Edit user "%name%"'
+      list: 'User list'
+      password: 'Password update'
+      password %name%: 'Password update form for "%name%" user'
+      show: 'User sheet'
+      show %name%: 'User sheet "%name%"'
+  administration:
+    settings:
+      edit: 'Update settings'
+      list: 'Settings'
+    mail:
+      main: 'Test form to send a mail'
+  order:
+    details: 'Order details'
+    details %label%: 'Details of order %label%'
+  programmation:
+    vehicle:
+      general: 'Information about car'
+      motor: 'Information about motorisation'
+    read: 'Information about read'
+    upload: 'Upload'
+    wanted: 'Wanted'
+  professional-files: 'Professional files for best performance motors.'
+  vmod-trademark: 'V-mod engineering is a O2Programmation trademark.'
+  experience: 'With our 20 years of experience, we offer on this service line engine reprogramming files developed on power bench.'
+  purpose: 'We offer a file sending service, but also to OLS owners the ability to download files via the interface of ols. We link your account to our database. You will be able to compare and download modified files at any time.'
+  how-many: 'More than 20,000 files available. With a data base updated regularly, and for all types of formats, cmd, alientech, autotuner, etc.'
+  img: 'Tunning file service | Tunning files | OLS X | WinOLS | Database chiptuning file service'
+  programmer:
+    programmation:
+      list: 'Programmations'
+      show: 'Programmation'
+      service-status: 'Programmation status service'
+    main: 'Programmer'
+
+payments:
+  no-payment: 'No payment'
+
+paypal_express_checkout: 'Paypal Express'
+
+read:
+  real: 'Real'
+  virtual: 'Virtual'
+
+transaction:
+  requested-amount: 'Requested amount'
+  processed-amount: 'Processed amount'
+  status:
+    canceled: 'Canceled transaction'
+    failed: 'Failed transaction'
+    new: 'New transaction'
+    pending: 'Pending transaction'
+    success: 'Success transaction'
+    title: 'Transaction status'
+  type:
+    approve: 'Approve'
+    approve-and-deposit: 'Approve and deposit'
+    crédit: 'Credit'
+    deposit: 'Deposit'
+    reverse-approval: 'Reverse approval'
+    reverse-credit: 'Reverse credit'
+    reverse-deposit: 'Reverse deposit'
+    title: 'Transaction type'
+  createdAt: 'Transaction created at'
+  updatedAt: 'Transaction updated at'
+  response-code: 'Response code'
+  reason-code: 'Reason code'
+
+type:
+  morale: 'Society'
+  physic: 'Particulier'
+
+user:
+  bills: 'Bills'
+  files: 'Files'
+  credits: 'Credits'
+
+'{0} user-has-no-credit|{1} user-has-one-credit|]1,Inf[ user has %count% credit': '{0} You have no credit|{1} You only have one credit|]1,Inf[ You have %count% credits'
+programmation:
+  cost: 'Programmation cost :'
+  deliveredAt %date%: 'Delivered at %date%'
+  status: 'Request status'
+  field:
+    edc-off: 'EDC 15'
+    egr-off: 'EGR Off'
+    fap-off: 'FAP Off'
+    ethanol: 'Ethanol'
+    stage-one: 'Stage 1'
+    comment: 'Customer comments:'
+    response: 'Team answer:'
+    cat-off: 'Catalytic'
+    gear: 'Gear'
+  customer: 'Customer'
+common:
+  accepted: 'Accepted'
+  asked: 'Asked'
+  credits %credit%: '%credit% credits' #plurial is the only available
+  done: 'Done'
+  in-progress: 'In progress'
+  monetico: 'Credit card'
+  no: 'No'
+  non-asked: 'Non asked'
+  not-done: 'Not done'
+  paypal: 'Paypal Express'
+  programmation: 'Programmation'
+  rejected: 'Rejeected'
+  undecided: 'Undecided'
+  vehicle: 'Vehicle'
+  yes: 'Yes'
+
+message:
+  bill-new:
+    user-credited: 'Bill created and customer credited.'
+  programmation:
+    empty: 'No reprogrammation requested. You can purchase reprogrammations.'
+    in-progress: 'Programmation in progress. Our team is doing it.'
+    done: 'Programmation done. You can download your new programmation done.'
+    customer-waiting: 'Customer is waiting his programmation file.'
+  programmer:
+    done: 'Programmation done. Customer can download his new file.'
+    response: 'Team answer:'
+    comment: 'Your comments:'
+  mail:
+    process %email%: 'This form allows you to test the complete procedure for sending mail. By clicking the button below, you ask the server to send an email to %email%. By logging on to client mail, you will know whether the system is fully operational or not.'
+  vat %vat%: 'Your current VAT rate is %vat%. To modify it, please fill in the form below.'
+home:
+  users: 'Customers'
+  programmations: 'Programmations'
+  accountant-bills: 'Bills'
+  pending-programmation %count%: '{0}No pending programmation|{1}One pending programmation|]1,Inf[ %count% pending programmations'
+  credits: 'Credits'
+  pending-programmations: 'Pending programmation'
+  credits %count%: '{0}No credit|{1} %count% credit |]1,Inf[ %count% credits'
+payment %number%: 'Payment number %number%'
+service:
+  status:
+    open:
+      text: 'Open'
+      title: 'Our programmation service is open, you can send your file.'
+    close:
+      text: 'Close'
+      title: 'Our programmation service is currently close. See you tomorrow.'
+    vacancy:
+      text: 'On holidays'
+      title %date%: 'We are on holidays, service is closed until %date%.'
+    to-open:
+      title: 'Shortcut: Click on this link to open the programmation service.'
+    to-close:
+      title: 'Shortcut: Click on this link to close the programmation service.'
+Year: 'Year'
