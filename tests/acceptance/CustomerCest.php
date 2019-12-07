@@ -140,9 +140,12 @@ class CustomerCest
         $you->seeCurrentUrlEquals('/customer/programmation/new');
         $you->dontSee('error.'); //All error messages are translated
         $you->fillField('Année', '2014');
+        $you->fillField('programmation_form[catOff]', true); //HIDDEN
         $you->fillField('programmation_form[edcOff]', true); //HIDDEN
         $you->fillField('programmation_form[egrOff]', true); //HIDDEN
+        $you->fillField('programmation_form[ethanol]', true); //HIDDEN
         $you->fillField('programmation_form[fapOff]', true); //HIDDEN
+        $you->fillField('programmation_form[gear]', true); //HIDDEN
         $you->attachFile('programmation_form[originalFile][file]', 'upload.txt');
         $you->click('Commander', 'button');
         $you->seeResponseCodeIsSuccessful();

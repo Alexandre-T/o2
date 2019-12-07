@@ -23,6 +23,7 @@ use App\Form\Type\EdcOffType;
 use App\Form\Type\EgrOffType;
 use App\Form\Type\EthanolType;
 use App\Form\Type\FapOffType;
+use App\Form\Type\GearAutomaticType;
 use App\Form\Type\GearType;
 use App\Form\Type\MakeType;
 use App\Form\Type\ModelType;
@@ -65,7 +66,7 @@ class ProgrammationFormType extends AbstractType
             ->add('cylinderCapacity', CylinderCapacityType::class)
             ->add('power', PowerType::class)
             ->add('odometer', OdometerType::class)
-            ->add('gearAutomatic', GearType::class)
+            ->add('gearAutomatic', GearAutomaticType::class)
             ->add('protocol', ProtocolType::class)
             ->add('readerTool', ReaderToolType::class)
             ->add('read', ReadType::class)
