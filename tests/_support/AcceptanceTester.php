@@ -75,9 +75,11 @@ class AcceptanceTester extends Actor
 
         $this->seeResponseCodeIsSuccessful();
         $this->seeCurrentUrlEquals('/login');
-        $this->fillField('Adresse email', $mail);
-        $this->fillField('Mot de passe', $password);
-        $this->click('Se connecter');
+        $this->submitForm('form[name="app_login"]',[
+            'app_login[mail]' => $mail,
+            'app_login[password]' => $password,
+        ]);
+
         $this->seeResponseCodeIsSuccessful();
         $this->seeCurrentUrlEquals('/');
         //We can no more test that we see link deconnection, because user can be english or french
