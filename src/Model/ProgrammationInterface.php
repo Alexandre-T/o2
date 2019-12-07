@@ -20,10 +20,12 @@ interface ProgrammationInterface
     /**
      * Constant for COST.
      */
+    public const CREDIT_CAT = 5;
     public const CREDIT_EDC = 5;
     public const CREDIT_EGR = 5;
     public const CREDIT_ETHANOL = 10;
     public const CREDIT_FAP = 5;
+    public const CREDIT_GEAR = 10;
     public const CREDIT_STAGE_ONE = 10;
 
     /**
@@ -56,6 +58,14 @@ interface ProgrammationInterface
     public const READS = [self::READ_REAL, self::READ_VIRTUAL];
 
     /**
+     * Is Cat asked?
+     *
+     * @return bool
+     */
+    public function isCatOff(): ?bool;
+
+
+    /**
      * Is Edc15 asked?
      *
      * @return bool
@@ -82,6 +92,13 @@ interface ProgrammationInterface
      * @return bool
      */
     public function isFapOff(): ?bool;
+
+    /**
+     * Is gear asked?
+     *
+     * @return bool
+     */
+    public function isGear(): ?bool;
 
     /**
      * Is Stage1 reprogrammation asked?

@@ -20,9 +20,9 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Gear Type class.
+ * CatOff Type class.
  */
-class GearType extends AbstractType
+class CatOffType extends AbstractType
 {
     /**
      * Configures the options for this type.

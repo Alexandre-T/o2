@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Form\Model\Programmation;
+use App\Form\Type\CatOffType;
 use App\Form\Type\CommentType;
 use App\Form\Type\CylinderCapacityType;
 use App\Form\Type\EdcOffType;
@@ -69,10 +70,12 @@ class ProgrammationFormType extends AbstractType
             ->add('readerTool', ReaderToolType::class)
             ->add('read', ReadType::class)
             ->add('odb', OdbType::class)
+            ->add('catOff', CatOffType::class)
             ->add('edcOff', EdcOffType::class)
             ->add('egrOff', EgrOffType::class)
             ->add('ethanol', EthanolType::class)
             ->add('fapOff', FapOffType::class)
+            ->add('gear', GearType::class)
             ->add('stageOne', StageOneType::class)
             ->add('originalFile', OriginalFileType::class)
             ->add('comment', CommentType::class)

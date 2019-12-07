@@ -258,6 +258,7 @@ form:
     article-100: 'Lot(s) de 100 crédits'
     article-500: 'Lot(s) de 500 crédits'
     bill-indication: 'Indication sur facture'
+    cat-stopped: 'Catalytique réalisé'
     credit: 'Crédits'
     complement: 'Complément'
     comment: 'Vos remarques'
@@ -279,6 +280,7 @@ form:
     family-name: 'Nom de famille'
     final-file: 'Nouvelle cartographie'
     gear: 'Boîte'
+    gear-done: 'Boîte réalisé'
     given-name: 'Prénom'
     gravatar: 'Gravatar de l’utilisateur'
     label: 'Nom'
@@ -336,6 +338,8 @@ form:
     vat-default: 'Taux normal (20%)'
     vat-europe: 'Taux Union Européenne (0%)'
     vat-domtom: 'Taux DOM-TOM (8,5%)'
+    cat-off: 'Catalytique : 5 crédits'
+    gear-off: 'Boîte : 10 crédits'
   help:
     article-10: 'Sélectionnez la quantité de lots de 10 crédits'
     article-100: 'Sélectionnez la quantité de lots de 100 crédits'
@@ -511,6 +515,7 @@ instruction:
 img:
   alt:
     logo: 'Logo de l’entreprise'
+    english-flag: 'Drapeau anglais'
     french-flag: 'Drapeau français'
 
 instruction %number%: 'Instruction n°%number%'
@@ -543,9 +548,6 @@ legacy:
   cookie:
     title: 'Information quant à l’utilisation des cookies'
     explanations : 'Ce site n’utilise qu’un seul cookie, appelé cookie de session. Ce cookie est utilisé uniquement pour vous éviter de vous reconnecter entre chaque page du site. Il est nécessaire au bon fonctionnement du site pour nos clients.'
-
-
-
 
 link:
   password-lost:
@@ -746,7 +748,6 @@ settings:
   service-until: 'Service fermé jusqu’au'
   service-status: 'Statut du service de reprogrammation'
 
-
 table:
   order:
     credits: 'Crédits'
@@ -886,6 +887,8 @@ programmation:
     stage-one: 'Stage 1'
     comment: 'Commentaire du client :'
     response: 'Réponse de notre équipe :'
+    cat-off: 'Catalytique'
+    gear: 'Boîte'
   customer: 'Client'
 common:
   accepted: 'Accepté'

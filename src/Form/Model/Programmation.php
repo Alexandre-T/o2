@@ -58,6 +58,13 @@ class Programmation implements ProgrammationInterface
     private $cylinderCapacity;
 
     /**
+     * Cat off.
+     *
+     * @var bool
+     */
+    private $catOff = false;
+
+    /**
      * Edc off.
      *
      * @var bool
@@ -84,6 +91,13 @@ class Programmation implements ProgrammationInterface
      * @var bool
      */
     private $fapOff = false;
+
+    /**
+     * Gear.
+     *
+     * @var bool
+     */
+    private $gear = false;
 
     /**
      * Gear automatic.
@@ -267,10 +281,12 @@ class Programmation implements ProgrammationInterface
         $programmationEntity
             ->setComment($this->getComment())
             ->setCylinderCapacity($this->getCylinderCapacity())
+            ->setCatOff($this->isCatOff())
             ->setEdcOff($this->isEdcOff())
             ->setEgrOff($this->isEgrOff())
             ->setEthanol($this->isEthanol())
             ->setFapOff($this->isFapOff())
+            ->setGear($this->isGear())
             ->setGearAutomatic($this->isGearAutomatic())
             ->setMake($this->getMake())
             ->setModel($this->getModel())
@@ -448,6 +464,16 @@ class Programmation implements ProgrammationInterface
     }
 
     /**
+     * CatOff getter.
+     *
+     * @return bool
+     */
+    public function isCatOff(): bool
+    {
+        return $this->catOff;
+    }
+
+    /**
      * EdcOff getter.
      *
      * @return bool
@@ -485,6 +511,16 @@ class Programmation implements ProgrammationInterface
     public function isFapOff(): bool
     {
         return $this->fapOff;
+    }
+
+     /**
+     * Gear getter.
+     *
+     * @return bool
+     */
+    public function isGear(): bool
+    {
+        return $this->gear;
     }
 
     /**
@@ -550,6 +586,20 @@ class Programmation implements ProgrammationInterface
     }
 
     /**
+     * Cat off fluent setter.
+     *
+     * @param bool $catOff catalytic asked
+     *
+     * @return Programmation
+     */
+    public function setCatOff(bool $catOff): self
+    {
+        $this->catOff = $catOff;
+
+        return $this;
+    }
+
+    /**
      * Edc off fluent setter.
      *
      * @param bool $edcOff EDC15 asked
@@ -601,6 +651,20 @@ class Programmation implements ProgrammationInterface
     public function setFapOff(bool $fapOff): self
     {
         $this->fapOff = $fapOff;
+
+        return $this;
+    }
+
+    /**
+     * Fap OFF fluent setter.
+     *
+     * @param bool $gear Fap reprogrammation asked
+     *
+     * @return Programmation
+     */
+    public function setGear(bool $gear): self
+    {
+        $this->gear = $gear;
 
         return $this;
     }

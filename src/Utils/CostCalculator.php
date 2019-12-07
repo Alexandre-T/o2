@@ -25,6 +25,13 @@ use App\Model\ProgrammationInterface;
 class CostCalculator
 {
     /**
+     * Catalytic.
+     *
+     * @var bool|null
+     */
+    private $cat;
+
+    /**
      * Credit cost.
      *
      * @var int
@@ -60,6 +67,13 @@ class CostCalculator
     private $fap;
 
     /**
+     * FAP.
+     *
+     * @var bool
+     */
+    private $gear;
+
+    /**
      * Stage1.
      *
      * @var bool
@@ -74,10 +88,12 @@ class CostCalculator
     public function __construct(ProgrammationInterface $programmation)
     {
         $this->credit = 0;
+        $this->cat = $programmation->isCatOff();
         $this->edc = $programmation->isEdcOff();
         $this->egr = $programmation->isEgrOff();
         $this->ethanol = $programmation->isEthanol();
         $this->fap = $programmation->isFapOff();
+        $this->gear = $programmation->isGear();
         $this->stageOne = $programmation->isStageOne();
     }
 
@@ -104,10 +120,12 @@ class CostCalculator
      */
     private function addUnitCost(): self
     {
+        $this->credit += $this->cat ? ProgrammationInterface::CREDIT_CAT : 0;
         $this->credit += $this->edc ? ProgrammationInterface::CREDIT_EDC : 0;
         $this->credit += $this->egr ? ProgrammationInterface::CREDIT_EGR : 0;
         $this->credit += $this->ethanol ? ProgrammationInterface::CREDIT_ETHANOL : 0;
         $this->credit += $this->fap ? ProgrammationInterface::CREDIT_FAP : 0;
+        $this->credit += $this->gear ? ProgrammationInterface::CREDIT_GEAR : 0;
         $this->credit += $this->stageOne ? ProgrammationInterface::CREDIT_STAGE_ONE : 0;
 
         return $this;

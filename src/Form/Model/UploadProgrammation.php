@@ -31,6 +31,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class UploadProgrammation
 {
     /**
+     * Cat off.
+     *
+     * @var bool
+     */
+    private $catStopped = false;
+
+    /**
      * Edc off.
      *
      * @var bool
@@ -57,6 +64,13 @@ class UploadProgrammation
      * @var bool
      */
     private $fapStopped = false;
+
+    /**
+     * Gear.
+     *
+     * @var bool
+     */
+    private $gearDone = false;
 
     /**
      * File name?
@@ -105,10 +119,12 @@ class UploadProgrammation
      */
     public function __construct(Programmation $programmation)
     {
+        $this->setCatStopped($programmation->isCatOff());
         $this->setEdcStopped($programmation->isEdcOff());
         $this->setEgrStopped($programmation->isEgrOff());
-        $this->setFapStopped($programmation->isFapOff());
         $this->setEthanolDone($programmation->isEthanol());
+        $this->setFapStopped($programmation->isFapOff());
+        $this->setGearDone($programmation->isGear());
         $this->setStageOneDone($programmation->isStageOne());
     }
 
@@ -132,10 +148,12 @@ class UploadProgrammation
     {
         $programmation
             ->setResponse($this->getResponse())
+            ->setCatStopped($this->isCatStopped())
             ->setEdcStopped($this->isEdcStopped())
             ->setEgrStopped($this->isEgrStopped())
             ->setEthanolDone($this->isEthanolDone())
             ->setFapStopped($this->isFapStopped())
+            ->setGearDone($this->isGearDone())
             ->setStageOneDone($this->isStageOneDone())
         ;
     }
@@ -168,6 +186,16 @@ class UploadProgrammation
     public function getResponse(): ?string
     {
         return $this->response;
+    }
+
+    /**
+     * CatStopped getter.
+     *
+     * @return bool
+     */
+    public function isCatStopped(): bool
+    {
+        return $this->catStopped;
     }
 
     /**
@@ -211,6 +239,16 @@ class UploadProgrammation
     }
 
     /**
+     * Gear getter.
+     *
+     * @return bool
+     */
+    public function isGearDone(): bool
+    {
+        return $this->gearDone;
+    }
+
+    /**
      * StageOne getter.
      *
      * @return bool
@@ -218,6 +256,20 @@ class UploadProgrammation
     public function isStageOneDone(): bool
     {
         return $this->stageOneDone;
+    }
+
+    /**
+     * Cat stopped fluent setter.
+     *
+     * @param bool $catStopped CAT15 asked
+     *
+     * @return UploadProgrammation
+     */
+    public function setCatStopped(bool $catStopped): self
+    {
+        $this->catStopped = $catStopped;
+
+        return $this;
     }
 
     /**
@@ -272,6 +324,20 @@ class UploadProgrammation
     public function setFapStopped(bool $fapStopped): self
     {
         $this->fapStopped = $fapStopped;
+
+        return $this;
+    }
+
+    /**
+     * Gear done fluent setter.
+     *
+     * @param bool $gearDone Gear asked
+     *
+     * @return UploadProgrammation
+     */
+    public function setGearDone(bool $gearDone): self
+    {
+        $this->gearDone = $gearDone;
 
         return $this;
     }

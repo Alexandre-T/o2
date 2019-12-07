@@ -16,11 +16,13 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Form\Model\UploadProgrammation;
+use App\Form\Type\CatStoppedType;
 use App\Form\Type\EdcStoppedType;
 use App\Form\Type\EgrStoppedType;
 use App\Form\Type\EthanolDoneType;
 use App\Form\Type\FapStoppedType;
 use App\Form\Type\FinalFileType;
+use App\Form\Type\GearDoneType;
 use App\Form\Type\ResponseType;
 use App\Form\Type\StageOneDoneType;
 use Symfony\Component\Form\AbstractType;
@@ -43,10 +45,12 @@ class UploadProgrammationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('catStopped', CatStoppedType::class)
             ->add('edcStopped', EdcStoppedType::class)
             ->add('egrStopped', EgrStoppedType::class)
             ->add('ethanolDone', EthanolDoneType::class)
             ->add('fapStopped', FapStoppedType::class)
+            ->add('gearDone', GearDoneType::class)
             ->add('stageOneDone', StageOneDoneType::class)
             ->add('finalFile', FinalFileType::class)
             ->add('response', ResponseType::class)

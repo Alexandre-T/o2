@@ -16,26 +16,34 @@ declare(strict_types=1);
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Gear Type class.
+ * Cat stopped Type class.
  */
-class GearType extends AbstractType
+class CatStoppedType extends AbstractType
 {
     /**
-     * Configures the options for this type.
+     * Set default options.
      *
-     * @param OptionsResolver $resolver The resolver for the options
+     * @param OptionsResolver $resolver the options resolver
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'empty_data' => false,
-        ]);
-
         parent::configureOptions($resolver);
+
+        $resolver->setDefaults([
+            'label' => 'form.field.cat-stopped',
+            'choices' => [
+                'common.yes' => true,
+                'common.no' => false,
+            ],
+            'required' => true,
+            'expanded' => true,
+            'multiple' => false,
+            'attr' => ['class' => 'form-check-inline p-0 pt-2 m-0'],
+        ]);
     }
 
     /**
@@ -45,6 +53,6 @@ class GearType extends AbstractType
      */
     public function getParent()
     {
-        return HiddenType::class;
+        return ChoiceType::class;
     }
 }

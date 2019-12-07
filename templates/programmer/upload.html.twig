@@ -71,6 +71,12 @@
                     <h3 class="border-bottom">{{ 'common.programmation' | trans }}</h3>
                     <div class="row">
                         <div class="col-8">
+                            {{ form_row(form.catStopped) }}
+                        </div>
+                        <div class="col-4">
+                            {{ programmation.catOff | badgeAsked }}
+                        </div>
+                        <div class="col-8">
                             {{ form_row(form.edcStopped) }}
                         </div>
                         <div class="col-4">
@@ -83,16 +89,22 @@
                             {{ programmation.egrOff | badgeAsked }}
                         </div>
                         <div class="col-8">
+                            {{ form_row(form.ethanolDone) }}
+                        </div>
+                        <div class="col-4">
+                            {{ programmation.ethanol | badgeAsked }}
+                        </div>
+                        <div class="col-8">
                             {{ form_row(form.fapStopped) }}
                         </div>
                         <div class="col-4">
                             {{ programmation.fapOff | badgeAsked }}
                         </div>
                         <div class="col-8">
-                            {{ form_row(form.ethanolDone) }}
+                            {{ form_row(form.gearDone) }}
                         </div>
                         <div class="col-4">
-                            {{ programmation.ethanol | badgeAsked }}
+                            {{ programmation.gear | badgeAsked }}
                         </div>
                         <div class="col-8">
                             {{ form_row(form.stageOneDone) }}

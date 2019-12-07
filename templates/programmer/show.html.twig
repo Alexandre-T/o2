@@ -93,18 +93,24 @@
                     </dl>
                     <hr/>
                     <dl class="row">
+                        <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.cat-off' | trans }}</dt>
+                        <dd class="col-sm-4">{{ programmation.catOff | badgeAsked }}</dd>
+                        <dd class="col-sm-4">{{ programmation.catStopped | badgeDone(programmation.deliveredAt) }}</dd>
                         <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.edc-off' | trans }}</dt>
                         <dd class="col-sm-4">{{ programmation.edcOff | badgeAsked }}</dd>
                         <dd class="col-sm-4">{{ programmation.edcStopped | badgeDone(programmation.deliveredAt) }}</dd>
                         <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.egr-off' | trans }}</dt>
                         <dd class="col-sm-4">{{ programmation.egrOff | badgeAsked }}</dd>
                         <dd class="col-sm-4">{{ programmation.egrStopped | badgeDone(programmation.deliveredAt) }}</dd>
-                        <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.fap-off' | trans }}</dt>
-                        <dd class="col-sm-4">{{ programmation.fapOff | badgeAsked }}</dd>
-                        <dd class="col-sm-4">{{ programmation.fapStopped | badgeDone(programmation.deliveredAt) }}</dd>
                         <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.ethanol' | trans }}</dt>
                         <dd class="col-sm-4">{{ programmation.ethanol | badgeAsked }}</dd>
                         <dd class="col-sm-4">{{ programmation.ethanolDone | badgeDone(programmation.deliveredAt) }}</dd>
+                        <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.fap-off' | trans }}</dt>
+                        <dd class="col-sm-4">{{ programmation.fapOff | badgeAsked }}</dd>
+                        <dd class="col-sm-4">{{ programmation.fapStopped | badgeDone(programmation.deliveredAt) }}</dd>
+                        <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.gear' | trans }}</dt>
+                        <dd class="col-sm-4">{{ programmation.gear | badgeAsked }}</dd>
+                        <dd class="col-sm-4">{{ programmation.gearDone | badgeDone(programmation.deliveredAt) }}</dd>
                         <dt class="col-sm-4 text-truncate text-right">{{ 'programmation.field.stage-one' | trans }}</dt>
                         <dd class="col-sm-4">{{ programmation.stageOne | badgeAsked }}</dd>
                         <dd class="col-sm-4">{{ programmation.stageOneDone | badgeDone(programmation.deliveredAt) }}</dd>
@@ -166,13 +172,13 @@
                             <strong>{{ 'action.programmer.download-original.text' | trans }}</strong>
                         </a>
                     {% endif %}
-                    {% if programmation.deliveredObsolete %}
-                        <span data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4"
-                          title="{{ 'action.programmation.obsolete.title' | trans }}">
-                            <span class="fas fa-fw fa-archive"></span>
-                            <strong>{{ 'action.programmation.obsolete.text' | trans }}</strong>
-                        </span>
-                    {% else %}
+                        {% if programmation.deliveredObsolete %}
+                            <span data-toggle="tooltip" data-placement="bottom" class="btn btn-secondary p-4"
+                              title="{{ 'action.programmation.obsolete.title' | trans }}">
+                                <span class="fas fa-fw fa-archive"></span>
+                                <strong>{{ 'action.programmation.obsolete.text' | trans }}</strong>
+                            </span>
+                        {% else %}
                         <a href="{{ path('programmer_download_final', {'id': programmation.id}) }}"
                            data-toggle="tooltip" data-placement="bottom" class="btn btn-primary p-4 animated bounceIn"
                            title="{{ 'action.programmer.download-final.title' | trans }}">
