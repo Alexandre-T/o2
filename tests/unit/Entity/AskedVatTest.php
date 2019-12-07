@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use App\Entity\Article;
 use App\Entity\AskedVat;
 use App\Entity\PersonInterface;
 use App\Entity\User;
@@ -96,7 +95,7 @@ class AskedVatTest extends Unit
         self::assertNull($this->asked->getCustomer());
         self::assertNull($this->asked->getId());
         self::assertEmpty($this->asked->getLabel());
-        self::assertNull($this->asked->getStatus());
+        self::assertEquals(AskedVat::UNDECIDED, $this->asked->getStatus());
     }
 
     /**
