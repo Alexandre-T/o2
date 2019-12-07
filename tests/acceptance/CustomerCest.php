@@ -151,8 +151,8 @@ class CustomerCest
         $you->seeResponseCodeIsSuccessful();
         $programmationId = $you->grabFromCurrentUrl('~(\d+)~');
         $you->seeCurrentUrlEquals('/customer/programmation/'.$programmationId);
-        $you->seeNumberOfElements('span.badge.badge-success', 3);
-        $you->seeNumberOfElements('span.badge.badge-secondary', 7);
+        $you->seeNumberOfElements('span.badge.badge-success', 6);
+        $you->seeNumberOfElements('span.badge.badge-secondary', 8);
         $you->click('Mes fichiers');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/customer/programmation/list');
