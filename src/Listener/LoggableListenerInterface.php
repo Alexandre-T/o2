@@ -26,8 +26,6 @@ interface LoggableListenerInterface
      * Set the username of connected user doing an update.
      *
      * @param mixed $username username of connected user
-     *
-     * @return mixed
      */
     public function setUsername($username);
 }

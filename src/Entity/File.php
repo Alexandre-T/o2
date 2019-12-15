@@ -201,7 +201,7 @@ class File implements EntityInterface
     /**
      * Mime type fluent setter.
      *
-     * @param null|string $mimeType Mime type
+     * @param string|null $mimeType Mime type
      *
      * @return File
      */
@@ -229,7 +229,7 @@ class File implements EntityInterface
     /**
      * Path fluent setter.
      *
-     * @param null|string $originalName File path
+     * @param string|null $originalName File path
      *
      * @return File
      */

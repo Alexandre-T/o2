@@ -66,13 +66,6 @@ class UploadProgrammation
     private $fapStopped = false;
 
     /**
-     * Gear.
-     *
-     * @var bool
-     */
-    private $gearDone = false;
-
-    /**
      * File name?
      *
      * @Assert\NotBlank(message="error.file.blank")
@@ -86,6 +79,13 @@ class UploadProgrammation
      * @var HttpFile
      */
     private $finalFile;
+
+    /**
+     * Gear.
+     *
+     * @var bool
+     */
+    private $gearDone = false;
 
     /**
      * This is the initial name of file.
@@ -329,20 +329,6 @@ class UploadProgrammation
     }
 
     /**
-     * Gear done fluent setter.
-     *
-     * @param bool $gearDone Gear asked
-     *
-     * @return UploadProgrammation
-     */
-    public function setGearDone(bool $gearDone): self
-    {
-        $this->gearDone = $gearDone;
-
-        return $this;
-    }
-
-    /**
      * Set final file for VichUploaderBundle.
      *
      * @param HttpFile $finalFile final file posted
@@ -352,6 +338,20 @@ class UploadProgrammation
     public function setFinalFile(HttpFile $finalFile): self
     {
         $this->finalFile = $finalFile;
+
+        return $this;
+    }
+
+    /**
+     * Gear done fluent setter.
+     *
+     * @param bool $gearDone Gear asked
+     *
+     * @return UploadProgrammation
+     */
+    public function setGearDone(bool $gearDone): self
+    {
+        $this->gearDone = $gearDone;
 
         return $this;
     }

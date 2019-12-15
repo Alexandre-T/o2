@@ -20,7 +20,6 @@ use App\Entity\Programmation;
 use App\Entity\User;
 use App\Model\ProgrammationInterface;
 use DateInterval;
-use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -78,9 +77,29 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
     }
 
     /**
+     * The obsolete programmation.
+     *
+     * @param Programmation $programmation the programmation to set obsolete
+     * @param int           $index         the index of programmation to find a file
+     */
+    private function close(Programmation $programmation, int $index): void
+    {
+        /** @var File $file */
+        $file = $this->getReference('file'.$index);
+        $programmation->setDeliveredAt(new DateTimeImmutable());
+        $programmation->setFinalFile($file);
+        $programmation->setEdcStopped(true);
+        $programmation->setEgrStopped(true);
+        $programmation->setEthanolDone(false);
+        $programmation->setFapStopped(true);
+        $programmation->setStageOneDone(false);
+    }
+
+    /**
      * Create a programmation.
      *
      * @param $index
+     *
      * @return Programmation
      */
     private function createProgrammation($index): Programmation
@@ -114,18 +133,18 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
     }
 
     /**
- * The obsolete programmation.
- *
- * @param Programmation $programmation the programmation to set obsolete
- *
- * @throws ReflectionException
- */
+     * The obsolete programmation.
+     *
+     * @param Programmation $programmation the programmation to set obsolete
+     *
+     * @throws ReflectionException
+     */
     private function obsolete(Programmation $programmation, $index): void
     {
-        $oldDate = new DateTime('now');
+        $oldDate = new \DateTimeImmutable('now');
         $oldDate->sub(new DateInterval('P2M'));
         /** @var File $file */
-        $file = $this->getReference('file' . $index);
+        $file = $this->getReference('file'.$index);
         $programmation->setDeliveredAt($oldDate);
         $programmation->setFinalFile($file);
         $programmation->setEdcStopped(true);
@@ -137,29 +156,10 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
     }
 
     /**
-     * The obsolete programmation.
-     *
-     * @param Programmation $programmation the programmation to set obsolete
-     * @param int $index the index of programmation to find a file
-     */
-    private function close(Programmation $programmation, int $index): void
-    {
-        /** @var File $file */
-        $file = $this->getReference('file' . $index);
-        $programmation->setDeliveredAt(new DateTimeImmutable());
-        $programmation->setFinalFile($file);
-        $programmation->setEdcStopped(true);
-        $programmation->setEgrStopped(true);
-        $programmation->setEthanolDone(false);
-        $programmation->setFapStopped(true);
-        $programmation->setStageOneDone(false);
-    }
-
-    /**
      * Update creation date.
      *
-     * @param Programmation $programmation the programmation to update
-     * @param DateTimeInterface $date the new date
+     * @param Programmation     $programmation the programmation to update
+     * @param DateTimeInterface $date          the new date
      *
      * @throws ReflectionException when programmation does not have a createdAt property (so never)
      */

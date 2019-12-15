@@ -64,7 +64,6 @@ interface ProgrammationInterface
      */
     public function isCatOff(): ?bool;
 
-
     /**
      * Is Edc15 asked?
      *

@@ -83,14 +83,14 @@ class ProgrammationCommand extends Command
                 $file = $programmation->getOriginalFile();
                 $this->entityManager->remove($file);
                 $programmation->setOriginalFile(null);
-                $droppedOriginalFiles++;
+                ++$droppedOriginalFiles;
             }
 
             if (null !== $programmation->getFinalFile()) {
                 $file = $programmation->getFinalFile();
                 $this->entityManager->remove($file);
                 $programmation->setFinalFile(null);
-                $droppedFinalFiles++;
+                ++$droppedFinalFiles;
             }
 
             if (0 < ($droppedOriginalFiles + $droppedFinalFiles)) {

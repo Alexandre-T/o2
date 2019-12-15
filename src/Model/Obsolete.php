@@ -1,9 +1,21 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
+
+declare(strict_types=1);
 
 namespace App\Model;
 
 use DateInterval;
-use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Exception;
@@ -27,9 +39,9 @@ class Obsolete
     /**
      * Return the current date.
      *
-     * @return DateTimeInterface
-     *
      * @throws Exception this should not happened because I call constructor without argument.
+     *
+     * @return DateTimeInterface
      */
     public static function getCurrentDate(): DateTimeInterface
     {
@@ -44,16 +56,16 @@ class Obsolete
     /**
      * Return the obsolete date.
      *
-     * @return DateTimeInterface
-     *
      * @throws Exception This shall not happened because I call constructor without argument.
+     *
+     * @return DateTimeInterface
      */
     public static function getLimitedDate(): DateTimeInterface
     {
         if (!self::$obsolescence instanceof DateTimeInterface) {
             $now = self::getCurrentDate();
-            $date = $now->format('Y-m') . '-1 00:00:00.000';
-            self::$obsolescence = new DateTime($date);
+            $date = $now->format('Y-m').'-1 00:00:00.000';
+            self::$obsolescence = new \DateTimeImmutable($date);
             self::$obsolescence->sub(new DateInterval('P1M'));
         }
 
@@ -65,9 +77,9 @@ class Obsolete
      *
      * @param DateTimeInterface $date the date to compare
      *
-     * @return bool
-     *
      * @throws Exception this will never happen
+     *
+     * @return bool
      */
     public static function isObsolete(DateTimeInterface $date): bool
     {

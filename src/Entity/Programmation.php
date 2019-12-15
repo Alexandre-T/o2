@@ -42,6 +42,23 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class Programmation implements EntityInterface, ProgrammationInterface
 {
     /**
+     * Catalytic off.
+     *
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $catOff = false;
+
+    /**
+     * Catalytic done.
+     *
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", nullable=true, options={"default": false})
+     */
+    private $catStopped = false;
+    /**
      * Customer commentary.
      *
      * @var string
@@ -187,6 +204,15 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $finalFile;
 
     /**
+     * Gear.
+     *
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $gear = false;
+
+    /**
      * Gear automatic.
      *
      * @var bool
@@ -194,6 +220,15 @@ class Programmation implements EntityInterface, ProgrammationInterface
      * @ORM\Column(type="boolean", options={"default": false})
      */
     private $gearAutomatic = ProgrammationInterface::GEAR_MANUAL;
+
+    /**
+     * Gear done.
+     *
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $gearDone = false;
 
     /**
      * Identifier.
@@ -343,40 +378,14 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $year;
 
     /**
-     * Catalytic off.
+     * Cat stopped getter.
      *
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", options={"default": false})
+     * @return bool|null
      */
-    private $catOff = false;
-
-    /**
-     * Catalytic done.
-     *
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", nullable=true, options={"default": false})
-     */
-    private $catStopped = false;
-
-    /**
-     * Gear.
-     *
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    private $gear = false;
-
-    /**
-     * Gear done.
-     *
-     * @var boolean
-     *
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
-    private $gearDone = false;
+    public function getCatStopped(): ?bool
+    {
+        return $this->catStopped;
+    }
 
     /**
      * Comment getter.
@@ -607,11 +616,21 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
+     * Cat getter.
+     *
+     * @return bool|null
+     */
+    public function isCatOff(): ?bool
+    {
+        return $this->catOff;
+    }
+
+    /**
      * Is the delivered file obsolete?
      *
-     * @return bool
-     *
      * @throws Exception this shall not happen
+     *
+     * @return bool
      */
     public function isDeliveredObsolete(): bool
     {
@@ -620,18 +639,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
         }
 
         return Obsolete::isObsolete($this->getDeliveredAt());
-    }
-
-    /**
-     * Is the created date obsolete?
-     *
-     * @return bool
-     *
-     * @throws Exception this hall not happen
-     */
-    public function isOriginalObsolete(): bool
-    {
-        return Obsolete::isObsolete($this->getCreatedAt());
     }
 
     /**
@@ -715,6 +722,16 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
+     * Gear getter.
+     *
+     * @return bool|null
+     */
+    public function isGear(): ?bool
+    {
+        return $this->gear;
+    }
+
+    /**
      * Is gear automatic?
      *
      * @return bool|null
@@ -722,6 +739,28 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function isGearAutomatic(): ?bool
     {
         return $this->gearAutomatic;
+    }
+
+    /**
+     * Gear done getter.
+     *
+     * @return bool|null
+     */
+    public function isGearDone(): ?bool
+    {
+        return $this->gearDone;
+    }
+
+    /**
+     * Is the created date obsolete?
+     *
+     * @throws Exception this hall not happen
+     *
+     * @return bool
+     */
+    public function isOriginalObsolete(): bool
+    {
+        return Obsolete::isObsolete($this->getCreatedAt());
     }
 
     /**
@@ -754,6 +793,34 @@ class Programmation implements EntityInterface, ProgrammationInterface
         $costCalculator = new CostCalculator($this);
 
         $this->credit = $costCalculator->getCost();
+
+        return $this;
+    }
+
+    /**
+     * Cat fluent setter.
+     *
+     * @param bool $catOff the new value of cat.
+     *
+     * @return Programmation
+     */
+    public function setCatOff(bool $catOff): self
+    {
+        $this->catOff = $catOff;
+
+        return $this;
+    }
+
+    /**
+     * Cat stopped fluent setter.
+     *
+     * @param bool|null $catStopped the new value of cat stopped
+     *
+     * @return Programmation
+     */
+    public function setCatStopped(?bool $catStopped): self
+    {
+        $this->catStopped = $catStopped;
 
         return $this;
     }
@@ -943,6 +1010,20 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Gear fluent setter.
      *
+     * @param bool $gear the new value of gear
+     *
+     * @return Programmation
+     */
+    public function setGear(bool $gear): self
+    {
+        $this->gear = $gear;
+
+        return $this;
+    }
+
+    /**
+     * Gear fluent setter.
+     *
      * @param bool $gearAutomatic automatic gear
      *
      * @return Programmation
@@ -950,6 +1031,20 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function setGearAutomatic(bool $gearAutomatic): self
     {
         $this->gearAutomatic = $gearAutomatic;
+
+        return $this;
+    }
+
+    /**
+     * Gear done setter.
+     *
+     * @param bool|null $gearDone the new value of gear done
+     *
+     * @return $this
+     */
+    public function setGearDone(?bool $gearDone): self
+    {
+        $this->gearDone = $gearDone;
 
         return $this;
     }
@@ -1013,7 +1108,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Original file fluent setter.
      *
-     * @param null|File $originalFile original file
+     * @param File|null $originalFile original file
      *
      * @return Programmation
      */
@@ -1160,102 +1255,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function setYear(int $year): self
     {
         $this->year = $year;
-
-        return $this;
-    }
-
-    /**
-     * Cat getter.
-     *
-     * @return bool|null
-     */
-    public function isCatOff(): ?bool
-    {
-        return $this->catOff;
-    }
-
-    /**
-     * Cat fluent setter.
-     *
-     * @param bool $catOff the new value of cat.
-     *
-     * @return Programmation
-     */
-    public function setCatOff(bool $catOff): self
-    {
-        $this->catOff = $catOff;
-
-        return $this;
-    }
-
-    /**
-     * Cat stopped getter.
-     *
-     * @return bool|null
-     */
-    public function getCatStopped(): ?bool
-    {
-        return $this->catStopped;
-    }
-
-    /**
-     * Cat stopped fluent setter.
-     *
-     * @param bool|null $catStopped the new value of cat stopped
-     *
-     * @return Programmation
-     */
-    public function setCatStopped(?bool $catStopped): self
-    {
-        $this->catStopped = $catStopped;
-
-        return $this;
-    }
-
-    /**
-     * Gear getter.
-     *
-     * @return bool|null
-     */
-    public function isGear(): ?bool
-    {
-        return $this->gear;
-    }
-
-    /**
-     * Gear fluent setter.
-     *
-     * @param bool $gear the new value of gear
-     *
-     * @return Programmation
-     */
-    public function setGear(bool $gear): self
-    {
-        $this->gear = $gear;
-
-        return $this;
-    }
-
-    /**
-     * Gear done getter.
-     *
-     * @return bool|null
-     */
-    public function isGearDone(): ?bool
-    {
-        return $this->gearDone;
-    }
-
-    /**
-     * Gear done setter.
-     *
-     * @param bool|null $gearDone the new value of gear done
-     *
-     * @return $this
-     */
-    public function setGearDone(?bool $gearDone): self
-    {
-        $this->gearDone = $gearDone;
 
         return $this;
     }

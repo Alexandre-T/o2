@@ -61,4 +61,3 @@ class GearAutomaticType extends AbstractType
         return ChoiceType::class;
     }
 }
-

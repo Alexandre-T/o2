@@ -50,7 +50,7 @@ class ProgrammationRepository extends ServiceEntityRepository
     {
         try {
             $obsoleteDate = Obsolete::getLimitedDate();
-        } catch (Exception $e){
+        } catch (Exception $e) {
             //this shall never happened
             return [];
         }
@@ -63,6 +63,7 @@ class ProgrammationRepository extends ServiceEntityRepository
             ->setParameter('obsolete', $obsoleteDate)
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

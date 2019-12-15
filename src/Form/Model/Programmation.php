@@ -34,6 +34,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Programmation implements ProgrammationInterface
 {
     /**
+     * Cat off.
+     *
+     * @var bool
+     */
+    private $catOff = false;
+    /**
      * Commentary.
      *
      * @var string
@@ -56,13 +62,6 @@ class Programmation implements ProgrammationInterface
      * @Assert\Length(max="16")
      */
     private $cylinderCapacity;
-
-    /**
-     * Cat off.
-     *
-     * @var bool
-     */
-    private $catOff = false;
 
     /**
      * Edc off.
@@ -513,7 +512,7 @@ class Programmation implements ProgrammationInterface
         return $this->fapOff;
     }
 
-     /**
+    /**
      * Gear getter.
      *
      * @return bool
@@ -541,6 +540,20 @@ class Programmation implements ProgrammationInterface
     public function isStageOne(): bool
     {
         return $this->stageOne;
+    }
+
+    /**
+     * Cat off fluent setter.
+     *
+     * @param bool $catOff catalytic asked
+     *
+     * @return Programmation
+     */
+    public function setCatOff(bool $catOff): self
+    {
+        $this->catOff = $catOff;
+
+        return $this;
     }
 
     /**
@@ -581,20 +594,6 @@ class Programmation implements ProgrammationInterface
     public function setCylinderCapacity($cylinderCapacity): self
     {
         $this->cylinderCapacity = $cylinderCapacity;
-
-        return $this;
-    }
-
-    /**
-     * Cat off fluent setter.
-     *
-     * @param bool $catOff catalytic asked
-     *
-     * @return Programmation
-     */
-    public function setCatOff(bool $catOff): self
-    {
-        $this->catOff = $catOff;
 
         return $this;
     }
