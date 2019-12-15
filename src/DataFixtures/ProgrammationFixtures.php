@@ -142,7 +142,7 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
      */
     private function obsolete(Programmation $programmation, $index): void
     {
-        $oldDate = new \DateTimeImmutable('now');
+        $oldDate = new DateTimeImmutable('now');
         $oldDate->sub(new DateInterval('P2M'));
         /** @var File $file */
         $file = $this->getReference('file'.$index);
