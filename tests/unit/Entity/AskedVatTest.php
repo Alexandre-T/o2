@@ -72,7 +72,7 @@ class AskedVatTest extends Unit
         self::assertEquals($this->asked, $this->asked->setAccountant($actual));
         self::assertEquals($expected, $this->asked->getAccountant());
     }
-    
+
     /**
      * Test Code setter and getter.
      */
@@ -107,7 +107,8 @@ class AskedVatTest extends Unit
         $actual
             ->setName('Doe')
             ->setGivenName('John')
-            ->setType(PersonInterface::PHYSIC);
+            ->setType(PersonInterface::PHYSIC)
+        ;
 
         self::assertEquals($this->asked, $this->asked->setCustomer($actual));
         self::assertEquals($expected, $this->asked->getCustomer());

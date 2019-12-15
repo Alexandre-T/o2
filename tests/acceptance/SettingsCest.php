@@ -39,7 +39,7 @@ class SettingsCest
         $you->dontSee('settings.'); //all is translated
         $you->click('Paramètre'); // change order
         $you->seeResponseCodeIsSuccessful();
-        $you->click('Modifier ce paramètre','tr.legacy-rcs');
+        $you->click('Modifier ce paramètre', 'tr.legacy-rcs');
         $settingId = $you->grabFromCurrentUrl('~(\d+)~');
         $you->seeCurrentUrlEquals('/administration/settings/'.$settingId.'/edit');
         $you->fillField('app_settings[value]', 'toto');

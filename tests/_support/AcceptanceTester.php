@@ -75,7 +75,7 @@ class AcceptanceTester extends Actor
 
         $this->seeResponseCodeIsSuccessful();
         $this->seeCurrentUrlEquals('/login');
-        $this->submitForm('form[name="app_login"]',[
+        $this->submitForm('form[name="app_login"]', [
             'app_login[mail]' => $mail,
             'app_login[password]' => $password,
         ]);

@@ -28,51 +28,36 @@ use Symfony\Component\Console\Tester\CommandTester;
 class UserCommandTest extends KernelTestCase
 {
     /**
-     * Test the command without arguments.
+     * Test to create an admin with all arguments.
      */
-    public function testWithoutArguments()
+    public function testAdminWithArguments(): void
     {
-        self::expectExceptionMessage('Not enough arguments (missing: "label, mail, password").');
         $kernel = static::createKernel();
         $application = new Application($kernel);
 
         $command = $application->find('app:user');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'command'  => $command->getName(),
-        ]);
-    }
-
-    /**
-     * Test the command with one argument.
-     */
-    public function testWithOneArgument()
-    {
-        self::expectExceptionMessage('Not enough arguments (missing: "mail, password").');
-        $kernel = static::createKernel();
-        $application = new Application($kernel);
-
-        $command = $application->find('app:user');
-        $commandTester = new CommandTester($command);
-        $commandTester->execute([
-            'command'  => $command->getName(),
+            'command' => $command->getName(),
 
             // pass arguments to the helper
-            'label' => 'TestUser',
+            'label' => 'TestAdmin',
+            'mail' => 'test-admin@example.org',
+            'password' => 'test-admin',
 
             // prefix the key with two dashes when passing options,
-            // e.g: '--some-option' => 'option_value',
+            '--admin' => true,
         ]);
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertContains('Not enough arguments (missing: "label, mail").', $output);
+        $this->assertContains('[OK] Admin user created.', $output);
     }
 
     /**
      * Test the command with all arguments.
      */
-    public function testWithArguments()
+    public function testWithArguments(): void
     {
         $kernel = static::createKernel();
         $application = new Application($kernel);
@@ -80,7 +65,7 @@ class UserCommandTest extends KernelTestCase
         $command = $application->find('app:user');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'command'  => $command->getName(),
+            'command' => $command->getName(),
 
             // pass arguments to the helper
             'label' => 'TestUser',
@@ -97,29 +82,44 @@ class UserCommandTest extends KernelTestCase
     }
 
     /**
-     * Test to create an admin with all arguments.
+     * Test the command with one argument.
      */
-    public function testAdminWithArguments()
+    public function testWithOneArgument(): void
     {
+        self::expectExceptionMessage('Not enough arguments (missing: "mail, password").');
         $kernel = static::createKernel();
         $application = new Application($kernel);
 
         $command = $application->find('app:user');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
-            'command'  => $command->getName(),
+            'command' => $command->getName(),
 
             // pass arguments to the helper
-            'label' => 'TestAdmin',
-            'mail' => 'test-admin@example.org',
-            'password' => 'test-admin',
+            'label' => 'TestUser',
 
             // prefix the key with two dashes when passing options,
-            '--admin' => true,
+            // e.g: '--some-option' => 'option_value',
         ]);
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertContains('[OK] Admin user created.', $output);
+        $this->assertContains('Not enough arguments (missing: "label, mail").', $output);
+    }
+
+    /**
+     * Test the command without arguments.
+     */
+    public function testWithoutArguments(): void
+    {
+        self::expectExceptionMessage('Not enough arguments (missing: "label, mail, password").');
+        $kernel = static::createKernel();
+        $application = new Application($kernel);
+
+        $command = $application->find('app:user');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'command' => $command->getName(),
+        ]);
     }
 }

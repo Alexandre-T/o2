@@ -194,9 +194,9 @@ class UserTest extends Unit
     }
 
     /**
-     * Test language trait
+     * Test language trait.
      */
-    public function testLanguage()
+    public function testLanguage(): void
     {
         $actual = $expected = LanguageInterface::ENGLISH;
 

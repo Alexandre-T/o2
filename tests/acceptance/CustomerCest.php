@@ -67,11 +67,11 @@ class CustomerCest
         $you->wantTo('connect as customer and try to order a cmd slave with cb');
         $you->login('customer');
         $you->areOnPage('/customer/order-cmd');
-        $you->selectOption('choose_payment_method[method]','monetico');
+        $you->selectOption('choose_payment_method[method]', 'monetico');
         $you->click('Enregistrer votre commande');
         $you->seeResponseCodeIsSuccessful();
         $token = $you->grabFromCurrentUrl('~/payment/capture/([\w|-]+)~');
-        $you->seeCurrentUrlEquals('/payment/capture/'. $token);
+        $you->seeCurrentUrlEquals('/payment/capture/'.$token);
     }
 
     /**
@@ -84,7 +84,7 @@ class CustomerCest
         $you->wantTo('connect as customer and try to order a cmd slave with paypal');
         $you->login('customer');
         $you->areOnPage('/customer/order-cmd');
-        $you->selectOption('choose_payment_method[method]','paypal_express_checkout');
+        $you->selectOption('choose_payment_method[method]', 'paypal_express_checkout');
         $you->click('Enregistrer votre commande');
     }
 

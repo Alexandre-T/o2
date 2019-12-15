@@ -88,7 +88,6 @@ class AccountantCest
         $you->areOnPage('/accountant/vat?sort=customers');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/accountant/vat?sort=customers');
-
     }
 
     /**

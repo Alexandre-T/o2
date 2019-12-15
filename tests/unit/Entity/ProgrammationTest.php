@@ -273,7 +273,7 @@ class ProgrammationTest extends Unit
         self::assertEquals($this->programmation, $this->programmation->setGearDone($actual));
         self::assertTrue($this->programmation->isGearDone());
     }
-    
+
     /**
      * Test the method GetMake.
      */
@@ -506,7 +506,7 @@ class ProgrammationTest extends Unit
     /**
      * Set all programmation order to false.
      */
-    private function setProgrammationOff()
+    private function setProgrammationOff(): void
     {
         $this->programmation->setCatOff(false);
         $this->programmation->setEdcOff(false);

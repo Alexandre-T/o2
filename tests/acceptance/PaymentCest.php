@@ -87,6 +87,31 @@ class PaymentCest
     }
 
     /**
+     * Try to go to the analyse/done page directly.
+     */
+    public function tryToGoToDoneDirectly(AcceptanceTester $you): void
+    {
+        $you->wantTo('go to the done page manually anonymously');
+        $you->areOnPage('/payment/analyse');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Cette commande en attente de paiement n’existe pas ou a été payée.', '.alert-danger');
+        $you->seeCurrentUrlEquals('/login');
+    }
+
+    /**
+     * Try to go to the analyse/done page directly.
+     */
+    public function tryToGoToDoneDirectlyAsCustomer(AcceptanceTester $you): void
+    {
+        $you->wantTo('go to the done page manually as a customer');
+        $you->login('customer');
+        $you->areOnPage('/payment/analyse');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Cette commande en attente de paiement n’existe pas ou a été payée.', '.alert-danger');
+        $you->seeCurrentUrlEquals('/customer/order-credit');
+    }
+
+    /**
      * Try to order some credit.
      *
      * @param AcceptanceTester $you acceptance tester
@@ -106,34 +131,5 @@ class PaymentCest
         $you->seeResponseCodeIsSuccessful();
         //This test cannot be realized on travis because of non-existent api on travis for paypal
         //$you->seeInCurrentUrl('/cgi-bin/webscr?cmd=_express-checkout&token=EC-');
-    }
-
-    /**
-     * Try to go to the analyse/done page directly.
-     *
-     * @param AcceptanceTester $you
-     */
-    public function tryToGoToDoneDirectly(AcceptanceTester $you): void
-    {
-        $you->wantTo('go to the done page manually anonymously');
-        $you->areOnPage('/payment/analyse');
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('Cette commande en attente de paiement n’existe pas ou a été payée.', '.alert-danger');
-        $you->seeCurrentUrlEquals('/login');
-    }
-
-    /**
-     * Try to go to the analyse/done page directly.
-     *
-     * @param AcceptanceTester $you
-     */
-    public function tryToGoToDoneDirectlyAsCustomer(AcceptanceTester $you): void
-    {
-        $you->wantTo('go to the done page manually as a customer');
-        $you->login('customer');
-        $you->areOnPage('/payment/analyse');
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('Cette commande en attente de paiement n’existe pas ou a été payée.', '.alert-danger');
-        $you->seeCurrentUrlEquals('/customer/order-credit');
     }
 }

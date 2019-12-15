@@ -18,7 +18,7 @@ namespace App\Tests\unit\Model;
 use App\Model\Obsolete;
 use Codeception\Test\Unit;
 use DateInterval;
-use DateTime;
+use DateTimeImmutable;
 use Exception;
 
 /**
@@ -34,10 +34,9 @@ class ObsoleteTest extends Unit
      */
     public function testSomeDates(): void
     {
-        $actual = new DateTime();
+        $actual = new DateTimeImmutable();
         self::assertFalse(Obsolete::isObsolete($actual));
         $actual->sub(new DateInterval('P2M'));
         self::assertTrue(Obsolete::isObsolete($actual));
     }
-
 }
