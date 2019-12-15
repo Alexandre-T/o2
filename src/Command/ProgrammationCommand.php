@@ -73,7 +73,7 @@ class ProgrammationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $droppedOriginalFiles = $droppedFinalFiles = $files = 0;
+        $droppedOriginalFiles = $droppedFinalFiles = 0;
         $inOut = new SymfonyStyle($input, $output);
         $inOut->note('Process launched...');
 
