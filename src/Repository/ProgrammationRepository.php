@@ -16,7 +16,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Programmation;
+use App\Model\Obsolete;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Exception;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -37,5 +39,30 @@ class ProgrammationRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Programmation::class);
+    }
+
+    /**
+     * Find obsolete programmation.
+     *
+     * @return array|Programmation[]
+     */
+    public function findObsolete()
+    {
+        try {
+            $obsoleteDate = Obsolete::getLimitedDate();
+        } catch (Exception $e){
+            //this shall never happened
+            return [];
+        }
+
+        $qb = $this->createQueryBuilder('p');
+
+        return $qb->where(
+                $qb->expr()->lt('p.createdAt', ':obsolete')
+            )
+            ->setParameter('obsolete', $obsoleteDate)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }

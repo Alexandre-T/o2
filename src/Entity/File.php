@@ -201,11 +201,11 @@ class File implements EntityInterface
     /**
      * Mime type fluent setter.
      *
-     * @param string $mimeType Mime type
+     * @param null|string $mimeType Mime type
      *
      * @return File
      */
-    public function setMimeType(string $mimeType): self
+    public function setMimeType(?string $mimeType): self
     {
         $this->mimeType = $mimeType;
 
@@ -229,11 +229,11 @@ class File implements EntityInterface
     /**
      * Path fluent setter.
      *
-     * @param string $originalName File path
+     * @param null|string $originalName File path
      *
      * @return File
      */
-    public function setOriginalName(string $originalName): self
+    public function setOriginalName(?string $originalName): self
     {
         $this->originalName = $originalName;
 

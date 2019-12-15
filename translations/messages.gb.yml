@@ -471,8 +471,10 @@ flash:
     done: 'Your password has benn initialized. You can now login.'
     out-of-date: 'The mail to update password is obsolete. Please ask for a mail with new instruction.'
   programmation:
+    original-file:
+      not-available: 'The original file is no more available! Files which have been uploaded before the previous month are automatically deleted.'
     final-file:
-      not-available: 'The programmation is file is not available!'
+      not-available: 'The programmation file is not available!'
   programmation-purchased: 'Your order has been received. Please wait, our team will reply.'
   profile:
     not-updated: 'Be careful, your profile has not been updated.'

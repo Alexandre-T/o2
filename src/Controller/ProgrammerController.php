@@ -112,6 +112,13 @@ class ProgrammerController extends AbstractPaginateController
      */
     public function downloadOriginal(DownloadHandler $downloadHandler, Programmation $programmation): Response
     {
+        if (empty($programmation->getOriginalFile())) {
+            $this->addFlash('warning', 'flash.programmation.original-file.not-available');
+
+            return $this->redirectToRoute('programmer_show', [
+                'id' => $programmation->getId(),
+            ]);
+        }
         $file = $programmation->getOriginalFile();
         $filename = mb_convert_encoding($file->getOriginalName(), 'ASCII');
 

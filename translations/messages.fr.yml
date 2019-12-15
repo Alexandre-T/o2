@@ -471,6 +471,8 @@ flash:
     done: 'Votre mot de passe a été réinitialisé. Vous pouvez vous connecter.'
     out-of-date: 'Le mail pour changer de mot de passe est périmé. Veuillez refaire une demande de réinitialisation de mot de passe.'
   programmation:
+    original-file:
+      not-available: 'Le fichier initial n’est plus encore disponible ! Les fichiers antérieurs au mois précédent sont effacés automatiquement.'
     final-file:
       not-available: 'Le fichier de reprogrammation n’est pas encore disponible !'
   programmation-purchased: 'Votre demande de cartographie a bien été reçue. Nos équipes vont revenir vers vous rapidement.'

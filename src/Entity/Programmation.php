@@ -248,7 +248,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
      * @var File
      *
      * @ORM\OneToOne(targetEntity="App\Entity\File", cascade={"persist", "remove"}, fetch="EAGER")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $originalFile;
 
@@ -523,7 +523,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
      *
      * @return File|null
      */
-    public function getOriginalFile()
+    public function getOriginalFile(): ?File
     {
         return $this->originalFile;
     }
@@ -1013,11 +1013,11 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Original file fluent setter.
      *
-     * @param File $originalFile original file
+     * @param null|File $originalFile original file
      *
      * @return Programmation
      */
-    public function setOriginalFile($originalFile): self
+    public function setOriginalFile(?File $originalFile): self
     {
         $this->originalFile = $originalFile;
 
