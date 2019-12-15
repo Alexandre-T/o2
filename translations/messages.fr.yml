@@ -651,8 +651,8 @@ nav:
         text: 'Mon taux de TVA'
         title: 'Formulaire de demande de changement de taux de TVA'
       cmd:
-        title: 'Formulaire d’achat d’un CMD Slave'
-        text: 'Acheter un CMD Slave'
+        title: 'Commander une mise à jour de votre CMD Slave'
+        text: 'MAJ du CMD Slave'
   lost-password:
     text: 'Mot de passe perdu'
   reset-password:
@@ -785,7 +785,7 @@ title:
       list: 'Vos reprogrammations'
       service-status: 'Statut du service de reprogrammation'
     vat: 'Demande de changement de taux de TVA'
-    order-cmd: 'Commande d’un CMD Slave'
+    order-cmd: 'Commande d’une mise à jour du CMD Slave'
   default:
     tos: 'Conditions d’utilisation'
     legacy: 'Mentions légales'

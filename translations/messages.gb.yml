@@ -651,8 +651,8 @@ nav:
         text: 'My VAT rate'
         title: 'Form t request a new VAT rate'
       cmd:
-        title: 'Form to order a new CMD Slave'
-        text: 'Buy a new CMD slave'
+        title: 'Form to order a CMD Slave upgrade'
+        text: 'Upgrade CMD slave'
   lost-password:
     text: 'Forgotten password'
   reset-password:
@@ -785,7 +785,7 @@ title:
       list: 'Your programmation files'
       service-status: 'Programmation status service'
     vat: 'VAT rate request'
-    order-cmd: 'CMD Slave order'
+    order-cmd: 'CMD Slave upgrade'
   default:
     tos: 'Terms of services'
     legacy: 'Legacy terms'
