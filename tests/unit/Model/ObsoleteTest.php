@@ -30,7 +30,7 @@ class ObsoleteTest extends Unit
     /**
      * Obsolete test.
      *
-     * @throws Exception
+     * @throws Exception should never occurred because DateTimeImmutable constructor is used without parameter
      */
     public function testSomeDates(): void
     {

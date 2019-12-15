@@ -88,6 +88,8 @@ class PaymentCest
 
     /**
      * Try to go to the analyse/done page directly.
+     *
+     * @param AcceptanceTester $you acceptance tester
      */
     public function tryToGoToDoneDirectly(AcceptanceTester $you): void
     {
@@ -100,6 +102,8 @@ class PaymentCest
 
     /**
      * Try to go to the analyse/done page directly.
+     *
+     * @param AcceptanceTester $you acceptance tester
      */
     public function tryToGoToDoneDirectlyAsCustomer(AcceptanceTester $you): void
     {
