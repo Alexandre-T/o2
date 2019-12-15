@@ -39,6 +39,7 @@ class Programmation implements ProgrammationInterface
      * @var bool
      */
     private $catOff = false;
+
     /**
      * Commentary.
      *

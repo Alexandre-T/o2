@@ -119,6 +119,7 @@ class ProgrammerController extends AbstractPaginateController
                 'id' => $programmation->getId(),
             ]);
         }
+
         $file = $programmation->getOriginalFile();
         $filename = mb_convert_encoding($file->getOriginalName(), 'ASCII');
 

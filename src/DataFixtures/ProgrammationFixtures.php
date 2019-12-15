@@ -98,7 +98,7 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
     /**
      * Create a programmation.
      *
-     * @param $index
+     * @param int $index index is used to complete data
      *
      * @return Programmation
      */
@@ -136,8 +136,9 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
      * The obsolete programmation.
      *
      * @param Programmation $programmation the programmation to set obsolete
+     * @param int|string    $index         index is used to get file reference
      *
-     * @throws ReflectionException
+     * @throws ReflectionException when an error occurred with setCreatedAt function
      */
     private function obsolete(Programmation $programmation, $index): void
     {

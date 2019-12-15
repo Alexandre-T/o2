@@ -58,6 +58,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
      * @ORM\Column(type="boolean", nullable=true, options={"default": false})
      */
     private $catStopped = false;
+
     /**
      * Customer commentary.
      *
