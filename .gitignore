@@ -1,4 +1,5 @@
 composer.lock
+composer.phar
 c3.php
 
 ###> symfony/framework-bundle ###

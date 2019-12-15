@@ -17,7 +17,7 @@ namespace App\Repository;
 
 use App\Entity\Settings;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Settings repository.
@@ -32,9 +32,9 @@ class SettingsRepository extends ServiceEntityRepository
     /**
      * Settings repository constructor.
      *
-     * @param RegistryInterface $registry provided by dependency injection
+     * @param ManagerRegistry $registry provided by dependency injection
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Settings::class);
     }

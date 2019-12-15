@@ -70,5 +70,10 @@ services:
       public: true
       tags:
         - { name: payum.action, factory: monetico }
+
+    #Due to the upgrade to Symfony 4.4
+    Doctrine\Persistence\ObjectManager: '@doctrine.orm.default_entity_manager'
+    Doctrine\Persistence\ManagerRegistry: '@doctrine'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

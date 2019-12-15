@@ -21,7 +21,7 @@ use App\Entity\User;
 use App\Model\OrderInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Order repository.
@@ -36,9 +36,9 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * OrderRepository constructor.
      *
-     * @param RegistryInterface $registry registry is injected by DI
+     * @param ManagerRegistry $registry registry is injected by DI
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Order::class);
     }

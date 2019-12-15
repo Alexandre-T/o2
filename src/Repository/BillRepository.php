@@ -19,7 +19,7 @@ use App\Entity\Bill;
 use App\Entity\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Bill repository.
@@ -34,9 +34,9 @@ class BillRepository extends ServiceEntityRepository
     /**
      * Bill repository constructor.
      *
-     * @param RegistryInterface $registry provided by dependency injection
+     * @param ManagerRegistry $registry provided by dependency injection
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Bill::class);
     }

@@ -17,7 +17,7 @@ namespace App\Command;
 
 use App\Entity\PersonInterface;
 use App\Entity\User;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,19 +35,19 @@ class UserCommand extends Command
     protected static $defaultName = 'app:user';
 
     /**
-     * @var ObjectManager
+     * @var EntityManagerInterface
      */
-    private $objectManager;
+    private $manager;
 
     /**
      * UserCommand constructor.
      *
-     * @param ObjectManager $objectManager Object manager
+     * @param EntityManagerInterface $manager Object manager
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(EntityManagerInterface $manager)
     {
         parent::__construct();
-        $this->objectManager = $objectManager;
+        $this->manager = $manager;
     }
 
     /**
@@ -104,8 +104,8 @@ class UserCommand extends Command
             $user->setRoles(['ROLE_ADMIN']);
         }
 
-        $this->objectManager->persist($user);
-        $this->objectManager->flush();
+        $this->manager->persist($user);
+        $this->manager->flush();
 
         $inOut->success($message);
     }

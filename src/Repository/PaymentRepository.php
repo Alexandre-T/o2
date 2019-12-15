@@ -18,7 +18,7 @@ namespace App\Repository;
 use App\Entity\Order;
 use App\Entity\Payment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Payment repository.
@@ -33,9 +33,9 @@ class PaymentRepository extends ServiceEntityRepository
     /**
      * Payment repository constructor.
      *
-     * @param RegistryInterface $registry provided by dependency injection
+     * @param ManagerRegistry $registry provided by dependency injection
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Payment::class);
     }

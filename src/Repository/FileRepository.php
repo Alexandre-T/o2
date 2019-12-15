@@ -17,7 +17,7 @@ namespace App\Repository;
 
 use App\Entity\File;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * File repository.
@@ -32,9 +32,9 @@ class FileRepository extends ServiceEntityRepository
     /**
      * File Repository constructor.
      *
-     * @param RegistryInterface $registry provided by injection dependency
+     * @param ManagerRegistry $registry provided by injection dependency
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, File::class);
     }

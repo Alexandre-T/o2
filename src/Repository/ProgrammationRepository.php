@@ -19,7 +19,7 @@ use App\Entity\Programmation;
 use App\Model\Obsolete;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Exception;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Programmation repository.
@@ -34,9 +34,9 @@ class ProgrammationRepository extends ServiceEntityRepository
     /**
      * Programmation repository constructor.
      *
-     * @param RegistryInterface $registry provided by injection dependency
+     * @param ManagerRegistry $registry provided by injection dependency
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Programmation::class);
     }

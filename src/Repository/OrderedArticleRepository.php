@@ -17,7 +17,7 @@ namespace App\Repository;
 
 use App\Entity\OrderedArticle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Ordered article repository.
@@ -32,9 +32,9 @@ class OrderedArticleRepository extends ServiceEntityRepository
     /**
      * OrderedArticleRepository constructor.
      *
-     * @param RegistryInterface $registry injected by dependency injection
+     * @param ManagerRegistry $registry injected by dependency injection
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, OrderedArticle::class);
     }
