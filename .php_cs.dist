@@ -37,6 +37,9 @@ return PhpCsFixer\Config::create()
         'declare_strict_types' => true,
         'is_null' => true,
         'no_alias_functions' =>true,
+        'no_superfluous_phpdoc_tags' => [
+            'allow_unused_params' => true,
+        ],
         'ordered_class_elements' => [
             'order' => [
                 'use_trait',
