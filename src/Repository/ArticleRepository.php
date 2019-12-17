@@ -56,6 +56,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
     /**
      * Find one article by its code.
      *

@@ -28,6 +28,15 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class CreditOrder
 {
     /**
+     * The number of credit bought by fifty.
+     *
+     * @Assert\Range(min="0", max="9")
+     *
+     * @var int
+     */
+    private $fifty = 0;
+
+    /**
      * The number of credit bought by five hundred.
      *
      * @Assert\Range(min="0", max="9")
@@ -46,15 +55,6 @@ class CreditOrder
     private $hundred = 0;
 
     /**
-     * The number of credit bought by fifty.
-     *
-     * @Assert\Range(min="0", max="9")
-     *
-     * @var int
-     */
-    private $fifty = 0;
-
-    /**
      * The number of credit bought by ten.
      *
      * @Assert\Range(min="0", max="9")
@@ -62,6 +62,16 @@ class CreditOrder
      * @var int
      */
     private $ten = 0;
+
+    /**
+     * Fifty getter.
+     *
+     * @return int
+     */
+    public function getFifty(): int
+    {
+        return $this->fifty;
+    }
 
     /**
      * FiveHundred getter.
@@ -81,16 +91,6 @@ class CreditOrder
     public function getHundred(): int
     {
         return $this->hundred;
-    }
-
-    /**
-     * Fifty getter.
-     *
-     * @return int
-     */
-    public function getFifty(): int
-    {
-        return $this->fifty;
     }
 
     /**
@@ -118,6 +118,20 @@ class CreditOrder
     }
 
     /**
+     * Fifty setter.
+     *
+     * @param int $fifty quantity bought
+     *
+     * @return CreditOrder
+     */
+    public function setFifty(int $fifty): CreditOrder
+    {
+        $this->fifty = $fifty;
+
+        return $this;
+    }
+
+    /**
      * 500 setter.
      *
      * @param int $fiveHundred quantity bought
@@ -141,20 +155,6 @@ class CreditOrder
     public function setHundred(int $hundred): CreditOrder
     {
         $this->hundred = $hundred;
-
-        return $this;
-    }
-
-    /**
-     * Fifty setter.
-     *
-     * @param int $fifty quantity bought
-     *
-     * @return CreditOrder
-     */
-    public function setFifty(int $fifty): CreditOrder
-    {
-        $this->fifty = $fifty;
 
         return $this;
     }
