@@ -22,36 +22,26 @@ interface PostalAddressInterface
 {
     /**
      * Post office box number getter.
-     *
-     * @return string|null
      */
     public function getComplement(): ?string;
 
     /**
      * Country getter.
-     *
-     * @return string|null
      */
     public function getCountry(): ?string;
 
     /**
      * Locality getter.
-     *
-     * @return string|null
      */
     public function getLocality(): ?string;
 
     /**
      * Postal code getter.
-     *
-     * @return string|null
      */
     public function getPostalCode(): ?string;
 
     /**
      * Street address getter.
-     *
-     * @return string|null
      */
     public function getStreetAddress(): ?string;
 
@@ -59,8 +49,6 @@ interface PostalAddressInterface
      * Post office box number fluent setter.
      *
      * @param string $complement the address complement
-     *
-     * @return self
      */
     public function setComplement(string $complement): self;
 
@@ -68,8 +56,6 @@ interface PostalAddressInterface
      * Country fluent setter.
      *
      * @param string $country the new country
-     *
-     * @return self
      */
     public function setCountry(?string $country): self;
 
@@ -77,8 +63,6 @@ interface PostalAddressInterface
      * Locality fluent setter.
      *
      * @param string|null $locality the new locality
-     *
-     * @return self
      */
     public function setLocality(?string $locality): self;
 
@@ -86,8 +70,6 @@ interface PostalAddressInterface
      * Postal code fluent setter.
      *
      * @param string|null $postalCode the new postal code
-     *
-     * @return self
      */
     public function setPostalCode(?string $postalCode): self;
 
@@ -95,8 +77,6 @@ interface PostalAddressInterface
      * Street address fluent setter.
      *
      * @param string|null $streetAddress new street address
-     *
-     * @return self
      */
     public function setStreetAddress(?string $streetAddress): self;
 }

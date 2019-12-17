@@ -19,6 +19,7 @@ use App\Entity\Bill;
 use App\Entity\Order;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -69,6 +70,8 @@ class BillRepository extends ServiceEntityRepository
         } catch (NonUniqueResultException $exception) {
             //this should not be reached.
             return 0;
+        } catch (NoResultException $exception) {
+            return 1;
         }
     }
 }

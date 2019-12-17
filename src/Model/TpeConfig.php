@@ -50,8 +50,6 @@ class TpeConfig
 
     /**
      * Configuration getter.
-     *
-     * @return array
      */
     public function getConfiguration(): array
     {

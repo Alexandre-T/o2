@@ -65,7 +65,7 @@ class Obsolete
         if (!self::$obsolescence instanceof DateTimeInterface) {
             $now = self::getCurrentDate();
             $date = $now->format('Y-m').'-1 00:00:00.000';
-            self::$obsolescence = new \DateTimeImmutable($date);
+            self::$obsolescence = new DateTimeImmutable($date);
             self::$obsolescence->sub(new DateInterval('P1M'));
         }
 

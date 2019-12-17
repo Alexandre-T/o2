@@ -65,8 +65,6 @@ class CreditOrder
 
     /**
      * Fifty getter.
-     *
-     * @return int
      */
     public function getFifty(): int
     {
@@ -75,8 +73,6 @@ class CreditOrder
 
     /**
      * FiveHundred getter.
-     *
-     * @return int
      */
     public function getFiveHundred(): int
     {
@@ -85,8 +81,6 @@ class CreditOrder
 
     /**
      * Hundred getter.
-     *
-     * @return int
      */
     public function getHundred(): int
     {
@@ -95,8 +89,6 @@ class CreditOrder
 
     /**
      * Ten getter.
-     *
-     * @return int
      */
     public function getTen(): int
     {
@@ -121,8 +113,6 @@ class CreditOrder
      * Fifty setter.
      *
      * @param int $fifty quantity bought
-     *
-     * @return CreditOrder
      */
     public function setFifty(int $fifty): CreditOrder
     {
@@ -135,8 +125,6 @@ class CreditOrder
      * 500 setter.
      *
      * @param int $fiveHundred quantity bought
-     *
-     * @return CreditOrder
      */
     public function setFiveHundred(int $fiveHundred): CreditOrder
     {
@@ -149,8 +137,6 @@ class CreditOrder
      * Hundred setter.
      *
      * @param int $hundred quantity bought
-     *
-     * @return CreditOrder
      */
     public function setHundred(int $hundred): CreditOrder
     {
@@ -163,8 +149,6 @@ class CreditOrder
      * Ten setter.
      *
      * @param int $ten quantity bought
-     *
-     * @return CreditOrder
      */
     public function setTen(int $ten): CreditOrder
     {

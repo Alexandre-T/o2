@@ -119,8 +119,6 @@ trait PersonTrait
 
     /**
      * Given name getter.
-     *
-     * @return string|null
      */
     public function getGivenName(): ?string
     {
@@ -129,8 +127,6 @@ trait PersonTrait
 
     /**
      * Label getter.
-     *
-     * @return string
      */
     public function getLabel(): string
     {
@@ -151,8 +147,6 @@ trait PersonTrait
 
     /**
      * Name getter.
-     *
-     * @return string|null
      */
     public function getName(): ?string
     {
@@ -161,8 +155,6 @@ trait PersonTrait
 
     /**
      * Society name getter.
-     *
-     * @return string|null
      */
     public function getSociety(): ?string
     {
@@ -171,8 +163,6 @@ trait PersonTrait
 
     /**
      * Telephone number getter.
-     *
-     * @return string|null
      */
     public function getTelephone(): ?string
     {
@@ -181,8 +171,6 @@ trait PersonTrait
 
     /**
      * Return type.
-     *
-     * @return bool|null
      */
     public function getType(): ?bool
     {
@@ -191,8 +179,6 @@ trait PersonTrait
 
     /**
      * VAT number getter.
-     *
-     * @return string|null
      */
     public function getVatNumber(): ?string
     {
@@ -201,8 +187,6 @@ trait PersonTrait
 
     /**
      * Is this a moral person?
-     *
-     * @return bool
      */
     public function isMoral(): bool
     {
@@ -211,8 +195,6 @@ trait PersonTrait
 
     /**
      * Is this a physic person?
-     *
-     * @return bool
      */
     public function isPhysic(): bool
     {
@@ -221,8 +203,6 @@ trait PersonTrait
 
     /**
      * Is this user a society?
-     *
-     * @return bool
      */
     public function isSociety(): bool
     {

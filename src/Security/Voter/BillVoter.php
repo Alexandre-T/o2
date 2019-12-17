@@ -82,8 +82,6 @@ class BillVoter extends Voter
      *
      * @param Bill $bill bill to show
      * @param User $user user currently connected
-     *
-     * @return bool
      */
     private function canView(Bill $bill, User $user): bool
     {

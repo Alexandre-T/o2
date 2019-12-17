@@ -112,8 +112,6 @@ class UserProvider implements UserProviderInterface
      * Tells Symfony to use this provider for this User class.
      *
      * @param string $class class to test
-     *
-     * @return bool
      */
     public function supportsClass($class): bool
     {

@@ -42,8 +42,6 @@ class PaymentMethod
      * Method fluent setter.
      *
      * @param string $method the new method
-     *
-     * @return PaymentMethod
      */
     public function setMethod(?string $method): PaymentMethod
     {

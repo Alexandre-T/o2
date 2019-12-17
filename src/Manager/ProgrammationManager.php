@@ -39,8 +39,6 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
 
     /**
      * Count pending programmation.
-     *
-     * @return int
      */
     public function countPending(): int
     {
@@ -57,8 +55,6 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
 
     /**
      * Get the default field for ordering data.
-     *
-     * @return string
      */
     public function getDefaultSortField(): string
     {
@@ -97,8 +93,6 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
      * @param string $sortOrder sort order
      *
      * @throws QueryException when criteria is not valid
-     *
-     * @return PaginationInterface
      */
     public function paginateWithUser(
      User $user,
@@ -136,8 +130,6 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
      *
      * @param QueryBuilder $queryBuilder Query builder
-     *
-     * @return QueryBuilder
      */
     protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
     {

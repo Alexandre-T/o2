@@ -108,7 +108,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      *     orphanRemoval=true,
      *     cascade={"persist"}
      * )
-     * @ORM\OrderBy({"price" = "ASC"})
+     * @ORM\OrderBy({"price": "ASC"})
      */
     private $orderedArticles;
 

@@ -37,8 +37,6 @@ class Kernel extends BaseKernel
 
     /**
      * Register all bundles declared in bundles.php file.
-     *
-     * @return iterable
      */
     public function registerBundles(): iterable
     {

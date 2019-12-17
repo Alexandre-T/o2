@@ -25,8 +25,6 @@ abstract class AbstractPaginateController extends AbstractController
      *
      * @param Request $request      the request containing order
      * @param string  $defaultOrder the default order if request have no one
-     *
-     * @return string
      */
     protected function getOrder(Request $request, string $defaultOrder = 'asc'): string
     {
@@ -40,8 +38,6 @@ abstract class AbstractPaginateController extends AbstractController
      *
      * @param Request $request      the request containing sorter field
      * @param string  $defaultField the default field if request have no one
-     *
-     * @return string
      */
     protected function getSortedField(Request $request, string $defaultField): string
     {
@@ -54,8 +50,6 @@ abstract class AbstractPaginateController extends AbstractController
      *
      * @param Request $request        the request with sorting fields
      * @param array   $acceptedFields array of acceptedFields
-     *
-     * @return bool
      */
     protected function validateSortedField(Request $request, array $acceptedFields): bool
     {

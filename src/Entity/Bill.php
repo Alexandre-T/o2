@@ -155,8 +155,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Cancel date time getter.
-     *
-     * @return DateTimeInterface|null
      */
     public function getCanceledAt(): ?DateTimeInterface
     {
@@ -165,8 +163,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Creation datetime getter.
-     *
-     * @return DateTimeInterface|null
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
@@ -175,8 +171,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Customer getter.
-     *
-     * @return User|null
      */
     public function getCustomer(): ?User
     {
@@ -185,8 +179,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Identifier getter.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -195,8 +187,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Return the label of entity.
-     *
-     * @return string
      */
     public function getLabel(): string
     {
@@ -205,8 +195,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Number bill getter.
-     *
-     * @return int|null
      */
     public function getNumber(): ?int
     {
@@ -215,8 +203,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Order getter.
-     *
-     * @return Order|null
      */
     public function getOrder(): ?Order
     {
@@ -225,8 +211,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Datetime payment getter.
-     *
-     * @return DateTimeInterface|null
      */
     public function getPaidAt(): ?DateTimeInterface
     {
@@ -235,8 +219,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Get amount to paid.
-     *
-     * @return float|null
      */
     public function getToPaid(): ?float
     {
@@ -249,8 +231,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Is this bill canceled?
-     *
-     * @return bool
      */
     public function isCanceled(): bool
     {
@@ -259,8 +239,6 @@ class Bill implements EntityInterface, PersonInterface, PostalAddressInterface, 
 
     /**
      * Is this bill paid?
-     *
-     * @return bool
      */
     public function isPaid(): bool
     {

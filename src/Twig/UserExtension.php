@@ -26,8 +26,6 @@ class UserExtension extends AbstractExtension
 {
     /**
      * List of filters.
-     *
-     * @return array
      */
     public function getFilters(): array
     {
@@ -40,8 +38,6 @@ class UserExtension extends AbstractExtension
 
     /**
      * List of tests.
-     *
-     * @return array
      */
     public function getTests(): array
     {
@@ -54,8 +50,6 @@ class UserExtension extends AbstractExtension
      * Return true only when value is an user AND user is a society.
      *
      * @param mixed $value value to evaluate
-     *
-     * @return bool
      */
     public function societyTest($value): bool
     {

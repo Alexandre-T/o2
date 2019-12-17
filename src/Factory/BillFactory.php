@@ -29,8 +29,6 @@ class BillFactory
      *
      * @param Order $order    referenced order
      * @param User  $customer referenced customer
-     *
-     * @return Bill
      */
     public static function create(Order $order, User $customer = null): Bill
     {
