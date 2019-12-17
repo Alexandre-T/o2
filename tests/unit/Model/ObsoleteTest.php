@@ -36,7 +36,14 @@ class ObsoleteTest extends Unit
     {
         $actual = new DateTimeImmutable();
         self::assertFalse(Obsolete::isObsolete($actual));
+
         $previous = $actual->sub(new DateInterval('P2M'));
         self::assertTrue(Obsolete::isObsolete($previous));
+
+        $limit = new DateTimeImmutable('first day of last month');
+        self::assertFalse(Obsolete::isObsolete($limit));
+
+        $otherLimit = $limit->sub(new DateInterval('P1D'));
+        self::assertTrue(Obsolete::isObsolete($otherLimit));
     }
 }
