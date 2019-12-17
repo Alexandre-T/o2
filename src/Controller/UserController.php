@@ -80,8 +80,6 @@ class UserController extends AbstractPaginateController
      * @param Request             $request The request
      * @param UserManager         $manager The user manager
      * @param TranslatorInterface $trans   The translator
-     *
-     * @return RedirectResponse
      */
     public function delete(
      User $user,
@@ -225,8 +223,6 @@ class UserController extends AbstractPaginateController
      *
      * @param User        $user        The user to display
      * @param UserManager $userManager The user manager
-     *
-     * @return Response
      */
     public function show(User $user, UserManager $userManager): Response
     {

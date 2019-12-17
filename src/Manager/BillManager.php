@@ -48,8 +48,6 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
 
     /**
      * Get the default field for billing data.
-     *
-     * @return string
      */
     public function getDefaultSortField(): string
     {
@@ -88,8 +86,6 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
      * @param string $sortOrder sort order
      *
      * @throws QueryException when criteria is not valid
-     *
-     * @return PaginationInterface
      */
     public function paginateWithUser(
      User $user,
@@ -116,8 +112,6 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
      *
      * @param Order $order Referenced order
      * @param User  $user  Referenced user
-     *
-     * @return Bill
      */
     public function retrieveOrCreateBill(Order $order, User $user): Bill
     {
@@ -138,8 +132,6 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
      *
      * @param QueryBuilder $queryBuilder Query builder
-     *
-     * @return QueryBuilder
      */
     protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
     {

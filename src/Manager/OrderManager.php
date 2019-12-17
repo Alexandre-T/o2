@@ -196,13 +196,14 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     {
         $articleRepository = $this->entityManager->getRepository(Article::class);
         /** @var Article[] $articles */
-        //TODO SPRINT2: change the find all by another filter
-        $articles = $articleRepository->findAll();
+        $articles = $articleRepository->findCredit();
         $order->setCredits(0);
         $order->setPrice(0);
         $order->setVat(0);
         $vatRate = (float) $order->getCustomer()->getVat();
+        //TODO SPRINT3: replaced this hardcode by something more dependent from model
         $methods[10] = 'getTen';
+        $methods[50] = 'getFifty';
         $methods[100] = 'getHundred';
         $methods[500] = 'getFiveHundred';
 

@@ -48,8 +48,6 @@ class PasswordLost
      * Mail fluent setter.
      *
      * @param string $mail mail of user who lost its password
-     *
-     * @return PasswordLost
      */
     public function setMail(?string $mail): PasswordLost
     {

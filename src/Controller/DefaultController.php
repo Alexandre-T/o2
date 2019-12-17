@@ -44,8 +44,6 @@ class DefaultController extends AbstractController
      * @param BillManager          $billManager          bill manager
      * @param ProgrammationManager $programmationManager programmation manager
      * @param UserManager          $userManager          user manager
-     *
-     * @return Response
      */
     public function index(
      BillManager $billManager,
@@ -87,8 +85,6 @@ class DefaultController extends AbstractController
      * @param SettingsManager $settingsManager the settings manager to retrieve data
      *
      * @throws SettingsException when data is non-existent
-     *
-     * @return Response
      */
     public function legacy(SettingsManager $settingsManager): Response
     {
@@ -120,8 +116,6 @@ class DefaultController extends AbstractController
      * Term of conditions page.
      *
      * @Route("/tos", name="tos", methods={"get"})
-     *
-     * @return Response
      */
     public function tos(): Response
     {
@@ -130,8 +124,6 @@ class DefaultController extends AbstractController
 
     /**
      * Return parameters for users.
-     *
-     * @return array
      */
     private function getUserParameters(): array
     {

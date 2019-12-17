@@ -47,8 +47,6 @@ class InflectorExtension extends AbstractExtension
      * Return true only when value is strictly an array.
      *
      * @param mixed $value value to test
-     *
-     * @return bool
      */
     public function arrayTest($value): bool
     {
@@ -77,8 +75,6 @@ class InflectorExtension extends AbstractExtension
      * Country filter convert country alpha code to country name under locale language.
      *
      * @param string|null $country the country code filter
-     *
-     * @return string
      */
     public function countryFilter(?string $country): string
     {
@@ -107,8 +103,6 @@ class InflectorExtension extends AbstractExtension
 
     /**
      * List of filters.
-     *
-     * @return array
      */
     public function getFilters(): array
     {
@@ -128,8 +122,6 @@ class InflectorExtension extends AbstractExtension
 
     /**
      * List of tests.
-     *
-     * @return array
      */
     public function getTests(): array
     {

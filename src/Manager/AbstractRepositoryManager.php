@@ -71,8 +71,6 @@ abstract class AbstractRepositoryManager implements ManagerInterface
      * Return the number of current entities registered in database.
      *
      * @param array $criteria filter criteria
-     *
-     * @return int
      */
     public function count(array $criteria = []): int
     {
@@ -97,8 +95,6 @@ abstract class AbstractRepositoryManager implements ManagerInterface
 
     /**
      * Get the default field for ordering data.
-     *
-     * @return string
      */
     abstract public function getDefaultSortField(): string;
 
@@ -119,8 +115,6 @@ abstract class AbstractRepositoryManager implements ManagerInterface
      * @param int         $limit     maximum entity per page
      * @param string|null $sortField sort field
      * @param string      $sortOrder sort order
-     *
-     * @return PaginationInterface
      */
     public function paginate(
      int $page = 1,
@@ -153,8 +147,6 @@ abstract class AbstractRepositoryManager implements ManagerInterface
      * @param string      $sortOrder sort order
      *
      * @throws QueryExceptionAlias when criteria are not valid
-     *
-     * @return PaginationInterface
      */
     public function paginateWithCriteria(
      Criteria $criteria,
@@ -211,8 +203,6 @@ abstract class AbstractRepositoryManager implements ManagerInterface
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
      *
      * @param QueryBuilder $queryBuilder the query builder to update
-     *
-     * @return QueryBuilder
      */
     protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
     {
@@ -221,8 +211,6 @@ abstract class AbstractRepositoryManager implements ManagerInterface
 
     /**
      * Main repository getter.
-     *
-     * @return EntityRepository
      */
     abstract protected function getMainRepository(): EntityRepository;
 }

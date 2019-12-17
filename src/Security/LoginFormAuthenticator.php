@@ -238,8 +238,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @see https://symfonycasts.com/screencast/symfony4-upgrade/sf34-deprecations#deprecation-guardauthenticator-supports
      *
      * @param Request $request the request to test if route is login page
-     *
-     * @return bool
      */
     public function supports(Request $request): bool
     {

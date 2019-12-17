@@ -105,8 +105,6 @@ trait PostalAddressTrait
 
     /**
      * Post office box number getter.
-     *
-     * @return string|null
      */
     public function getComplement(): ?string
     {
@@ -115,8 +113,6 @@ trait PostalAddressTrait
 
     /**
      * Country getter.
-     *
-     * @return string|null
      */
     public function getCountry(): ?string
     {
@@ -125,8 +121,6 @@ trait PostalAddressTrait
 
     /**
      * Locality getter.
-     *
-     * @return string|null
      */
     public function getLocality(): ?string
     {
@@ -135,8 +129,6 @@ trait PostalAddressTrait
 
     /**
      * Postal code getter.
-     *
-     * @return string|null
      */
     public function getPostalCode(): ?string
     {
@@ -145,8 +137,6 @@ trait PostalAddressTrait
 
     /**
      * Street address getter.
-     *
-     * @return string|null
      */
     public function getStreetAddress(): ?string
     {

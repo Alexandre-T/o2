@@ -112,8 +112,6 @@ class ProgrammationController extends AbstractPaginateController
      * @Route("/{id}", name="show", methods={"get"})
      *
      * @param Programmation $programmation The programmation to display
-     *
-     * @return Response
      */
     public function show(Programmation $programmation): Response
     {
