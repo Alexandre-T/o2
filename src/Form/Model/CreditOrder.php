@@ -166,7 +166,7 @@ class CreditOrder
      */
     public function validate(ExecutionContextInterface $context): void
     {
-        if (0 === $this->getTen() && 0 === $this->getHundred() && 0 === $this->getFiveHundred()) {
+        if (0 === $this->getTen() + $this->getFifty() + $this->getHundred() + $this->getFiveHundred()) {
             $context->buildViolation('error.order.empty')
                 ->addViolation()
             ;
