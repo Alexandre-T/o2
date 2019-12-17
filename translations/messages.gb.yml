@@ -258,7 +258,7 @@ form:
     article-100: 'Pack(s) of 100 credits'
     article-500: 'Pack(s) of 500 credits'
     bill-indication: 'Bill indication'
-    cat-stopped: 'Catalytic done'
+    cat-stopped: 'CAT done'
     credit: 'Credits'
     complement: 'Complement'
     comment: 'Comments'
@@ -338,7 +338,7 @@ form:
     vat-default: 'Normal rate (20%)'
     vat-europe: 'European rate (0%)'
     vat-domtom: 'DOM-TOM rate (8,5%)'
-    cat-off: 'Catalytic: 5 crédits'
+    cat-off: 'CAT Off: 5 crédits'
     gear-off: 'Gear: 10 crédits'
   help:
     article-10: 'Select the quantity of 10 credits packs'
@@ -889,7 +889,7 @@ programmation:
     stage-one: 'Stage 1'
     comment: 'Customer comments:'
     response: 'Team answer:'
-    cat-off: 'Catalytic'
+    cat-off: 'CAT Off'
     gear: 'Gear'
   customer: 'Customer'
 common:
