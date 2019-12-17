@@ -54,12 +54,20 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {# FIXME change this code to loop over options and be dependent from database and no more hardcode #}
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.ten) }}</td>
                                 <td class="col-2">{{ form_widget(form.ten) }}</td>
-                                <td class="col-2">{{ 100 | euro }}</td>
+                                <td class="col-2">{{ 120 | euro }}</td>
                                 <td class="col-2"><span id="credit10">{{ (10 * form.ten.vars.value) | credit }}</span></td>
-                                <td class="col-2"><span id="price10">{{ (100 * form.ten.vars.value) | euro }}</span></td>
+                                <td class="col-2"><span id="price10">{{ (120 * form.ten.vars.value) | euro }}</span></td>
+                            </tr>
+                            <tr class="d-flex">
+                                <td class="col-4">{{ form_label(form.fifty) }}</td>
+                                <td class="col-2">{{ form_widget(form.fifty) }}</td>
+                                <td class="col-2">{{ 500 | euro }}</td>
+                                <td class="col-2"><span id="credit50">{{ (50 * form.fifty.vars.value) | credit }}</span></td>
+                                <td class="col-2"><span id="price50">{{ (500 * form.fifty.vars.value) | euro }}</span></td>
                             </tr>
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.hundred) }}</td>

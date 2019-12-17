@@ -46,6 +46,15 @@ class CreditOrder
     private $hundred = 0;
 
     /**
+     * The number of credit bought by fifty.
+     *
+     * @Assert\Range(min="0", max="9")
+     *
+     * @var int
+     */
+    private $fifty = 0;
+
+    /**
      * The number of credit bought by ten.
      *
      * @Assert\Range(min="0", max="9")
@@ -72,6 +81,16 @@ class CreditOrder
     public function getHundred(): int
     {
         return $this->hundred;
+    }
+
+    /**
+     * Fifty getter.
+     *
+     * @return int
+     */
+    public function getFifty(): int
+    {
+        return $this->fifty;
     }
 
     /**
@@ -127,6 +146,20 @@ class CreditOrder
     }
 
     /**
+     * Fifty setter.
+     *
+     * @param int $fifty quantity bought
+     *
+     * @return CreditOrder
+     */
+    public function setFifty(int $fifty): CreditOrder
+    {
+        $this->fifty = $fifty;
+
+        return $this;
+    }
+
+    /**
      * Ten setter.
      *
      * @param int $ten quantity bought
@@ -167,6 +200,10 @@ class CreditOrder
         switch ($article->getCredit()) {
             case 10:
                 $this->setTen($quantity);
+
+                return;
+            case 50:
+                $this->setFifty($quantity);
 
                 return;
             case 100:

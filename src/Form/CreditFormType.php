@@ -43,6 +43,10 @@ class CreditFormType extends AbstractType
                 'label' => 'form.field.article-10',
                 'help' => 'form.help.article-10',
             ])
+            ->add('fifty', QuantityType::class, [
+                'label' => 'form.field.article-50',
+                'help' => 'form.help.article-50',
+            ])
             ->add('hundred', QuantityType::class, [
                 'label' => 'form.field.article-100',
                 'help' => 'form.help.article-100',
