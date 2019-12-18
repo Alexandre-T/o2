@@ -11,11 +11,15 @@ framework:
         cookie_secure: auto
         cookie_samesite: lax
 
-    #The templating is needed by MailerInterface
-    templating:
-        engines:
-            - twig
+    #FIXME The templating is needed by MailerInterface
+    #templating:
+    #    engines:
+    #        - twig
+
     #esi: true
     #fragments: true
     php_errors:
         log: true
+
+    #Added for symfony 4.4
+    error_controller: ~
