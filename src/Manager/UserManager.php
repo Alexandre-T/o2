@@ -59,8 +59,6 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
 
     /**
      * Get the default field for ordering data.
-     *
-     * @return string
      */
     public function getDefaultSortField(): string
     {
@@ -95,8 +93,6 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
      *
      * @param QueryBuilder $queryBuilder Query builder
-     *
-     * @return QueryBuilder
      */
     protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
     {

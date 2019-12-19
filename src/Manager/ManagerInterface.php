@@ -37,8 +37,6 @@ interface ManagerInterface
      * Each entity stored is countable.
      *
      * @param array $criteria filter criteria
-     *
-     * @return int
      */
     public function count(array $criteria = []): int;
 
@@ -51,8 +49,6 @@ interface ManagerInterface
 
     /**
      * Get the default field for ordering data.
-     *
-     * @return string
      */
     public function getDefaultSortField(): string;
 
@@ -71,8 +67,6 @@ interface ManagerInterface
      * @param int    $page  current page
      * @param int    $limit limit of each page
      * @param string $sort  sort order
-     *
-     * @return PaginationInterface
      */
     public function paginate(int $page = 1, int $limit = self::LIMIT, string $sort = self::SORT): PaginationInterface;
 
@@ -83,8 +77,6 @@ interface ManagerInterface
      * @param int      $page     current page
      * @param int      $limit    max elements
      * @param string   $sort     sort order
-     *
-     * @return PaginationInterface
      */
     public function paginateWithCriteria(
      Criteria $criteria,

@@ -56,8 +56,6 @@ class Payment extends BasePayment
 
     /**
      * Order getter.
-     *
-     * @return Order|null
      */
     public function getOrder(): ?Order
     {

@@ -1,6 +1,7 @@
 
 var updateSpan = function() {
   let ten = $('#accountant_credit_form_ten').val();
+  let fifty = $('#accountant_credit_form_fifty').val();
   let hundred = $('#accountant_credit_form_hundred').val();
   let fiveHundred = $('#accountant_credit_form_fiveHundred').val();
 
@@ -12,6 +13,7 @@ $(updateSpan);
 
 //After each update...
 $('#accountant_credit_form_ten').change(updateSpan);
+$('#accountant_credit_form_fifty').change(updateSpan);
 $('#accountant_credit_form_hundred').change(updateSpan);
 $('#accountant_credit_form_fiveHundred').change(updateSpan);
 

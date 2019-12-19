@@ -28,6 +28,15 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class CreditOrder
 {
     /**
+     * The number of credit bought by fifty.
+     *
+     * @Assert\Range(min="0", max="9")
+     *
+     * @var int
+     */
+    private $fifty = 0;
+
+    /**
      * The number of credit bought by five hundred.
      *
      * @Assert\Range(min="0", max="9")
@@ -55,9 +64,15 @@ class CreditOrder
     private $ten = 0;
 
     /**
+     * Fifty getter.
+     */
+    public function getFifty(): int
+    {
+        return $this->fifty;
+    }
+
+    /**
      * FiveHundred getter.
-     *
-     * @return int
      */
     public function getFiveHundred(): int
     {
@@ -66,8 +81,6 @@ class CreditOrder
 
     /**
      * Hundred getter.
-     *
-     * @return int
      */
     public function getHundred(): int
     {
@@ -76,8 +89,6 @@ class CreditOrder
 
     /**
      * Ten getter.
-     *
-     * @return int
      */
     public function getTen(): int
     {
@@ -99,11 +110,21 @@ class CreditOrder
     }
 
     /**
+     * Fifty setter.
+     *
+     * @param int $fifty quantity bought
+     */
+    public function setFifty(int $fifty): CreditOrder
+    {
+        $this->fifty = $fifty;
+
+        return $this;
+    }
+
+    /**
      * 500 setter.
      *
      * @param int $fiveHundred quantity bought
-     *
-     * @return CreditOrder
      */
     public function setFiveHundred(int $fiveHundred): CreditOrder
     {
@@ -116,8 +137,6 @@ class CreditOrder
      * Hundred setter.
      *
      * @param int $hundred quantity bought
-     *
-     * @return CreditOrder
      */
     public function setHundred(int $hundred): CreditOrder
     {
@@ -130,8 +149,6 @@ class CreditOrder
      * Ten setter.
      *
      * @param int $ten quantity bought
-     *
-     * @return CreditOrder
      */
     public function setTen(int $ten): CreditOrder
     {
@@ -149,7 +166,7 @@ class CreditOrder
      */
     public function validate(ExecutionContextInterface $context): void
     {
-        if (0 === $this->getTen() && 0 === $this->getHundred() && 0 === $this->getFiveHundred()) {
+        if (0 === $this->getTen() + $this->getFifty() + $this->getHundred() + $this->getFiveHundred()) {
             $context->buildViolation('error.order.empty')
                 ->addViolation()
             ;
@@ -167,6 +184,10 @@ class CreditOrder
         switch ($article->getCredit()) {
             case 10:
                 $this->setTen($quantity);
+
+                return;
+            case 50:
+                $this->setFifty($quantity);
 
                 return;
             case 100:

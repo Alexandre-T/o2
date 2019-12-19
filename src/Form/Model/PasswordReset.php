@@ -43,8 +43,6 @@ class PasswordReset
 
     /**
      * Password getter.
-     *
-     * @return string|null
      */
     public function getPassword(): ?string
     {
@@ -53,8 +51,6 @@ class PasswordReset
 
     /**
      * Token getter.
-     *
-     * @return string|null
      */
     public function getToken(): ?string
     {
@@ -65,8 +61,6 @@ class PasswordReset
      * New password fluent setter.
      *
      * @param string|null $password the new password
-     *
-     * @return PasswordReset
      */
     public function setPassword(?string $password): PasswordReset
     {
@@ -79,8 +73,6 @@ class PasswordReset
      * Resetting token fluent setter.
      *
      * @param string|null $token the resetting token
-     *
-     * @return PasswordReset
      */
     public function setToken(?string $token): PasswordReset
     {

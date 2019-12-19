@@ -79,8 +79,6 @@ class SpanExtension extends AbstractExtension
      * Span gear filter.
      *
      * @param int $gear GEAR value
-     *
-     * @return string
      */
     public function spanGearFilter(int $gear): string
     {
@@ -98,8 +96,6 @@ class SpanExtension extends AbstractExtension
      * Span odb filter.
      *
      * @param int $odb ODB value
-     *
-     * @return string
      */
     public function spanOdbFilter(int $odb): string
     {
@@ -117,8 +113,6 @@ class SpanExtension extends AbstractExtension
      * Span read filter.
      *
      * @param int $read READ value
-     *
-     * @return string
      */
     public function spanReadFilter(int $read): string
     {
@@ -137,8 +131,6 @@ class SpanExtension extends AbstractExtension
      *
      * @param string $text  text to translate
      * @param string $color bootstrap color (danger, success, warning, dark, etc.)
-     *
-     * @return string
      */
     private function getSpan(string $text, string $color = 'dark'): string
     {

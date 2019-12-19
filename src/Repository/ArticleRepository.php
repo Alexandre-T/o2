@@ -41,6 +41,23 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find bills by order.
+     *
+     * @return array|Article[]
+     */
+    public function findCredit(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+
+        return $queryBuilder->where('a.code LIKE :code')
+            ->setParameter('code', 'CRED%')
+            ->orderBy('a.price')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
      * Find one article by its code.
      *
      * @param string $code unique article code

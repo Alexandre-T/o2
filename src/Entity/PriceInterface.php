@@ -19,8 +19,6 @@ interface PriceInterface
 {
     /**
      * Amount getter.
-     *
-     * @return float
      */
     public function getAmount(): float;
 

@@ -82,8 +82,6 @@ class BillController extends AbstractPaginateController
      *
      * @param PaymentManager $paymentManager The payment manager
      * @param Bill           $bill           The bill to display
-     *
-     * @return Response
      */
     public function show(PaymentManager $paymentManager, Bill $bill): Response
     {

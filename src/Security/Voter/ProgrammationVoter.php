@@ -82,8 +82,6 @@ class ProgrammationVoter extends Voter
      *
      * @param Programmation $programmation programmation to show
      * @param User          $user          user currently connected
-     *
-     * @return bool
      */
     private function canView(Programmation $programmation, User $user): bool
     {

@@ -82,8 +82,6 @@ class SecurityController extends AbstractController
      * @param EntityManagerInterface    $entityManager        Entity manager to save user
      * @param GuardAuthenticatorHandler $authenticatorHandler Guard authenticator handler
      * @param LoginFormAuthenticator    $loginAuthenticator   login form authenticator
-     *
-     * @return Response
      */
     public function registerAction(
      Request $request,

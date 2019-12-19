@@ -40,8 +40,6 @@ trait PriceTrait
 
     /**
      * Amount getter.
-     *
-     * @return float
      */
     public function getAmount(): float
     {
