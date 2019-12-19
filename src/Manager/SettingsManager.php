@@ -20,10 +20,10 @@ use App\Entity\Settings;
 use App\Exception\SettingsException;
 use App\Repository\SettingsRepository;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ObjectRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**

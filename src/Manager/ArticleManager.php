@@ -18,9 +18,9 @@ namespace App\Manager;
 use App\Entity\Article;
 use App\Exception\NoArticleException;
 use App\Repository\ArticleRepository;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ObjectRepository;
 
 /**
  * Article Manager.

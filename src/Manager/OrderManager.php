@@ -27,9 +27,9 @@ use App\Form\Model\CreditOrder;
 use App\Model\OrderInterface;
 use App\Repository\ArticleRepository;
 use App\Repository\OrderRepository;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use \Doctrine\Persistence\ObjectRepository;
 
 /**
  * order Manager.
