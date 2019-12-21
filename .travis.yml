@@ -18,24 +18,24 @@ php:
   - "7.1"
   - "7.2"
   - "7.3"
-  - "7.4snapshot"
+  - "7.4"
 
 matrix:
   fast_finish: true
   allow_failures:
-    - php: "7.4snapshot"
+    - php: "7.1"
 
 before_install:
   - mkdir -p build/logs
   - export COMPOSER_PROCESS_TIMEOUT=3000
-install:
-  # Database creation
-  - mysql -e 'CREATE DATABASE symfony;'
   # Copy composer.7-x.lock to composer.lock
   - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then cp composer.7-1.lock composer.lock ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then cp composer.7-2.lock composer.lock ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.3" ]; then cp composer.7-3.lock composer.lock ; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.4snapshot" ]; then export COMPOSER_MEMORY_LIMIT=-1 ; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.4" ]; then cp composer.7-4.lock composer.lock ; fi
+install:
+  # Database creation
+  - mysql -e 'CREATE DATABASE symfony;'
   # Install application
   - composer install --verbose --no-interaction
   # Database configuration
