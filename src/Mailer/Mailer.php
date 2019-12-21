@@ -26,6 +26,10 @@ use Psr\Log\LoggerInterface;
 use Swift_Mailer;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class Mailer implements MailerInterface
 {
@@ -48,7 +52,7 @@ class Mailer implements MailerInterface
      *
      * @var EngineInterface
      */
-    protected $templating;
+    protected $twig;
 
     /**
      * The logger interface.
@@ -70,7 +74,7 @@ class Mailer implements MailerInterface
      * @param LoggerInterface       $logger          logger service
      * @param Swift_Mailer          $mailer          mailer service
      * @param UrlGeneratorInterface $router          the url generator
-     * @param EngineInterface       $templating      the templating engine
+     * @param Environment           $twig            the twig templating engine replacing php templating
      * @param SettingsManager       $settingsManager the settings manager to retrieve settings
      */
     public function __construct(
@@ -78,13 +82,13 @@ class Mailer implements MailerInterface
      Swift_Mailer $mailer,
      //TODO remove it, i can use url function in view to get an absolute url!
      UrlGeneratorInterface $router,
-     EngineInterface $templating,
+     Environment $twig,
      SettingsManager $settingsManager
     ) {
         $this->logger = $logger;
         $this->mailer = $mailer;
         $this->router = $router;
-        $this->templating = $templating;
+        $this->twig = $twig;
         $this->settingsManager = $settingsManager;
     }
 
@@ -94,6 +98,10 @@ class Mailer implements MailerInterface
      * @param AskedVat $asked the asked vat
      *
      * @return int the number of mails sent (shall be 1)
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     public function sendAskedVat(AskedVat $asked): int
     {
@@ -118,6 +126,10 @@ class Mailer implements MailerInterface
      * @param AskedVat $asked the asked vat entity
      *
      * @return int
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     public function sendAskedVatAccepted(AskedVat $asked): int
     {
@@ -142,6 +154,10 @@ class Mailer implements MailerInterface
      * @param AskedVat $asked the asked vat entity
      *
      * @return int
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     public function sendAskedVatRejected(AskedVat $asked): int
     {
@@ -169,6 +185,10 @@ class Mailer implements MailerInterface
      * @param string $accountant the accountant who received mail
      *
      * @return int
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     public function sendPaymentMail(Order $order, Bill $bill, string $sender, string $accountant): int
     {
@@ -185,8 +205,8 @@ class Mailer implements MailerInterface
             'credits' => $order->getCredits(),
         ];
 
-        $renderHtml = $this->templating->render('mail/new-payment.html.twig', $parameters);
-        $renderTxt = $this->templating->render('mail/new-payment.txt.twig', $parameters);
+        $renderHtml = $this->twig->render('mail/new-payment.html.twig', $parameters);
+        $renderTxt = $this->twig->render('mail/new-payment.txt.twig', $parameters);
 
         return $this->sendEmailMessage($renderHtml, $renderTxt, $sender, $accountant);
     }
@@ -199,6 +219,10 @@ class Mailer implements MailerInterface
      * @param string        $sender        the expediter
      *
      * @return int
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     public function sendProgrammationMail(Programmation $programmation, string $programmer, string $sender): int
     {
@@ -214,8 +238,8 @@ class Mailer implements MailerInterface
             'programmation' => $programmation,
         ];
 
-        $renderHtml = $this->templating->render('mail/new-programmation.html.twig', $parameters);
-        $renderTxt = $this->templating->render('mail/new-programmation.txt.twig', $parameters);
+        $renderHtml = $this->twig->render('mail/new-programmation.html.twig', $parameters);
+        $renderTxt = $this->twig->render('mail/new-programmation.txt.twig', $parameters);
 
         return $this->sendEmailMessage($renderHtml, $renderTxt, $sender, $programmer);
     }
@@ -224,6 +248,10 @@ class Mailer implements MailerInterface
      * Send a mail to reset password.
      *
      * @param User $user recipient mail
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     public function sendResettingEmailMessage(User $user): void
     {
@@ -232,11 +260,11 @@ class Mailer implements MailerInterface
             ['token' => $user->getResettingToken()],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
-        $renderHtml = $this->templating->render('mail/resetting.html.twig', [
+        $renderHtml = $this->twig->render('mail/resetting.html.twig', [
             'user' => $user,
             'confirmationUrl' => $url,
         ]);
-        $renderTxt = $this->templating->render('mail/resetting.txt.twig', [
+        $renderTxt = $this->twig->render('mail/resetting.txt.twig', [
             'user' => $user,
             'confirmationUrl' => $url,
         ]);
@@ -255,6 +283,10 @@ class Mailer implements MailerInterface
      * @param string        $sender        expediter
      *
      * @return int
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     public function sendReturningProgrammation(Programmation $programmation, string $sender): int
     {
@@ -279,8 +311,8 @@ class Mailer implements MailerInterface
             'programmation' => $programmation,
         ];
 
-        $renderHtml = $this->templating->render('mail/programmation-done.html.twig', $parameters);
-        $renderTxt = $this->templating->render('mail/programmation-done.txt.twig', $parameters);
+        $renderHtml = $this->twig->render('mail/programmation-done.html.twig', $parameters);
+        $renderTxt = $this->twig->render('mail/programmation-done.txt.twig', $parameters);
 
         return $this->sendEmailMessage($renderHtml, $renderTxt, $sender, $email);
     }
@@ -366,10 +398,14 @@ class Mailer implements MailerInterface
      * @param AskedVat $asked the entity recorded
      *
      * @return string
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     private function getHtmlAskedVat(AskedVat $asked): string
     {
-        return $this->templating->render('mail/new-asked-vat.html.twig', [
+        return $this->twig->render('mail/new-asked-vat.html.twig', [
             'asked' => $asked,
         ]);
     }
@@ -380,10 +416,14 @@ class Mailer implements MailerInterface
      * @param AskedVat $asked the entity recorded
      *
      * @return string
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     private function getHtmlAskedVatAccepted(AskedVat $asked): string
     {
-        return $this->templating->render('mail/accepted-asked-vat.html.twig', [
+        return $this->twig->render('mail/accepted-asked-vat.html.twig', [
             'asked' => $asked,
         ]);
     }
@@ -394,10 +434,14 @@ class Mailer implements MailerInterface
      * @param AskedVat $asked the entity recorded
      *
      * @return string
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     private function getHtmlAskedVatRejected(AskedVat $asked): string
     {
-        return $this->templating->render('mail/rejected-asked-vat.html.twig', [
+        return $this->twig->render('mail/rejected-asked-vat.html.twig', [
             'asked' => $asked,
         ]);
     }
@@ -408,10 +452,14 @@ class Mailer implements MailerInterface
      * @param AskedVat $asked the entity recorded
      *
      * @return string
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     private function getTxtAskedVat(AskedVat $asked): string
     {
-        return $this->templating->render('mail/new-asked-vat.txt.twig', [
+        return $this->twig->render('mail/new-asked-vat.txt.twig', [
             'asked' => $asked,
         ]);
     }
@@ -422,10 +470,14 @@ class Mailer implements MailerInterface
      * @param AskedVat $asked the entity recorded
      *
      * @return string
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     private function getTxtAskedVatAccepted(AskedVat $asked): string
     {
-        return $this->templating->render('mail/accepted-asked-vat.txt.twig', [
+        return $this->twig->render('mail/accepted-asked-vat.txt.twig', [
             'asked' => $asked,
         ]);
     }
@@ -436,10 +488,14 @@ class Mailer implements MailerInterface
      * @param AskedVat $asked the entity recorded
      *
      * @return string
+     *
+     * @throws LoaderError on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError on syntax error
      */
     private function getTxtAskedVatRejected(AskedVat $asked): string
     {
-        return $this->templating->render('mail/rejected-asked-vat.txt.twig', [
+        return $this->twig->render('mail/rejected-asked-vat.txt.twig', [
             'asked' => $asked,
         ]);
     }
