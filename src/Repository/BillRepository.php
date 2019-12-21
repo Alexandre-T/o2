@@ -35,9 +35,9 @@ class BillRepository extends ServiceEntityRepository
     /**
      * Bill repository constructor.
      *
-     * @param RegistryInterface $registry provided by dependency injection
+     * @param ManagerRegistry $registry provided by dependency injection
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Bill::class);
     }
@@ -69,6 +69,8 @@ class BillRepository extends ServiceEntityRepository
             ;
         } catch (NonUniqueResultException $exception) {
             //this should not be reached.
+            return 0;
+        } catch (NoResultException $exception) {
             return 0;
         }
     }
