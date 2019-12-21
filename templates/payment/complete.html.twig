@@ -65,7 +65,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for ordered in order.orderedArticles if ordered.quantity %}
+                        {% for ordered in order.orderedArticles|filter(ordered => ordered.quantity > 0) %}
                             <tr class="d-flex">
                                 <td headers="trArticle" class="col-4">{{ ('form.field.article-' ~ ordered.article.credit) | trans }}</td>
                                 <td headers="trQuantity" class="col-2">{{ ordered.quantity }}</td>

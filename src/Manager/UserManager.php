@@ -18,9 +18,9 @@ namespace App\Manager;
 use App\Entity\EntityInterface;
 use App\Entity\Programmation;
 use App\Entity\User;
-use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ObjectRepository;
 
 /**
  * User Manager.
