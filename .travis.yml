@@ -65,8 +65,8 @@ script:
   # Launch server
   - php bin/console server:start --no-interaction
   # Coverall tests
-  - if [ "$TRAVIS_PHP_VERSION" == "7.4snapshot" ]; then composer all-test ; fi
-  - if [ "$TRAVIS_PHP_VERSION" != "7.4snapshot" ]; then composer coverall-test ; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "7.4" ]; then composer all-test ; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "7.4" ]; then composer coverall-test ; fi
   # PHP MASS DETECTOR valid?
   - composer phpmd
   - composer phpmd-test
@@ -74,8 +74,8 @@ script:
   - composer phpcs
   - composer phpcs-test
   # PHP CS FIXER valid?
-  - if [ "$TRAVIS_PHP_VERSION" != "7.4snapshot" ]; then composer phpcsfixer ; fi
-  - if [ "$TRAVIS_PHP_VERSION" != "7.4snapshot" ]; then composer phpcsfixer-test ; fi
+  - composer phpcsfixer
+  - composer phpcsfixer-test
 
 after_failure:
   - cat tests/_output/*.fail.html
