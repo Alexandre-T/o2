@@ -33,9 +33,9 @@ before_install:
   - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then cp composer.7-2.lock composer.lock ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.3" ]; then cp composer.7-3.lock composer.lock ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.4" ]; then cp composer.7-4.lock composer.lock ; fi
-install:
   # Database creation
   - mysql -e 'CREATE DATABASE symfony;'
+install:
   # Install application
   - composer install --verbose --no-interaction
   # Database configuration
