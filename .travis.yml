@@ -1,7 +1,9 @@
 language: php
 
+dist: xenial
+
 service:
-  mariadb: '10.2'
+  - mariadb: '10.2'
 
 # Allows using containers
 sudo: true
