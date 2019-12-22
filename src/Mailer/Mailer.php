@@ -73,21 +73,17 @@ class Mailer implements MailerInterface
      *
      * @param LoggerInterface       $logger          logger service
      * @param Swift_Mailer          $mailer          mailer service
-     * @param UrlGeneratorInterface $router          the url generator
      * @param Environment           $twig            the twig templating engine replacing php templating
      * @param SettingsManager       $settingsManager the settings manager to retrieve settings
      */
     public function __construct(
      LoggerInterface $logger,
      Swift_Mailer $mailer,
-     //TODO remove it, i can use url function in view to get an absolute url!
-     UrlGeneratorInterface $router,
      Environment $twig,
      SettingsManager $settingsManager
     ) {
         $this->logger = $logger;
         $this->mailer = $mailer;
-        $this->router = $router;
         $this->twig = $twig;
         $this->settingsManager = $settingsManager;
     }
@@ -192,14 +188,8 @@ class Mailer implements MailerInterface
      */
     public function sendPaymentMail(Order $order, Bill $bill, string $sender, string $accountant): int
     {
-        $downloadBill = $this->router->generate(
-            'accountant_bill_show',
-            ['id' => $bill->getId()],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
-
         $parameters = [
-            'downloadBill' => $downloadBill,
+            'id' => $bill->getId(),
             'mail' => $order->getCustomer()->getMail(),
             'amount' => $bill->getAmount(),
             'credits' => $order->getCredits(),
@@ -226,14 +216,8 @@ class Mailer implements MailerInterface
      */
     public function sendProgrammationMail(Programmation $programmation, string $programmer, string $sender): int
     {
-        $download = $this->router->generate(
-            'programmer_download_original',
-            ['id' => $programmation->getId()],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
-
         $parameters = [
-            'download' => $download,
+            'id' => $programmation->getId(),
             'mail' => $programmation->getCustomer()->getMail(),
             'programmation' => $programmation,
         ];
@@ -255,18 +239,11 @@ class Mailer implements MailerInterface
      */
     public function sendResettingEmailMessage(User $user): void
     {
-        $url = $this->router->generate(
-            'security_reset',
-            ['token' => $user->getResettingToken()],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
         $renderHtml = $this->twig->render('mail/resetting.html.twig', [
-            'user' => $user,
-            'confirmationUrl' => $url,
+            'token' => $user->getResettingToken()
         ]);
         $renderTxt = $this->twig->render('mail/resetting.txt.twig', [
-            'user' => $user,
-            'confirmationUrl' => $url,
+            'token' => $user->getResettingToken()
         ]);
 
         try {
@@ -290,23 +267,9 @@ class Mailer implements MailerInterface
      */
     public function sendReturningProgrammation(Programmation $programmation, string $sender): int
     {
-        $download = $this->router->generate(
-            'customer_programmation_download',
-            ['id' => $programmation->getId()],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
-
-        $show = $this->router->generate(
-            'customer_programmation_show',
-            ['id' => $programmation->getId()],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
-
         $email = $programmation->getCustomer()->getMail();
 
         $parameters = [
-            'download' => $download,
-            'show' => $show,
             'mail' => $email,
             'programmation' => $programmation,
         ];

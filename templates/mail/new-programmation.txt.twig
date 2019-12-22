@@ -13,4 +13,4 @@
  * {{ 'programmation.ethanol' | trans }}: {{ (programmation.ethanol ? 'common.asked' : 'common.non-asked') | trans}}
  * {{ 'programmation.stageOne' | trans }}: {{ (programmation.stageOne ? 'common.asked' : 'common.non-asked') | trans}}
 
-{{ 'link.download-original-file.title' | trans}}: {{ download }}
+{{ 'link.download-original-file.title' | trans}}: {{ absolute_url(path('programmer_download_original',{'id': id})) }}

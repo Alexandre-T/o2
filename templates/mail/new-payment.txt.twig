@@ -2,7 +2,7 @@
 {{ 'title.new-payment' | trans }}
 {{ 'explanation.new-payment' | trans }}
 
-{{ 'link.download-bill.title' | trans}} : {{ downloadBill }}
+{{ 'link.download-bill.title' | trans}} : {{ absolute_url(path('accountant_bill_show',{'id': id})) }}
 
 {{ 'new-payment.description %mail% %amount% %credits%' | trans({
         '%mail%': mail,

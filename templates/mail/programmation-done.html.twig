@@ -7,5 +7,9 @@
     })
     }}
 </p>
-<a href="{{ show }}" title="{{ 'link.programmation-show.title' | trans}}">{{ 'link.programmation-show.text' | trans}}</a>
-<a href="{{ download }}" title="{{ 'link.download-final-file.title' | trans}}">{{ 'link.download-final-file.text' | trans}}</a>
+<ul>
+    <li><a href="{{ absolute_url(path('customer_programmation_show',{'id': programmation.id})) }}"
+           title="{{ 'link.programmation-show.title' | trans}}">{{ 'link.programmation-show.text' | trans}}</a></li>
+    <li><a href="{{ absolute_url(path('customer_programmation_download',{'id': programmation.id})) }}"
+   title="{{ 'link.download-final-file.title' | trans}}">{{ 'link.download-final-file.text' | trans}}</a></li>
+</ul>

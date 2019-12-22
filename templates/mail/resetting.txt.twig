@@ -2,5 +2,5 @@
 {{ 'title.password-lost' | trans }}
 
 {{ 'explanation.password-lost.declaration' | trans }}
-{{ confirmationUrl }}
+{{ absolute_url(path('security_reset',{'token': token})) }}
 {{ 'explanation.password-lost.how-to' | trans }}

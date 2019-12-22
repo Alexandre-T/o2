@@ -5,5 +5,5 @@
     '%model%': programmation.model
 })
 }}
-{{ 'link.programmation-show.title' | trans}} : {{ show }}
-{{ 'link.download-final-file.title' | trans}} : {{ download }}
+{{ 'link.programmation-show.title' | trans}} : {{ absolute_url(path('customer_programmation_show',{'id': programmation.id})) }}
+{{ 'link.download-final-file.title' | trans}} : {{ absolute_url(path('customer_programmation_download',{'id': programmation.id})) }}

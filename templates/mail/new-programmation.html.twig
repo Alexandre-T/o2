@@ -15,4 +15,5 @@
     <li>{{ 'programmation.ethanol' | trans }}: {{ programmation.ethanol | badgeAsked}}</li>
     <li>{{ 'programmation.stageOne' | trans }}: {{ programmation.stageOne | badgeAsked}}</li>
 </ul>
-<a href="{{ download }}" title="{{ 'link.download-original-file.title' | trans}}">{{ 'link.download-original-file.text' | trans}}</a>
+<a href="{{ absolute_url(path('programmer_download_original',{'id': id})) }}"
+   title="{{ 'link.download-original-file.title' | trans}}">{{ 'link.download-original-file.text' | trans}}</a>
