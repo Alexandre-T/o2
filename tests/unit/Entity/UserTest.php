@@ -331,7 +331,7 @@ class UserTest extends Unit
         self::assertNotEquals($this->user->getPlainPassword(), $user->getPlainPassword());
 
         $this->tester->wantToTest('plain-password are never serialized');
-        self::assertNotContains('bar', $serialize);
+        self::assertStringNotContainsString('bar', $serialize);
     }
 
     /**
