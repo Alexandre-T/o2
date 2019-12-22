@@ -43,8 +43,10 @@
         "vich/uploader-bundle": "^1.8"
     },
     "require-dev": {
-        "codeception/codeception": "^2.5",
         "codeception/c3": "2.*",
+        "codeception/codeception": "^4.0",
+        "codeception/module-phpbrowser": "^1.0",
+        "codeception/module-symfony": "^1.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "php-coveralls/php-coveralls": "^2.1",
         "phpmd/phpmd": "2.*",
