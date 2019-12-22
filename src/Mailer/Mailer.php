@@ -71,10 +71,10 @@ class Mailer implements MailerInterface
     /**
      * Mailer constructor.
      *
-     * @param LoggerInterface       $logger          logger service
-     * @param Swift_Mailer          $mailer          mailer service
-     * @param Environment           $twig            the twig templating engine replacing php templating
-     * @param SettingsManager       $settingsManager the settings manager to retrieve settings
+     * @param LoggerInterface $logger          logger service
+     * @param Swift_Mailer    $mailer          mailer service
+     * @param Environment     $twig            the twig templating engine replacing php templating
+     * @param SettingsManager $settingsManager the settings manager to retrieve settings
      */
     public function __construct(
      LoggerInterface $logger,

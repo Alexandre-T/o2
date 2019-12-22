@@ -51,7 +51,7 @@ class UserCommandTest extends KernelTestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertContains('[OK] Admin user created.', $output);
+        $this->assertStringContainsString('[OK] Admin user created.', $output);
     }
 
     /**
@@ -78,7 +78,7 @@ class UserCommandTest extends KernelTestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertContains('[OK] User created.', $output);
+        $this->assertStringContainsString('[OK] User created.', $output);
     }
 
     /**
@@ -104,7 +104,7 @@ class UserCommandTest extends KernelTestCase
 
         // the output of the command in the console
         $output = $commandTester->getDisplay();
-        $this->assertContains('Not enough arguments (missing: "label, mail").', $output);
+        $this->assertStringContainsString('Not enough arguments (missing: "label, mail").', $output);
     }
 
     /**
