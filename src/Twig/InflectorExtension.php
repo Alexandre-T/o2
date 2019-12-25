@@ -15,7 +15,8 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
-use Symfony\Component\Intl\Intl;
+use Symfony\Component\Intl\Countries;
+use Symfony\Component\Intl\Exception\MissingResourceException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -82,7 +83,11 @@ class InflectorExtension extends AbstractExtension
             return '';
         }
 
-        return Intl::getRegionBundle()->getCountryName($country);
+        try {
+            return Countries::getName($country);
+        } catch (MissingResourceException $exception) {
+            return '';
+        }
     }
 
     /**
