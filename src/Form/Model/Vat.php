@@ -54,8 +54,6 @@ class Vat
 
     /**
      * The actual vat getter.
-     *
-     * @return string
      */
     public function getActual(): string
     {
@@ -64,8 +62,6 @@ class Vat
 
     /**
      * Explanation getter.
-     *
-     * @return string|null
      */
     public function getExplanation(): ?string
     {
@@ -100,8 +96,6 @@ class Vat
      * Explanation fluent setter.
      *
      * @param string|null $explanation the new explanation
-     *
-     * @return Vat
      */
     public function setExplanation(?string $explanation): Vat
     {
@@ -114,8 +108,6 @@ class Vat
      * Mail fluent setter.
      *
      * @param string $vat mail of user who lost its password
-     *
-     * @return Vat
      */
     public function setVat(?string $vat): Vat
     {
@@ -153,8 +145,6 @@ class Vat
 
     /**
      * Is the asked VAT different from the customer actual vat?
-     *
-     * @return bool
      */
     private function isVatChanged(): bool
     {
@@ -163,8 +153,6 @@ class Vat
 
     /**
      * Is asked vat set to the default value.
-     *
-     * @return bool
      */
     private function isVatDefault(): bool
     {

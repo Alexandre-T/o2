@@ -135,8 +135,6 @@ class AskedVatFixtures extends Fixture implements DependentFixtureInterface
      * @param string|null $vatNumber  the vat number or the postal code
      * @param User|null   $accountant the accountant deciding
      * @param int|null    $decision   the decision
-     *
-     * @return AskedVat
      */
     private function createEntity(
      string $customer,

@@ -44,7 +44,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Catalytic off.
      *
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", options={"default": false})
      */
@@ -53,7 +53,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Catalytic done.
      *
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", nullable=true, options={"default": false})
      */
@@ -207,7 +207,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Gear.
      *
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", options={"default": false})
      */
@@ -225,7 +225,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Gear done.
      *
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", options={"default": false})
      */
@@ -380,8 +380,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Cat stopped getter.
-     *
-     * @return bool|null
      */
     public function getCatStopped(): ?bool
     {
@@ -390,8 +388,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Comment getter.
-     *
-     * @return string|null
      */
     public function getComment(): ?string
     {
@@ -400,8 +396,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Created datetime getter.
-     *
-     * @return DateTimeInterface|null
      */
     public function getCreatedAt(): ?DateTimeInterface
     {
@@ -410,8 +404,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Credit getter.
-     *
-     * @return int|null
      */
     public function getCredit(): ?int
     {
@@ -420,8 +412,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Customer getter.
-     *
-     * @return User|null
      */
     public function getCustomer(): ?User
     {
@@ -440,8 +430,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Delivered datetime getter.
-     *
-     * @return DateTimeInterface|null
      */
     public function getDeliveredAt(): ?DateTimeInterface
     {
@@ -460,8 +448,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Final file getter.
-     *
-     * @return File|null
      */
     public function getFinalFile(): ?File
     {
@@ -470,8 +456,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Identifier getter.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -480,8 +464,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * The label.
-     *
-     * @return string
      */
     public function getLabel(): string
     {
@@ -490,8 +472,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Vehicle make getter.
-     *
-     * @return string|null
      */
     public function getMake(): ?string
     {
@@ -500,8 +480,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Vehicle model getter.
-     *
-     * @return string|null
      */
     public function getModel(): ?string
     {
@@ -510,8 +488,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * ODB getter.
-     *
-     * @return int|null
      */
     public function getOdb(): ?int
     {
@@ -520,8 +496,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Odometer getter.
-     *
-     * @return int|null
      */
     public function getOdometer(): ?int
     {
@@ -530,8 +504,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Original file getter.
-     *
-     * @return File|null
      */
     public function getOriginalFile(): ?File
     {
@@ -540,8 +512,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Vehicle power.
-     *
-     * @return int|null
      */
     public function getPower(): ?int
     {
@@ -550,8 +520,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Protocol getter.
-     *
-     * @return string|null
      */
     public function getProtocol(): ?string
     {
@@ -568,8 +536,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Reader getter.
-     *
-     * @return string|null
      */
     public function getReaderTool(): ?string
     {
@@ -578,8 +544,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Response getter.
-     *
-     * @return string|null
      */
     public function getResponse(): ?string
     {
@@ -588,8 +552,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Serial getter.
-     *
-     * @return string|null
      */
     public function getSerial(): ?string
     {
@@ -598,8 +560,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Version getter.
-     *
-     * @return string|null
      */
     public function getVersion(): ?string
     {
@@ -608,8 +568,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Year getter.
-     *
-     * @return int|null
      */
     public function getYear(): ?int
     {
@@ -618,8 +576,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Cat getter.
-     *
-     * @return bool|null
      */
     public function isCatOff(): ?bool
     {
@@ -630,8 +586,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
      * Is the delivered file obsolete?
      *
      * @throws Exception this shall not happen
-     *
-     * @return bool
      */
     public function isDeliveredObsolete(): bool
     {
@@ -644,8 +598,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Is EDC off.
-     *
-     * @return bool|null
      */
     public function isEdcOff(): ?bool
     {
@@ -654,8 +606,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Is EDC stopped?
-     *
-     * @return bool|null
      */
     public function isEdcStopped(): ?bool
     {
@@ -664,8 +614,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Is EGR Off.
-     *
-     * @return bool|null
      */
     public function isEgrOff(): ?bool
     {
@@ -674,8 +622,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Is EGR stopped?
-     *
-     * @return bool|null
      */
     public function isEgrStopped(): ?bool
     {
@@ -684,8 +630,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Is Ethanol compatible.
-     *
-     * @return bool|null
      */
     public function isEthanol(): ?bool
     {
@@ -694,8 +638,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Is compatibility with ethanol done?
-     *
-     * @return bool|null
      */
     public function isEthanolDone(): ?bool
     {
@@ -704,8 +646,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Is FAP Off.
-     *
-     * @return bool|null
      */
     public function isFapOff(): ?bool
     {
@@ -714,8 +654,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Is FAP stopped?
-     *
-     * @return bool|null
      */
     public function isFapStopped(): ?bool
     {
@@ -724,8 +662,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Gear getter.
-     *
-     * @return bool|null
      */
     public function isGear(): ?bool
     {
@@ -734,8 +670,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Is gear automatic?
-     *
-     * @return bool|null
      */
     public function isGearAutomatic(): ?bool
     {
@@ -744,8 +678,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Gear done getter.
-     *
-     * @return bool|null
      */
     public function isGearDone(): ?bool
     {
@@ -756,8 +688,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
      * Is the created date obsolete?
      *
      * @throws Exception this hall not happen
-     *
-     * @return bool
      */
     public function isOriginalObsolete(): bool
     {
@@ -766,8 +696,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Stage One getter.
-     *
-     * @return bool|null
      */
     public function isStageOne(): ?bool
     {
@@ -776,8 +704,6 @@ class Programmation implements EntityInterface, ProgrammationInterface
 
     /**
      * Is StageOne done?
-     *
-     * @return bool|null
      */
     public function isStageOneDone(): ?bool
     {
@@ -801,7 +727,7 @@ class Programmation implements EntityInterface, ProgrammationInterface
     /**
      * Cat fluent setter.
      *
-     * @param bool $catOff the new value of cat.
+     * @param bool $catOff the new value of cat
      *
      * @return Programmation
      */

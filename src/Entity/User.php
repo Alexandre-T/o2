@@ -291,8 +291,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * Add a role.
      *
      * @param string $role role to add
-     *
-     * @return User
      */
     public function addRole(string $role): User
     {
@@ -305,8 +303,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Erase Credentials.
-     *
-     * @return User
      */
     public function eraseCredentials(): User
     {
@@ -317,8 +313,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Bill indication getter.
-     *
-     * @return string|null
      */
     public function getBillIndication(): ?string
     {
@@ -337,8 +331,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Credit getter.
-     *
-     * @return int
      */
     public function getCredit(): int
     {
@@ -385,8 +377,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Return the non-persistent plain password.
-     *
-     * @return string|null
      */
     public function getPlainPassword(): ?string
     {
@@ -405,8 +395,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Resetting timestamp getter.
-     *
-     * @return DateTimeInterface|null
      */
     public function getResettingAt(): ?DateTimeInterface
     {
@@ -415,8 +403,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Resetting token getter.
-     *
-     * @return string|null
      */
     public function getResettingToken(): ?string
     {
@@ -426,8 +412,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
     /**
      * Return an array of all role codes to be compliant with UserInterface
      * This is NOT the Roles getter.
-     *
-     * @return array
      */
     public function getRoles(): array
     {
@@ -440,8 +424,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * To implements UserInterface.
-     *
-     * @return string|null
      */
     public function getSalt(): ?string
     {
@@ -452,8 +434,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * A visual identifier that represents this user.
      * Username is the mail in this application.
      * TODO Change with getLabel()?
-     *
-     * @return string
      */
     public function getUsername(): string
     {
@@ -462,8 +442,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * VAT Getter.
-     *
-     * @return string|null
      */
     public function getVat(): ?string
     {
@@ -484,8 +462,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Is this user a accountant.
-     *
-     * @return bool
      */
     public function isAccountant(): bool
     {
@@ -494,8 +470,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Is this user an admin.
-     *
-     * @return bool
      */
     public function isAdmin(): bool
     {
@@ -504,8 +478,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Is this user a customer.
-     *
-     * @return bool
      */
     public function isCustomer(): bool
     {
@@ -514,8 +486,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Is this user a programmer.
-     *
-     * @return bool
      */
     public function isProgrammer(): bool
     {
@@ -524,8 +494,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
 
     /**
      * Terms of service getter.
-     *
-     * @return bool
      */
     public function isTos(): bool
     {
@@ -638,8 +606,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * Credit fluent setter.
      *
      * @param int $credit new credit value
-     *
-     * @return User
      */
     public function setCredit(int $credit): User
     {
@@ -652,8 +618,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * Setter of the mail.
      *
      * @param string $mail new mail
-     *
-     * @return User
      */
     public function setMail(?string $mail): User
     {
@@ -666,8 +630,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * Setter of the password.
      *
      * @param string $password new password
-     *
-     * @return User
      */
     public function setPassword(string $password): User
     {
@@ -680,8 +642,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * Set the non-persistent plain password.
      *
      * @param string $plainPassword non-encrypted password
-     *
-     * @return User
      */
     public function setPlainPassword(string $plainPassword): User
     {
@@ -726,8 +686,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * Setter of the roles.
      *
      * @param array $roles roles to set
-     *
-     * @return User
      */
     public function setRoles(array $roles): User
     {
@@ -754,8 +712,6 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
      * Set the username of user.
      *
      * @param string $username the new username
-     *
-     * @return User
      */
     public function setUsername(string $username): User
     {

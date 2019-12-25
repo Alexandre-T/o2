@@ -78,8 +78,6 @@ class Article
 
     /**
      * Code getter.
-     *
-     * @return string|null
      */
     public function getCode(): ?string
     {
@@ -88,8 +86,6 @@ class Article
 
     /**
      * Credit getter.
-     *
-     * @return int|null
      */
     public function getCredit(): ?int
     {
@@ -98,8 +94,6 @@ class Article
 
     /**
      * Identifier getter.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {

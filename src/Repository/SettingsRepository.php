@@ -43,8 +43,6 @@ class SettingsRepository extends ServiceEntityRepository
      * Find one by code.
      *
      * @param string $code Code to find
-     *
-     * @return Settings|null
      */
     public function findOneByCode(string $code): ?Settings
     {

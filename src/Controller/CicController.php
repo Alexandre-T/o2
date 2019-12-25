@@ -44,8 +44,6 @@ class CicController
      * @Route("/retour-cic", name="cic-return", methods={"post", "get"})
      *
      * @param TpeConfig $tpeConfig the tpe config
-     *
-     * @return Response
      */
     public function cic(TpeConfig $tpeConfig): Response
     {

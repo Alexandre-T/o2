@@ -68,8 +68,6 @@ class PaymentManager
      * @param Order  $order       The order contain all elements
      * @param array  $details     The details contains information about url
      * @param string $description The description (the method)
-     *
-     * @return Payment
      */
     public function createPayment(Payum $payum, Order $order, array $details, string $description): Payment
     {
@@ -94,8 +92,6 @@ class PaymentManager
      * Return the paypal checkout params.
      *
      * @param Order $order the order
-     *
-     * @return array
      */
     public function getPaypalCheckoutParams(Order $order): array
     {
@@ -130,8 +126,6 @@ class PaymentManager
      * Return the last payment.
      *
      * @param Order $order the order to find payments
-     *
-     * @return Payment|null
      */
     public function getValidPayment(Order $order): ?Payment
     {

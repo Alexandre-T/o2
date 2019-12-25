@@ -122,8 +122,6 @@ class OrderRepository extends ServiceEntityRepository
      * Find the last one paid order.
      *
      * Code not used!
-     *
-     * @return Order|null
      */
     public function findLastPaid(): ?Order
     {
@@ -163,8 +161,6 @@ class OrderRepository extends ServiceEntityRepository
      * Get carted non paid by user.
      *
      * @param User $customer owner of command
-     *
-     * @return Order|null
      */
     public function findOneByUserAndCartedCreditOrder(User $customer): ?Order
     {
@@ -187,8 +183,6 @@ class OrderRepository extends ServiceEntityRepository
      * Find one order by uuid.
      *
      * @param string $uuid $uuid to retrieve order
-     *
-     * @return Order|null
      */
     public function findOneByUuid(string $uuid): ?Order
     {

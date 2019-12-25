@@ -19,8 +19,8 @@ use App\Entity\User;
 use DateInterval;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Exception;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -50,8 +50,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
      * Find one user by his mail.
      *
      * @param string $mail mail to search in repository
-     *
-     * @return User|null
      */
     public function findOneByMail(string $mail): ?User
     {
@@ -62,8 +60,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
      * Find a user by token.
      *
      * @param string|null $token token in predicate
-     *
-     * @return User|null
      */
     public function findOneByToken(?string $token): ?User
     {
@@ -92,8 +88,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
      * @param string $username Username to find
      *
      * @throws UsernameNotFoundException when no user has this username
-     *
-     * @return UserInterface
      */
     public function loadUserByUsername($username): UserInterface
     {

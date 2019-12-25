@@ -38,8 +38,6 @@ interface VatManagerInterface
      * Customer ask the defaultVat.
      *
      * @param User $customer the customer
-     *
-     * @return AskedVat
      */
     public function askDefaultVat(User $customer): AskedVat;
 
@@ -48,8 +46,6 @@ interface VatManagerInterface
      *
      * @param User   $customer   the customer
      * @param string $postalCode the postal code of customer
-     *
-     * @return AskedVat
      */
     public function askDomVat(User $customer, string $postalCode): AskedVat;
 
@@ -58,8 +54,6 @@ interface VatManagerInterface
      *
      * @param User   $customer the customer
      * @param string $vatIntra Customer Intra VAT number
-     *
-     * @return AskedVat
      */
     public function askEuropeVat(User $customer, string $vatIntra): AskedVat;
 

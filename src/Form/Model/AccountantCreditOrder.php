@@ -54,8 +54,6 @@ class AccountantCreditOrder extends CreditOrder
 
     /**
      * Credit getter.
-     *
-     * @return bool
      */
     public function isCredit(): bool
     {
@@ -66,8 +64,6 @@ class AccountantCreditOrder extends CreditOrder
      * Credit fluent setter.
      *
      * @param bool $credit True if you want to credit user
-     *
-     * @return AccountantCreditOrder
      */
     public function setCredit(bool $credit): AccountantCreditOrder
     {

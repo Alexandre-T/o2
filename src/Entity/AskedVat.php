@@ -119,8 +119,6 @@ class AskedVat implements EntityInterface
 
     /**
      * The accountant getter.
-     *
-     * @return User|null
      */
     public function getAccountant(): ?User
     {
@@ -129,8 +127,6 @@ class AskedVat implements EntityInterface
 
     /**
      * The code getter.
-     *
-     * @return string|null
      */
     public function getCode(): ?string
     {
@@ -139,8 +135,6 @@ class AskedVat implements EntityInterface
 
     /**
      * Entity creation getter.
-     *
-     * @return DateTimeInterface
      */
     public function getCreatedAt(): DateTimeInterface
     {
@@ -149,8 +143,6 @@ class AskedVat implements EntityInterface
 
     /**
      * The customer getter.
-     *
-     * @return User|null
      */
     public function getCustomer(): ?User
     {
@@ -159,8 +151,6 @@ class AskedVat implements EntityInterface
 
     /**
      * Identifier getter.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -169,8 +159,6 @@ class AskedVat implements EntityInterface
 
     /**
      * Return the label of entity.
-     *
-     * @return string
      */
     public function getLabel(): string
     {
@@ -183,8 +171,6 @@ class AskedVat implements EntityInterface
 
     /**
      * The status of decision getter.
-     *
-     * @return int
      */
     public function getStatus(): int
     {
@@ -193,8 +179,6 @@ class AskedVat implements EntityInterface
 
     /**
      * The asked VAT getter.
-     *
-     * @return string|null
      */
     public function getVat(): ?string
     {

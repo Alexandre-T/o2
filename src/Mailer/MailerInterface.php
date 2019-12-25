@@ -36,8 +36,6 @@ interface MailerInterface
      * Send a mail to customer to inform him that accountant accepted his new VAT rate.
      *
      * @param AskedVat $asked the asked vat entity
-     *
-     * @return int
      */
     public function sendAskedVatAccepted(AskedVat $asked): int;
 
@@ -45,8 +43,6 @@ interface MailerInterface
      * Send a mail to customer to inform him that accountant rejected his new VAT rate.
      *
      * @param AskedVat $asked the asked vat entity
-     *
-     * @return int
      */
     public function sendAskedVatRejected(AskedVat $asked): int;
 
@@ -57,8 +53,6 @@ interface MailerInterface
      * @param Bill   $bill       the new bill
      * @param string $sender     the sender of mail
      * @param string $accountant the accountant who received mail
-     *
-     * @return int
      */
     public function sendPaymentMail(Order $order, Bill $bill, string $sender, string $accountant): int;
 
@@ -68,8 +62,6 @@ interface MailerInterface
      * @param Programmation $programmation the new programmation
      * @param string        $programmer    the mail programmer
      * @param string        $sender        sender of mail
-     *
-     * @return int
      */
     public function sendProgrammationMail(Programmation $programmation, string $programmer, string $sender): int;
 
@@ -85,8 +77,6 @@ interface MailerInterface
      *
      * @param Programmation $programmation programmation done
      * @param string        $sender        expediter
-     *
-     * @return int
      */
     public function sendReturningProgrammation(Programmation $programmation, string $sender): int;
 
@@ -94,8 +84,6 @@ interface MailerInterface
      * Send an internal test email to declared user in settings.
      *
      * @param string $email mail of senders and receivers
-     *
-     * @return int
      */
     public function sendTestMail(string $email): int;
 }

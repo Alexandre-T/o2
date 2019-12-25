@@ -108,7 +108,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      *     orphanRemoval=true,
      *     cascade={"persist"}
      * )
-     * @ORM\OrderBy({"price" = "ASC"})
+     * @ORM\OrderBy({"price": "ASC"})
      */
     private $orderedArticles;
 
@@ -271,8 +271,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Credit getter.
-     *
-     * @return int|null
      */
     public function getCredits(): ?int
     {
@@ -281,8 +279,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Customer getter.
-     *
-     * @return User|null
      */
     public function getCustomer(): ?User
     {
@@ -291,8 +287,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Identifier getter.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -301,8 +295,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Return the label of entity.
-     *
-     * @return string
      */
     public function getLabel(): string
     {
@@ -311,8 +303,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Nature getter.
-     *
-     * @return int|null
      */
     public function getNature(): ?int
     {
@@ -333,8 +323,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      * Get ordered article by article if exists.
      *
      * @param Article $article article filter
-     *
-     * @return OrderedArticle|null
      */
     public function getOrderedByArticle(Article $article): ?OrderedArticle
     {
@@ -353,8 +341,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Payer id getter.
-     *
-     * @return string|null
      */
     public function getPayerId(): ?string
     {
@@ -371,8 +357,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Status order getter.
-     *
-     * @return int|null
      */
     public function getStatusOrder(): ?int
     {
@@ -381,8 +365,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Token getter.
-     *
-     * @return string|null
      */
     public function getToken(): ?string
     {
@@ -391,8 +373,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Order uuid getter.
-     *
-     * @return string|null
      */
     public function getUuid(): ?string
     {
@@ -401,8 +381,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Is this order canceled.
-     *
-     * @return bool
      */
     public function isCanceled(): bool
     {
@@ -411,8 +389,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Is this order carted.
-     *
-     * @return bool
      */
     public function isCarted(): bool
     {
@@ -421,8 +397,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Status credit getter.
-     *
-     * @return bool|null
      */
     public function isCredited(): ?bool
     {
@@ -431,8 +405,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Was this order paid.
-     *
-     * @return bool
      */
     public function isPaid(): bool
     {
@@ -441,8 +413,6 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
 
     /**
      * Is this order pending.
-     *
-     * @return bool
      */
     public function isPending(): bool
     {

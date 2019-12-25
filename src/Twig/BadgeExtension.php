@@ -45,8 +45,6 @@ class BadgeExtension extends AbstractExtension
      * Badge asked or not-asked filter.
      *
      * @param mixed|bool $data data converted to asked or non-asked
-     *
-     * @return string
      */
     public function badgeAskedFilter($data): string
     {
@@ -61,8 +59,6 @@ class BadgeExtension extends AbstractExtension
      * Badge for the asked vat status filter filter.
      *
      * @param mixed|bool $data data converted to accepted or rejected or undecided
-     *
-     * @return string
      */
     public function badgeAskedVatFilter($data): string
     {
@@ -80,8 +76,6 @@ class BadgeExtension extends AbstractExtension
      * Badge attentionRequired filter.
      *
      * @param bool $attentionRequired true when credit was forwarded to customer
-     *
-     * @return string
      */
     public function badgeAttentionRequiredFilter(bool $attentionRequired): string
     {
@@ -96,8 +90,6 @@ class BadgeExtension extends AbstractExtension
      * Badge canceled bill filter.
      *
      * @param bool|Bill $canceled Bill or boolean attribute
-     *
-     * @return string
      */
     public function badgeBillCanceledFilter($canceled): string
     {
@@ -116,8 +108,6 @@ class BadgeExtension extends AbstractExtension
      * Badge paid bill filter.
      *
      * @param bool|Bill $paid Bill or boolean attribute
-     *
-     * @return string
      */
     public function badgeBillPaidFilter($paid): string
     {
@@ -136,8 +126,6 @@ class BadgeExtension extends AbstractExtension
      * Badge credited filter.
      *
      * @param bool $credited true when credit was forwarded to customer
-     *
-     * @return string
      */
     public function badgeCreditedFilter(bool $credited): string
     {
@@ -153,8 +141,6 @@ class BadgeExtension extends AbstractExtension
      *
      * @param bool|null  $data data
      * @param mixed|null $date if date is not return in-progress
-     *
-     * @return string
      */
     public function badgeDoneFilter(bool $data = null, $date = null): string
     {
@@ -173,8 +159,6 @@ class BadgeExtension extends AbstractExtension
      * Badge expired filter.
      *
      * @param bool $expired true when credit was forwarded to customer
-     *
-     * @return string
      */
     public function badgeExpiredFilter(bool $expired): string
     {
@@ -189,8 +173,6 @@ class BadgeExtension extends AbstractExtension
      * Badge status order filter.
      *
      * @param int $order OrderInterface constant
-     *
-     * @return string
      */
     public function badgeStatusOrderFilter(int $order): string
     {
@@ -212,8 +194,6 @@ class BadgeExtension extends AbstractExtension
      * Badge yes or no filter.
      *
      * @param mixed $data value translated to yes or no
-     *
-     * @return string
      */
     public function badgeYesNoFilter($data): string
     {
@@ -300,8 +280,6 @@ class BadgeExtension extends AbstractExtension
      *
      * @param string $color bootstrap color (danger, success, warning, etc.)
      * @param string $text  text to translate
-     *
-     * @return string
      */
     private function getBadge(string $color, string $text): string
     {

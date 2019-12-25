@@ -87,8 +87,6 @@ class OrderedArticle implements PriceInterface
 
     /**
      * Article getter.
-     *
-     * @return Article|null
      */
     public function getArticle(): ?Article
     {
@@ -97,8 +95,6 @@ class OrderedArticle implements PriceInterface
 
     /**
      * Order getter.
-     *
-     * @return Order|null
      */
     public function getOrder(): ?Order
     {
@@ -107,8 +103,6 @@ class OrderedArticle implements PriceInterface
 
     /**
      * Quantity getter.
-     *
-     * @return int|null
      */
     public function getQuantity(): ?int
     {

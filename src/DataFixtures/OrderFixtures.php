@@ -127,8 +127,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      * @param int  $ten         Number of 10
      * @param int  $hundred     Number of 100
      * @param int  $fiveHundred Number of 500
-     *
-     * @return Order
      */
     private function createCreditOrder(
      User $customer,
@@ -157,8 +155,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      * @param Article $article  Associated article
      * @param int     $quantity Quantity ordered
      * @param float   $vatRate  Customer vat rate
-     *
-     * @return OrderedArticle
      */
     private function createOrdered(Article $article, int $quantity, float $vatRate): OrderedArticle
     {

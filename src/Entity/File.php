@@ -116,8 +116,6 @@ class File implements EntityInterface
 
     /**
      * Identifier getter.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -126,8 +124,6 @@ class File implements EntityInterface
 
     /**
      * Return the label of entity.
-     *
-     * @return string
      */
     public function getLabel(): string
     {
@@ -136,8 +132,6 @@ class File implements EntityInterface
 
     /**
      * Mime type getter.
-     *
-     * @return string|null
      */
     public function getMimeType(): ?string
     {
@@ -146,8 +140,6 @@ class File implements EntityInterface
 
     /**
      * Filename getter.
-     *
-     * @return string|null
      */
     public function getName(): ?string
     {
@@ -156,8 +148,6 @@ class File implements EntityInterface
 
     /**
      * Original name getter.
-     *
-     * @return string|null
      */
     public function getOriginalName(): ?string
     {

@@ -56,8 +56,6 @@ class BillRepository extends ServiceEntityRepository
 
     /**
      * Return the max number in bills.
-     *
-     * @return int
      */
     public function maxNumber(): int
     {

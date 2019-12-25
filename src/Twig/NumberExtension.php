@@ -73,8 +73,6 @@ class NumberExtension extends AbstractExtension
      * @param mixed       $number   the number to format
      * @param string|null $currency the currency to format
      * @param string|null $locale   the locale or user language if not provided
-     *
-     * @return string
      */
     public function currencyFilter($number, string $currency = 'EUR', string $locale = null): string
     {
@@ -187,8 +185,6 @@ class NumberExtension extends AbstractExtension
      * @param mixed       $number the number to convert
      * @param string|null $locale the locale
      * @param string      $type   the type of the number
-     *
-     * @return string
      */
     public function integerFilter($number, string $locale = null, string $type = 'int64'): string
     {
@@ -223,8 +219,6 @@ class NumberExtension extends AbstractExtension
      * @param string|null $locale the locale or user language if not provided
      *
      * @throws SyntaxError by twig intl extension
-     *
-     * @return string
      */
     public function numberFilter(
      $number,
@@ -244,8 +238,6 @@ class NumberExtension extends AbstractExtension
      * @param string      $type     the type of the number
      * @param int         $decimals the number of decimals
      * @param string|null $locale   the locale
-     *
-     * @return string
      */
     public function percentFilter($number, string $type = 'default', int $decimals = 2, string $locale = null): string
     {
@@ -273,8 +265,6 @@ class NumberExtension extends AbstractExtension
      * Convert gb to en-gb and others to fr-fr.
      *
      * @param string $language the code language
-     *
-     * @return string
      */
     private function convert(string $language): string
     {
@@ -290,8 +280,6 @@ class NumberExtension extends AbstractExtension
      * Return the current locale if locale parameter is null.
      *
      * @param string|null $locale the optional locale
-     *
-     * @return string
      */
     private function getLocale(string $locale = null): string
     {

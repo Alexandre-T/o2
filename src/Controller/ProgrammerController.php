@@ -59,8 +59,6 @@ class ProgrammerController extends AbstractPaginateController
      * @param SettingsManager $settingsManager the settings manager
      *
      * @throws SettingsException if service-status does not exist
-     *
-     * @return RedirectResponse
      */
     public function close(SettingsManager $settingsManager): RedirectResponse
     {
@@ -166,8 +164,6 @@ class ProgrammerController extends AbstractPaginateController
      * @param SettingsManager $settingsManager the settings manager
      *
      * @throws SettingsException if service-status does not exist
-     *
-     * @return RedirectResponse
      */
     public function open(SettingsManager $settingsManager): RedirectResponse
     {
@@ -186,8 +182,6 @@ class ProgrammerController extends AbstractPaginateController
      * @Route("/show/{id}", name="show", methods={"get"})
      *
      * @param Programmation $programmation The programmation to display
-     *
-     * @return Response
      */
     public function show(Programmation $programmation): Response
     {
@@ -205,8 +199,6 @@ class ProgrammerController extends AbstractPaginateController
      * @param SettingsManager $settingsManager the manager to get settings
      *
      * @throws SettingsException if service-until or service-status are non-existent
-     *
-     * @return Response
      */
     public function status(Request $request, SettingsManager $settingsManager): Response
     {
@@ -248,8 +240,6 @@ class ProgrammerController extends AbstractPaginateController
      * @param Request              $request              The request containing data form
      * @param SettingsManager      $settingsManager      To retrieve emails
      * @param TranslatorInterface  $trans                The translator
-     *
-     * @return Response
      */
     public function upload(
      LoggerInterface $logger,

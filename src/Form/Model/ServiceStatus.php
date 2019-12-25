@@ -46,8 +46,6 @@ class ServiceStatus
 
     /**
      * End of vacancy getter.
-     *
-     * @return DateTimeInterface|null
      */
     public function getEndAt(): ?DateTimeInterface
     {
@@ -56,8 +54,6 @@ class ServiceStatus
 
     /**
      * Status getter.
-     *
-     * @return int|null
      */
     public function getStatus(): ?int
     {
@@ -68,8 +64,6 @@ class ServiceStatus
      * New end of vacancy.
      *
      * @param DateTimeInterface|null $endAt the new end
-     *
-     * @return ServiceStatus
      */
     public function setEndAt(?DateTimeInterface $endAt): ServiceStatus
     {
@@ -82,8 +76,6 @@ class ServiceStatus
      * Status fluent setter.
      *
      * @param int|null $status the new status
-     *
-     * @return ServiceStatus
      */
     public function setStatus(?int $status): ServiceStatus
     {

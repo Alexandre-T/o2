@@ -35,7 +35,7 @@ class UserLocaleSubscriber implements EventSubscriberInterface
     /**
      * User locale subscriber constructor.
      *
-     * @param SessionInterface $session session is provided via dependency injection pattern.
+     * @param SessionInterface $session session is provided via dependency injection pattern
      */
     public function __construct(SessionInterface $session)
     {

@@ -60,8 +60,6 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
      * Customer ask the defaultVat.
      *
      * @param User $customer the customer
-     *
-     * @return AskedVat
      */
     public function askDefaultVat(User $customer): AskedVat
     {
@@ -78,8 +76,6 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
      *
      * @param User   $customer   the customer
      * @param string $postalCode the postal code of customer
-     *
-     * @return AskedVat
      */
     public function askDomVat(User $customer, string $postalCode): AskedVat
     {
@@ -97,8 +93,6 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
      *
      * @param User   $customer the customer
      * @param string $vatIntra Customer Intra VAT number
-     *
-     * @return AskedVat
      */
     public function askEuropeVat(User $customer, string $vatIntra): AskedVat
     {
@@ -119,8 +113,6 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
      * @param User        $customer    the customer asking a new vat
      * @param string      $vat         the new vat
      * @param string|null $explanation the explanation if necessary
-     *
-     * @return AskedVat
      */
     public function askVat(User $customer, string $vat, ?string $explanation): AskedVat
     {
@@ -144,8 +136,6 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
 
     /**
      * Get the default field for ordering data.
-     *
-     * @return string
      */
     public function getDefaultSortField(): string
     {
@@ -184,8 +174,6 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
      *
      * @param QueryBuilder $queryBuilder Query builder
-     *
-     * @return QueryBuilder
      */
     protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
     {
@@ -198,8 +186,6 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
 
     /**
      * Main repository getter.
-     *
-     * @return EntityRepository
      */
     protected function getMainRepository(): EntityRepository
     {

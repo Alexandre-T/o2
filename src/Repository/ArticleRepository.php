@@ -61,8 +61,6 @@ class ArticleRepository extends ServiceEntityRepository
      * Find one article by its code.
      *
      * @param string $code unique article code
-     *
-     * @return Article|null
      */
     public function findOneByCode(string $code): ?Article
     {

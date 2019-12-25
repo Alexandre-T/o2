@@ -43,8 +43,6 @@ final class Version20191005174432 extends AbstractMigration
 
     /**
      * Description getter.
-     *
-     * @return string
      */
     public function getDescription(): string
     {

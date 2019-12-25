@@ -92,8 +92,6 @@ class SettingsFormType extends AbstractType
      * @param string $valueClass the class of value (integer, string, DateTimeImmutable, ...)
      *
      * @throws SettingsException when value_class is not implemented
-     *
-     * @return string
      */
     private function getValueClass(string $valueClass): string
     {

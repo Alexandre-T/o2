@@ -69,8 +69,6 @@ class CustomerController extends AbstractController
      * @param ProgrammationManager $programmationManager programmation manger to save new programmation
      * @param SettingsManager      $settingsManager      settings manager
      * @param UserManager          $userManager          to update credit of user
-     *
-     * @return Response
      */
     public function newProgrammation(
      LoggerInterface $logger,
@@ -272,8 +270,6 @@ class CustomerController extends AbstractController
      *
      * @param Request                $request       the request handling data
      * @param EntityManagerInterface $entityManager entity manager to save user
-     *
-     * @return Response
      */
     public function profile(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -303,8 +299,6 @@ class CustomerController extends AbstractController
      * @param Request         $request         the request to handle data form
      * @param AskedVatManager $askedVatManager the manager to save data
      * @param MailerInterface $mailer          the mailer to send a mail
-     *
-     * @return Response
      */
     public function updateVat(Request $request, AskedVatManager $askedVatManager, MailerInterface $mailer): Response
     {

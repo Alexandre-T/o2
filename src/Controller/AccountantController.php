@@ -57,8 +57,6 @@ class AccountantController extends AbstractPaginateController
      * @param AskedVatManager $askedVatManager the asked manager
      * @param AskedVat        $asked           the asked vat entity
      * @param MailerInterface $mailer          the mailer interface to send to customer that new rate is accepted
-     *
-     * @return RedirectResponse
      */
     public function accept(AskedVatManager $askedVatManager, AskedVat $asked, MailerInterface $mailer): RedirectResponse
     {
@@ -80,8 +78,6 @@ class AccountantController extends AbstractPaginateController
      * @param Payum        $payum        Payum manager
      * @param Request      $request      Current request
      * @param UserManager  $userManager  User manager
-     *
-     * @return Response
      */
     public function bill(
      User $user,
@@ -134,8 +130,6 @@ class AccountantController extends AbstractPaginateController
      * @param Bill         $bill         The bill to display
      * @param OrderManager $orderManager The order manager
      * @param Request      $request      The request to recover page, and current sort
-     *
-     * @return RedirectResponse
      */
     public function creditAndRedirect(Bill $bill, OrderManager $orderManager, Request $request): RedirectResponse
     {
@@ -269,8 +263,6 @@ class AccountantController extends AbstractPaginateController
      *
      * @param PaymentManager $paymentManager The order manager to get last payment
      * @param Bill           $bill           The bill to print
-     *
-     * @return Response
      */
     public function print(PaymentManager $paymentManager, Bill $bill): Response
     {
@@ -296,8 +288,6 @@ class AccountantController extends AbstractPaginateController
      * @param AskedVatManager $askedVatManager the asked manager
      * @param AskedVat        $asked           the asked vat entity
      * @param MailerInterface $mailer          the mailer interface to send to customer that new rate is accepted
-     *
-     * @return RedirectResponse
      */
     public function reject(AskedVatManager $askedVatManager, AskedVat $asked, MailerInterface $mailer): RedirectResponse
     {
@@ -316,8 +306,6 @@ class AccountantController extends AbstractPaginateController
      * @param Bill           $bill           The bill to display
      * @param BillManager    $billManager    The bill manager
      * @param PaymentManager $paymentManager The payment manager
-     *
-     * @return Response
      */
     public function show(Bill $bill, BillManager $billManager, PaymentManager $paymentManager): Response
     {
@@ -344,8 +332,6 @@ class AccountantController extends AbstractPaginateController
      * @param AccountantCreditOrder $model the data model
      * @param Bill                  $bill  the bill to get amount
      * @param User                  $user  the user to get identifier
-     *
-     * @return Payment
      */
     private function createPayment(Payum $payum, AccountantCreditOrder $model, Bill $bill, User $user): Payment
     {

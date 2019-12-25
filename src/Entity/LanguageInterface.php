@@ -26,29 +26,21 @@ interface LanguageInterface
 
     /**
      * Get the profile language.
-     *
-     * @return string
      */
     public function getLanguage(): string;
 
     /**
      * Get the profile locale (fr-FR, en-US).
-     *
-     * @return string
      */
     public function getLocale(): string;
 
     /**
      * Is the locale set to English.
-     *
-     * @return bool
      */
     public function isEnglish(): bool;
 
     /**
      * Is the locale set to French.
-     *
-     * @return bool
      */
     public function isFrench(): bool;
 

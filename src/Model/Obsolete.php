@@ -39,9 +39,7 @@ class Obsolete
     /**
      * Return the current date.
      *
-     * @throws Exception this should not happened because I call constructor without argument.
-     *
-     * @return DateTimeInterface
+     * @throws Exception this should not happened because I call constructor without argument
      */
     public static function getCurrentDate(): DateTimeInterface
     {
@@ -56,9 +54,7 @@ class Obsolete
     /**
      * Return the obsolete date.
      *
-     * @throws Exception This shall not happened because I call constructor without argument.
-     *
-     * @return DateTimeInterface
+     * @throws Exception this shall not happened because I call constructor without argument
      */
     public static function getLimitedDate(): DateTimeInterface
     {
@@ -78,8 +74,6 @@ class Obsolete
      * @param DateTimeInterface $date the date to compare
      *
      * @throws Exception this will never happen
-     *
-     * @return bool
      */
     public static function isObsolete(DateTimeInterface $date): bool
     {

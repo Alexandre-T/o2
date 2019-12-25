@@ -99,8 +99,6 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
      * Create a programmation.
      *
      * @param int $index index is used to complete data
-     *
-     * @return Programmation
      */
     private function createProgrammation($index): Programmation
     {

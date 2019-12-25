@@ -18,8 +18,8 @@ namespace App\Repository;
 use App\Entity\Programmation;
 use App\Model\Obsolete;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Exception;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * Programmation repository.

@@ -50,8 +50,6 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
 
     /**
      * Get the default field for ordering data.
-     *
-     * @return string
      */
     public function getDefaultSortField(): string
     {
@@ -64,8 +62,6 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
      * @param string $code the code of setting
      *
      * @throws SettingsException when code does not exist
-     *
-     * @return Settings
      */
     public function getSetting(string $code): Settings
     {
@@ -122,8 +118,6 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
      * @param string $sortOrder sort order
      *
      * @throws QueryException when criteria is not valid
-     *
-     * @return PaginationInterface
      */
     public function paginateUpdatable(int $page, int $limit, string $sortField, string $sortOrder): PaginationInterface
     {
@@ -148,8 +142,6 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196
      *
      * @param QueryBuilder $queryBuilder Query builder
-     *
-     * @return QueryBuilder
      */
     protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
     {

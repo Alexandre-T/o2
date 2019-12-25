@@ -190,8 +190,6 @@ class UploadProgrammation
 
     /**
      * CatStopped getter.
-     *
-     * @return bool
      */
     public function isCatStopped(): bool
     {
@@ -200,8 +198,6 @@ class UploadProgrammation
 
     /**
      * EdcStopped getter.
-     *
-     * @return bool
      */
     public function isEdcStopped(): bool
     {
@@ -210,8 +206,6 @@ class UploadProgrammation
 
     /**
      * Egr Stopped getter.
-     *
-     * @return bool
      */
     public function isEgrStopped(): bool
     {
@@ -220,8 +214,6 @@ class UploadProgrammation
 
     /**
      * Ethanol getter.
-     *
-     * @return bool
      */
     public function isEthanolDone(): bool
     {
@@ -230,8 +222,6 @@ class UploadProgrammation
 
     /**
      * FapOff getter.
-     *
-     * @return bool
      */
     public function isFapStopped(): bool
     {
@@ -240,8 +230,6 @@ class UploadProgrammation
 
     /**
      * Gear getter.
-     *
-     * @return bool
      */
     public function isGearDone(): bool
     {
@@ -250,8 +238,6 @@ class UploadProgrammation
 
     /**
      * StageOne getter.
-     *
-     * @return bool
      */
     public function isStageOneDone(): bool
     {

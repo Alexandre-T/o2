@@ -114,8 +114,6 @@ class SettingsFixtures extends Fixture
      * @param string $code      the settings code
      * @param string $value     the settings value
      * @param bool   $updatable set to true if administrator can change value
-     *
-     * @return Settings
      */
     private function createSettings(string $code, $value, $updatable = true): Settings
     {

@@ -99,8 +99,6 @@ class CostCalculator
 
     /**
      * Determine cost of programmation.
-     *
-     * @return int
      */
     public function getCost(): int
     {

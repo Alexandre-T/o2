@@ -42,8 +42,6 @@ trait LanguageTrait
 
     /**
      * Language getter.
-     *
-     * @return string
      */
     public function getLanguage(): string
     {
@@ -57,8 +55,6 @@ trait LanguageTrait
     /**
      * Locale getter.
      * Return fr-FR or en-US.
-     *
-     * @return string
      */
     public function getLocale(): string
     {
@@ -72,8 +68,6 @@ trait LanguageTrait
 
     /**
      * Is the locale set to English.
-     *
-     * @return bool
      */
     public function isEnglish(): bool
     {
@@ -82,8 +76,6 @@ trait LanguageTrait
 
     /**
      * Is the locale set to French.
-     *
-     * @return bool
      */
     public function isFrench(): bool
     {

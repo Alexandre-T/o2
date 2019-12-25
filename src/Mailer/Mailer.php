@@ -92,11 +92,11 @@ class Mailer implements MailerInterface
      *
      * @param AskedVat $asked the asked vat
      *
-     * @return int the number of mails sent (shall be 1)
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
+     *
+     * @return int the number of mails sent (shall be 1)
      */
     public function sendAskedVat(AskedVat $asked): int
     {
@@ -120,11 +120,9 @@ class Mailer implements MailerInterface
      *
      * @param AskedVat $asked the asked vat entity
      *
-     * @return int
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     public function sendAskedVatAccepted(AskedVat $asked): int
     {
@@ -148,11 +146,9 @@ class Mailer implements MailerInterface
      *
      * @param AskedVat $asked the asked vat entity
      *
-     * @return int
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     public function sendAskedVatRejected(AskedVat $asked): int
     {
@@ -179,11 +175,9 @@ class Mailer implements MailerInterface
      * @param string $sender     the sender of mail
      * @param string $accountant the accountant who received mail
      *
-     * @return int
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     public function sendPaymentMail(Order $order, Bill $bill, string $sender, string $accountant): int
     {
@@ -207,11 +201,9 @@ class Mailer implements MailerInterface
      * @param string        $programmer    the mail programmer
      * @param string        $sender        the expediter
      *
-     * @return int
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     public function sendProgrammationMail(Programmation $programmation, string $programmer, string $sender): int
     {
@@ -232,17 +224,17 @@ class Mailer implements MailerInterface
      *
      * @param User $user recipient mail
      *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     public function sendResettingEmailMessage(User $user): void
     {
         $renderHtml = $this->twig->render('mail/resetting.html.twig', [
-            'token' => $user->getResettingToken()
+            'token' => $user->getResettingToken(),
         ]);
         $renderTxt = $this->twig->render('mail/resetting.txt.twig', [
-            'token' => $user->getResettingToken()
+            'token' => $user->getResettingToken(),
         ]);
 
         try {
@@ -258,11 +250,9 @@ class Mailer implements MailerInterface
      * @param Programmation $programmation programmation done
      * @param string        $sender        expediter
      *
-     * @return int
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     public function sendReturningProgrammation(Programmation $programmation, string $sender): int
     {
@@ -283,8 +273,6 @@ class Mailer implements MailerInterface
      * Send an internal test email to declared user in settings.
      *
      * @param string $email mail of senders and receivers
-     *
-     * @return int
      */
     public function sendTestMail(string $email): int
     {
@@ -334,8 +322,6 @@ class Mailer implements MailerInterface
      * Return the accountant mail.
      *
      * @throws SettingsException if mail-accountant does not exists
-     *
-     * @return string
      */
     private function getAccountantMail(): string
     {
@@ -346,8 +332,6 @@ class Mailer implements MailerInterface
      * Return the default sender.
      *
      * @throws SettingsException if mail-sender does not exists
-     *
-     * @return string
      */
     private function getDefaultSender(): string
     {
@@ -359,11 +343,9 @@ class Mailer implements MailerInterface
      *
      * @param AskedVat $asked the entity recorded
      *
-     * @return string
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     private function getHtmlAskedVat(AskedVat $asked): string
     {
@@ -377,11 +359,9 @@ class Mailer implements MailerInterface
      *
      * @param AskedVat $asked the entity recorded
      *
-     * @return string
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     private function getHtmlAskedVatAccepted(AskedVat $asked): string
     {
@@ -395,11 +375,9 @@ class Mailer implements MailerInterface
      *
      * @param AskedVat $asked the entity recorded
      *
-     * @return string
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     private function getHtmlAskedVatRejected(AskedVat $asked): string
     {
@@ -413,11 +391,9 @@ class Mailer implements MailerInterface
      *
      * @param AskedVat $asked the entity recorded
      *
-     * @return string
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     private function getTxtAskedVat(AskedVat $asked): string
     {
@@ -431,11 +407,9 @@ class Mailer implements MailerInterface
      *
      * @param AskedVat $asked the entity recorded
      *
-     * @return string
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     private function getTxtAskedVatAccepted(AskedVat $asked): string
     {
@@ -449,11 +423,9 @@ class Mailer implements MailerInterface
      *
      * @param AskedVat $asked the entity recorded
      *
-     * @return string
-     *
-     * @throws LoaderError on load error
+     * @throws LoaderError  on load error
      * @throws RuntimeError on runtime error
-     * @throws SyntaxError on syntax error
+     * @throws SyntaxError  on syntax error
      */
     private function getTxtAskedVatRejected(AskedVat $asked): string
     {

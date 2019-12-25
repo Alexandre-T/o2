@@ -315,8 +315,6 @@ class Programmation implements ProgrammationInterface
 
     /**
      * Credit getter.
-     *
-     * @return int
      */
     public function getCredit(): int
     {
@@ -465,8 +463,6 @@ class Programmation implements ProgrammationInterface
 
     /**
      * CatOff getter.
-     *
-     * @return bool
      */
     public function isCatOff(): bool
     {
@@ -475,8 +471,6 @@ class Programmation implements ProgrammationInterface
 
     /**
      * EdcOff getter.
-     *
-     * @return bool
      */
     public function isEdcOff(): bool
     {
@@ -485,8 +479,6 @@ class Programmation implements ProgrammationInterface
 
     /**
      * EgrOff getter.
-     *
-     * @return bool
      */
     public function isEgrOff(): bool
     {
@@ -495,8 +487,6 @@ class Programmation implements ProgrammationInterface
 
     /**
      * Ethanol getter.
-     *
-     * @return bool
      */
     public function isEthanol(): bool
     {
@@ -505,8 +495,6 @@ class Programmation implements ProgrammationInterface
 
     /**
      * FapOff getter.
-     *
-     * @return bool
      */
     public function isFapOff(): bool
     {
@@ -515,8 +503,6 @@ class Programmation implements ProgrammationInterface
 
     /**
      * Gear getter.
-     *
-     * @return bool
      */
     public function isGear(): bool
     {
@@ -525,8 +511,6 @@ class Programmation implements ProgrammationInterface
 
     /**
      * GearAutomatic getter.
-     *
-     * @return bool
      */
     public function isGearAutomatic(): bool
     {
@@ -535,8 +519,6 @@ class Programmation implements ProgrammationInterface
 
     /**
      * StageOne getter.
-     *
-     * @return bool
      */
     public function isStageOne(): bool
     {
@@ -757,8 +739,6 @@ class Programmation implements ProgrammationInterface
      * Set original file for VichUploaderBundle.
      *
      * @param HttpFile $originalFile original file posted
-     *
-     * @return Programmation
      */
     public function setOriginalFile(HttpFile $originalFile): Programmation
     {

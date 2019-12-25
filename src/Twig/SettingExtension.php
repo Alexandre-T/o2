@@ -81,8 +81,6 @@ class SettingExtension extends AbstractExtension
      *
      * @param mixed $value the value from setting
      * @param mixed $code  the ettings code
-     *
-     * @return string
      */
     public function settingFilter($value, $code): string
     {

@@ -88,8 +88,6 @@ class Settings implements EntityInterface
 
     /**
      * Code getter.
-     *
-     * @return string|null
      */
     public function getCode(): ?string
     {
@@ -98,8 +96,6 @@ class Settings implements EntityInterface
 
     /**
      * Identifier getter.
-     *
-     * @return int|null
      */
     public function getId(): ?int
     {
@@ -108,8 +104,6 @@ class Settings implements EntityInterface
 
     /**
      * Return the label of entity.
-     *
-     * @return string
      */
     public function getLabel(): string
     {
@@ -158,8 +152,6 @@ class Settings implements EntityInterface
      * Updatable fluent setter.
      *
      * @param bool $updatable the new status of setting
-     *
-     * @return self
      */
     public function setUpdatable(bool $updatable): self
     {

@@ -137,8 +137,6 @@ class UserFixtures extends Fixture
      *
      * @param string $label The user label
      * @param string $code  A code to connect
-     *
-     * @return User
      */
     private function createAdmin(string $label, string $code): User
     {
@@ -153,8 +151,6 @@ class UserFixtures extends Fixture
      *
      * @param string $label The user label
      * @param string $code  A code to connect
-     *
-     * @return User
      */
     private function createAll(string $label, string $code): User
     {
@@ -173,8 +169,6 @@ class UserFixtures extends Fixture
      *
      * @param string $label The user label
      * @param string $code  A code to connect
-     *
-     * @return User
      */
     private function createUser(string $label, string $code): User
     {

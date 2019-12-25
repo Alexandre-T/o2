@@ -50,8 +50,6 @@ class ArticleManager
      * @param string $code code of article to retrieve
      *
      * @throws NoArticleException when article with this code does not exist in database
-     *
-     * @return Article
      */
     public function retrieveByCode(string $code): Article
     {

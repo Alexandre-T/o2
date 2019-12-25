@@ -29,7 +29,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use \Doctrine\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectRepository;
 
 /**
  * order Manager.
@@ -82,8 +82,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param User $user user filter
      *
      * @throws NoOrderException when array is empty
-     *
-     * @return Order
      */
     public function getCartedOrder(User $user): Order
     {
@@ -109,8 +107,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
 
     /**
      * Get the default field for ordering data.
-     *
-     * @return string
      */
     public function getDefaultSortField(): string
     {
@@ -123,8 +119,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param User $user user filter
      *
      * @throws NoOrderException when array is empty
-     *
-     * @return Order
      */
     public function getNonEmptyCartedOrder($user): Order
     {
@@ -144,8 +138,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * Find the only one non-paid order or create a new one.
      *
      * @param User $user the user criteria
-     *
-     * @return Order
      */
     public function getOrCreateCartedOrder(User $user): Order
     {
@@ -239,8 +231,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param string $uuid uuid to retrieve order
      *
      * @throws NoOrderException when order does not exists
-     *
-     * @return Order
      */
     public function retrieveByUuid(string $uuid): Order
     {
@@ -258,8 +248,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param User $user the user which wants to order a cmd slave
      *
      * @throws NoArticleException if cmdslave article does not exist in database
-     *
-     * @return Order
      */
     public function retrieveOrCreateCmdOrder(User $user): Order
     {
@@ -331,8 +319,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param User $user the customer
      *
      * @throws NoArticleException when cmdslave does not exist
-     *
-     * @return Order
      */
     private function createdCmdArticle(User $user): Order
     {
@@ -369,8 +355,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param Article $article  linked article
      * @param int     $quantity quantity wanted
      * @param float   $vat      the vate rate coming from customer
-     *
-     * @return OrderedArticle
      */
     private function createdOrderedArticle(Order $order, Article $article, int $quantity, float $vat): OrderedArticle
     {

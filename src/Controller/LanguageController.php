@@ -35,8 +35,6 @@ class LanguageController extends AbstractPaginateController
      *
      * @param UserManager $userManager user manager to save new default language
      * @param Request     $request     the request to set locale
-     *
-     * @return RedirectResponse
      */
     public function english(UserManager $userManager, Request $request): RedirectResponse
     {
@@ -54,8 +52,6 @@ class LanguageController extends AbstractPaginateController
      *
      * @param UserManager $userManager user manager to save new default language
      * @param Request     $request     the request to set locale
-     *
-     * @return RedirectResponse
      */
     public function french(UserManager $userManager, Request $request): RedirectResponse
     {
