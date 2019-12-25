@@ -27,6 +27,8 @@ final class Version20191208165256 extends AbstractMigration
     /**
      * Downgrade Database.
      *
+     * @param Schema $schema schema is not used
+     *
      * @throws DBALException when an error occurred
      */
     public function down(Schema $schema): void
@@ -50,6 +52,8 @@ final class Version20191208165256 extends AbstractMigration
 
     /**
      * Upgrade Database.
+     *
+     * @param Schema $schema schema is not used
      *
      * @throws DBALException when an error occurred
      */

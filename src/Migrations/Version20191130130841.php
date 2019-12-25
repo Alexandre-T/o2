@@ -52,6 +52,8 @@ final class Version20191130130841 extends AbstractMigration
     /**
      * Upgrade schema.
      *
+     * @param Schema $schema schema is not used
+     *
      * @throws DBALException
      */
     public function up(Schema $schema): void
