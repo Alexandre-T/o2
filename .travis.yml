@@ -58,6 +58,7 @@ install:
   - cp tests/_data/upload.txt public/uploads/final/upload.txt
   - php bin/console doctrine:query:sql "UPDATE te_order SET uuid = CONCAT('myManualValue-',id)"
   - wget https://get.symfony.com/cli/installer -O - | bash
+  - mv /home/travis/.symfony/bin/symfony /usr/local/bin/symfony
 
 # Run script and log coverage in the "build" directory
 script:
