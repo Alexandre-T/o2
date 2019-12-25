@@ -1,6 +1,7 @@
-composer.lock
-composer.phar
-c3.php
+/.php-version
+/composer.lock
+/composer.phar
+/c3.php
 
 ###> symfony/framework-bundle ###
 /.env.local
