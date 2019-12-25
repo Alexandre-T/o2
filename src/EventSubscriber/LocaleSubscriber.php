@@ -17,8 +17,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\LanguageInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-//In Symfony 4.3+ you have to use RequestEvent insteadof GetResponseEvent
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class LocaleSubscriber implements EventSubscriberInterface
@@ -57,9 +56,9 @@ class LocaleSubscriber implements EventSubscriberInterface
     /**
      * Job on kernel request.
      *
-     * @param GetResponseEvent $event Subscribed event
+     * @param RequestEvent $event Subscribed event
      */
-    public function onKernelRequest(GetResponseEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
         if (!$request->hasPreviousSession()) {
