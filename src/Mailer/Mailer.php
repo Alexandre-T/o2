@@ -24,7 +24,6 @@ use App\Exception\SettingsException;
 use App\Manager\SettingsManager;
 use Psr\Log\LoggerInterface;
 use Swift_Mailer;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 use Twig\Error\LoaderError;
@@ -50,7 +49,7 @@ class Mailer implements MailerInterface
     /**
      * Twig engine.
      *
-     * @var EngineInterface
+     * @var Environment
      */
     protected $twig;
 
