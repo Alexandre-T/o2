@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -23,6 +24,13 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20191029210907 extends AbstractMigration
 {
+    /**
+     * Downgrade Schema.
+     *
+     * @param Schema $schema the schema is not used
+     *
+     * @throws DBALException when an SQL error happened
+     */
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
@@ -33,11 +41,21 @@ final class Version20191029210907 extends AbstractMigration
         $this->addSql('ALTER TABLE ts_user DROP bill_indication');
     }
 
+    /**
+     * Description getter.
+     */
     public function getDescription(): string
     {
         return '';
     }
 
+    /**
+     * Upgrade Schema.
+     *
+     * @param Schema $schema the schema is not used
+     *
+     * @throws DBALException when an SQL error happened
+     */
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
