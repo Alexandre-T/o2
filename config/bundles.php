@@ -19,4 +19,5 @@ return [
     Payum\Bundle\PayumBundle\PayumBundle::class => ['all' => true],
     Ekyna\Bundle\PayumMoneticoBundle\EkynaPayumMoneticoBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
+    Alexandre\EvcBundle\AlexandreEvcBundle::class => ['all' => true],
 ];
