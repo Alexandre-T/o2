@@ -160,6 +160,9 @@ bill:
 
 Browse: 'Parcourir'
 
+btn:
+  cancel: 'Annuler'
+
 data:
   paypal_express_checkout: 'Paypal Express™'
   monetico: 'Carte bancaire (CIC™)'
@@ -246,6 +249,8 @@ error:
   payment-instruction: 'Une erreur est survenue auprès du service de paiement. Veuillez essayer une autre méthode de paiement !'
 
 explanations:
+  olsx-already-registering: 'Vous avez déjà envoyé votre numéro de client OLSX. Notre équipe va analyser votre requête sous peu. Toutefois, si vous avez saisi un code erroné, vous pouvez le modifier à l’aide de ce formulaire.'
+  olsx-registering: 'Vous souhaitez acheter des crédits OLSX directement depuis notre site ? Enregistrez-vous à notre programme en fournissant votre code client OLSX.'
   password-lost: 'Si vous avez perdu votre mot de passe, saisissez votre adresse email dans ce formulaire, un mail vous sera envoyé avec les explications nécessaires pour changer de mot de passe.'
   password-reset: 'Vous avez déclaré la perte de votre mot de passe, veuillez en saisir un nouveau via le formulaire ci-dessous.'
 
@@ -295,6 +300,7 @@ form:
     odb: 'Lecture'
     odometer: 'Kilométrage'
     old-password: 'Ancien mot de passe'
+    olsx: 'Code client OLSX'
     original-file: 'Fichier d’origine'
     password: 'Mot de passe'
     paid: 'Créditer le client'
@@ -448,6 +454,9 @@ form:
   service-status:
     field:
       submit: 'Modifier le statut du service'
+  olsx-registering:
+    field:
+      submit: 'Inscrivez-vous !'
 
 flash:
   asked-vat:
@@ -461,6 +470,9 @@ flash:
     sender-not-declared: 'L’expéditeur n’est pas déclaré. Veuillez vérifier que toutes les données sont déclarées dans le menu Administration / Paramètres'
     sent: 'Aucun problème n’a été détecté lors de l’envoi du mail. Vérifiez que vous l’avez bien reçu. Si ce n’est pas le cas, deux causes sont possibles : Un mauvais paramétrage au niveau de votre server de messagerie, ou bien le mail a été détecté comme spam et intercepté par votre messagerie ou votre anti-spam'
     not-sent: 'Un problème a été détecté lors de l’envoi du mail. Consulter les journaux de l’application et reconfigurez les valeurs du serveur de messagerie utilisé'
+  olsx:
+    already-registered: 'Vous êtes déjà inscrit au programme OLSX.'
+    registering: 'Vous inscription au programme OLSX a bien été prise en compte. Un membre de notre équipe va valider votre souscription.'
   order:
     already-credited: 'Les crédits de cette commande ont déjà été versé à ce client.'
     credited: 'Les crédits de cette commande viennent d’être versés au client.'
@@ -661,6 +673,12 @@ nav:
     text: 'Mot de passe perdu'
   reset-password:
     text: 'Réinitialisation du mot de passe'
+  olsx:
+    register:
+      text: 'OLSX'
+      title: 'Inscription au service OLSX'
+  olsx-registering:
+    text: 'Inscription au programme OLSX'
 
 odb:
   boot: 'Boot'
@@ -837,6 +855,8 @@ title:
       show: 'Programmation'
       service-status: 'Statut du service de reprogrammation'
     main: 'Programmateur'
+  olsx:
+    registering: 'Inscription au programme OLSX'
 
 payments:
   no-payment: 'Aucun paiement'

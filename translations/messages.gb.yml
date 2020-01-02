@@ -160,6 +160,9 @@ bill:
 
 Browse: 'Browse'
 
+btn:
+  cancel: 'Cancel'
+
 data:
   paypal_express_checkout: 'Paypal Express™'
   monetico: 'Credit card (CIC™)'
@@ -246,6 +249,8 @@ error:
   payment-instruction: 'An error occurred in payment service. Please try an other payment method!'
 
 explanations:
+  olsx-already-registering: 'You already sent us your OLSX customer identifier. Our team will analyze your request. Anything, if you have provided us a bad identifier, you can correct the number via this form.'
+  olsx-registering: 'Do you want to buy some OLSX credits using our website? Register to our service by providing us your OLSX customer identifier.'
   password-lost: 'If you have forgotten your password, enter your mail address. A mail will be sent to you with instructions to update it.'
   password-reset: 'You have declared that you loosed your password, please provide a new password.'
 
@@ -295,6 +300,7 @@ form:
     odb: 'ODB'
     odometer: 'Odometer'
     old-password: 'Old password'
+    olsx: 'OLSX customer identifier'
     original-file: 'Original file'
     password: 'Password'
     paid: 'Credit customer'
@@ -448,6 +454,9 @@ form:
   service-status:
     field:
       submit: 'Update service status'
+  olsx-registering:
+    field:
+      submit: 'Register'
 
 flash:
   asked-vat:
@@ -461,6 +470,9 @@ flash:
     sender-not-declared: 'Sender was not declared. Please verify that all data has been sent in Administrator > Settings submenu'
     sent: 'No problem has been detected during mail submission. Please, verify that you have received it. If this is not the case, two causes are possible: A wrong setting at your mail server, or the mail has been detected as spam and intercepted by your email or your anti-spam'
     not-sent: 'A problem was detected when sending the email. View the application logs and reconfigure the values of the mail server used.'
+  olsx:
+    already-registered: 'You already a member of our OLSX service.'
+    registering: 'You request has been sent. One of our team member will validate your subscription.'
   order:
     already-credited: 'Credit of this order have already been credited.'
     credited: 'Credit of this order have been credited to customer.'
@@ -727,7 +739,7 @@ step:
   payment:
     1: 'Order'
     2: 'Payment method'
-    3: 'Paymnet'
+    3: 'Payment'
 
 settings:
   bill-complement: 'Bill : Address complement'
@@ -837,6 +849,8 @@ title:
       show: 'Programmation'
       service-status: 'Programmation status service'
     main: 'Programmer'
+  olsx:
+    registering: 'Registering to OLSX Service'
 
 payments:
   no-payment: 'No payment'

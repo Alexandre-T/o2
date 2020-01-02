@@ -9,6 +9,7 @@ title:
   new-asked-vat: 'V-Mod Engineering : Demande de changement de taux de TVA'
   accepted-asked-vat: 'V-Mod Engineering : Demande de changement de taux de TVA acceptée'
   rejected-asked-vat: 'V-Mod Engineering : Demande de changement de taux de TVA rejetée'
+  olsx-registering: 'V-Mod Engineering : Demande d’inscription au programme OLSX'
 link:
   reset:
     text: 'Accéder au formulaire'
@@ -43,6 +44,7 @@ explanation:
   new-asked-vat: 'Un client vient de demander à changer de taux de TVA. S’il demande un taux de 8.5%, vérifier que son code postal commence bien 97. S’il demande un taux de 0%, vérifier qu’il donne bien dans les explications le numéro de TVA Intracommunautaire.'
   accepted-asked-vat %vat%: 'Votre demande de changement de taux de TVA a été acceptée par notre service comptable. Le taux de %vat% s’appliquera pour vos prochaines commandes.'
   rejected-asked-vat %vat% %actual%: 'Votre demande pour obtenir un taux de TVA de %vat% n’a pas été acceptée en l’état. Le taux actuel de %vat% s’appliquera donc à vos prochaines commandes. N’hésitez pas à nous contacter en répondant à ce mail pour nous apporter plus de précisions ou pour mieux justifier votre précédente demande.'
+  olsx-registering %name% %olsx%: 'Le client %name% vient de soumettre son inscription au programme OLSX. Il a fourni son code client : %olsx%. Il attend que vous validiez ou refusiez sa demande.'
 new-payment:
   description %mail% %amount% %credits%: 'Le nouveau paiement a été réalisé par %mail% pour un montant total de %amount% T.T.C. afin d’acheter %credits% crédits.'
 programmation:

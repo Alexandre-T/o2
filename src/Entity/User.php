@@ -44,13 +44,14 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @UniqueEntity(fields={"mail"},  message="error.mail.unique")
  */
-class User implements EntityInterface, LanguageInterface, PersonInterface, PostalAddressInterface, Serializable, UserInterface
+class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonInterface, PostalAddressInterface, Serializable, UserInterface
 {
     // phpcs:enable
     /*
      * Trait declarations.
      */
     use LanguageTrait;
+    use OlsxTrait;
     use PersonTrait;
     use PostalAddressTrait;
 
@@ -71,6 +72,7 @@ class User implements EntityInterface, LanguageInterface, PersonInterface, Posta
     public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const ROLE_PROGRAMMER = 'ROLE_PROGRAMMER';
     public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_OLSX = 'ROLE_OLSX';
 
     /**
      * Indication published in bills to explain why the default vat is not at the default value.

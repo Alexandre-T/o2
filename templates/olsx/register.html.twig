@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'title.olsx.registering' | trans }} &bull; {{ parent() }}{% endblock %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.customer.main' | trans }}</li>
+            <li class="breadcrumb-item active">{{ 'nav.olsx-registering.text' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block container %}
+    {{ form_start(form) }}
+    <div class="row justify-content-md-center">
+        <div class="col-md-8">
+            <div class="card border-primary">
+                <div class="card-header">
+                    <h1>
+                        <span class="fa fa-tachometer-alt"></span>
+                        {{ 'title.olsx.registering' | trans }}
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <p class="alert alert-info text-center">
+                        {{ 'explanations.olsx-registering' | trans }}
+                    </p>
+                    {{ form_widget(form) }}
+                    {% if isRegistering %}
+                        <p class="alert alert-warning text-center">
+                            {{ 'explanations.olsx-already-registering' | trans }}
+                        </p>
+                    {% endif %}
+                </div>
+                <div class="card-footer text-right">
+                    <button class="btn btn-primary" type="submit">
+                        <span class="fas fa-fw fa-tachometer-alt mr-2"></span>{{ 'form.olsx-registering.field.submit' | trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

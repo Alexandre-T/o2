@@ -35,6 +35,8 @@ error:
       'L’ancien mot de passe est obligatoire.'
     not-match:
       'Cette valeur ne correspond pas à votre ancien mot de passe.'
+  olsx-code:
+      'Votre code olsx doit contenir 14 chiffres exactement.'
   order:
     empty: 'Votre commande ne contient aucun crédit. Veuillez saisir au moins une quantité !'
   plain-password:

@@ -14,6 +14,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
+                {% if is_granted('ROLE_USER') and not is_granted('ROLE_OLSX') %}
+                    <a class="nav-item nav-link" href="{{ path('olsx_register') }}" data-placement="bottom" data-toggle="tooltip"
+                       title="{{ 'nav.olsx.register.title' | trans }}">
+                        <span class="fa fa-fw fa-tachometer-alt"></span>
+                        {{ 'nav.olsx.register.text' | trans }}
+                    </a>
+                {% endif %}
                 {% if is_granted('ROLE_USER') %}
                     <a class="nav-item nav-link" href="{{ path('customer_order_credit') }}" data-placement="bottom"
                        title="{{ 'nav.customer.submenu.credit.title' | trans }}" data-toggle="tooltip">
@@ -34,7 +41,7 @@
                     </a>
                 {% endif %}
                 {% if settings('service-status') is same as (0) %}
-                    <div class="ml-5 navbar-text">
+                    <div class="ml-1 navbar-text">
                         {% if is_granted('ROLE_PROGRAMMER') %}
                             <a href="{{ path('programmer_status_close') }}" class="badge badge-pill badge-success"
                                data-toggle="tooltip" data-title="{{ 'service.status.to-close.title' | trans}}">
@@ -49,7 +56,7 @@
                     </div>
                 {% endif %}
                 {% if settings('service-status') is same as (1) %}
-                    <div class="ml-5 navbar-text">
+                    <div class="navbar-text ml-1">
                         {% if is_granted('ROLE_PROGRAMMER') %}
                             <a href="{{ path('programmer_status_open') }}" class="text-black-50 badge badge-pill badge-warning"
                                data-toggle="tooltip" data-title="{{ 'service.status.to-open.title' | trans}}">
@@ -65,7 +72,7 @@
                 {% endif %}
                 {% if settings('service-status') is same as (2) %}
                     {% set date = max(settings('service-until'), date('now')) %}
-                    <div class="ml-5 navbar-text">
+                    <div class="ml-1 navbar-text">
                         <span class="badge badge-pill badge-danger" data-toggle="tooltip"
                         data-title="{{ 'service.status.vacancy.title %date%' | trans({'%date%': date | app_date('long', 'none')})}}">
                         {{ 'service.status.vacancy.text' | trans}}

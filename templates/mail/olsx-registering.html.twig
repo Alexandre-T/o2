@@ -1,0 +1,8 @@
+{% trans_default_domain('mail') %}
+<h3>{{ 'title.olsx-registering' | trans }}</h3>
+<p>
+    {{ 'explanation.olsx-registering %name% %olsx%' | trans({
+        '%actual%': (user.name ),
+        '%olsx%': (user.olsxIdentifier)
+    }) }}
+</p>

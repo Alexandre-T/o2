@@ -43,6 +43,7 @@ explanation:
   new-asked-vat: 'Customer just ask a new VAT rate.'
   accepted-asked-vat %vat%: 'Your request for a new VAT rage has been accepted by our accountant service.'
   rejected-asked-vat %vat% %actual%: 'Your request for a new VAT rage has been accepted by our accountant service.'
+  olsx-registering %name% %olsx%: 'The customer named %name% has just forward you his OLSX customer account (%olsx%). He is waiting for your decision.'
 new-payment:
   description %mail% %amount% %credits%: 'The new payment was made by %mail% for a total amount of %amount%  in order to buy %credits% credits.'
 programmation:

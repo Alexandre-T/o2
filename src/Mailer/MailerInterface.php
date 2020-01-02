@@ -21,6 +21,11 @@ use App\Entity\Order;
 use App\Entity\Programmation;
 use App\Entity\User;
 
+/**
+ * Mailer interface.
+ *
+ * There is one method for each mail to sent.
+ */
 interface MailerInterface
 {
     /**
@@ -45,6 +50,15 @@ interface MailerInterface
      * @param AskedVat $asked the asked vat entity
      */
     public function sendAskedVatRejected(AskedVat $asked): int;
+
+    /**
+     * Send a mail to accountant to inform him that a user is registering to olsx program.
+     *
+     * @param User $user the subscriber
+     *
+     * @return int number of mail sent
+     */
+    public function sendOlsxRegistering(User $user): int;
 
     /**
      * Send a mail to accountant from sender to inform about the new order and the new bill.

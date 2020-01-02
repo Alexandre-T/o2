@@ -30,6 +30,9 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
+/**
+ * Class Mailer.
+ */
 class Mailer implements MailerInterface
 {
     /**
@@ -163,6 +166,34 @@ class Mailer implements MailerInterface
         $html = $this->getHtmlAskedVatRejected($asked);
         $txt = $this->getTxtAskedVatRejected($asked);
         $to = $asked->getCustomer()->getMail();
+
+        return $this->sendEmailMessage($html, $txt, $from, $to);
+    }
+
+    /**
+     * Send a mail to accountant to inform him that a user is registering to olsx program.
+     *
+     * @param User $user the subscriber
+     *
+     * @throws LoaderError  on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError  on syntax error
+     *
+     * @return int number of mail sent
+     */
+    public function sendOlsxRegistering(User $user): int
+    {
+        try {
+            $from = $this->getDefaultSender();
+            $to = $this->getAccountantMail();
+        } catch (SettingsException $e) {
+            $this->logSettingsException($e);
+
+            return 0;
+        }
+
+        $html = $this->getHtmlOlsxRegistering($user);
+        $txt = $this->getTxtOlsxRegistering($user);
 
         return $this->sendEmailMessage($html, $txt, $from, $to);
     }
@@ -387,6 +418,24 @@ class Mailer implements MailerInterface
     }
 
     /**
+     * Get the mail content when user is registering to the olsx program.
+     *
+     * @param User $user the subscriber
+     *
+     * @throws LoaderError  on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError  on syntax error
+     *
+     * @return string the html text
+     */
+    private function getHtmlOlsxRegistering(User $user): string
+    {
+        return $this->twig->render('mail/olsx-registering.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
      * Get the html content when accountant is alerted that a customer is asking a new vat rate.
      *
      * @param AskedVat $asked the entity recorded
@@ -431,6 +480,24 @@ class Mailer implements MailerInterface
     {
         return $this->twig->render('mail/rejected-asked-vat.txt.twig', [
             'asked' => $asked,
+        ]);
+    }
+
+    /**
+     * Get the text mail content when user is registering to the olsx program.
+     *
+     * @param User $user the subscriber
+     *
+     * @throws LoaderError  on load error
+     * @throws RuntimeError on runtime error
+     * @throws SyntaxError  on syntax error
+     *
+     * @return string the html text
+     */
+    private function getTxtOlsxRegistering(User $user): string
+    {
+        return $this->twig->render('mail/olsx-registering.txt.twig', [
+            'user' => $user,
         ]);
     }
 
