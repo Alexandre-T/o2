@@ -60,6 +60,7 @@ class OlsxController extends AbstractController
         $user = $this->getUser();
         if ($user->isOlsxCustomer()) {
             $this->addFlash('error', 'flash.olsx.already-registered');
+
             return $this->redirectToRoute('home');
         }
 

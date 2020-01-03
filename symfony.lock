@@ -62,7 +62,13 @@
     "codeception/module-asserts": {
         "version": "1.1.1"
     },
+    "codeception/module-doctrine2": {
+        "version": "1.0.1"
+    },
     "codeception/module-phpbrowser": {
+        "version": "1.0.0"
+    },
+    "codeception/module-sequence": {
         "version": "1.0.0"
     },
     "codeception/module-symfony": {
@@ -289,7 +295,7 @@
         "version": "2.0.1"
     },
     "php": {
-        "version": "7.4"
+        "version": "7.2"
     },
     "php-coveralls/php-coveralls": {
         "version": "v2.1.0"

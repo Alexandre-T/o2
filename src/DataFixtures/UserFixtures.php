@@ -74,6 +74,14 @@ class UserFixtures extends Fixture
                 ->addRole(User::ROLE_PROGRAMMER)
             ;
 
+            //Olsx
+            $userOlsx = $this->createUser('OLSX', 'olsx');
+            $userOlsx
+                ->setOlsxIdentifier(33333)
+                ->setRegistered()
+                ->addRole(User::ROLE_OLSX)
+            ;
+
             //User
             $userCustomer = $this->createUser('The customer', 'customer');
             $userCustomer
@@ -115,18 +123,20 @@ class UserFixtures extends Fixture
             }
 
             //These references are perhaps unused.
+            $this->addReference('user_accountant', $userAccountant);
+            $this->addReference('user_admin', $userAdministrator);
             $this->addReference('user_all', $userAll);
             $this->addReference('user_customer', $userCustomer);
-            $this->addReference('user_accountant', $userAccountant);
+            $this->addReference('user_olsx', $userCustomer);
             $this->addReference('user_programmer', $userProgrammer);
-            $this->addReference('user_admin', $userAdministrator);
 
             //Persist dev and test data
+            $manager->persist($userAccountant);
+            $manager->persist($userAdministrator);
             $manager->persist($userAll);
             $manager->persist($userCustomer);
-            $manager->persist($userAccountant);
+            $manager->persist($userOlsx);
             $manager->persist($userProgrammer);
-            $manager->persist($userAdministrator);
 
             $manager->flush();
         }

@@ -32,8 +32,6 @@ trait OlsxTrait
 
     /**
      * Return OLSX identifier if user is fully registered.
-     *
-     * @return int|null
      */
     public function getOlsxIdentifier(): ?int
     {
@@ -63,9 +61,9 @@ trait OlsxTrait
      *
      * @param int $identifier the customer identifier
      *
-     * @return $this
+     * @return OlsxInterface|OlsxTrait
      */
-    public function setOlsxIdentifier(?int $identifier): self
+    public function setOlsxIdentifier(?int $identifier): OlsxInterface
     {
         $this->olsxIdentifier = $identifier;
 
@@ -75,9 +73,9 @@ trait OlsxTrait
     /**
      * Fluent registered setter.
      *
-     * @return self
+     * @return OlsxInterface|OlsxTrait
      */
-    public function setRegistered(): self
+    public function setRegistered(): OlsxInterface
     {
         $this->olsxStatus = OlsxInterface::REGISTERED;
 
@@ -87,9 +85,9 @@ trait OlsxTrait
     /**
      * Fluent registering setter.
      *
-     * @return self
+     * @return OlsxInterface|OlsxTrait
      */
-    public function setRegistering(): self
+    public function setRegistering(): OlsxInterface
     {
         $this->olsxStatus = OlsxInterface::REGISTERING;
 
@@ -99,9 +97,9 @@ trait OlsxTrait
     /**
      * Fluent unregistered setter.
      *
-     * @return self
+     * @return OlsxInterface|OlsxTrait
      */
-    public function setUnregistered(): self
+    public function setUnregistered(): OlsxInterface
     {
         $this->olsxStatus = OlsxInterface::UNREGISTERED;
 

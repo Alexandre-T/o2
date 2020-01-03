@@ -26,15 +26,11 @@ interface OlsxInterface
 
     /**
      * Return OLSX identifier if user is fully registered.
-     *
-     * @return int|null
      */
     public function getOlsxIdentifier(): ?int;
 
     /**
      * Is user a personal registered customer of reseller.
-     *
-     * @return bool
      */
     public function isOlsxCustomer(): bool;
 
@@ -42,8 +38,6 @@ interface OlsxInterface
      * Is user currently registering?
      *
      * If user is registered, he is no more registering.
-     *
-     * @return bool
      */
     public function isOlsxRegistering(): bool;
 

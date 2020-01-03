@@ -70,9 +70,9 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      */
     public const ROLE_ACCOUNTANT = 'ROLE_ACCOUNTANT';
     public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_OLSX = 'ROLE_OLSX';
     public const ROLE_PROGRAMMER = 'ROLE_PROGRAMMER';
     public const ROLE_USER = 'ROLE_USER';
-    public const ROLE_OLSX = 'ROLE_OLSX';
 
     /**
      * Indication published in bills to explain why the default vat is not at the default value.

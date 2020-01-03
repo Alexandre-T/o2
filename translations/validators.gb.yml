@@ -35,6 +35,8 @@ error:
       'Your current password cannot be blank.'
     not-match:
       'Ther entered password does not match with your current password.'
+  olsx:
+    non-existent-customer: 'This customer identifier does not exists on OLSX servers.'
   order:
     empty: 'Your order does not contain credit. Please select at least one pack!'
   plain-password:

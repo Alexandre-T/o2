@@ -15,21 +15,17 @@ cache:
 
 # Base versions to test raw with the Symfony latest version.
 php:
-  - "7.1"
   - "7.2"
   - "7.3"
   - "7.4"
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - php: "7.1"
 
 before_install:
   - mkdir -p build/logs
   - export COMPOSER_PROCESS_TIMEOUT=3000
   # Copy composer.7-x.lock to composer.lock
-  - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then cp composer.7-1.lock composer.lock ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then cp composer.7-2.lock composer.lock ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.3" ]; then cp composer.7-3.lock composer.lock ; fi
   - if [ "$TRAVIS_PHP_VERSION" == "7.4" ]; then cp composer.7-4.lock composer.lock ; fi

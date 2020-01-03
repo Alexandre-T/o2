@@ -35,6 +35,8 @@ error:
       'L’ancien mot de passe est obligatoire.'
     not-match:
       'Cette valeur ne correspond pas à votre ancien mot de passe.'
+  olsx:
+    non-existent-customer: 'Ce code utilisateur n’est pas reconnu par les services OLSX.'
   olsx-code:
       'Votre code olsx doit contenir 14 chiffres exactement.'
   order:
