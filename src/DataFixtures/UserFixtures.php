@@ -23,6 +23,7 @@ use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * UserFixtures class.
@@ -89,34 +90,9 @@ class UserFixtures extends Fixture
                 ->setGivenName('Johannie')
             ;
 
-            $now = new DateTimeImmutable();
-
             //We add a lot of user
             foreach (range(0, self::CUSTOMERS) as $index) {
-                $user = $this->createUser("Customer {$index}", "customer-{$index}");
-                $user
-                    ->setResettingToken("resetToken{$index}")
-                    ->setResettingAt($now)
-                    ->setCredit($index)
-                    ->setGivenName("John{$index}")
-                    ->setName('Doe')
-                    ->setSociety("Society {$index}")
-                    ->setType(0 === $index % 2)
-                ;
-                if (0 === $index % 8) {
-                    $user->setVat((string) VatManagerInterface::DOMTOM_VAT);
-                    $user->setPostalCode('97200');
-                    $user->setLocality('Saint-Denis');
-                    $user->setBillIndication('97200');
-                }
-
-                if (0 === $index % 10) {
-                    $user->setVat((string) VatManagerInterface::EUROPE_VAT);
-                    $user->setCountry('DE');
-                    $user->setLocality('Berlin');
-                    $user->setVatNumber('TVA-BERLIN-CODE');
-                    $user->setBillIndication('TVA-BERLIN-CODE');
-                }
+                $user = $this->createCustomer($index);
 
                 $manager->persist($user);
                 $this->addReference("user_customer-{$index}", $user);
@@ -199,6 +175,47 @@ class UserFixtures extends Fixture
             ->setCountry('FR')
             ->setLocality('locality')
         ;
+
+        return $user;
+    }
+
+    /**
+     * Create a standard customer.
+     *
+     * @param int $index the index to name customer
+     *
+     * @return UserInterface
+     *
+     * @throws Exception this should not happen because DateTimeInterface is used without argument.
+     */
+    private function createCustomer($index): UserInterface
+    {
+        $now = new DateTimeImmutable();
+
+        $user = $this->createUser("Customer {$index}", "customer-{$index}");
+        $user
+            ->setResettingToken("resetToken{$index}")
+            ->setResettingAt($now)
+            ->setCredit($index)
+            ->setGivenName("John{$index}")
+            ->setName('Doe')
+            ->setSociety("Society {$index}")
+            ->setType(0 === $index % 2)
+        ;
+        if (0 === $index % 8) {
+            $user->setVat((string) VatManagerInterface::DOMTOM_VAT);
+            $user->setPostalCode('97200');
+            $user->setLocality('Saint-Denis');
+            $user->setBillIndication('97200');
+        }
+
+        if (0 === $index % 10) {
+            $user->setVat((string) VatManagerInterface::EUROPE_VAT);
+            $user->setCountry('DE');
+            $user->setLocality('Berlin');
+            $user->setVatNumber('TVA-BERLIN-CODE');
+            $user->setBillIndication('TVA-BERLIN-CODE');
+        }
 
         return $user;
     }

@@ -40,21 +40,6 @@ class OlsxCest
      *
      * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToSubscribeTwice(AcceptanceTester $you): void
-    {
-        $you->wantTo('access to the OLSX  Subscription form with a olsx account.');
-        $you->login('olsx');
-        $you->amOnPage('/olsx/register');
-        $you->seeResponseCodeIsSuccessful();
-        $you->seeCurrentUrlEquals('');
-        $you->see('Vous êtes déjà inscrit au programme OLSX.');
-    }
-
-    /**
-     * Try to access to subscription OLSX service when I am already a olsx user.
-     *
-     * @param AcceptanceTester $you the acceptance tester
-     */
     public function tryToSubscribe(AcceptanceTester $you): void
     {
         $you->wantTo('access to the OLSX  Subscription form.');
@@ -64,10 +49,25 @@ class OlsxCest
         $you->seeCurrentUrlEquals('/olsx/register');
         $you->wantToTest('vulnerability. toto can explode the website.');
         $you->fillField('Code client OLSX', 'toto');
-        $you->click('Inscrivez-vous !');
+        $you->click("Inscrivez-vous\u{a0}!");
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/olsx/register');
         $you->see('Erreur Cette valeur n\'est pas valide.');
         //Full test is not available because I cannot mock EvcService in acceptance test.
+    }
+
+    /**
+     * Try to access to subscription OLSX service when I am already a olsx user.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToSubscribeTwice(AcceptanceTester $you): void
+    {
+        $you->wantTo('access to the OLSX  Subscription form with a olsx account.');
+        $you->login('olsx');
+        $you->amOnPage('/olsx/register');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('');
+        $you->see('Vous êtes déjà inscrit au programme OLSX.');
     }
 }
