@@ -322,6 +322,8 @@ form:
       title:
         accountant: 'Comptable'
         admin: 'Administrateur'
+        olsx: 'Client OLSX'
+        olsx %olsx%: 'Client OLSX n°%olsx%'
         programmer: 'Programmateur'
     roles: 'Privilèges de l’utilisateur'
     serial: 'N° de série'

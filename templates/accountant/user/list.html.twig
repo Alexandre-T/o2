@@ -55,22 +55,29 @@
                 <td headers="user-mail" class="align-middle">{{ user.mail }}</td>
                 <td headers="user-credit" class="align-middle">{{ user.credit }}</td>
                 <td headers="user-roles" class="align-middle">
+                    {% if user.olsx %}
+                        <span class="fas fa-tachometer-alt text-success" data-toggle="tooltip" data-placement="bottom"
+                              data-title="{{ 'form.field.role.title.olsx %olsx%' | trans({'olsx': user.olsxIdentifier}) }}"></span>
+                        <span class="sr-only">
+                            {{ 'form.field.role.title.olsx' | trans }}
+                        </span>
+                    {% endif %}
                     {% if user.accountant %}
-                        <span class="fas fa-comment-dollar text-success" data-toggle="tooltip" data-placement="bottom"
+                        <span class="fas fa-comment-dollar text-warning" data-toggle="tooltip" data-placement="bottom"
                               data-title="{{ 'form.field.role.title.accountant' | trans }}"></span>
                         <span class="sr-only">
                             {{ 'form.field.role.title.accountant' | trans }}
                         </span>
                     {% endif %}
                     {% if user.programmer %}
-                        <span class="fas fa-tachometer-alt text-success" data-toggle="tooltip" data-placement="bottom"
+                        <span class="fas fa-tachometer-alt text-warning" data-toggle="tooltip" data-placement="bottom"
                               data-title="{{ 'form.field.role.title.programmer' | trans }}"></span>
                         <span class="sr-only">
                             {{ 'form.field.role.title.programmer' | trans }}
                         </span>
                     {% endif %}
                     {% if user.admin %}
-                        <span class="fas fa-user-shield text-success" data-toggle="tooltip" data-placement="bottom"
+                        <span class="fas fa-user-shield text-danger" data-toggle="tooltip" data-placement="bottom"
                               data-title="{{ 'form.field.role.title.admin' | trans }}"></span>
                         <span class="sr-only">
                             {{ 'form.field.role.title.admin' | trans }}
