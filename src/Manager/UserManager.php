@@ -15,12 +15,18 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use Alexandre\EvcBundle\Exception\EvcException;
+use Alexandre\EvcBundle\Service\EvcServiceInterface;
 use App\Entity\EntityInterface;
+use App\Entity\OlsxInterface;
 use App\Entity\Programmation;
 use App\Entity\User;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * User Manager.
@@ -36,6 +42,37 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
      * Const for the alias query.
      */
     public const ALIAS = 'user';
+
+    /**
+     * Activate user, so he will have access to OLSX service.
+     *
+     * @param User $customer the customer which will have access to OLSX service
+     */
+    public function activateOlsx(User $customer): bool
+    {
+        if (null === $customer->getOlsxIdentifier()) {
+            return false;
+        }
+
+        $customer->setRegistered();
+        $customer->addRole('ROLE_OLSX');
+        $this->save($customer);
+
+        return true;
+    }
+
+    /**
+     * Convert a customer to a personal customer of current reseller.
+     *
+     * @param User                $customer   the customer to convert
+     * @param EvcServiceInterface $evcService the evc Service
+     *
+     * @throws EvcException when an occurred on EVC Service of when customer does not exists
+     */
+    public function convertAsPersonal(User $customer, EvcServiceInterface $evcService): void
+    {
+        $evcService->createPersonalCustomer($customer->getOlsxIdentifier());
+    }
 
     /**
      * Remove credits to user by programmation cost.
@@ -85,6 +122,51 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
     public function isDeletable(EntityInterface $entity): bool
     {
         return empty($entity->getBills()->count());
+    }
+
+    /**
+     * Return a pagination of users which are registering to OLSX service.
+     *
+     * @param int    $page      page needed
+     * @param int    $limit     limit of users per page
+     * @param string $sortField sort field
+     * @param string $sortOrder sort order
+     *
+     * @throws QueryException on error with query
+     *
+     * @return PaginationInterface
+     */
+    public function paginateRegisteringUsers(int $page, int $limit, string $sortField, string $sortOrder)
+    {
+        //Construct criteria
+        $criteria = Criteria::create();
+        $expression = Criteria::expr()->andX(
+            Criteria::expr()->eq('olsxStatus', OlsxInterface::REGISTERING),
+            Criteria::expr()->gt('olsxIdentifier', 0)
+        );
+        $criteria->where($expression);
+
+        //construct hidden field for sort order
+        $hiddenFields = [
+            'user.name as HIDDEN customers',
+            'user.olsxIdentifier as HIDDEN identifiers',
+        ];
+
+        return $this->paginateWithCriteria($criteria, $page, $limit, $sortField, $sortOrder, $hiddenFields);
+    }
+
+    /**
+     * Unactivate an Olsx customer.
+     *
+     * @param User $customer the customer to remove
+     */
+    public function unactivateOlsx(User $customer): bool
+    {
+        $customer->setRegistering();
+        $customer->removeRole('ROLE_OLSX');
+        $this->save($customer);
+
+        return true;
     }
 
     /**

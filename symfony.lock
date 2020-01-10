@@ -234,6 +234,9 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v3.0.0"
     },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.0.1"
+    },
     "league/uri": {
         "version": "5.3.0"
     },
@@ -295,7 +298,7 @@
         "version": "2.0.1"
     },
     "php": {
-        "version": "7.2"
+        "version": "7.4"
     },
     "php-coveralls/php-coveralls": {
         "version": "v2.1.0"
@@ -844,6 +847,9 @@
         "files": [
             "./config/packages/vich_uploader.yaml"
         ]
+    },
+    "webimpress/safe-writer": {
+        "version": "2.0.0"
     },
     "webmozart/assert": {
         "version": "1.4.0"

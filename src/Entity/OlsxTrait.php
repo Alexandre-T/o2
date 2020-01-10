@@ -39,21 +39,19 @@ trait OlsxTrait
     }
 
     /**
+     * Alias isOlsxCustomer.
+     */
+    public function isOlsx(): bool
+    {
+        return $this->isOlsxCustomer();
+    }
+
+    /**
      * Is user a personal registered customer of reseller.
      */
     public function isOlsxCustomer(): bool
     {
         return OlsxInterface::REGISTERED === $this->olsxStatus && !empty($this->getOlsxIdentifier());
-    }
-
-    /**
-     * @alias isOlsxCustomer
-     *
-     * @return bool
-     */
-    public function isOlsx(): bool
-    {
-        return $this->isOlsxCustomer();
     }
 
     /**

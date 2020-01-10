@@ -19,18 +19,26 @@
                                     {{ 'nav.accountant.submenu.bill.text' | trans }}
                                 </a>
                                 {# USERS #}
-                                {#                          {# TODO Changer cette route qui fait péter le truc au dessus #}
+                                {# TODO Changer cette route qui fait péter le truc au dessus #}
                                 <a class="dropdown-item {{ route == 'accountant_user_new' ? 'active' }}"
                                    href="{{ path('accountant_user_list') }}" data-placement="left" data-toggle="tooltip"
                                    title="{{ 'nav.accountant.submenu.user.title' | trans }}">
                                     <span class="fas fa-fw fa-file-invoice-dollar"></span>
                                     {{ 'nav.accountant.submenu.user.text' | trans }}
                                 </a>
+                                {# Asked Vat #}
                                 <a class="dropdown-item {{ route == 'accountant_vat_list' ? 'active' }}"
                                    href="{{ path('accountant_vat_list') }}" data-placement="left" data-toggle="tooltip"
                                    title="{{ 'nav.accountant.submenu.vat.title' | trans }}">
                                     <span class="fas fa-fw fa-hand-holding-usd"></span>
                                     {{ 'nav.accountant.submenu.vat.text' | trans }}
+                                </a>
+                                {# Olsx customer registering #}
+                                <a class="dropdown-item {{ route == 'accountant_olsx_registering' ? 'active'}}"
+                                   href="{{ path('accountant_olsx_registering') }}" data-placement="left"
+                                   data-toggle="tooltip" title="{{ 'nav.accountant.submenu.registering.title' | trans }}">
+                                    <span class="fas fa-fw fa-tachometer-alt"></span>
+                                    {{ 'nav.accountant.submenu.registering.text' | trans }}
                                 </a>
                             </div>
                         </li>

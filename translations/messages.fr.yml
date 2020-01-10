@@ -38,6 +38,19 @@ action:
       text: 'Consulter'
       title: 'Consulter la fiche'
   next: 'Suivant'
+  olsx:
+    create-personal:
+      text: 'Accorder un compte personnel'
+      title: 'Accorder à ce client un compte personnel OLSX'
+    convert-as-personal:
+      text: 'Convertir en client personnel'
+      title: 'Créer un compte personnel pour ce client OLSX'
+    activate:
+      text: 'Activer le compte OLSX'
+      title: 'Activer le compte OLSX et ce client pourra acheter des crédits OLSX et consulter son solde personnel'
+    unactivate:
+      text: 'Désactiver le compte OLSX'
+      title: 'Désactiver le compte OLSX et ce client NE pourra PLUS acheter de crédits OLSX NI consulter son solde personnel'
   previous: 'Précédent'
   save:
     text: 'Enregistrer'
@@ -109,6 +122,9 @@ action:
     reject:
       text: 'Rejeter'
       title: 'Rejeter la demande de changement de taux de TVA'
+    register:
+      text: 'Consulter'
+      title: 'Consulter l’inscription au programme OLSX'
 
 administration:
   created:
@@ -250,6 +266,7 @@ error:
 
 explanations:
   olsx-already-registering: 'Vous avez déjà envoyé votre numéro de client OLSX. Notre équipe va analyser votre requête sous peu. Toutefois, si vous avez saisi un code erroné, vous pouvez le modifier à l’aide de ce formulaire.'
+  olsx-can-not-be-undone: 'Vous êtes sur le point de faire de ce client OLSX, un client personnel OLSX. Cela signifiera qu’il disposera d’un compte personnel OLSX chez VMod-Engeneering. La société evc.de avertit cliarement ses revendeurs de ne créer un compte personnel que si vous avez l’accord express du client et que tout abus sera sanctionné.'
   olsx-registering: 'Vous souhaitez acheter des crédits OLSX directement depuis notre site ? Enregistrez-vous à notre programme en fournissant votre code client OLSX.'
   password-lost: 'Si vous avez perdu votre mot de passe, saisissez votre adresse email dans ce formulaire, un mail vous sera envoyé avec les explications nécessaires pour changer de mot de passe.'
   password-reset: 'Vous avez déclaré la perte de votre mot de passe, veuillez en saisir un nouveau via le formulaire ci-dessous.'
@@ -473,8 +490,18 @@ flash:
     sent: 'Aucun problème n’a été détecté lors de l’envoi du mail. Vérifiez que vous l’avez bien reçu. Si ce n’est pas le cas, deux causes sont possibles : Un mauvais paramétrage au niveau de votre server de messagerie, ou bien le mail a été détecté comme spam et intercepté par votre messagerie ou votre anti-spam'
     not-sent: 'Un problème a été détecté lors de l’envoi du mail. Consulter les journaux de l’application et reconfigurez les valeurs du serveur de messagerie utilisé'
   olsx:
+    activated: 'Ce client a désormais la possibilité de commander des crédits OLSX.'
+    already-personal: 'Le service OLSX nous a répondu que ce client dispose d’ores-et-déjà d’un compte personnel. Requête annulée.'
     already-registered: 'Vous êtes déjà inscrit au programme OLSX.'
+    credential-exception: 'Erreur interne de configuration pour le service OLSX. Option indisponible.'
+    converted-to-personal: 'Pour ce client OLSX, un compte personnel vient d’être ouvert avec zéro crédit OLSX.'
+    logic-exception: 'Le service OLSX de notre partenaire nous a retourné une réponse non attendue. Merci de contacter le support !'
+    network-exception: 'Le service OLSX de notre partenaire est actuellement injoignable. Veuillez renouveler votre demande ultérieurement !'
+    not-exists: 'Le service OLSX nous a répondu que ce numéro de compte-client n’existait pas. Requête annulée.'
+    not-personal: 'Le service OLSX nous a répondu que ce client n’avait pas encore de compte personnel. Requête annulée.'
     registering: 'Vous inscription au programme OLSX a bien été prise en compte. Un membre de notre équipe va valider votre souscription.'
+    unactivated: 'Ce client n’a plus la possibilité de commander des crédits OLSX.'
+
   order:
     already-credited: 'Les crédits de cette commande ont déjà été versé à ce client.'
     credited: 'Les crédits de cette commande viennent d’être versés au client.'
@@ -613,6 +640,9 @@ nav:
       vat:
         text: 'Taux de TVA à changer'
         title: 'Valider/Refuser les demandes de changement de taux de TVA de vos clients'
+      registering:
+        text: 'Inscriptions OLSX'
+        title: 'Demandes d’inscription au programme OLSX'
   home:
     text: 'Accueil'
     title: 'Retour à l’accueil'
@@ -790,8 +820,13 @@ title:
     bill-new: 'Nouvelle facture'
     user:
       list: 'Sélectionner un utilisateur'
+      show %name%: 'Compte OLSX du client %name%'
     asked-vat:
       list: 'Demande de changement de taux de TVA'
+    registering:
+      list: 'Demande d’inscription au programme OLSX'
+    society:
+      show %name%: 'Compte OLSX de la société %name%'
   customer:
     bill:
       list: 'Mes factures'
@@ -934,6 +969,9 @@ common:
   undecided: 'À statuer'
   vehicle: 'Véhicule'
   yes: 'Oui'
+  are-you-sure: 'Êtes-vous sûre ?'
+  be-careful: 'Attention !'
+  cancel: 'Annuler'
 
 message:
   bill-new:
@@ -975,3 +1013,30 @@ service:
     to-close:
       title: 'Raccourci : Cliquez sur ce lien pour fermer instantanément le service de reprogrammation'
 Year: 'Année'
+olsx:
+  exists:
+    title: 'Ce compte OLSX existe (toujours)'
+    text: 'Compte OLSX existant'
+  not-exists:
+    title: 'Ce compte OLSX n’existe plus'
+    text: 'Compte OLSX inexistant'
+  not-personal:
+    title: 'Ce client OLSX n’est pas encore référencé comme un de vos clients personnel'
+    text: 'Non Personnel'
+  personal:
+    text: 'Client personnel'
+    title: 'Ce client OLSX est déjà référencé comme l’un de vos clients personnels'
+  account:
+    text %account%: '%account% crédit(s) OLSX'
+    title %account%: 'Compte personnel : %account% crédit(s) OLSX'
+  no-account:
+    text: 'Aucun'
+    title: 'Aucun compte OLSX'
+  action:
+    personal: 'Créer le compte personnel de ce client'
+  customer:
+    text: 'Client OLSX'
+    title: 'Client OLSX en capacité de commander des crédits OLSX'
+  no-customer:
+    text: 'Client simple'
+    title: 'Client NE pouvant PAS commander de crédits OLSX'

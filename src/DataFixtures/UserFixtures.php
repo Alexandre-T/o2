@@ -151,42 +151,11 @@ class UserFixtures extends Fixture
     }
 
     /**
-     * Create a testing user.
-     *
-     * @param string $label The user label
-     * @param string $code  A code to connect
-     */
-    private function createUser(string $label, string $code): User
-    {
-        $user = new User();
-        $user
-            ->setMail("{$code}@example.org")
-            ->setPlainPassword($code)
-            ->setGivenName('John')
-            ->setName($label)
-            ->setType(PersonInterface::PHYSIC)
-        ;
-
-        $user->setLanguage(LanguageInterface::FRENCH);
-
-        $user
-            ->setPostalCode('33000')
-            ->setStreetAddress('rue du boulevard')
-            ->setCountry('FR')
-            ->setLocality('locality')
-        ;
-
-        return $user;
-    }
-
-    /**
      * Create a standard customer.
      *
      * @param int $index the index to name customer
      *
-     * @return UserInterface
-     *
-     * @throws Exception this should not happen because DateTimeInterface is used without argument.
+     * @throws Exception this should not happen because DateTimeInterface is used without argument
      */
     private function createCustomer($index): UserInterface
     {
@@ -216,6 +185,35 @@ class UserFixtures extends Fixture
             $user->setVatNumber('TVA-BERLIN-CODE');
             $user->setBillIndication('TVA-BERLIN-CODE');
         }
+
+        return $user;
+    }
+
+    /**
+     * Create a testing user.
+     *
+     * @param string $label The user label
+     * @param string $code  A code to connect
+     */
+    private function createUser(string $label, string $code): User
+    {
+        $user = new User();
+        $user
+            ->setMail("{$code}@example.org")
+            ->setPlainPassword($code)
+            ->setGivenName('John')
+            ->setName($label)
+            ->setType(PersonInterface::PHYSIC)
+        ;
+
+        $user->setLanguage(LanguageInterface::FRENCH);
+
+        $user
+            ->setPostalCode('33000')
+            ->setStreetAddress('rue du boulevard')
+            ->setCountry('FR')
+            ->setLocality('locality')
+        ;
 
         return $user;
     }

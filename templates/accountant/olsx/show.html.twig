@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if customer is society %}
+        {{ 'title.accountant.society.show %name%'|trans({'%name%': customer.label}) }}
+    {% else %}
+        {{ 'title.accountant.user.show %name%'|trans({'%name%': customer.label}) }}
+    {% endif %}
+    · {{ parent() }}
+{% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.admin.text' | trans }}</li>
+            <li class="breadcrumb-item">
+                <a href="{{ path('administration_user_index') }}"
+                   title="{{ 'nav.admin.submenu.users.title' | trans }}">{{ 'nav.admin.submenu.users.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.security.user.show' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block headline %}
+    <h1 class="mt-auto">
+        <span class="fa fa-tachometer-alt"></span>
+        {% if customer is society %}
+            {{ 'title.accountant.society.show %name%'|trans({'%name%': customer.label}) }}
+        {% else %}
+            {{ 'title.accountant.user.show %name%'|trans({'%name%': customer.label}) }}
+        {% endif %}
+    </h1>
+{% endblock headline %}
+
+{% block container %}
+    <div class="row m-5">
+        <div class="col-sm-3">
+            {% if exists %}
+                <h5 class="badge badge-success d-inline" data-toggle="tooltip" title="{{ 'olsx.exists.title' | trans }}">
+                    {{ 'olsx.exists.text' | trans }}
+                </h5>
+            {% else %}
+                <h5 class="badge badge-danger d-inline" data-toggle="tooltip" title="{{ 'olsx.not-exists.title' | trans }}">
+                    {{ 'olsx.not-exists.text' | trans }}
+                </h5>
+            {% endif %}
+        </div>
+        <div class="col-sm-3">
+            {% if personal %}
+                <h5 class="badge badge-success d-inline" data-toggle="tooltip" title="{{ 'olsx.personal.title' | trans }}">
+                    {{ 'olsx.personal.text' | trans }}
+                </h5>
+            {% else %}
+                <h5 class="badge badge-danger d-inline" data-toggle="tooltip" title="{{ 'olsx.not-personal.title' | trans }}">
+                    {{ 'olsx.not-personal.text' | trans }}
+                </h5>
+            {% endif %}
+        </div>
+        <div class="col-sm-3">
+            {% if account is not null %}
+                <h5 class="badge badge-success d-inline" data-toggle="tooltip"
+                      title="{{ 'olsx.account.title %account%' | trans({'%account%': (account)}) }}">
+                    {{'olsx.account.text %account%' | trans({'%account%': (account)})}}
+                </h5>
+            {% else %}
+                <h5 class="badge badge-success d-inline" data-toggle="tooltip"
+                      title="{{ 'olsx.no-account.title' | trans }}">
+                    {{'olsx.no-account.text' | trans }}
+                </h5>
+            {% endif %}
+        </div>
+        <div class="col-sm-3">
+            {% if customer.olsxCustomer %}
+                <h5 class="badge badge-success d-inline" data-toggle="tooltip"
+                      title="{{ 'olsx.customer.title' | trans }}">
+                    {{'olsx.customer.text' | trans}}
+                </h5>
+            {% else %}
+                <h5 class="badge badge-danger d-inline" data-toggle="tooltip"
+                      title="{{ 'olsx.no-customer.title' | trans }}">
+                    {{'olsx.no-customer.text' | trans }}
+                </h5>
+            {% endif %}
+        </div>
+    <div class="row mt-5">
+        <div class="col-sm-6 border-right">
+            <dl class="row">
+                <dt class="col-sm-4 text-truncate text-right">{{ 'form.field.street-address' | trans }}</dt>
+                <dd class="col-sm-8">{{ customer.label }}</dd>
+                <dd class="offset-sm-4 col-sm-8">{{ customer.streetAddress }}</dd>
+                {% if customer.complement is not empty -%}
+                    <dd class="offset-sm-4 col-sm-8">{{ customer.streetAddress }}</dd>
+                {%- endif %}
+                <dd class="offset-sm-4 col-sm-8">{{ customer.postalCode }} {{ customer.locality }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">{{ 'form.field.country' | trans }}</dt>
+                <dd class="col-sm-8">{{ customer.country | country }}</dd>
+            </dl>
+        </div>
+        <div class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-2 text-truncate text-right">
+                    <span class="fas fa-at"></span>
+                </dt>
+                <dd class="col-sm-10">{{ customer.mail }}</dd>
+                <dt class="col-sm-2 text-truncate text-right">
+                    <span class="fas fa-phone"></span>
+                </dt>
+                <dd class="col-sm-10">{{ customer.telephone }}</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="mt-5 mx-auto">
+        <div class="btn-group">
+            <button class="btn {{ (exists and not personal) ? 'btn-primary' : 'btn-secondary disabled' }}"
+               data-toggle="modal" data-target="#personalModal">
+                {{ 'olsx.action.personal' | trans }}
+            </button>
+            {% if not customer.olsxCustomer and personal and exists %}
+            <a class="btn btn-primary" data-toggle="tooltip" data-title="{{ 'action.olsx.activate.title' | trans }}"
+               href="{{ path('accountant_olsx_activate', {'customer': customer.id}) }}">
+                {{ 'action.olsx.activate.text' | trans }}
+            </a>
+            {% endif %}
+            {% if customer.olsxCustomer %}
+            <a class="btn btn-primary" data-toggle="tooltip" data-title="{{ 'action.olsx.unactivate.title' | trans }}"
+               href="{{ path('accountant_olsx_unactivate', {'customer': customer.id}) }}">
+                {{ 'action.olsx.unactivate.text' | trans }}
+            </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock container %}
+
+{% block modal %}
+    {% if exists and not personal %}
+    <div class="modal fade" id="personalModal" tabindex="-1" role="dialog" aria-labelledby="personalModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="personalModalLabel">{{ 'common.be-careful' | trans }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">
+                        {{ 'explanations.olsx-can-not-be-undone' | trans }}
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{'common.cancel' | trans}}</button>
+                    <a href="{{ path('accountant_olsx_personal', {'customer': customer.id}) }}" class="btn btn-primary"
+                    data-title="{{ 'action.olsx.create-personal.title' | trans}}" data-toggle="tooltip" data-placement="top">
+                        {{ 'action.olsx.create-personal.text' | trans}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock modal %}

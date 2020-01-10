@@ -563,6 +563,20 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
     }
 
     /**
+     * Remove a role to user.
+     *
+     * @param string $role the role to remove
+     */
+    public function removeRole(string $role): self
+    {
+        while (false !== $key = array_search($role, $this->roles, true)) {
+            unset($this->roles[$key]);
+        }
+
+        return $this;
+    }
+
+    /**
      * String representation of object.
      *
      * @see http://php.net/manual/en/serializable.serialize.php

@@ -140,11 +140,12 @@ abstract class AbstractRepositoryManager implements ManagerInterface
     /**
      * Get pagination with criteria for a class.
      *
-     * @param Criteria    $criteria  filter criteria
-     * @param int         $page      page to display
-     * @param int         $limit     number of entity to display
-     * @param string|null $sortField sort field
-     * @param string      $sortOrder sort order
+     * @param Criteria    $criteria     filter criteria
+     * @param int         $page         page to display
+     * @param int         $limit        number of entity to display
+     * @param string|null $sortField    sort field
+     * @param string      $sortOrder    sort order
+     * @param array       $hiddenFields hidden fields for help order
      *
      * @throws QueryExceptionAlias when criteria are not valid
      */
@@ -153,10 +154,15 @@ abstract class AbstractRepositoryManager implements ManagerInterface
      int $page = 1,
      int $limit = self::LIMIT,
      string $sortField = null,
-     $sortOrder = self::SORT
+     string $sortOrder = self::SORT,
+     array $hiddenFields = []
     ): PaginationInterface {
         $queryBuilder = $this->repository->createQueryBuilder($this->getDefaultAlias());
         $queryBuilder->addCriteria($criteria);
+        foreach ($hiddenFields as $hiddenField) {
+            $queryBuilder = $queryBuilder->addSelect($hiddenField);
+        }
+
         $queryBuilder = $this->addHiddenField($queryBuilder);
 
         return $this->paginator->paginate(
