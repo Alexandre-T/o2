@@ -44,8 +44,7 @@ class OlsxRegisterFormType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('code', OlsxCodeType::class)
-        ;
+            ->add('code', OlsxCodeType::class);
     }
 
     /**

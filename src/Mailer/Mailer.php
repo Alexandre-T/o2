@@ -79,10 +79,10 @@ class Mailer implements MailerInterface
      * @param SettingsManager $settingsManager the settings manager to retrieve settings
      */
     public function __construct(
-     LoggerInterface $logger,
-     Swift_Mailer $mailer,
-     Environment $twig,
-     SettingsManager $settingsManager
+        LoggerInterface $logger,
+        Swift_Mailer $mailer,
+        Environment $twig,
+        SettingsManager $settingsManager
     ) {
         $this->logger = $logger;
         $this->mailer = $mailer;
@@ -311,13 +311,12 @@ class Mailer implements MailerInterface
         $txt = 'This is a test mail. Ceci est un mail de test';
         $html = '<p>This is a <strong>test</strong> mail. Ceci est un mail de <strong>test</strong>.</p>';
 
-        $message = ($this->mailer->createMessage())
+        $message = $this->mailer->createMessage()
             ->setSubject($subject)
             ->setFrom($email)
             ->setTo($email)
             ->setBody($html, 'text/html')
-            ->addPart($txt, 'text/plain')
-        ;
+            ->addPart($txt, 'text/plain');
 
         return $this->mailer->send($message);
     }
@@ -338,13 +337,12 @@ class Mailer implements MailerInterface
         $renderedLines = explode("\n", trim($txt));
         $subject = array_shift($renderedLines);
         $txt = implode("\n", $renderedLines);
-        $message = ($this->mailer->createMessage())
+        $message = $this->mailer->createMessage()
             ->setSubject($subject)
             ->setFrom($fromEmail)
             ->setTo($toEmail)
             ->setBody($html, 'text/html')
-            ->addPart($txt, 'text/plain')
-        ;
+            ->addPart($txt, 'text/plain');
 
         return $this->mailer->send($message);
     }

@@ -41,8 +41,7 @@ class PasswordResetFormType extends AbstractType
 
         $builder
             ->add('token', HiddenType::class)
-            ->add('password', PlainPasswordType::class)
-        ;
+            ->add('password', PlainPasswordType::class);
     }
 
     /**

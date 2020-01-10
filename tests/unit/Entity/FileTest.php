@@ -81,8 +81,8 @@ class FileTest extends Unit
     {
         $mock = self::createMock(\Symfony\Component\HttpFoundation\File\File::class);
         $actual = $expected = $mock;
-        self::assertEquals($this->file, $this->file->setFile($actual));
-        self::assertEquals($expected, $this->file->getFile());
+        self::assertSame($this->file, $this->file->setFile($actual));
+        self::assertSame($expected, $this->file->getFile());
     }
 
     /**
@@ -91,8 +91,8 @@ class FileTest extends Unit
     public function testGetMimeType(): void
     {
         $actual = $expected = 'mimeType';
-        self::assertEquals($this->file, $this->file->setMimeType($actual));
-        self::assertEquals($expected, $this->file->getMimeType());
+        self::assertSame($this->file, $this->file->setMimeType($actual));
+        self::assertSame($expected, $this->file->getMimeType());
     }
 
     /**
@@ -101,9 +101,9 @@ class FileTest extends Unit
     public function testGetName(): void
     {
         $actual = $expected = 'name';
-        self::assertEquals($this->file, $this->file->setName($actual));
-        self::assertEquals($expected, $this->file->getName());
-        self::assertEquals($expected, $this->file->getLabel());
+        self::assertSame($this->file, $this->file->setName($actual));
+        self::assertSame($expected, $this->file->getName());
+        self::assertSame($expected, $this->file->getLabel());
     }
 
     /**
@@ -112,8 +112,8 @@ class FileTest extends Unit
     public function testGetOriginalName(): void
     {
         $actual = $expected = 'originalName';
-        self::assertEquals($this->file, $this->file->setOriginalName($actual));
-        self::assertEquals($expected, $this->file->getOriginalName());
+        self::assertSame($this->file, $this->file->setOriginalName($actual));
+        self::assertSame($expected, $this->file->getOriginalName());
     }
 
     /**
@@ -122,11 +122,11 @@ class FileTest extends Unit
     public function testGetSize(): void
     {
         $actual = $expected = '42.42';
-        self::assertEquals($this->file, $this->file->setSize($actual));
-        self::assertEquals($expected, $this->file->getSize());
+        self::assertSame($this->file, $this->file->setSize($actual));
+        self::assertSame($expected, $this->file->getSize());
 
         $actual = $expected = 42.24;
-        self::assertEquals($this->file, $this->file->setSize($actual));
-        self::assertEquals($expected, $this->file->getSize());
+        self::assertSame($this->file, $this->file->setSize($actual));
+        self::assertSame($expected, $this->file->getSize());
     }
 }

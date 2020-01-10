@@ -46,9 +46,9 @@ class DefaultController extends AbstractController
      * @param UserManager          $userManager          user manager
      */
     public function index(
-     BillManager $billManager,
-     ProgrammationManager $programmationManager,
-     UserManager $userManager
+        BillManager $billManager,
+        ProgrammationManager $programmationManager,
+        UserManager $userManager
     ): Response {
         $parameters = [];
 

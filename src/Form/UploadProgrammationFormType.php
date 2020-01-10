@@ -44,6 +44,8 @@ class UploadProgrammationFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        parent::buildForm($builder, $options);
+
         $builder
             ->add('catStopped', CatStoppedType::class)
             ->add('edcStopped', EdcStoppedType::class)
@@ -53,8 +55,7 @@ class UploadProgrammationFormType extends AbstractType
             ->add('gearDone', GearDoneType::class)
             ->add('stageOneDone', StageOneDoneType::class)
             ->add('finalFile', FinalFileType::class)
-            ->add('response', ResponseType::class)
-        ;
+            ->add('response', ResponseType::class);
     }
 
     /**

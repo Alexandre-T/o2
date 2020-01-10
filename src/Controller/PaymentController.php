@@ -28,7 +28,6 @@ use App\Manager\OrderManager;
 use App\Manager\PaymentManager;
 use App\Manager\SettingsManager;
 use App\Model\OrderInterface;
-use Exception;
 use Payum\Core\Payum;
 use Payum\Core\Request\GetHumanStatus;
 use Payum\Core\Security\TokenInterface;
@@ -41,6 +40,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Throwable;
 
 /**
  * Payment controller .
@@ -69,18 +69,18 @@ class PaymentController extends AbstractController
      * NO SECURITY because user can logout just before payment
      */
     public function done(
-     Request $request,
-     BillManager $billManager,
-     OrderManager $orderManager,
-     SettingsManager $settingsManager,
-     LoggerInterface $logger,
-     MailerInterface $mailer,
-     Payum $payum,
-     LoggerInterface $log
+        Request $request,
+        BillManager $billManager,
+        OrderManager $orderManager,
+        SettingsManager $settingsManager,
+        LoggerInterface $logger,
+        MailerInterface $mailer,
+        Payum $payum,
+        LoggerInterface $log
     ): Response {
         try {
             $token = $payum->getHttpRequestVerifier()->verify($request);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             //I do not have the token.
             $this->addFlash('error', 'error.payment.non-existent');
             $log->log(
@@ -103,7 +103,7 @@ class PaymentController extends AbstractController
         $payment = $status->getFirstModel();
         $order = $payment->getOrder();
 
-        if (!$status->isAuthorized() && !$status->isPending()) {
+        if (! $status->isAuthorized() && ! $status->isPending()) {
             $this->addFlash('warning', 'error.payment.canceled');
             $route = 'customer_payment_method';
             if (OrderInterface::NATURE_CMD === $order->getNature()) {
@@ -181,14 +181,14 @@ class PaymentController extends AbstractController
      * NO SECURITY because user can logout just before payment
      */
     public function paymentComplete(
-     Payum $payum,
-     BillManager $billManager,
-     LoggerInterface $logger,
-     MailerInterface $mailer,
-     OrderManager $orderManager,
-     Request $request,
-     SettingsManager $settingsManager,
-     string $uuid
+        Payum $payum,
+        BillManager $billManager,
+        LoggerInterface $logger,
+        MailerInterface $mailer,
+        OrderManager $orderManager,
+        Request $request,
+        SettingsManager $settingsManager,
+        string $uuid
     ): Response {
         try {
             $order = $orderManager->retrieveByUuid($uuid);
@@ -208,7 +208,7 @@ class PaymentController extends AbstractController
             $gatewayName = $token->getGatewayName();
             $gateway = $payum->getGateway($gatewayName);
             $gateway->execute(/*$status =*/ new GetHumanStatus($token));
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $logger->warning('TOKEN INCONNU pour la commande $uuid');
             $token = 'unknown';
             $gatewayName = 'unknown';
@@ -248,12 +248,13 @@ class PaymentController extends AbstractController
      * @Security("is_granted('ROLE_USER')")
      */
     public function paymentMethod(
-     Request $request,
-     OrderManager $orderManager,
-     PaymentManager $paymentManager,
-     Payum $payum
+        Request $request,
+        OrderManager $orderManager,
+        PaymentManager $paymentManager,
+        Payum $payum
     ): Response {
         $user = $this->getUser();
+
         try {
             //find carted (non canceled and non paid) and non empty order
             $order = $orderManager->getNonEmptyCartedOrder($user);
@@ -275,15 +276,18 @@ class PaymentController extends AbstractController
             $returnUrl = $this->generateUrl(
                 'customer_payment_complete',
                 ['uuid' => $order->getUuid()],
-                UrlGeneratorInterface::ABSOLUTE_URL);
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
             $cancelUrl = $this->generateUrl(
                 'customer_payment_cancel',
                 ['order' => $order->getId()],
-                UrlGeneratorInterface::ABSOLUTE_URL);
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
             $analyseUrl = $this->generateUrl(
                 'customer_payment_done',
                 [],
-                UrlGeneratorInterface::ABSOLUTE_URL);
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
 
             if ('paypal_express_checkout' === $form->getData()->getMethod()) {
                 $details = array_merge($details, $paymentManager->getPaypalCheckoutParams($order));
@@ -323,11 +327,11 @@ class PaymentController extends AbstractController
      * @param Bill            $bill            billed bill
      */
     private function prepareAndSendMail(
-     LoggerInterface $logger,
-     MailerInterface $mailer,
-     SettingsManager $settingsManager,
-     Order $order,
-     Bill $bill
+        LoggerInterface $logger,
+        MailerInterface $mailer,
+        SettingsManager $settingsManager,
+        Order $order,
+        Bill $bill
     ): void {
         try {
             /** @var string $sender */

@@ -38,12 +38,12 @@ class ProgrammationVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, [self::SHOW])) {
+        if (! in_array($attribute, [self::SHOW], true)) {
             return false;
         }
 
         // only vote on Programmation objects inside this voter
-        if (!$subject instanceof Programmation) {
+        if (! $subject instanceof Programmation) {
             return false;
         }
 
@@ -64,7 +64,7 @@ class ProgrammationVoter extends Voter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof User) {
+        if (! $user instanceof User) {
             // the user must be logged in; if not, deny access
             return false;
         }

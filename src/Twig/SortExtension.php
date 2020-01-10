@@ -58,7 +58,7 @@ class SortExtension extends AbstractExtension
      *
      * @return string
      */
-    public function sortFunction(bool $sorted = false, string $sort = 'asc', string $type = null)
+    public function sortFunction(bool $sorted = false, string $sort = 'asc', ?string $type = null)
     {
         $result = 'fas fa-sort';
 
@@ -70,7 +70,7 @@ class SortExtension extends AbstractExtension
                     $result .= "-{$type}";
             }
 
-            $result .= 'desc' == $sort ? '-up' : '-down';
+            $result .= 'desc' === $sort ? '-up' : '-down';
         }
 
         return $result;

@@ -103,7 +103,7 @@ class CreditOrder
     public function init(Order $order): void
     {
         foreach ($order->getOrderedArticles() as $orderedArticle) {
-            if ($orderedArticle->getQuantity() > 0 && null !== $orderedArticle->getArticle()) {
+            if (0 < $orderedArticle->getQuantity() && null !== $orderedArticle->getArticle()) {
                 $this->initializeWithArticle($orderedArticle->getArticle(), $orderedArticle->getQuantity());
             }
         }
@@ -114,7 +114,7 @@ class CreditOrder
      *
      * @param int $fifty quantity bought
      */
-    public function setFifty(int $fifty): CreditOrder
+    public function setFifty(int $fifty): self
     {
         $this->fifty = $fifty;
 
@@ -126,7 +126,7 @@ class CreditOrder
      *
      * @param int $fiveHundred quantity bought
      */
-    public function setFiveHundred(int $fiveHundred): CreditOrder
+    public function setFiveHundred(int $fiveHundred): self
     {
         $this->fiveHundred = $fiveHundred;
 
@@ -138,7 +138,7 @@ class CreditOrder
      *
      * @param int $hundred quantity bought
      */
-    public function setHundred(int $hundred): CreditOrder
+    public function setHundred(int $hundred): self
     {
         $this->hundred = $hundred;
 
@@ -150,7 +150,7 @@ class CreditOrder
      *
      * @param int $ten quantity bought
      */
-    public function setTen(int $ten): CreditOrder
+    public function setTen(int $ten): self
     {
         $this->ten = $ten;
 
@@ -168,8 +168,7 @@ class CreditOrder
     {
         if (0 === $this->getTen() + $this->getFifty() + $this->getHundred() + $this->getFiveHundred()) {
             $context->buildViolation('error.order.empty')
-                ->addViolation()
-            ;
+                ->addViolation();
         }
     }
 

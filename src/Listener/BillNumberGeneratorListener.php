@@ -42,7 +42,7 @@ class BillNumberGeneratorListener implements EventSubscriber
     public function prePersist(LifecycleEventArgs $args): void
     {
         $entity = $args->getEntity();
-        if (!$entity instanceof Bill) {
+        if (! $entity instanceof Bill) {
             //This is not a User, so we quit.
             return;
         }

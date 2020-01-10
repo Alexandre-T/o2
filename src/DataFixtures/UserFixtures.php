@@ -44,7 +44,7 @@ class UserFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        if (in_array(getenv('APP_ENV'), ['dev', 'test'])) {
+        if (in_array(getenv('APP_ENV'), ['dev', 'test'], true)) {
             //Admin
             $userAdministrator = $this->createAdmin('Admin', 'administrator');
 
@@ -52,43 +52,37 @@ class UserFixtures extends Fixture
             $userAll = $this->createAll('All Power', 'all');
             $userAll
                 ->setCredit(420)
-                ->setType(PersonInterface::PHYSIC)
-            ;
+                ->setType(PersonInterface::PHYSIC);
 
             //All
             $societyAll = $this->createAll('Big brother', 'big');
             $societyAll
                 ->setCredit(420)
-                ->setType(PersonInterface::PHYSIC)
-            ;
+                ->setType(PersonInterface::PHYSIC);
 
             //Accountant
             $userAccountant = $this->createUser('Accountant', 'accountant');
             $userAccountant
                 ->setCredit(210)
-                ->addRole(User::ROLE_ACCOUNTANT)
-            ;
+                ->addRole(User::ROLE_ACCOUNTANT);
 
             //Programmer
             $userProgrammer = $this->createUser('Programmer', 'programmer');
             $userProgrammer
-                ->addRole(User::ROLE_PROGRAMMER)
-            ;
+                ->addRole(User::ROLE_PROGRAMMER);
 
             //Olsx
             $userOlsx = $this->createUser('OLSX', 'olsx');
             $userOlsx
                 ->setOlsxIdentifier(33333)
                 ->setRegistered()
-                ->addRole(User::ROLE_OLSX)
-            ;
+                ->addRole(User::ROLE_OLSX);
 
             //User
             $userCustomer = $this->createUser('The customer', 'customer');
             $userCustomer
                 ->setCredit(320)
-                ->setGivenName('Johannie')
-            ;
+                ->setGivenName('Johannie');
 
             //We add a lot of user
             foreach (range(0, self::CUSTOMERS) as $index) {
@@ -144,8 +138,7 @@ class UserFixtures extends Fixture
         $all
             ->addRole(User::ROLE_ADMIN)
             ->addRole(User::ROLE_ACCOUNTANT)
-            ->addRole(User::ROLE_PROGRAMMER)
-        ;
+            ->addRole(User::ROLE_PROGRAMMER);
 
         return $all;
     }
@@ -164,8 +157,7 @@ class UserFixtures extends Fixture
             ->setPlainPassword($code)
             ->setGivenName('John')
             ->setName($label)
-            ->setType(PersonInterface::PHYSIC)
-        ;
+            ->setType(PersonInterface::PHYSIC);
 
         $user->setLanguage(LanguageInterface::FRENCH);
 
@@ -173,8 +165,7 @@ class UserFixtures extends Fixture
             ->setPostalCode('33000')
             ->setStreetAddress('rue du boulevard')
             ->setCountry('FR')
-            ->setLocality('locality')
-        ;
+            ->setLocality('locality');
 
         return $user;
     }
@@ -184,9 +175,7 @@ class UserFixtures extends Fixture
      *
      * @param int $index the index to name customer
      *
-     * @return UserInterface
-     *
-     * @throws Exception this should not happen because DateTimeInterface is used without argument.
+     * @throws Exception this should not happen because DateTimeInterface is used without argument
      */
     private function createCustomer($index): UserInterface
     {
@@ -200,8 +189,7 @@ class UserFixtures extends Fixture
             ->setGivenName("John{$index}")
             ->setName('Doe')
             ->setSociety("Society {$index}")
-            ->setType(0 === $index % 2)
-        ;
+            ->setType(0 === $index % 2);
         if (0 === $index % 8) {
             $user->setVat((string) VatManagerInterface::DOMTOM_VAT);
             $user->setPostalCode('97200');

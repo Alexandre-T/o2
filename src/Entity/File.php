@@ -16,7 +16,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File as HttpFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -100,7 +99,7 @@ class File implements EntityInterface
      *
      * @ORM\Column(type="datetime")
      *
-     * @var DateTimeInterface
+     * @var DateTimeImmutable
      */
     private $updatedAt;
 
@@ -165,17 +164,25 @@ class File implements EntityInterface
     }
 
     /**
+     * Updated datetime getter.
+     */
+    public function getUpdatedAt(): ?DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the  update. If this
      * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param HttpFile|UploadedFile $file the uploaded file
+     * @param HttpFile|UploadedFile|null $file the uploaded file
      *
      * @return File
      */
-    public function setFile(HttpFile $file = null): self
+    public function setFile(?HttpFile $file = null): self
     {
         $this->file = $file;
 

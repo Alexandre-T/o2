@@ -34,7 +34,7 @@ class LanguageValueValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
-        if (!$constraint instanceof LanguageValue) {
+        if (! $constraint instanceof LanguageValue) {
             throw new UnexpectedTypeException($constraint, LanguageValue::class);
         }
 
@@ -44,7 +44,7 @@ class LanguageValueValidator extends ConstraintValidator
             return;
         }
 
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             // throw this exception if your validator cannot handle the passed type so that it can be marked as invalid
             throw new UnexpectedValueException($value, 'string');
             // separate multiple types using pipes
@@ -54,8 +54,7 @@ class LanguageValueValidator extends ConstraintValidator
         if (LanguageInterface::FRENCH !== $value && LanguageInterface::ENGLISH !== $value) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ string }}', $value)
-                ->addViolation()
-            ;
+                ->addViolation();
         }
     }
 }

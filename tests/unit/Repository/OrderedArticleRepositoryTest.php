@@ -42,24 +42,17 @@ class OrderedArticleRepositoryTest extends KernelTestCase
      */
     private $orderedArticleRepository;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
 
         $this->orderedArticleRepository = $this->entityManager->getRepository(OrderedArticle::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -79,8 +72,9 @@ class OrderedArticleRepositoryTest extends KernelTestCase
         ]);
         self::assertNotNull($orderedArticles);
         self::assertIsArray($orderedArticles);
+        self::assertNotCount(0, $orderedArticles);
         $orderedArticle = $orderedArticles[0];
         self::assertInstanceOf(OrderedArticle::class, $orderedArticle);
-        self::assertEquals($expected, $orderedArticle->getQuantity());
+        self::assertSame($expected, $orderedArticle->getQuantity());
     }
 }

@@ -49,7 +49,7 @@ class PasswordLost
      *
      * @param string $mail mail of user who lost its password
      */
-    public function setMail(?string $mail): PasswordLost
+    public function setMail(?string $mail): self
     {
         $this->mail = $mail;
 

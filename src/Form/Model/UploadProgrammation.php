@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace App\Form\Model;
 
 use App\Entity\File;
-use App\Entity\Programmation as Programmation;
+use App\Entity\Programmation;
 use Symfony\Component\HttpFoundation\File\File as HttpFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -154,8 +154,7 @@ class UploadProgrammation
             ->setEthanolDone($this->isEthanolDone())
             ->setFapStopped($this->isFapStopped())
             ->setGearDone($this->isGearDone())
-            ->setStageOneDone($this->isStageOneDone())
-        ;
+            ->setStageOneDone($this->isStageOneDone());
     }
 
     /**

@@ -43,8 +43,7 @@ class PasswordLostFormType extends AbstractType
                 'label' => 'form.field.email',
                 'help' => 'form.help.email',
                 'required' => true,
-            ])
-        ;
+            ]);
     }
 
     /**

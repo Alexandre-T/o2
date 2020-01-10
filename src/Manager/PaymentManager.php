@@ -28,13 +28,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class PaymentManager
 {
     /**
-     * The entity manager interface.
-     *
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    /**
      * The payment repository.
      *
      * @var PaymentRepository
@@ -56,7 +49,6 @@ class PaymentManager
      */
     public function __construct(EntityManagerInterface $entityManager, TranslatorInterface $translator)
     {
-        $this->entityManager = $entityManager;
         $this->repository = $entityManager->getRepository(Payment::class);
         $this->translator = $translator;
     }

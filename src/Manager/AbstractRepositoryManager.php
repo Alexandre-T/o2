@@ -117,10 +117,10 @@ abstract class AbstractRepositoryManager implements ManagerInterface
      * @param string      $sortOrder sort order
      */
     public function paginate(
-     int $page = 1,
-     int $limit = self::LIMIT,
-     string $sortField = null,
-     $sortOrder = self::SORT
+        int $page = 1,
+        int $limit = self::LIMIT,
+        ?string $sortField = null,
+        $sortOrder = self::SORT
     ): PaginationInterface {
         $queryBuilder = $this->repository->createQueryBuilder($this->getDefaultAlias());
 
@@ -149,11 +149,11 @@ abstract class AbstractRepositoryManager implements ManagerInterface
      * @throws QueryExceptionAlias when criteria are not valid
      */
     public function paginateWithCriteria(
-     Criteria $criteria,
-     int $page = 1,
-     int $limit = self::LIMIT,
-     string $sortField = null,
-     $sortOrder = self::SORT
+        Criteria $criteria,
+        int $page = 1,
+        int $limit = self::LIMIT,
+        ?string $sortField = null,
+        $sortOrder = self::SORT
     ): PaginationInterface {
         $queryBuilder = $this->repository->createQueryBuilder($this->getDefaultAlias());
         $queryBuilder->addCriteria($criteria);
@@ -165,7 +165,7 @@ abstract class AbstractRepositoryManager implements ManagerInterface
             $limit,
             [
                 'defaultSortFieldName' => $sortField,
-                'defaultSortDirection' => 'ASC' == $sortOrder ? $sortOrder : 'DESC',
+                'defaultSortDirection' => 'ASC' === $sortOrder ? $sortOrder : 'DESC',
             ]
         );
     }

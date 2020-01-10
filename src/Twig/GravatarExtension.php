@@ -88,7 +88,7 @@ class GravatarExtension extends AbstractExtension
         // Default
         if (null !== $default) {
             $url .= null === $size ? '?' : '&';
-            $url .= in_array($default, $defaults) ? $default : urlencode($default);
+            $url .= in_array($default, $defaults, true) ? $default : urlencode($default);
         }
 
         return $url;

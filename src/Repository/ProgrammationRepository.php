@@ -19,7 +19,7 @@ use App\Entity\Programmation;
 use App\Model\Obsolete;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Exception;
+use Throwable;
 
 /**
  * Programmation repository.
@@ -44,13 +44,13 @@ class ProgrammationRepository extends ServiceEntityRepository
     /**
      * Find obsolete programmation.
      *
-     * @return array|Programmation[]
+     * @return Programmation[]
      */
     public function findObsolete()
     {
         try {
             $obsoleteDate = Obsolete::getLimitedDate();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             //this shall never happened
             return [];
         }
@@ -58,12 +58,11 @@ class ProgrammationRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('p');
 
         return $qb->where(
-                $qb->expr()->lt('p.createdAt', ':obsolete')
-            )
+            $qb->expr()->lt('p.createdAt', ':obsolete')
+        )
             ->setParameter('obsolete', $obsoleteDate)
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }

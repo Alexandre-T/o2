@@ -54,8 +54,7 @@ class CreditFormType extends AbstractType
             ->add('fiveHundred', QuantityType::class, [
                 'label' => 'form.field.article-500',
                 'help' => 'form.help.article-500',
-            ])
-        ;
+            ]);
     }
 
     /**

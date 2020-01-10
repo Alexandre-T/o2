@@ -65,7 +65,7 @@ class AccountantCreditOrder extends CreditOrder
      *
      * @param bool $credit True if you want to credit user
      */
-    public function setCredit(bool $credit): AccountantCreditOrder
+    public function setCredit(bool $credit): self
     {
         $this->credit = $credit;
 

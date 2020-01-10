@@ -68,7 +68,7 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
         /** @var ?Settings $setting */
         $setting = $this->repository->findOneByCode($code);
 
-        if (!$setting instanceof Settings) {
+        if (! $setting instanceof Settings) {
             throw new SettingsException("{$code} is not a code set in settings repository.");
         }
 
@@ -165,7 +165,7 @@ class SettingsManager extends AbstractRepositoryManager implements ManagerInterf
     {
         self::$data = [];
         foreach ($this->repository->findAll() as $setting) {
-            /* @var Settings $setting the repository is returning an array of settings */
+            /** @var Settings $setting the repository is returning an array of settings */
             self::$data[$setting->getCode()] = $setting;
         }
     }

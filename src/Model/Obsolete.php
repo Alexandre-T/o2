@@ -44,7 +44,7 @@ class Obsolete
     public static function getCurrentDate(): DateTimeInterface
     {
         //I use a singleton to avoid to generate a lot of DateTimeInterface
-        if (!self::$now instanceof DateTimeInterface) {
+        if (! self::$now instanceof DateTimeInterface) {
             self::$now = new DateTimeImmutable();
         }
 
@@ -58,7 +58,7 @@ class Obsolete
      */
     public static function getLimitedDate(): DateTimeInterface
     {
-        if (!self::$obsolescence instanceof DateTimeInterface) {
+        if (! self::$obsolescence instanceof DateTimeInterface) {
             $now = self::getCurrentDate();
             $date = $now->format('Y-m').'-1 00:00:00.000';
             $lastMonth = new DateTimeImmutable($date);

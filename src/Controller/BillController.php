@@ -54,7 +54,7 @@ class BillController extends AbstractPaginateController
      */
     public function list(BillManager $billManager, Request $request): Response
     {
-        if (!$this->validateSortedField($request, ['number', 'amount'])) {
+        if (! $this->validateSortedField($request, ['number', 'amount'])) {
             return $this->redirectToRoute('customer_bill_list');
         }
 

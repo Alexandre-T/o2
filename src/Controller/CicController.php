@@ -59,7 +59,7 @@ class CicController
         $api = new Api();
         $api->setConfig($configuration);
 
-        if (!$api->checkPaymentResponse($data)) {
+        if (! $api->checkPaymentResponse($data)) {
             return new Response(Api::NOTIFY_FAILURE);
         }
 

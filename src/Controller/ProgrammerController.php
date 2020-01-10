@@ -136,7 +136,7 @@ class ProgrammerController extends AbstractPaginateController
      */
     public function list(ProgrammationManager $programmationManager, Request $request): Response
     {
-        if (!$this->validateSortedField($request, ['createdAt', 'make', 'model', 'deliveredAt'])) {
+        if (! $this->validateSortedField($request, ['createdAt', 'make', 'model', 'deliveredAt'])) {
             return $this->redirectToRoute('programmer_list');
         }
 
@@ -242,13 +242,13 @@ class ProgrammerController extends AbstractPaginateController
      * @param TranslatorInterface  $trans                The translator
      */
     public function upload(
-     LoggerInterface $logger,
-     MailerInterface $mailer,
-     ProgrammationManager $programmationManager,
-     Programmation $programmation,
-     Request $request,
-     SettingsManager $settingsManager,
-     TranslatorInterface $trans
+        LoggerInterface $logger,
+        MailerInterface $mailer,
+        ProgrammationManager $programmationManager,
+        Programmation $programmation,
+        Request $request,
+        SettingsManager $settingsManager,
+        TranslatorInterface $trans
     ): Response {
         $model = new UploadProgrammation($programmation);
         $editForm = $this->createForm(UploadProgrammationFormType::class, $model);

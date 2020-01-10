@@ -62,7 +62,7 @@ class PasswordReset
      *
      * @param string|null $password the new password
      */
-    public function setPassword(?string $password): PasswordReset
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
@@ -74,7 +74,7 @@ class PasswordReset
      *
      * @param string|null $token the resetting token
      */
-    public function setToken(?string $token): PasswordReset
+    public function setToken(?string $token): self
     {
         $this->token = $token;
 

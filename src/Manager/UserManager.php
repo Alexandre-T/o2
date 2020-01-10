@@ -99,8 +99,7 @@ class UserManager extends AbstractRepositoryManager implements ManagerInterface
         return $queryBuilder
             ->addSelect('user.credit as HIDDEN credit')
             ->addSelect('user.mail as HIDDEN mail')
-            ->addSelect('user.name as HIDDEN username')
-        ;
+            ->addSelect('user.name as HIDDEN username');
     }
 
     /**

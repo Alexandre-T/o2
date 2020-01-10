@@ -20,7 +20,7 @@ use App\Entity\EntityInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Exception;
+use Throwable;
 
 /**
  * User Manager.
@@ -51,7 +51,7 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
             $this->save($customer);
             $this->save($askedVat);
             $this->entityManager->commit();
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             $this->entityManager->rollback();
         }
     }
@@ -180,8 +180,7 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
         return $queryBuilder
             ->innerJoin('askedVat.customer', 'customer')
             ->addSelect('customer.name as HIDDEN customers')
-            ->addSelect('askedVat.createdAt as HIDDEN createdAt')
-            ;
+            ->addSelect('askedVat.createdAt as HIDDEN createdAt');
     }
 
     /**

@@ -137,11 +137,11 @@ class AskedVatFixtures extends Fixture implements DependentFixtureInterface
      * @param int|null    $decision   the decision
      */
     private function createEntity(
-     string $customer,
-     float $vat,
-     string $vatNumber = null,
-     User $accountant = null,
-     int $decision = null
+        string $customer,
+        float $vat,
+        ?string $vatNumber = null,
+        ?User $accountant = null,
+        ?int $decision = null
     ): AskedVat {
         $asked = new AskedVat();
         /** @var User $user */

@@ -20,11 +20,11 @@ use DateInterval;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Exception;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Throwable;
 
 /**
  * User repository.
@@ -75,9 +75,8 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 ->setParameter('yesterday', $yesterday)
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getOneOrNullResult()
-            ;
-        } catch (Exception $exception) {
+                ->getOneOrNullResult();
+        } catch (Throwable $exception) {
             return null;
         }
     }
@@ -92,7 +91,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     public function loadUserByUsername($username): UserInterface
     {
         $user = $this->findOneByMail($username);
-        if (!$user) {
+        if (! $user) {
             throw new UsernameNotFoundException('No user found for username '.$username);
         }
 
@@ -117,13 +116,14 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     public function refreshUser(UserInterface $user)
     {
         $class = get_class($user);
-        if (!$this->supportsClass($class)) {
+        if (! $this->supportsClass($class)) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $class));
         }
 
         /** @var UserInterface $refreshedUser */
         /** @var User $user */
-        if (!$refreshedUser = $this->find($user->getId())) {
+        $refreshedUser = $this->find($user->getId());
+        if (! $refreshedUser) {
             throw new UsernameNotFoundException(sprintf('User with id %s not found', json_encode($user->getId())));
         }
 

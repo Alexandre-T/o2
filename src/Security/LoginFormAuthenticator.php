@@ -95,12 +95,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * @param UserPasswordEncoderInterface $passwordEncoder the password encoder to test password sent with encrypted
      */
     public function __construct(
-     FormFactoryInterface $formFactory,
-     FlashBagInterface $flashBag,
-     LoggerInterface $logger,
-     UrlGeneratorInterface $urlGenerator,
-     TranslatorInterface $translator,
-     UserPasswordEncoderInterface $passwordEncoder
+        FormFactoryInterface $formFactory,
+        FlashBagInterface $flashBag,
+        LoggerInterface $logger,
+        UrlGeneratorInterface $urlGenerator,
+        TranslatorInterface $translator,
+        UserPasswordEncoderInterface $passwordEncoder
     ) {
         $this->flashBag = $flashBag;
         $this->formFactory = $formFactory;
@@ -219,9 +219,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             'success',
             $this->translator->trans('security.connection.successful %username%', [
                 '%username%' => $token->getUser()->getUsername(),
-            ]));
+            ])
+        );
 
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+        $targetPath = $this->getTargetPath($request->getSession(), $providerKey);
+        if ($targetPath) {
             return new RedirectResponse($targetPath);
         }
 

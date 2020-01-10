@@ -65,7 +65,7 @@ class ServiceStatus
      *
      * @param DateTimeInterface|null $endAt the new end
      */
-    public function setEndAt(?DateTimeInterface $endAt): ServiceStatus
+    public function setEndAt(?DateTimeInterface $endAt): self
     {
         $this->endAt = $endAt;
 
@@ -77,7 +77,7 @@ class ServiceStatus
      *
      * @param int|null $status the new status
      */
-    public function setStatus(?int $status): ServiceStatus
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
 

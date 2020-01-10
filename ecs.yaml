@@ -1,0 +1,458 @@
+# ecs.yaml
+imports:
+#    - { resource: 'vendor/symplify/easy-coding-standard/config/set/*.yaml' }
+#    - { resource: 'vendor/symplify/easy-coding-standard/config/set/php_codesniffer/*.yaml' }
+#    - { resource: 'vendor/symplify/easy-coding-standard/config/set/php_cs_fixer/*.yaml' }
+#    - { resource: 'vendor/symplify/easy-coding-standard/config/set/common/*.yaml' }
+
+services:
+
+    #Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer: ~
+
+    ###################
+    ## SYMFONY RISKY ##
+    ###################
+    # PHP-CS-Fixer only
+    PhpCsFixer\Fixer\LanguageConstruct\DirConstantFixer: ~
+    PhpCsFixer\Fixer\Alias\EregToPregFixer: ~
+    PhpCsFixer\Fixer\LanguageConstruct\FunctionToConstantFixer: ~
+    PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer: ~
+    PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer: ~
+    PhpCsFixer\Fixer\Alias\NoAliasFunctionsFixer: ~
+    PhpCsFixer\Fixer\Basic\NonPrintableCharacterFixer:
+        use_escape_sequences_in_strings: false
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitConstructFixer: ~
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertFixer: ~
+    PhpCsFixer\Fixer\Basic\Psr4Fixer: ~
+    PhpCsFixer\Fixer\ClassNotation\SelfAccessorFixer: ~
+    PhpCsFixer\Fixer\LanguageConstruct\SilencedDeprecationErrorFixer: ~
+    # php-cs-fixer 2.7+
+    PhpCsFixer\Fixer\Naming\NoHomoglyphNamesFixer: ~
+
+    #############
+    ## SYMFONY ##
+    #############
+#    PhpCsFixer\Fixer\Basic\BracesFixer:
+#        allow_single_line_closure: true
+    PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer: ~
+    PhpCsFixer\Fixer\Operator\ConcatSpaceFixer:
+        spacing: none
+    PhpCsFixer\Fixer\Operator\NewWithBracesFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer:
+        tags:
+            - method
+            - param
+            - property
+            - return
+            - throws
+            - type
+            - var
+    PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer: ~
+    PhpCsFixer\Fixer\Operator\IncrementStyleFixer: ~
+    PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer: ~
+    PhpCsFixer\Fixer\Whitespace\BlankLineBeforeStatementFixer: ~
+    PhpCsFixer\Fixer\CastNotation\CastSpacesFixer: ~
+    PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer: ~
+    PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer:
+        comment_types:
+            - hash
+    PhpCsFixer\Fixer\ControlStructure\IncludeFixer: ~
+    PhpCsFixer\Fixer\CastNotation\LowercaseCastFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer:
+        elements:
+            - method
+    PhpCsFixer\Fixer\Casing\NativeFunctionCasingFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer: ~
+    PhpCsFixer\Fixer\Comment\NoEmptyCommentFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocSeparationFixer: ~
+    PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer: ~
+    PhpCsFixer\Fixer\Whitespace\NoExtraBlankLinesFixer:
+        tokens:
+            - curly_brace_block
+            - extra
+            - parenthesis_brace_block
+            - square_brace_block
+            - throw
+            - use
+    PhpCsFixer\Fixer\NamespaceNotation\NoLeadingNamespaceWhitespaceFixer: ~
+    PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer: ~
+    PhpCsFixer\Fixer\CastNotation\NoShortBoolCastFixer: ~
+    PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer: ~
+    PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\NoTrailingCommaInListCallFixer: ~
+    PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer: ~
+    PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer: ~
+    PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer: ~
+    PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer: ~
+    PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer: ~
+    PhpCsFixer\Fixer\Operator\ObjectOperatorWithoutWhitespaceFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocAnnotationWithoutDotFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocInlineTagFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocNoAccessFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocNoPackageFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocNoUselessInheritdocFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocReturnSelfReferenceFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocScalarFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocSingleLineVarSpacingFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocSummaryFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer: ~
+    PhpCsFixer\Fixer\CastNotation\ShortScalarCastFixer: ~
+    PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer: ~
+    PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer: ~
+    PhpCsFixer\Fixer\Operator\StandardizeNotEqualsFixer: ~
+    PhpCsFixer\Fixer\Operator\TernaryOperatorSpacesFixer: ~
+    PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer: ~
+    PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer:
+        singleLine: true
+    PhpCsFixer\Fixer\Casing\MagicConstantCasingFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer: ~
+    PhpCsFixer\Fixer\Alias\NoMixedEchoPrintFixer:
+        use: echo
+    PhpCsFixer\Fixer\Import\NoLeadingImportSlashFixer: ~
+    PhpCsFixer\Fixer\Import\NoUnusedImportsFixer: ~
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer: ~
+    PhpCsFixer\Fixer\Phpdoc\PhpdocNoAliasTagFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer: ~
+    PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer: ~
+
+    # new since PHP-CS-Fixer 2.6
+    PhpCsFixer\Fixer\ControlStructure\NoUnneededCurlyBracesFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\NoUnneededFinalMethodFixer: ~
+    PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer: ~
+
+    # new since 2.11
+    PhpCsFixer\Fixer\Operator\StandardizeIncrementFixer: ~
+
+    ##################
+    ## PHP CS FIXER ##
+    ##################
+    # PSR1
+    PhpCsFixer\Fixer\Basic\EncodingFixer: ~
+    PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer: ~
+
+    PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\ElseifFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\FunctionDeclarationFixer: ~
+    PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer: ~
+#FIXME Remove this comment?????
+#    PhpCsFixer\Fixer\Whitespace\LineEndingFixer: ~
+    PhpCsFixer\Fixer\Casing\ConstantCaseFixer: ~
+    PhpCsFixer\Fixer\Casing\LowercaseKeywordsFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\NoBreakCommentFixer: ~
+    PhpCsFixer\Fixer\PhpTag\NoClosingTagFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\NoSpacesAfterFunctionNameFixer: ~
+    PhpCsFixer\Fixer\Whitespace\NoSpacesInsideParenthesisFixer: ~
+    PhpCsFixer\Fixer\Whitespace\NoTrailingWhitespaceFixer: ~
+    PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer: ~
+    PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer: ~
+    PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\SwitchCaseSemicolonToColonFixer: ~
+    PhpCsFixer\Fixer\ControlStructure\SwitchCaseSpaceFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer: ~
+
+
+    ##################
+    ## CODE SNIFFER ##
+    ##################
+
+
+
+    ###############
+    ## PHP PSR12 ##
+    ###############
+    PhpCsFixer\Fixer\Import\OrderedImportsFixer:
+        importsOrder:
+            - 'class'
+            - 'const'
+            - 'function'
+
+    ##############
+    ## PHP PSR2 ##
+    ##############
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\Namespaces\NamespaceDeclarationSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\Namespaces\UseDeclarationSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\ClassDeclarationSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\PropertyDeclarationSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\Files\EndFileNewlineSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\Files\ClosingTagSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\ControlStructures\ControlStructureSpacingSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\ControlStructures\SwitchDeclarationSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\ControlStructures\ElseIfDeclarationSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\FunctionCallSignatureSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff:
+    PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\FunctionClosingBraceSniff:
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Files\ByteOrderMarkSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\Classes\ValidClassNameSniff:
+    PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\UpperCaseConstantNameSniff:
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineEndingsSniff:
+        eolChar: \n
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff:
+        ignoreBlankLines: true
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\DisallowMultipleStatementsSniff:
+    PHP_CodeSniffer\Standards\Generic\Sniffs\WhiteSpace\ScopeIndentSniff:
+        ignoreIndentationTokens:
+            - T_COMMENT
+            - T_DOC_COMMENT_OPEN_TAG
+    PHP_CodeSniffer\Standards\Generic\Sniffs\WhiteSpace\DisallowTabIndentSniff:
+    PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\LowerCaseKeywordSniff:
+    PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\LowerCaseConstantSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\Scope\MethodScopeSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ScopeKeywordSpacingSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\FunctionDeclarationSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\LowercaseFunctionKeywordsSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\FunctionDeclarationArgumentSpacingSniff:
+        equalsSpacing: 1
+    PHP_CodeSniffer\Standards\PEAR\Sniffs\Functions\ValidDefaultValueSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions\MultiLineFunctionDeclarationSniff:
+    PHP_CodeSniffer\Standards\Generic\Sniffs\Functions\FunctionCallArgumentSpacingSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ControlSignatureSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ControlStructureSpacingSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ScopeClosingBraceSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ForEachLoopDeclarationSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\ForLoopDeclarationSniff:
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\ControlStructures\LowercaseDeclarationSniff:
+    PHP_CodeSniffer\Standards\Generic\Sniffs\ControlStructures\InlineControlStructureSniff:
+
+    #############
+    ## PHP 7.2 ##
+    #############
+    # All elements should have visibility
+#    PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer:
+#        elements: [const, property, method]
+
+    # Turn list() into []
+    PhpCsFixer\Fixer\ListNotation\ListSyntaxFixer:
+        syntax: short
+
+    # Nullable Type hints
+    SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff: ~
+    PhpCsFixer\Fixer\Whitespace\CompactNullableTypehintFixer: ~
+
+    # Void Type hints
+    PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer: ~
+
+    #############
+    ## PHP 7.1 ##
+    #############
+    # new methods
+    PhpCsFixer\Fixer\Alias\RandomApiMigrationFixer:
+        mt_rand: random_int
+        rand: random_int
+
+    # ?? operator
+    PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer: ~
+
+    # strict types
+    PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer: ~
+
+    # throwable
+    SlevomatCodingStandard\Sniffs\Exceptions\ReferenceThrowableOnlySniff: ~
+
+    ############
+    ## COMMON ##
+    ############
+    PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer: ~
+
+    # check for forgotten "git merge" conflicts
+    PHP_CodeSniffer\Standards\Generic\Sniffs\VersionControl\GitMergeConflictSniff: ~
+
+    # remove empty inline comments
+    SlevomatCodingStandard\Sniffs\Commenting\EmptyCommentSniff:
+
+    # __CONSTRUCT()   =>   __construct()
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitMethodCasingFixer: ~
+
+    # __CLASS__   =>   self::class
+    SlevomatCodingStandard\Sniffs\Classes\ModernClassNameReferenceSniff: ~
+
+    # "$var" => "${var}"
+    PhpCsFixer\Fixer\StringNotation\ExplicitStringVariableFixer: ~
+    PhpCsFixer\Fixer\LanguageConstruct\ExplicitIndirectVariableFixer: ~
+
+    # if ($value = $this->someMethod()) { ... }
+    PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff: ~
+
+    # if (...) { return 1; } else { return 2; }
+    PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer: ~
+
+    # private $property; public $anotherProperty;
+    PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer: ~
+
+    # use SomeTrait, AnotherTrait;   →   use SomeTrait;\nuse AnotherTrait;
+    SlevomatCodingStandard\Sniffs\Classes\TraitUseDeclarationSniff: ~
+
+    # null|Type   →   Type|null
+    SlevomatCodingStandard\Sniffs\TypeHints\NullTypeHintOnLastPositionSniff: ~
+
+    # remove empty spaces in phpdoc
+    PhpCsFixer\Fixer\Comment\NoTrailingWhitespaceInCommentFixer:
+
+    # trim 2+ empty lines in PhpDoc to 1
+    PhpCsFixer\Fixer\Phpdoc\PhpdocTrimConsecutiveBlankLineSeparationFixer: ~
+
+    # remove empty phpdocs
+    Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer: ~
+
+    # remove inheritdoc
+    PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer:
+        remove_inheritdoc: true
+
+    # remove unused aliases
+    SlevomatCodingStandard\Sniffs\Namespaces\UselessAliasSniff: ~
+
+    # $this->assertEquals()    =>    $this->assertSame()
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer: ~
+
+    # test<>()
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitTestAnnotationFixer: ~
+
+    # public setUp()   =>   protected setUp()
+    PhpCsFixer\Fixer\PhpUnit\PhpUnitSetUpTearDownVisibilityFixer: ~
+
+    # $builder->addThis()\n    ->addThat();
+    PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer: ~
+
+    # if (! $statement) {...
+    PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer: ~
+
+    # ...
+    #FIXME CA FOUT LA MERDE
+#    PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff:
+#        ignoreBlankLines: false
+
+    PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff: ~
+
+    SlevomatCodingStandard\Sniffs\Classes\TraitUseSpacingSniff:
+        linesCountAfterLastUse: 1
+        linesCountAfterLastUseWhenLastInClass: 0
+        linesCountBeforeFirstUse: 0
+        linesCountBetweenUses: 0
+
+    # $value == 5;   =>   $value === 5;
+    PhpCsFixer\Fixer\Strict\StrictComparisonFixer: ~
+
+    # in_array('key', $value)   =>   in_array('key', $value, true)
+    PhpCsFixer\Fixer\Strict\StrictParamFixer: ~
+
+    ################
+    ## CLEAN CODE ##
+    ################
+    # fix all @param, @var, @return tag mallforms
+    Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer: ~
+    SlevomatCodingStandard\Sniffs\Variables\UselessVariableSniff: ~
+
+    # echo "hi";;   →   echo "hi";
+    SlevomatCodingStandard\Sniffs\PHP\UselessSemicolonSniff: ~
+
+    # ((new Class))->call()   →     (new Class)->call()
+    SlevomatCodingStandard\Sniffs\PHP\UselessParenthesesSniff: ~
+
+    # use short array []
+    PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer:
+        syntax: short
+
+    # detect dead code
+
+    # $var = 5; return $var;    →    return $var;
+    PhpCsFixer\Fixer\ReturnNotation\ReturnAssignmentFixer:
+
+    # $var = $foo : $foo ? $bar → $var = $foo ?: $bar
+    SlevomatCodingStandard\Sniffs\ControlStructures\RequireShortTernaryOperatorSniff:
+
+    # $var = $var + foo → $var += $foo
+    SlevomatCodingStandard\Sniffs\Operators\RequireCombinedAssignmentOperatorSniff:
+
+    ################
+    ## DEAD CODE  ##
+    ################
+    SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff: ~
+    SlevomatCodingStandard\Sniffs\Functions\UnusedInheritedVariablePassedToClosureSniff: ~
+    SlevomatCodingStandard\Sniffs\Functions\UnusedParameterSniff: ~
+    SlevomatCodingStandard\Sniffs\Variables\UnusedVariableSniff: ~
+
+#FIXME REMOVE COMMENTS
+#    SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff: ~
+#    SlevomatCodingStandard\Sniffs\TypeHints\PropertyTypeHintSniff: ~
+#    SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff: ~
+#    # class has to be final, abstract or Doctrine entity
+    PhpCsFixer\Fixer\ClassNotation\FinalInternalClassFixer: ~
+#
+#    # property doc should be docblock
+#    PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer: ~
+#
+#    # import namespaces for classes, constants and functions
+#    # configuration: https://github.com/slevomat/coding-standard#slevomatcodingstandardnamespacesreferenceusednamesonly-
+#    SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff:
+#        searchAnnotations: true
+#        allowFallbackGlobalFunctions: true
+#        allowFallbackGlobalConstants: true
+#        allowPartialUses: false
+#
+#    # see https://github.com/symplify/codingstandard to see all loaded Symplify checkers
+#    Symplify\CodingStandard\:
+#        resource: '../src'
+#        # checkers that needs configuration to run
+#        exclude:
+#            - '../src/Sniffs/DeadCode/UnusedPublicMethodSniff.php'
+#            - '../src/Sniffs/CleanCode/ForbiddenParentClassSniff.php'
+#            - '../src/Fixer/Order/MethodOrderByTypeFixer.php'
+#
+#    Symplify\PackageBuilder\Types\ClassLikeExistenceChecker: ~
+#    PhpCsFixer\Tokenizer\Analyzer\ArgumentsAnalyzer: ~
+#
+#    Symplify\CodingStandard\Sniffs\Architecture\DuplicatedClassShortNameSniff:
+#        allowed_class_names:
+#            - 'File*'
+#            # per monorepo package unique
+#            - '*Exception'
+#            - 'Option'
+#            - 'InitCommand'
+#            - 'ConvertCommand'
+#            # duplicated deprecation
+#            - 'FinderSanitizer'
+#            # extended 3rd party class
+#            - 'CommentedOutCodeSniff'
+#            # tests
+#            - 'Some*'
+#            - 'GithubApi'
+#
+
+parameters:
+    skip:
+        # PSR12
+        PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer: ~
+        # Only some rules from ControlStructureSpacingSniff are part of PSR-2, skip the rest:
+        PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ControlStructureSpacingSniff.SpacingAfterOpenBrace: ~
+        PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ControlStructureSpacingSniff.SpaceBeforeCloseBrace: ~
+        PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ControlStructureSpacingSniff.LineAfterClose: ~
+        PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\ControlStructureSpacingSniff.NoLineAfterClose: ~
+        # PSR-2 does not enforce line alignment (https://www.php-fig.org/psr/psr-2/#7-conclusion)
+        PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\FunctionCallSignatureSniff.OpeningIndent: ~
+
+        ## OUR SKIP ##
+        SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff.UnusedProperty:
+            - 'src/Entity/OrderedArticle.php' #Because Loggable is not usable on composite key
+            - 'src/Entity/Order.php' #Because Loggable is not usable on composite key
+            - 'src/Entity/Bill.php'  #Because Loggable is not usable on composite key
+        SlevomatCodingStandard\Sniffs\Functions\UnusedParameterSniff.UnusedParameter:
+            - '*src/Migrations/Version*.php'
+            - 'src/Security/LoginFormAuthenticator.php'
+            - 'src/Manager/SettingsManager.php'
+            - 'src/Manager/ProgrammationManager.php'
+            - 'src/Manager/BillManager.php'
+    exclude_files:
+        # generated files
+        - '*tests/_support/_generated/*.php'

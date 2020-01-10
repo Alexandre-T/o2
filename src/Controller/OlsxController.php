@@ -51,10 +51,10 @@ class OlsxController extends AbstractController
      * @param MailerInterface     $mailer      to sent a mail on success
      */
     public function registering(
-     Request $request,
-     UserManager $userManager,
-     EvcServiceInterface $evcService,
-     MailerInterface $mailer
+        Request $request,
+        UserManager $userManager,
+        EvcServiceInterface $evcService,
+        MailerInterface $mailer
     ): Response {
         /** @var User $user */
         $user = $this->getUser();

@@ -33,8 +33,7 @@ class DeleteFormType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('delete', ConfirmationType::class)
-        ;
+            ->add('delete', ConfirmationType::class);
     }
 
     /**

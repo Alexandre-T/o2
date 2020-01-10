@@ -48,18 +48,18 @@ class BillFactoryTest extends Unit
         $customer->setLocality('bar');
 
         $factoredBill = BillFactory::create($order, $customer);
-        self::assertEquals($order, $factoredBill->getOrder());
-        self::assertEquals($customer, $factoredBill->getCustomer());
-        self::assertEquals('foo', $factoredBill->getName());
-        self::assertEquals('bar', $factoredBill->getLocality());
-        self::assertEquals(42.42, $factoredBill->getPrice());
+        self::assertSame($order, $factoredBill->getOrder());
+        self::assertSame($customer, $factoredBill->getCustomer());
+        self::assertSame('foo', $factoredBill->getName());
+        self::assertSame('bar', $factoredBill->getLocality());
+        self::assertSame(42.42, $factoredBill->getPrice());
 
         $order->setCustomer($customer);
         $factoredBill = BillFactory::create($order);
-        self::assertEquals($order, $factoredBill->getOrder());
-        self::assertEquals($customer, $factoredBill->getCustomer());
-        self::assertEquals('foo', $factoredBill->getName());
-        self::assertEquals('bar', $factoredBill->getLocality());
-        self::assertEquals(42.42, $factoredBill->getPrice());
+        self::assertSame($order, $factoredBill->getOrder());
+        self::assertSame($customer, $factoredBill->getCustomer());
+        self::assertSame('foo', $factoredBill->getName());
+        self::assertSame('bar', $factoredBill->getLocality());
+        self::assertSame(42.42, $factoredBill->getPrice());
     }
 }

@@ -74,7 +74,7 @@ class NumberExtension extends AbstractExtension
      * @param string|null $currency the currency to format
      * @param string|null $locale   the locale or user language if not provided
      */
-    public function currencyFilter($number, string $currency = 'EUR', string $locale = null): string
+    public function currencyFilter($number, string $currency = 'EUR', ?string $locale = null): string
     {
         $locale = $this->getLocale($locale);
 
@@ -95,13 +95,13 @@ class NumberExtension extends AbstractExtension
      * @return bool|false|string
      */
     public function dateFilter(
-     $date,
-     $dateFormat = 'medium',
-     $timeFormat = 'medium',
-     $locale = null,
-     $timezone = null,
-     $format = null,
-     $calendar = 'gregorian'
+        $date,
+        $dateFormat = 'medium',
+        $timeFormat = 'medium',
+        $locale = null,
+        $timezone = null,
+        $format = null,
+        $calendar = 'gregorian'
     ): string {
         $locale = $this->getLocale($locale);
 
@@ -186,7 +186,7 @@ class NumberExtension extends AbstractExtension
      * @param string|null $locale the locale
      * @param string      $type   the type of the number
      */
-    public function integerFilter($number, string $locale = null, string $type = 'int64'): string
+    public function integerFilter($number, ?string $locale = null, string $type = 'int64'): string
     {
         $locale = null !== $locale ? $locale : $this->locale;
 
@@ -203,7 +203,7 @@ class NumberExtension extends AbstractExtension
             'currency' => NumberFormatter::TYPE_CURRENCY,
         ];
 
-        if (!isset($typeValues[$type])) {
+        if (! isset($typeValues[$type])) {
             $type = 'default';
         }
 
@@ -221,10 +221,10 @@ class NumberExtension extends AbstractExtension
      * @throws SyntaxError by twig intl extension
      */
     public function numberFilter(
-     $number,
-     string $style = 'decimal',
-     string $type = 'default',
-     string $locale = null
+        $number,
+        string $style = 'decimal',
+        string $type = 'default',
+        ?string $locale = null
     ): string {
         $locale = $this->getLocale($locale);
 
@@ -239,7 +239,7 @@ class NumberExtension extends AbstractExtension
      * @param int         $decimals the number of decimals
      * @param string|null $locale   the locale
      */
-    public function percentFilter($number, string $type = 'default', int $decimals = 2, string $locale = null): string
+    public function percentFilter($number, string $type = 'default', int $decimals = 2, ?string $locale = null): string
     {
         $locale = null !== $locale ? $locale : $this->locale;
 
@@ -254,7 +254,7 @@ class NumberExtension extends AbstractExtension
             'currency' => NumberFormatter::TYPE_CURRENCY,
         ];
 
-        if (!isset($typeValues[$type])) {
+        if (! isset($typeValues[$type])) {
             $type = 'default';
         }
 
@@ -281,7 +281,7 @@ class NumberExtension extends AbstractExtension
      *
      * @param string|null $locale the optional locale
      */
-    private function getLocale(string $locale = null): string
+    private function getLocale(?string $locale = null): string
     {
         if (null === $locale) {
             return $this->locale;

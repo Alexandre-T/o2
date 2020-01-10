@@ -82,10 +82,10 @@ class UserController extends AbstractPaginateController
      * @param TranslatorInterface $trans   The translator
      */
     public function delete(
-     User $user,
-     Request $request,
-     UserManager $manager,
-     TranslatorInterface $trans
+        User $user,
+        Request $request,
+        UserManager $manager,
+        TranslatorInterface $trans
     ): RedirectResponse {
         $form = $this->createForm(DeleteFormType::class, $user);
         $form->handleRequest($request);
@@ -96,7 +96,7 @@ class UserController extends AbstractPaginateController
             $manager->delete($user);
             $message = $trans->trans('entity.user.deleted %name%', ['%name%' => $user->getLabel()]);
             $this->addFlash('success', $message);
-        } elseif (!$isDeletable) {
+        } elseif (! $isDeletable) {
             $message = $trans->trans('entity.user.deleted %name%', ['%name%' => $user->getLabel()]);
             $this->addFlash('warning', $message);
 
@@ -157,7 +157,7 @@ class UserController extends AbstractPaginateController
      */
     public function list(UserManager $userManager, Request $request): Response
     {
-        if (!$this->validateSortedField($request, ['username', 'mail'])) {
+        if (! $this->validateSortedField($request, ['username', 'mail'])) {
             return $this->redirectToRoute('administration_user_index');
         }
 

@@ -80,12 +80,12 @@ class AccountantController extends AbstractPaginateController
      * @param UserManager  $userManager  User manager
      */
     public function bill(
-     User $user,
-     BillManager $billManager,
-     OrderManager $orderManager,
-     Payum $payum,
-     Request $request,
-     UserManager $userManager
+        User $user,
+        BillManager $billManager,
+        OrderManager $orderManager,
+        Payum $payum,
+        Request $request,
+        UserManager $userManager
     ): Response {
         $order = $orderManager->getOrCreateCartedOrder($user);
         $model = new AccountantCreditOrder();
@@ -164,7 +164,7 @@ class AccountantController extends AbstractPaginateController
      */
     public function listBill(BillManager $billManager, Request $request): Response
     {
-        if (!$this->validateSortedField($request, ['number', 'customers', 'amount'])) {
+        if (! $this->validateSortedField($request, ['number', 'customers', 'amount'])) {
             return $this->redirectToRoute('accountant_bill_list');
         }
 
@@ -200,7 +200,7 @@ class AccountantController extends AbstractPaginateController
      */
     public function listUser(UserManager $userManager, Request $request): Response
     {
-        if (!$this->validateSortedField($request, ['username', 'mail', 'credit'])) {
+        if (! $this->validateSortedField($request, ['username', 'mail', 'credit'])) {
             return $this->redirectToRoute('accountant_user_list');
         }
 
@@ -232,7 +232,7 @@ class AccountantController extends AbstractPaginateController
      */
     public function listVat(AskedVatManager $vatManager, Request $request): Response
     {
-        if (!$this->validateSortedField($request, ['createdAt', 'customers'])) {
+        if (! $this->validateSortedField($request, ['createdAt', 'customers'])) {
             return $this->redirectToRoute('accountant_vat_list');
         }
 

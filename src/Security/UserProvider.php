@@ -60,10 +60,9 @@ class UserProvider implements UserProviderInterface
         // method in your User class.
         $user = $this->entityManager
             ->getRepository(User::class)
-            ->findOneBy(['mail' => $username])
-        ;
+            ->findOneBy(['mail' => $username]);
 
-        if (!$user instanceof UserInterface) {
+        if (! $user instanceof UserInterface) {
             throw new UsernameNotFoundException('TODO: fill in loadUserByUsername() inside '.__FILE__);
         }
 
@@ -90,7 +89,7 @@ class UserProvider implements UserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        if (!$user instanceof User) {
+        if (! $user instanceof User) {
             throw new UnsupportedUserException(sprintf('Invalid user class "%s".', get_class($user)));
         }
 
@@ -98,10 +97,9 @@ class UserProvider implements UserProviderInterface
         // Or throw a UsernameNotFoundException if the user no longer exists.
         $user = $this->entityManager
             ->getRepository('App:User')
-            ->findOneBy(['mail' => $user->getUsername()])
-        ;
+            ->findOneBy(['mail' => $user->getUsername()]);
 
-        if (!$user instanceof UserInterface) {
+        if (! $user instanceof UserInterface) {
             throw new UsernameNotFoundException('TODO: fill in loadUserByUsername() inside '.__FILE__);
         }
 

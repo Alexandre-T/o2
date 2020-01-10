@@ -77,7 +77,7 @@ class PaymentTest extends Unit
     public function testOrder(): void
     {
         $order = new Order();
-        self::assertEquals($this->payment, $this->payment->setOrder($order));
-        self::assertEquals($order, $this->payment->getOrder());
+        self::assertSame($this->payment, $this->payment->setOrder($order));
+        self::assertSame($order, $this->payment->getOrder());
     }
 }

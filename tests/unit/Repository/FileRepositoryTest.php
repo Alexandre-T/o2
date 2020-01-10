@@ -42,24 +42,17 @@ class FileRepositoryTest extends KernelTestCase
      */
     private $fileRepository;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
 
         $this->fileRepository = $this->entityManager->getRepository(File::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -79,7 +72,7 @@ class FileRepositoryTest extends KernelTestCase
         ]);
         self::assertNotNull($file);
         self::assertInstanceOf(File::class, $file);
-        self::assertEquals($expected, $file->getId());
+        self::assertSame($expected, $file->getId());
 
         $actual = 9999;
         $file = $this->fileRepository->findOneBy([

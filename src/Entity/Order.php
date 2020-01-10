@@ -214,7 +214,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      */
     public function addBill(Bill $bill): self
     {
-        if (!$this->bills->contains($bill)) {
+        if (! $this->bills->contains($bill)) {
             $this->bills[] = $bill;
             $bill->setOrder($this);
         }
@@ -231,7 +231,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      */
     public function addOrderedArticle(OrderedArticle $orderedArticle): self
     {
-        if (!$this->orderedArticles->contains($orderedArticle)) {
+        if (! $this->orderedArticles->contains($orderedArticle)) {
             $this->orderedArticles[] = $orderedArticle;
             $orderedArticle->setOrder($this);
         }
@@ -251,7 +251,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      */
     public function addPayment(Payment $payment): self
     {
-        if (!$this->payments->contains($payment)) {
+        if (! $this->payments->contains($payment)) {
             $this->payments[] = $payment;
             $payment->setOrder($this);
         }

@@ -97,7 +97,7 @@ class Vat
      *
      * @param string|null $explanation the new explanation
      */
-    public function setExplanation(?string $explanation): Vat
+    public function setExplanation(?string $explanation): self
     {
         $this->explanation = $explanation;
 
@@ -109,7 +109,7 @@ class Vat
      *
      * @param string $vat mail of user who lost its password
      */
-    public function setVat(?string $vat): Vat
+    public function setVat(?string $vat): self
     {
         $this->vat = $vat;
 
@@ -125,21 +125,19 @@ class Vat
      */
     public function validate(ExecutionContextInterface $context): void
     {
-        if (!$this->isVatChanged()) {
+        if (! $this->isVatChanged()) {
             $context->buildViolation('error.vat.same')
-                ->addViolation()
-            ;
+                ->addViolation();
         }
 
-        if (empty($this->getExplanation()) && !$this->isVatDefault()) {
+        if (empty($this->getExplanation()) && ! $this->isVatDefault()) {
             $message = 'error.vat.empty-europe';
             if ((float) $this->getVat() === (float) VatManagerInterface::DOMTOM_VAT) {
                 $message = 'error.vat.empty-domtom';
             }
 
             $context->buildViolation($message)
-                ->addViolation()
-            ;
+                ->addViolation();
         }
     }
 

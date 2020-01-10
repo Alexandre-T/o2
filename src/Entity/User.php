@@ -69,9 +69,13 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      * Each available roles.
      */
     public const ROLE_ACCOUNTANT = 'ROLE_ACCOUNTANT';
+
     public const ROLE_ADMIN = 'ROLE_ADMIN';
+
     public const ROLE_OLSX = 'ROLE_OLSX';
+
     public const ROLE_PROGRAMMER = 'ROLE_PROGRAMMER';
+
     public const ROLE_USER = 'ROLE_USER';
 
     /**
@@ -233,7 +237,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      */
     public function addBill(Bill $bill): self
     {
-        if (!$this->bills->contains($bill)) {
+        if (! $this->bills->contains($bill)) {
             $this->bills[] = $bill;
             $bill->setCustomer($this);
         }
@@ -264,7 +268,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      */
     public function addOrder(Order $order): self
     {
-        if (!$this->orders->contains($order)) {
+        if (! $this->orders->contains($order)) {
             $this->orders[] = $order;
             $order->setCustomer($this);
         }
@@ -281,7 +285,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      */
     public function addProgrammation(Programmation $programmation): self
     {
-        if (!$this->programmations->contains($programmation)) {
+        if (! $this->programmations->contains($programmation)) {
             $this->programmations[] = $programmation;
             $programmation->setCustomer($this);
         }
@@ -294,9 +298,9 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      *
      * @param string $role role to add
      */
-    public function addRole(string $role): User
+    public function addRole(string $role): self
     {
-        if (!$this->hasRole($role)) {
+        if (! $this->hasRole($role)) {
             $this->roles[] = $role;
         }
 
@@ -306,7 +310,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
     /**
      * Erase Credentials.
      */
-    public function eraseCredentials(): User
+    public function eraseCredentials(): self
     {
         $this->plainPassword = null;
 
@@ -459,7 +463,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      */
     public function hasRole(string $role): bool
     {
-        return in_array($role, $this->getRoles());
+        return in_array($role, $this->getRoles(), true);
     }
 
     /**
@@ -609,7 +613,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      *
      * @param int $credit new credit value
      */
-    public function setCredit(int $credit): User
+    public function setCredit(int $credit): self
     {
         $this->credit = $credit;
 
@@ -621,7 +625,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      *
      * @param string $mail new mail
      */
-    public function setMail(?string $mail): User
+    public function setMail(?string $mail): self
     {
         $this->mail = $mail;
 
@@ -633,7 +637,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      *
      * @param string $password new password
      */
-    public function setPassword(string $password): User
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -645,7 +649,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      *
      * @param string $plainPassword non-encrypted password
      */
-    public function setPlainPassword(string $plainPassword): User
+    public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
         // forces the object to look "dirty" to Doctrine. Avoids
@@ -689,7 +693,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      *
      * @param array $roles roles to set
      */
-    public function setRoles(array $roles): User
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -715,7 +719,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      *
      * @param string $username the new username
      */
-    public function setUsername(string $username): User
+    public function setUsername(string $username): self
     {
         $this->setMail($username);
 
@@ -745,7 +749,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
      */
     public function unserialize($serialized): void
     {
-        list(
+        [
             $this->identifier,
             $this->credit,
             $this->givenName,
@@ -758,7 +762,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
             $this->society,
             $this->type,
             $this->vat
-            ) = unserialize($serialized);
+            ] = unserialize($serialized);
     }
 
     /**
@@ -773,15 +777,13 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
         if ($this->isMoral() && empty($this->getSociety())) {
             $context->buildViolation('error.society.blank')
                 ->atPath('society')
-                ->addViolation()
-            ;
+                ->addViolation();
         }
 
         if ($this->isPhysic() && empty($this->getName())) {
             $context->buildViolation('error.name.blank')
                 ->atPath('name')
-                ->addViolation()
-            ;
+                ->addViolation();
         }
     }
 }
