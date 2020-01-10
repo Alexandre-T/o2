@@ -93,6 +93,13 @@
                                     <span class="far fa-fw fa-envelope-open"></span>
                                     {{ 'nav.admin.submenu.mail.text' | trans }}
                                 </a>
+                                {# OLSX test #}
+                                <a class="dropdown-item {{ route starts with 'administration_olsx' ? 'active' }}"
+                                   href="{{ path('administration_olsx_test') }}" data-toggle="tooltip"
+                                   data-placement="right" title="{{ 'nav.admin.submenu.olsx.title' | trans }}" >
+                                    <span class="far fa-fw fa-tachometer-alt"></span>
+                                    {{ 'nav.admin.submenu.olsx.text' | trans }}
+                                </a>
                             </div>
                         </li>
                     {% endif %}

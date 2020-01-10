@@ -1,0 +1,27 @@
+{% extends '_entity.html.twig' %}
+
+{% block title %}{{ 'title.administration.olsx.test'|trans }} · {{ parent() }}{% endblock title %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'nav.admin.text' | trans }}</li>
+            <li class="breadcrumb-item" aria-current="page">{{ 'title.administration.olsx.test' | trans }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block container %}
+    {% if message is not empty %}
+        <pre>
+            {{ message }}
+        </pre>
+    {% endif %}
+    <a href="{{ path('home') }}" title="{{ 'nav.home.title'| trans }}" data-toggle="tooltip" class="btn btn-primary">
+        {{ 'nav.home.text' | trans }}
+    </a>
+{% endblock container %}
+

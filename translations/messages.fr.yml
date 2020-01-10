@@ -500,6 +500,7 @@ flash:
     not-exists: 'Le service OLSX nous a répondu que ce numéro de compte-client n’existait pas. Requête annulée.'
     not-personal: 'Le service OLSX nous a répondu que ce client n’avait pas encore de compte personnel. Requête annulée.'
     registering: 'Vous inscription au programme OLSX a bien été prise en compte. Un membre de notre équipe va valider votre souscription.'
+    test-ok: 'La page peut paraître vide, mais cela signifie seulement que le service OLSX a bien répondu. Tout est bien configuré et leur serveur marche.'
     unactivated: 'Ce client n’a plus la possibilité de commander des crédits OLSX.'
 
   order:
@@ -627,6 +628,9 @@ nav:
       mail:
         text: 'Mails'
         title: 'Outil d’envoi de mail'
+      olsx:
+        title: 'Tester le bon fonctionnement du service OLSX'
+        text: 'Outil de test OLSX'
   accountant:
     title: 'Outils du comptable'
     text: 'Comptable'
@@ -870,6 +874,8 @@ title:
       list: 'Liste des paramètres'
     mail:
       main: 'Formulaire de test pour envoyer un mail'
+    olsx:
+      test: 'Test du service OLSX'
   order:
     details: 'Détails de la commande'
     details %label%: 'Détail de la commande n°%label%'

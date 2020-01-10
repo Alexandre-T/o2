@@ -246,6 +246,31 @@ class OlsxController extends AbstractPaginateController
     }
 
     /**
+     * Test the EVC service for administrator.
+     *
+     * @Route("/olsx/test", name="administration_olsx_test", methods={"get"})
+     *
+     * @Security("is_granted('ROLE_ACCOUNTANT')")
+     *
+     * @param EvcServiceInterface $evcService Evc Service is used to retrieve some information about customer
+     */
+    public function test(EvcServiceInterface $evcService): Response
+    {
+        $message = '';
+        try {
+            $evcService->exists(33333);
+            $this->addFlash('success', 'flash.olsx.test-ok');
+        } catch (EvcException $exception) {
+            $this->analyze($exception);
+            $message = $exception->getMessage();
+        }
+
+        return $this->render('administration/olsx/test.html.twig', [
+            'message' => $message,
+        ]);
+    }
+
+    /**
      * Unactivate a personal customer so he can anymore buy OLSX credit.
      *
      * @Route("/olsx/unactivate/{customer}", name="accountant_olsx_unactivate", methods={"get"})
