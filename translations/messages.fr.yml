@@ -117,14 +117,14 @@ action:
     accept:
       text: 'Accepter'
       title: 'Accepter la demande de changement du taux de TVA'
-    show:
-      title: 'Consulter la liste des demandes de changement de taux de TVA'
-    reject:
-      text: 'Rejeter'
-      title: 'Rejeter la demande de changement de taux de TVA'
     register:
       text: 'Consulter'
       title: 'Consulter l’inscription au programme OLSX'
+    reject:
+      text: 'Rejeter'
+      title: 'Rejeter la demande de changement de taux de TVA'
+    show:
+      title: 'Consulter la liste des demandes de changement de taux de TVA'
 
 administration:
   created:
@@ -638,15 +638,15 @@ nav:
       bill:
         text: 'Factures'
         title: 'Consultation des factures'
+      registering:
+        text: 'Inscriptions OLSX'
+        title: 'Demandes d’inscription au programme OLSX'
       user:
         text: 'Facture manuelle'
         title: 'Créer manuellement une facture pour un client'
       vat:
         text: 'Taux de TVA à changer'
         title: 'Valider/Refuser les demandes de changement de taux de TVA de vos clients'
-      registering:
-        text: 'Inscriptions OLSX'
-        title: 'Demandes d’inscription au programme OLSX'
   home:
     text: 'Accueil'
     title: 'Retour à l’accueil'
@@ -707,14 +707,14 @@ nav:
         text: 'MAJ du CMD Slave'
   lost-password:
     text: 'Mot de passe perdu'
-  reset-password:
-    text: 'Réinitialisation du mot de passe'
   olsx:
     register:
       text: 'OLSX'
       title: 'Inscription au service OLSX'
   olsx-registering:
     text: 'Inscription au programme OLSX'
+  reset-password:
+    text: 'Réinitialisation du mot de passe'
 
 odb:
   boot: 'Boot'
@@ -817,20 +817,20 @@ table:
 
 title:
   accountant:
+    asked-vat:
+      list: 'Demande de changement de taux de TVA'
     bill:
       list: 'Liste des factures'
       new: 'Nouvelle facture'
       show %number%: 'Facture %number%'
     bill-new: 'Nouvelle facture'
-    user:
-      list: 'Sélectionner un utilisateur'
-      show %name%: 'Compte OLSX du client %name%'
-    asked-vat:
-      list: 'Demande de changement de taux de TVA'
     registering:
       list: 'Demande d’inscription au programme OLSX'
     society:
       show %name%: 'Compte OLSX de la société %name%'
+    user:
+      list: 'Sélectionner un utilisateur'
+      show %name%: 'Compte OLSX du client %name%'
   customer:
     bill:
       list: 'Mes factures'

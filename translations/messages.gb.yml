@@ -38,6 +38,19 @@ action:
       text: 'Consult'
       title: 'Consult sheet'
   next: 'Next'
+  olsx:
+    create-personal:
+      text: 'Create a personal account'
+      title: 'Create a personal account balance for this customer'
+    convert-as-personal:
+      text: 'Create a personal account'
+      title: 'Create a personal account balance for this customer'
+    activate:
+      text: 'Active the OLSX service'
+      title: 'Active the OLSX service for this customer, so he will be able to buy some credits and look at his personal balance.'
+    unactivate:
+      text: 'Deactivate the OLSX service '
+      title: 'Active the OLSX service for this customer, so he will no more be able to buy credits nor look at his personal balance.'
   previous: 'Previous'
   save:
     text: 'Save'
@@ -104,11 +117,14 @@ action:
     accept:
       text: 'Accept'
       title: 'Accept the new VAT rate'
-    show:
-      title: 'Show the asked VAT rate list'
+    register:
+      text: 'Consult'
+      title: 'Consult registering customer on OLSX service'
     reject:
       text: 'Reject'
       title: 'Reject the new VAT rate'
+    show:
+      title: 'Show the asked VAT rate list'
 
 administration:
   created:
@@ -250,6 +266,7 @@ error:
 
 explanations:
   olsx-already-registering: 'You already sent us your OLSX customer identifier. Our team will analyze your request. Anything, if you have provided us a bad identifier, you can correct the number via this form.'
+  olsx-can-not-be-undone: 'You are about to convert this customer to a personal customer on OLSX. He will have a personal account balance at VMod-Engeneering. evc.de society alerts their resellers that any abuse will be sanctioned.'
   olsx-registering: 'Do you want to buy some OLSX credits using our website? Register to our service by providing us your OLSX customer identifier.'
   password-lost: 'If you have forgotten your password, enter your mail address. A mail will be sent to you with instructions to update it.'
   password-reset: 'You have declared that you loosed your password, please provide a new password.'
@@ -473,8 +490,19 @@ flash:
     sent: 'No problem has been detected during mail submission. Please, verify that you have received it. If this is not the case, two causes are possible: A wrong setting at your mail server, or the mail has been detected as spam and intercepted by your email or your anti-spam'
     not-sent: 'A problem was detected when sending the email. View the application logs and reconfigure the values of the mail server used.'
   olsx:
+    activated: 'This customer can now buy OLSX credits.'
+    already-personal: 'OLSX service answers that this customer already had a personal account. Request canceled.'
     already-registered: 'You already a member of our OLSX service.'
+    credential-exception: 'Configuration internal error. OLSX service not available.'
+    converted-to-personal: 'For this new OLSX customer, a personal account with 0 credit has been created.'
+    logic-exception: 'OLSX service return an non-expected answer. Please contact our support!'
+    network-exception: 'OLSX service is currently not available. Please renew your request in a few minutes!'
+    not-exists: 'OLSX service answers that this customer number does not exists. Request canceled.'
+    not-personal: 'OLSX service answers that this customer does not have a personal account with you. Request canceled.'
     registering: 'You request has been sent. One of our team member will validate your subscription.'
+    test-ok: 'OLSX service is correctly responding. All done!'
+    unactivated: 'This customer can anymore order OLSX credits.'
+
   order:
     already-credited: 'Credit of this order have already been credited.'
     credited: 'Credit of this order have been credited to customer.'
@@ -600,6 +628,9 @@ nav:
       mail:
         text: 'Mails'
         title: 'Mail send tool'
+      olsx:
+        title: 'Test the OLSX service by submitting a neutral request'
+        text: 'Test OLSX service'
   accountant:
     title: 'Accountant features'
     text: 'Accountant'
@@ -607,6 +638,9 @@ nav:
       bill:
         text: 'Bills'
         title: 'List all bills'
+      registering:
+        text: 'OLSX registration'
+        title: 'OLSX waiting registration'
       user:
         text: 'Manual bill'
         title: 'Create a bill for a customer'
@@ -673,6 +707,12 @@ nav:
         text: 'Upgrade CMD slave'
   lost-password:
     text: 'Forgotten password'
+  olsx:
+    register:
+      text: 'OLSX'
+      title: 'Register on OLSX service'
+  olsx-registering:
+    text: 'Register on OLSX service'
   reset-password:
     text: 'New password form'
 
@@ -777,15 +817,20 @@ table:
 
 title:
   accountant:
+    asked-vat:
+      list: 'VAT rate requests'
     bill:
       list: 'Bills list'
       new: 'New bill'
       show %number%: 'Bill %number%'
     bill-new: 'New bill'
+    registering:
+      list: 'Register on OLSX service'
+    society:
+      show %name%: 'OLSX account of society: %name%'
     user:
       list: 'Select a customer'
-    asked-vat:
-      list: 'VAT rate requests'
+      show %name%: 'OLSX account of customer: %name%'
   customer:
     bill:
       list: 'My bills'
@@ -829,6 +874,8 @@ title:
       list: 'Settings'
     mail:
       main: 'Test form to send a mail'
+    olsx:
+      test: 'Test OLSX service'
   order:
     details: 'Order details'
     details %label%: 'Details of order %label%'
@@ -928,6 +975,9 @@ common:
   undecided: 'Undecided'
   vehicle: 'Vehicle'
   yes: 'Yes'
+  are-you-sure: 'Are you sure?'
+  be-careful: 'Be careful!'
+  cancel: 'Cancel'
 
 message:
   bill-new:
@@ -969,3 +1019,30 @@ service:
     to-close:
       title: 'Shortcut: Click on this link to close the programmation service.'
 Year: 'Year'
+olsx:
+  exists:
+    title: 'This account exist'
+    text: 'Existing OLSX account'
+  not-exists:
+    title: 'This account OLSX does not exist anymore'
+    text: 'Non-existent OLSX account'
+  not-personal:
+    title: 'This OLSX customer is not one of your personal customers'
+    text: 'Non-personal customer'
+  personal:
+    text: 'Personal customer'
+    title: 'This OLSX customer is already one of your personal customers'
+  account:
+    text %account%: '%account% OLSX credit(s)'
+    title %account%: 'Personal account: %account% OLSX credit(s)'
+  no-account:
+    text: 'None'
+    title: 'No OLSX account'
+  action:
+    personal: 'Create a personal account for this customer'
+  customer:
+    text: 'OLSX Customer'
+    title: 'OLSX customer, he can order OLSX credits'
+  no-customer:
+    text: 'Simple customer'
+    title: 'This customer CANNOT order OLSX credits'
