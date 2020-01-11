@@ -49,10 +49,10 @@ class PasswordController extends AbstractController
      * @return RedirectResponse|Response
      */
     public function lost(
-     Request $request,
-     EntityManagerInterface $entityManager,
-     MailerInterface $mailer,
-     TokenGeneratorInterface $token
+        Request $request,
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer,
+        TokenGeneratorInterface $token
     ): Response {
         if ($this->getUser()) {
             return new RedirectResponse('/');

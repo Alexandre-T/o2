@@ -21,7 +21,9 @@ namespace App\Entity;
 interface LanguageInterface
 {
     public const ENGLISH = 'gb';
+
     public const FRENCH = 'fr';
+
     public const INITIAL = 'fr';
 
     /**

@@ -80,12 +80,12 @@ class AccountantController extends AbstractPaginateController
      * @param UserManager  $userManager  User manager
      */
     public function bill(
-     User $user,
-     BillManager $billManager,
-     OrderManager $orderManager,
-     Payum $payum,
-     Request $request,
-     UserManager $userManager
+        User $user,
+        BillManager $billManager,
+        OrderManager $orderManager,
+        Payum $payum,
+        Request $request,
+        UserManager $userManager
     ): Response {
         $order = $orderManager->getOrCreateCartedOrder($user);
         $model = new AccountantCreditOrder();

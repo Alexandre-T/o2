@@ -72,8 +72,7 @@ class RegisterFormType extends AbstractType
             ->add('locality', LocalityType::class)
             ->add('country', CountryType::class)
             ->add('telephone', TelephoneType::class)
-            ->add('tos', TosType::class)
-        ;
+            ->add('tos', TosType::class);
     }
 
     /**

@@ -42,24 +42,17 @@ class UserRepositoryTest extends KernelTestCase
      */
     private $userRepository;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
 
         $this->userRepository = $this->entityManager->getRepository(User::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function tearDown(): void
     {
         parent::tearDown();

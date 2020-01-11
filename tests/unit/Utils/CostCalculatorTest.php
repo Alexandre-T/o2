@@ -32,7 +32,7 @@ class CostCalculatorTest extends Unit
     {
         $programmation = new Programmation();
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(0, $calculator->getCost());
+        self::assertSame(0, $calculator->getCost());
     }
 
     /**
@@ -47,7 +47,7 @@ class CostCalculatorTest extends Unit
         $programmation->setStageOne(true);
         $programmation->setEthanol(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(25, $calculator->getCost());
+        self::assertSame(25, $calculator->getCost());
     }
 
     /**
@@ -58,27 +58,27 @@ class CostCalculatorTest extends Unit
         $programmation = new Programmation();
         $programmation->setEdcOff(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(5, $calculator->getCost());
+        self::assertSame(5, $calculator->getCost());
 
         $programmation = new Programmation();
         $programmation->setEgrOff(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(5, $calculator->getCost());
+        self::assertSame(5, $calculator->getCost());
 
         $programmation = new Programmation();
         $programmation->setEthanol(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(10, $calculator->getCost());
+        self::assertSame(10, $calculator->getCost());
 
         $programmation = new Programmation();
         $programmation->setFapOff(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(5, $calculator->getCost());
+        self::assertSame(5, $calculator->getCost());
 
         $programmation = new Programmation();
         $programmation->setStageOne(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(10, $calculator->getCost());
+        self::assertSame(10, $calculator->getCost());
     }
 
     /**
@@ -90,25 +90,25 @@ class CostCalculatorTest extends Unit
         $programmation->setEdcOff(true);
         $programmation->setEgrOff(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(10, $calculator->getCost());
+        self::assertSame(10, $calculator->getCost());
 
         $programmation = new Programmation();
         $programmation->setEdcOff(true);
         $programmation->setEthanol(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(15, $calculator->getCost());
+        self::assertSame(15, $calculator->getCost());
 
         $programmation = new Programmation();
         $programmation->setEdcOff(true);
         $programmation->setFapOff(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(10, $calculator->getCost());
+        self::assertSame(10, $calculator->getCost());
 
         $programmation = new Programmation();
         $programmation->setStageOne(true);
         $programmation->setEdcOff(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(15, $calculator->getCost());
+        self::assertSame(15, $calculator->getCost());
     }
 
     /**
@@ -120,12 +120,12 @@ class CostCalculatorTest extends Unit
         $programmation->setFapOff(true);
         $programmation->setEgrOff(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(5, $calculator->getCost());
+        self::assertSame(5, $calculator->getCost());
 
         $programmation = new Programmation();
         $programmation->setStageOne(true);
         $programmation->setEthanol(true);
         $calculator = new CostCalculator($programmation);
-        self::assertEquals(15, $calculator->getCost());
+        self::assertSame(15, $calculator->getCost());
     }
 }

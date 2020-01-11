@@ -57,6 +57,8 @@ class ProgrammationFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        parent::buildForm($builder, $options);
+
         $builder
             ->add('make', MakeType::class)
             ->add('model', ModelType::class)
@@ -79,8 +81,7 @@ class ProgrammationFormType extends AbstractType
             ->add('gear', GearType::class)
             ->add('stageOne', StageOneType::class)
             ->add('originalFile', OriginalFileType::class)
-            ->add('comment', CommentType::class)
-        ;
+            ->add('comment', CommentType::class);
     }
 
     /**

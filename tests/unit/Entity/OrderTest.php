@@ -71,20 +71,20 @@ class OrderTest extends Unit
     public function testBill(): void
     {
         $bill = new Bill();
-        self::assertEquals($this->order, $this->order->addBill($bill));
+        self::assertSame($this->order, $this->order->addBill($bill));
         self::assertNotEmpty($this->order->getBills());
         self::assertContains($bill, $this->order->getBills());
 
         $anotherBill = new Bill();
-        self::assertEquals($this->order, $this->order->addBill($anotherBill));
+        self::assertSame($this->order, $this->order->addBill($anotherBill));
         self::assertNotEmpty($this->order->getBills());
         self::assertContains($bill, $this->order->getBills());
         self::assertContains($anotherBill, $this->order->getBills());
 
-        self::assertEquals($this->order, $this->order->removeBill($bill));
+        self::assertSame($this->order, $this->order->removeBill($bill));
         self::assertNotContains($bill, $this->order->getBills());
         self::assertContains($anotherBill, $this->order->getBills());
-        self::assertEquals($this->order, $this->order->removeBill($anotherBill));
+        self::assertSame($this->order, $this->order->removeBill($anotherBill));
         self::assertEmpty($this->order->getBills());
     }
 
@@ -101,9 +101,9 @@ class OrderTest extends Unit
         self::assertNull($this->order->getCustomer());
         self::assertNull($this->order->getId());
         self::assertNotNull($this->order->getLabel());
-        self::assertEquals('000000', $this->order->getLabel());
+        self::assertSame('000000', $this->order->getLabel());
         self::assertNull($this->order->getNature());
-        self::assertEquals(OrderInterface::CARTED, $this->order->getStatusOrder());
+        self::assertSame(OrderInterface::CARTED, $this->order->getStatusOrder());
         self::assertNull($this->order->getPayerId());
         self::assertNotNull($this->order->getPayments());
         self::assertEmpty($this->order->getPayments());
@@ -123,8 +123,8 @@ class OrderTest extends Unit
     {
         $actual = $expected = 42;
 
-        self::assertEquals($this->order, $this->order->setCredits($actual));
-        self::assertEquals($expected, $this->order->getCredits());
+        self::assertSame($this->order, $this->order->setCredits($actual));
+        self::assertSame($expected, $this->order->getCredits());
     }
 
     /**
@@ -134,8 +134,8 @@ class OrderTest extends Unit
     {
         $actual = $expected = new User();
 
-        self::assertEquals($this->order, $this->order->setCustomer($actual));
-        self::assertEquals($expected, $this->order->getCustomer());
+        self::assertSame($this->order, $this->order->setCustomer($actual));
+        self::assertSame($expected, $this->order->getCustomer());
     }
 
     /**
@@ -145,8 +145,8 @@ class OrderTest extends Unit
     {
         $actual = $expected = OrderInterface::NATURE_CREDIT;
 
-        self::assertEquals($this->order, $this->order->setNature($actual));
-        self::assertEquals($expected, $this->order->getNature());
+        self::assertSame($this->order, $this->order->setNature($actual));
+        self::assertSame($expected, $this->order->getNature());
     }
 
     /**
@@ -171,7 +171,7 @@ class OrderTest extends Unit
         self::assertEmpty($this->order->getPrice());
 
         $orderedArticle->setArticle($article);
-        self::assertEquals($orderedArticle, $this->order->getOrderedByArticle($article));
+        self::assertSame($orderedArticle, $this->order->getOrderedByArticle($article));
 
         $anotherArticle = new Article();
         $anotherArticle->setPrice($actualPrice);
@@ -180,23 +180,23 @@ class OrderTest extends Unit
         $anotherOrdered->setPrice($anotherArticle->getPrice());
         $anotherOrdered->setVat($actualVat);
         $anotherOrdered->setQuantity(2);
-        self::assertEquals($orderedArticle, $this->order->getOrderedByArticle($article));
+        self::assertSame($orderedArticle, $this->order->getOrderedByArticle($article));
         self::assertNull($this->order->getOrderedByArticle($anotherArticle));
 
         $anotherOrdered->setOrder($this->order);
-        self::assertEquals($orderedArticle, $this->order->getOrderedByArticle($article));
-        self::assertEquals($anotherOrdered, $this->order->getOrderedByArticle($anotherArticle));
-        self::assertEquals($expectedPrice, $this->order->getPrice());
-        self::assertEquals($expectedVat, $this->order->getVat());
+        self::assertSame($orderedArticle, $this->order->getOrderedByArticle($article));
+        self::assertSame($anotherOrdered, $this->order->getOrderedByArticle($anotherArticle));
+        self::assertSame($expectedPrice, $this->order->getPrice());
+        self::assertSame($expectedVat, $this->order->getVat());
 
-        self::assertEquals($this->order, $this->order->removeOrderedArticle($orderedArticle));
+        self::assertSame($this->order, $this->order->removeOrderedArticle($orderedArticle));
         self::assertNull($this->order->getOrderedByArticle($article));
-        self::assertEquals($expectedPrice, $this->order->getPrice());
-        self::assertEquals($expectedVat, $this->order->getVat());
-        self::assertEquals($anotherOrdered, $this->order->getOrderedByArticle($anotherArticle));
-        self::assertEquals($this->order, $this->order->removeOrderedArticle($anotherOrdered));
-        self::assertEquals(0.0, $this->order->getPrice());
-        self::assertEquals(0.0, $this->order->getVat());
+        self::assertSame($expectedPrice, $this->order->getPrice());
+        self::assertSame($expectedVat, $this->order->getVat());
+        self::assertSame($anotherOrdered, $this->order->getOrderedByArticle($anotherArticle));
+        self::assertSame($this->order, $this->order->removeOrderedArticle($anotherOrdered));
+        self::assertSame(0.0, $this->order->getPrice());
+        self::assertSame(0.0, $this->order->getVat());
     }
 
     /**
@@ -206,8 +206,8 @@ class OrderTest extends Unit
     {
         $actual = $expected = 'payer-id';
 
-        self::assertEquals($this->order, $this->order->setPayerId($actual));
-        self::assertEquals($expected, $this->order->getPayerId());
+        self::assertSame($this->order, $this->order->setPayerId($actual));
+        self::assertSame($expected, $this->order->getPayerId());
     }
 
     /**
@@ -216,20 +216,20 @@ class OrderTest extends Unit
     public function testPayments(): void
     {
         $payment = new Payment();
-        self::assertEquals($this->order, $this->order->addPayment($payment));
+        self::assertSame($this->order, $this->order->addPayment($payment));
         self::assertNotEmpty($this->order->getPayments());
         self::assertContains($payment, $this->order->getPayments());
 
         $anotherPayment = new Payment();
-        self::assertEquals($this->order, $this->order->addPayment($anotherPayment));
+        self::assertSame($this->order, $this->order->addPayment($anotherPayment));
         self::assertNotEmpty($this->order->getPayments());
         self::assertContains($payment, $this->order->getPayments());
         self::assertContains($anotherPayment, $this->order->getPayments());
 
-        self::assertEquals($this->order, $this->order->removePayment($payment));
+        self::assertSame($this->order, $this->order->removePayment($payment));
         self::assertNotContains($payment, $this->order->getPayments());
         self::assertContains($anotherPayment, $this->order->getPayments());
-        self::assertEquals($this->order, $this->order->removePayment($anotherPayment));
+        self::assertSame($this->order, $this->order->removePayment($anotherPayment));
         self::assertEmpty($this->order->getPayments());
     }
 
@@ -240,9 +240,9 @@ class OrderTest extends Unit
     {
         $actual = $expected = 42.42;
 
-        self::assertEquals($this->order, $this->order->setPrice($actual));
-        self::assertEquals($expected, $this->order->getPrice());
-        self::assertEquals($this->order, $this->order->refreshPrice());
+        self::assertSame($this->order, $this->order->setPrice($actual));
+        self::assertSame($expected, $this->order->getPrice());
+        self::assertSame($this->order, $this->order->refreshPrice());
         self::assertEmpty($this->order->getPrice());
     }
 
@@ -253,7 +253,7 @@ class OrderTest extends Unit
     {
         $actual = true;
 
-        self::assertEquals($this->order, $this->order->setStatusCredit($actual));
+        self::assertSame($this->order, $this->order->setStatusCredit($actual));
         self::assertTrue($this->order->isCredited());
     }
 
@@ -262,29 +262,29 @@ class OrderTest extends Unit
      */
     public function testStatusOrder(): void
     {
-        self::assertEquals($this->order, $this->order->setStatusOrder(OrderInterface::CANCELED));
-        self::assertEquals(OrderInterface::CANCELED, $this->order->getStatusOrder());
+        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::CANCELED));
+        self::assertSame(OrderInterface::CANCELED, $this->order->getStatusOrder());
         self::assertTrue($this->order->isCanceled());
         self::assertFalse($this->order->isCarted());
         self::assertFalse($this->order->isPaid());
         self::assertFalse($this->order->isPending());
 
-        self::assertEquals($this->order, $this->order->setStatusOrder(OrderInterface::CARTED));
-        self::assertEquals(OrderInterface::CARTED, $this->order->getStatusOrder());
+        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::CARTED));
+        self::assertSame(OrderInterface::CARTED, $this->order->getStatusOrder());
         self::assertFalse($this->order->isCanceled());
         self::assertTrue($this->order->isCarted());
         self::assertFalse($this->order->isPaid());
         self::assertFalse($this->order->isPending());
 
-        self::assertEquals($this->order, $this->order->setStatusOrder(OrderInterface::PENDING));
-        self::assertEquals(OrderInterface::PENDING, $this->order->getStatusOrder());
+        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::PENDING));
+        self::assertSame(OrderInterface::PENDING, $this->order->getStatusOrder());
         self::assertFalse($this->order->isCanceled());
         self::assertFalse($this->order->isCarted());
         self::assertFalse($this->order->isPaid());
         self::assertTrue($this->order->isPending());
 
-        self::assertEquals($this->order, $this->order->setStatusOrder(OrderInterface::PAID));
-        self::assertEquals(OrderInterface::PAID, $this->order->getStatusOrder());
+        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::PAID));
+        self::assertSame(OrderInterface::PAID, $this->order->getStatusOrder());
         self::assertFalse($this->order->isCanceled());
         self::assertFalse($this->order->isCarted());
         self::assertTrue($this->order->isPaid());
@@ -298,8 +298,8 @@ class OrderTest extends Unit
     {
         $actual = $expected = 'token';
 
-        self::assertEquals($this->order, $this->order->setToken($actual));
-        self::assertEquals($expected, $this->order->getToken());
+        self::assertSame($this->order, $this->order->setToken($actual));
+        self::assertSame($expected, $this->order->getToken());
     }
 
     /**
@@ -309,8 +309,8 @@ class OrderTest extends Unit
     {
         $actual = $this->order->getUuid();
 
-        self::assertEquals($this->order, $this->order->refreshUuid());
-        self::assertNotEquals($actual, $this->order->getUuid());
+        self::assertSame($this->order, $this->order->refreshUuid());
+        self::assertNotSame($actual, $this->order->getUuid());
     }
 
     /**
@@ -320,9 +320,9 @@ class OrderTest extends Unit
     {
         $actual = $expected = 42.42;
 
-        self::assertEquals($this->order, $this->order->setVat($actual));
-        self::assertEquals($expected, $this->order->getVat());
-        self::assertEquals($this->order, $this->order->refreshVat());
+        self::assertSame($this->order, $this->order->setVat($actual));
+        self::assertSame($expected, $this->order->getVat());
+        self::assertSame($this->order, $this->order->refreshVat());
         self::assertEmpty($this->order->getVat());
     }
 }

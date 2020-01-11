@@ -61,8 +61,7 @@ class ProgrammationCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Drop obsolete programmation files')
-        ;
+            ->setDescription('Drop obsolete programmation files');
     }
 
     /**
@@ -93,7 +92,7 @@ class ProgrammationCommand extends Command
                 ++$droppedFinalFiles;
             }
 
-            if (0 < ($droppedOriginalFiles + $droppedFinalFiles)) {
+            if (0 < $droppedOriginalFiles + $droppedFinalFiles) {
                 $this->entityManager->flush();
             }
 

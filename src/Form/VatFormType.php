@@ -49,8 +49,7 @@ class VatFormType extends AbstractType
 
         $builder
             ->add('vat', VatType::class, $vatOptions)
-            ->add('explanation', ExplanationType::class)
-        ;
+            ->add('explanation', ExplanationType::class);
     }
 
     /**

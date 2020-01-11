@@ -67,8 +67,8 @@ class OrderedArticleTest extends Unit
     public function testArticle(): void
     {
         $expected = $actual = new Article();
-        self::assertEquals($this->orderedArticle, $this->orderedArticle->setArticle($actual));
-        self::assertEquals($expected, $this->orderedArticle->getArticle());
+        self::assertSame($this->orderedArticle, $this->orderedArticle->setArticle($actual));
+        self::assertSame($expected, $this->orderedArticle->getArticle());
     }
 
     /**
@@ -77,8 +77,8 @@ class OrderedArticleTest extends Unit
     public function testOrder(): void
     {
         $expected = $actual = new Order();
-        self::assertEquals($this->orderedArticle, $this->orderedArticle->setOrder($actual));
-        self::assertEquals($expected, $this->orderedArticle->getOrder());
+        self::assertSame($this->orderedArticle, $this->orderedArticle->setOrder($actual));
+        self::assertSame($expected, $this->orderedArticle->getOrder());
     }
 
     /**
@@ -87,7 +87,7 @@ class OrderedArticleTest extends Unit
     public function testQuantity(): void
     {
         $expected = $actual = 42;
-        self::assertEquals($this->orderedArticle, $this->orderedArticle->setQuantity($actual));
-        self::assertEquals($expected, $this->orderedArticle->getQuantity());
+        self::assertSame($this->orderedArticle, $this->orderedArticle->setQuantity($actual));
+        self::assertSame($expected, $this->orderedArticle->getQuantity());
     }
 }

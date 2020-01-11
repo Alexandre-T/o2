@@ -67,9 +67,9 @@ class PriceTest extends Unit
     {
         $this->order->setPrice(42.84);
         $this->order->setVat(42.84 * 0.2);
-        self::assertEquals(42.84, $this->order->getPrice());
-        self::assertEquals(8.568, $this->order->getVat());
-        self::assertEquals(51.408, $this->order->getAmount());
+        self::assertSame(42.84, $this->order->getPrice());
+        self::assertSame(8.568, $this->order->getVat());
+        self::assertSame(51.408, $this->order->getAmount());
     }
 
     /**
@@ -82,7 +82,7 @@ class PriceTest extends Unit
         self::assertNull($this->order->getVat());
         self::assertNotNull($this->order->getAmount());
         self::assertEmpty($this->order->getAmount());
-        self::assertEquals(0, $this->order->getAmount());
+        self::assertSame(0, $this->order->getAmount());
         self::assertIsFloat($this->order->getAmount());
     }
 
@@ -95,12 +95,12 @@ class PriceTest extends Unit
         $bill->setPrice(42.42);
         $bill->setVat(12.12);
 
-        self::assertEquals($this->order, $this->order->copyPrice($bill));
-        self::assertEquals(42.42, $this->order->getPrice());
-        self::assertEquals(12.12, $this->order->getVat());
+        self::assertSame($this->order, $this->order->copyPrice($bill));
+        self::assertSame(42.42, $this->order->getPrice());
+        self::assertSame(12.12, $this->order->getVat());
 
         $bill = new Bill();
-        self::assertEquals($this->order, $this->order->copyPrice($bill));
+        self::assertSame($this->order, $this->order->copyPrice($bill));
         self::assertNull($this->order->getPrice());
         self::assertNull($this->order->getVat());
     }
@@ -111,14 +111,14 @@ class PriceTest extends Unit
     public function testPrice(): void
     {
         $actual = $expected = 42.42;
-        self::assertEquals($this->order, $this->order->setPrice($actual));
-        self::assertEquals($expected, $this->order->getPrice());
-        self::assertEquals($expected, $this->order->getAmount());
+        self::assertSame($this->order, $this->order->setPrice($actual));
+        self::assertSame($expected, $this->order->getPrice());
+        self::assertSame($expected, $this->order->getAmount());
 
         $actual = $expected = '42.24';
-        self::assertEquals($this->order, $this->order->setPrice($actual));
-        self::assertEquals($expected, $this->order->getPrice());
-        self::assertEquals(42.24, $this->order->getAmount());
+        self::assertSame($this->order, $this->order->setPrice($actual));
+        self::assertSame($expected, $this->order->getPrice());
+        self::assertSame(42.24, $this->order->getAmount());
     }
 
     /**
@@ -127,13 +127,13 @@ class PriceTest extends Unit
     public function testVat(): void
     {
         $actual = $expected = 42.42;
-        self::assertEquals($this->order, $this->order->setVat($actual));
-        self::assertEquals($expected, $this->order->getVat());
-        self::assertEquals($expected, $this->order->getAmount());
+        self::assertSame($this->order, $this->order->setVat($actual));
+        self::assertSame($expected, $this->order->getVat());
+        self::assertSame($expected, $this->order->getAmount());
 
         $actual = $expected = '42.24';
-        self::assertEquals($this->order, $this->order->setVat($actual));
-        self::assertEquals($expected, $this->order->getVat());
-        self::assertEquals(42.24, $this->order->getAmount());
+        self::assertSame($this->order, $this->order->setVat($actual));
+        self::assertSame($expected, $this->order->getVat());
+        self::assertSame(42.24, $this->order->getAmount());
     }
 }

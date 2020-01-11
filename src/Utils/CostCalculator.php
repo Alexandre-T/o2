@@ -105,8 +105,7 @@ class CostCalculator
         $this
             ->initCredit()
             ->addUnitCost()
-            ->removePromotion()
-        ;
+            ->removePromotion();
 
         return $this->credit;
     }

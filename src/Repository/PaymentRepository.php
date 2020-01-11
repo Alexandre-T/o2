@@ -45,7 +45,7 @@ class PaymentRepository extends ServiceEntityRepository
      *
      * @param Order $order order of searched payment
      *
-     * @return array|Payment[]
+     * @return Payment[]
      */
     public function findByOrder(Order $order): array
     {

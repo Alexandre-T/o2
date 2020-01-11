@@ -54,8 +54,7 @@ class LanguageValueValidator extends ConstraintValidator
         if (LanguageInterface::FRENCH !== $value && LanguageInterface::ENGLISH !== $value) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ string }}', $value)
-                ->addViolation()
-            ;
+                ->addViolation();
         }
     }
 }

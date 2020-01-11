@@ -90,7 +90,8 @@ class RolesExtension extends AbstractExtension
         sort($result);
 
         //ROLE_USER is a technical role, it will not to be displayed.
-        if (false !== ($key = array_search('ROLE_USER', $result))) {
+        $key = array_search('ROLE_USER', $result, true);
+        if (false !== $key) {
             unset($result[$key]);
         }
 

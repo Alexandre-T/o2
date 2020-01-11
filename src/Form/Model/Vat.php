@@ -97,7 +97,7 @@ class Vat
      *
      * @param string|null $explanation the new explanation
      */
-    public function setExplanation(?string $explanation): Vat
+    public function setExplanation(?string $explanation): self
     {
         $this->explanation = $explanation;
 
@@ -109,7 +109,7 @@ class Vat
      *
      * @param string $vat mail of user who lost its password
      */
-    public function setVat(?string $vat): Vat
+    public function setVat(?string $vat): self
     {
         $this->vat = $vat;
 
@@ -127,8 +127,7 @@ class Vat
     {
         if (!$this->isVatChanged()) {
             $context->buildViolation('error.vat.same')
-                ->addViolation()
-            ;
+                ->addViolation();
         }
 
         if (empty($this->getExplanation()) && !$this->isVatDefault()) {
@@ -138,8 +137,7 @@ class Vat
             }
 
             $context->buildViolation($message)
-                ->addViolation()
-            ;
+                ->addViolation();
         }
     }
 

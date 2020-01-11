@@ -402,10 +402,10 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param float          $vateRate       vat rate
      */
     private function updateOrderedArticle(
-     OrderedArticle $orderedArticle,
-     Article $article,
-     int $quantity,
-     float $vateRate
+        OrderedArticle $orderedArticle,
+        Article $article,
+        int $quantity,
+        float $vateRate
     ): void {
         $orderedArticle->setPrice($article->getPrice());
         $orderedArticle->setVat($article->getPrice() * $vateRate);

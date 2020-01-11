@@ -70,7 +70,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        if (in_array(getenv('APP_ENV'), ['dev', 'test'])) {
+        if (in_array(getenv('APP_ENV'), ['dev', 'test'], true)) {
             /** @var User $customer */
             $customer = $this->getReference('user_customer');
             $this->ten = $this->getReference('article_10');
@@ -129,10 +129,10 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      * @param int  $fiveHundred Number of 500
      */
     private function createCreditOrder(
-     User $customer,
-     int $ten,
-     int $hundred = 0,
-     int $fiveHundred = 0
+        User $customer,
+        int $ten,
+        int $hundred = 0,
+        int $fiveHundred = 0
     ): Order {
         $vatRate = (float) $customer->getVat();
         $order = new Order();

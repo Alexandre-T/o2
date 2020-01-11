@@ -21,7 +21,9 @@ use App\Entity\User;
 interface VatManagerInterface
 {
     public const DEFAULT_VAT = 0.2000;
+
     public const DOMTOM_VAT = 0.0850;
+
     public const EUROPE_VAT = 0.0000;
 
     public const VATS = ['0.0000', '0.0850', '0.2000'];

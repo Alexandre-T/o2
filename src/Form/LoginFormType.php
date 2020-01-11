@@ -39,6 +39,8 @@ class LoginFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        parent::buildForm($builder, $options);
+
         // @see https://knpuniversity.com/screencast/symfony-security/rendering-login-form
         $builder
             ->add('mail', EmailType::class, [
@@ -49,8 +51,7 @@ class LoginFormType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => 'form.field.password',
                 'help' => 'form.help.password',
-            ])
-        ;
+            ]);
     }
 
     /**

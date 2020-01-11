@@ -43,25 +43,18 @@ class SettingsManagerTest extends KernelTestCase
      */
     private $settingsManager;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
 
         $paginator = self::createMock(PaginatorInterface::class);
         $this->settingsManager = new SettingsManager($this->entityManager, $paginator);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -79,7 +72,7 @@ class SettingsManagerTest extends KernelTestCase
     {
         $actual = 'bill-country';
         $expected = 'FRANCE';
-        self::assertEquals($expected, $this->settingsManager->getValue($actual));
+        self::assertSame($expected, $this->settingsManager->getValue($actual));
     }
 
     /**

@@ -15,8 +15,6 @@ cache:
 
 # Base versions to test raw with the Symfony latest version.
 php:
-  - "7.2"
-  - "7.3"
   - "7.4"
 
 matrix:
@@ -25,10 +23,6 @@ matrix:
 before_install:
   - mkdir -p build/logs
   - export COMPOSER_PROCESS_TIMEOUT=3000
-  # Copy composer.7-x.lock to composer.lock
-  - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then cp composer.7-2.lock composer.lock ; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.3" ]; then cp composer.7-3.lock composer.lock ; fi
-  - if [ "$TRAVIS_PHP_VERSION" == "7.4" ]; then cp composer.7-4.lock composer.lock ; fi
 install:
   # Database creation
   - mysql -e 'CREATE DATABASE symfony;'
@@ -64,8 +58,7 @@ script:
   # Launch server
   - symfony serve -d
   # Coverall tests
-  - if [ "$TRAVIS_PHP_VERSION" == "7.4" ]; then composer all-test ; fi
-  - if [ "$TRAVIS_PHP_VERSION" != "7.4" ]; then composer coverall-test ; fi
+  - composer coverall-test
   # PHP MASS DETECTOR valid?
   - composer phpmd
   - composer phpmd-test
@@ -88,5 +81,5 @@ notifications:
   email:
     recipients:
       - alexandre.tranchant@gmail.com
-    on_success: never
+    on_success: change
     on_failure: change

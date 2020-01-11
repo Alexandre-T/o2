@@ -52,17 +52,19 @@ class SettingsController extends AbstractPaginateController
      * @return RedirectResponse|Response
      */
     public function edit(
-     Settings $settings,
-     Request $request,
-     SettingsManager $settingsManager,
-     TranslatorInterface $trans
+        Settings $settings,
+        Request $request,
+        SettingsManager $settingsManager,
+        TranslatorInterface $trans
     ): Response {
         switch ($settings->getCode()) {
             case 'service-until':
                 $type = 'date';
+
                 break;
             case 'service-status':
                 $type = 'status';
+
                 break;
             default:
                 $type = 'string';

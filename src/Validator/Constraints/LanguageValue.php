@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 namespace App\Validator\Constraints;
 
-use function get_class;
 use Symfony\Component\Validator\Constraint;
 
 /**
@@ -33,6 +32,6 @@ class LanguageValue extends Constraint
      */
     public function validatedBy(): string
     {
-        return get_class($this).'Validator';
+        return static::class.'Validator';
     }
 }

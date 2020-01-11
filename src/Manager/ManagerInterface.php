@@ -28,6 +28,7 @@ interface ManagerInterface
      * Default limit rows: 25.
      */
     public const LIMIT = 25;
+
     /**
      * Default order: ASC.
      */
@@ -79,10 +80,10 @@ interface ManagerInterface
      * @param string   $sort     sort order
      */
     public function paginateWithCriteria(
-     Criteria $criteria,
-     int $page = 1,
-     int $limit = self::LIMIT,
-     string $sort = self::SORT
+        Criteria $criteria,
+        int $page = 1,
+        int $limit = self::LIMIT,
+        string $sort = self::SORT
     ): PaginationInterface;
 
     /**

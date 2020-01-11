@@ -30,7 +30,7 @@ class BillFactory
      * @param Order $order    referenced order
      * @param User  $customer referenced customer
      */
-    public static function create(Order $order, User $customer = null): Bill
+    public static function create(Order $order, ?User $customer = null): Bill
     {
         //Initialization
         if (null === $customer) {

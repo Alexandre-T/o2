@@ -83,7 +83,7 @@ class PersonTest extends Unit
         $actual = new User();
 
         //null bill copy null user.
-        self::assertEquals($this->bill, $this->bill->copyIdentity($actual));
+        self::assertSame($this->bill, $this->bill->copyIdentity($actual));
         self::assertNull($this->bill->getGivenName());
         self::assertNull($this->bill->getName());
         self::assertNull($this->bill->getSociety());
@@ -98,7 +98,7 @@ class PersonTest extends Unit
         $this->bill->setTelephone('telephone');
         $this->bill->setType(true);
         $this->bill->setVatNumber('vatNumber');
-        self::assertEquals($this->bill, $this->bill->copyIdentity($actual));
+        self::assertSame($this->bill, $this->bill->copyIdentity($actual));
         self::assertNull($this->bill->getGivenName());
         self::assertNull($this->bill->getName());
         self::assertNull($this->bill->getSociety());
@@ -119,13 +119,13 @@ class PersonTest extends Unit
         $this->bill->setTelephone('telephone');
         $this->bill->setType(true);
         $this->bill->setVatNumber('vatNumber');
-        self::assertEquals($this->bill, $this->bill->copyIdentity($actual));
-        self::assertEquals('userGN', $this->bill->getGivenName());
-        self::assertEquals('userN', $this->bill->getName());
-        self::assertEquals('userS', $this->bill->getSociety());
-        self::assertEquals('userT', $this->bill->getTelephone());
+        self::assertSame($this->bill, $this->bill->copyIdentity($actual));
+        self::assertSame('userGN', $this->bill->getGivenName());
+        self::assertSame('userN', $this->bill->getName());
+        self::assertSame('userS', $this->bill->getSociety());
+        self::assertSame('userT', $this->bill->getTelephone());
         self::assertFalse($this->bill->getType());
-        self::assertEquals('userV', $this->bill->getVatNumber());
+        self::assertSame('userV', $this->bill->getVatNumber());
     }
 
     /**
@@ -135,8 +135,8 @@ class PersonTest extends Unit
     {
         $actual = $expected = 'givenName';
 
-        self::assertEquals($this->bill, $this->bill->setGivenName($actual));
-        self::assertEquals($expected, $this->bill->getGivenName());
+        self::assertSame($this->bill, $this->bill->setGivenName($actual));
+        self::assertSame($expected, $this->bill->getGivenName());
     }
 
     /**
@@ -146,8 +146,8 @@ class PersonTest extends Unit
     {
         $actual = $expected = 'name';
 
-        self::assertEquals($this->bill, $this->bill->setName($actual));
-        self::assertEquals($expected, $this->bill->getName());
+        self::assertSame($this->bill, $this->bill->setName($actual));
+        self::assertSame($expected, $this->bill->getName());
     }
 
     /**
@@ -157,8 +157,8 @@ class PersonTest extends Unit
     {
         $actual = $expected = 'society';
 
-        self::assertEquals($this->bill, $this->bill->setSociety($actual));
-        self::assertEquals($expected, $this->bill->getSociety());
+        self::assertSame($this->bill, $this->bill->setSociety($actual));
+        self::assertSame($expected, $this->bill->getSociety());
     }
 
     /**
@@ -168,8 +168,8 @@ class PersonTest extends Unit
     {
         $actual = $expected = '33000';
 
-        self::assertEquals($this->bill, $this->bill->setTelephone($actual));
-        self::assertEquals($expected, $this->bill->getTelephone());
+        self::assertSame($this->bill, $this->bill->setTelephone($actual));
+        self::assertSame($expected, $this->bill->getTelephone());
     }
 
     /**
@@ -177,12 +177,12 @@ class PersonTest extends Unit
      */
     public function testType(): void
     {
-        self::assertEquals($this->bill, $this->bill->setType(PersonInterface::MORAL));
+        self::assertSame($this->bill, $this->bill->setType(PersonInterface::MORAL));
         self::assertFalse($this->bill->getType());
         self::assertTrue($this->bill->isMoral());
         self::assertFalse($this->bill->isPhysic());
 
-        self::assertEquals($this->bill, $this->bill->setType(PersonInterface::PHYSIC));
+        self::assertSame($this->bill, $this->bill->setType(PersonInterface::PHYSIC));
         self::assertTrue($this->bill->getType());
         self::assertFalse($this->bill->isMoral());
         self::asserttrue($this->bill->isPhysic());

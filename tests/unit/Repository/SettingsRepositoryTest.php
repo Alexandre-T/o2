@@ -42,24 +42,17 @@ class SettingsRepositoryTest extends KernelTestCase
      */
     private $settingsRepository;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
 
         $this->settingsRepository = $this->entityManager->getRepository(Settings::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -78,7 +71,7 @@ class SettingsRepositoryTest extends KernelTestCase
         $settings = $this->settingsRepository->findOneByCode($actual);
         self::assertNotNull($settings);
         self::assertInstanceOf(Settings::class, $settings);
-        self::assertEquals($expected, $settings->getValue());
+        self::assertSame($expected, $settings->getValue());
 
         $actual = 'non-existent';
         $settings = $this->settingsRepository->findOneByCode($actual);

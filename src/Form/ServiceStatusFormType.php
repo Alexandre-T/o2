@@ -37,10 +37,11 @@ class ServiceStatusFormType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        parent::buildForm($builder, $options);
+
         $builder
             ->add('endAt', ServiceUntilType::class)
-            ->add('status', ServiceStatusType::class)
-        ;
+            ->add('status', ServiceStatusType::class);
     }
 
     /**

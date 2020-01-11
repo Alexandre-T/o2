@@ -153,7 +153,7 @@ class InflectorExtension extends AbstractExtension
      */
     public function humanizeFilter($word, $uppercase = '')
     {
-        $uppercase = 'all' == $uppercase ? 'ucwords' : 'ucfirst';
+        $uppercase = 'all' === $uppercase ? 'ucwords' : 'ucfirst';
 
         return $uppercase(str_replace('_', ' ', preg_replace('/_id$/', '', $word)));
     }
@@ -199,7 +199,7 @@ class InflectorExtension extends AbstractExtension
      */
     public function titleizeFilter($word, $uppercase = '')
     {
-        $uppercase = 'first' == $uppercase ? 'ucfirst' : 'ucwords';
+        $uppercase = 'first' === $uppercase ? 'ucfirst' : 'ucwords';
 
         return $uppercase($this->humanizeFilter($this->underscorizeFilter($word)));
     }

@@ -82,21 +82,21 @@ interface PersonInterface
      *
      * @param string|null $givenName new given name
      */
-    public function setGivenName(?string $givenName): PersonInterface;
+    public function setGivenName(?string $givenName): self;
 
     /**
      * Name fluent setter.
      *
      * @param string|null $name new name
      */
-    public function setName(?string $name): PersonInterface;
+    public function setName(?string $name): self;
 
     /**
      * Society name fluent setter.
      *
      * @param string|null $society new society name
      */
-    public function setSociety(?string $society): PersonInterface;
+    public function setSociety(?string $society): self;
 
     /**
      * Telephone number fluent setter.
@@ -105,7 +105,7 @@ interface PersonInterface
      *
      * @return PersonInterface|PersonInterface
      */
-    public function setTelephone(?string $telephone): PersonInterface;
+    public function setTelephone(?string $telephone): self;
 
     /**
      * Type fluent setter.
@@ -114,5 +114,5 @@ interface PersonInterface
      *
      * @return PersonTrait|PersonInterface
      */
-    public function setType(?bool $type): PersonInterface;
+    public function setType(?bool $type): self;
 }

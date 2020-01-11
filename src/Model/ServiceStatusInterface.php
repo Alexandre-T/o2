@@ -24,6 +24,7 @@ interface ServiceStatusInterface
      * The service is close.
      */
     public const CLOSE = 1;
+
     /**
      * The service is open.
      */

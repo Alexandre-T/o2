@@ -21,25 +21,35 @@ interface ProgrammationInterface
      * Constant for COST.
      */
     public const CREDIT_CAT = 5;
+
     public const CREDIT_EDC = 5;
+
     public const CREDIT_EGR = 5;
+
     public const CREDIT_ETHANOL = 10;
+
     public const CREDIT_FAP = 5;
+
     public const CREDIT_GEAR = 10;
+
     public const CREDIT_STAGE_ONE = 10;
 
     /**
      * Constant for GEAR field.
      */
     public const GEAR_AUTOMATIC = true;
+
     public const GEAR_MANUAL = false;
+
     public const GEARS = [self::GEAR_MANUAL, self::GEAR_AUTOMATIC];
 
     /**
      * Constant for ODB field.
      */
     public const ODB_BOOT = 1;
+
     public const ODB_ODB = 2;
+
     public const ODBS = [self::ODB_BOOT, self::ODB_ODB];
 
     /**
@@ -48,13 +58,16 @@ interface ProgrammationInterface
      * Promotion are subtracted to total.
      */
     public const PROMOTION_EGR_FAP = 5;
+
     public const PROMOTION_STAGE_ONE_ETHANOL = 5;
 
     /**
      * Constant for READ field.
      */
     public const READ_REAL = 1;
+
     public const READ_VIRTUAL = 2;
+
     public const READS = [self::READ_REAL, self::READ_VIRTUAL];
 
     /**

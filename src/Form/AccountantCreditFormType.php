@@ -40,8 +40,7 @@ class AccountantCreditFormType extends CreditFormType
 
         $builder
             ->add('method', PaymentMethodType::class)
-            ->add('credit', PaidType::class)
-        ;
+            ->add('credit', PaidType::class);
     }
 
     /**

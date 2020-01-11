@@ -69,8 +69,8 @@ class BillTest extends Unit
     {
         $actual = $expected = new DateTimeImmutable();
 
-        self::assertEquals($this->bill, $this->bill->setCanceledAt($actual));
-        self::assertEquals($expected, $this->bill->getCanceledAt());
+        self::assertSame($this->bill, $this->bill->setCanceledAt($actual));
+        self::assertSame($expected, $this->bill->getCanceledAt());
         self::assertTrue($this->bill->isCanceled());
     }
 
@@ -103,8 +103,8 @@ class BillTest extends Unit
     {
         $actual = $expected = new User();
 
-        self::assertEquals($this->bill, $this->bill->setCustomer($actual));
-        self::assertEquals($expected, $this->bill->getCustomer());
+        self::assertSame($this->bill, $this->bill->setCustomer($actual));
+        self::assertSame($expected, $this->bill->getCustomer());
     }
 
     /**
@@ -114,9 +114,9 @@ class BillTest extends Unit
     {
         $actual = $expected = 33;
 
-        self::assertEquals($this->bill, $this->bill->setNumber($actual));
-        self::assertEquals($expected, $this->bill->getNumber());
-        self::assertEquals('WEB000033', $this->bill->getLabel());
+        self::assertSame($this->bill, $this->bill->setNumber($actual));
+        self::assertSame($expected, $this->bill->getNumber());
+        self::assertSame('WEB000033', $this->bill->getLabel());
     }
 
     /**
@@ -126,8 +126,8 @@ class BillTest extends Unit
     {
         $actual = $expected = new Order();
 
-        self::assertEquals($this->bill, $this->bill->setOrder($actual));
-        self::assertEquals($expected, $this->bill->getOrder());
+        self::assertSame($this->bill, $this->bill->setOrder($actual));
+        self::assertSame($expected, $this->bill->getOrder());
     }
 
     /**
@@ -138,13 +138,13 @@ class BillTest extends Unit
         $actualDate = $expectedDate = new DateTimeImmutable();
         $actualPrice = $expectedPrice = 42;
 
-        self::assertEquals($this->bill, $this->bill->setPrice($actualPrice));
+        self::assertSame($this->bill, $this->bill->setPrice($actualPrice));
         self::assertEmpty($this->bill->getAlreadyPaid());
-        self::assertEquals($expectedPrice, $this->bill->getToPaid());
-        self::assertEquals($this->bill, $this->bill->setPaidAt($actualDate));
-        self::assertEquals($expectedDate, $this->bill->getPaidAt());
+        self::assertSame($expectedPrice, $this->bill->getToPaid());
+        self::assertSame($this->bill, $this->bill->setPaidAt($actualDate));
+        self::assertSame($expectedDate, $this->bill->getPaidAt());
         self::assertTrue($this->bill->isPaid());
-        self::assertEquals($expectedPrice, $this->bill->getAlreadyPaid());
+        self::assertSame($expectedPrice, $this->bill->getAlreadyPaid());
         self::assertEmpty($this->bill->getToPaid());
     }
 }

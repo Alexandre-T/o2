@@ -414,7 +414,7 @@
     -->
     <rule ref="Squiz.Functions.MultiLineFunctionDeclaration">
         <properties>
-            <property name="indent" value="1"/>
+            <property name="indent" value="4"/>
         </properties>
     </rule>
 

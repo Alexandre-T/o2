@@ -55,6 +55,6 @@ abstract class AbstractPaginateController extends AbstractController
     {
         $field = $request->query->getAlpha('sort');
 
-        return empty($field) || in_array($field, $acceptedFields);
+        return empty($field) || in_array($field, $acceptedFields, true);
     }
 }

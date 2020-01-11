@@ -76,6 +76,7 @@ class OlsxController extends AbstractPaginateController
     {
         $olsxIdentifier = $customer->getOlsxIdentifier();
         $response = $this->redirectToRoute('accountant_registering_show', ['customer' => $customer->getId()]);
+
         try {
             if (!$evcService->isPersonal($olsxIdentifier)) {
                 $this->addFlash('error', 'flash.olsx.not-personal');
@@ -107,6 +108,7 @@ class OlsxController extends AbstractPaginateController
     {
         $olsxIdentifier = $customer->getOlsxIdentifier();
         $response = $this->redirectToRoute('accountant_registering_show', ['customer' => $customer->getId()]);
+
         try {
             if (!$evcService->exists($olsxIdentifier)) {
                 $this->addFlash('error', 'flash.olsx.not-exists');
@@ -140,10 +142,10 @@ class OlsxController extends AbstractPaginateController
      * @param MailerInterface     $mailer      to sent a mail on success
      */
     public function register(
-     Request $request,
-     UserManager $userManager,
-     EvcServiceInterface $evcService,
-     MailerInterface $mailer
+        Request $request,
+        UserManager $userManager,
+        EvcServiceInterface $evcService,
+        MailerInterface $mailer
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -257,6 +259,7 @@ class OlsxController extends AbstractPaginateController
     public function test(EvcServiceInterface $evcService): Response
     {
         $message = '';
+
         try {
             $evcService->exists(33333);
             $this->addFlash('success', 'flash.olsx.test-ok');

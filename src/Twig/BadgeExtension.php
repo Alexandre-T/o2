@@ -142,7 +142,7 @@ class BadgeExtension extends AbstractExtension
      * @param bool|null  $data data
      * @param mixed|null $date if date is not return in-progress
      */
-    public function badgeDoneFilter(bool $data = null, $date = null): string
+    public function badgeDoneFilter(?bool $data = null, $date = null): string
     {
         if (null === $date) {
             return $this->getBadge('secondary', 'common.in-progress');

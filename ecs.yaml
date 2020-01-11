@@ -1,0 +1,24 @@
+parameters:
+    indentation: "    " # "spaces" by default, you can also use "  " (2 spaces), "    " (4 spaces) or "	" (tab)
+    line_ending: "\n" # PHP_EOL by default; you can also use "\n"
+    cache: 'var/cache/.ecs_cache'
+    sets:
+        - 'clean-code'
+        - 'dead-code'
+        - 'psr12'
+        - 'symfony'
+        - 'symfony-risky'
+    skip:
+        SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff.UnusedProperty:
+            - 'src/Entity/OrderedArticle.php' #Because Loggable is not usable on composite key
+            - 'src/Entity/Order.php' #Because Loggable is not usable on composite key
+            - 'src/Entity/Bill.php'  #Because Loggable is not usable on composite key
+        SlevomatCodingStandard\Sniffs\Functions\UnusedParameterSniff.UnusedParameter:
+            - '*src/Migrations/Version*.php'
+            - 'src/Security/LoginFormAuthenticator.php'
+            - 'src/Manager/SettingsManager.php'
+            - 'src/Manager/ProgrammationManager.php'
+            - 'src/Manager/BillManager.php'
+    exclude_files:
+        # generated files
+        - '*tests/_support/_generated/*.php'

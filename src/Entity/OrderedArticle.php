@@ -31,9 +31,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OrderedArticle implements PriceInterface
 {
-    /*
-     * Price trait to set, unset vat and price.
-     */
     use PriceTrait;
 
     /**

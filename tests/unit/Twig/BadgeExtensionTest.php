@@ -62,8 +62,7 @@ class BadgeExtensionTest extends Unit
                 function ($text) {
                     return 'trans.'.$text;
                 }
-            )
-        ;
+            );
         $this->extension = new BadgeExtension($translator);
         parent::setUp();
     }
@@ -84,11 +83,11 @@ class BadgeExtensionTest extends Unit
     {
         $actual = true;
         $expected = '<span class="badge badge-success">trans.common.asked</span>';
-        self::assertEquals($expected, $this->extension->badgeAskedFilter($actual));
+        self::assertSame($expected, $this->extension->badgeAskedFilter($actual));
 
         $actual = false;
         $expected = '<span class="badge badge-secondary">trans.common.non-asked</span>';
-        self::assertEquals($expected, $this->extension->badgeAskedFilter($actual));
+        self::assertSame($expected, $this->extension->badgeAskedFilter($actual));
     }
 
     /**
@@ -98,15 +97,15 @@ class BadgeExtensionTest extends Unit
     {
         $actual = AskedVat::ACCEPTED;
         $expected = '<span class="badge badge-success">trans.common.accepted</span>';
-        self::assertEquals($expected, $this->extension->badgeAskedVatFilter($actual));
+        self::assertSame($expected, $this->extension->badgeAskedVatFilter($actual));
 
         $actual = AskedVat::REJECTED;
         $expected = '<span class="badge badge-dark">trans.common.rejected</span>';
-        self::assertEquals($expected, $this->extension->badgeAskedVatFilter($actual));
+        self::assertSame($expected, $this->extension->badgeAskedVatFilter($actual));
 
         $actual = AskedVat::UNDECIDED;
         $expected = '<span class="badge badge-secondary">trans.common.undecided</span>';
-        self::assertEquals($expected, $this->extension->badgeAskedVatFilter($actual));
+        self::assertSame($expected, $this->extension->badgeAskedVatFilter($actual));
     }
 
     /**
@@ -116,11 +115,11 @@ class BadgeExtensionTest extends Unit
     {
         $actual = true;
         $expected = '<span class="badge badge-danger">trans.payment.attention-required</span>';
-        self::assertEquals($expected, $this->extension->badgeAttentionRequiredFilter($actual));
+        self::assertSame($expected, $this->extension->badgeAttentionRequiredFilter($actual));
 
         $actual = false;
         $expected = '';
-        self::assertEquals($expected, $this->extension->badgeAttentionRequiredFilter($actual));
+        self::assertSame($expected, $this->extension->badgeAttentionRequiredFilter($actual));
     }
 
     /**
@@ -130,19 +129,19 @@ class BadgeExtensionTest extends Unit
     {
         $actual = true;
         $expected = '<span class="badge badge-warning">trans.bill.canceled</span>';
-        self::assertEquals($expected, $this->extension->badgeBillCanceledFilter($actual));
+        self::assertSame($expected, $this->extension->badgeBillCanceledFilter($actual));
 
         $actual = new Bill();
         $expected = '<span class="badge badge-success">trans.bill.non-canceled</span>';
-        self::assertEquals($expected, $this->extension->badgeBillCanceledFilter($actual));
+        self::assertSame($expected, $this->extension->badgeBillCanceledFilter($actual));
 
         $actual->setCanceledAt(new DateTimeImmutable());
         $expected = '<span class="badge badge-warning">trans.bill.canceled</span>';
-        self::assertEquals($expected, $this->extension->badgeBillCanceledFilter($actual));
+        self::assertSame($expected, $this->extension->badgeBillCanceledFilter($actual));
 
         $actual = false;
         $expected = '<span class="badge badge-success">trans.bill.non-canceled</span>';
-        self::assertEquals($expected, $this->extension->badgeBillCanceledFilter($actual));
+        self::assertSame($expected, $this->extension->badgeBillCanceledFilter($actual));
     }
 
     /**
@@ -152,19 +151,19 @@ class BadgeExtensionTest extends Unit
     {
         $actual = true;
         $expected = '<span class="badge badge-success">trans.bill.paid</span>';
-        self::assertEquals($expected, $this->extension->badgeBillPaidFilter($actual));
+        self::assertSame($expected, $this->extension->badgeBillPaidFilter($actual));
 
         $actual = new Bill();
         $expected = '<span class="badge badge-warning">trans.bill.non-paid</span>';
-        self::assertEquals($expected, $this->extension->badgeBillPaidFilter($actual));
+        self::assertSame($expected, $this->extension->badgeBillPaidFilter($actual));
 
         $actual->setPaidAt(new DateTimeImmutable());
         $expected = '<span class="badge badge-success">trans.bill.paid</span>';
-        self::assertEquals($expected, $this->extension->badgeBillPaidFilter($actual));
+        self::assertSame($expected, $this->extension->badgeBillPaidFilter($actual));
 
         $actual = false;
         $expected = '<span class="badge badge-warning">trans.bill.non-paid</span>';
-        self::assertEquals($expected, $this->extension->badgeBillPaidFilter($actual));
+        self::assertSame($expected, $this->extension->badgeBillPaidFilter($actual));
     }
 
     /**
@@ -174,11 +173,11 @@ class BadgeExtensionTest extends Unit
     {
         $actual = true;
         $expected = '<span class="badge badge-success">trans.order.credited</span>';
-        self::assertEquals($expected, $this->extension->badgeCreditedFilter($actual));
+        self::assertSame($expected, $this->extension->badgeCreditedFilter($actual));
 
         $actual = false;
         $expected = '<span class="badge badge-secondary">trans.order.not-credited</span>';
-        self::assertEquals($expected, $this->extension->badgeCreditedFilter($actual));
+        self::assertSame($expected, $this->extension->badgeCreditedFilter($actual));
     }
 
     /**
@@ -189,19 +188,19 @@ class BadgeExtensionTest extends Unit
         $data = true;
         $date = null;
         $expected = '<span class="badge badge-secondary">trans.common.in-progress</span>';
-        self::assertEquals($expected, $this->extension->badgeDoneFilter($data, $date));
+        self::assertSame($expected, $this->extension->badgeDoneFilter($data, $date));
 
         $data = false;
-        self::assertEquals($expected, $this->extension->badgeDoneFilter($data, $date));
+        self::assertSame($expected, $this->extension->badgeDoneFilter($data, $date));
 
         $data = true;
         $date = new DateTimeImmutable();
         $expected = '<span class="badge badge-success">trans.common.done</span>';
-        self::assertEquals($expected, $this->extension->badgeDoneFilter($data, $date));
+        self::assertSame($expected, $this->extension->badgeDoneFilter($data, $date));
 
         $data = false;
         $expected = '<span class="badge badge-warning">trans.common.not-done</span>';
-        self::assertEquals($expected, $this->extension->badgeDoneFilter($data, $date));
+        self::assertSame($expected, $this->extension->badgeDoneFilter($data, $date));
     }
 
     /**
@@ -211,11 +210,11 @@ class BadgeExtensionTest extends Unit
     {
         $actual = true;
         $expected = '<span class="badge badge-danger">trans.payment.expired</span>';
-        self::assertEquals($expected, $this->extension->badgeExpiredFilter($actual));
+        self::assertSame($expected, $this->extension->badgeExpiredFilter($actual));
 
         $actual = false;
         $expected = '';
-        self::assertEquals($expected, $this->extension->badgeExpiredFilter($actual));
+        self::assertSame($expected, $this->extension->badgeExpiredFilter($actual));
     }
 
     /**
@@ -225,23 +224,23 @@ class BadgeExtensionTest extends Unit
     {
         $actual = OrderInterface::CANCELED;
         $expected = '<span class="badge badge-danger">trans.order.canceled</span>';
-        self::assertEquals($expected, $this->extension->badgeStatusOrderFilter($actual));
+        self::assertSame($expected, $this->extension->badgeStatusOrderFilter($actual));
 
         $actual = OrderInterface::CARTED;
         $expected = '<span class="badge badge-secondary">trans.order.carted</span>';
-        self::assertEquals($expected, $this->extension->badgeStatusOrderFilter($actual));
+        self::assertSame($expected, $this->extension->badgeStatusOrderFilter($actual));
 
         $actual = OrderInterface::PENDING;
         $expected = '<span class="badge badge-warning">trans.order.pending</span>';
-        self::assertEquals($expected, $this->extension->badgeStatusOrderFilter($actual));
+        self::assertSame($expected, $this->extension->badgeStatusOrderFilter($actual));
 
         $actual = OrderInterface::PAID;
         $expected = '<span class="badge badge-success">trans.order.paid</span>';
-        self::assertEquals($expected, $this->extension->badgeStatusOrderFilter($actual));
+        self::assertSame($expected, $this->extension->badgeStatusOrderFilter($actual));
 
         $actual = 42;
         $expected = '<span class="badge badge-danger">trans.????</span>';
-        self::assertEquals($expected, $this->extension->badgeStatusOrderFilter($actual));
+        self::assertSame($expected, $this->extension->badgeStatusOrderFilter($actual));
     }
 
     /**
@@ -251,11 +250,11 @@ class BadgeExtensionTest extends Unit
     {
         $actual = true;
         $expected = '<span class="badge badge-success">trans.common.yes</span>';
-        self::assertEquals($expected, $this->extension->badgeYesNoFilter($actual));
+        self::assertSame($expected, $this->extension->badgeYesNoFilter($actual));
 
         $actual = false;
         $expected = '<span class="badge badge-danger">trans.common.no</span>';
-        self::assertEquals($expected, $this->extension->badgeYesNoFilter($actual));
+        self::assertSame($expected, $this->extension->badgeYesNoFilter($actual));
     }
 
     /**
@@ -266,9 +265,9 @@ class BadgeExtensionTest extends Unit
         self::assertIsArray($this->extension->getFilters());
         self::assertCount(10, $this->extension->getFilters());
         foreach ($this->extension->getFilters() as $key => $filter) {
-            /* @var TwigFilter $filter the filter to test */
+            /** @var TwigFilter $filter the filter to test */
             self::assertInstanceOf(TwigFilter::class, $filter);
-            self::assertEquals($key, $filter->getName().'Filter');
+            self::assertSame($key, $filter->getName().'Filter');
         }
     }
 
@@ -277,6 +276,6 @@ class BadgeExtensionTest extends Unit
      */
     public function testGetName(): void
     {
-        self::assertEquals('app_badge_extension', $this->extension->getName());
+        self::assertSame('app_badge_extension', $this->extension->getName());
     }
 }

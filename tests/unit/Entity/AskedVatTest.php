@@ -69,8 +69,8 @@ class AskedVatTest extends Unit
     {
         $actual = $expected = new User();
 
-        self::assertEquals($this->asked, $this->asked->setAccountant($actual));
-        self::assertEquals($expected, $this->asked->getAccountant());
+        self::assertSame($this->asked, $this->asked->setAccountant($actual));
+        self::assertSame($expected, $this->asked->getAccountant());
     }
 
     /**
@@ -80,8 +80,8 @@ class AskedVatTest extends Unit
     {
         $actual = $expected = 'code';
 
-        self::assertEquals($this->asked, $this->asked->setCode($actual));
-        self::assertEquals($expected, $this->asked->getCode());
+        self::assertSame($this->asked, $this->asked->setCode($actual));
+        self::assertSame($expected, $this->asked->getCode());
     }
 
     /**
@@ -95,7 +95,7 @@ class AskedVatTest extends Unit
         self::assertNull($this->asked->getCustomer());
         self::assertNull($this->asked->getId());
         self::assertEmpty($this->asked->getLabel());
-        self::assertEquals(AskedVat::UNDECIDED, $this->asked->getStatus());
+        self::assertSame(AskedVat::UNDECIDED, $this->asked->getStatus());
     }
 
     /**
@@ -107,12 +107,11 @@ class AskedVatTest extends Unit
         $actual
             ->setName('Doe')
             ->setGivenName('John')
-            ->setType(PersonInterface::PHYSIC)
-        ;
+            ->setType(PersonInterface::PHYSIC);
 
-        self::assertEquals($this->asked, $this->asked->setCustomer($actual));
-        self::assertEquals($expected, $this->asked->getCustomer());
-        self::assertEquals('John Doe', $this->asked->getLabel());
+        self::assertSame($this->asked, $this->asked->setCustomer($actual));
+        self::assertSame($expected, $this->asked->getCustomer());
+        self::assertSame('John Doe', $this->asked->getLabel());
     }
 
     /**
@@ -122,7 +121,7 @@ class AskedVatTest extends Unit
     {
         $actual = $expected = AskedVat::REJECTED;
 
-        self::assertEquals($this->asked, $this->asked->setStatus($actual));
-        self::assertEquals($expected, $this->asked->getStatus());
+        self::assertSame($this->asked, $this->asked->setStatus($actual));
+        self::assertSame($expected, $this->asked->getStatus());
     }
 }

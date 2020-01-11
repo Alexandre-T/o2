@@ -67,9 +67,9 @@ class SettingsTest extends Unit
     {
         $actual = $expected = 'code';
 
-        self::assertEquals($this->settings, $this->settings->setCode($actual));
-        self::assertEquals($expected, $this->settings->getCode());
-        self::assertEquals('settings.code', $this->settings->getLabel());
+        self::assertSame($this->settings, $this->settings->setCode($actual));
+        self::assertSame($expected, $this->settings->getCode());
+        self::assertSame('settings.code', $this->settings->getLabel());
     }
 
     /**
@@ -91,9 +91,9 @@ class SettingsTest extends Unit
      */
     public function testUpdatable(): void
     {
-        self::assertEquals($this->settings, $this->settings->setUpdatable(false));
+        self::assertSame($this->settings, $this->settings->setUpdatable(false));
         self::assertFalse($this->settings->isUpdatable());
-        self::assertEquals($this->settings, $this->settings->setUpdatable(true));
+        self::assertSame($this->settings, $this->settings->setUpdatable(true));
         self::assertTrue($this->settings->isUpdatable());
     }
 
@@ -104,32 +104,32 @@ class SettingsTest extends Unit
     {
         //Test with a date
         $expected = $actual = new DateTimeImmutable();
-        self::assertEquals($this->settings, $this->settings->setValue($actual));
-        self::assertEquals($expected, $this->settings->getValue());
+        self::assertSame($this->settings, $this->settings->setValue($actual));
+        self::assertSame($expected, $this->settings->getValue());
         self::assertInstanceOf(DateTimeImmutable::class, $this->settings->getValue());
 
         //Test with an integer
         $expected = $actual = 42;
-        self::assertEquals($this->settings, $this->settings->setValue($actual));
-        self::assertEquals($expected, $this->settings->getValue());
+        self::assertSame($this->settings, $this->settings->setValue($actual));
+        self::assertSame($expected, $this->settings->getValue());
         self::assertIsInt($this->settings->getValue());
 
         //Test with with a string
         $expected = $actual = '42';
-        self::assertEquals($this->settings, $this->settings->setValue($actual));
-        self::assertEquals($expected, $this->settings->getValue());
+        self::assertSame($this->settings, $this->settings->setValue($actual));
+        self::assertSame($expected, $this->settings->getValue());
         self::assertIsString($this->settings->getValue());
 
         //Test with with an array
         $expected = $actual = ['foo' => 'bar', 0 => 42];
-        self::assertEquals($this->settings, $this->settings->setValue($actual));
-        self::assertEquals($expected, $this->settings->getValue());
+        self::assertSame($this->settings, $this->settings->setValue($actual));
+        self::assertSame($expected, $this->settings->getValue());
         self::assertIsArray($this->settings->getValue());
 
         //Test with with an object
         $expected = $actual = new Settings();
-        self::assertEquals($this->settings, $this->settings->setValue($actual));
-        self::assertEquals($expected, $this->settings->getValue());
+        self::assertSame($this->settings, $this->settings->setValue($actual));
+        self::assertSame($expected, $this->settings->getValue());
         self::assertIsObject($this->settings->getValue());
         self::assertInstanceOf(Settings::class, $this->settings->getValue());
     }

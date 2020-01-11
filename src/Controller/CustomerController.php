@@ -71,12 +71,12 @@ class CustomerController extends AbstractController
      * @param UserManager          $userManager          to update credit of user
      */
     public function newProgrammation(
-     LoggerInterface $logger,
-     MailerInterface $mailer,
-     Request $request,
-     ProgrammationManager $programmationManager,
-     SettingsManager $settingsManager,
-     UserManager $userManager
+        LoggerInterface $logger,
+        MailerInterface $mailer,
+        Request $request,
+        ProgrammationManager $programmationManager,
+        SettingsManager $settingsManager,
+        UserManager $userManager
     ): Response {
         $model = new ProgrammationModel();
         $model->setCustomerCredit($this->getUser()->getCredit());
@@ -93,6 +93,7 @@ class CustomerController extends AbstractController
             $userManager->debit($programmation);
             $programmationManager->save($file);
             $programmationManager->save($programmation);
+
             try {
                 /** @var string $programmer */
                 $programmer = $settingsManager->getValue('mail-programmer');
@@ -132,11 +133,11 @@ class CustomerController extends AbstractController
      * @return Response|RedirectResponse
      */
     public function orderCmd(
-     Request $request,
-     ArticleManager $articleManager,
-     OrderManager $orderManager,
-     PaymentManager $paymentManager,
-     Payum $payum
+        Request $request,
+        ArticleManager $articleManager,
+        OrderManager $orderManager,
+        PaymentManager $paymentManager,
+        Payum $payum
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -152,15 +153,18 @@ class CustomerController extends AbstractController
             $returnUrl = $this->generateUrl(
                 'customer_payment_complete',
                 ['uuid' => $order->getUuid()],
-                UrlGeneratorInterface::ABSOLUTE_URL);
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
             $cancelUrl = $this->generateUrl(
                 'customer_payment_cancel',
                 ['order' => $order->getId()],
-                UrlGeneratorInterface::ABSOLUTE_URL);
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
             $analyseUrl = $this->generateUrl(
                 'customer_payment_done',
                 [],
-                UrlGeneratorInterface::ABSOLUTE_URL);
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
 
             if ('paypal_express_checkout' === $form->getData()->getMethod()) {
                 $details = array_merge($details, $paymentManager->getPaypalCheckoutParams($order));

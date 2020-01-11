@@ -39,8 +39,7 @@ class PasswordAdminFormType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('password', PlainPasswordType::class)
-        ;
+            ->add('password', PlainPasswordType::class);
     }
 
     /**

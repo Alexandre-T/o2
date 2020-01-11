@@ -74,20 +74,20 @@ class UserTest extends Unit
     public function testBill(): void
     {
         $bill = new Bill();
-        self::assertEquals($this->user, $this->user->addBill($bill));
+        self::assertSame($this->user, $this->user->addBill($bill));
         self::assertNotEmpty($this->user->getBills());
         self::assertContains($bill, $this->user->getBills());
 
         $anotherBill = new Bill();
-        self::assertEquals($this->user, $this->user->addBill($anotherBill));
+        self::assertSame($this->user, $this->user->addBill($anotherBill));
         self::assertNotEmpty($this->user->getBills());
         self::assertContains($bill, $this->user->getBills());
         self::assertContains($anotherBill, $this->user->getBills());
 
-        self::assertEquals($this->user, $this->user->removeBill($bill));
+        self::assertSame($this->user, $this->user->removeBill($bill));
         self::assertNotContains($bill, $this->user->getBills());
         self::assertContains($anotherBill, $this->user->getBills());
-        self::assertEquals($this->user, $this->user->removeBill($anotherBill));
+        self::assertSame($this->user, $this->user->removeBill($anotherBill));
         self::assertEmpty($this->user->getBills());
     }
 
@@ -103,8 +103,8 @@ class UserTest extends Unit
         self::assertNotNull($this->user->getLabel());
         self::assertEmpty($this->user->getLabel());
         self::assertNull($this->user->getGivenName());
-        self::assertEquals(LanguageInterface::INITIAL, $this->user->getLanguage());
-        self::assertEquals('fr-FR', $this->user->getLocale());
+        self::assertSame(LanguageInterface::INITIAL, $this->user->getLanguage());
+        self::assertSame('fr-FR', $this->user->getLocale());
         self::assertNull($this->user->getMail());
         self::assertNull($this->user->getName());
         self::assertNull($this->user->getPassword());
@@ -114,7 +114,7 @@ class UserTest extends Unit
         self::assertNull($this->user->getSalt());
         self::assertNull($this->user->getSociety());
         self::assertNull($this->user->getTelephone());
-        self::assertEquals(PersonInterface::PHYSIC, $this->user->getType());
+        self::assertSame(PersonInterface::PHYSIC, $this->user->getType());
         self::assertIsBool($this->user->getType());
         self::assertIsBool($this->user->isTos());
         self::assertIsBool($this->user->isEnglish());
@@ -127,7 +127,7 @@ class UserTest extends Unit
 
         $this->tester->wantToTest('roles are well initialized');
         self::assertNotNull($this->user->getRoles());
-        self::assertEquals(['ROLE_USER'], $this->user->getRoles());
+        self::assertSame(['ROLE_USER'], $this->user->getRoles());
         self::assertFalse($this->user->isAdmin());
         self::assertTrue($this->user->isCustomer());
         self::assertFalse($this->user->isAccountant());
@@ -143,23 +143,23 @@ class UserTest extends Unit
         self::assertFalse($this->user->hasRole('foo'));
 
         //Set ROLE_ADMIN and test.
-        self::assertEquals($this->user, $this->user->setRoles([User::ROLE_ADMIN]));
+        self::assertSame($this->user, $this->user->setRoles([User::ROLE_ADMIN]));
         self::assertTrue($this->user->isAdmin());
         self::assertTrue($this->user->isCustomer());
 
         //Set ROLE_ACCOUNTANT and test.
-        self::assertEquals($this->user, $this->user->setRoles([User::ROLE_ACCOUNTANT]));
+        self::assertSame($this->user, $this->user->setRoles([User::ROLE_ACCOUNTANT]));
         self::assertTrue($this->user->isAccountant());
         self::assertTrue($this->user->isCustomer());
 
         //Add ROLE_PROGRAMMER and test.
-        self::assertEquals($this->user, $this->user->addRole(User::ROLE_PROGRAMMER));
+        self::assertSame($this->user, $this->user->addRole(User::ROLE_PROGRAMMER));
         self::assertTrue($this->user->isAccountant());
         self::assertTrue($this->user->isProgrammer());
         self::assertTrue($this->user->isCustomer());
 
         //Remove ALL roles and test.
-        self::assertEquals($this->user, $this->user->setRoles([]));
+        self::assertSame($this->user, $this->user->setRoles([]));
         self::assertFalse($this->user->isAdmin());
         self::assertTrue($this->user->isCustomer());
         self::assertFalse($this->user->isAccountant());
@@ -175,22 +175,22 @@ class UserTest extends Unit
 
         $this->user->setSociety('society');
         $this->user->setType(PersonInterface::MORAL);
-        self::assertEquals('society', $this->user->getLabel());
+        self::assertSame('society', $this->user->getLabel());
 
         $this->user->setGivenName('john');
-        self::assertEquals('society', $this->user->getLabel());
+        self::assertSame('society', $this->user->getLabel());
 
         $this->user->setType(PersonInterface::PHYSIC);
-        self::assertEquals('john', $this->user->getLabel());
+        self::assertSame('john', $this->user->getLabel());
 
         $this->user->setName('doe');
-        self::assertEquals('john doe', $this->user->getLabel());
+        self::assertSame('john doe', $this->user->getLabel());
 
         $this->user->setGivenName(null);
-        self::assertEquals('doe', $this->user->getLabel());
+        self::assertSame('doe', $this->user->getLabel());
 
         $this->user->setName(null);
-        self::assertEquals('', $this->user->getLabel());
+        self::assertSame('', $this->user->getLabel());
     }
 
     /**
@@ -200,9 +200,9 @@ class UserTest extends Unit
     {
         $actual = $expected = LanguageInterface::ENGLISH;
 
-        self::assertEquals($this->user, $this->user->setLanguage($actual));
-        self::assertEquals($expected, $this->user->getLanguage());
-        self::assertEquals('en-GB', $this->user->getLocale());
+        self::assertSame($this->user, $this->user->setLanguage($actual));
+        self::assertSame($expected, $this->user->getLanguage());
+        self::assertSame('en-GB', $this->user->getLocale());
     }
 
     /**
@@ -210,12 +210,12 @@ class UserTest extends Unit
      */
     public function testMail(): void
     {
-        self::assertEquals($this->user, $this->user->setMail('mail'));
-        self::assertEquals('mail', $this->user->getMail());
-        self::assertEquals('mail', $this->user->getUsername());
-        self::assertEquals($this->user, $this->user->setUsername('label2'));
-        self::assertEquals('label2', $this->user->getUsername());
-        self::assertEquals('label2', $this->user->getMail());
+        self::assertSame($this->user, $this->user->setMail('mail'));
+        self::assertSame('mail', $this->user->getMail());
+        self::assertSame('mail', $this->user->getUsername());
+        self::assertSame($this->user, $this->user->setUsername('label2'));
+        self::assertSame('label2', $this->user->getUsername());
+        self::assertSame('label2', $this->user->getMail());
     }
 
     /**
@@ -225,9 +225,9 @@ class UserTest extends Unit
     {
         $expected = $actual = new Order();
 
-        self::assertEquals($this->user, $this->user->addOrder($actual));
+        self::assertSame($this->user, $this->user->addOrder($actual));
         self::assertTrue($this->user->getOrders()->contains($expected));
-        self::assertEquals($this->user, $this->user->removeOrder($actual));
+        self::assertSame($this->user, $this->user->removeOrder($actual));
         self::assertFalse($this->user->getOrders()->contains($expected));
     }
 
@@ -237,9 +237,9 @@ class UserTest extends Unit
     public function testPassword(): void
     {
         $expected = $actual = 'toto';
-        self::assertEquals($this->user, $this->user->setPassword($actual));
-        self::assertEquals($expected, $this->user->getPassword());
-        self::assertEquals($this->user, $this->user->eraseCredentials());
+        self::assertSame($this->user, $this->user->setPassword($actual));
+        self::assertSame($expected, $this->user->getPassword());
+        self::assertSame($this->user, $this->user->eraseCredentials());
         self::assertNull($this->user->getPlainPassword());
     }
 
@@ -252,8 +252,8 @@ class UserTest extends Unit
         $this->user->setPassword('foo');
         //I test the setter
         $expected = $actual = 'bar';
-        self::assertEquals($this->user, $this->user->setPlainPassword($actual));
-        self::assertEquals($expected, $this->user->getPlainPassword());
+        self::assertSame($this->user, $this->user->setPlainPassword($actual));
+        self::assertSame($expected, $this->user->getPlainPassword());
         //When setter of plain password was called, password must have been reinitialized.
         self::assertNull($this->user->getPassword());
     }
@@ -264,20 +264,20 @@ class UserTest extends Unit
     public function testProgrammation(): void
     {
         $programmation = new Programmation();
-        self::assertEquals($this->user, $this->user->addProgrammation($programmation));
+        self::assertSame($this->user, $this->user->addProgrammation($programmation));
         self::assertNotEmpty($this->user->getProgrammations());
         self::assertContains($programmation, $this->user->getProgrammations());
 
         $anotherProgrammation = new Programmation();
-        self::assertEquals($this->user, $this->user->addProgrammation($anotherProgrammation));
+        self::assertSame($this->user, $this->user->addProgrammation($anotherProgrammation));
         self::assertNotEmpty($this->user->getProgrammations());
         self::assertContains($programmation, $this->user->getProgrammations());
         self::assertContains($anotherProgrammation, $this->user->getProgrammations());
 
-        self::assertEquals($this->user, $this->user->removeProgrammation($programmation));
+        self::assertSame($this->user, $this->user->removeProgrammation($programmation));
         self::assertNotContains($programmation, $this->user->getProgrammations());
         self::assertContains($anotherProgrammation, $this->user->getProgrammations());
-        self::assertEquals($this->user, $this->user->removeProgrammation($anotherProgrammation));
+        self::assertSame($this->user, $this->user->removeProgrammation($anotherProgrammation));
         self::assertEmpty($this->user->getProgrammations());
     }
 
@@ -288,8 +288,8 @@ class UserTest extends Unit
     {
         $actual = $expected = new DateTimeImmutable();
 
-        self::assertEquals($this->user, $this->user->setResettingAt($actual));
-        self::assertEquals($expected, $this->user->getResettingAt());
+        self::assertSame($this->user, $this->user->setResettingAt($actual));
+        self::assertSame($expected, $this->user->getResettingAt());
     }
 
     /**
@@ -299,8 +299,8 @@ class UserTest extends Unit
     {
         $actual = $expected = 'resettingToken';
 
-        self::assertEquals($this->user, $this->user->setResettingToken($actual));
-        self::assertEquals($expected, $this->user->getResettingToken());
+        self::assertSame($this->user, $this->user->setResettingToken($actual));
+        self::assertSame($expected, $this->user->getResettingToken());
     }
 
     /**
@@ -319,7 +319,7 @@ class UserTest extends Unit
         $serialize = $this->user->serialize();
         $user = new User();
         $user->unserialize($serialize);
-        self::assertEquals($this->user, $user);
+        self::assertSame($this->user, $user);
 
         $this->tester->wantToTest('serialization with password');
         $this->user->setPlainPassword('bar');
@@ -327,8 +327,8 @@ class UserTest extends Unit
         $serialize = $this->user->serialize();
         $user = new User();
         $user->unserialize($serialize);
-        self::assertNotEquals($this->user, $user);
-        self::assertNotEquals($this->user->getPlainPassword(), $user->getPlainPassword());
+        self::assertNotSame($this->user, $user);
+        self::assertNotSame($this->user->getPlainPassword(), $user->getPlainPassword());
 
         $this->tester->wantToTest('plain-password are never serialized');
         self::assertStringNotContainsString('bar', $serialize);
@@ -341,8 +341,8 @@ class UserTest extends Unit
     {
         $actual = $expected = 'telephone';
 
-        self::assertEquals($this->user, $this->user->setTelephone($actual));
-        self::assertEquals($expected, $this->user->getTelephone());
+        self::assertSame($this->user, $this->user->setTelephone($actual));
+        self::assertSame($expected, $this->user->getTelephone());
     }
 
     /**
@@ -350,7 +350,7 @@ class UserTest extends Unit
      */
     public function testTos(): void
     {
-        self::assertEquals($this->user, $this->user->setTos(true));
+        self::assertSame($this->user, $this->user->setTos(true));
         self::assertTrue($this->user->isTos());
     }
 
@@ -368,19 +368,16 @@ class UserTest extends Unit
             ->expects(self::once())
             ->method('atPath')
             ->with('society')
-            ->willReturn($builder)
-        ;
+            ->willReturn($builder);
         $builder
             ->expects(self::once())
-            ->method('addViolation')
-        ;
+            ->method('addViolation');
 
         $context
             ->expects(self::once())
             ->method('buildViolation')
             ->with('error.society.blank', [])
-            ->willReturn($builder)
-        ;
+            ->willReturn($builder);
 
         $this->user->setType(PersonInterface::MORAL);
         self::assertTrue($this->user->IsSociety());
@@ -403,19 +400,16 @@ class UserTest extends Unit
             ->expects(self::once())
             ->method('atPath')
             ->with('name')
-            ->willReturn($builder)
-        ;
+            ->willReturn($builder);
         $builder
             ->expects(self::once())
-            ->method('addViolation')
-        ;
+            ->method('addViolation');
 
         $context
             ->expects(self::once())
             ->method('buildViolation')
             ->with('error.name.blank', [])
-            ->willReturn($builder)
-        ;
+            ->willReturn($builder);
 
         $this->user->validate($context);
     }
@@ -430,8 +424,7 @@ class UserTest extends Unit
 
         $context
             ->expects(self::never())
-            ->method('buildViolation')
-        ;
+            ->method('buildViolation');
 
         //With a valid family name
         $this->user->setName('foo');
@@ -453,7 +446,7 @@ class UserTest extends Unit
     {
         $actual = $expected = 'vatNumber';
 
-        self::assertEquals($this->user, $this->user->setVatNumber($actual));
-        self::assertEquals($expected, $this->user->getVatNumber());
+        self::assertSame($this->user, $this->user->setVatNumber($actual));
+        self::assertSame($expected, $this->user->getVatNumber());
     }
 }

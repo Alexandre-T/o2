@@ -50,9 +50,9 @@ class MailController extends AbstractPaginateController
      * @return RedirectResponse|Response
      */
     public function edit(
-     MailerInterface $mailer,
-     Request $request,
-     SettingsManager $settingsManager
+        MailerInterface $mailer,
+        Request $request,
+        SettingsManager $settingsManager
     ): Response {
         try {
             /** @var string $email */

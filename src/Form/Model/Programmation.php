@@ -299,8 +299,7 @@ class Programmation implements ProgrammationInterface
             ->setSerial($this->getSerial())
             ->setStageOne($this->isStageOne())
             ->setVersion($this->getVersion())
-            ->setYear($this->getYear())
-        ;
+            ->setYear($this->getYear());
     }
 
     /**
@@ -740,7 +739,7 @@ class Programmation implements ProgrammationInterface
      *
      * @param HttpFile $originalFile original file posted
      */
-    public function setOriginalFile(HttpFile $originalFile): Programmation
+    public function setOriginalFile(HttpFile $originalFile): self
     {
         $this->originalFile = $originalFile;
 
@@ -788,13 +787,6 @@ class Programmation implements ProgrammationInterface
 
         return $this;
     }
-
-    /*Original file fluent setter.
-     *
-     * @param HttpFile $originalFile Original file posted
-     *
-     * @return Programmation
-     */
 
     /**
      * Reader tool fluent setter.

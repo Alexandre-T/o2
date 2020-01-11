@@ -42,24 +42,17 @@ class ArticleRepositoryTest extends KernelTestCase
      */
     private $entityManager;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
 
         $this->articleRepository = $this->entityManager->getRepository(Article::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function tearDown(): void
     {
         parent::tearDown();
@@ -77,7 +70,7 @@ class ArticleRepositoryTest extends KernelTestCase
         $article = $this->articleRepository->findOneByCode($actual);
         self::assertNotNull($article);
         self::assertInstanceOf(Article::class, $article);
-        self::assertEquals($expected, $article->getCode());
+        self::assertSame($expected, $article->getCode());
 
         $actual = 'non-existent';
         $article = $this->articleRepository->findOneByCode($actual);

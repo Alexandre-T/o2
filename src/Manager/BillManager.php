@@ -88,11 +88,11 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
      * @throws QueryException when criteria is not valid
      */
     public function paginateWithUser(
-     User $user,
-     int $page,
-     int $limit,
-     string $sortField,
-     string $sortOrder
+        User $user,
+        int $page,
+        int $limit,
+        string $sortField,
+        string $sortOrder
     ): PaginationInterface {
         $criteria = Criteria::create();
         $expression = $criteria::expr()->eq('customer', $user);
@@ -139,8 +139,7 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
             ->innerJoin('bill.customer', 'customer')
             ->addSelect('bill.number as HIDDEN number')
             ->addSelect('customer.name as HIDDEN customers')
-            ->addSelect('bill.price as HIDDEN amount')
-            ;
+            ->addSelect('bill.price as HIDDEN amount');
     }
 
     /**

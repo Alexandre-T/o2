@@ -21,7 +21,9 @@ namespace App\Entity;
 interface OlsxInterface
 {
     public const REGISTERED = 2;
+
     public const REGISTERING = 1;
+
     public const UNREGISTERED = 0;
 
     /**

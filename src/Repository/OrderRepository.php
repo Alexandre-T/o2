@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Order;
-use App\Entity\Payment as Payment;
+use App\Entity\Payment;
 use App\Entity\User;
 use App\Model\OrderInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -63,8 +63,7 @@ class OrderRepository extends ServiceEntityRepository
             ->setParameter('statusOrder', $statusOrder)
             ->setParameter('nature', OrderInterface::NATURE_CREDIT)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
@@ -88,8 +87,7 @@ class OrderRepository extends ServiceEntityRepository
             ->setParameter('statusOrder', $code)
             ->setParameter('nature', OrderInterface::NATURE_CREDIT)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
@@ -114,8 +112,7 @@ class OrderRepository extends ServiceEntityRepository
             ->setParameter('statusOrder', $statusOrder)
             ->setParameter('nature', Order::NATURE_CMD)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
@@ -135,8 +132,7 @@ class OrderRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->setParameter('statusOrder', OrderInterface::PAID)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
 
         if (empty($orders)) {
             return null;
@@ -172,8 +168,7 @@ class OrderRepository extends ServiceEntityRepository
                 ->setParameter('customer', $customer)
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getOneOrNullResult()
-            ;
+                ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
             return null;
         }

@@ -84,10 +84,10 @@ class SecurityController extends AbstractController
      * @param LoginFormAuthenticator    $loginAuthenticator   login form authenticator
      */
     public function registerAction(
-     Request $request,
-     EntityManagerInterface $entityManager,
-     GuardAuthenticatorHandler $authenticatorHandler,
-     LoginFormAuthenticator $loginAuthenticator
+        Request $request,
+        EntityManagerInterface $entityManager,
+        GuardAuthenticatorHandler $authenticatorHandler,
+        LoginFormAuthenticator $loginAuthenticator
     ): Response {
         if ($this->getUser()) {
             return new RedirectResponse('/');

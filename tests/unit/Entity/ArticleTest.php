@@ -66,8 +66,8 @@ class ArticleTest extends Unit
     {
         $actual = $expected = 'code';
 
-        self::assertEquals($this->article, $this->article->setCode($actual));
-        self::assertEquals($expected, $this->article->getCode());
+        self::assertSame($this->article, $this->article->setCode($actual));
+        self::assertSame($expected, $this->article->getCode());
     }
 
     /**
@@ -88,8 +88,8 @@ class ArticleTest extends Unit
     {
         $expected = $actual = 42;
 
-        self::assertEquals($this->article, $this->article->setCredit($actual));
-        self::assertEquals($expected, $this->article->getCredit());
+        self::assertSame($this->article, $this->article->setCredit($actual));
+        self::assertSame($expected, $this->article->getCredit());
     }
 
     /**
@@ -99,7 +99,7 @@ class ArticleTest extends Unit
     {
         $expected = $actual = 42.42;
 
-        self::assertEquals($this->article, $this->article->setPrice($actual));
-        self::assertEquals($expected, $this->article->getPrice());
+        self::assertSame($this->article, $this->article->setPrice($actual));
+        self::assertSame($expected, $this->article->getPrice());
     }
 }

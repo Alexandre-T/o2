@@ -55,8 +55,7 @@ class PasswordFormType extends AbstractType
                     'label' => 'form.field.new-password',
                     'help' => 'form.help.new-password',
                 ],
-            ])
-        ;
+            ]);
     }
 
     /**

@@ -66,7 +66,7 @@ class AcceptanceTester extends Actor
      * @param string      $user     $user without (at)example.org
      * @param string|null $password password will equals user if not defined
      */
-    public function login(string $user, string $password = null): void
+    public function login(string $user, ?string $password = null): void
     {
         $mail = $user.'@example.org';
         $password = $password ?? $user;

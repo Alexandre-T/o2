@@ -67,8 +67,8 @@ class PostalAddressTest extends Unit
     {
         $actual = $expected = 'complement';
 
-        self::assertEquals($this->bill, $this->bill->setComplement($actual));
-        self::assertEquals($expected, $this->bill->getComplement());
+        self::assertSame($this->bill, $this->bill->setComplement($actual));
+        self::assertSame($expected, $this->bill->getComplement());
     }
 
     /**
@@ -97,7 +97,7 @@ class PostalAddressTest extends Unit
         $actual = new User();
 
         //null bill copy null user.
-        self::assertEquals($this->bill, $this->bill->copyAddress($actual));
+        self::assertSame($this->bill, $this->bill->copyAddress($actual));
         self::assertNull($this->bill->getComplement());
         self::assertNull($this->bill->getCountry());
         self::assertNull($this->bill->getLocality());
@@ -110,7 +110,7 @@ class PostalAddressTest extends Unit
         $this->bill->setLocality('locality');
         $this->bill->setPostalCode('postal code');
         $this->bill->setStreetAddress('street address');
-        self::assertEquals($this->bill, $this->bill->copyAddress($actual));
+        self::assertSame($this->bill, $this->bill->copyAddress($actual));
         self::assertNull($this->bill->getComplement());
         self::assertNull($this->bill->getCountry());
         self::assertNull($this->bill->getLocality());
@@ -128,12 +128,12 @@ class PostalAddressTest extends Unit
         $this->bill->setLocality('locality');
         $this->bill->setPostalCode('postal code');
         $this->bill->setStreetAddress('street address');
-        self::assertEquals($this->bill, $this->bill->copyAddress($actual));
-        self::assertEquals('userC', $this->bill->getComplement());
-        self::assertEquals('userO', $this->bill->getCountry());
-        self::assertEquals('userL', $this->bill->getLocality());
-        self::assertEquals('userP', $this->bill->getPostalCode());
-        self::assertEquals('userS', $this->bill->getStreetAddress());
+        self::assertSame($this->bill, $this->bill->copyAddress($actual));
+        self::assertSame('userC', $this->bill->getComplement());
+        self::assertSame('userO', $this->bill->getCountry());
+        self::assertSame('userL', $this->bill->getLocality());
+        self::assertSame('userP', $this->bill->getPostalCode());
+        self::assertSame('userS', $this->bill->getStreetAddress());
     }
 
     /**
@@ -143,8 +143,8 @@ class PostalAddressTest extends Unit
     {
         $actual = $expected = 'FR';
 
-        self::assertEquals($this->bill, $this->bill->setCountry($actual));
-        self::assertEquals($expected, $this->bill->getCountry());
+        self::assertSame($this->bill, $this->bill->setCountry($actual));
+        self::assertSame($expected, $this->bill->getCountry());
     }
 
     /**
@@ -154,8 +154,8 @@ class PostalAddressTest extends Unit
     {
         $actual = $expected = 'locality';
 
-        self::assertEquals($this->bill, $this->bill->setLocality($actual));
-        self::assertEquals($expected, $this->bill->getLocality());
+        self::assertSame($this->bill, $this->bill->setLocality($actual));
+        self::assertSame($expected, $this->bill->getLocality());
     }
 
     /**
@@ -165,8 +165,8 @@ class PostalAddressTest extends Unit
     {
         $actual = $expected = '33000';
 
-        self::assertEquals($this->bill, $this->bill->setPostalCode($actual));
-        self::assertEquals($expected, $this->bill->getPostalCode());
+        self::assertSame($this->bill, $this->bill->setPostalCode($actual));
+        self::assertSame($expected, $this->bill->getPostalCode());
     }
 
     /**
@@ -176,7 +176,7 @@ class PostalAddressTest extends Unit
     {
         $actual = $expected = 'address';
 
-        self::assertEquals($this->bill, $this->bill->setStreetAddress($actual));
-        self::assertEquals($expected, $this->bill->getStreetAddress());
+        self::assertSame($this->bill, $this->bill->setStreetAddress($actual));
+        self::assertSame($expected, $this->bill->getStreetAddress());
     }
 }

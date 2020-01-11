@@ -47,17 +47,18 @@ class ConvertPaymentAction implements ActionInterface, GatewayAwareInterface
         $order = $payment->getOrder();
         $user = $order->getCustomer();
         $model = ArrayObject::ensureArrayObject($payment->getDetails());
-        if (false == $model['reference']) {
+        if (empty($model['reference'])) {
             $model['reference'] = (string) $payment->getNumber();
         }
 
-        if (false == $model['amount']) {
+        if (empty($model['amount'])) {
             $this->gateway->execute($currency = new GetCurrency($payment->getCurrencyCode()));
             $amount = (string) $payment->getTotalAmount();
             if (0 < $currency->exp) {
                 $divisor = 10 ** $currency->exp;
                 $amount = (string) round($amount / $divisor, $currency->exp);
-                if (false !== $pos = strpos($amount, '.')) {
+                $pos = strpos($amount, '.');
+                if (false !== $pos) {
                     $amount = str_pad($amount, $pos + 1 + $currency->exp, '0', STR_PAD_RIGHT);
                 }
             }
@@ -66,11 +67,11 @@ class ConvertPaymentAction implements ActionInterface, GatewayAwareInterface
             $model['currency'] = (string) strtoupper($currency->code);
         }
 
-        if (false == $model['email']) {
+        if (empty($model['email'])) {
             $model['email'] = $payment->getClientEmail();
         }
 
-        if (false == $model['comment']) {
+        if (empty($model['comment'])) {
             $model['comment'] = 'Customer: '.$payment->getClientId();
             $model['comment'] .= ',Order: '.$payment->getOrder()->getId();
         }
@@ -102,6 +103,6 @@ class ConvertPaymentAction implements ActionInterface, GatewayAwareInterface
     {
         return $request instanceof Convert
             && $request->getSource() instanceof PaymentInterface
-            && 'array' == $request->getTo();
+            && 'array' === $request->getTo();
     }
 }

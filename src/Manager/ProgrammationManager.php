@@ -95,11 +95,11 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
      * @throws QueryException when criteria is not valid
      */
     public function paginateWithUser(
-     User $user,
-     int $page,
-     int $limit,
-     string $sortField,
-     string $sortOrder
+        User $user,
+        int $page,
+        int $limit,
+        string $sortField,
+        string $sortOrder
     ): PaginationInterface {
         $criteria = Criteria::create();
         $expression = $criteria::expr()->eq('customer', $user);
@@ -137,8 +137,7 @@ class ProgrammationManager extends AbstractRepositoryManager implements ManagerI
             ->addSelect(self::ALIAS.'.createdAt as HIDDEN createdAt')
             ->addSelect(self::ALIAS.'.make as HIDDEN make')
             ->addSelect(self::ALIAS.'.model as HIDDEN model')
-            ->addSelect(self::ALIAS.'.deliveredAt as HIDDEN deliveredAt')
-        ;
+            ->addSelect(self::ALIAS.'.deliveredAt as HIDDEN deliveredAt');
     }
 
     /**

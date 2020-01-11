@@ -242,13 +242,13 @@ class ProgrammerController extends AbstractPaginateController
      * @param TranslatorInterface  $trans                The translator
      */
     public function upload(
-     LoggerInterface $logger,
-     MailerInterface $mailer,
-     ProgrammationManager $programmationManager,
-     Programmation $programmation,
-     Request $request,
-     SettingsManager $settingsManager,
-     TranslatorInterface $trans
+        LoggerInterface $logger,
+        MailerInterface $mailer,
+        ProgrammationManager $programmationManager,
+        Programmation $programmation,
+        Request $request,
+        SettingsManager $settingsManager,
+        TranslatorInterface $trans
     ): Response {
         $model = new UploadProgrammation($programmation);
         $editForm = $this->createForm(UploadProgrammationFormType::class, $model);

@@ -43,7 +43,7 @@ class PaymentMethod
      *
      * @param string $method the new method
      */
-    public function setMethod(?string $method): PaymentMethod
+    public function setMethod(?string $method): self
     {
         $this->method = $method;
 

@@ -82,10 +82,10 @@ class UserController extends AbstractPaginateController
      * @param TranslatorInterface $trans   The translator
      */
     public function delete(
-     User $user,
-     Request $request,
-     UserManager $manager,
-     TranslatorInterface $trans
+        User $user,
+        Request $request,
+        UserManager $manager,
+        TranslatorInterface $trans
     ): RedirectResponse {
         $form = $this->createForm(DeleteFormType::class, $user);
         $form->handleRequest($request);

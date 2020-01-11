@@ -43,7 +43,7 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * Find bills by order.
      *
-     * @return array|Article[]
+     * @return Article[]
      */
     public function findCredit(): array
     {
@@ -53,8 +53,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('code', 'CRED%')
             ->orderBy('a.price')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
@@ -70,8 +69,7 @@ class ArticleRepository extends ServiceEntityRepository
                 ->setParameter('code', $code)
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getOneOrNullResult()
-            ;
+                ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
             //this cannot be reached because of set max results
             //this cannot be reached because of unique index on code

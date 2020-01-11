@@ -116,8 +116,8 @@ class ProgrammationTest extends Unit
     public function testGetComment(): void
     {
         $actual = $expected = 'comment';
-        self::assertEquals($this->programmation, $this->programmation->setComment($actual));
-        self::assertEquals($expected, $this->programmation->getComment());
+        self::assertSame($this->programmation, $this->programmation->setComment($actual));
+        self::assertSame($expected, $this->programmation->getComment());
     }
 
     /**
@@ -130,47 +130,47 @@ class ProgrammationTest extends Unit
 
         $this->setProgrammationOff();
         $this->programmation->setCatOff(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         $this->setProgrammationOff();
         $this->programmation->setEdcOff(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         $this->setProgrammationOff();
         $this->programmation->setEgrOff(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         $this->setProgrammationOff();
         $this->programmation->setFapOff(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         //We test all method which should cost 10 credits
         $expected = 10;
         $this->setProgrammationOff();
         $this->programmation->setEthanol(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         $this->setProgrammationOff();
         $this->programmation->setGear(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         $this->setProgrammationOff();
         $this->programmation->setStageOne(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         $expected = 15;
         $this->setProgrammationOff();
         $this->programmation->setEthanol(true);
         $this->programmation->setStageOne(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         $expected = 20;
         $this->setProgrammationOff();
@@ -178,14 +178,14 @@ class ProgrammationTest extends Unit
         $this->programmation->setFapOff(true);
         $this->programmation->setEthanol(true);
         $this->programmation->setStageOne(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         $this->setProgrammationOff();
         $this->programmation->setEthanol(true);
         $this->programmation->setGear(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         $expected = 25;
         $this->setProgrammationOff();
@@ -194,8 +194,8 @@ class ProgrammationTest extends Unit
         $this->programmation->setFapOff(true);
         $this->programmation->setEthanol(true);
         $this->programmation->setStageOne(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
 
         $expected = 40;
         $this->setProgrammationOff();
@@ -206,8 +206,8 @@ class ProgrammationTest extends Unit
         $this->programmation->setGear(true);
         $this->programmation->setEthanol(true);
         $this->programmation->setStageOne(true);
-        self::assertEquals($this->programmation, $this->programmation->refreshCost());
-        self::assertEquals($expected, $this->programmation->getCredit());
+        self::assertSame($this->programmation, $this->programmation->refreshCost());
+        self::assertSame($expected, $this->programmation->getCredit());
     }
 
     /**
@@ -216,8 +216,8 @@ class ProgrammationTest extends Unit
     public function testGetCustomer(): void
     {
         $actual = $expected = new User();
-        self::assertEquals($this->programmation, $this->programmation->setCustomer($actual));
-        self::assertEquals($expected, $this->programmation->getCustomer());
+        self::assertSame($this->programmation, $this->programmation->setCustomer($actual));
+        self::assertSame($expected, $this->programmation->getCustomer());
     }
 
     /**
@@ -226,12 +226,12 @@ class ProgrammationTest extends Unit
     public function testGetCylinderCapacity(): void
     {
         $actual = $expected = '33.33';
-        self::assertEquals($this->programmation, $this->programmation->setCylinderCapacity($actual));
-        self::assertEquals($expected, $this->programmation->getCylinderCapacity());
+        self::assertSame($this->programmation, $this->programmation->setCylinderCapacity($actual));
+        self::assertSame($expected, $this->programmation->getCylinderCapacity());
 
         $actual = $expected = '42.42L';
-        self::assertEquals($this->programmation, $this->programmation->setCylinderCapacity($actual));
-        self::assertEquals($expected, $this->programmation->getCylinderCapacity());
+        self::assertSame($this->programmation, $this->programmation->setCylinderCapacity($actual));
+        self::assertSame($expected, $this->programmation->getCylinderCapacity());
     }
 
     /**
@@ -240,8 +240,8 @@ class ProgrammationTest extends Unit
     public function testGetDelivered(): void
     {
         $actual = $expected = new DateTimeImmutable();
-        self::assertEquals($this->programmation, $this->programmation->setDeliveredAt($actual));
-        self::assertEquals($expected, $this->programmation->getDeliveredAt());
+        self::assertSame($this->programmation, $this->programmation->setDeliveredAt($actual));
+        self::assertSame($expected, $this->programmation->getDeliveredAt());
     }
 
     /**
@@ -250,8 +250,8 @@ class ProgrammationTest extends Unit
     public function testGetFinalProgrammation(): void
     {
         $actual = $expected = new File();
-        self::assertEquals($this->programmation, $this->programmation->setFinalFile($actual));
-        self::assertEquals($expected, $this->programmation->getFinalFile());
+        self::assertSame($this->programmation, $this->programmation->setFinalFile($actual));
+        self::assertSame($expected, $this->programmation->getFinalFile());
     }
 
     /**
@@ -260,7 +260,7 @@ class ProgrammationTest extends Unit
     public function testGetGear(): void
     {
         $actual = true;
-        self::assertEquals($this->programmation, $this->programmation->setGear($actual));
+        self::assertSame($this->programmation, $this->programmation->setGear($actual));
         self::assertTrue($this->programmation->isGear());
     }
 
@@ -270,7 +270,7 @@ class ProgrammationTest extends Unit
     public function testGetGearDone(): void
     {
         $actual = true;
-        self::assertEquals($this->programmation, $this->programmation->setGearDone($actual));
+        self::assertSame($this->programmation, $this->programmation->setGearDone($actual));
         self::assertTrue($this->programmation->isGearDone());
     }
 
@@ -280,8 +280,8 @@ class ProgrammationTest extends Unit
     public function testGetMake(): void
     {
         $actual = $expected = 'make';
-        self::assertEquals($this->programmation, $this->programmation->setMake($actual));
-        self::assertEquals($expected, $this->programmation->getMake());
+        self::assertSame($this->programmation, $this->programmation->setMake($actual));
+        self::assertSame($expected, $this->programmation->getMake());
     }
 
     /**
@@ -290,8 +290,8 @@ class ProgrammationTest extends Unit
     public function testGetModel(): void
     {
         $actual = $expected = 'model';
-        self::assertEquals($this->programmation, $this->programmation->setModel($actual));
-        self::assertEquals($expected, $this->programmation->getModel());
+        self::assertSame($this->programmation, $this->programmation->setModel($actual));
+        self::assertSame($expected, $this->programmation->getModel());
     }
 
     /**
@@ -300,8 +300,8 @@ class ProgrammationTest extends Unit
     public function testGetOdb(): void
     {
         $actual = $expected = ProgrammationInterface::ODB_BOOT;
-        self::assertEquals($this->programmation, $this->programmation->setOdb($actual));
-        self::assertEquals($expected, $this->programmation->getOdb());
+        self::assertSame($this->programmation, $this->programmation->setOdb($actual));
+        self::assertSame($expected, $this->programmation->getOdb());
     }
 
     /**
@@ -310,8 +310,8 @@ class ProgrammationTest extends Unit
     public function testGetOdometer(): void
     {
         $actual = $expected = 33000;
-        self::assertEquals($this->programmation, $this->programmation->setOdometer($actual));
-        self::assertEquals($expected, $this->programmation->getOdometer());
+        self::assertSame($this->programmation, $this->programmation->setOdometer($actual));
+        self::assertSame($expected, $this->programmation->getOdometer());
     }
 
     /**
@@ -320,8 +320,8 @@ class ProgrammationTest extends Unit
     public function testGetOriginalProgrammation(): void
     {
         $actual = $expected = new File();
-        self::assertEquals($this->programmation, $this->programmation->setOriginalFile($actual));
-        self::assertEquals($expected, $this->programmation->getOriginalFile());
+        self::assertSame($this->programmation, $this->programmation->setOriginalFile($actual));
+        self::assertSame($expected, $this->programmation->getOriginalFile());
     }
 
     /**
@@ -330,8 +330,8 @@ class ProgrammationTest extends Unit
     public function testGetPower(): void
     {
         $actual = $expected = 800;
-        self::assertEquals($this->programmation, $this->programmation->setPower($actual));
-        self::assertEquals($expected, $this->programmation->getPower());
+        self::assertSame($this->programmation, $this->programmation->setPower($actual));
+        self::assertSame($expected, $this->programmation->getPower());
     }
 
     /**
@@ -340,8 +340,8 @@ class ProgrammationTest extends Unit
     public function testGetProtocol(): void
     {
         $actual = $expected = 'protocol';
-        self::assertEquals($this->programmation, $this->programmation->setProtocol($actual));
-        self::assertEquals($expected, $this->programmation->getProtocol());
+        self::assertSame($this->programmation, $this->programmation->setProtocol($actual));
+        self::assertSame($expected, $this->programmation->getProtocol());
     }
 
     /**
@@ -350,8 +350,8 @@ class ProgrammationTest extends Unit
     public function testGetRead(): void
     {
         $actual = $expected = ProgrammationInterface::READ_VIRTUAL;
-        self::assertEquals($this->programmation, $this->programmation->setRead($actual));
-        self::assertEquals($expected, $this->programmation->getRead());
+        self::assertSame($this->programmation, $this->programmation->setRead($actual));
+        self::assertSame($expected, $this->programmation->getRead());
     }
 
     /**
@@ -360,8 +360,8 @@ class ProgrammationTest extends Unit
     public function testGetReaderTool(): void
     {
         $actual = $expected = 'reader';
-        self::assertEquals($this->programmation, $this->programmation->setReaderTool($actual));
-        self::assertEquals($expected, $this->programmation->getReaderTool());
+        self::assertSame($this->programmation, $this->programmation->setReaderTool($actual));
+        self::assertSame($expected, $this->programmation->getReaderTool());
     }
 
     /**
@@ -370,8 +370,8 @@ class ProgrammationTest extends Unit
     public function testGetResponse(): void
     {
         $actual = $expected = 'response';
-        self::assertEquals($this->programmation, $this->programmation->setResponse($actual));
-        self::assertEquals($expected, $this->programmation->getResponse());
+        self::assertSame($this->programmation, $this->programmation->setResponse($actual));
+        self::assertSame($expected, $this->programmation->getResponse());
     }
 
     /**
@@ -380,8 +380,8 @@ class ProgrammationTest extends Unit
     public function testGetSerial(): void
     {
         $actual = $expected = 'serial';
-        self::assertEquals($this->programmation, $this->programmation->setSerial($actual));
-        self::assertEquals($expected, $this->programmation->getSerial());
+        self::assertSame($this->programmation, $this->programmation->setSerial($actual));
+        self::assertSame($expected, $this->programmation->getSerial());
     }
 
     /**
@@ -390,8 +390,8 @@ class ProgrammationTest extends Unit
     public function testGetVersion(): void
     {
         $actual = $expected = 'version';
-        self::assertEquals($this->programmation, $this->programmation->setVersion($actual));
-        self::assertEquals($expected, $this->programmation->getVersion());
+        self::assertSame($this->programmation, $this->programmation->setVersion($actual));
+        self::assertSame($expected, $this->programmation->getVersion());
     }
 
     /**
@@ -400,8 +400,8 @@ class ProgrammationTest extends Unit
     public function testGetYear(): void
     {
         $actual = $expected = 2019;
-        self::assertEquals($this->programmation, $this->programmation->setYear($actual));
-        self::assertEquals($expected, $this->programmation->getYear());
+        self::assertSame($this->programmation, $this->programmation->setYear($actual));
+        self::assertSame($expected, $this->programmation->getYear());
     }
 
     /**
@@ -409,7 +409,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsEdcOff(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setEdcOff(true));
+        self::assertSame($this->programmation, $this->programmation->setEdcOff(true));
         self::assertTrue($this->programmation->isEdcOff());
     }
 
@@ -418,7 +418,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsEdcStopped(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setEdcStopped(true));
+        self::assertSame($this->programmation, $this->programmation->setEdcStopped(true));
         self::assertTrue($this->programmation->isEdcStopped());
     }
 
@@ -427,7 +427,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsEgrOff(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setEgrOff(true));
+        self::assertSame($this->programmation, $this->programmation->setEgrOff(true));
         self::assertTrue($this->programmation->isEgrOff());
     }
 
@@ -436,7 +436,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsEgrStopped(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setEgrStopped(true));
+        self::assertSame($this->programmation, $this->programmation->setEgrStopped(true));
         self::assertTrue($this->programmation->isEgrStopped());
     }
 
@@ -445,7 +445,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsEthanol(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setEthanol(true));
+        self::assertSame($this->programmation, $this->programmation->setEthanol(true));
         self::assertTrue($this->programmation->isEthanol());
     }
 
@@ -454,7 +454,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsEthanolDone(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setEthanolDone(true));
+        self::assertSame($this->programmation, $this->programmation->setEthanolDone(true));
         self::assertTrue($this->programmation->isEthanolDone());
     }
 
@@ -463,7 +463,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsFapOff(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setFapOff(true));
+        self::assertSame($this->programmation, $this->programmation->setFapOff(true));
         self::assertTrue($this->programmation->isFapOff());
     }
 
@@ -472,7 +472,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsFapStopped(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setFapStopped(true));
+        self::assertSame($this->programmation, $this->programmation->setFapStopped(true));
         self::assertTrue($this->programmation->isFapStopped());
     }
 
@@ -481,7 +481,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsGearAutomatic(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setGearAutomatic(true));
+        self::assertSame($this->programmation, $this->programmation->setGearAutomatic(true));
         self::assertTrue($this->programmation->isGearAutomatic());
     }
 
@@ -490,7 +490,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsStageOne(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setStageOne(true));
+        self::assertSame($this->programmation, $this->programmation->setStageOne(true));
         self::assertTrue($this->programmation->isStageOne());
     }
 
@@ -499,7 +499,7 @@ class ProgrammationTest extends Unit
      */
     public function testIsStageOneDone(): void
     {
-        self::assertEquals($this->programmation, $this->programmation->setStageOneDone(true));
+        self::assertSame($this->programmation, $this->programmation->setStageOneDone(true));
         self::assertTrue($this->programmation->isStageOneDone());
     }
 
