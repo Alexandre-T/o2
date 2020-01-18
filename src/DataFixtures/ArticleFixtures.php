@@ -31,42 +31,40 @@ class ArticleFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        //Ten by ten.
-        $ten = new Article();
-        $ten->setCode('CRED0010');
-        $ten->setPrice(100);
-        $ten->setCredit(10);
+        //Standard credit articles
+        $manager->persist($this->create('article_10','CRED0010', 120, 10));
+        $manager->persist($this->create('article_50','CRED0050', 500, 50));
+        $manager->persist($this->create('article_100','CRED0100', 1000, 100));
+        $manager->persist($this->create('article_500','CRED0500', 4500, 500));
 
-        //Hundred by hundred.
-        $hundred = new Article();
-        $hundred->setCode('CRED0100');
-        $hundred->setPrice(1000);
-        $hundred->setCredit(100);
+        //CMD slave update
+        $manager->persist($this->create('cmd_slave','cmdslave', 700, 0));
 
-        //fiveHundred by fiveHundred.
-        $fiveHundred = new Article();
-        $fiveHundred->setCode('CRED0500');
-        $fiveHundred->setPrice(4500);
-        $fiveHundred->setCredit(500);
-
-        //cmd Slave.
-        $cmdSlave = new Article();
-        $cmdSlave->setCode('cmdslave');
-        $cmdSlave->setPrice(700);
-        $cmdSlave->setCredit(0);
-
-        //These references are used.
-        $this->addReference('article_10', $ten);
-        $this->addReference('article_100', $hundred);
-        $this->addReference('article_500', $fiveHundred);
-        $this->addReference('cmd_slave', $cmdSlave);
-
-        //Persist prod data
-        $manager->persist($ten);
-        $manager->persist($hundred);
-        $manager->persist($fiveHundred);
-        $manager->persist($cmdSlave);
+        //OLSX credit articles
+        $manager->persist($this->create('olsx_10','OLSX0010', 120, 10));
+        $manager->persist($this->create('olsx_50','OLSX0050', 500, 50));
+        $manager->persist($this->create('olsx_100','OLSX0100', 1000, 100));
+        $manager->persist($this->create('olsx_500','OLSX0500', 4500, 500));
 
         $manager->flush();
+    }
+
+    /**
+     * Article factory.
+     * 
+     * @param string $reference the name to reference
+     * @param string $code      the code to store
+     * @param int    $price     price of each article unit
+     * @param int    $credit    credits allowed for each article ordered
+     */
+    private function create(string $reference, string $code, int $price, int $credit): Article
+    {
+        $article = new Article();
+        $article->setCode($code);
+        $article->setPrice($price);
+        $article->setCredit($credit);
+        $this->addReference($reference, $article);
+        
+        return $article;
     }
 }

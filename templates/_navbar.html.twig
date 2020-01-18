@@ -102,6 +102,14 @@
                                 <span class="fas fa-fw fa-coins"></span>
                                 {{ 'nav.customer.submenu.cmd.text' | trans }}
                             </a>
+                            {% if is_granted('ROLE_OLSX') %}
+                                <a class="dropdown-item {{ route == 'customer_order_olsx' ? 'active' }}"
+                                   href="{{ path('customer_order_olsx') }}" data-placement="left" data-toggle="tooltip"
+                                   title="{{ 'nav.customer.submenu.olsx.title' | trans }}">
+                                    <span class="fas fa-fw fa-coins"></span>
+                                    {{ 'nav.customer.submenu.olsx.text' | trans }}
+                                </a>
+                            {% endif %}
                             {# File Order #}
                             <a class="dropdown-item {{ route == 'customer_file_new' }}"
                                href="{{ path('customer_file_new') }}" data-placement="left" data-toggle="tooltip"

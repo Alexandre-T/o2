@@ -9,7 +9,7 @@
                 <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
             </li>
             <li class="breadcrumb-item" aria-current="page">{{ 'title.customer.main' | trans }}</li>
-            <li class="breadcrumb-item active" aria-current="page">{{ 'title.customer.order-credit' | trans }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'title.customer.order-olsx-credit' | trans }}</li>
         </ol>
     </nav>
 {% endblock %}
@@ -22,7 +22,7 @@
                 <div class="card-header">
                     <h1>
                         <span class="fas fa-coins"></span>
-                        {{ 'title.customer.order-credit' | trans }}
+                        {{ 'title.customer.order-olsx-credit' | trans }}
                     </h1>
                 </div>
                 <div class="card-body">
@@ -58,30 +58,30 @@
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.ten) }}</td>
                                 <td class="col-2">{{ form_widget(form.ten) }}</td>
-                                <td class="col-2">{{ 120 | euro }}</td>
+                                <td class="col-2">{{ 100 | euro }}</td>
                                 <td class="col-2"><span id="credit10">{{ (10 * form.ten.vars.value) | credit }}</span></td>
-                                <td class="col-2"><span id="price10">{{ (120 * form.ten.vars.value) | euro }}</span></td>
+                                <td class="col-2"><span id="price10">{{ (100 * form.ten.vars.value) | euro }}</span></td>
                             </tr>
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.fifty) }}</td>
                                 <td class="col-2">{{ form_widget(form.fifty) }}</td>
-                                <td class="col-2">{{ 500 | euro }}</td>
+                                <td class="col-2">{{ 400 | euro }}</td>
                                 <td class="col-2"><span id="credit50">{{ (50 * form.fifty.vars.value) | credit }}</span></td>
-                                <td class="col-2"><span id="price50">{{ (500 * form.fifty.vars.value) | euro }}</span></td>
+                                <td class="col-2"><span id="price50">{{ (400 * form.fifty.vars.value) | euro }}</span></td>
                             </tr>
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.hundred) }}</td>
                                 <td class="col-2">{{ form_widget(form.hundred) }}</td>
-                                <td class="col-2">{{ 1000 | euro }}</td>
+                                <td class="col-2">{{ 700 | euro }}</td>
                                 <td class="col-2"><span id="credit100">{{ (100 * form.hundred.vars.value) | credit }}</span></td>
-                                <td class="col-2"><span id="price100">{{ (1000 * form.hundred.vars.value) | euro }}</span></td>
+                                <td class="col-2"><span id="price100">{{ (700 * form.hundred.vars.value) | euro }}</span></td>
                             </tr>
                             <tr class="d-flex">
                                 <td class="col-4">{{ form_label(form.fiveHundred) }}</td>
                                 <td class="col-2">{{ form_widget(form.fiveHundred) }}</td>
-                                <td class="col-2">{{ 4500 | euro }}</td>
+                                <td class="col-2">{{ 3000 | euro }}</td>
                                 <td class="col-2"><span id="credit500">{{ (500 * form.fiveHundred.vars.value) | credit }}</span></td>
-                                <td class="col-2"><span id="price500">{{ (4500 * form.fiveHundred.vars.value) | euro }}</span></td>
+                                <td class="col-2"><span id="price500">{{ (3000 * form.fiveHundred.vars.value) | euro }}</span></td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -116,6 +116,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-    {{ include('_javascript/order-credit.js.twig', {'vat': app.user.vat, 'olsx': false}) }}
+    {{ include('_javascript/order-credit.js.twig', {'vat': app.user.vat, 'olsx': true}) }}
     </script>
 {% endblock %}

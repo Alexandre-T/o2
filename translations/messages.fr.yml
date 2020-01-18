@@ -508,6 +508,11 @@ flash:
     credited: 'Les crédits de cette commande viennent d’être versés au client.'
     no-step1: 'Votre commande n’a pas été retrouvée. Veuillez la ressaisir.'
     step1: 'Votre commande est enregistrée, vous pouvez passer au choix du paiement.'
+  order-olsx:
+    already-credited: 'Les crédits OLSX de cette commande ont déjà été versé à ce client.'
+    credited: 'Les crédits OLSX de cette commande viennent d’être versés au client.'
+    no-step1: 'Votre commande OLSX n’a pas été retrouvée. Veuillez la ressaisir.'
+    step1: 'Votre commande OLSX est enregistrée, vous pouvez passer au choix du paiement.'
   password-lost:
     sent: 'Un mail pour changer votre mot de passe vient de vous être envoyé. Consultez votre messagerie !'
   password:
@@ -705,6 +710,9 @@ nav:
       cmd:
         title: 'Commander une mise à jour de votre CMD Slave'
         text: 'MAJ du CMD Slave'
+      olsx:
+        text: 'Acheter des crédits OLSX'
+        title: 'Acheter de nouveaux crédits OLSX'
   lost-password:
     text: 'Mot de passe perdu'
   olsx:
@@ -840,6 +848,7 @@ title:
     profile: 'Mon profil'
     password: 'Mon mot de passe'
     order-credit: 'Crédits supplémentaires'
+    order-olsx-credit: 'Crédits OLSX supplémentaires'
     payment-complete: 'Paiement complété'
     payment-complete %payment-system%: 'Paiement transmis via %payment-system%'
     programmation:

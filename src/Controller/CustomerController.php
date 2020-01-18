@@ -24,8 +24,10 @@ use App\Form\ChoosePaymentMethodType;
 use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
 use App\Form\Model\CreditOrder;
+use App\Form\Model\OlsxCreditOrder;
 use App\Form\Model\Programmation as ProgrammationModel;
 use App\Form\Model\Vat;
+use App\Form\OlsxCreditFormType;
 use App\Form\PasswordFormType;
 use App\Form\ProfileFormType;
 use App\Form\ProgrammationFormType;
@@ -211,14 +213,14 @@ class CustomerController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        $order = $orderManager->getOrCreateCartedOrder($user);
+        $order = $orderManager->getOrCreateCartedStandardOrder($user);
         $model = new CreditOrder();
         $model->init($order);
         $form = $this->createForm(CreditFormType::class, $model);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $orderManager->pushOrderedArticles($order, $model);
+            $orderManager->pushStandardOrderedArticles($order, $model);
             $orderManager->save($order);
             $this->addFlash('success', 'flash.order.step1');
 
@@ -226,6 +228,44 @@ class CustomerController extends AbstractController
         }
 
         return $this->render('customer/order-credit.html.twig', [
+            'form' => $form->createView(),
+            'order' => $order,
+        ]);
+    }
+
+    /**
+     * Step1: Customer orders OLSX.
+     *
+     * @Route("/order-olsx", name="order_olsx")
+     *
+     * @param Request      $request      Request handling data
+     * @param OrderManager $orderManager Order manager
+     *
+     * @throws NoArticleException when olsx article does not exist
+     *
+     * @return Response|RedirectResponse
+     */
+    public function orderOlsx(
+        Request $request,
+        OrderManager $orderManager
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+        $order = $orderManager->getOrCreateCartedOlsxOrder($user);
+        $model = new OlsxCreditOrder();
+        $model->init($order);
+        $form = $this->createForm(OlsxCreditFormType::class, $model);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $orderManager->pushOlsxOrderedArticles($order, $model);
+            $orderManager->save($order);
+            $this->addFlash('success', 'flash.order-olsx.step1');
+
+            return $this->redirectToRoute('customer_olsx_payment_method');
+        }
+
+        return $this->render('customer/order-olsx-credit.html.twig', [
             'form' => $form->createView(),
             'order' => $order,
         ]);

@@ -15,13 +15,17 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+/**
+ * Interface Order
+ */
 interface OrderInterface
 {
+    //TODO rename this constants.
+
     /**
      * Constants for orders.
      */
     public const CANCELED = 0;
-
     public const CARTED = 1;
 
     /**
@@ -29,16 +33,15 @@ interface OrderInterface
      */
     public const CREDITED = true;
 
-    public const NATURE_CMD = 2;
-
     /**
      * Constants for nature.
      */
     public const NATURE_CREDIT = 1;
+    public const NATURE_CMD = 2;
+    public const NATURE_OLSX = 4;
 
     public const NON_CREDITED = false;
 
     public const PAID = 2;
-
     public const PENDING = 3;
 }

@@ -21,6 +21,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Credit Form.
+ */
 class CreditFormType extends AbstractType
 {
     /**

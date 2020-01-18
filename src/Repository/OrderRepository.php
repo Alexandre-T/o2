@@ -156,22 +156,31 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * Get carted non paid by user.
      *
-     * @param User $customer owner of command
+     * @param User $user owner of command
      */
-    public function findOneByUserAndCartedCreditOrder(User $customer): ?Order
+    public function findOneByUserAndCartedStandardCreditOrder(User $user): ?Order
     {
-        try {
-            return $this->createQueryBuilder('c')
-                ->andWhere('c.customer = :customer')
-                ->andWhere('c.statusOrder = :statusOrder')
-                ->setParameter('statusOrder', OrderInterface::CARTED)
-                ->setParameter('customer', $customer)
-                ->setMaxResults(1)
-                ->getQuery()
-                ->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            return null;
-        }
+        return $this->findOneByUserNatureStatus(
+            $user,
+            OrderInterface::NATURE_CREDIT,
+            OrderInterface::CARTED
+        );
+    }
+
+    /**
+     * Get carted non paid by user and nature is OLSX.
+     *
+     * @param User $user the customer
+     *
+     * @return Order|null
+     */
+    public function findOneByUserAndCartedOlsxCreditOrder(User $user): ?Order
+    {
+        return $this->findOneByUserNatureStatus(
+            $user,
+            OrderInterface::NATURE_OLSX,
+            OrderInterface::CARTED
+        );
     }
 
     /**
@@ -182,5 +191,32 @@ class OrderRepository extends ServiceEntityRepository
     public function findOneByUuid(string $uuid): ?Order
     {
         return $this->findOneBy(['uuid' => $uuid]);
+    }
+
+    /**
+     * Find one or no order filtered by customer, status and nature.
+     *
+     * @param User $user   the customer filter
+     * @param int  $nature the nature filter
+     * @param int  $status the status filer
+     *
+     * @return Order|null
+     */
+    private function findOneByUserNatureStatus(User $user, int $nature, int $status): ?Order
+    {
+        try {
+            return $this->createQueryBuilder('c')
+                ->andWhere('c.customer = :customer')
+                ->andWhere('c.statusOrder = :statusOrder')
+                ->andWhere('c.nature = :nature')
+                ->setParameter('statusOrder', $status)
+                ->setParameter('customer', $user)
+                ->setParameter('nature', $nature)
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 }

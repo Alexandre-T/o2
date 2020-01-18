@@ -504,10 +504,15 @@ flash:
     unactivated: 'This customer can anymore order OLSX credits.'
 
   order:
-    already-credited: 'Credit of this order have already been credited.'
+    already-credited: 'Credits of this order have already been credited.'
     credited: 'Credit of this order have been credited to customer.'
-    no-step1: 'Your order was not found. Please create one more time.'
+    no-step1: 'Your order was not found. Please create a new one.'
     step1: 'Your order has been saved, please choose payment method.'
+  order-olsx:
+    already-credited: 'OLSX credits of this order have already been credited.'
+    credited: 'OLSX credit of this order have been credited to customer.'
+    no-step1: 'Your OLSX order was not found. Please create a new one.'
+    step1: 'Your OLSX order has been saved, please choose payment method.'
   password-lost:
     sent: 'A mail to change your password has been sent. Please look at your mailbox!'
   password:
@@ -705,6 +710,9 @@ nav:
       cmd:
         title: 'Form to order a CMD Slave upgrade'
         text: 'Upgrade CMD slave'
+      olsx:
+        text: 'Order OLSX credits'
+        title: 'Order new OLSX credits'
   lost-password:
     text: 'Forgotten password'
   olsx:
@@ -840,6 +848,7 @@ title:
     profile: 'My profile'
     password: 'My password'
     order-credit: 'Order credits'
+    order-olsx-credit: 'Order OLSX credits'
     payment-complete: 'Payment completed'
     payment-complete %payment-system%: 'Payment via %payment-system%'
     programmation:

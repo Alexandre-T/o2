@@ -87,14 +87,14 @@ class AccountantController extends AbstractPaginateController
         Request $request,
         UserManager $userManager
     ): Response {
-        $order = $orderManager->getOrCreateCartedOrder($user);
+        $order = $orderManager->getOrCreateCartedStandardOrder($user);
         $model = new AccountantCreditOrder();
         $model->init($order);
         $form = $this->createForm(AccountantCreditFormType::class, $model);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $orderManager->pushOrderedArticles($order, $model);
+            $orderManager->pushStandardOrderedArticles($order, $model);
             $orderManager->accountantValidate($order);
             $bill = BillFactory::create($order, $user);
             if ($model->isCredit()) {

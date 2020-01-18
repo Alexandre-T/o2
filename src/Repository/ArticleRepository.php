@@ -41,11 +41,27 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find bills by order.
+     * Find "OLSX credits" articles .
      *
      * @return Article[]
      */
-    public function findCredit(): array
+    public function findOlsxCredit(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+
+        return $queryBuilder->where('a.code LIKE :code')
+            ->setParameter('code', 'OLSX%')
+            ->orderBy('a.price')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Find "Standard credits" articles .
+     *
+     * @return Article[]
+     */
+    public function findStandardCredit(): array
     {
         $queryBuilder = $this->createQueryBuilder('a');
 

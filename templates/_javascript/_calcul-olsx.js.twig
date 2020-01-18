@@ -1,0 +1,12 @@
+{# FIXME change to be dependent from database and nomore from harcoding #}
+$('#credit10').html(toFloat(ten * 10))
+$('#price10').html(toCurrency(ten * 100 + ' €'));
+$('#credit50').html(toFloat(fifty * 50))
+$('#price50').html(toCurrency(fifty * 400 + ' €'));
+$('#credit100').html(toFloat(hundred * 100));
+$('#price100').html(toCurrency(hundred * 700 + ' €'));
+$('#credit500').html(toFloat(fiveHundred * 500));
+$('#price500').html(toCurrency(fiveHundred * 3000));
+$('#totalHT').html(toCurrency(ten * 100 + fifty * 400 + hundred * 700 + fiveHundred * 3000 + ' €'));
+$('#totalVAT').html(toCurrency((ten * 100 + fifty * 400 + hundred * 700 + fiveHundred * 3000) * {{ vat }} + ' €'));
+$('#totalTTC').html(toCurrency((ten * 100 + fifty * 400 + hundred * 700 + fiveHundred * 3000) * {{ vat + 1 }} + ' €'));

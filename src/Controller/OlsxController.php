@@ -160,7 +160,7 @@ class OlsxController extends AbstractPaginateController
         $form = $this->createForm(OlsxRegisterFormType::class, $model);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->addFlash('success', 'flash.olsx-registering');
+            $this->addFlash('success', 'flash.olsx.registering');
             $user->setOlsxIdentifier($model->getCode());
             $user->setRegistering();
             $userManager->save($user);

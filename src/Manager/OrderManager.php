@@ -77,27 +77,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
-     * Get the only one carted order by user.
-     *
-     * @param User $user user filter
-     *
-     * @throws NoOrderException when array is empty
-     */
-    public function getCartedOrder(User $user): Order
-    {
-        /** @var OrderRepository $repository */
-        $repository = $this->getMainRepository();
-
-        $orders = $repository->findByUserAndStatusCreditOrder($user, OrderInterface::CARTED);
-
-        if (null === $orders || empty($orders)) {
-            throw new NoOrderException('No carted order for this user');
-        }
-
-        return $orders[0];
-    }
-
-    /**
      * Return default alias.
      */
     public function getDefaultAlias(): string
@@ -135,16 +114,40 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
-     * Find the only one non-paid order or create a new one.
+     * Find the only one non-paid OLSX order or create a new one.
      *
      * @param User $user the user criteria
+     *
+     * @return Order
      */
-    public function getOrCreateCartedOrder(User $user): Order
+    public function getOrCreateCartedOlsxOrder(User $user): Order
     {
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        $order = $repository->findOneByUserAndCartedCreditOrder($user);
+        $order = $repository->findOneByUserAndCartedOlsxCreditOrder($user);
+
+        if (null === $order) {
+            $order = new Order();
+            $order->setNature(OrderInterface::NATURE_OLSX);
+            $order->setCustomer($user);
+            $order->setStatusOrder(OrderInterface::CARTED);
+        }
+
+        return $order;
+    }
+
+    /**
+     * Find the only one non-paid order or create a new one.
+     *
+     * @param User $user the user criteria
+     */
+    public function getOrCreateCartedStandardOrder(User $user): Order
+    {
+        /** @var OrderRepository $repository */
+        $repository = $this->getMainRepository();
+
+        $order = $repository->findOneByUserAndCartedStandardCreditOrder($user);
 
         if (null === $order) {
             $order = new Order();
@@ -179,31 +182,25 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
-     * Push data.
+     * Retrieve all OLSX articles, create some OrderedArticle and add them to order. Then calculate prices.
      *
-     * @param Order       $order order to complete
-     * @param CreditOrder $model model to provide data
+     * @param Order       $order the order
+     * @param CreditOrder $model the credit order model
      */
-    public function pushOrderedArticles(Order $order, CreditOrder $model): void
+    public function pushOlsxOrderedArticles(Order $order, CreditOrder $model): void
     {
-        $articleRepository = $this->entityManager->getRepository(Article::class);
-        /** @var Article[] $articles */
-        $articles = $articleRepository->findCredit();
-        $order->setCredits(0);
-        $order->setPrice(0);
-        $order->setVat(0);
-        $vatRate = (float) $order->getCustomer()->getVat();
-        //TODO SPRINT3: replaced this hardcode by something more dependent from model
-        $methods[10] = 'getTen';
-        $methods[50] = 'getFifty';
-        $methods[100] = 'getHundred';
-        $methods[500] = 'getFiveHundred';
+        $this->pushOrderedArticles($order, $model, OrderInterface::NATURE_OLSX);
+    }
 
-        foreach ($articles as $article) {
-            if (array_key_exists($article->getCredit(), $methods)) {
-                $this->updateOrder($order, $article, $model->{$methods[$article->getCredit()]}(), $vatRate);
-            }
-        }
+    /**
+     * Retrieve all standard articles, create some OrderedArticle and add them to order. Then calculate prices.
+     *
+     * @param Order       $order the order
+     * @param CreditOrder $model the credit order model
+     */
+    public function pushStandardOrderedArticles(Order $order, CreditOrder $model): void
+    {
+        $this->pushOrderedArticles($order, $model, OrderInterface::NATURE_CREDIT);
     }
 
     /**
@@ -367,6 +364,46 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $order->addOrderedArticle($orderedArticle);
 
         return $orderedArticle;
+    }
+
+    /**
+     * Handle articles of a specified nature, create some OrderedArticle, add them to the order, calculates price.
+     *
+     * @param Order       $order  order to complete
+     * @param CreditOrder $model  model to provide data
+     * @param int         $nature Nature is a constant of OrderInterface
+     *
+     */
+    private function pushOrderedArticles(Order $order, CreditOrder $model, int $nature): void
+    {
+        $articleRepository = $this->entityManager->getRepository(Article::class);
+        /** @var Article[] $articles */
+        switch($nature) {
+            case OrderInterface::NATURE_CREDIT:
+                $articles = $articleRepository->findStandardCredit();
+                break;
+            case OrderInterface::NATURE_OLSX:
+                $articles = $articleRepository->findOlsxCredit();
+                break;
+            default:
+                $articles = [];
+        }
+
+        $order->setCredits(0);
+        $order->setPrice(0);
+        $order->setVat(0);
+        $vatRate = (float) $order->getCustomer()->getVat();
+        //TODO SPRINT3: replaced this hardcode by something more dependent from model
+        $methods[10] = 'getTen';
+        $methods[50] = 'getFifty';
+        $methods[100] = 'getHundred';
+        $methods[500] = 'getFiveHundred';
+
+        foreach ($articles as $article) {
+            if (array_key_exists($article->getCredit(), $methods)) {
+                $this->updateOrder($order, $article, $model->{$methods[$article->getCredit()]}(), $vatRate);
+            }
+        }
     }
 
     /**
