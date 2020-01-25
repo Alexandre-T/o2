@@ -602,6 +602,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
                 $this->resettingToken,
                 $this->roles,
                 $this->society,
+                $this->tos,
                 $this->type,
                 $this->vat,
             ]
@@ -774,6 +775,7 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
             $this->resettingToken,
             $this->roles,
             $this->society,
+            $this->tos,
             $this->type,
             $this->vat
             ] = unserialize($serialized);
