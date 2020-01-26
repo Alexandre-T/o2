@@ -82,7 +82,7 @@ class PriceTest extends Unit
         self::assertNull($this->order->getVat());
         self::assertNotNull($this->order->getAmount());
         self::assertEmpty($this->order->getAmount());
-        self::assertSame(0, $this->order->getAmount());
+        self::assertSame(0.0, $this->order->getAmount());
         self::assertIsFloat($this->order->getAmount());
     }
 

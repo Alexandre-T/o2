@@ -319,7 +319,8 @@ class UserTest extends Unit
         $serialize = $this->user->serialize();
         $user = new User();
         $user->unserialize($serialize);
-        self::assertSame($this->user, $user);
+        //Assert Equals because this is not the same object
+        self::assertEquals($this->user, $user);
 
         $this->tester->wantToTest('serialization with password');
         $this->user->setPlainPassword('bar');

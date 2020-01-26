@@ -105,7 +105,8 @@ class SettingsTest extends Unit
         //Test with a date
         $expected = $actual = new DateTimeImmutable();
         self::assertSame($this->settings, $this->settings->setValue($actual));
-        self::assertSame($expected, $this->settings->getValue());
+        //Assert Equals because this is not the same object
+        self::assertEquals($expected, $this->settings->getValue());
         self::assertInstanceOf(DateTimeImmutable::class, $this->settings->getValue());
 
         //Test with an integer
@@ -129,7 +130,8 @@ class SettingsTest extends Unit
         //Test with with an object
         $expected = $actual = new Settings();
         self::assertSame($this->settings, $this->settings->setValue($actual));
-        self::assertSame($expected, $this->settings->getValue());
+        //This is not the same object
+        self::assertEquals($expected, $this->settings->getValue());
         self::assertIsObject($this->settings->getValue());
         self::assertInstanceOf(Settings::class, $this->settings->getValue());
     }

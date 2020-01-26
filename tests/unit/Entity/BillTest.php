@@ -136,7 +136,7 @@ class BillTest extends Unit
     public function testPaidAt(): void
     {
         $actualDate = $expectedDate = new DateTimeImmutable();
-        $actualPrice = $expectedPrice = 42;
+        $actualPrice = $expectedPrice = 42.0;
 
         self::assertSame($this->bill, $this->bill->setPrice($actualPrice));
         self::assertEmpty($this->bill->getAlreadyPaid());
