@@ -56,6 +56,9 @@ class UserRepositoryTest extends KernelTestCase
         $this->userRepository = $this->entityManager->getRepository(User::class);
     }
 
+    /**
+     * Close entity manager to avoid memory leaks.
+     */
     protected function tearDown(): void
     {
         parent::tearDown();
