@@ -63,7 +63,8 @@ class OrderRepository extends ServiceEntityRepository
             ->setParameter('statusOrder', $statusOrder)
             ->setParameter('nature', OrderInterface::NATURE_CREDIT)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -87,7 +88,8 @@ class OrderRepository extends ServiceEntityRepository
             ->setParameter('statusOrder', $code)
             ->setParameter('nature', OrderInterface::NATURE_CREDIT)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -112,7 +114,8 @@ class OrderRepository extends ServiceEntityRepository
             ->setParameter('statusOrder', $statusOrder)
             ->setParameter('nature', Order::NATURE_CMD)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -132,7 +135,8 @@ class OrderRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->setParameter('statusOrder', OrderInterface::PAID)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         if (empty($orders)) {
             return null;
@@ -154,6 +158,20 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
+     * Get carted non paid by user and nature is OLSX.
+     *
+     * @param User $user the customer
+     */
+    public function findOneByUserAndCartedOlsxCreditOrder(User $user): ?Order
+    {
+        return $this->findOneByUserNatureStatus(
+            $user,
+            OrderInterface::NATURE_OLSX,
+            OrderInterface::CARTED
+        );
+    }
+
+    /**
      * Get carted non paid by user.
      *
      * @param User $user owner of command
@@ -163,22 +181,6 @@ class OrderRepository extends ServiceEntityRepository
         return $this->findOneByUserNatureStatus(
             $user,
             OrderInterface::NATURE_CREDIT,
-            OrderInterface::CARTED
-        );
-    }
-
-    /**
-     * Get carted non paid by user and nature is OLSX.
-     *
-     * @param User $user the customer
-     *
-     * @return Order|null
-     */
-    public function findOneByUserAndCartedOlsxCreditOrder(User $user): ?Order
-    {
-        return $this->findOneByUserNatureStatus(
-            $user,
-            OrderInterface::NATURE_OLSX,
             OrderInterface::CARTED
         );
     }
@@ -199,8 +201,6 @@ class OrderRepository extends ServiceEntityRepository
      * @param User $user   the customer filter
      * @param int  $nature the nature filter
      * @param int  $status the status filer
-     *
-     * @return Order|null
      */
     private function findOneByUserNatureStatus(User $user, int $nature, int $status): ?Order
     {
@@ -214,7 +214,8 @@ class OrderRepository extends ServiceEntityRepository
                 ->setParameter('nature', $nature)
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getOneOrNullResult();
+                ->getOneOrNullResult()
+            ;
         } catch (NonUniqueResultException $e) {
             return null;
         }

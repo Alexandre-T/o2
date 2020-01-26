@@ -75,7 +75,8 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 ->setParameter('yesterday', $yesterday)
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getOneOrNullResult();
+                ->getOneOrNullResult()
+            ;
         } catch (Throwable $exception) {
             return null;
         }

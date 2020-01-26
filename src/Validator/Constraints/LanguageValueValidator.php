@@ -21,6 +21,9 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
+/**
+ * A validator to check the language value
+ */
 class LanguageValueValidator extends ConstraintValidator
 {
     /**
@@ -54,7 +57,8 @@ class LanguageValueValidator extends ConstraintValidator
         if (LanguageInterface::FRENCH !== $value && LanguageInterface::ENGLISH !== $value) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ string }}', $value)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 }

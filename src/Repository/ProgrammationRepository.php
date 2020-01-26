@@ -63,6 +63,7 @@ class ProgrammationRepository extends ServiceEntityRepository
             ->setParameter('obsolete', $obsoleteDate)
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

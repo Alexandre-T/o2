@@ -22,6 +22,9 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form to reset password.
+ */
 class PasswordResetFormType extends AbstractType
 {
     /**
@@ -41,7 +44,8 @@ class PasswordResetFormType extends AbstractType
 
         $builder
             ->add('token', HiddenType::class)
-            ->add('password', PlainPasswordType::class);
+            ->add('password', PlainPasswordType::class)
+        ;
     }
 
     /**

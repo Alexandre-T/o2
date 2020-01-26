@@ -180,7 +180,8 @@ class AskedVatManager extends AbstractRepositoryManager implements ManagerInterf
         return $queryBuilder
             ->innerJoin('askedVat.customer', 'customer')
             ->addSelect('customer.name as HIDDEN customers')
-            ->addSelect('askedVat.createdAt as HIDDEN createdAt');
+            ->addSelect('askedVat.createdAt as HIDDEN createdAt')
+        ;
     }
 
     /**

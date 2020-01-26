@@ -139,7 +139,8 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
             ->innerJoin('bill.customer', 'customer')
             ->addSelect('bill.number as HIDDEN number')
             ->addSelect('customer.name as HIDDEN customers')
-            ->addSelect('bill.price as HIDDEN amount');
+            ->addSelect('bill.price as HIDDEN amount')
+        ;
     }
 
     /**

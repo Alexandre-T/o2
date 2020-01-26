@@ -299,7 +299,8 @@ class Programmation implements ProgrammationInterface
             ->setSerial($this->getSerial())
             ->setStageOne($this->isStageOne())
             ->setVersion($this->getVersion())
-            ->setYear($this->getYear());
+            ->setYear($this->getYear())
+        ;
     }
 
     /**

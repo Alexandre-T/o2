@@ -17,7 +17,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * Article fixtures.
@@ -32,26 +32,26 @@ class ArticleFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Standard credit articles
-        $manager->persist($this->create('article_10','CRED0010', 120, 10));
-        $manager->persist($this->create('article_50','CRED0050', 500, 50));
-        $manager->persist($this->create('article_100','CRED0100', 1000, 100));
-        $manager->persist($this->create('article_500','CRED0500', 4500, 500));
+        $manager->persist($this->create('article_10', 'CRED0010', 120, 10));
+        $manager->persist($this->create('article_50', 'CRED0050', 500, 50));
+        $manager->persist($this->create('article_100', 'CRED0100', 1000, 100));
+        $manager->persist($this->create('article_500', 'CRED0500', 4500, 500));
 
         //CMD slave update
-        $manager->persist($this->create('cmd_slave','cmdslave', 700, 0));
+        $manager->persist($this->create('cmd_slave', 'cmdslave', 700, 0));
 
         //OLSX credit articles
-        $manager->persist($this->create('olsx_10','OLSX0010', 120, 10));
-        $manager->persist($this->create('olsx_50','OLSX0050', 500, 50));
-        $manager->persist($this->create('olsx_100','OLSX0100', 1000, 100));
-        $manager->persist($this->create('olsx_500','OLSX0500', 4500, 500));
+        $manager->persist($this->create('olsx_10', 'OLSX0010', 120, 10));
+        $manager->persist($this->create('olsx_50', 'OLSX0050', 500, 50));
+        $manager->persist($this->create('olsx_100', 'OLSX0100', 1000, 100));
+        $manager->persist($this->create('olsx_500', 'OLSX0500', 4500, 500));
 
         $manager->flush();
     }
 
     /**
      * Article factory.
-     * 
+     *
      * @param string $reference the name to reference
      * @param string $code      the code to store
      * @param int    $price     price of each article unit
@@ -64,7 +64,7 @@ class ArticleFixtures extends Fixture
         $article->setPrice($price);
         $article->setCredit($credit);
         $this->addReference($reference, $article);
-        
+
         return $article;
     }
 }

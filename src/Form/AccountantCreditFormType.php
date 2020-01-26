@@ -21,6 +21,11 @@ use App\Form\Type\PaymentMethodType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Credit form.
+ *
+ * This form is used by accountant.
+ */
 class AccountantCreditFormType extends CreditFormType
 {
     /**
@@ -40,7 +45,8 @@ class AccountantCreditFormType extends CreditFormType
 
         $builder
             ->add('method', PaymentMethodType::class)
-            ->add('credit', PaidType::class);
+            ->add('credit', PaidType::class)
+        ;
     }
 
     /**

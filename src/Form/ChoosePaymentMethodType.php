@@ -21,6 +21,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form to choose payment method.
+ */
 class ChoosePaymentMethodType extends AbstractType
 {
     /**
@@ -39,7 +42,8 @@ class ChoosePaymentMethodType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('method', PaymentMethodType::class);
+            ->add('method', PaymentMethodType::class)
+        ;
     }
 
     /**

@@ -42,6 +42,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Programmation form.
+ */
 class ProgrammationFormType extends AbstractType
 {
     /**
@@ -81,7 +84,8 @@ class ProgrammationFormType extends AbstractType
             ->add('gear', GearType::class)
             ->add('stageOne', StageOneType::class)
             ->add('originalFile', OriginalFileType::class)
-            ->add('comment', CommentType::class);
+            ->add('comment', CommentType::class)
+        ;
     }
 
     /**

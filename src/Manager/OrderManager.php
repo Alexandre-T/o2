@@ -117,8 +117,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * Find the only one non-paid OLSX order or create a new one.
      *
      * @param User $user the user criteria
-     *
-     * @return Order
      */
     public function getOrCreateCartedOlsxOrder(User $user): Order
     {
@@ -372,18 +370,19 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * @param Order       $order  order to complete
      * @param CreditOrder $model  model to provide data
      * @param int         $nature Nature is a constant of OrderInterface
-     *
      */
     private function pushOrderedArticles(Order $order, CreditOrder $model, int $nature): void
     {
         $articleRepository = $this->entityManager->getRepository(Article::class);
         /** @var Article[] $articles */
-        switch($nature) {
+        switch ($nature) {
             case OrderInterface::NATURE_CREDIT:
                 $articles = $articleRepository->findStandardCredit();
+
                 break;
             case OrderInterface::NATURE_OLSX:
                 $articles = $articleRepository->findOlsxCredit();
+
                 break;
             default:
                 $articles = [];

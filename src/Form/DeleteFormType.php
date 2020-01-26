@@ -20,6 +20,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Delete form.
+ */
 class DeleteFormType extends AbstractType
 {
     /**
@@ -33,7 +36,8 @@ class DeleteFormType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('delete', ConfirmationType::class);
+            ->add('delete', ConfirmationType::class)
+        ;
     }
 
     /**

@@ -63,7 +63,8 @@ class BillRepository extends ServiceEntityRepository
             return (int) $this->createQueryBuilder('b')
                 ->select('max(b.number) as maxi')
                 ->getQuery()
-                ->getSingleScalarResult();
+                ->getSingleScalarResult()
+            ;
         } catch (NonUniqueResultException $exception) {
             //this should not be reached.
             return 0;

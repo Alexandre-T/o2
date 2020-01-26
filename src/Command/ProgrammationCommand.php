@@ -61,7 +61,8 @@ class ProgrammationCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Drop obsolete programmation files');
+            ->setDescription('Drop obsolete programmation files')
+        ;
     }
 
     /**

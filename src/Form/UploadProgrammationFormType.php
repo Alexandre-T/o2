@@ -29,6 +29,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form to upload a programmation.
+ */
 class UploadProgrammationFormType extends AbstractType
 {
     /**
@@ -55,7 +58,8 @@ class UploadProgrammationFormType extends AbstractType
             ->add('gearDone', GearDoneType::class)
             ->add('stageOneDone', StageOneDoneType::class)
             ->add('finalFile', FinalFileType::class)
-            ->add('response', ResponseType::class);
+            ->add('response', ResponseType::class)
+        ;
     }
 
     /**

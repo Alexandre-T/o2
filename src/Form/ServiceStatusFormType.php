@@ -22,6 +22,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form to change service status.
+ */
 class ServiceStatusFormType extends AbstractType
 {
     /**
@@ -41,7 +44,8 @@ class ServiceStatusFormType extends AbstractType
 
         $builder
             ->add('endAt', ServiceUntilType::class)
-            ->add('status', ServiceStatusType::class);
+            ->add('status', ServiceStatusType::class)
+        ;
     }
 
     /**

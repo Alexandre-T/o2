@@ -21,6 +21,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Password form.
+ *
+ * This form is for administrator. It does not use last password.
+ */
 class PasswordAdminFormType extends AbstractType
 {
     /**
@@ -39,7 +44,8 @@ class PasswordAdminFormType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('password', PlainPasswordType::class);
+            ->add('password', PlainPasswordType::class)
+        ;
     }
 
     /**

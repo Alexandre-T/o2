@@ -87,11 +87,13 @@ class OlsxRegister
         try {
             if (null !== $this->getCode() && !$this->evcService->exists($this->getCode())) {
                 $context->buildViolation('error.olsx.non-existent-customer')
-                    ->addViolation();
+                    ->addViolation()
+                ;
             }
         } catch (EvcException $exception) {
             $context->buildViolation('error.olsx.unavailable.check-unavailable')
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 }

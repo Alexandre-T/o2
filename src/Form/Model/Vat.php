@@ -127,7 +127,8 @@ class Vat
     {
         if (!$this->isVatChanged()) {
             $context->buildViolation('error.vat.same')
-                ->addViolation();
+                ->addViolation()
+            ;
         }
 
         if (empty($this->getExplanation()) && !$this->isVatDefault()) {
@@ -137,7 +138,8 @@ class Vat
             }
 
             $context->buildViolation($message)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 

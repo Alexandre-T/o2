@@ -60,7 +60,8 @@ class UserCommand extends Command
             ->addArgument('label', InputArgument::REQUIRED, 'Nom de l’utilisateur')
             ->addArgument('mail', InputArgument::REQUIRED, 'Email de l’utilisateur')
             ->addArgument('password', InputArgument::REQUIRED, 'Mot de passe de l’utilisateur')
-            ->addOption('admin', null, InputOption::VALUE_NONE, 'Crée un administrateur');
+            ->addOption('admin', null, InputOption::VALUE_NONE, 'Crée un administrateur')
+        ;
     }
 
     /**
@@ -81,14 +82,17 @@ class UserCommand extends Command
         $user->setMail($mail);
         $user
             ->setGivenName('John')
-            ->setName($label);
+            ->setName($label)
+        ;
         $user
             ->setStreetAddress('.')
             ->setPostalCode('33680')
             ->setCountry('FR')
-            ->setLocality('Lacanau');
+            ->setLocality('Lacanau')
+        ;
         $user
-            ->setType(PersonInterface::PHYSIC);
+            ->setType(PersonInterface::PHYSIC)
+        ;
 
         if (!empty($password)) {
             $user->setPlainPassword($password);

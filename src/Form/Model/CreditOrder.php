@@ -168,7 +168,8 @@ class CreditOrder
     {
         if (0 === $this->getTen() + $this->getFifty() + $this->getHundred() + $this->getFiveHundred()) {
             $context->buildViolation('error.order.empty')
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 

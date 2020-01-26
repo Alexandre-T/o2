@@ -53,23 +53,8 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('code', 'OLSX%')
             ->orderBy('a.price')
             ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * Find "Standard credits" articles .
-     *
-     * @return Article[]
-     */
-    public function findStandardCredit(): array
-    {
-        $queryBuilder = $this->createQueryBuilder('a');
-
-        return $queryBuilder->where('a.code LIKE :code')
-            ->setParameter('code', 'CRED%')
-            ->orderBy('a.price')
-            ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -85,11 +70,29 @@ class ArticleRepository extends ServiceEntityRepository
                 ->setParameter('code', $code)
                 ->setMaxResults(1)
                 ->getQuery()
-                ->getOneOrNullResult();
+                ->getOneOrNullResult()
+            ;
         } catch (NonUniqueResultException $e) {
             //this cannot be reached because of set max results
             //this cannot be reached because of unique index on code
             return null;
         }
+    }
+
+    /**
+     * Find "Standard credits" articles .
+     *
+     * @return Article[]
+     */
+    public function findStandardCredit(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+
+        return $queryBuilder->where('a.code LIKE :code')
+            ->setParameter('code', 'CRED%')
+            ->orderBy('a.price')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }

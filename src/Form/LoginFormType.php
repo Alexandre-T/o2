@@ -51,7 +51,8 @@ class LoginFormType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => 'form.field.password',
                 'help' => 'form.help.password',
-            ]);
+            ])
+        ;
     }
 
     /**

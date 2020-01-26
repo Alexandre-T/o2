@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace App\Model;
 
 /**
- * Interface Order
+ * Interface Order.
  */
 interface OrderInterface
 {
@@ -32,12 +32,12 @@ interface OrderInterface
      * Constants for credited status.
      */
     public const CREDITED = true;
+    public const NATURE_CMD = 2;
 
     /**
      * Constants for nature.
      */
     public const NATURE_CREDIT = 1;
-    public const NATURE_CMD = 2;
     public const NATURE_OLSX = 4;
 
     public const NON_CREDITED = false;

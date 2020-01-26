@@ -793,13 +793,15 @@ class User implements EntityInterface, LanguageInterface, OlsxInterface, PersonI
         if ($this->isMoral() && empty($this->getSociety())) {
             $context->buildViolation('error.society.blank')
                 ->atPath('society')
-                ->addViolation();
+                ->addViolation()
+            ;
         }
 
         if ($this->isPhysic() && empty($this->getName())) {
             $context->buildViolation('error.name.blank')
                 ->atPath('name')
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 }

@@ -154,7 +154,8 @@ class UploadProgrammation
             ->setEthanolDone($this->isEthanolDone())
             ->setFapStopped($this->isFapStopped())
             ->setGearDone($this->isGearDone())
-            ->setStageOneDone($this->isStageOneDone());
+            ->setStageOneDone($this->isStageOneDone())
+        ;
     }
 
     /**

@@ -21,6 +21,9 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Form to use when password is lost.
+ */
 class PasswordLostFormType extends AbstractType
 {
     /**
@@ -43,7 +46,8 @@ class PasswordLostFormType extends AbstractType
                 'label' => 'form.field.email',
                 'help' => 'form.help.email',
                 'required' => true,
-            ]);
+            ])
+        ;
     }
 
     /**

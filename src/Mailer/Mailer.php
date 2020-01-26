@@ -316,7 +316,8 @@ class Mailer implements MailerInterface
             ->setFrom($email)
             ->setTo($email)
             ->setBody($html, 'text/html')
-            ->addPart($txt, 'text/plain');
+            ->addPart($txt, 'text/plain')
+        ;
 
         return $this->mailer->send($message);
     }
@@ -342,7 +343,8 @@ class Mailer implements MailerInterface
             ->setFrom($fromEmail)
             ->setTo($toEmail)
             ->setBody($html, 'text/html')
-            ->addPart($txt, 'text/plain');
+            ->addPart($txt, 'text/plain')
+        ;
 
         return $this->mailer->send($message);
     }

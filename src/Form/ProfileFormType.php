@@ -62,7 +62,8 @@ class ProfileFormType extends AbstractType
             ->add('postalCode', PostalCodeType::class)
             ->add('locality', LocalityType::class)
             ->add('country', CountryType::class)
-            ->add('telephone', TelephoneType::class);
+            ->add('telephone', TelephoneType::class)
+        ;
     }
 
     /**
