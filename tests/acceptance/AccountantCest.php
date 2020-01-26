@@ -109,7 +109,7 @@ class AccountantCest
         $you->seeResponseCodeIsSuccessful();
         $you->areOnPage('/accountant/bill');
         $you->seeResponseCodeIsSuccessful();
-        $you->see('480,00');
+        $you->see('432,00');
         $you->see('Payée');
         $you->click('Consulter', 'a.btn');
         $billId = $you->grabFromCurrentUrl('~(\d+)~');
