@@ -43,6 +43,9 @@ class SettingsManagerTest extends KernelTestCase
      */
     private $settingsManager;
 
+    /**
+     * Setup the repository before each test.
+     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
@@ -55,6 +58,9 @@ class SettingsManagerTest extends KernelTestCase
         $this->settingsManager = new SettingsManager($this->entityManager, $paginator);
     }
 
+    /**
+     * Close entity manager to avoid memory leaks.
+     */
     protected function tearDown(): void
     {
         parent::tearDown();

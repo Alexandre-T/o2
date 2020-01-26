@@ -42,6 +42,9 @@ class SettingsRepositoryTest extends KernelTestCase
      */
     private $settingsRepository;
 
+    /**
+     * Setup the repository before each test.
+     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
@@ -53,6 +56,9 @@ class SettingsRepositoryTest extends KernelTestCase
         $this->settingsRepository = $this->entityManager->getRepository(Settings::class);
     }
 
+    /**
+     * Close entity manager to avoid memory leaks.
+     */
     protected function tearDown(): void
     {
         parent::tearDown();

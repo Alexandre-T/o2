@@ -42,6 +42,9 @@ class FileRepositoryTest extends KernelTestCase
      */
     private $fileRepository;
 
+    /**
+     * Setup the repository before each test.
+     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
@@ -53,6 +56,9 @@ class FileRepositoryTest extends KernelTestCase
         $this->fileRepository = $this->entityManager->getRepository(File::class);
     }
 
+    /**
+     * Close entity manager to avoid memory leaks.
+     */
     protected function tearDown(): void
     {
         parent::tearDown();

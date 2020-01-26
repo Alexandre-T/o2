@@ -42,6 +42,9 @@ class ArticleRepositoryTest extends KernelTestCase
      */
     private $entityManager;
 
+    /**
+     * Setup the repository before each test.
+     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
@@ -53,6 +56,9 @@ class ArticleRepositoryTest extends KernelTestCase
         $this->articleRepository = $this->entityManager->getRepository(Article::class);
     }
 
+    /**
+     * Close entity manager to avoid memory leaks.
+     */
     protected function tearDown(): void
     {
         parent::tearDown();

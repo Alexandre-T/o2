@@ -42,6 +42,9 @@ class UserRepositoryTest extends KernelTestCase
      */
     private $userRepository;
 
+    /**
+     * Close entity manager to avoid memory leaks.
+     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();

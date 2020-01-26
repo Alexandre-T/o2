@@ -42,6 +42,9 @@ class OrderedArticleRepositoryTest extends KernelTestCase
      */
     private $orderedArticleRepository;
 
+    /**
+     * Setup the repository before each test.
+     */
     protected function setUp(): void
     {
         $kernel = self::bootKernel();
@@ -53,6 +56,9 @@ class OrderedArticleRepositoryTest extends KernelTestCase
         $this->orderedArticleRepository = $this->entityManager->getRepository(OrderedArticle::class);
     }
 
+    /**
+     * Close entity manager to avoid memory leaks.
+     */
     protected function tearDown(): void
     {
         parent::tearDown();
