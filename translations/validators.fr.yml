@@ -37,6 +37,8 @@ error:
       'Cette valeur ne correspond pas à votre ancien mot de passe.'
   olsx:
     non-existent-customer: 'Ce code utilisateur n’est pas reconnu par les services OLSX.'
+    unavailable:
+      check-unavailable: 'Nous ne pouvons pas vérifier votre code OLSX pour le moment. Veuillez réessayer ultérieurement.'
   olsx-code:
       'Votre code olsx doit contenir 14 chiffres exactement.'
   order:

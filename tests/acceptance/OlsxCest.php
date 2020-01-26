@@ -53,7 +53,30 @@ class OlsxCest
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/olsx/register');
         $you->see('Erreur Cette valeur n\'est pas valide.');
-        //Full test is not available because I cannot mock EvcService in acceptance test.
+        $you->wantToTest('non-existent customer. 11111 is a non-existent customer.');
+        $you->fillField('Code client OLSX', '11111');
+        $you->click("Inscrivez-vous\u{a0}!");
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/olsx/register');
+        $you->see('Erreur Ce code utilisateur n’est pas reconnu par les services OLSX.');
+        $you->wantToTest('Network exception. 55555 is not a valid customer.');
+        $you->fillField('Code client OLSX', '55555');
+        $you->click("Inscrivez-vous\u{a0}!");
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/olsx/register');
+        $you->see('Nous ne pouvons pas vérifier votre code OLSX pour le moment. Veuillez réessayer ultérieurement.');
+        $you->wantToTest('Credential exception. 66666 is not a valid customer.');
+        $you->fillField('Code client OLSX', '66666');
+        $you->click("Inscrivez-vous\u{a0}!");
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/olsx/register');
+        $you->see('Nous ne pouvons pas vérifier votre code OLSX pour le moment. Veuillez réessayer ultérieurement.');
+        $you->wantToTest('Logical exception. 77777 is not a valid customer.');
+        $you->fillField('Code client OLSX', '77777');
+        $you->click("Inscrivez-vous\u{a0}!");
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/olsx/register');
+        $you->see('Nous ne pouvons pas vérifier votre code OLSX pour le moment. Veuillez réessayer ultérieurement.');
     }
 
     /**
@@ -64,7 +87,22 @@ class OlsxCest
     public function tryToSubscribeTwice(AcceptanceTester $you): void
     {
         $you->wantTo('access to the OLSX  Subscription form with a olsx account.');
-        $you->login('olsx');
+        $you->login('olsx1');
+        $you->amOnPage('/olsx/register');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('');
+        $you->see('Vous êtes déjà inscrit au programme OLSX.');
+    }
+
+    /**
+     * Try to list OLSX registering users then try to manipulate them.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToListRegisteringUsers(AcceptanceTester $you): void
+    {
+        $you->wantTo('show the list of new users.');
+        $you->login('olsx1');
         $you->amOnPage('/olsx/register');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('');

@@ -34,6 +34,7 @@ class UserFixtures extends Fixture
      * Quantity of customers to load.
      */
     public const CUSTOMERS = 30;
+    public const OLSX = 6;
 
     /**
      * Load users.
@@ -75,13 +76,26 @@ class UserFixtures extends Fixture
                 ->addRole(User::ROLE_PROGRAMMER)
             ;
 
-            //Olsx
-            $userOlsx = $this->createUser('OLSX', 'olsx');
-            $userOlsx
-                ->setOlsxIdentifier(33333)
-                ->setRegistered()
-                ->addRole(User::ROLE_OLSX)
-            ;
+            //Olsx user
+            foreach (range(1, self::OLSX + 1) as $index) {
+                $userOlsx = $this->createUser("OLSX-{$index}", "olsx{$index}");
+                $userOlsx
+                    ->setOlsxIdentifier(11111 * $index)
+                    ->setRegistered()
+                    ->addRole(User::ROLE_OLSX)
+                ;
+            }
+
+            //Olsx user
+            foreach (range(1, self::OLSX + 1) as $index) {
+                $userOlsx = $this->createOlsx($index);
+                $manager->persist($userOlsx);
+                $this->addReference("user_olsx-{$index}", $userOlsx);
+
+                $registeringOlsx = $this->createRegisteringOlsx($index);
+                $manager->persist($registeringOlsx);
+                $this->addReference("user_registering-{$index}", $registeringOlsx);
+            }
 
             //User
             $userCustomer = $this->createUser('The customer', 'customer');
@@ -93,7 +107,6 @@ class UserFixtures extends Fixture
             //We add a lot of user
             foreach (range(0, self::CUSTOMERS) as $index) {
                 $user = $this->createCustomer($index);
-
                 $manager->persist($user);
                 $this->addReference("user_customer-{$index}", $user);
             }
@@ -111,7 +124,6 @@ class UserFixtures extends Fixture
             $manager->persist($userAdministrator);
             $manager->persist($userAll);
             $manager->persist($userCustomer);
-            $manager->persist($userOlsx);
             $manager->persist($userProgrammer);
 
             $manager->flush();
@@ -216,5 +228,38 @@ class UserFixtures extends Fixture
         ;
 
         return $user;
+    }
+
+    /**
+     * Create an OLSX user.
+     *
+     * @param int $index the OLSX user index
+     */
+    private function createOlsx(int $index): User
+    {
+        $userOlsx = $this->createUser("OLSX-{$index}", "olsx{$index}");
+        $userOlsx
+            ->setOlsxIdentifier(11111 * $index)
+            ->setRegistered()
+            ->addRole(User::ROLE_OLSX)
+        ;
+
+        return $userOlsx;
+    }
+
+    /**
+     * Create a user which is registering.
+     *
+     * @param int $index the OLSX user index
+     */
+    private function createRegisteringOlsx($index)
+    {
+        $userOlsx = $this->createUser("OLSX-registering-{$index}", "registering{$index}");
+        $userOlsx
+            ->setOlsxIdentifier(11111 * $index)
+            ->setRegistering()
+        ;
+
+        return $userOlsx;
     }
 }

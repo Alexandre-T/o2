@@ -1,0 +1,7 @@
+services:
+    alexandre_evc_request:
+        class: Alexandre\EvcBundle\Service\EmulationService
+        arguments:
+            $api: '%env(EVC_API)%'
+            $username: '%env(EVC_USERNAME)%'
+            $password: '%env(EVC_PASSWORD)%'
