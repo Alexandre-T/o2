@@ -156,10 +156,14 @@ class OlsxCest
         $you->click('Activer le compte OLSX');
         $you->seeCurrentUrlEquals('/olsx/show/' . $identifier);
         $you->see('Ce client a désormais la possibilité de commander des crédits OLSX');
+        $you->dontSee('Client simple');
+        $you->see('Client OLSX');
         $you->wantTo('close OLSX service to the 33333 customer');
         $you->click('Désactiver le compte OLSX');
         $you->seeCurrentUrlEquals('/olsx/show/' . $identifier);
         $you->see('Ce client n’a plus la possibilité de commander des crédits OLSX');
+        $you->see('Client simple');
+        $you->dontSee('Client OLSX');
         $you->wantTo('test the 55555 customer');
         $you->amOnPage('/olsx/registering');
         $you->seeResponseCodeIsSuccessful();
