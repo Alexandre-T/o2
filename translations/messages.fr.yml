@@ -1042,8 +1042,8 @@ olsx:
     text: 'Client personnel'
     title: 'Ce client OLSX est déjà référencé comme l’un de vos clients personnels'
   account:
-    text %account%: '%account% crédit(s) OLSX'
-    title %account%: 'Compte personnel : %account% crédit(s) OLSX'
+    text %account%: '[0,1]%account% crédit OLSX|]1,Inf[%account% crédits OLSX'
+    title %account%: '[0,1]Compte personnel : %account% crédit OLSX|]1,Inf[Compte personnel : %account% crédits OLSX'
   no-account:
     text: 'Aucun'
     title: 'Aucun compte OLSX'
