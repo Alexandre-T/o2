@@ -495,9 +495,6 @@
     "symfony/cache": {
         "version": "v4.2.4"
     },
-    "symfony/cache-contracts": {
-        "version": "v1.1.7"
-    },
     "symfony/config": {
         "version": "v4.2.4"
     },
@@ -552,9 +549,6 @@
     },
     "symfony/event-dispatcher": {
         "version": "v4.2.4"
-    },
-    "symfony/event-dispatcher-contracts": {
-        "version": "v1.1.7"
     },
     "symfony/expression-language": {
         "version": "v4.2.4"
@@ -739,9 +733,6 @@
     },
     "symfony/serializer-pack": {
         "version": "v1.0.2"
-    },
-    "symfony/service-contracts": {
-        "version": "v1.1.8"
     },
     "symfony/stopwatch": {
         "version": "v4.2.4"
