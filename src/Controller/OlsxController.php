@@ -252,7 +252,7 @@ class OlsxController extends AbstractPaginateController
      *
      * @Route("/olsx/test", name="administration_olsx_test", methods={"get"})
      *
-     * @Security("is_granted('ROLE_ACCOUNTANT')")
+     * @Security("is_granted('ROLE_ACCOUNTANT') or is_granted('ROLE_ADMIN')")
      *
      * @param EvcServiceInterface $evcService Evc Service is used to retrieve some information about customer
      */
