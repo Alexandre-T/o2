@@ -2541,13 +2541,13 @@
             "authors": [
                 {
                     "name": "Jeremy Kendall",
-                    "homepage": "http://about.me/jeremykendall",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "http://about.me/jeremykendall"
                 },
                 {
                     "name": "Ignace Nyamagana Butera",
-                    "homepage": "http://nyamsprod.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "http://nyamsprod.com"
                 },
                 {
                     "name": "Contributors",
@@ -3384,25 +3384,25 @@
         },
         {
             "name": "payum/payum-bundle",
-            "version": "2.3.4",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Payum/PayumBundle.git",
-                "reference": "ea5555bbaecde8221e62480c5b01194d391ba867"
+                "reference": "e13cce14317389a078a7bd9431fc2f422ffe727c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Payum/PayumBundle/zipball/ea5555bbaecde8221e62480c5b01194d391ba867",
-                "reference": "ea5555bbaecde8221e62480c5b01194d391ba867",
+                "url": "https://api.github.com/repos/Payum/PayumBundle/zipball/e13cce14317389a078a7bd9431fc2f422ffe727c",
+                "reference": "e13cce14317389a078a7bd9431fc2f422ffe727c",
                 "shasum": ""
             },
             "require": {
                 "payum/core": "^1.5",
                 "php": "^7.0",
-                "symfony/form": "^3.1|^4",
-                "symfony/framework-bundle": "^3.1|^4",
-                "symfony/security-csrf": "^3.1|^4",
-                "symfony/validator": "^3.1|^4"
+                "symfony/form": "^3.1|^4|^5",
+                "symfony/framework-bundle": "^3.1|^4|^5",
+                "symfony/security-csrf": "^3.1|^4|^5",
+                "symfony/validator": "^3.1|^4|^5"
             },
             "require-dev": {
                 "defuse/php-encryption": "^2",
@@ -3421,11 +3421,11 @@
                 "php-http/guzzle6-adapter": "^1",
                 "phpunit/phpunit": "^5.7",
                 "stripe/stripe-php": "~1.0",
-                "symfony/browser-kit": "^3.1|^4",
-                "symfony/expression-language": "^3.1|^4",
-                "symfony/phpunit-bridge": "^3.1|^4",
-                "symfony/templating": "^3.1|^4",
-                "symfony/twig-bundle": "^3.1|^4",
+                "symfony/browser-kit": "^3.1|^4|^5",
+                "symfony/expression-language": "^3.1|^4|^5",
+                "symfony/phpunit-bridge": "^3.1|^4|^5",
+                "symfony/templating": "^3.1|^4|^5",
+                "symfony/twig-bundle": "^3.1|^4|^5",
                 "twig/twig": "^1.16|^2.0"
             },
             "suggest": {
@@ -3480,7 +3480,7 @@
                 "stripe.js",
                 "symfony"
             ],
-            "time": "2019-11-04T13:09:01+00:00"
+            "time": "2020-01-28T18:46:43+00:00"
         },
         {
             "name": "php-http/guzzle6-adapter",
@@ -5402,16 +5402,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "952f45d1c5077e658cb16a61d11603bee873f968"
+                "reference": "c497c0c77cb9018cccd9c092832ebf9826612f92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/952f45d1c5077e658cb16a61d11603bee873f968",
-                "reference": "952f45d1c5077e658cb16a61d11603bee873f968",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/c497c0c77cb9018cccd9c092832ebf9826612f92",
+                "reference": "c497c0c77cb9018cccd9c092832ebf9826612f92",
                 "shasum": ""
             },
             "require": {
@@ -5447,7 +5447,7 @@
                 }
             ],
             "description": "Composer plugin for Symfony",
-            "time": "2019-12-13T18:05:11+00:00"
+            "time": "2020-01-27T15:38:49+00:00"
         },
         {
             "name": "symfony/form",
@@ -10085,18 +10085,18 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "email": "arne@blankerts.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "arne@blankerts.de"
                 },
                 {
                     "name": "Sebastian Heuer",
-                    "email": "sebastian@phpeople.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "sebastian@phpeople.de"
                 },
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
@@ -10132,18 +10132,18 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "email": "arne@blankerts.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "arne@blankerts.de"
                 },
                 {
                     "name": "Sebastian Heuer",
-                    "email": "sebastian@phpeople.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "sebastian@phpeople.de"
                 },
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Library for handling version information and constraints",
@@ -10607,8 +10607,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Simple template engine.",
@@ -11406,8 +11406,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
@@ -12397,8 +12397,8 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "email": "arne@blankerts.de",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "email": "arne@blankerts.de"
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
