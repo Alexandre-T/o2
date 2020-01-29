@@ -155,7 +155,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     /**
      * Status order.
      *
-     * @ORM\Column(type="smallint", options={"default": OrderInterface::CARTED})
+     * @ORM\Column(type="smallint", options={"default": OrderInterface::STATUS_CARTED})
      *
      * @Gedmo\Versioned
      */
