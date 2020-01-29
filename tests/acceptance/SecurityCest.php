@@ -23,6 +23,56 @@ namespace App\Tests;
 class SecurityCest
 {
     /**
+     * Test to connect with a non-existent mail access.
+     *
+     * @param AcceptanceTester $you the acceptance test
+     */
+    public function tryToInvalidAccount(AcceptanceTester $you): void
+    {
+        $you->wantToTest('non existent account');
+        $you->comment("I want to login with toto@example.org and titi");
+        $you->amOnPage('/login');
+
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/login');
+        $you->submitForm('form[name="app_login"]', [
+            'app_login[mail]' => 'toto@example.org',
+            'app_login[password]' => 'titi',
+        ]);
+
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/login');
+        $you->see('adresse email n’est pas référencée dans l’application ou bien le mot de passe est erroné');
+        $you->dontSee('Déconnexion');
+        $you->dontSee('Disconnection');
+    }
+
+    /**
+     * Test to connect with bad credentials.
+     *
+     * @param AcceptanceTester $you the acceptance test
+     */
+    public function tryToConnectWithInvalidPassword(AcceptanceTester $you): void
+    {
+        $you->wantToTest('an invalid password');
+        $you->comment("I want to login with all@example.org and titi");
+        $you->amOnPage('/login');
+
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/login');
+        $you->submitForm('form[name="app_login"]', [
+            'app_login[mail]' => 'all@example.org',
+            'app_login[password]' => 'titi',
+        ]);
+
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/login');
+        $you->see('adresse email n’est pas référencée dans l’application ou bien le mot de passe est erroné');
+        $you->dontSee('Déconnexion');
+        $you->dontSee('Disconnection');
+    }
+
+    /**
      * Test accountant access.
      *
      * @param AcceptanceTester $you the acceptance test
