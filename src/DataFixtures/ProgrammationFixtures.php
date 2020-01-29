@@ -82,6 +82,8 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
      *
      * @param Programmation $programmation the programmation to set obsolete
      * @param int $index the index of programmation to find a file
+     *
+     * @throws Exception this should NOT happen because I use DateTimeImmutable without constructor.
      */
     private function close(Programmation $programmation, int $index): void
     {
