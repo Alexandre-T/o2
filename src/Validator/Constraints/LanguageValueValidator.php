@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 /**
- * A validator to check the language value
+ * A validator to check the language value.
  */
 class LanguageValueValidator extends ConstraintValidator
 {

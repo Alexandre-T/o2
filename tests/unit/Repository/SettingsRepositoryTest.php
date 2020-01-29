@@ -51,7 +51,8 @@ class SettingsRepositoryTest extends KernelTestCase
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager();
+            ->getManager()
+        ;
 
         $this->settingsRepository = $this->entityManager->getRepository(Settings::class);
     }

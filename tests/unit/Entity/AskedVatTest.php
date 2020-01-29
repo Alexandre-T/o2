@@ -107,7 +107,8 @@ class AskedVatTest extends Unit
         $actual
             ->setName('Doe')
             ->setGivenName('John')
-            ->setType(PersonInterface::PHYSIC);
+            ->setType(PersonInterface::PHYSIC)
+        ;
 
         self::assertSame($this->asked, $this->asked->setCustomer($actual));
         self::assertSame($expected, $this->asked->getCustomer());

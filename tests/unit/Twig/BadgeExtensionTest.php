@@ -62,7 +62,8 @@ class BadgeExtensionTest extends Unit
                 function ($text) {
                     return 'trans.'.$text;
                 }
-            );
+            )
+        ;
         $this->extension = new BadgeExtension($translator);
         parent::setUp();
     }

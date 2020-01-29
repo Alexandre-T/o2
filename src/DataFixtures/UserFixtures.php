@@ -202,35 +202,6 @@ class UserFixtures extends Fixture
     }
 
     /**
-     * Create a testing user.
-     *
-     * @param string $label The user label
-     * @param string $code  A code to connect
-     */
-    private function createUser(string $label, string $code): User
-    {
-        $user = new User();
-        $user
-            ->setMail("{$code}@example.org")
-            ->setPlainPassword($code)
-            ->setGivenName('John')
-            ->setName($label)
-            ->setType(PersonInterface::PHYSIC)
-        ;
-
-        $user->setLanguage(LanguageInterface::FRENCH);
-
-        $user
-            ->setPostalCode('33000')
-            ->setStreetAddress('rue du boulevard')
-            ->setCountry('FR')
-            ->setLocality('locality')
-        ;
-
-        return $user;
-    }
-
-    /**
      * Create an OLSX user.
      *
      * @param int $index the OLSX user index
@@ -261,5 +232,34 @@ class UserFixtures extends Fixture
         ;
 
         return $userOlsx;
+    }
+
+    /**
+     * Create a testing user.
+     *
+     * @param string $label The user label
+     * @param string $code  A code to connect
+     */
+    private function createUser(string $label, string $code): User
+    {
+        $user = new User();
+        $user
+            ->setMail("{$code}@example.org")
+            ->setPlainPassword($code)
+            ->setGivenName('John')
+            ->setName($label)
+            ->setType(PersonInterface::PHYSIC)
+        ;
+
+        $user->setLanguage(LanguageInterface::FRENCH);
+
+        $user
+            ->setPostalCode('33000')
+            ->setStreetAddress('rue du boulevard')
+            ->setCountry('FR')
+            ->setLocality('locality')
+        ;
+
+        return $user;
     }
 }

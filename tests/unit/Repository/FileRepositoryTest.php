@@ -51,7 +51,8 @@ class FileRepositoryTest extends KernelTestCase
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager();
+            ->getManager()
+        ;
 
         $this->fileRepository = $this->entityManager->getRepository(File::class);
     }

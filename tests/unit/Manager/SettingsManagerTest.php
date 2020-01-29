@@ -52,7 +52,8 @@ class SettingsManagerTest extends KernelTestCase
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager();
+            ->getManager()
+        ;
 
         $paginator = self::createMock(PaginatorInterface::class);
         $this->settingsManager = new SettingsManager($this->entityManager, $paginator);

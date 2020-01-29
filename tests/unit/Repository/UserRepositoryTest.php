@@ -51,7 +51,8 @@ class UserRepositoryTest extends KernelTestCase
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager();
+            ->getManager()
+        ;
 
         $this->userRepository = $this->entityManager->getRepository(User::class);
     }

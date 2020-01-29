@@ -51,7 +51,8 @@ class ArticleRepositoryTest extends KernelTestCase
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager();
+            ->getManager()
+        ;
 
         $this->articleRepository = $this->entityManager->getRepository(Article::class);
     }

@@ -369,16 +369,19 @@ class UserTest extends Unit
             ->expects(self::once())
             ->method('atPath')
             ->with('society')
-            ->willReturn($builder);
+            ->willReturn($builder)
+        ;
         $builder
             ->expects(self::once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $context
             ->expects(self::once())
             ->method('buildViolation')
             ->with('error.society.blank', [])
-            ->willReturn($builder);
+            ->willReturn($builder)
+        ;
 
         $this->user->setType(PersonInterface::MORAL);
         self::assertTrue($this->user->IsSociety());
@@ -401,16 +404,19 @@ class UserTest extends Unit
             ->expects(self::once())
             ->method('atPath')
             ->with('name')
-            ->willReturn($builder);
+            ->willReturn($builder)
+        ;
         $builder
             ->expects(self::once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $context
             ->expects(self::once())
             ->method('buildViolation')
             ->with('error.name.blank', [])
-            ->willReturn($builder);
+            ->willReturn($builder)
+        ;
 
         $this->user->validate($context);
     }
@@ -425,7 +431,8 @@ class UserTest extends Unit
 
         $context
             ->expects(self::never())
-            ->method('buildViolation');
+            ->method('buildViolation')
+        ;
 
         //With a valid family name
         $this->user->setName('foo');

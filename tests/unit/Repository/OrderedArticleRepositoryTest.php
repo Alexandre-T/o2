@@ -51,7 +51,8 @@ class OrderedArticleRepositoryTest extends KernelTestCase
 
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager();
+            ->getManager()
+        ;
 
         $this->orderedArticleRepository = $this->entityManager->getRepository(OrderedArticle::class);
     }
