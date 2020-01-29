@@ -55,10 +55,10 @@ class ProgrammationRepository extends ServiceEntityRepository
             return [];
         }
 
-        $qb = $this->createQueryBuilder('p');
+        $queryBuilder = $this->createQueryBuilder('p');
 
-        return $qb->where(
-            $qb->expr()->lt('p.createdAt', ':obsolete')
+        return $queryBuilder->where(
+            $queryBuilder->expr()->lt('p.createdAt', ':obsolete')
         )
             ->setParameter('obsolete', $obsoleteDate)
             ->orderBy('p.createdAt', 'DESC')
