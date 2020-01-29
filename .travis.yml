@@ -54,9 +54,9 @@ install:
 # Run script and log coverage in the "build" directory
 script:
   # Composer must be validated.
-  # - composer validate --no-interaction --ansi --verbose
+  - composer validate --no-interaction --ansi --verbose
   # Launch server
-  - symfony serve -d
+  - symfony serve -d --no-tls
   # Coverall tests
   - composer coverall-test
   # PHP MASS DETECTOR valid?
