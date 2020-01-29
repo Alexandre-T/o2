@@ -133,7 +133,7 @@ class OrderRepository extends ServiceEntityRepository
             ->andWhere('o.amount > 0')
             ->orderBy('o.paymentAt', 'desc')
             ->setMaxResults(1)
-            ->setParameter('statusOrder', OrderInterface::PAID)
+            ->setParameter('statusOrder', OrderInterface::STATUS_PAID)
             ->getQuery()
             ->getResult()
         ;
@@ -167,7 +167,7 @@ class OrderRepository extends ServiceEntityRepository
         return $this->findOneByUserNatureStatus(
             $user,
             OrderInterface::NATURE_OLSX,
-            OrderInterface::CARTED
+            OrderInterface::STATUS_CARTED
         );
     }
 
@@ -181,7 +181,7 @@ class OrderRepository extends ServiceEntityRepository
         return $this->findOneByUserNatureStatus(
             $user,
             OrderInterface::NATURE_CREDIT,
-            OrderInterface::CARTED
+            OrderInterface::STATUS_CARTED
         );
     }
 

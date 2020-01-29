@@ -37,8 +37,8 @@ class PaidType extends AbstractType
         $resolver->setDefaults([
             'label' => 'form.field.paid',
             'choices' => [
-                'accountant.credit.credit' => OrderInterface::CREDITED,
-                'accountant.credit.not-credit' => OrderInterface::NON_CREDITED,
+                'accountant.credit.credit' => OrderInterface::CREDITED_ALREADY,
+                'accountant.credit.not-credit' => OrderInterface::CREDITED_NOT_YET,
             ],
             'required' => true,
             'expanded' => true,

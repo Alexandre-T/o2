@@ -159,7 +159,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      *
      * @Gedmo\Versioned
      */
-    private $statusOrder = OrderInterface::CARTED;
+    private $statusOrder = OrderInterface::STATUS_CARTED;
 
     /**
      * Token is information provided by paypal.
@@ -384,7 +384,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      */
     public function isCanceled(): bool
     {
-        return OrderInterface::CANCELED === $this->statusOrder;
+        return OrderInterface::STATUS_CANCELED === $this->statusOrder;
     }
 
     /**
@@ -392,7 +392,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      */
     public function isCarted(): bool
     {
-        return OrderInterface::CARTED === $this->statusOrder;
+        return OrderInterface::STATUS_CARTED === $this->statusOrder;
     }
 
     /**
@@ -408,7 +408,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      */
     public function isPaid(): bool
     {
-        return OrderInterface::PAID === $this->statusOrder;
+        return OrderInterface::STATUS_PAID === $this->statusOrder;
     }
 
     /**
@@ -416,7 +416,7 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
      */
     public function isPending(): bool
     {
-        return OrderInterface::PENDING === $this->statusOrder;
+        return OrderInterface::STATUS_PENDING === $this->statusOrder;
     }
 
     /**

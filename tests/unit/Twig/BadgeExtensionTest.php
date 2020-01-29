@@ -222,19 +222,19 @@ class BadgeExtensionTest extends Unit
      */
     public function testBadgeStatusOrderFilter(): void
     {
-        $actual = OrderInterface::CANCELED;
+        $actual = OrderInterface::STATUS_CANCELED;
         $expected = '<span class="badge badge-danger">trans.order.canceled</span>';
         self::assertSame($expected, $this->extension->badgeStatusOrderFilter($actual));
 
-        $actual = OrderInterface::CARTED;
+        $actual = OrderInterface::STATUS_CARTED;
         $expected = '<span class="badge badge-secondary">trans.order.carted</span>';
         self::assertSame($expected, $this->extension->badgeStatusOrderFilter($actual));
 
-        $actual = OrderInterface::PENDING;
+        $actual = OrderInterface::STATUS_PENDING;
         $expected = '<span class="badge badge-warning">trans.order.pending</span>';
         self::assertSame($expected, $this->extension->badgeStatusOrderFilter($actual));
 
-        $actual = OrderInterface::PAID;
+        $actual = OrderInterface::STATUS_PAID;
         $expected = '<span class="badge badge-success">trans.order.paid</span>';
         self::assertSame($expected, $this->extension->badgeStatusOrderFilter($actual));
 

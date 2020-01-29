@@ -103,7 +103,7 @@ class OrderTest extends Unit
         self::assertNotNull($this->order->getLabel());
         self::assertSame('000000', $this->order->getLabel());
         self::assertNull($this->order->getNature());
-        self::assertSame(OrderInterface::CARTED, $this->order->getStatusOrder());
+        self::assertSame(OrderInterface::STATUS_CARTED, $this->order->getStatusOrder());
         self::assertNull($this->order->getPayerId());
         self::assertNotNull($this->order->getPayments());
         self::assertEmpty($this->order->getPayments());
@@ -262,29 +262,29 @@ class OrderTest extends Unit
      */
     public function testStatusOrder(): void
     {
-        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::CANCELED));
-        self::assertSame(OrderInterface::CANCELED, $this->order->getStatusOrder());
+        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::STATUS_CANCELED));
+        self::assertSame(OrderInterface::STATUS_CANCELED, $this->order->getStatusOrder());
         self::assertTrue($this->order->isCanceled());
         self::assertFalse($this->order->isCarted());
         self::assertFalse($this->order->isPaid());
         self::assertFalse($this->order->isPending());
 
-        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::CARTED));
-        self::assertSame(OrderInterface::CARTED, $this->order->getStatusOrder());
+        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::STATUS_CARTED));
+        self::assertSame(OrderInterface::STATUS_CARTED, $this->order->getStatusOrder());
         self::assertFalse($this->order->isCanceled());
         self::assertTrue($this->order->isCarted());
         self::assertFalse($this->order->isPaid());
         self::assertFalse($this->order->isPending());
 
-        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::PENDING));
-        self::assertSame(OrderInterface::PENDING, $this->order->getStatusOrder());
+        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::STATUS_PENDING));
+        self::assertSame(OrderInterface::STATUS_PENDING, $this->order->getStatusOrder());
         self::assertFalse($this->order->isCanceled());
         self::assertFalse($this->order->isCarted());
         self::assertFalse($this->order->isPaid());
         self::assertTrue($this->order->isPending());
 
-        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::PAID));
-        self::assertSame(OrderInterface::PAID, $this->order->getStatusOrder());
+        self::assertSame($this->order, $this->order->setStatusOrder(OrderInterface::STATUS_PAID));
+        self::assertSame(OrderInterface::STATUS_PAID, $this->order->getStatusOrder());
         self::assertFalse($this->order->isCanceled());
         self::assertFalse($this->order->isCarted());
         self::assertTrue($this->order->isPaid());

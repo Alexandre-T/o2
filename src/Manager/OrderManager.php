@@ -50,8 +50,8 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      */
     public function accountantValidate(Order $order): void
     {
-        $order->setStatusCredit(OrderInterface::CREDITED);
-        $order->setStatusOrder(OrderInterface::PAID);
+        $order->setStatusCredit(OrderInterface::CREDITED_ALREADY);
+        $order->setStatusOrder(OrderInterface::STATUS_PAID);
 
         $user = $order->getCustomer();
         if (!$order->isCredited()) {
@@ -68,7 +68,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     public function credit(Order $order): void
     {
         $customer = $order->getCustomer();
-        $order->setStatusCredit(OrderInterface::CREDITED);
+        $order->setStatusCredit(OrderInterface::CREDITED_ALREADY);
         $customer->setCredit($customer->getCredit() + $order->getCredits());
 
         $this->entityManager->persist($customer);
@@ -104,7 +104,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        $orders = $repository->findByUserNonEmptyStatusCreditOrder($user, OrderInterface::CARTED);
+        $orders = $repository->findByUserNonEmptyStatusCreditOrder($user, OrderInterface::STATUS_CARTED);
 
         if (null === $orders || empty($orders)) {
             throw new NoOrderException('No carted order for this user');
@@ -129,7 +129,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
             $order = new Order();
             $order->setNature(OrderInterface::NATURE_OLSX);
             $order->setCustomer($user);
-            $order->setStatusOrder(OrderInterface::CARTED);
+            $order->setStatusOrder(OrderInterface::STATUS_CARTED);
         }
 
         return $order;
@@ -151,7 +151,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
             $order = new Order();
             $order->setNature(OrderInterface::NATURE_CREDIT);
             $order->setCustomer($user);
-            $order->setStatusOrder(OrderInterface::CARTED);
+            $order->setStatusOrder(OrderInterface::STATUS_CARTED);
         }
 
         return $order;
@@ -249,7 +249,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         /** @var OrderRepository $repository */
         $repository = $this->getMainRepository();
 
-        $orders = $repository->findCmdByUserAndStatusOrder($user, OrderInterface::CARTED);
+        $orders = $repository->findCmdByUserAndStatusOrder($user, OrderInterface::STATUS_CARTED);
 
         if (null === $orders || empty($orders)) {
             return $this->createdCmdArticle($user);
@@ -268,7 +268,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      */
     public function setPaid(Order $order): void
     {
-        $order->setStatusOrder(OrderInterface::PAID);
+        $order->setStatusOrder(OrderInterface::STATUS_PAID);
 
         $user = $order->getCustomer();
         if (!$order->isCredited()) {
@@ -284,7 +284,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      */
     public function setPending(Order $order): void
     {
-        $order->setStatusOrder(OrderInterface::PENDING);
+        $order->setStatusOrder(OrderInterface::STATUS_PENDING);
     }
 
     /**
@@ -335,7 +335,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $order->setCustomer($user);
         $order->setCredits(0);
         $order->setNature(OrderInterface::NATURE_CMD);
-        $order->setStatusOrder(OrderInterface::CARTED);
+        $order->setStatusOrder(OrderInterface::STATUS_CARTED);
         $order->addOrderedArticle($orderedArticle);
         $order->refreshPrice();
         $order->refreshVat();

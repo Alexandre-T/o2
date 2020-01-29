@@ -24,7 +24,7 @@ use App\Model\OrderInterface;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Exception;
 
 /**
@@ -109,7 +109,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
                 //TODO Payment
                 //Create bill with confirmation.
                 $bill = BillFactory::create($carted, $customer);
-                $carted->setStatusOrder(OrderInterface::PAID);
+                $carted->setStatusOrder(OrderInterface::STATUS_PAID);
                 $bill->setPaidAt(new DateTimeImmutable());
                 $manager->persist($bill);
                 $manager->persist($carted);
@@ -137,7 +137,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         $vatRate = (float) $customer->getVat();
         $order = new Order();
         $order->setCustomer($customer);
-        $order->setStatusOrder(OrderInterface::CARTED);
+        $order->setStatusOrder(OrderInterface::STATUS_CARTED);
         $order->addOrderedArticle($this->createOrdered($this->ten, $ten, $vatRate));
         $order->addOrderedArticle($this->createOrdered($this->hundred, $hundred, $vatRate));
         $order->addOrderedArticle($this->createOrdered($this->fiveHundred, $fiveHundred, $vatRate));

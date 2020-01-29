@@ -177,13 +177,13 @@ class BadgeExtension extends AbstractExtension
     public function badgeStatusOrderFilter(int $order): string
     {
         switch ($order) {
-            case OrderInterface::CANCELED:
+            case OrderInterface::STATUS_CANCELED:
                 return $this->getBadge('danger', 'order.canceled');
-            case OrderInterface::CARTED:
+            case OrderInterface::STATUS_CARTED:
                 return $this->getBadge('secondary', 'order.carted');
-            case OrderInterface::PENDING:
+            case OrderInterface::STATUS_PENDING:
                 return $this->getBadge('warning', 'order.pending');
-            case OrderInterface::PAID:
+            case OrderInterface::STATUS_PAID:
                 return $this->getBadge('success', 'order.paid');
             default:
                 return $this->getBadge('danger', '????');

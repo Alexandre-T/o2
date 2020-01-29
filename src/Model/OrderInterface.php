@@ -20,28 +20,24 @@ namespace App\Model;
  */
 interface OrderInterface
 {
-    //TODO rename this constants.
-
     /**
-     * Constants for orders.
+     * Constants for credits.
      */
-    public const CANCELED = 0;
-    public const CARTED = 1;
-
-    /**
-     * Constants for credited status.
-     */
-    public const CREDITED = true;
-    public const NATURE_CMD = 2;
+    public const CREDITED_ALREADY = true;
+    public const CREDITED_NOT_YET = false;
 
     /**
      * Constants for nature.
      */
+    public const NATURE_CMD = 2;
     public const NATURE_CREDIT = 1;
     public const NATURE_OLSX = 4;
 
-    public const NON_CREDITED = false;
-
-    public const PAID = 2;
-    public const PENDING = 3;
+    /**
+     * Constants for status.
+     */
+    public const STATUS_CANCELED = 0;
+    public const STATUS_CARTED = 1;
+    public const STATUS_PAID = 2;
+    public const STATUS_PENDING = 3;
 }
