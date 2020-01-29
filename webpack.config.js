@@ -1,6 +1,12 @@
 const Encore = require('@symfony/webpack-encore');
 
 Encore
+    //lex try this: .configureRuntimeEnvironment() to avoid phpstorm error
+    .configureRuntimeEnvironment('dev-server', {
+        // command line options in camel-case format
+        https: true,
+        keepPublicPath: true
+    })
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
     // public path used by the web server to access the output path
