@@ -96,12 +96,12 @@ class ProgrammationCommand extends Command
             if (0 < $droppedOriginalFiles + $droppedFinalFiles) {
                 $this->entityManager->flush();
             }
-
-            $inOut->success(sprintf(
-                '%d original files dropped, %d final files dropped.',
-                $droppedOriginalFiles,
-                $droppedFinalFiles
-            ));
         }
+
+        $inOut->success(sprintf(
+            '%d original files dropped, %d final files dropped.',
+            $droppedOriginalFiles,
+            $droppedFinalFiles
+        ));
     }
 }

@@ -20,11 +20,12 @@ use App\Entity\Programmation;
 use App\Entity\User;
 use App\Model\ProgrammationInterface;
 use DateInterval;
+use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Exception;
 use ReflectionClass;
 use ReflectionException;
@@ -61,11 +62,11 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
             foreach (range(1, 40) as $index) {
                 /** @var File $file */
                 $programmation = $this->createProgrammation($index);
-                if (empty($index % 4)) {
+                if (0 === $index % 4) {
                     $this->close($programmation, $index);
                 }
 
-                if (empty($index % 8)) {
+                if (0 === $index % 10) {
                     $this->obsolete($programmation, $index);
                 }
 
@@ -80,7 +81,7 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
      * The obsolete programmation.
      *
      * @param Programmation $programmation the programmation to set obsolete
-     * @param int           $index         the index of programmation to find a file
+     * @param int $index the index of programmation to find a file
      */
     private function close(Programmation $programmation, int $index): void
     {
@@ -140,7 +141,7 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
      */
     private function obsolete(Programmation $programmation, $index): void
     {
-        $oldDate = new DateTimeImmutable('now');
+        $oldDate = new DateTime('now');
         $oldDate->sub(new DateInterval('P2M'));
         /** @var File $file */
         $file = $this->getReference('file'.$index);
