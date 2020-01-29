@@ -81,14 +81,14 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
      * The obsolete programmation.
      *
      * @param Programmation $programmation the programmation to set obsolete
-     * @param int $index the index of programmation to find a file
+     * @param int           $index         the index of programmation to find a file
      *
      * @throws Exception this should NOT happen because I use DateTimeImmutable without constructor.
      */
     private function close(Programmation $programmation, int $index): void
     {
         /** @var File $file */
-        $file = $this->getReference('file'.$index);
+        $file = $this->getReference('file' . $index);
         $programmation->setDeliveredAt(new DateTimeImmutable());
         $programmation->setFinalFile($file);
         $programmation->setEdcStopped(true);
@@ -106,23 +106,23 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
     private function createProgrammation($index): Programmation
     {
         /** @var File $file */
-        $file = $this->getReference('file'.$index);
+        $file = $this->getReference('file' . $index);
         /** @var User $customer */
         $customer = $this->getReference('user_customer');
         $programmation = new Programmation();
         $programmation->setCustomer($customer);
         $programmation->setCylinderCapacity('3.2');
         $programmation->setGearAutomatic(ProgrammationInterface::GEAR_MANUAL);
-        $programmation->setComment('Comment'.$index);
+        $programmation->setComment('Comment' . $index);
         $programmation->setEdcOff(true);
         $programmation->setOdb(ProgrammationInterface::ODB_BOOT);
         $programmation->setOdometer(30000 + $index);
         $programmation->setOriginalFile($file);
-        $programmation->setMake('Make'.$index);
-        $programmation->setModel('Model'.$index);
+        $programmation->setMake('Make' . $index);
+        $programmation->setModel('Model' . $index);
         $programmation->setOriginalFile($file);
         $programmation->setPower(100 + $index);
-        $programmation->setProtocol('Protocol'.$index);
+        $programmation->setProtocol('Protocol' . $index);
         $programmation->setRead(ProgrammationInterface::READ_REAL);
         $programmation->setReaderTool("ReaderTool{$index}");
         $programmation->setSerial("Serial{$index}");
@@ -146,7 +146,7 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
         $oldDate = new DateTime('now');
         $oldDate->sub(new DateInterval('P2M'));
         /** @var File $file */
-        $file = $this->getReference('file'.$index);
+        $file = $this->getReference('file' . $index);
         $programmation->setDeliveredAt($oldDate);
         $programmation->setFinalFile($file);
         $programmation->setEdcStopped(true);
