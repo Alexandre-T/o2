@@ -169,7 +169,6 @@ class CustomerController extends AbstractController
             );
 
             if ('paypal_express_checkout' === $form->getData()->getMethod()) {
-                $details = array_merge($details, $paymentManager->getPaypalCheckoutParams($order));
                 $details['cancel_url'] = $cancelUrl;
                 $details['return_url'] = $returnUrl;
             }
@@ -240,8 +239,6 @@ class CustomerController extends AbstractController
      *
      * @param Request      $request      Request handling data
      * @param OrderManager $orderManager Order manager
-     *
-     * @throws NoArticleException when olsx article does not exist
      *
      * @return Response|RedirectResponse
      */

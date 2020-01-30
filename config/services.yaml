@@ -76,13 +76,13 @@ services:
         - '@translator'
 
     #Action to convert payment for Paypal
-#    App\Action\ConvertPaypalPaymentAction:
-#      public: true
-#      tags:
-#        - { name: payum.action, factory: paypal_express_checkout }
-#      arguments:
-#        - '@router'
-#        - '@translator'
+    App\Action\ConvertPaypalPaymentAction:
+      public: true
+      tags:
+        - { name: payum.action, factory: paypal_express_checkout }
+      arguments:
+        - '@router'
+        - '@translator'
 
     #Due to the upgrade to Symfony 4.4
     Doctrine\Persistence\ObjectManager: '@doctrine.orm.default_entity_manager'
