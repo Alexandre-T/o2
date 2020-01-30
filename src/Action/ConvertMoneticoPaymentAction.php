@@ -150,10 +150,11 @@ class ConvertMoneticoPaymentAction implements ActionInterface, GatewayAwareInter
 
     /**
      * Transform OrderedArticle[] into shoppingCartItems array.
+     *
      * @see https://www.monetico-paiement.fr/fr/info/documentations/Monetico_Paiement_documentation_technique_v2.1.pdf
      * Page 75
      *
-     * @param Collection|OrderedArticle[] $orderedArticles the collection of ordered article.
+     * @param Collection|OrderedArticle[] $orderedArticles the collection of ordered article
      */
     private function articlesToArray(Collection $orderedArticles): array
     {
@@ -170,6 +171,7 @@ class ConvertMoneticoPaymentAction implements ActionInterface, GatewayAwareInter
 
     /**
      * Transform OrderedArticle into shoppingCartItem.
+     *
      * @see https://www.monetico-paiement.fr/fr/info/documentations/Monetico_Paiement_documentation_technique_v2.1.pdf
      * Page 75
      *
@@ -203,5 +205,4 @@ class ConvertMoneticoPaymentAction implements ActionInterface, GatewayAwareInter
 
         return 'gift_certificate';
     }
-
 }
