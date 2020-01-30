@@ -67,7 +67,7 @@ services:
             - { name: twig.extension }
 
     #Action to convert payment for Monetico
-    App\Action\ConvertPaymentAction:
+    App\Action\ConvertMoneticoPaymentAction:
       public: true
       tags:
         - { name: payum.action, factory: monetico }

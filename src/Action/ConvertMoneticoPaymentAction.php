@@ -33,7 +33,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class ConvertPaymentAction.
  */
-class ConvertPaymentAction implements ActionInterface, GatewayAwareInterface
+class ConvertMoneticoPaymentAction implements ActionInterface, GatewayAwareInterface
 {
     use GatewayAwareTrait;
 
