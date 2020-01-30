@@ -7,13 +7,6 @@ payum:
     App\Entity\Payment: { doctrine: orm }
 
   gateways:
-    paypal_express_checkout:
-      factory: 'paypal_express_checkout'
-      username: '%env(resolve:JMS_PAYMENT_PAYPAL_API_USERNAME)%'
-      password: '%env(resolve:JMS_PAYMENT_PAYPAL_API_PASSWORD)%'
-      signature: '%env(resolve:JMS_PAYMENT_PAYPAL_API_SIGNATURE)%'
-      #FIXME
-      sandbox: false
     offline:
       factory: offline
     monetico:
