@@ -66,10 +66,14 @@ services:
         tags:
             - { name: twig.extension }
 
+    #Action to convert payment for Monetico
     App\Action\ConvertPaymentAction:
       public: true
       tags:
         - { name: payum.action, factory: monetico }
+      arguments:
+        - '@router'
+        - '@translator'
 
     #Due to the upgrade to Symfony 4.4
     Doctrine\Persistence\ObjectManager: '@doctrine.orm.default_entity_manager'
