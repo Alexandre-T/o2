@@ -35,14 +35,14 @@ class ConvertPaypalPaymentAction implements ActionInterface, GatewayAwareInterfa
     use GatewayAwareTrait;
 
     /**
-     * @var UrlGeneratorInterface
-     */
-    private UrlGeneratorInterface $urlGenerator;
-
-    /**
      * @var TranslatorInterface
      */
     private TranslatorInterface $translator;
+
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private UrlGeneratorInterface $urlGenerator;
 
     /**
      * ConvertPaymentAction constructor.
@@ -70,7 +70,7 @@ class ConvertPaypalPaymentAction implements ActionInterface, GatewayAwareInterfa
         $payment = $request->getSource();
         $order = $payment->getOrder();
         $this->gateway->execute($currency = new GetCurrency($payment->getCurrencyCode()));
-        $divisor = pow(10, $currency->exp);
+        $divisor = 10 ** $currency->exp;
 
         $details = ArrayObject::ensureArrayObject($payment->getDetails());
         $details['INVNUM'] = $payment->getNumber();
