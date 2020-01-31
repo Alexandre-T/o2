@@ -374,7 +374,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     private function pushOrderedArticles(Order $order, CreditOrder $model, int $nature): void
     {
         $articleRepository = $this->entityManager->getRepository(Article::class);
-        /** @var Article[] $articles */
+        /* @var Article[] $articles */
         switch ($nature) {
             case OrderInterface::NATURE_CREDIT:
                 $articles = $articleRepository->findStandardCredit();
