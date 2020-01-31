@@ -15,9 +15,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Payment;
+use App\Manager\BillManager;
+use App\Manager\OrderManager;
+use App\Model\MoneticoPayment;
 use App\Model\TpeConfig;
+use App\Repository\PaymentRepository;
 use Ekyna\Component\Payum\Monetico\Api\Api;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -43,26 +49,63 @@ class CicController
      *
      * @Route("/retour-cic", name="cic-return", methods={"post", "get"})
      *
-     * @param TpeConfig $tpeConfig the tpe config
+     * @param TpeConfig         $tpeConfig         the tpe config
+     * @param Request           $request           the request
+     * @param PaymentRepository $paymentRepository the payment repository to recover payment
+     * @param OrderManager      $orderManager      the order manager to change its status
+     * @param BillManager       $billManager       the bill manager to create bill
+     *
+     * @return Response
      */
-    public function cic(TpeConfig $tpeConfig): Response
-    {
-        $data = empty($_POST) ? $_GET : $_POST;
-
-        if (empty($data)) {
+    public function cic(
+        TpeConfig $tpeConfig,
+        Request $request,
+        PaymentRepository $paymentRepository,
+        OrderManager $orderManager,
+        BillManager $billManager
+    ): Response {
+        $moneticoPayment = $this->payment($request);
+        if (!$moneticoPayment->isValid($tpeConfig)) {
             return new Response(Api::NOTIFY_FAILURE);
         }
 
-        $this->log->info(json_encode($data));
+        if ($moneticoPayment->isPaymentCanceled()) {
+            $this->log->info($moneticoPayment->formatLog());
 
-        $configuration = $tpeConfig->getConfiguration();
-        $api = new Api();
-        $api->setConfig($configuration);
-
-        if (!$api->checkPaymentResponse($data)) {
-            return new Response(Api::NOTIFY_FAILURE);
+            return new Response(Api::NOTIFY_SUCCESS);
         }
+
+        $payumPayment = $paymentRepository->findOneByReference($moneticoPayment->getReference());
+        if (!$payumPayment instanceof Payment) {
+            $this->log->warning('Payum Payment NOT FOUND. '.$moneticoPayment->formatLog());
+
+            return new Response(Api::NOTIFY_SUCCESS);
+        }
+
+        $order = $payumPayment->getOrder();
+        if ($order->isPaid() && $order->isCredited()) {
+            $this->log->warning('Order already paid and already credited! '.$moneticoPayment->formatLog());
+
+            return new Response(Api::NOTIFY_SUCCESS);
+        }
+
+        $orderManager->validateAfterPaymentComplete($order);
+        $bill = $billManager->retrieveOrCreateBill($order, $order->getCustomer());
+        $orderManager->save($order);
+        $billManager->save($bill);
+
+        $this->log->info('Order paid and credited! '.$moneticoPayment->formatLog());
 
         return new Response(Api::NOTIFY_SUCCESS);
+    }
+
+    /**
+     * Return a monetico Payment constructed via Request.
+     *
+     * @param Request $request request coming from monetico API
+     */
+    private function payment(Request $request): MoneticoPayment
+    {
+        return new MoneticoPayment($request);
     }
 }

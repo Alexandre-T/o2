@@ -38,14 +38,14 @@ class ConvertMoneticoPaymentAction implements ActionInterface, GatewayAwareInter
     use GatewayAwareTrait;
 
     /**
-     * @var UrlGeneratorInterface
-     */
-    private UrlGeneratorInterface $urlGenerator;
-
-    /**
      * @var TranslatorInterface
      */
     private TranslatorInterface $translator;
+
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private UrlGeneratorInterface $urlGenerator;
 
     /**
      * ConvertPaymentAction constructor.
