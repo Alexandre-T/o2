@@ -262,6 +262,16 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
+     * Set order to cancel status.
+     *
+     * @param Order $order order to update
+     */
+    public function setCancel(Order $order): void
+    {
+        $order->setStatusOrder(OrderInterface::STATUS_CANCELED);
+    }
+
+    /**
      * Set order as paid and credits user.
      *
      * @param Order $order order to put at paid
