@@ -16,10 +16,14 @@ declare(strict_types=1);
 namespace App\Form\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+/**
+ * Payment Method Model
+ */
 class PaymentMethod
 {
-    public const GATEWAYS = ['paypal_express_checkout', 'monetico'];
+    public const GATEWAYS = ['paypal_express_checkout', 'monetico', 'offline'];
 
     /**
      * @Assert\Choice(choices=PaymentMethod::GATEWAYS, message="error.method.choice")
@@ -27,6 +31,11 @@ class PaymentMethod
      * @var string
      */
     private $method = 'monetico';
+
+    /**
+     * @var bool
+     */
+    private $offline = false;
 
     /**
      * Method getter.
@@ -48,5 +57,35 @@ class PaymentMethod
         $this->method = $method;
 
         return $this;
+    }
+
+    /**
+     * Update the offline.
+     *
+     * @param bool $offline new value
+     *
+     * @return $this
+     */
+    public function acceptOffline(bool $offline): self
+    {
+        $this->offline = $offline;
+
+        return $this;
+    }
+
+    /**
+     * Is this order valid?
+     *
+     * @Assert\Callback
+     *
+     * @param ExecutionContextInterface $context the context to report error
+     */
+    public function validate(ExecutionContextInterface $context): void
+    {
+        if ('offline' === $this->getMethod() && !$this->offline) {
+            $context->buildViolation('error.method.choice')
+                ->addViolation()
+            ;
+        }
     }
 }

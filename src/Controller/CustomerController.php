@@ -85,6 +85,7 @@ class CustomerController extends AbstractController
         $form = $this->createForm(ProgrammationFormType::class, $model);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $user */
             $user = $this->getUser();
             $programmation = new Programmation();
             $file = new File();
@@ -153,7 +154,7 @@ class CustomerController extends AbstractController
 
             //Get routes
             $returnUrl = $this->generateUrl(
-                'customer_payment_complete',
+                'customer_payment_done',
                 ['uuid' => $order->getUuid()],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
@@ -162,17 +163,14 @@ class CustomerController extends AbstractController
                 ['order' => $order->getId()],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
-            $analyseUrl = $this->generateUrl(
-                'customer_payment_done',
-                [],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
 
+            //FIXME Move these lines in capture
             if ('paypal_express_checkout' === $form->getData()->getMethod()) {
                 $details['cancel_url'] = $cancelUrl;
                 $details['return_url'] = $returnUrl;
             }
 
+            //FIXME Move these lines in capture
             if ('monetico' === $form->getData()->getMethod()) {
                 $details['success_url'] = $returnUrl;
                 $details['failure_url'] = $cancelUrl;
@@ -183,7 +181,7 @@ class CustomerController extends AbstractController
             $captureToken = $payum->getTokenFactory()->createCaptureToken(
                 $form->getData()->getMethod(),
                 $payment,
-                $analyseUrl
+                $returnUrl
             );
 
             return $this->redirect($captureToken->getTargetUrl());
@@ -305,6 +303,24 @@ class CustomerController extends AbstractController
     }
 
     /**
+     * Show pending order.
+     *
+     * @Route("/pending", name="orders_pending")
+     *
+     * @param OrderManager $orderManager order manager to get pending orders of current user.
+     */
+    public function pendingOrders(OrderManager $orderManager): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $orders = $orderManager->getPending($user);
+
+        return $this->render('customer/orders/pending.html.twig', [
+            'orders' => $orders
+        ]);
+    }
+
+    /**
      * Edit profile.
      *
      * @Route("/profile", name="profile")
@@ -343,6 +359,7 @@ class CustomerController extends AbstractController
      */
     public function updateVat(Request $request, AskedVatManager $askedVatManager, MailerInterface $mailer): Response
     {
+        /** @var User $customer */
         $customer = $this->getUser();
         $model = new Vat();
         $model->setVat($customer->getVat());

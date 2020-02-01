@@ -368,6 +368,7 @@ form:
     vat-domtom: 'Taux DOM-TOM (8,5%)'
     cat-off: 'CAT Off : 5 crédits'
     gear-off: 'Boîte : 10 crédits'
+    nature: 'Objet de la commande'
   help:
     article-10: 'Sélectionnez la quantité de lots de 10 crédits'
     article-50: 'Sélectionnez la quantité de lots de 50 crédits'
@@ -507,6 +508,10 @@ flash:
     already-credited: 'Les crédits de cette commande ont déjà été versé à ce client.'
     credited: 'Les crédits de cette commande viennent d’être versés au client.'
     no-step1: 'Votre commande n’a pas été retrouvée. Veuillez la ressaisir.'
+    pending:
+      paypal_express_checkout: 'Votre paiement Paypal est enregistré, vous serez automatiquement crédité dès que nous serons notifiés de la validité du paiment par Paypal.'
+      offline: 'Votre paiement manuel est enregistré, merci de contacter le support pour créditer votre commande'
+      monetico: 'Votre paiement par carte bleue est enregistré, vous serez automatiquement crédité dès que nous serons notifiés par notre service bancaire'
     step1: 'Votre commande est enregistrée, vous pouvez passer au choix du paiement.'
   order-olsx:
     already-credited: 'Les crédits OLSX de cette commande ont déjà été versé à ce client.'
@@ -730,12 +735,16 @@ odb:
 
 order:
   canceled: 'Annulée'
+  cmd: 'Commande pour la mise à jour du CMD slave'
+  credit: 'Commande de crédits'
   credited: 'Créditée'
   paid: 'Payée'
   pending: 'En attente'
   not-credited: 'Non créditée'
+  olsx: 'Comande de crédits OLSX'
   title: 'Commande'
   payment: 'Paiement'
+  no-pending: 'Aucune commande dont le paiement serait en attente de confirmation'
 order %name%: 'Commande n°%name%'
 order %number%: 'Commande n°%number%'
 
@@ -858,6 +867,7 @@ title:
       service-status: 'Statut du service de reprogrammation'
     vat: 'Demande de changement de taux de TVA'
     order-cmd: 'Commande d’une mise à jour du CMD Slave'
+    pending-orders: 'Commande en attente de la confirmation du paiement'
   default:
     tos: 'Conditions d’utilisation'
     legacy: 'Mentions légales'

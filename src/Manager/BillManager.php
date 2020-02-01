@@ -127,6 +127,16 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
+     * Return the last bill from order.
+     *
+     * @param Order|null $order Order
+     */
+    public function getLastBill(?Order $order): ?Bill
+    {
+        return $this->getMainRepository()->findLastByOrder($order);
+    }
+
+    /**
      * This method will add the HIDDEN field, the sortable field.
      *
      * @see https://github.com/KnpLabs/KnpPaginatorBundle/issues/196

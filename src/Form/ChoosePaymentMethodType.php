@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Form\Model\PaymentMethod;
+use App\Form\Type\FullPaymentMethodType;
 use App\Form\Type\PaymentMethodType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,8 +42,13 @@ class ChoosePaymentMethodType extends AbstractType
     {
         parent::buildForm($builder, $options);
 
+        $class = PaymentMethodType::class;
+        if (true === $options['offline']) {
+            $class = FullPaymentMethodType::class;
+        }
+
         $builder
-            ->add('method', PaymentMethodType::class)
+            ->add('method', $class)
         ;
     }
 
@@ -55,6 +61,10 @@ class ChoosePaymentMethodType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PaymentMethod::class,
+            //By default the offline payment method is not activated.
+            //Only administrators and accountants have it.
+            //This option is turned on by Controller
+            'offline' => false
         ]);
     }
 }

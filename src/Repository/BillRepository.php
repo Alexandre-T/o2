@@ -55,6 +55,30 @@ class BillRepository extends ServiceEntityRepository
     }
 
     /**
+     * Get the last bill of the given order.
+     *
+     * @param Order $order Order
+     */
+    public function findLastByOrder(Order $order): ?Bill
+    {
+        try {
+            return $this->createQueryBuilder('b')
+                ->where('b.order = :order')
+                ->setParameter('order', $order)
+                ->orderBy('b.createdAt', 'desc')
+                ->getQuery()
+                ->setMaxResults(1)
+                ->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            return null;
+        } catch (NonUniqueResultException $e) {
+            //deadcode
+            //this should not happen because of setMaxResults
+            return null;
+        }
+    }
+
+    /**
      * Return the max number in bills.
      */
     public function maxNumber(): int

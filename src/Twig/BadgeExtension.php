@@ -22,6 +22,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
+/**
+ * Twig badge extension
+ */
 class BadgeExtension extends AbstractExtension
 {
     /**
@@ -191,6 +194,25 @@ class BadgeExtension extends AbstractExtension
     }
 
     /**
+     * Badge nature order filter.
+     *
+     * @param int $order OrderInterface constant
+     */
+    public function badgeNatureOrderFilter(int $order): string
+    {
+        switch ($order) {
+            case OrderInterface::NATURE_CREDIT:
+                return $this->getBadge('success', 'order.credit');
+            case OrderInterface::NATURE_CMD:
+                return $this->getBadge('success', 'order.cmd');
+            case OrderInterface::NATURE_OLSX:
+                return $this->getBadge('success', 'order.olsx');
+            default:
+                return $this->getBadge('warning', '????');
+        }
+    }
+
+    /**
      * Badge yes or no filter.
      *
      * @param mixed $data value translated to yes or no
@@ -250,6 +272,11 @@ class BadgeExtension extends AbstractExtension
             'badgeExpiredFilter' => new TwigFilter(
                 'badgeExpired',
                 [$this, 'badgeExpiredFilter'],
+                ['is_safe' => ['html']]
+            ),
+            'badgeNatureOrderFilter' => new TwigFilter(
+                'badgeNatureOrder',
+                [$this, 'badgeNatureOrderFilter'],
                 ['is_safe' => ['html']]
             ),
             'badgeStatusOrderFilter' => new TwigFilter(

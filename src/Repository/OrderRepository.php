@@ -199,12 +199,31 @@ class OrderRepository extends ServiceEntityRepository
      * Find one or no order filtered by customer, status and nature.
      *
      * @param User $user   the customer filter
+     * @param int  $status the status filer
+     */
+    public function findByUserAndStatusOrder(User $user, int $status): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.customer = :customer')
+            ->andWhere('o.statusOrder = :statusOrder')
+            ->setParameter('statusOrder', $status)
+            ->setParameter('customer', $user)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * Find one or no order filtered by customer, status and nature.
+     *
+     * @param User $user   the customer filter
      * @param int  $nature the nature filter
      * @param int  $status the status filer
      */
     private function findOneByUserNatureStatus(User $user, int $nature, int $status): ?Order
     {
         try {
+            //FIXME Change code and fix status to carted!
             return $this->createQueryBuilder('c')
                 ->andWhere('c.customer = :customer')
                 ->andWhere('c.statusOrder = :statusOrder')

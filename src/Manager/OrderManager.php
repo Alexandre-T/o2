@@ -472,4 +472,16 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
             $order->setVat($order->getVat() + $orderedArticle->getVat());
         }
     }
+
+    /**
+     * Return pending orders for given customer.
+     *
+     * @param User $customer Given customer
+     *
+     * @return Order[]
+     */
+    public function getPending(User $customer): array
+    {
+        return $this->getMainRepository()->findByUserAndStatusOrder($customer, OrderInterface::STATUS_PENDING);
+    }
 }

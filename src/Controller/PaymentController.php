@@ -18,6 +18,7 @@ namespace App\Controller;
 use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\Payment;
+use App\Entity\User;
 use App\Exception\NoOrderException;
 use App\Exception\SettingsException;
 use App\Form\ChoosePaymentMethodType;
@@ -53,7 +54,7 @@ class PaymentController extends AbstractController
      * Step3: When using Paypal, i got the good status.
      * I analyse status to redirect user to the cancel page or to validate payment.
      *
-     * @Route("/analyse", name="customer_payment_done")
+     * @Route("/done", name="customer_payment_done")
      *
      * @param Request         $request         Request for form
      * @param BillManager     $billManager     bill manager
@@ -83,15 +84,13 @@ class PaymentController extends AbstractController
         } catch (Throwable $e) {
             //I do not have the token.
             $this->addFlash('error', 'error.payment.non-existent');
-            $log->log(
-                LogLevel::WARNING,
-                'This order does not exists or has been already paid. Token does not exist.'
-            );
+            $log->warning('This order does not exists or has been already paid. Token does not exist.');
 
-            return $this->redirectToRoute('customer_order_credit');
+            return $this->redirectToRoute('home');
         }
 
         $gatewayName = $token->getGatewayName();
+        $log->info(sprintf('Payment done page with gateway %s', $gatewayName));
         $gateway = $payum->getGateway($gatewayName);
 
         // you can invalidate the token. The url could not be requested any more.
@@ -103,37 +102,97 @@ class PaymentController extends AbstractController
         $payment = $status->getFirstModel();
         $order = $payment->getOrder();
 
-        if (!$status->isAuthorized() && !$status->isPending()) {
-            $this->addFlash('warning', 'error.payment.canceled');
-            $route = 'customer_payment_method';
-            if (OrderInterface::NATURE_CMD === $order->getNature()) {
-                $route = 'customer_order_cmd';
+        if ($order->isPaid()) {
+            $level = LogLevel::WARNING;
+            $message = sprintf('Order already paid and credited for Order %d', $order->getId());
+            if (!$order->isCredited()) {
+                $orderManager->credit($order);
+                $logger->warn('This order was paid but not credited. Order credited');
             }
 
-            $log->log(
-                LogLevel::INFO,
-                "Payment{$payment->getId()} for order{$order->getId()} canceled (payum status: {$status->getValue()})"
-            );
+            if ('monetico' === $gatewayName) {
+                $level = LogLevel::INFO;
+                $message = sprintf('Order %d already paid because of monetico notification', $order->getId());
+            }
 
-            return $this->redirectToRoute($route);
+            $bill = $billManager->getLastBill($order);
+            if ($bill instanceof Bill) {
+                $logger->log($level, $message);
+
+                return $this->redirectToRoute('customer_bill_show', ['id' => $bill->getId()]);
+            }
+
+            //No bill !
+            $logger->warning(sprintf(
+                'No bill for order %d of customer %s',
+                $order->getId(),
+                $order->getCustomer()->getLabel()
+            ));
+
+            return $this->redirectToRoute('customer_bill_list');
         }
 
-        //Save order
-        $orderManager->validateAfterPaymentComplete($order);
-        $bill = $billManager->retrieveOrCreateBill($order, $this->getUser());
-        $orderManager->save($order);
-        $billManager->save($bill);
-        if ($token instanceof TokenInterface) {
-            $payum->getHttpRequestVerifier()->invalidate($token);
+        if ($status->isAuthorized() || $status->isCaptured()) {
+            $orderManager->validateAfterPaymentComplete($order);
+            $bill = $billManager->retrieveOrCreateBill($order, $order->getCustomer());
+            $orderManager->save($order);
+            $billManager->save($bill);
+            if ($token instanceof TokenInterface) {
+                $payum->getHttpRequestVerifier()->invalidate($token);
+            }
+
+            //Mail sending
+            $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
+
+            return $this->render('payment/complete.html.twig', [
+                'paymentSystemName' => $gatewayName,
+                'order' => $order,
+            ]);
         }
 
-        //Mail sending
-        $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
+        if ($status->isPending()) {
+            $orderManager->setPending($order);
+            $orderManager->save($order);
+            $logger->info(sprintf(
+                'Order %d of customer "%s" is now pending',
+                $order->getId(),
+                $order->getCustomer()->getLabel()
+            ));
 
-        return $this->render('payment/complete.html.twig', [
-            'paymentSystemName' => $gatewayName,
-            'order' => $order,
-        ]);
+            $this->addFlash('success', sprintf(
+                'flash.order.pending.%s',
+                $gatewayName
+            ));
+
+            return $this->redirectToRoute('customer_orders_pending');
+        }
+
+        if ($order->isPending() && ($status->isCanceled() || $status->isFailed())) {
+            $orderManager->setCancel($order);
+            $orderManager->save($order);
+            $logger->info(sprintf(
+                'Converting order %d of customer "%s" from PENDING to CANCELED because of status "%s"',
+                $order->getId(),
+                $order->getCustomer()->getLabel(),
+                $status->getValue()
+            ));
+
+            return $this->redirectToRoute('home');
+        }
+
+        //Another status. We considere this is canceled
+        $this->addFlash('warning', 'error.payment.canceled');
+        $route = $this->getPaymentMethodRoute($order->getNature());
+
+        $log->info(sprintf(
+            'Payment %d for order %d of customer "%s" canceled (payum status: "%s")',
+            $payment->getId(),
+            $order->getId(),
+            $order->getCustomer()->getLabel(),
+            $status->getValue()
+        ));
+
+        return $this->redirectToRoute($route);
     }
 
     /**
@@ -163,78 +222,9 @@ class PaymentController extends AbstractController
     }
 
     /**
-     * Payment completed via CB.
-     *
-     * @Route("/complete/{uuid}", name="customer_payment_complete")
-     *
-     * @param Payum           $payum           Payum manager
-     * @param BillManager     $billManager     bill manager to generate bill
-     * @param LoggerInterface $logger          logger added to alert when settings are wrong
-     * @param MailerInterface $mailer          mailer interface to sent mail to admin
-     * @param OrderManager    $orderManager    order manager to retrieve order
-     * @param Request         $request         to retrieve token and payerId
-     * @param SettingsManager $settingsManager to retrieve mail of sender and receiver
-     * @param string          $uuid            to retrieve order
-     *
-     * @return response
-     *
-     * NO SECURITY because user can logout just before payment
-     */
-    public function paymentComplete(
-        Payum $payum,
-        BillManager $billManager,
-        LoggerInterface $logger,
-        MailerInterface $mailer,
-        OrderManager $orderManager,
-        Request $request,
-        SettingsManager $settingsManager,
-        string $uuid
-    ): Response {
-        try {
-            $order = $orderManager->retrieveByUuid($uuid);
-        } catch (NoOrderException $noOrderException) {
-            $this->addFlash('error', 'error.payment.non-existent');
-
-            $logger->log(
-                LogLevel::WARNING,
-                'This order does not exists or has been already paid. Token does not exist.'
-            );
-
-            return $this->redirectToRoute('home');
-        }
-
-        try {
-            $token = $payum->getHttpRequestVerifier()->verify($request);
-            $gatewayName = $token->getGatewayName();
-            $gateway = $payum->getGateway($gatewayName);
-            $gateway->execute(/*$status =*/ new GetHumanStatus($token));
-        } catch (Throwable $e) {
-            $logger->warning('TOKEN INCONNU pour la commande $uuid');
-            $token = 'unknown';
-            $gatewayName = 'unknown';
-        }
-
-        //TODO use status to save order only if it was not already completed by notification.
-        //Save order
-        $orderManager->validateAfterPaymentComplete($order);
-        $bill = $billManager->retrieveOrCreateBill($order, $this->getUser());
-        $orderManager->save($order);
-        $billManager->save($bill);
-        if ($token instanceof TokenInterface) {
-            $payum->getHttpRequestVerifier()->invalidate($token);
-        }
-
-        //Mail sending
-        $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
-
-        return $this->render('payment/complete.html.twig', [
-            'paymentSystemName' => $gatewayName,
-            'order' => $order,
-        ]);
-    }
-
-    /**
      * Step2: Customer selects payment method.
+     * TODO IL FAUT PASSER EN PARAMETRE LA COMMANDE
+     * TODO IL FAUT VERIFIER QUE C'EST BIEN SA COMMANDE
      *
      * @Route("/method-choose", name="customer_payment_method")
      *
@@ -253,6 +243,7 @@ class PaymentController extends AbstractController
         PaymentManager $paymentManager,
         Payum $payum
     ): Response {
+        /** @var User $user */
         $user = $this->getUser();
 
         try {
@@ -266,7 +257,10 @@ class PaymentController extends AbstractController
         }
 
         $methodModel = new PaymentMethod();
-        $form = $this->createForm(ChoosePaymentMethodType::class, $methodModel);
+        $methodModel->acceptOffline($user->isAdmin());
+        $form = $this->createForm(ChoosePaymentMethodType::class, $methodModel, [
+            'offline' => $this->getUser()->isAdmin()
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -274,7 +268,7 @@ class PaymentController extends AbstractController
 
             //Get routes
             $returnUrl = $this->generateUrl(
-                'customer_payment_complete',
+                'customer_payment_done',
                 ['uuid' => $order->getUuid()],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
@@ -283,18 +277,15 @@ class PaymentController extends AbstractController
                 ['order' => $order->getId()],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
-            $analyseUrl = $this->generateUrl(
-                'customer_payment_done',
-                [],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
 
+            //FIXME Move these lines in capture
             if ('paypal_express_checkout' === $form->getData()->getMethod()) {
                 $details = array_merge($details, $paymentManager->getPaypalCheckoutParams($order));
                 $details['cancel_url'] = $cancelUrl;
                 $details['return_url'] = $returnUrl;
             }
 
+            //FIXME Move these lines in capture
             if ('monetico' === $form->getData()->getMethod()) {
                 $details['success_url'] = $returnUrl;
                 $details['failure_url'] = $cancelUrl;
@@ -305,7 +296,7 @@ class PaymentController extends AbstractController
             $captureToken = $payum->getTokenFactory()->createCaptureToken(
                 $form->getData()->getMethod(),
                 $payment,
-                $analyseUrl
+                $returnUrl
             );
 
             return $this->redirect($captureToken->getTargetUrl());
@@ -343,6 +334,23 @@ class PaymentController extends AbstractController
         } catch (SettingsException $settingsException) {
             //the mail was not sent because parameters does not exists
             $logger->alert('Mail was not sent: '.$settingsException->getMessage());
+        }
+    }
+
+    /**
+     * Return the route for the payment method depending the nature of order.
+     *
+     * @param int|null $nature the nature of order
+     */
+    private function getPaymentMethodRoute(?int $nature): string
+    {
+        switch ($nature) {
+            case OrderInterface::NATURE_OLSX:
+                return 'customer_olsx_payment_method';
+            case OrderInterface::NATURE_CMD:
+                return 'customer_order_cmd';
+            default:
+                return 'customer_payment_method';
         }
     }
 }
