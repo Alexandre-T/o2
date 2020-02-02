@@ -20,7 +20,6 @@ use App\Entity\Programmation;
 use App\Entity\User;
 use App\Exception\NoArticleException;
 use App\Exception\SettingsException;
-use App\Form\ChoosePaymentMethodType;
 use App\Form\CreditFormType;
 use App\Form\Model\ChangePassword;
 use App\Form\Model\CreditOrder;
@@ -33,15 +32,12 @@ use App\Form\ProfileFormType;
 use App\Form\ProgrammationFormType;
 use App\Form\VatFormType;
 use App\Mailer\MailerInterface;
-use App\Manager\ArticleManager;
 use App\Manager\AskedVatManager;
 use App\Manager\OrderManager;
-use App\Manager\PaymentManager;
 use App\Manager\ProgrammationManager;
 use App\Manager\SettingsManager;
 use App\Manager\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Payum\Core\Payum;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,7 +45,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Customer controller.
@@ -125,75 +120,21 @@ class CustomerController extends AbstractController
      *
      * @Route("/order-cmd", name="order_cmd")
      *
-     * @param Request        $request        Request handling data
-     * @param ArticleManager $articleManager Article manager
-     * @param OrderManager   $orderManager   Command manager
-     * @param PaymentManager $paymentManager the payment manager
-     * @param Payum          $payum          The payum manager
+     * @param OrderManager $orderManager Command manager
      *
      * @throws NoArticleException when cmdslave article does not exists
      *
      * @return Response|RedirectResponse
      */
     public function orderCmd(
-        Request $request,
-        ArticleManager $articleManager,
-        OrderManager $orderManager,
-        PaymentManager $paymentManager,
-        Payum $payum
+        OrderManager $orderManager
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
         $order = $orderManager->retrieveOrCreateCmdOrder($user);
-        $form = $this->createForm(ChoosePaymentMethodType::class);
-        $form->handleRequest($request);
+        $orderManager->save($order);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $orderManager->save($order);
-            $details = [];
-
-            //Get routes
-            $returnUrl = $this->generateUrl(
-                'customer_payment_done',
-                ['uuid' => $order->getUuid()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-            $cancelUrl = $this->generateUrl(
-                'customer_payment_cancel',
-                ['order' => $order->getId()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-
-            //FIXME Move these lines in capture
-            if ('paypal_express_checkout' === $form->getData()->getMethod()) {
-                $details['cancel_url'] = $cancelUrl;
-                $details['return_url'] = $returnUrl;
-            }
-
-            //FIXME Move these lines in capture
-            if ('monetico' === $form->getData()->getMethod()) {
-                $details['success_url'] = $returnUrl;
-                $details['failure_url'] = $cancelUrl;
-            }
-
-            $payment = $paymentManager->createPayment($payum, $order, $details, $form->getData()->getMethod());
-
-            $captureToken = $payum->getTokenFactory()->createCaptureToken(
-                $form->getData()->getMethod(),
-                $payment,
-                $returnUrl
-            );
-
-            return $this->redirect($captureToken->getTargetUrl());
-        }
-
-        $article = $articleManager->retrieveByCode('cmdslave');
-
-        return $this->render('customer/order-cmd.html.twig', [
-            'form' => $form->createView(),
-            'order' => $order,
-            'article' => $article,
-        ]);
+        return $this->redirectToRoute('payment_method', ['order' => $order->getId()]);
     }
 
     /**
@@ -221,7 +162,7 @@ class CustomerController extends AbstractController
             $orderManager->save($order);
             $this->addFlash('success', 'flash.order.step1');
 
-            return $this->redirectToRoute('customer_payment_method');
+            return $this->redirectToRoute('payment_method', ['order' => $order->getId()]);
         }
 
         return $this->render('customer/order-credit.html.twig', [
@@ -257,7 +198,7 @@ class CustomerController extends AbstractController
             $orderManager->save($order);
             $this->addFlash('success', 'flash.order-olsx.step1');
 
-            return $this->redirectToRoute('customer_olsx_payment_method');
+            return $this->redirectToRoute('payment_method', ['order' => $order->getId()]);
         }
 
         return $this->render('customer/order-olsx-credit.html.twig', [

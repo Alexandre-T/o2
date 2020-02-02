@@ -23,6 +23,9 @@ use App\Entity\Payment;
 use App\Entity\User;
 use App\Exception\NoArticleException;
 use App\Exception\NoOrderException;
+use App\Exception\OrderCanceledException;
+use App\Exception\OrderPaidException;
+use App\Exception\OrderPendingException;
 use App\Form\Model\CreditOrder;
 use App\Model\OrderInterface;
 use App\Repository\ArticleRepository;
@@ -484,5 +487,53 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
             $orderedArticle->setVat($orderedArticle->getPrice() * $vateRate);
             $order->setVat($order->getVat() + $orderedArticle->getVat());
         }
+    }
+
+    /**
+     * Verify that this order can be paid.
+     *
+     * @param Order $order the order
+     * @param User  $user  the user, not the customer
+     *
+     * @throws NoOrderException       when order is not owned by current user.
+     * @throws OrderPaidException     when order is already paid.
+     * @throws OrderPendingException  when order is pending.
+     * @throws OrderCanceledException when order is pending.
+     *
+     * @return bool can only return true. In case of problem, an exception is thrown
+     */
+    public function validateCanBePaid(Order $order, User $user): bool
+    {
+        if ($order->isPaid()) {
+            throw new OrderPaidException(sprintf(
+                'Order %d already paid',
+                $order->getId(),
+            ));
+        }
+
+        if ($order->isCanceled()) {
+            throw new OrderCanceledException(sprintf(
+                'Order %d canceled',
+                $order->getId(),
+            ));
+        }
+
+        if ($order->isPending()) {
+            throw new OrderPendingException(sprintf(
+                'Order %d pending',
+                $order->getId(),
+            ));
+        }
+
+        if ($user->getId() !== $order->getCustomer()->getId()) {
+            throw new OrderPendingException(sprintf(
+                'User %d want to pay Order %d owned by customer %d',
+                $user->getId(),
+                $order->getId(),
+                $order->getCustomer()->getId(),
+            ));
+        }
+
+        return true;
     }
 }

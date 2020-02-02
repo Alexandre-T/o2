@@ -61,7 +61,7 @@ abstract class AbstractConvertAction
     protected function getCancelUrl(Order $order): string
     {
         return $this->urlGenerator->generate(
-            'customer_payment_cancel',
+            'payment_cancel',
             ['order' => $order->getId()],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
@@ -75,7 +75,7 @@ abstract class AbstractConvertAction
     protected function getReturnUrl(): string
     {
         return $this->urlGenerator->generate(
-            'customer_payment_done',
+            'payment_done',
             [],
             UrlGeneratorInterface::ABSOLUTE_URL
         );

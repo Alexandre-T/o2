@@ -11,7 +11,7 @@
     <tbody>
     {% for ordered in order.orderedArticles|filter(ordered => ordered.quantity > 0) %}
         <tr class="d-flex">
-            <td headers="trArticle" class="col-4">{{ ('form.field.article-' ~ ordered.article.credit) | trans }}</td>
+            <td headers="trArticle" class="col-4">{{ ordered.article | article }}</td>
             <td headers="trQuantity" class="col-2">{{ ordered.quantity }}</td>
             <td headers="trUnit" class="col-2">{{ ordered.article.price | euro }}</td>
             <td headers="trCredit" class="col-2">{{ (ordered.quantity * ordered.article.credit) | credit }}</td>
@@ -20,11 +20,13 @@
     {% endfor %}
     </tbody>
     <tfoot>
+    {% if order.credits > 0 %}
     <tr class="d-flex">
         {# TODO Translate #}
         <th scope="col" class="col-10">Crédits total</th>
         <td class="col-2 pr-4">{{ order.credits | credit }}</td>
     </tr>
+    {% endif %}
     <tr class="d-flex">
         {# TODO Translate #}
         <th scope="col" class="offset-8 col-2">Prix H.T. total</th>

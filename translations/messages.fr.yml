@@ -279,10 +279,15 @@ form:
       service: 'Une erreur est survenue en chargeant les services de cette organisation.'
   field:
     amount: 'Montant TTC'
-    article-10: 'Lot(s) de 10 crédits'
-    article-50: 'Lot(s) de 50 crédits'
-    article-100: 'Lot(s) de 100 crédits'
-    article-500: 'Lot(s) de 500 crédits'
+    article-cmd-0: 'Mise à jour du CMD Slave'
+    article-credit-10: 'Lot(s) de 10 crédits'
+    article-credit-50: 'Lot(s) de 50 crédits'
+    article-credit-100: 'Lot(s) de 100 crédits'
+    article-credit-500: 'Lot(s) de 500 crédits'
+    article-olsx-10: 'Lot(s) de 10 crédits OLSX'
+    article-olsx-50: 'Lot(s) de 50 crédits OLSX'
+    article-olsx-100: 'Lot(s) de 100 créditsOLSX'
+    article-olsx-500: 'Lot(s) de 500 crédits OLSX'
     bill-indication: 'Indication sur facture'
     cat-stopped: 'CAT effectué'
     credit: 'Crédits'
@@ -507,6 +512,8 @@ flash:
 
   order:
     already-credited: 'Les crédits de cette commande ont déjà été versé à ce client.'
+    already-paid: 'Cette commande a déjà été payée.'
+    already-pending: 'Le paiement de cette commande a déjà été initié, nous sommes en attente de sa validation par la banque.'
     credited: 'Les crédits de cette commande viennent d’être versés au client.'
     no-step1: 'Votre commande n’a pas été retrouvée. Veuillez la ressaisir.'
     pending:

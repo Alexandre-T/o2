@@ -20,6 +20,9 @@ use App\Entity\Order;
 use App\Entity\Payment;
 use App\Entity\User;
 use App\Exception\NoOrderException;
+use App\Exception\OrderCanceledException;
+use App\Exception\OrderPaidException;
+use App\Exception\OrderPendingException;
 use App\Exception\SettingsException;
 use App\Form\ChoosePaymentMethodType;
 use App\Form\Model\PaymentMethod;
@@ -53,7 +56,7 @@ class PaymentController extends AbstractController
      * Step3: When using Paypal, i got the good status.
      * I analyse status to redirect user to the cancel page or to validate payment.
      *
-     * @Route("/done", name="customer_payment_done")
+     * @Route("/done", name="payment_done")
      *
      * @param Request         $request         Request for form
      * @param BillManager     $billManager     bill manager
@@ -185,7 +188,6 @@ class PaymentController extends AbstractController
 
         //Another status. We considere this is canceled
         $this->addFlash('warning', 'error.payment.canceled');
-        $route = $this->getPaymentMethodRoute($order->getNature());
 
         $log->info(sprintf(
             'Payment %d for order %d of customer "%s" canceled (payum status: "%s")',
@@ -195,14 +197,14 @@ class PaymentController extends AbstractController
             $status->getValue()
         ));
 
-        return $this->redirectToRoute($route);
+        return $this->redirectToCmdRouteFromNature($order);
     }
 
     /**
      * Payment has been canceled by user.
      * He didn't ask to recover money, he only click on cancel during payment.
      *
-     * @Route("/cancel/{order}", name="customer_payment_cancel")
+     * @Route("/cancel/{order}", name="payment_cancel")
      *
      * @param Order           $order $order order which payment was not completed
      * @param LoggerInterface $log   log canceled payment
@@ -211,52 +213,76 @@ class PaymentController extends AbstractController
      *
      * @Security("is_granted('ROLE_USER')")
      */
-    public function paymentCancel(Order $order, LoggerInterface $log)
+    public function cancel(Order $order, LoggerInterface $log)
     {
         $this->addFlash('warning', 'error.payment.canceled');
         $log->log(LogLevel::INFO, 'Payment canceled : order '.$order->getId());
 
-        $route = 'customer_order_credit';
-        if (OrderInterface::NATURE_CMD === $order->getNature()) {
-            $route = 'customer_order_cmd';
-        }
-
-        return $this->redirectToRoute($route);
+        return $this->redirectToRoute('payment_method', ['order' => $order->getId()]);
     }
 
     /**
      * Step2: Customer selects payment method.
-     * TODO IL FAUT PASSER EN PARAMETRE LA COMMANDE
-     * TODO IL FAUT VERIFIER QUE C'EST BIEN SA COMMANDE.
      *
-     * @Route("/method-choose", name="customer_payment_method")
+     * @Route("/method-choose/{order}", name="payment_method")
      *
-     * @param Request        $request        Request for form
-     * @param OrderManager   $orderManager   Command manager
-     * @param PaymentManager $paymentManager the payment manager to create payment entity
-     * @param Payum          $payum          Payum manager
+     * @param Order           $order          Current Order
+     * @param Request         $request        Request for form
+     * @param OrderManager    $orderManager   Order manager
+     * @param BillManager     $billManager    Bill Manager
+     * @param PaymentManager  $paymentManager the payment manager to create payment entity
+     * @param Payum           $payum          Payum manager
+     * @param LoggerInterface $logger         Logger
      *
      * @return Response|RedirectResponse
      *
      * @Security("is_granted('ROLE_USER')")
      */
-    public function paymentMethod(
+    public function chooseMethod(
+        Order $order,
         Request $request,
         OrderManager $orderManager,
+        BillManager $billManager,
         PaymentManager $paymentManager,
-        Payum $payum
+        Payum $payum,
+        LoggerInterface $logger
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
 
         try {
             //find carted (non canceled and non paid) and non empty order
-            $order = $orderManager->getNonEmptyCartedOrder($user);
+            $orderManager->validateCanBePaid($order, $user);
         } catch (NoOrderException $e) {
+            //User is trying to pay order of another customer
+            $logger->warning($e->getMessage());
             //there is no order which is not empty, not canceled and no paid
             $this->addFlash('warning', 'flash.order.no-step1');
 
-            return $this->redirectToRoute('customer_order_credit');
+            return $this->redirectToCmdRouteFromNature($order);
+        } catch (OrderCanceledException $e) {
+            //User is trying to pay a canceled order
+            $logger->warning($e->getMessage());
+            //there is no order which is not empty, not canceled and no paid
+            $this->addFlash('warning', 'flash.order.no-step1');
+
+            return $this->redirectToCmdRouteFromNature($order);
+        } catch (OrderPaidException $e) {
+            //User is trying to pay a paid order
+            $logger->warning($e->getMessage());
+            $this->addFlash('warning', 'flash.order.already-paid');
+
+            return $this->redirectToRoute('customer_bill_show',[
+                'id' => $billManager->getLastBill($order),
+            ]);
+        } catch (OrderPendingException $e) {
+            //User is trying to pay twice a pending order
+            $logger->warning($e->getMessage());
+            $this->addFlash('warning', 'flash.order.already-pending');
+
+            return $this->redirectToRoute('customer_bill_show',[
+                'id' => $billManager->getLastBill($order),
+            ]);
         }
 
         $methodModel = new PaymentMethod();
@@ -272,7 +298,7 @@ class PaymentController extends AbstractController
             $captureToken = $payum->getTokenFactory()->createCaptureToken(
                 $form->getData()->getMethod(),
                 $payment,
-                'customer_payment_done'
+                'payment_done'
             );
 
             return $this->redirect($captureToken->getTargetUrl());
@@ -282,23 +308,6 @@ class PaymentController extends AbstractController
             'form' => $form->createView(),
             'order' => $order,
         ]);
-    }
-
-    /**
-     * Return the route for the payment method depending the nature of order.
-     *
-     * @param int|null $nature the nature of order
-     */
-    private function getPaymentMethodRoute(?int $nature): string
-    {
-        switch ($nature) {
-            case OrderInterface::NATURE_OLSX:
-                return 'customer_olsx_payment_method';
-            case OrderInterface::NATURE_CMD:
-                return 'customer_order_cmd';
-            default:
-                return 'customer_payment_method';
-        }
     }
 
     /**
@@ -328,5 +337,27 @@ class PaymentController extends AbstractController
             //the mail was not sent because parameters does not exists
             $logger->alert('Mail was not sent: '.$settingsException->getMessage());
         }
+    }
+
+    /**
+     * Redirect user to a route depending the order nature.
+     *
+     * @param Order $order The order to get its nature
+     */
+    private function redirectToCmdRouteFromNature(Order $order): RedirectResponse
+    {
+        switch ($order->getNature()) {
+            case OrderInterface::NATURE_CMD:
+                $route = 'customer_order_cmd';
+                break;
+            case OrderInterface::NATURE_OLSX:
+                $route = 'customer_order_olsx';
+                break;
+            case OrderInterface::NATURE_CREDIT:
+            default:
+                $route = 'customer_order_credit';
+        }
+
+        return $this->redirectToRoute($route);
     }
 }
