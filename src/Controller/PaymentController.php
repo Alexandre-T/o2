@@ -227,7 +227,7 @@ class PaymentController extends AbstractController
     /**
      * Step2: Customer selects payment method.
      * TODO IL FAUT PASSER EN PARAMETRE LA COMMANDE
-     * TODO IL FAUT VERIFIER QUE C'EST BIEN SA COMMANDE
+     * TODO IL FAUT VERIFIER QUE C'EST BIEN SA COMMANDE.
      *
      * @Route("/method-choose", name="customer_payment_method")
      *
@@ -262,7 +262,7 @@ class PaymentController extends AbstractController
         $methodModel = new PaymentMethod();
         $methodModel->acceptOffline($user->isAdmin());
         $form = $this->createForm(ChoosePaymentMethodType::class, $methodModel, [
-            'offline' => $this->getUser()->isAdmin()
+            'offline' => $this->getUser()->isAdmin(),
         ]);
         $form->handleRequest($request);
 
@@ -282,6 +282,23 @@ class PaymentController extends AbstractController
             'form' => $form->createView(),
             'order' => $order,
         ]);
+    }
+
+    /**
+     * Return the route for the payment method depending the nature of order.
+     *
+     * @param int|null $nature the nature of order
+     */
+    private function getPaymentMethodRoute(?int $nature): string
+    {
+        switch ($nature) {
+            case OrderInterface::NATURE_OLSX:
+                return 'customer_olsx_payment_method';
+            case OrderInterface::NATURE_CMD:
+                return 'customer_order_cmd';
+            default:
+                return 'customer_payment_method';
+        }
     }
 
     /**
@@ -310,23 +327,6 @@ class PaymentController extends AbstractController
         } catch (SettingsException $settingsException) {
             //the mail was not sent because parameters does not exists
             $logger->alert('Mail was not sent: '.$settingsException->getMessage());
-        }
-    }
-
-    /**
-     * Return the route for the payment method depending the nature of order.
-     *
-     * @param int|null $nature the nature of order
-     */
-    private function getPaymentMethodRoute(?int $nature): string
-    {
-        switch ($nature) {
-            case OrderInterface::NATURE_OLSX:
-                return 'customer_olsx_payment_method';
-            case OrderInterface::NATURE_CMD:
-                return 'customer_order_cmd';
-            default:
-                return 'customer_payment_method';
         }
     }
 }

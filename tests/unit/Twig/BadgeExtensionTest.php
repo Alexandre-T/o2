@@ -266,7 +266,7 @@ class BadgeExtensionTest extends Unit
         self::assertIsArray($this->extension->getFilters());
         self::assertCount(10, $this->extension->getFilters());
         foreach ($this->extension->getFilters() as $key => $filter) {
-            /** @var TwigFilter $filter the filter to test */
+            /* @var TwigFilter $filter the filter to test */
             self::assertInstanceOf(TwigFilter::class, $filter);
             self::assertSame($key, $filter->getName().'Filter');
         }

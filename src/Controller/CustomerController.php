@@ -307,7 +307,7 @@ class CustomerController extends AbstractController
      *
      * @Route("/pending", name="orders_pending")
      *
-     * @param OrderManager $orderManager order manager to get pending orders of current user.
+     * @param OrderManager $orderManager order manager to get pending orders of current user
      */
     public function pendingOrders(OrderManager $orderManager): Response
     {
@@ -316,7 +316,7 @@ class CustomerController extends AbstractController
         $orders = $orderManager->getPending($user);
 
         return $this->render('customer/orders/pending.html.twig', [
-            'orders' => $orders
+            'orders' => $orders,
         ]);
     }
 

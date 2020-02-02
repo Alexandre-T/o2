@@ -1,4 +1,17 @@
 <?php
+/**
+ * This file is part of the O2 Application.
+ *
+ * PHP version 7.1|7.2|7.3|7.4
+ *
+ * (c) Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ *
+ * @author    Alexandre Tranchant <alexandre.tranchant@gmail.com>
+ * @copyright 2019 Alexandre Tranchant
+ * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
+ */
+
+declare(strict_types=1);
 
 namespace App\Action;
 
@@ -39,20 +52,6 @@ abstract class AbstractConvertAction
     }
 
     /**
-     * Return the url when payment is done.
-     *
-     * @return string
-     */
-    protected function getReturnUrl(): string
-    {
-        return $this->urlGenerator->generate(
-            'customer_payment_done',
-            [],
-            UrlGeneratorInterface::ABSOLUTE_URL
-        );
-    }
-
-    /**
      * Return the cancel URL.
      *
      * @param Order $order The order to redirect customer on cancel.
@@ -64,6 +63,20 @@ abstract class AbstractConvertAction
         return $this->urlGenerator->generate(
             'customer_payment_cancel',
             ['order' => $order->getId()],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+    }
+
+    /**
+     * Return the url when payment is done.
+     *
+     * @return string
+     */
+    protected function getReturnUrl(): string
+    {
+        return $this->urlGenerator->generate(
+            'customer_payment_done',
+            [],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
     }

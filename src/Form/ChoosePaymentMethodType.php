@@ -64,7 +64,7 @@ class ChoosePaymentMethodType extends AbstractType
             //By default the offline payment method is not activated.
             //Only administrators and accountants have it.
             //This option is turned on by Controller
-            'offline' => false
+            'offline' => false,
         ]);
     }
 }

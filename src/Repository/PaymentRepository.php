@@ -41,20 +41,6 @@ class PaymentRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find payments by reference.
-     *
-     * @param string $reference Reference of Payment
-     *
-     * @return null|Payment
-     */
-    public function findOneByReference(string $reference): ?Payment
-    {
-        return $this->findOneBy([
-            'number' => $reference,
-        ]);
-    }
-
-    /**
      * Find payments by order.
      *
      * @param Order $order order of searched payment
@@ -67,6 +53,18 @@ class PaymentRepository extends ServiceEntityRepository
             'order' => $order,
         ], [
             'id' => 'desc',
+        ]);
+    }
+
+    /**
+     * Find payments by reference.
+     *
+     * @param string $reference Reference of Payment
+     */
+    public function findOneByReference(string $reference): ?Payment
+    {
+        return $this->findOneBy([
+            'number' => $reference,
         ]);
     }
 }

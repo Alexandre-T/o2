@@ -59,8 +59,6 @@ class CicController
      * @param PaymentRepository $paymentRepository the payment repository to recover payment
      * @param OrderManager      $orderManager      the order manager to change its status
      * @param BillManager       $billManager       the bill manager to create bill
-     *
-     * @return Response
      */
     public function cic(
         TpeConfig $tpeConfig,
@@ -72,7 +70,6 @@ class CicController
         $moneticoPayment = $this->payment($request);
 
         if (!$moneticoPayment->isValid($tpeConfig)) {
-
             return new Response(Api::NOTIFY_FAILURE);
         }
 

@@ -68,6 +68,24 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
+     * Find one or no order filtered by customer, status and nature.
+     *
+     * @param User $user   the customer filter
+     * @param int  $status the status filer
+     */
+    public function findByUserAndStatusOrder(User $user, int $status): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.customer = :customer')
+            ->andWhere('o.statusOrder = :statusOrder')
+            ->setParameter('statusOrder', $status)
+            ->setParameter('customer', $user)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
      * Get order for user and code provided.
      *
      * @param User $user user filter
@@ -193,24 +211,6 @@ class OrderRepository extends ServiceEntityRepository
     public function findOneByUuid(string $uuid): ?Order
     {
         return $this->findOneBy(['uuid' => $uuid]);
-    }
-
-    /**
-     * Find one or no order filtered by customer, status and nature.
-     *
-     * @param User $user   the customer filter
-     * @param int  $status the status filer
-     */
-    public function findByUserAndStatusOrder(User $user, int $status): array
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.customer = :customer')
-            ->andWhere('o.statusOrder = :statusOrder')
-            ->setParameter('statusOrder', $status)
-            ->setParameter('customer', $user)
-            ->getQuery()
-            ->getResult()
-        ;
     }
 
     /**

@@ -55,6 +55,16 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
+     * Return the last bill from order.
+     *
+     * @param Order|null $order Order
+     */
+    public function getLastBill(?Order $order): ?Bill
+    {
+        return $this->getMainRepository()->findLastByOrder($order);
+    }
+
+    /**
      * Return the Query builder needed by the paginator.
      *
      * @return QueryBuilder
@@ -124,16 +134,6 @@ class BillManager extends AbstractRepositoryManager implements ManagerInterface
         }
 
         return BillFactory::create($order, $user);
-    }
-
-    /**
-     * Return the last bill from order.
-     *
-     * @param Order|null $order Order
-     */
-    public function getLastBill(?Order $order): ?Bill
-    {
-        return $this->getMainRepository()->findLastByOrder($order);
     }
 
     /**

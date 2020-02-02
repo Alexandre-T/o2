@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * Payment Method Model
+ * Payment Method Model.
  */
 class PaymentMethod
 {
@@ -36,6 +36,20 @@ class PaymentMethod
      * @var bool
      */
     private $offline = false;
+
+    /**
+     * Update the offline.
+     *
+     * @param bool $offline new value
+     *
+     * @return $this
+     */
+    public function acceptOffline(bool $offline): self
+    {
+        $this->offline = $offline;
+
+        return $this;
+    }
 
     /**
      * Method getter.
@@ -55,20 +69,6 @@ class PaymentMethod
     public function setMethod(?string $method): self
     {
         $this->method = $method;
-
-        return $this;
-    }
-
-    /**
-     * Update the offline.
-     *
-     * @param bool $offline new value
-     *
-     * @return $this
-     */
-    public function acceptOffline(bool $offline): self
-    {
-        $this->offline = $offline;
 
         return $this;
     }

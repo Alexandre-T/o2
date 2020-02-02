@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use Ekyna\Component\Payum\Monetico\Api\Api;
 use Symfony\Component\HttpFoundation\Request;
@@ -278,6 +278,21 @@ class MoneticoPayment
     }
 
     /**
+     * Format this instance to be logged.
+     */
+    public function formatLog(): string
+    {
+        return sprintf(
+            'Monetico returns: Payment %s - Reference %s - Amount %f%s- TPE %s',
+            $this->getCode(),
+            $this->getReference(),
+            $this->getAmount(),
+            $this->getCurrency(),
+            $this->getTpe(),
+        );
+    }
+
+    /**
      * AccountType getter.
      */
     public function getAccountType(): ?string
@@ -427,8 +442,6 @@ class MoneticoPayment
 
     /**
      * Hash getter.
-     *
-     * @return string
      */
     public function getHash(): string
     {
@@ -437,8 +450,6 @@ class MoneticoPayment
 
     /**
      * IP client getter.
-     *
-     * @return string
      */
     public function getIpClient(): string
     {
@@ -529,8 +540,6 @@ class MoneticoPayment
 
     /**
      * Is payment canceled?
-     *
-     * @return bool
      */
     public function isPaymentCanceled(): bool
     {
@@ -539,12 +548,28 @@ class MoneticoPayment
 
     /**
      * Is payment ok?
-     *
-     * @return bool
      */
     public function isPaymentOk(): bool
     {
         return self::RETURN_CODE_TEST === $this->getCode() || self::RETURN_CODE_PROD === $this->getCode();
+    }
+
+    /**
+     * Verify that the Mac is well corresponding.
+     * Prevent hacking.
+     *
+     * @param TpeConfig $tpeConfig tpe config
+     */
+    public function isValid(TpeConfig $tpeConfig): bool
+    {
+        $data['MAC'] = $this->getMac();
+        $data['TPE'] = $this->getTpe();
+
+        $configuration = $tpeConfig->getConfiguration();
+        $api = new Api();
+        $api->setConfig($configuration);
+
+        return !$api->checkPaymentResponse($data);
     }
 
     /**
@@ -741,7 +766,7 @@ class MoneticoPayment
         }
 
         //date format JJ/MM/AAAA_a_HH:MM:SS
-        $this->date = DateTime::createFromFormat('d/m/Y_\a_H:i:s', $date);
+        $this->date = DateTimeImmutable::createFromFormat('d/m/Y_\a_H:i:s', $date);
 
         return $this;
     }
@@ -978,40 +1003,5 @@ class MoneticoPayment
         $this->visualCryptogram = $visualCryptogram;
 
         return $this;
-    }
-
-    /**
-     * Verify that the Mac is well corresponding.
-     * Prevent hacking.
-     *
-     * @param TpeConfig $tpeConfig tpe config
-     */
-    public function isValid(TpeConfig $tpeConfig): bool
-    {
-        $data['MAC'] = $this->getMac();
-        $data['TPE'] = $this->getTpe();
-
-        $configuration = $tpeConfig->getConfiguration();
-        $api = new Api();
-        $api->setConfig($configuration);
-
-        return !$api->checkPaymentResponse($data);
-    }
-
-    /**
-     * Format this instance to be logged.
-     *
-     * @return string
-     */
-    public function formatLog(): string
-    {
-        return sprintf(
-            'Monetico returns: Payment %s - Reference %s - Amount %f%s- TPE %s',
-            $this->getCode(),
-            $this->getReference(),
-            $this->getAmount(),
-            $this->getCurrency(),
-            $this->getTpe(),
-        );
     }
 }

@@ -158,6 +158,18 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
+     * Return pending orders for given customer.
+     *
+     * @param User $customer Given customer
+     *
+     * @return Order[]
+     */
+    public function getPending(User $customer): array
+    {
+        return $this->getMainRepository()->findByUserAndStatusOrder($customer, OrderInterface::STATUS_PENDING);
+    }
+
+    /**
      * Return the Query builder needed by the paginator.
      *
      * @return QueryBuilder
@@ -384,13 +396,14 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     private function pushOrderedArticles(Order $order, CreditOrder $model, int $nature): void
     {
         $articleRepository = $this->entityManager->getRepository(Article::class);
-        /* @var Article[] $articles */
         switch ($nature) {
             case OrderInterface::NATURE_CREDIT:
+                /* @var Article[] $articles the articles returns by repository */
                 $articles = $articleRepository->findStandardCredit();
 
                 break;
             case OrderInterface::NATURE_OLSX:
+                /* @var Article[] $articles the articles returns by repository */
                 $articles = $articleRepository->findOlsxCredit();
 
                 break;
@@ -471,17 +484,5 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
             $orderedArticle->setVat($orderedArticle->getPrice() * $vateRate);
             $order->setVat($order->getVat() + $orderedArticle->getVat());
         }
-    }
-
-    /**
-     * Return pending orders for given customer.
-     *
-     * @param User $customer Given customer
-     *
-     * @return Order[]
-     */
-    public function getPending(User $customer): array
-    {
-        return $this->getMainRepository()->findByUserAndStatusOrder($customer, OrderInterface::STATUS_PENDING);
     }
 }

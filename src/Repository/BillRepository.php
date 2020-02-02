@@ -68,7 +68,8 @@ class BillRepository extends ServiceEntityRepository
                 ->orderBy('b.createdAt', 'desc')
                 ->getQuery()
                 ->setMaxResults(1)
-                ->getSingleScalarResult();
+                ->getSingleScalarResult()
+            ;
         } catch (NoResultException $e) {
             return null;
         } catch (NonUniqueResultException $e) {
