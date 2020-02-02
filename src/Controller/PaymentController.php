@@ -40,7 +40,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Throwable;
 
 /**
@@ -150,13 +149,17 @@ class PaymentController extends AbstractController
             ]);
         }
 
-        if ($status->isPending()) {
+        if ($status->isPending() || $status->isNew() && 'monetico' === $gatewayName) {
+            //Paypal Sandbox : Review is ON.
+            //Paypal : Review is ON
+            //Monetico : Notification was not received. Customer was faster than Monetico
             $orderManager->setPending($order);
             $orderManager->save($order);
             $logger->info(sprintf(
-                'Order %d of customer "%s" is now pending',
+                'Order %d of customer "%s" is now pending. Payment via %s',
                 $order->getId(),
-                $order->getCustomer()->getLabel()
+                $order->getCustomer()->getLabel(),
+                $gatewayName
             ));
 
             $this->addFlash('success', sprintf(
@@ -264,39 +267,12 @@ class PaymentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $details = [];
-
-            //Get routes
-            $returnUrl = $this->generateUrl(
-                'customer_payment_done',
-                ['uuid' => $order->getUuid()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-            $cancelUrl = $this->generateUrl(
-                'customer_payment_cancel',
-                ['order' => $order->getId()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-
-            //FIXME Move these lines in capture
-            if ('paypal_express_checkout' === $form->getData()->getMethod()) {
-                $details = array_merge($details, $paymentManager->getPaypalCheckoutParams($order));
-                $details['cancel_url'] = $cancelUrl;
-                $details['return_url'] = $returnUrl;
-            }
-
-            //FIXME Move these lines in capture
-            if ('monetico' === $form->getData()->getMethod()) {
-                $details['success_url'] = $returnUrl;
-                $details['failure_url'] = $cancelUrl;
-            }
-
-            $payment = $paymentManager->createPayment($payum, $order, $details, $form->getData()->getMethod());
+            $payment = $paymentManager->createPayment($payum, $order, [], $form->getData()->getMethod());
 
             $captureToken = $payum->getTokenFactory()->createCaptureToken(
                 $form->getData()->getMethod(),
                 $payment,
-                $returnUrl
+                'customer_payment_done'
             );
 
             return $this->redirect($captureToken->getTargetUrl());

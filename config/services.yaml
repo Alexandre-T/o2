@@ -67,7 +67,7 @@ services:
             - { name: twig.extension }
 
     #Action to convert payment for Monetico
-    App\Action\ConvertMoneticoPaymentAction:
+    App\Action\ConvertMoneticoAction:
       public: true
       tags:
         - { name: payum.action, factory: monetico }
@@ -76,7 +76,7 @@ services:
         - '@translator'
 
     #Action to convert payment for Paypal
-    App\Action\ConvertPaypalPaymentAction:
+    App\Action\ConvertPaypalAction:
       public: true
       tags:
         - { name: payum.action, factory: paypal_express_checkout }

@@ -23,42 +23,15 @@ use Payum\Core\Action\ActionInterface;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\GatewayAwareInterface;
-use Payum\Core\GatewayAwareTrait;
 use Payum\Core\Model\PaymentInterface;
 use Payum\Core\Request\Convert;
 use Payum\Core\Request\GetCurrency;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ConvertPaymentAction.
  */
-class ConvertMoneticoPaymentAction implements ActionInterface, GatewayAwareInterface
+class ConvertMoneticoAction extends AbstractConvertAction implements ActionInterface, GatewayAwareInterface
 {
-    use GatewayAwareTrait;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private TranslatorInterface $translator;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private UrlGeneratorInterface $urlGenerator;
-
-    /**
-     * ConvertPaymentAction constructor.
-     *
-     * @param UrlGeneratorInterface $urlGenerator the url generator
-     * @param TranslatorInterface   $translator   the translator to provide name of cart items
-     */
-    public function __construct(UrlGeneratorInterface $urlGenerator, TranslatorInterface $translator)
-    {
-        $this->urlGenerator = $urlGenerator;
-        $this->translator = $translator;
-    }
-
     /**
      * Improved payment details to provide information needed by monetico gateway.
      *
@@ -70,12 +43,21 @@ class ConvertMoneticoPaymentAction implements ActionInterface, GatewayAwareInter
     {
         RequestNotSupportedException::assertSupports($this, $request);
         /** @var Payment $payment */
+        $token = $request->getToken();
         $payment = $request->getSource();
         $order = $payment->getOrder();
         $user = $order->getCustomer();
         $model = ArrayObject::ensureArrayObject($payment->getDetails());
         if (empty($model['reference'])) {
             $model['reference'] = (string) $payment->getNumber();
+        }
+
+        if (empty($model['success_url'])) {
+            $model['success_url'] = $token->getAfterUrl();
+        }
+
+        if (empty($model['failure_url'])) {
+            $model['failure_url'] = $this->getCancelUrl($order);
         }
 
         if (empty($model['amount'])) {

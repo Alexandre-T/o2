@@ -182,6 +182,7 @@ btn:
 data:
   paypal_express_checkout: 'Paypal Express™'
   monetico: 'Carte bancaire (CIC™)'
+  offline: 'Paiement hors-ligne (espèce, chèque, virement)'
 
 Day: 'Jour'
 
@@ -988,6 +989,7 @@ common:
   no: 'Non'
   non-asked: 'Non demandé'
   not-done: 'Non réalisé'
+  offline: 'Paiement hors-ligne (espèce, chèque, virement)'
   paypal: 'Paypal Express'
   programmation: 'Programmation'
   rejected: 'Rejeté'

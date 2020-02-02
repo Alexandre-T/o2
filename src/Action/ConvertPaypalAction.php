@@ -20,42 +20,15 @@ use Payum\Core\Action\ActionInterface;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\GatewayAwareInterface;
-use Payum\Core\GatewayAwareTrait;
 use Payum\Core\Model\PaymentInterface;
 use Payum\Core\Request\Convert;
 use Payum\Core\Request\GetCurrency;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class ConvertPaypalPaymentAction.
  */
-class ConvertPaypalPaymentAction implements ActionInterface, GatewayAwareInterface
+class ConvertPaypalAction extends AbstractConvertAction implements ActionInterface, GatewayAwareInterface
 {
-    use GatewayAwareTrait;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private TranslatorInterface $translator;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private UrlGeneratorInterface $urlGenerator;
-
-    /**
-     * ConvertPaymentAction constructor.
-     *
-     * @param UrlGeneratorInterface $urlGenerator the url generator
-     * @param TranslatorInterface   $translator   the translator to provide name of cart items
-     */
-    public function __construct(UrlGeneratorInterface $urlGenerator, TranslatorInterface $translator)
-    {
-        $this->urlGenerator = $urlGenerator;
-        $this->translator = $translator;
-    }
-
     /**
      * Improved payment details to provide information needed by paypal_express_checkout gateway.
      *
@@ -102,6 +75,9 @@ class ConvertPaypalPaymentAction implements ActionInterface, GatewayAwareInterfa
                 ++$item;
             }
         }
+
+        $details['cancel_url'] = $this->getCancelUrl($order);
+        $details['return_url'] = $this->getReturnUrl();
 
         $request->setResult($details);
     }

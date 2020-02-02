@@ -27,6 +27,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * The CIC Controller is used to catch Monetico notifications.
+ */
 class CicController
 {
     /**
@@ -43,6 +46,8 @@ class CicController
     {
         $this->log = $log;
     }
+
+    //TPE=1234567&date=05%2f12%2f2006%5fa%5f11%3a55%3a23&montant=62%2e75EUR&reference=ABERTYP00145&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&texte-libre=LeTexteLibre&code-retour=paiement&cvx=oui&vld=1208&brand=VI&status3ds=1&numauto=010101&originecb=FRA&bincb=010101&hpancb=74E94B03C22D786E0F2C2CADBFC1C00B004B7C45&ipclient=127%2e0%2e0%2e1&originetr=FRA&veres=Y&pares=Y&authentification=
 
     /**
      * Return from cic bank.
@@ -65,7 +70,9 @@ class CicController
         BillManager $billManager
     ): Response {
         $moneticoPayment = $this->payment($request);
+
         if (!$moneticoPayment->isValid($tpeConfig)) {
+
             return new Response(Api::NOTIFY_FAILURE);
         }
 
