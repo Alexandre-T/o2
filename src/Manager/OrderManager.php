@@ -504,6 +504,15 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      */
     public function validateCanBePaid(Order $order, User $user): bool
     {
+        if ($user->getId() !== $order->getCustomer()->getId()) {
+            throw new NoOrderException(sprintf(
+                'User %d want to pay Order %d owned by customer %d',
+                $user->getId(),
+                $order->getId(),
+                $order->getCustomer()->getId(),
+            ));
+        }
+
         if ($order->isPaid()) {
             throw new OrderPaidException(sprintf(
                 'Order %d already paid',
@@ -522,15 +531,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
             throw new OrderPendingException(sprintf(
                 'Order %d pending',
                 $order->getId(),
-            ));
-        }
-
-        if ($user->getId() !== $order->getCustomer()->getId()) {
-            throw new OrderPendingException(sprintf(
-                'User %d want to pay Order %d owned by customer %d',
-                $user->getId(),
-                $order->getId(),
-                $order->getCustomer()->getId(),
             ));
         }
 

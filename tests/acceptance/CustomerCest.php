@@ -27,13 +27,14 @@ class CustomerCest
      *
      * @param AcceptanceTester $you acceptance tester
      */
-    public function tryToBuyCreditsWithoutOrder(AcceptanceTester $you): void
+    public function tryToBuyNotOwnedOrder(AcceptanceTester $you): void
     {
-        $you->wantTo('buy credits without order');
+        $you->wantTo('payment page of a not owned order');
         $you->login('customer-8');
-        $you->areOnPage('/payment/method-choose');
+        $you->areOnPage('/payment/method-choose/2');
         $you->seeResponseCodeIsSuccessful();
-        $you->canSeeCurrentUrlEquals('/customer/order-credit');
+        $you->seeCurrentUrlEquals('/customer/order-credit');
+        $you->see('Votre commande n’a pas été retrouvée. Veuillez la ressaisir');
     }
 
     /**
@@ -67,8 +68,11 @@ class CustomerCest
         $you->wantTo('connect as customer and try to order a cmd slave with cb');
         $you->login('customer');
         $you->areOnPage('/customer/order-cmd');
+        $you->seeResponseCodeIsSuccessful();
+        $identifier = $you->grabFromCurrentUrl('~/payment/method-choose/(\d+)~');
+        $you->seeCurrentUrlEquals('/payment/method-choose/'.$identifier);
         $you->selectOption('choose_payment_method[method]', 'monetico');
-        $you->click('Enregistrer votre commande');
+        $you->click('Poursuivre');
         $you->seeResponseCodeIsSuccessful();
         $token = $you->grabFromCurrentUrl('~/payment/capture/([\w|-]+)~');
         $you->seeCurrentUrlEquals('/payment/capture/'.$token);
@@ -85,7 +89,7 @@ class CustomerCest
         $you->login('customer');
         $you->areOnPage('/customer/order-cmd');
         $you->selectOption('choose_payment_method[method]', 'paypal_express_checkout');
-        $you->click('Enregistrer votre commande');
+        $you->click('Poursuivre');
     }
 
     /**
@@ -99,11 +103,12 @@ class CustomerCest
         $you->login('customer');
         $you->areOnPage('/customer/order-credit');
         $you->fillField('Lot(s) de 10 crédits', 4);
+        $you->fillField('Lot(s) de 50 crédits', 3);
         $you->fillField('Lot(s) de 100 crédits', 1);
         $you->fillField('Lot(s) de 500 crédits', 2);
         $you->click('Enregistrer votre commande');
         $you->seeResponseCodeIsSuccessful();
-        $you->seeCurrentUrlEquals('/payment/method-choose');
+        $you->seeCurrentUrlEquals('/payment/method-choose/1');
         $you->see('Poursuivre');
     }
 
