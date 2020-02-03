@@ -69,14 +69,22 @@ class CicController
     ): Response {
         $moneticoPayment = $this->payment($request);
 
-        if (!$moneticoPayment->isValid($tpeConfig)) {
-            return new Response(Api::NOTIFY_FAILURE);
-        }
+//        if (!$moneticoPayment->isValid($tpeConfig, $_GET)) {
+//            $this->log->warning('Monetico request is not valid');
+//
+//            return new Response(Api::NOTIFY_FAILURE);
+//        }
 
         if ($moneticoPayment->isPaymentCanceled()) {
             $this->log->info($moneticoPayment->formatLog());
 
             return new Response(Api::NOTIFY_SUCCESS);
+        }
+
+        if (null === $moneticoPayment->getReference()) {
+            $this->log->warning('Monetico request is not complete');
+
+            return new Response(Api::NOTIFY_FAILURE);
         }
 
         $payumPayment = $paymentRepository->findOneByReference($moneticoPayment->getReference());
@@ -87,18 +95,30 @@ class CicController
         }
 
         $order = $payumPayment->getOrder();
+        if (null === $order) {
+            $this->log->error('Payum has no order');
+
+            return new Response(Api::NOTIFY_FAILURE);
+        }
+
         if ($order->isPaid() && $order->isCredited()) {
             $this->log->warning('Order already paid and already credited! '.$moneticoPayment->formatLog());
 
             return new Response(Api::NOTIFY_SUCCESS);
         }
 
-        $orderManager->validateAfterPaymentComplete($order);
-        $bill = $billManager->retrieveOrCreateBill($order, $order->getCustomer());
-        $orderManager->save($order);
-        $billManager->save($bill);
+        if ($moneticoPayment->isPaymentOk()) {
+            $orderManager->validateAfterPaymentComplete($order);
+            $bill = $billManager->retrieveOrCreateBill($order, $order->getCustomer());
+            $orderManager->save($order);
+            $billManager->save($bill);
 
-        $this->log->info('Order paid and credited! '.$moneticoPayment->formatLog());
+            $this->log->info('Order paid and credited! '.$moneticoPayment->formatLog());
+
+            return new Response(Api::NOTIFY_SUCCESS);
+        }
+
+        $this->log->info('Payement was canceled by user! '.$moneticoPayment->formatLog());
 
         return new Response(Api::NOTIFY_SUCCESS);
     }

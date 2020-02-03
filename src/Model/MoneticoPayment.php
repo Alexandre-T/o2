@@ -560,7 +560,7 @@ class MoneticoPayment
      *
      * @param TpeConfig $tpeConfig tpe config
      */
-    public function isValid(TpeConfig $tpeConfig): bool
+    public function isValid(TpeConfig $tpeConfig, $data=[]): bool
     {
         $data['MAC'] = $this->getMac();
         $data['TPE'] = $this->getTpe();
@@ -569,7 +569,7 @@ class MoneticoPayment
         $api = new Api();
         $api->setConfig($configuration);
 
-        return !$api->checkPaymentResponse($data);
+        return $api->checkPaymentResponse($data);
     }
 
     /**

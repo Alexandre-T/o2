@@ -18,6 +18,7 @@ namespace App\DataFixtures;
 use App\Entity\Article;
 use App\Entity\Order;
 use App\Entity\OrderedArticle;
+use App\Entity\Payment;
 use App\Entity\User;
 use App\Factory\BillFactory;
 use App\Model\OrderInterface;
@@ -86,33 +87,35 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $carted = $this->createCreditOrder($customer, 1, 2, 3);
             $manager->persist($carted);
 
-            //Customer had clicked on order-credit and select paypal_express.
+            //Customer had clicked on order-credit and select monetico.
             $customer = $this->getReference('user_customer-2');
             $carted = $this->createCreditOrder($customer, 2, 0, 0);
+            $carted->setStatusOrder(OrderInterface::STATUS_PENDING);
+            $payment = $this->createPayment($carted, 42, 'monetico');
             $manager->persist($carted);
+            $manager->persist($payment);
 
             //Customer had clicked on order-credit and select paypal_express and canceled payment.
             $customer = $this->getReference('user_customer-7');
             $carted = $this->createCreditOrder($customer, 3, 0, 0);
-            //TODO create payment
-            //Canceled (Nothing to do ?)
-            //TODO On controller::PaymentCanceled Do something to trace it.
-            //$manager->persist($carted->getPaymentInstruction());
+            $payment = $this->createPayment($carted, 666);
             $manager->persist($carted);
+            $manager->persist($payment);
 
             //Customer had clicked on order-credit and select paypal_express and paid.
             $customer = $this->getReference('user_customer-4');
             foreach (range(1, 30) as $index) {
                 $quantity = ($index % 8) + 1;
                 $carted = $this->createCreditOrder($customer, $quantity, 0, 0);
-                //TODO create payment,
-                //TODO Payment
+                $payment = $this->createPayment($carted, $index);
+
                 //Create bill with confirmation.
                 $bill = BillFactory::create($carted, $customer);
                 $carted->setStatusOrder(OrderInterface::STATUS_PAID);
                 $bill->setPaidAt(new DateTimeImmutable());
                 $manager->persist($bill);
                 $manager->persist($carted);
+                $manager->persist($payment);
                 $manager->flush();
             }
         }
@@ -165,5 +168,28 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         $ordered->setVat($article->getPrice() * $vatRate);
 
         return $ordered;
+    }
+
+    /**
+     * Create a payment where number is index.
+     *
+     * @param Order $carted the order of payment
+     * @param int   $index  the number of the payment to retrieve during acceptance
+     *
+     * @return Payment
+     */
+    private function createPayment(Order $carted, int $index, string $gateway = 'paypal-express-checkout'): Payment
+    {
+        $customer = $carted->getCustomer();
+        $payment = new Payment();
+        $payment->setOrder($carted);
+        $payment->setTotalAmount($carted->getAmount());
+        $payment->setClientEmail($customer->getMail());
+        $payment->setClientId($customer->getId());
+        $payment->setDescription($gateway);
+        $payment->setCurrencyCode('EUR');
+        $payment->setNumber($index);
+
+        return $payment;
     }
 }
