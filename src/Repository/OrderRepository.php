@@ -223,7 +223,7 @@ class OrderRepository extends ServiceEntityRepository
     private function findOneByUserNatureStatus(User $user, int $nature, int $status): ?Order
     {
         try {
-            //FIXME Change code and fix status to carted!
+            //TODO Change code and fix status to carted!
             return $this->createQueryBuilder('c')
                 ->andWhere('c.customer = :customer')
                 ->andWhere('c.statusOrder = :statusOrder')

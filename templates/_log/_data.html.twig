@@ -3,7 +3,6 @@
         {% if value is array and value.id is defined %}
             {% if value.id is not empty %}
                 <dt class="col-sm-4 text-right">{{ ('entity.log.data.' ~ key | hyphenize ) | trans }}</dt>
-                {# FIXME remplacer value #}
                 <dd class="col-sm-8">{{ value.id }}</dd>
             {% endif %}
         {% elseif key == 'password' %}

@@ -38,7 +38,7 @@
         <td class="col-2">{{ order.vat | euro }}</td>
     </tr>
     <tr class="d-flex">
-        {# FIXME Translate #}
+        {# TODO Translate #}
         <th scope="col" class="offset-8 col-2">Prix T.T.C. total</th>
         <td class="col-2">{{ (order.vat + order.price) | euro }}</td>
     </tr>

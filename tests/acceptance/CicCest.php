@@ -42,7 +42,7 @@ class CicCest
         $you->wantTo('simulate a cic return with a wrong MAC');
         $you->areOnPage('retour-cic?TPE=1234567&date=05%2f12%2f2006_a_11%3a55%3a23&montant=62.75EUR&reference=ABERTYP00145&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&texte-libre=LeTexteLibre&code-retour=paiement&cvx=oui&vld=1208&brand=VI&status3ds=1&numauto=010101&originecb=FRA&bincb=010101&hpancb=74E94B03C22D786E0F2C2CADBFC1C00B004B7C45&ipclient=127.0.0.1&originetr=FRA&veres=Y&pares=Y&authentification=ewoJInN0YXR1cyIgOiAiYXV0aGVudGljYXRlZCIsCgkicHJvdG9jb2wiIDogIjNEU2VjdXJlIiwKCSJ2ZXJzaW9uIiAiMi4xLjAiLAoJImRldGFpbHMiIDogCgl7CgkJImxpYWJpbGl0eVNoaWZ0IiA6ICJZIiwKCQkiQVJlcyIgOiAiQyIsCgkJIkNSZXMiIDogIlkiLAoJCSJtZXJjaGFudFByZWZlcmVuY2UiIDogIm5vX3ByZWZlcmVuY2UiLAoJCSJ0cmFuc2FjdGlvbklEIiA6ICI1NTViZDlkOS0xY2YxLTRiYTgtYjM3Yy0xYTk2YmM4YjYwM2EiLAoJCSJhdXRoZW50aWNhdGlvblZhbHVlIiA6ICJjbUp2ZDBJNFNIazNVVFJrWWtGU1EzRllZM1U9IgoJfQp9');
         $you->see('version=2');
-        //FIXME $you->see('cdr=1');
+        //TODO $you->see('cdr=1');
 
         $you->wantTo('simulate a cic return with a good MAC');
         $you->areOnPage('retour-cic?TPE=1234567&date=05%2f12%2f2006%5fa%5f11%3a55%3a23&montant=62%2e75EUR&reference=ref0001&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&texte-libre=LeTexteLibre&code-retour=Annulation&cvx=oui&vld=1208&brand=VI&status3ds=1&motifrefus=Refus&originecb=FRA&bincb=010101&hpancb=74E94B03C22D786E0F2C2CADBFC1C00B004B7C45&ipclient=127%2e0%2e0%2e1&originetr=FRA');

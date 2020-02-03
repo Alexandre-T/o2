@@ -32,7 +32,8 @@ class ArticleExtension extends AbstractExtension
 
     /**
      * ArticleExtension constructor.
-     * @param TranslatorInterface $translator
+     *
+     * @param TranslatorInterface $translator The translator provided by injection dependency
      */
     public function __construct(TranslatorInterface $translator)
     {

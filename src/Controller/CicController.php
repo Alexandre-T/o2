@@ -19,7 +19,6 @@ use App\Entity\Payment;
 use App\Manager\BillManager;
 use App\Manager\OrderManager;
 use App\Model\MoneticoPayment;
-use App\Model\TpeConfig;
 use App\Repository\PaymentRepository;
 use Ekyna\Component\Payum\Monetico\Api\Api;
 use Psr\Log\LoggerInterface;
@@ -47,21 +46,17 @@ class CicController
         $this->log = $log;
     }
 
-    //TPE=1234567&date=05%2f12%2f2006%5fa%5f11%3a55%3a23&montant=62%2e75EUR&reference=ABERTYP00145&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&texte-libre=LeTexteLibre&code-retour=paiement&cvx=oui&vld=1208&brand=VI&status3ds=1&numauto=010101&originecb=FRA&bincb=010101&hpancb=74E94B03C22D786E0F2C2CADBFC1C00B004B7C45&ipclient=127%2e0%2e0%2e1&originetr=FRA&veres=Y&pares=Y&authentification=
-
     /**
      * Return from cic bank.
      *
      * @Route("/retour-cic", name="cic-return", methods={"post", "get"})
      *
-     * @param TpeConfig         $tpeConfig         the tpe config
      * @param Request           $request           the request
      * @param PaymentRepository $paymentRepository the payment repository to recover payment
      * @param OrderManager      $orderManager      the order manager to change its status
      * @param BillManager       $billManager       the bill manager to create bill
      */
     public function cic(
-        TpeConfig $tpeConfig,
         Request $request,
         PaymentRepository $paymentRepository,
         OrderManager $orderManager,
@@ -69,11 +64,7 @@ class CicController
     ): Response {
         $moneticoPayment = $this->payment($request);
 
-//        if (!$moneticoPayment->isValid($tpeConfig, $_GET)) {
-//            $this->log->warning('Monetico request is not valid');
-//
-//            return new Response(Api::NOTIFY_FAILURE);
-//        }
+        //TODO Add a test to verify request is not valid
 
         if ($moneticoPayment->isPaymentCanceled()) {
             $this->log->info($moneticoPayment->formatLog());
@@ -89,7 +80,7 @@ class CicController
 
         $payumPayment = $paymentRepository->findOneByReference($moneticoPayment->getReference());
         if (!$payumPayment instanceof Payment) {
-            $this->log->warning('Payum Payment NOT FOUND. '.$moneticoPayment->formatLog());
+            $this->log->warning('Payum Payment NOT FOUND. ' . $moneticoPayment->formatLog());
 
             return new Response(Api::NOTIFY_SUCCESS);
         }
@@ -102,7 +93,7 @@ class CicController
         }
 
         if ($order->isPaid() && $order->isCredited()) {
-            $this->log->warning('Order already paid and already credited! '.$moneticoPayment->formatLog());
+            $this->log->warning('Order already paid and already credited! ' . $moneticoPayment->formatLog());
 
             return new Response(Api::NOTIFY_SUCCESS);
         }
@@ -113,12 +104,12 @@ class CicController
             $orderManager->save($order);
             $billManager->save($bill);
 
-            $this->log->info('Order paid and credited! '.$moneticoPayment->formatLog());
+            $this->log->info('Order paid and credited! ' . $moneticoPayment->formatLog());
 
             return new Response(Api::NOTIFY_SUCCESS);
         }
 
-        $this->log->info('Payement was canceled by user! '.$moneticoPayment->formatLog());
+        $this->log->info('Payement was canceled by user! ' . $moneticoPayment->formatLog());
 
         return new Response(Api::NOTIFY_SUCCESS);
     }
