@@ -65,10 +65,10 @@ class PaymentCest
     {
         $you->wantTo('go to the done page manually as a customer');
         $you->login('customer');
-        $you->areOnPage('/payment/analyse');
+        $you->areOnPage('/payment/done');
         $you->seeResponseCodeIsSuccessful();
         $you->see('Cette commande en attente de paiement n’existe pas ou a été payée.', '.alert-danger');
-        $you->seeCurrentUrlEquals('/customer/order-credit');
+        $you->seeCurrentUrlEquals('');
     }
 
     /**
