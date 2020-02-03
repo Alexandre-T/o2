@@ -53,7 +53,7 @@ class CicCest
     /**
      * Try to validate the pending order of customer-2
      *
-     * @param AcceptanceTester $you
+     * @param AcceptanceTester $you the acceptance tester
      */
     public function tryFullProcess(AcceptanceTester $you)
     {
