@@ -264,7 +264,7 @@ class BadgeExtensionTest extends Unit
     public function testGetFilters(): void
     {
         self::assertIsArray($this->extension->getFilters());
-        self::assertCount(10, $this->extension->getFilters());
+        self::assertCount(11, $this->extension->getFilters());
         foreach ($this->extension->getFilters() as $key => $filter) {
             /* @var TwigFilter $filter the filter to test */
             self::assertInstanceOf(TwigFilter::class, $filter);
