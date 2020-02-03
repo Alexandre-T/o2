@@ -70,7 +70,7 @@ class CicCest
         $you->areOnPage('/customer/pending');
         $you->seeResponseCodeIsSuccessful();
         $you->see('288');
-        $you->see('2 crédits');
+        $you->see('2212 crédits');
         $you->dontSee('22 crédits');
         $you->wantTo('simulate a cic return with a good reference but a code paiement');
         $you->areOnPage('/retour-cic?TPE=1234567&reference=42&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&code-retour=paiement');
@@ -80,7 +80,7 @@ class CicCest
         $you->seeResponseCodeIsSuccessful();
         $you->dontSee('288');
         $you->see('Aucune commande dont le paiement serait en attente de confirmation');
-        $you->see('22 crédits');
+        $you->see('2232 crédits');
     }
 }
 
