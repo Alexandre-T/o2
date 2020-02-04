@@ -90,7 +90,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             //Customer had clicked on order-credit and select monetico.
             $customer = $this->getReference('user_customer-2');
             $carted = $this->createCreditOrder($customer, 2, 0, 0);
-            $carted->setStatusOrder(OrderInterface::STATUS_PENDING);
+            $carted->setStatusOrder(OrderInterface::STATUS_CANCELED);
             $payment = $this->createPayment($carted, 42, 'monetico');
             $manager->persist($carted);
             $manager->persist($payment);
@@ -99,6 +99,30 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $customer = $this->getReference('user_customer-7');
             $carted = $this->createCreditOrder($customer, 3, 0, 0);
             $payment = $this->createPayment($carted, 666);
+            $manager->persist($carted);
+            $manager->persist($payment);
+
+            //Customer had clicked on order-credit and select paypal_express and validate payment but paypal said:cancel
+            $customer = $this->getReference('user_customer-7');
+            $carted = $this->createCreditOrder($customer, 2, 0, 0);
+            $payment = $this->createPayment($carted, 1005);
+            $carted->setStatusOrder(OrderInterface::STATUS_CANCELED); //ID 5
+            $manager->persist($carted);
+            $manager->persist($payment);
+
+            //Customer had clicked on order-credit and select paypal_express and validate payment but paypal said: paid.
+            $customer = $this->getReference('user_customer-7');
+            $carted = $this->createCreditOrder($customer, 2, 0, 0);
+            $payment = $this->createPayment($carted, 1006);
+            $carted->setStatusOrder(OrderInterface::STATUS_PAID); //ID 6
+            $manager->persist($carted);
+            $manager->persist($payment);
+
+            //Customer had clicked on order-credit and select paypal_express and validate payment but paypal said: paid.
+            $customer = $this->getReference('user_customer-7');
+            $carted = $this->createCreditOrder($customer, 2, 0, 0);
+            $payment = $this->createPayment($carted, 1007);
+            $carted->setStatusOrder(OrderInterface::STATUS_PENDING); //ID 7
             $manager->persist($carted);
             $manager->persist($payment);
 
