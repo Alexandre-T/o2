@@ -20,7 +20,6 @@ use App\Entity\Programmation;
 use App\Entity\User;
 use App\Model\ProgrammationInterface;
 use DateInterval;
-use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -143,8 +142,8 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
      */
     private function obsolete(Programmation $programmation, $index): void
     {
-        $oldDate = new DateTime('now');
-        $oldDate->sub(new DateInterval('P2M'));
+        $now = new DateTimeImmutable('now');
+        $oldDate = $now->sub(new DateInterval('P2M'));
         /** @var File $file */
         $file = $this->getReference('file'.$index);
         $programmation->setDeliveredAt($oldDate);
