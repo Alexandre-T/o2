@@ -633,4 +633,34 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     {
         $this->uuid = uniqid('', true);
     }
+
+    /**
+     * Is this an order to upgrade CMD Slave.
+     *
+     * @return bool
+     */
+    public function isCmd(): bool
+    {
+        return OrderInterface::NATURE_CMD === $this->getNature();
+    }
+
+    /**
+     * Is this an order to get standard credit.
+     *
+     * @return bool
+     */
+    public function isStandard(): bool
+    {
+        return OrderInterface::NATURE_CREDIT === $this->getNature();
+    }
+
+    /**
+     * Is this an order to get OLSX credit.
+     *
+     * @return bool
+     */
+    public function isOlsx(): bool
+    {
+        return OrderInterface::NATURE_OLSX === $this->getNature();
+    }
 }

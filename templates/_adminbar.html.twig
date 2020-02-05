@@ -26,13 +26,6 @@
                                     <span class="fas fa-fw fa-file-invoice-dollar"></span>
                                     {{ 'nav.accountant.submenu.user.text' | trans }}
                                 </a>
-                                {# User files #}
-                                <a class="dropdown-item {{ route == 'customer_programmation_list' ? 'active' }}"
-                                   href=" {{ path('customer_programmation_list')}}" data-toggle="tooltip"
-                                   data-placement="left" title="{{ 'nav.customer.submenu.files.title' | trans }}">
-                                    <span class="fas fa-fw fa-tachometer-alt"></span>
-                                    {{ 'nav.customer.submenu.files.text' | trans }}
-                                </a>
                                 <div class="dropdown-divider"></div>
                                 {# User paid orders #}
                                 <a class="dropdown-item {{ route == 'accountant_orders_paid' ? 'active' }}"
@@ -63,6 +56,7 @@
                                     <span class="fas fa-fw fa-hand-holding-usd"></span>
                                     {{ 'nav.accountant.submenu.vat.text' | trans }}
                                 </a>
+                                <div class="dropdown-divider"></div>
                                 {# Olsx customer registering #}
                                 <a class="dropdown-item {{ route == 'accountant_olsx_registering' ? 'active'}}"
                                    href="{{ path('accountant_olsx_registering') }}" data-placement="left"

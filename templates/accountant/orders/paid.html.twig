@@ -1,0 +1,11 @@
+{% extends '_orders.html.twig' %}
+
+{% set show_users = true %}
+{% set show_actions = true %}
+
+{% block title %}{{ 'title.accountant.paid-orders' | trans }}  &bull; {{ parent() }} {% endblock %}
+
+{% block ante_breadcrumb %}{{ 'title.accountant.orders' | trans }}{% endblock %}
+{% block last_breadcrumb %}{{ 'title.accountant.paid-orders' | trans }}{% endblock %}
+
+{% block empty_message %}{{ 'order.no-paid' | trans }}{% endblock %}

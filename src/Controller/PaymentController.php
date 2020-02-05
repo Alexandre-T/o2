@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Alexandre\EvcBundle\Exception\EvcException;
+use Alexandre\EvcBundle\Service\EvcServiceInterface;
 use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\Payment;
@@ -58,14 +60,15 @@ class PaymentController extends AbstractController
      *
      * @Route("/done", name="payment_done")
      *
-     * @param Request         $request         Request for form
-     * @param BillManager     $billManager     bill manager
-     * @param OrderManager    $orderManager    order manager
-     * @param SettingsManager $settingsManager setting manager
-     * @param LoggerInterface $logger          the logger to log
-     * @param MailerInterface $mailer          the mailer interface to send command completed
-     * @param Payum           $payum           Payum manager
-     * @param LoggerInterface $log             the logger
+     * @param Request             $request         Request for form
+     * @param BillManager         $billManager     bill manager
+     * @param OrderManager        $orderManager    order manager
+     * @param SettingsManager     $settingsManager setting manager
+     * @param LoggerInterface     $logger          the logger to log
+     * @param MailerInterface     $mailer          the mailer interface to send command completed
+     * @param EvcServiceInterface $evcService      Evc Service to credit OLSX orders
+     * @param Payum               $payum           Payum manager
+     * @param LoggerInterface     $log             the logger
      *
      * @return redirectResponse|Response
      *
@@ -78,6 +81,7 @@ class PaymentController extends AbstractController
         SettingsManager $settingsManager,
         LoggerInterface $logger,
         MailerInterface $mailer,
+        EvcServiceInterface $evcService,
         Payum $payum,
         LoggerInterface $log
     ): Response {
@@ -95,10 +99,7 @@ class PaymentController extends AbstractController
         $log->info(sprintf('Payment done page with gateway %s', $gatewayName));
         $gateway = $payum->getGateway($gatewayName);
 
-        // you can invalidate the token. The url could not be requested any more.
-        // $payum->getHttpRequestVerifier()->invalidate($token);
-
-        // or Payum can fetch the model for you while executing a request (Preferred).
+        //Payum can fetch the model for you while executing a request (Preferred).
         $gateway->execute($status = new GetHumanStatus($token));
         /** @var Payment $payment */
         $payment = $status->getFirstModel();
@@ -108,8 +109,19 @@ class PaymentController extends AbstractController
             $level = LogLevel::WARNING;
             $message = sprintf('Order already paid and credited for Order %d', $order->getId());
             if (!$order->isCredited()) {
-                $orderManager->credit($order);
-                $logger->warn('This order was paid but not credited. Order credited');
+                try {
+                    $orderManager->credit($order, $evcService);
+                    $logger->warn('This order was paid but not credited. Order credited');
+                } catch (EvcException $exception) {
+                    $level = LogLevel::ERROR;
+                    $message = 'flash.evc.error';
+                    $logger->error(sprintf(
+                        'Service OLSX enable to add %d credits to user "%s": %s',
+                        $order->getCredits(),
+                        $order->getCustomer()->getLabel(),
+                        $exception->getMessage()
+                    ));
+                }
             }
 
             if ('monetico' === $gatewayName) {

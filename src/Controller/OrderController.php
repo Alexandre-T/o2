@@ -194,8 +194,13 @@ class OrderController extends AbstractPaginateController
             $user
         );
 
+        $color = $request->get('color', '');
+        $highlight = $request->get('highlight', -1);
+
         return $this->render( $template, [
             'pagination' => $pagination,
+            'highlight' => $highlight,
+            'color' => $color,
         ]);
     }
 

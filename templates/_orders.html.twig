@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block content_breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                {% block ante_breadcrumb %}{{ 'title.customer.orders' | trans }}{% endblock %}
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{% block last_breadcrumb %}{% endblock %}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% set direction = pagination.getDirection() %}
+{% set show_users = show_users ?? false %}
+{% set show_actions = show_actions ?? false %}
+
+{% block container %}
+    <table class="table">
+        <thead>
+        <tr class="bg-light">
+            <th id="order-number" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.number' | trans, 'identifier') }}
+                <span class="{{ faSort(pagination.isSorted('identifier'), direction, 'numeric') }}"></span>
+            </th>
+            {% if show_users %}
+            <th id="order-customer" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.customer' | trans, 'customer') }}
+                <span class="{{ faSort(pagination.isSorted('customer'), direction, 'alpha') }}"></span>
+            </th>
+            {% endif %}
+            <th id="order-amount" class="align-middle">
+                {{ knp_pagination_sortable(pagination, 'form.field.amount' | trans, 'price') }}
+                <span class="{{ faSort(pagination.isSorted('price'), direction, 'numeric') }}"></span>
+            </th>
+            <th id="order-status" class="align-middle">
+                {{ 'form.field.nature' | trans }}
+            </th>
+            {% if show_actions %}
+            <th id="order-actions" class="align-middle"></th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in pagination %}
+            <tr class="{{ order.id == highlight ? ('table-' ~ color) }}">
+                <td headers="order-number" class="align-middle">
+                    {{ order.label }}
+                </td>
+                {% if show_users -%}
+                    <td headers="order-customer" class="align-middle">
+                        {{ order.customer.label }}
+                    </td>
+                {%- endif %}
+                <td headers="order-number" class="align-middle">
+                    {{ order.amount | euro }}
+                </td>
+                <td headers="order-status" class="align-middle">
+                    {{ order.statusOrder | badgeStatusOrder }}
+                    {{ order.credited | badgeCredited }}
+                    {{ order.nature | badgeNatureOrder }}
+                </td>
+                {% if show_actions %}
+                    <td headers="order-actions" class="align-middle">
+                        {% if order.pending %}
+                            <a class="btn btn-outline-secondary" data-placement="left" data-toggle="tooltip"
+                               href="{{ path('accountant_order_pay', { 'order': order.id } | merge(pagination.query)) }}"
+                               title="{{ 'action.order.paid.title' | trans }}">
+                                <span class="fas fa-check-square"></span>
+                                <span class="sr-only">{{ 'action.order.paid.text' | trans }}</span>
+                            </a>
+                            <a class="btn btn-outline-secondary" data-placement="left" data-toggle="tooltip"
+                               href="{{ path('accountant_order_cancel', { 'order': order.id } | merge(pagination.query)) }}"
+                               title="{{ 'action.order.cancel.title' | trans }}">
+                                <span class="fas fa-stop"></span>
+                                <span class="sr-only">{{ 'action.order.cancel.text' | trans }}</span>
+                            </a>
+                        {% endif %}
+                        {% if order.paid and not order.credited and order.credits > 0 %}
+                            <a class="btn btn-outline-secondary" data-placement="left" data-toggle="tooltip"
+                               href="{{ path('accountant_order_credit', { 'order': order.id } | merge(pagination.query)) }}"
+                               title="{{ 'action.order.credit.title %quantity%' | trans({ '%quantity%': order.credits }) }}">
+                                <span class="fas fa-coins"></span>
+                                <span class="sr-only">{{ 'action.order.credit.text' | trans }}</span>
+                            </a>
+                        {% endif %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">
+                    <p class="alert alert-success">{% block empty_message %}{% endblock %}</p>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr class="bg-light">
+            <th headers="order-number" class="align-middle">
+                {{ 'form.field.number' | trans }}
+            </th>
+            {% if show_users -%}
+                <th headers="order-customer" class="align-middle">
+                    {{ 'form.field.customer' | trans }}
+                </th>
+            {%- endif %}
+            <th headers="order-amount" class="align-middle">
+                {{ 'form.field.amount' | trans }}
+            </th>
+            <th headers="order-status" class="align-middle">
+                {{ 'form.field.nature' | trans }}
+            </th>
+            {% if show_actions %}
+                <th headers="order-actions" class="align-middle"></th>
+            {% endif %}
+
+        </tr>
+        </tfoot>
+    </table>
+    <div>
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

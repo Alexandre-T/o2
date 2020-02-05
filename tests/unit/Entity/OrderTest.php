@@ -114,6 +114,9 @@ class OrderTest extends Unit
         self::assertTrue($this->order->isCarted());
         self::assertFalse($this->order->isPaid());
         self::assertFalse($this->order->isPending());
+        self::assertFalse($this->order->isStandard());
+        self::assertFalse($this->order->isOlsx());
+        self::assertFalse($this->order->isCmd());
     }
 
     /**
@@ -147,6 +150,25 @@ class OrderTest extends Unit
 
         self::assertSame($this->order, $this->order->setNature($actual));
         self::assertSame($expected, $this->order->getNature());
+        self::assertFalse($this->order->isCmd());
+        self::assertFalse($this->order->isOlsx());
+        self::assertTrue($this->order->isStandard());
+
+        $actual = $expected = OrderInterface::NATURE_CMD;
+
+        self::assertSame($this->order, $this->order->setNature($actual));
+        self::assertSame($expected, $this->order->getNature());
+        self::assertTrue($this->order->isCmd());
+        self::assertFalse($this->order->isOlsx());
+        self::assertFalse($this->order->isStandard());
+
+        $actual = $expected = OrderInterface::NATURE_OLSX;
+
+        self::assertSame($this->order, $this->order->setNature($actual));
+        self::assertSame($expected, $this->order->getNature());
+        self::assertFalse($this->order->isCmd());
+        self::assertTrue($this->order->isOlsx());
+        self::assertFalse($this->order->isStandard());
     }
 
     /**

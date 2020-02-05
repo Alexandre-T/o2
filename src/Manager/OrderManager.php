@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use Alexandre\EvcBundle\Exception\EvcException;
+use Alexandre\EvcBundle\Service\EvcServiceInterface;
 use App\Entity\Article;
 use App\Entity\EntityInterface;
 use App\Entity\Order;
@@ -70,15 +72,24 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Credit a customer.
      *
-     * @param Order $order order to credit customer
+     * @param Order               $order order to credit customer
+     * @param EvcServiceInterface $evc   the evc service
+     *
+     * @throws EvcException on any error with olsx service
      */
-    public function credit(Order $order): void
+    public function credit(Order $order, EvcServiceInterface $evc): void
     {
         $customer = $order->getCustomer();
-        $order->setStatusCredit(OrderInterface::CREDITED_ALREADY);
-        $customer->setCredit($customer->getCredit() + $order->getCredits());
+        if ($order->isStandard()) {
+            $customer->setCredit($customer->getCredit() + $order->getCredits());
+            $this->entityManager->persist($customer);
+        }
 
-        $this->entityManager->persist($customer);
+        if ($order->isOlsx()){
+            $evc->addCredit($customer->getOlsxIdentifier(), $order->getCredits());
+        }
+
+        $order->setStatusCredit(OrderInterface::CREDITED_ALREADY);
         $this->entityManager->persist($order);
         $this->entityManager->flush();
     }

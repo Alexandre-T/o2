@@ -15,8 +15,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Alexandre\EvcBundle\Exception\EvcException;
+use Alexandre\EvcBundle\Service\EvcServiceInterface;
 use App\Entity\AskedVat;
 use App\Entity\Bill;
+use App\Entity\Order;
 use App\Entity\Payment;
 use App\Entity\User;
 use App\Factory\BillFactory;
@@ -123,33 +126,66 @@ class AccountantController extends AbstractPaginateController
     }
 
     /**
-     * Finds a bill entity, credit order then redirect user to list bill use case.
+     * Cancel a pending order.
      *
-     * @Route("/bill/credit/{bill}", name="bill_credit", methods={"get"})
+     * @Route("/cancel-order/{order}", name="order_cancel", methods={"get"})
      *
-     * @param Bill         $bill         The bill to display
-     * @param OrderManager $orderManager The order manager
-     * @param Request      $request      The request to recover page, and current sort
+     * @param OrderManager $orderManager The order manager to set Order as paid
+     * @param Order        $order        The order
      */
-    public function creditAndRedirect(Bill $bill, OrderManager $orderManager, Request $request): RedirectResponse
+    public function cancel(OrderManager $orderManager, Order $order): RedirectResponse
     {
+        if ($order->isPending()) {
+            $orderManager->setCancel($order);
+            $orderManager->save($order);
+            $this->addFlash('success', 'flash.order.paid');
+
+            return $this->redirectToRoute('accountant_orders_pending');
+        }
+
+        $this->addFlash('danger', 'flash.order.not-pending');
+        return $this->redirectToRoute('accountant_orders_pending');
+    }
+
+    /**
+     * Finds an order entity, credit order then redirect user to paid orders list.
+     *
+     * @Route("/order/credit/{order}", name="order_credit", methods={"get"})
+     *
+     * @param Order               $order        The bill to display
+     * @param OrderManager        $orderManager The order manager
+     * @param Request             $request      The request to recover page, and current sort
+     * @param EvcServiceInterface $evcService   The Evc service to credit OLSX Orders
+     */
+    public function creditAndRedirect(
+        Order $order,
+        OrderManager $orderManager,
+        Request $request,
+        EvcServiceInterface $evcService
+    ): RedirectResponse {
         $parameters['page'] = $request->get('page', 1);
         $parameters['sort'] = $this->getSortedField($request, 'number');
-        $parameters['highlight'] = $bill->getId();
+        $parameters['highlight'] = $order->getId();
         $parameters['direction'] = $this->getOrder($request);
         $parameters['color'] = 'warning';
 
-        if ($bill->getOrder()->isCredited()) {
+        if ($order->isCredited()) {
             $this->addFlash('warning', 'flash.order.already-credited');
 
             return $this->redirectToRoute('accountant_bill_list', $parameters);
         }
 
-        $orderManager->credit($bill->getOrder());
-        $this->addFlash('success', 'flash.order.credited');
-        $parameters['color'] = 'success';
+        try {
+            $orderManager->credit($order, $evcService);
+            $this->addFlash('success', 'flash.order.credited');
+            $parameters['color'] = 'success';
+        } catch (EvcException $evcException) {
+            $this->addFlash('danger', 'flash.evc.error');
+            $this->addFlash('danger', $evcException->getMessage());
+            $parameters['color'] = 'danger';
+        }
 
-        return $this->redirectToRoute('accountant_bill_list', $parameters);
+        return $this->redirectToRoute('accountant_orders_paid', $parameters);
     }
 
     /**
@@ -254,6 +290,29 @@ class AccountantController extends AbstractPaginateController
             'highlight' => $highlight,
             'color' => $color,
         ]);
+    }
+
+    /**
+     * Pay and credit a pending order.
+     *
+     * @Route("/pay-order/{order}", name="order_pay", methods={"get"})
+     *
+     * @param OrderManager $orderManager The order manager to set Order as paid
+     * @param Order        $order        The order
+     */
+    public function pay(OrderManager $orderManager, Order $order): RedirectResponse
+    {
+        if ($order->isPending()) {
+            $orderManager->validateAfterPaymentComplete($order);
+            $orderManager->save($order);
+            $this->addFlash('success', 'flash.order.paid');
+
+            return $this->redirectToRoute('accountant_orders_paid');
+        }
+
+        $this->addFlash('danger', 'flash.order.not-pending');
+        return $this->redirectToRoute('accountant_orders_pending');
+
     }
 
     /**

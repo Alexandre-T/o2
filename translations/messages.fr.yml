@@ -10,9 +10,6 @@ action:
     list:
       text: 'Liste des factures'
       title: 'Consulter la liste des factures'
-    credit:
-      text: 'Créditer le client'
-      title %quantity%: 'Verser au client les %quantity% crédits en attente'
     print:
       text: 'Impression'
       title: 'Afficher cette facture en plein écran pour impression'
@@ -125,6 +122,16 @@ action:
       title: 'Rejeter la demande de changement de taux de TVA'
     show:
       title: 'Consulter la liste des demandes de changement de taux de TVA'
+  order:
+    credit:
+      text: 'Créditer le client'
+      title %quantity%: 'Verser au client les %quantity% crédits en attente'
+    paid:
+      title: 'Valider la commande, action non réversible'
+      text: 'Valider la commande'
+    cancel:
+      title: 'Annuler cette commande, action non réversible'
+      text: 'Annuler la commande'
 
 administration:
   created:
@@ -514,8 +521,11 @@ flash:
     already-credited: 'Les crédits de cette commande ont déjà été versé à ce client.'
     already-paid: 'Cette commande a déjà été payée.'
     already-pending: 'Le paiement de cette commande a déjà été initié, nous sommes en attente de sa validation par la banque.'
+    canceled: 'Cette commande est notée comme annulée'
     credited: 'Les crédits de cette commande viennent d’être versés au client.'
     no-step1: 'Votre commande n’a pas été retrouvée. Veuillez la ressaisir.'
+    not-pending: 'Seule les commande en attente de paiement peuvent être modifiée par le comptable'
+    paid: 'Cette commande est notée comme payée, le client a été crédité'
     pending:
       paypal_express_checkout: 'Votre paiement Paypal est enregistré, vous serez automatiquement crédité dès que nous serons notifiés de la validité du paiment par Paypal.'
       offline: 'Votre paiement manuel est enregistré, merci de contacter le support pour créditer votre commande'
@@ -860,6 +870,10 @@ title:
       new: 'Nouvelle facture'
       show %number%: 'Facture %number%'
     bill-new: 'Nouvelle facture'
+    canceled-orders: 'Commandes annulée'
+    orders: 'Commandes des clients'
+    pending-orders: 'Commandes en attente de confirmation du paiement complet'
+    paid-orders: 'Commandes payées'
     registering:
       list: 'Demande d’inscription au programme OLSX'
     society:

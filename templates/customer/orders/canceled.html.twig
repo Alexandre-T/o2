@@ -1,7 +1,7 @@
-{% extends 'customer/orders/_orders.html.twig' %}
+{% extends '_orders.html.twig' %}
 
 {% block title %}{{ 'title.customer.canceled-orders' | trans }}  &bull; {{ parent() }} {% endblock %}
 
 {% block last_breadcrumb %}{{ 'title.customer.canceled-orders' | trans }}{% endblock %}
 
-{% block empty_message %}{{ 'title.customer.canceled-orders' | trans }}{% endblock %}
+{% block empty_message %}{{ 'order.no-canceled' | trans }}{% endblock %}
