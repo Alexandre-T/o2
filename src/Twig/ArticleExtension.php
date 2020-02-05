@@ -64,7 +64,7 @@ class ArticleExtension extends AbstractExtension
             return $value;
         }
 
-        /** @var Article $value Value can only be an Article entity */
+        /* @var Article $value Value can only be an Article entity */
 
         return $this->translator->trans(sprintf(
             'form.field.article-%s-%d',
@@ -76,12 +76,11 @@ class ArticleExtension extends AbstractExtension
     /**
      * Return a code for translation.
      *
-     * @param  Article $article the article to have nature
-     * @return string
+     * @param Article $article the article to have nature
      */
     private function getNature(Article $article): string
     {
-        switch(substr($article->getCode(), 0,4)) {
+        switch (substr($article->getCode(), 0, 4)) {
             case 'cmds':
                 return 'cmd';
             case 'OLSX':

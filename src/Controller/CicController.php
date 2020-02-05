@@ -80,7 +80,7 @@ class CicController
 
         $payumPayment = $paymentRepository->findOneByReference($moneticoPayment->getReference());
         if (!$payumPayment instanceof Payment) {
-            $this->log->warning('Payum Payment NOT FOUND. ' . $moneticoPayment->formatLog());
+            $this->log->warning('Payum Payment NOT FOUND. '.$moneticoPayment->formatLog());
 
             return new Response(Api::NOTIFY_SUCCESS);
         }
@@ -93,7 +93,7 @@ class CicController
         }
 
         if ($order->isPaid() && $order->isCredited()) {
-            $this->log->warning('Order already paid and already credited! ' . $moneticoPayment->formatLog());
+            $this->log->warning('Order already paid and already credited! '.$moneticoPayment->formatLog());
 
             return new Response(Api::NOTIFY_SUCCESS);
         }
@@ -104,12 +104,12 @@ class CicController
             $orderManager->save($order);
             $billManager->save($bill);
 
-            $this->log->info('Order paid and credited! ' . $moneticoPayment->formatLog());
+            $this->log->info('Order paid and credited! '.$moneticoPayment->formatLog());
 
             return new Response(Api::NOTIFY_SUCCESS);
         }
 
-        $this->log->info('Payement was canceled by user! ' . $moneticoPayment->formatLog());
+        $this->log->info('Payement was canceled by user! '.$moneticoPayment->formatLog());
 
         return new Response(Api::NOTIFY_SUCCESS);
     }

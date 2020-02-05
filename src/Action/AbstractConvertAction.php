@@ -54,9 +54,7 @@ abstract class AbstractConvertAction
     /**
      * Return the cancel URL.
      *
-     * @param Order $order The order to redirect customer on cancel.
-     *
-     * @return string
+     * @param Order $order the order to redirect customer on cancel
      */
     protected function getCancelUrl(Order $order): string
     {
@@ -69,8 +67,6 @@ abstract class AbstractConvertAction
 
     /**
      * Return the url when payment is done.
-     *
-     * @return string
      */
     protected function getReturnUrl(): string
     {
