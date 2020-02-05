@@ -18,7 +18,7 @@ namespace App\Exception;
 use Exception;
 
 /**
- * Exception thrown then we want to do something with a paid order (customer want to paid it twice)
+ * Exception thrown then we want to do something with a paid order (customer want to paid it twice).
  */
 class OrderPaidException extends Exception
 {

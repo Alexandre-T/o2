@@ -18,7 +18,7 @@ namespace App\Exception;
 use Exception;
 
 /**
- * Exception thrown then we want to do something with a canceled order (as paid it)
+ * Exception thrown then we want to do something with a canceled order (as paid it).
  */
 class OrderCanceledException extends Exception
 {

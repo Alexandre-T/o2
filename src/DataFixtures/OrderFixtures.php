@@ -199,8 +199,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      *
      * @param Order $carted the order of payment
      * @param int   $index  the number of the payment to retrieve during acceptance
-     *
-     * @return Payment
      */
     private function createPayment(Order $carted, int $index, string $gateway = 'paypal-express-checkout'): Payment
     {
