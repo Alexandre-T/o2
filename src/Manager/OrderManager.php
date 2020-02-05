@@ -30,9 +30,13 @@ use App\Form\Model\CreditOrder;
 use App\Model\OrderInterface;
 use App\Repository\ArticleRepository;
 use App\Repository\OrderRepository;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\CompositeExpression;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * order Manager.
@@ -44,7 +48,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Const for the alias query.
      */
-    public const ALIAS = 'order';
+    public const ALIAS = 'o';
 
     /**
      * Accountant validate an order.
@@ -195,6 +199,90 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
+     * Paginate pending orders with optional criteria on user.
+     *
+     * @param int       $page      number of page
+     * @param int       $limit     limit of bills per page
+     * @param string    $sortField sort field
+     * @param string    $sortOrder sort order
+     * @param User|null $user      User criteria
+     *
+     * @throws QueryException when criteria is not valid
+     */
+    public function paginatePending(
+        int $page,
+        int $limit,
+        string $sortField,
+        string $sortOrder,
+        User $user = null
+    ): PaginationInterface {
+        return $this->paginateByStatus(
+            OrderInterface::STATUS_PENDING,
+            $page,
+            $limit,
+            $sortField,
+            $sortOrder,
+            $user
+        );
+    }
+
+    /**
+     * Paginate cancel orders with optional criteria on user.
+     *
+     * @param int       $page      number of page
+     * @param int       $limit     limit of bills per page
+     * @param string    $sortField sort field
+     * @param string    $sortOrder sort order
+     * @param User|null $user      User criteria
+     *
+     * @throws QueryException when criteria is not valid
+     */
+    public function paginateCanceled(
+        int $page,
+        int $limit,
+        string $sortField,
+        string $sortOrder,
+        User $user = null
+    ): PaginationInterface {
+        return $this->paginateByStatus(
+            OrderInterface::STATUS_CANCELED,
+            $page,
+            $limit,
+            $sortField,
+            $sortOrder,
+            $user
+        );
+    }
+
+    /**
+     * Paginate paid orders with optional criteria on user.
+     *
+     * @param int       $page      number of page
+     * @param int       $limit     limit of bills per page
+     * @param string    $sortField sort field
+     * @param string    $sortOrder sort order
+     * @param User|null $user      User criteria
+     *
+     * @throws QueryException when criteria is not valid
+     */
+    public function paginatePaid(
+        int $page,
+        int $limit,
+        string $sortField,
+        string $sortOrder,
+        User $user = null
+    ): PaginationInterface {
+        return $this->paginateByStatus(
+            OrderInterface::STATUS_PAID,
+            $page,
+            $limit,
+            $sortField,
+            $sortOrder,
+            $user
+        );
+    }
+
+    /**
      * Retrieve all OLSX articles, create some OrderedArticle and add them to order. Then calculate prices.
      *
      * @param Order       $order the order
@@ -321,6 +409,40 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     {
         $this->setPaid($order);
         $order->refreshUuid();
+    }
+
+    /**
+     * Verify that this order can be paid.
+     *
+     * @param Order $order the order
+     * @param User  $user  the user, not the customer
+     *
+     * @throws NoOrderException       when order is not owned by current user
+     * @throws OrderPaidException     when order is already paid
+     * @throws OrderPendingException  when order is pending
+     * @throws OrderCanceledException when order is pending
+     *
+     * @return bool can only return true. In case of problem, an exception is thrown
+     */
+    public function validateCanBePaid(Order $order, User $user): bool
+    {
+        if ($user->getId() !== $order->getCustomer()->getId()) {
+            throw new NoOrderException(sprintf('User %d want to pay Order %d owned by customer %d', $user->getId(), $order->getId(), $order->getCustomer()->getId(), ));
+        }
+
+        if ($order->isPaid()) {
+            throw new OrderPaidException(sprintf('Order %d already paid', $order->getId(), ));
+        }
+
+        if ($order->isCanceled()) {
+            throw new OrderCanceledException(sprintf('Order %d canceled', $order->getId(), ));
+        }
+
+        if ($order->isPending()) {
+            throw new OrderPendingException(sprintf('Order %d pending', $order->getId(), ));
+        }
+
+        return true;
     }
 
     /**
@@ -490,50 +612,56 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
-     * Verify that this order can be paid.
+     * Hidden file for sorting.
      *
-     * @param Order $order the order
-     * @param User  $user  the user, not the customer
-     *
-     * @throws NoOrderException       when order is not owned by current user.
-     * @throws OrderPaidException     when order is already paid.
-     * @throws OrderPendingException  when order is pending.
-     * @throws OrderCanceledException when order is pending.
-     *
-     * @return bool can only return true. In case of problem, an exception is thrown
+     * @param QueryBuilder $queryBuilder the query builder to add some fields
      */
-    public function validateCanBePaid(Order $order, User $user): bool
+    protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
     {
-        if ($user->getId() !== $order->getCustomer()->getId()) {
-            throw new NoOrderException(sprintf(
-                'User %d want to pay Order %d owned by customer %d',
-                $user->getId(),
-                $order->getId(),
-                $order->getCustomer()->getId(),
-            ));
+        return $queryBuilder
+            ->innerJoin('o.customer', 'c')
+            ->addSelect('o.identifier as HIDDEN identifier')
+            ->addSelect('o.price as HIDDEN price')
+            ->addSelect('c.name as HIDDEN customer');
+    }
+
+
+    /**
+     * Paginate orders of provided type with optional criteria on user.
+     *
+     * @param int       $status    status order
+     * @param int       $page      number of page
+     * @param int       $limit     limit of bills per page
+     * @param string    $sortField sort field
+     * @param string    $sortOrder sort order
+     * @param User|null $user      User criteria
+     *
+     * @throws QueryException when criteria is not valid
+     */
+    private function paginateByStatus(
+        int $status,
+        int $page,
+        int $limit,
+        string $sortField,
+        string $sortOrder,
+        User $user = null
+    ): PaginationInterface {
+        $clauses = [];
+        if (null !== $user) {
+            $clauses[] = Criteria::expr()->eq('customer', $user);
         }
 
-        if ($order->isPaid()) {
-            throw new OrderPaidException(sprintf(
-                'Order %d already paid',
-                $order->getId(),
-            ));
-        }
+        $clauses[] = Criteria::expr()->eq('statusOrder', $status);
 
-        if ($order->isCanceled()) {
-            throw new OrderCanceledException(sprintf(
-                'Order %d canceled',
-                $order->getId(),
-            ));
-        }
+        $criteria = Criteria::create();
+        $criteria->where(new CompositeExpression(CompositeExpression::TYPE_AND, $clauses));
 
-        if ($order->isPending()) {
-            throw new OrderPendingException(sprintf(
-                'Order %d pending',
-                $order->getId(),
-            ));
-        }
-
-        return true;
+        return $this->paginateWithCriteria(
+            $criteria,
+            $page,
+            $limit,
+            $sortField,
+            $sortOrder
+        );
     }
 }

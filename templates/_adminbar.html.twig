@@ -26,6 +26,36 @@
                                     <span class="fas fa-fw fa-file-invoice-dollar"></span>
                                     {{ 'nav.accountant.submenu.user.text' | trans }}
                                 </a>
+                                {# User files #}
+                                <a class="dropdown-item {{ route == 'customer_programmation_list' ? 'active' }}"
+                                   href=" {{ path('customer_programmation_list')}}" data-toggle="tooltip"
+                                   data-placement="left" title="{{ 'nav.customer.submenu.files.title' | trans }}">
+                                    <span class="fas fa-fw fa-tachometer-alt"></span>
+                                    {{ 'nav.customer.submenu.files.text' | trans }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                {# User paid orders #}
+                                <a class="dropdown-item {{ route == 'accountant_orders_paid' ? 'active' }}"
+                                   href="{{ path('accountant_orders_paid') }}" data-placement="left" data-toggle="tooltip"
+                                   title="{{ 'nav.customer.submenu.paid.title' | trans }}">
+                                    <span class="fas fa-fw fa-file-invoice-dollar"></span>
+                                    {{ 'nav.customer.submenu.paid.text' | trans }}
+                                </a>
+                                {# User pending orders #}
+                                <a class="dropdown-item {{ route == 'accountant_orders_pending' ? 'active' }}"
+                                   href="{{ path('accountant_orders_pending') }}" data-placement="left" data-toggle="tooltip"
+                                   title="{{ 'nav.customer.submenu.pending.title' | trans }}">
+                                    <span class="fas fa-fw fa-file-invoice-dollar"></span>
+                                    {{ 'nav.customer.submenu.pending.text' | trans }}
+                                </a>
+                                {# User canceled orders #}
+                                <a class="dropdown-item {{ route == 'accountant_orders_canceled' ? 'active' }}"
+                                   href="{{ path('accountant_orders_canceled') }}" data-placement="left" data-toggle="tooltip"
+                                   title="{{ 'nav.customer.submenu.canceled.title' | trans }}">
+                                    <span class="fas fa-fw fa-file-invoice-dollar"></span>
+                                    {{ 'nav.customer.submenu.canceled.text' | trans }}
+                                </a>
+                                <div class="dropdown-divider"></div>
                                 {# Asked Vat #}
                                 <a class="dropdown-item {{ route == 'accountant_vat_list' ? 'active' }}"
                                    href="{{ path('accountant_vat_list') }}" data-placement="left" data-toggle="tooltip"

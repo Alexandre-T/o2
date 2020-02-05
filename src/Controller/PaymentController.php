@@ -229,7 +229,6 @@ class PaymentController extends AbstractController
      * @param Order           $order          Current Order
      * @param Request         $request        Request for form
      * @param OrderManager    $orderManager   Order manager
-     * @param BillManager     $billManager    Bill Manager
      * @param PaymentManager  $paymentManager the payment manager to create payment entity
      * @param Payum           $payum          Payum manager
      * @param LoggerInterface $logger         Logger
@@ -242,7 +241,6 @@ class PaymentController extends AbstractController
         Order $order,
         Request $request,
         OrderManager $orderManager,
-        BillManager $billManager,
         PaymentManager $paymentManager,
         Payum $payum,
         LoggerInterface $logger
@@ -264,25 +262,21 @@ class PaymentController extends AbstractController
             //User is trying to pay a canceled order
             $logger->warning($e->getMessage());
             //there is no order which is not empty, not canceled and no paid
-            $this->addFlash('warning', 'flash.order.no-step1');
+            $this->addFlash('warning', 'flash.order.already-canceled');
 
-            return $this->redirectToCmdRouteFromNature($order);
+            return $this->redirectToRoute('customer_orders_canceled');
         } catch (OrderPaidException $e) {
             //User is trying to pay a paid order
             $logger->warning($e->getMessage());
             $this->addFlash('warning', 'flash.order.already-paid');
 
-            return $this->redirectToRoute('customer_bill_show',[
-                'id' => $billManager->getLastBill($order),
-            ]);
+            return $this->redirectToRoute('customer_orders_paid');
         } catch (OrderPendingException $e) {
             //User is trying to pay twice a pending order
             $logger->warning($e->getMessage());
             $this->addFlash('warning', 'flash.order.already-pending');
 
-            return $this->redirectToRoute('customer_bill_show',[
-                'id' => $billManager->getLastBill($order),
-            ]);
+            return $this->redirectToRoute('customer_orders_pending');
         }
 
         $methodModel = new PaymentMethod();

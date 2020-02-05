@@ -1,0 +1,7 @@
+{% extends 'customer/orders/_orders.html.twig' %}
+
+{% block title %}{{ 'title.customer.paid-orders' | trans }}  &bull; {{ parent() }} {% endblock %}
+
+{% block last_breadcrumb %}{{ 'title.customer.paid-orders' | trans }}{% endblock %}
+
+{% block empty_message %}{{ 'title.customer.paid-orders' | trans }}{% endblock %}

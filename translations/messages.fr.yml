@@ -726,6 +726,15 @@ nav:
       olsx:
         text: 'Acheter des crédits OLSX'
         title: 'Acheter de nouveaux crédits OLSX'
+      paid:
+        title: 'Consulter mes commandes payées'
+        text: 'Commandes payées'
+      pending:
+        title: 'Consulter mes commandes en attente'
+        text: 'Commandes en attente'
+      canceled:
+        title: 'Consulter mes commandes annulées'
+        text: 'Commandes annulées'
   lost-password:
     text: 'Mot de passe perdu'
   olsx:
@@ -752,7 +761,9 @@ order:
   olsx: 'Comande de crédits OLSX'
   title: 'Commande'
   payment: 'Paiement'
-  no-pending: 'Aucune commande dont le paiement serait en attente de confirmation'
+  no-canceled: 'Aucune commande annulée'
+  no-pending: 'Aucune commande dont le paiement est en attente de confirmation'
+  no-paid: 'Aucune commande payée'
 order %name%: 'Commande n°%name%'
 order %number%: 'Commande n°%number%'
 
@@ -861,21 +872,24 @@ title:
       list: 'Mes factures'
       show %number%: 'Ma facture %number%'
     buy-credit: 'Méthode de paiement'
+    canceled-orders: 'Commandes annulées'
     main: 'Mon compte'
-    profile: 'Mon profil'
-    password: 'Mon mot de passe'
+    order-cmd: 'Commande d’une mise à jour du CMD Slave'
     order-credit: 'Crédits supplémentaires'
     order-olsx-credit: 'Crédits OLSX supplémentaires'
+    paid-orders: 'Commandes payées'
+    password: 'Mon mot de passe'
+    pending-orders: 'Commandes en attente de la confirmation du paiement'
     payment-complete: 'Paiement complété'
     payment-complete %payment-system%: 'Paiement transmis via %payment-system%'
+    profile: 'Mon profil'
     programmation:
       new: 'Commander un fichier de reprogrammation'
       show: 'Votre reprogrammation'
       list: 'Vos reprogrammations'
       service-status: 'Statut du service de reprogrammation'
     vat: 'Demande de changement de taux de TVA'
-    order-cmd: 'Commande d’une mise à jour du CMD Slave'
-    pending-orders: 'Commande en attente de la confirmation du paiement'
+    orders: 'Mes commandes'
   default:
     tos: 'Conditions d’utilisation'
     legacy: 'Mentions légales'
@@ -927,6 +941,8 @@ title:
     main: 'Programmateur'
   olsx:
     registering: 'Inscription au programme OLSX'
+  orders:
+    main: 'Mes commandes'
 
 payments:
   no-payment: 'Aucun paiement'

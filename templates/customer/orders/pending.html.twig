@@ -1,69 +1,7 @@
-{% extends 'base.html.twig' %}
+{% extends 'customer/orders/_orders.html.twig' %}
 
-{% block title %}{{ 'title.customer.order-cmd' | trans }}  &bull; {{ parent() }} {% endblock %}
+{% block title %}{{ 'title.customer.pending-orders' | trans }}  &bull; {{ parent() }} {% endblock %}
 
-{% block content_breadcrumb %}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ path('home') }}" title="{{ 'nav.home.title' | trans }}">{{ 'nav.home.text' | trans }}</a>
-            </li>
-            <li class="breadcrumb-item" aria-current="page">{{ 'title.customer.main' | trans }}</li>
-            <li class="breadcrumb-item active" aria-current="page">{{ 'title.customer.pending-orders' | trans }}</li>
-        </ol>
-    </nav>
-{% endblock %}
+{% block last_breadcrumb %}{{ 'title.customer.pending-orders' | trans }}{% endblock %}
 
-{% block container %}
-    <table class="table">
-        <thead>
-        <tr class="bg-light">
-            <th id="order-number" class="align-middle">
-                {{ 'form.field.number' | trans }}
-            </th>
-            <th id="order-amount" class="align-middle">
-                {{ 'form.field.amount' | trans }}
-            </th>
-            <th id="order-status" class="align-middle">
-                {{ 'form.field.nature' | trans }}
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for order in orders %}
-            <tr>
-                <td headers="order-number" class="align-middle">
-                    {{ order.label }}
-                </td>
-                <td headers="order-number" class="align-middle">
-                    {{ order.amount | euro }}
-                </td>
-                <td headers="order-status" class="align-middle">
-                    {{ order.statusOrder | badgeStatusOrder }}
-                    {{ order.credited | badgeCredited }}
-                    {{ order.nature | badgeNatureOrder }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">
-                    <p class="alert alert-success">{{ 'order.no-pending' | trans }}</p>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-        <tfoot>
-        <tr class="bg-light">
-            <th headers="order-number" class="align-middle">
-                {{ 'form.field.number' | trans }}
-            </th>
-            <th headers="order-amount" class="align-middle">
-                {{ 'form.field.amount' | trans }}
-            </th>
-            <th headers="order-status" class="align-middle">
-                {{ 'form.field.nature' | trans }}
-            </th>
-        </tr>
-        </tfoot>
-    </table>
-{% endblock %}
+{% block empty_message %}{{ 'title.customer.pending-orders' | trans }}{% endblock %}

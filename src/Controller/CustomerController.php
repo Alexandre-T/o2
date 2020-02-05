@@ -244,24 +244,6 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * Show pending order.
-     *
-     * @Route("/pending", name="orders_pending")
-     *
-     * @param OrderManager $orderManager order manager to get pending orders of current user
-     */
-    public function pendingOrders(OrderManager $orderManager): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-        $orders = $orderManager->getPending($user);
-
-        return $this->render('customer/orders/pending.html.twig', [
-            'orders' => $orders,
-        ]);
-    }
-
-    /**
      * Edit profile.
      *
      * @Route("/profile", name="profile")
