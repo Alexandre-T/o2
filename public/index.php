@@ -11,6 +11,8 @@
  * @license   Cecill-B http://www.cecill.info/licences/Licence_CeCILL-B_V1-fr.txt
  */
 
+declare(strict_types=1);
+
 use App\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
