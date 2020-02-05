@@ -559,11 +559,16 @@ class MoneticoPayment
      * Prevent hacking.
      *
      * @param TpeConfig $tpeConfig tpe config
+     * @param array     $data      the data array to verify
      */
-    public function isValid(TpeConfig $tpeConfig, $data=[]): bool
+    public function isValid(TpeConfig $tpeConfig, $data = []): bool
     {
+        //TODO create data from this content
+        //Dropping all key when value is null
+
         $data['MAC'] = $this->getMac();
         $data['TPE'] = $this->getTpe();
+
 
         $configuration = $tpeConfig->getConfiguration();
         $api = new Api();
