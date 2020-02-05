@@ -870,7 +870,7 @@ title:
       new: 'Nouvelle facture'
       show %number%: 'Facture %number%'
     bill-new: 'Nouvelle facture'
-    canceled-orders: 'Commandes annulée'
+    canceled-orders: 'Commandes annulées'
     orders: 'Commandes des clients'
     pending-orders: 'Commandes en attente de confirmation du paiement complet'
     paid-orders: 'Commandes payées'

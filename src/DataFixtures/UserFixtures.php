@@ -116,7 +116,7 @@ class UserFixtures extends Fixture
             $this->addReference('user_admin', $userAdministrator);
             $this->addReference('user_all', $userAll);
             $this->addReference('user_customer', $userCustomer);
-            $this->addReference('user_olsx', $userCustomer);
+            $this->addReference('user_olsx', $userOlsx);
             $this->addReference('user_programmer', $userProgrammer);
 
             //Persist dev and test data

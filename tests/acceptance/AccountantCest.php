@@ -22,6 +22,10 @@ namespace App\Tests;
  */
 class AccountantCest
 {
+    private const PAID_ORDER = 1;
+    private const CANCELED_ORDER = 42;
+
+
     /**
      * Try to list bills.
      *
@@ -124,17 +128,41 @@ class AccountantCest
         $you->click('2', '.page-link');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/accountant/bill?sort=number&direction=asc&page=2');
-        $you->click('Créditer le client');
+    }
+
+    /**
+     * Try to list pending order.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToListPendingOrder(AcceptanceTester $you): void
+    {
+        $you->login('accountant');
+        $you->areOnPage('/accountant/orders/pending');
         $you->seeResponseCodeIsSuccessful();
-        $billId = $you->grabFromCurrentUrl('~highlight=(\d+)~');
-        $uri = '/accountant/bill?page=2&sort=number&highlight='.$billId.'&direction=asc&color=success';
-        $you->seeCurrentUrlEquals($uri);
-        $you->see('Les crédits de cette commande viennent d’être versés au client');
-        $you->wantToTest('that accountant cannot refresh and credit twice a user');
-        $you->areOnPage('/accountant/bill/credit/'.$billId);
+        $you->see('');
+        $you->click('', '');
         $you->seeResponseCodeIsSuccessful();
-        $you->see('Les crédits de cette commande ont déjà été versé à ce client.');
-        $uri = '/accountant/bill?page=1&sort=number&highlight='.$billId.'&direction=asc&color=warning';
-        $you->seeCurrentUrlEquals($uri);
+        $you->seeCurrentUrlEquals('/accountant/orders/canceled');
+        $you->see('Commandes des clients');
+        $you->see('Commandes annulées');
+        $you->see('Annulée');
+        $you->see('Non créditée');
+        $you->see('Commande de crédits OLSX');
+        $you->see('Commande pour la mise à jour du CMD slave');
+
+        $you->areOnPage('/accountant/orders/pending');
+        $you->seeResponseCodeIsSuccessful();
+//        $you->see('');
+//        $you->click('', '');
+//        $you->seeResponseCodeIsSuccessful();
+//        $you->seeCurrentUrlEquals('/accountant/orders/canceled');
+//        $you->see('');
+
+        //Try to paid a paid order
+        $you->areOnPage('/accountant/pay-order/'.self::PAID_ORDER);
+        //Try to cancel a canceled order
+        $you->areOnPage('/accountant/cancel-order/'.self::CANCELED_ORDER);
+
     }
 }
