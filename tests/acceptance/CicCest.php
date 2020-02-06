@@ -79,7 +79,7 @@ class CicCest
         $you->areOnPage('/customer/orders/pending');
         $you->seeResponseCodeIsSuccessful();
         $you->dontSee('288,00');
-        $you->see('Aucune commande dont le paiement serait en attente de confirmation');
+        $you->see('Aucune commande dont le paiement est en attente de confirmation');
         $you->see('2232 crédits');
     }
 
