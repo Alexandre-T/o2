@@ -1,6 +1,6 @@
 {% set route = app.request.get('_route') %}
 {% if is_granted('ROLE_ACCOUNTANT') or is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_ADMIN') %}
-    <nav class="navbar navbar-expand-lg bg-light mb-0">
+    <nav class="navbar navbar-expand-lg bg-light mb-0 adminbar">
         <div class="container">
             <div class="collapse navbar-collapse" id="adminNavAltMarkup">
                 <ul class="navbar-nav mx-auto">

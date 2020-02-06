@@ -111,18 +111,20 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($payment);
 
             //Customer had clicked on order-credit and select paypal_express and validate payment but paypal said: paid.
-            $customer = $this->getReference('user_customer-7');
-            $carted = $this->createCreditOrder($customer, 2, 0, 0);
-            $payment = $this->createPayment($carted, 1006);
-            $carted->setStatusOrder(OrderInterface::STATUS_PAID); //ID 6
-            $manager->persist($carted);
-            $manager->persist($payment);
+            foreach(range(0,1) as $index) {
+                $customer = $this->getReference('user_customer-7');
+                $carted = $this->createCreditOrder($customer, 2 + $index, 0, 0);
+                $payment = $this->createPayment($carted, 1006);
+                $carted->setStatusOrder(OrderInterface::STATUS_PAID); //ID 6
+                $manager->persist($carted);
+                $manager->persist($payment);
+            }
 
             //Customer had clicked on order-credit and select paypal_express and validate payment but paypal said: paid.
             $customer = $this->getReference('user_customer-7');
             $carted = $this->createCreditOrder($customer, 2, 0, 0);
             $payment = $this->createPayment($carted, 1007);
-            $carted->setStatusOrder(OrderInterface::STATUS_PENDING); //ID 7
+            $carted->setStatusOrder(OrderInterface::STATUS_PENDING); //ID 7 and 8
             $manager->persist($carted);
             $manager->persist($payment);
 

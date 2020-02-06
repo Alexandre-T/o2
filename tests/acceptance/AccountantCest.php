@@ -124,17 +124,26 @@ class AccountantCest
         $you->click('2', '.page-link');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/accountant/bill?sort=number&direction=asc&page=2');
-//        $you->click('Créditer le client');
-//        $you->seeResponseCodeIsSuccessful();
-//        $billId = $you->grabFromCurrentUrl('~highlight=(\d+)~');
-//        $uri = '/accountant/bill?page=2&sort=number&highlight='.$billId.'&direction=asc&color=success';
-//        $you->seeCurrentUrlEquals($uri);
-//        $you->see('Les crédits de cette commande viennent d’être versés au client');
-//        $you->wantToTest('that accountant cannot refresh and credit twice a user');
-//        $you->areOnPage('/accountant/bill/credit/'.$billId);
-//        $you->seeResponseCodeIsSuccessful();
-//        $you->see('Les crédits de cette commande ont déjà été versé à ce client.');
-//        $uri = '/accountant/bill?page=1&sort=number&highlight='.$billId.'&direction=asc&color=warning';
-//        $you->seeCurrentUrlEquals($uri);
+    }
+
+    /**
+     * Accountant tries to list canceled orders
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToListCanceled(AcceptanceTester $you): void
+    {
+        $you->login('accountant');
+        $you->click('Commandes annulées', 'nav.adminbar');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/accountant/orders/cancel');
+        $you->click('Commandes payées', 'nav.adminbar');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/accountant/orders/paid');
+        $you->click('Commandes en attente', 'nav.adminbar');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/accountant/orders/pending');
+        $you->click('Valider la commande');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Cette commande est notée comme payée, le client a été crédité');
     }
 }
