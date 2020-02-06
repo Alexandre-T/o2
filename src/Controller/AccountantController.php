@@ -143,7 +143,7 @@ class AccountantController extends AbstractPaginateController
 
         $orderManager->setCancel($order);
         $orderManager->save($order);
-        $this->addFlash('success', 'flash.order.cancel');
+        $this->addFlash('success', 'flash.order.canceled');
 
         return $this->redirectToRoute('accountant_orders_pending');
     }

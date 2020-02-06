@@ -127,15 +127,15 @@ class AccountantCest
     }
 
     /**
-     * Accountant tries to list canceled orders
+     * Accountant tries to list canceled then paid then pending orders
      * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToListCanceled(AcceptanceTester $you): void
+    public function tryToListOrders(AcceptanceTester $you): void
     {
         $you->login('accountant');
         $you->click('Commandes annulées', 'nav.adminbar');
         $you->seeResponseCodeIsSuccessful();
-        $you->seeCurrentUrlEquals('/accountant/orders/cancel');
+        $you->seeCurrentUrlEquals('/accountant/orders/canceled');
         $you->click('Commandes payées', 'nav.adminbar');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/accountant/orders/paid');
@@ -145,5 +145,8 @@ class AccountantCest
         $you->click('Valider la commande');
         $you->seeResponseCodeIsSuccessful();
         $you->see('Cette commande est notée comme payée, le client a été crédité');
+        $you->click('Annuler la commande');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Cette commande est notée comme annulée');
     }
 }

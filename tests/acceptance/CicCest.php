@@ -69,7 +69,7 @@ class CicCest
         $you->see('cdr=0');
         $you->areOnPage('/customer/orders/pending');
         $you->seeResponseCodeIsSuccessful();
-        $you->see('576');
+        $you->see('288,00');
         $you->see('2212 crédits');
         $you->dontSee('2232 crédits');
         $you->wantTo('simulate a cic return with a good reference but a code paiement');
@@ -78,7 +78,7 @@ class CicCest
         $you->see('cdr=0');
         $you->areOnPage('/customer/orders/pending');
         $you->seeResponseCodeIsSuccessful();
-        $you->dontSee('576');
+        $you->dontSee('288,00');
         $you->see('Aucune commande dont le paiement serait en attente de confirmation');
         $you->see('2232 crédits');
     }
