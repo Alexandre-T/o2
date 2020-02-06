@@ -90,7 +90,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             //Customer had clicked on order-credit and select monetico.
             $customer = $this->getReference('user_customer-2');
             $carted = $this->createCreditOrder($customer, 2, 0, 0);
-            $carted->setStatusOrder(OrderInterface::STATUS_CANCELED);
+            $carted->setStatusOrder(OrderInterface::STATUS_PENDING);
             $payment = $this->createPayment($carted, 42, 'monetico');
             $manager->persist($carted);
             $manager->persist($payment);
