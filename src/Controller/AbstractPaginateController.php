@@ -18,6 +18,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * This controller improved pagination.
+ */
 abstract class AbstractPaginateController extends AbstractController
 {
     /**
@@ -26,11 +29,11 @@ abstract class AbstractPaginateController extends AbstractController
      * @param Request $request      the request containing order
      * @param string  $defaultOrder the default order if request have no one
      */
-    protected function getOrder(Request $request, string $defaultOrder = 'asc'): string
+    protected function getOrder(Request $request, string $defaultOrder = 'desc'): string
     {
         $order = $request->query->getAlpha('direction', $defaultOrder);
 
-        return 'desc' === $order ? 'desc' : 'asc';
+        return 'desc' === strtolower($order) ? 'desc' : 'asc';
     }
 
     /**

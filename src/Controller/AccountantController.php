@@ -167,7 +167,7 @@ class AccountantController extends AbstractPaginateController
         $parameters['page'] = $request->get('page', 1);
         $parameters['sort'] = $this->getSortedField($request, 'number');
         $parameters['highlight'] = $order->getId();
-        $parameters['direction'] = $this->getOrder($request);
+        $parameters['direction'] = $this->getOrder($request, 'desc');
         $parameters['color'] = 'warning';
 
         if ($order->isCredited()) {
