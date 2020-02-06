@@ -55,6 +55,110 @@ use Throwable;
 class PaymentController extends AbstractController
 {
     /**
+     * Payment has been canceled by user.
+     * He didn't ask to recover money, he only click on cancel during payment.
+     *
+     * @Route("/cancel/{order}", name="payment_cancel")
+     *
+     * @param Order           $order $order order which payment was not completed
+     * @param LoggerInterface $log   log canceled payment
+     *
+     * @return RedirectResponse
+     *
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function cancel(Order $order, LoggerInterface $log)
+    {
+        $this->addFlash('warning', 'error.payment.canceled');
+        $log->log(LogLevel::INFO, 'Payment canceled : order '.$order->getId());
+
+        return $this->redirectToRoute('payment_method', ['order' => $order->getId()]);
+    }
+
+    /**
+     * Step2: Customer selects payment method.
+     *
+     * @Route("/method-choose/{order}", name="payment_method")
+     *
+     * @param Order           $order          Current Order
+     * @param Request         $request        Request for form
+     * @param OrderManager    $orderManager   Order manager
+     * @param PaymentManager  $paymentManager the payment manager to create payment entity
+     * @param Payum           $payum          Payum manager
+     * @param LoggerInterface $logger         Logger
+     *
+     * @return Response|RedirectResponse
+     *
+     * @Security("is_granted('ROLE_USER')")
+     */
+    public function chooseMethod(
+        Order $order,
+        Request $request,
+        OrderManager $orderManager,
+        PaymentManager $paymentManager,
+        Payum $payum,
+        LoggerInterface $logger
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        try {
+            //find carted (non canceled and non paid) and non empty order
+            $orderManager->validateCanBePaid($order, $user);
+        } catch (NoOrderException $e) {
+            //User is trying to pay order of another customer
+            $logger->warning($e->getMessage());
+            //there is no order which is not empty, not canceled and no paid
+            $this->addFlash('warning', 'flash.order.no-step1');
+
+            return $this->redirectToCmdRouteFromNature($order);
+        } catch (OrderCanceledException $e) {
+            //User is trying to pay a canceled order
+            $logger->warning($e->getMessage());
+            //there is no order which is not empty, not canceled and no paid
+            $this->addFlash('warning', 'flash.order.already-canceled');
+
+            return $this->redirectToRoute('customer_orders_canceled');
+        } catch (OrderPaidException $e) {
+            //User is trying to pay a paid order
+            $logger->warning($e->getMessage());
+            $this->addFlash('warning', 'flash.order.already-paid');
+
+            return $this->redirectToRoute('customer_orders_paid');
+        } catch (OrderPendingException $e) {
+            //User is trying to pay twice a pending order
+            $logger->warning($e->getMessage());
+            $this->addFlash('warning', 'flash.order.already-pending');
+
+            return $this->redirectToRoute('customer_orders_pending');
+        }
+
+        $methodModel = new PaymentMethod();
+        $methodModel->acceptOffline($user->isAdmin());
+        $form = $this->createForm(ChoosePaymentMethodType::class, $methodModel, [
+            'offline' => $this->getUser()->isAdmin(),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $payment = $paymentManager->createPayment($payum, $order, [], $form->getData()->getMethod());
+
+            $captureToken = $payum->getTokenFactory()->createCaptureToken(
+                $form->getData()->getMethod(),
+                $payment,
+                'payment_done'
+            );
+
+            return $this->redirect($captureToken->getTargetUrl());
+        }
+
+        return $this->render('payment/method-choose.html.twig', [
+            'form' => $form->createView(),
+            'order' => $order,
+        ]);
+    }
+
+    /**
      * Step3: When using Paypal, i got the good status.
      * I analyse status to redirect user to the cancel page or to validate payment.
      *
@@ -210,110 +314,6 @@ class PaymentController extends AbstractController
         ));
 
         return $this->redirectToCmdRouteFromNature($order);
-    }
-
-    /**
-     * Payment has been canceled by user.
-     * He didn't ask to recover money, he only click on cancel during payment.
-     *
-     * @Route("/cancel/{order}", name="payment_cancel")
-     *
-     * @param Order           $order $order order which payment was not completed
-     * @param LoggerInterface $log   log canceled payment
-     *
-     * @return RedirectResponse
-     *
-     * @Security("is_granted('ROLE_USER')")
-     */
-    public function cancel(Order $order, LoggerInterface $log)
-    {
-        $this->addFlash('warning', 'error.payment.canceled');
-        $log->log(LogLevel::INFO, 'Payment canceled : order '.$order->getId());
-
-        return $this->redirectToRoute('payment_method', ['order' => $order->getId()]);
-    }
-
-    /**
-     * Step2: Customer selects payment method.
-     *
-     * @Route("/method-choose/{order}", name="payment_method")
-     *
-     * @param Order           $order          Current Order
-     * @param Request         $request        Request for form
-     * @param OrderManager    $orderManager   Order manager
-     * @param PaymentManager  $paymentManager the payment manager to create payment entity
-     * @param Payum           $payum          Payum manager
-     * @param LoggerInterface $logger         Logger
-     *
-     * @return Response|RedirectResponse
-     *
-     * @Security("is_granted('ROLE_USER')")
-     */
-    public function chooseMethod(
-        Order $order,
-        Request $request,
-        OrderManager $orderManager,
-        PaymentManager $paymentManager,
-        Payum $payum,
-        LoggerInterface $logger
-    ): Response {
-        /** @var User $user */
-        $user = $this->getUser();
-
-        try {
-            //find carted (non canceled and non paid) and non empty order
-            $orderManager->validateCanBePaid($order, $user);
-        } catch (NoOrderException $e) {
-            //User is trying to pay order of another customer
-            $logger->warning($e->getMessage());
-            //there is no order which is not empty, not canceled and no paid
-            $this->addFlash('warning', 'flash.order.no-step1');
-
-            return $this->redirectToCmdRouteFromNature($order);
-        } catch (OrderCanceledException $e) {
-            //User is trying to pay a canceled order
-            $logger->warning($e->getMessage());
-            //there is no order which is not empty, not canceled and no paid
-            $this->addFlash('warning', 'flash.order.already-canceled');
-
-            return $this->redirectToRoute('customer_orders_canceled');
-        } catch (OrderPaidException $e) {
-            //User is trying to pay a paid order
-            $logger->warning($e->getMessage());
-            $this->addFlash('warning', 'flash.order.already-paid');
-
-            return $this->redirectToRoute('customer_orders_paid');
-        } catch (OrderPendingException $e) {
-            //User is trying to pay twice a pending order
-            $logger->warning($e->getMessage());
-            $this->addFlash('warning', 'flash.order.already-pending');
-
-            return $this->redirectToRoute('customer_orders_pending');
-        }
-
-        $methodModel = new PaymentMethod();
-        $methodModel->acceptOffline($user->isAdmin());
-        $form = $this->createForm(ChoosePaymentMethodType::class, $methodModel, [
-            'offline' => $this->getUser()->isAdmin(),
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $payment = $paymentManager->createPayment($payum, $order, [], $form->getData()->getMethod());
-
-            $captureToken = $payum->getTokenFactory()->createCaptureToken(
-                $form->getData()->getMethod(),
-                $payment,
-                'payment_done'
-            );
-
-            return $this->redirect($captureToken->getTargetUrl());
-        }
-
-        return $this->render('payment/method-choose.html.twig', [
-            'form' => $form->createView(),
-            'order' => $order,
-        ]);
     }
 
     /**

@@ -58,48 +58,6 @@ class OrderController extends AbstractPaginateController
     }
 
     /**
-     * Show paid orders.
-     *
-     * @Route("/accountant/orders/paid", name="accountant_orders_paid")
-     *
-     * @param OrderManager $orderManager order manager to get pending orders of current user
-     * @param Request      $request      request to get pagination key
-     *
-     * @Security("is_granted('ROLE_ACCOUNTANT')")
-     */
-    public function paidOrders(OrderManager $orderManager, Request $request): Response
-    {
-        return $this->orders(
-            $orderManager,
-            $request,
-            'accountant/orders/paid.html.twig',
-            OrderInterface::STATUS_PAID,
-            'customer_orders_paid'
-        );
-    }
-
-    /**
-     * Show pending orders.
-     *
-     * @Route("/accountant/orders/pending", name="accountant_orders_pending")
-     *
-     * @param OrderManager $orderManager order manager to get pending orders of current user
-     * @param Request      $request      request to get pagination key
-     *
-     * @Security("is_granted('ROLE_ACCOUNTANT')")
-     */
-    public function pendingOrders(OrderManager $orderManager, Request $request): Response
-    {
-        return $this->orders(
-            $orderManager,
-            $request,
-            'accountant/orders/pending.html.twig',
-            OrderInterface::STATUS_PENDING,
-            'customer_orders_pending'
-        );
-    }
-
-    /**
      * Show canceled orders.
      *
      * @Route("/customer/orders/canceled", name="customer_orders_canceled")
@@ -160,6 +118,66 @@ class OrderController extends AbstractPaginateController
     }
 
     /**
+     * Show paid orders.
+     *
+     * @Route("/accountant/orders/paid", name="accountant_orders_paid")
+     *
+     * @param OrderManager $orderManager order manager to get pending orders of current user
+     * @param Request      $request      request to get pagination key
+     *
+     * @Security("is_granted('ROLE_ACCOUNTANT')")
+     */
+    public function paidOrders(OrderManager $orderManager, Request $request): Response
+    {
+        return $this->orders(
+            $orderManager,
+            $request,
+            'accountant/orders/paid.html.twig',
+            OrderInterface::STATUS_PAID,
+            'customer_orders_paid'
+        );
+    }
+
+    /**
+     * Show pending orders.
+     *
+     * @Route("/accountant/orders/pending", name="accountant_orders_pending")
+     *
+     * @param OrderManager $orderManager order manager to get pending orders of current user
+     * @param Request      $request      request to get pagination key
+     *
+     * @Security("is_granted('ROLE_ACCOUNTANT')")
+     */
+    public function pendingOrders(OrderManager $orderManager, Request $request): Response
+    {
+        return $this->orders(
+            $orderManager,
+            $request,
+            'accountant/orders/pending.html.twig',
+            OrderInterface::STATUS_PENDING,
+            'customer_orders_pending'
+        );
+    }
+
+    /**
+     * Return the method to call.
+     *
+     * @param int $status order status
+     */
+    private function getMethod(int $status): string
+    {
+        switch ($status) {
+            case OrderInterface::STATUS_CANCELED:
+                return 'paginateCanceled';
+            case OrderInterface::STATUS_PAID:
+                return 'paginatePaid';
+            case OrderInterface::STATUS_PENDING:
+            default:
+                return 'paginatePending';
+        }
+    }
+
+    /**
      * Show pending orders.
      *
      * @param OrderManager       $orderManager order manager to get pending orders of current user
@@ -197,28 +215,10 @@ class OrderController extends AbstractPaginateController
         $color = $request->get('color', '');
         $highlight = $request->get('highlight', -1);
 
-        return $this->render( $template, [
+        return $this->render($template, [
             'pagination' => $pagination,
             'highlight' => $highlight,
             'color' => $color,
         ]);
-    }
-
-    /**
-     * Return the method to call.
-     *
-     * @param int status order status
-     */
-    private function getMethod(int $status): string
-    {
-        switch ($status) {
-            case OrderInterface::STATUS_CANCELED:
-                return 'paginateCanceled';
-            case OrderInterface::STATUS_PAID:
-                return 'paginatePaid';
-            case OrderInterface::STATUS_PENDING:
-            default:
-                return 'paginatePending';
-        }
     }
 }

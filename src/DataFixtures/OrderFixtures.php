@@ -119,7 +119,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($payment);
 
             //Customer had clicked on order-credit and select paypal_express and validate payment but paypal said: paid.
-            foreach(range(1,2) as $index) {
+            foreach (range(1, 2) as $index) {
                 $customer = $this->getReference('user_customer-7');
                 $carted = $this->createCreditOrder($customer, 1 + $index, 0, 0);
                 $payment = $this->createPayment($carted, 1006 + $index);
@@ -199,8 +199,9 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
     /**
      * Create a payment where number is index.
      *
-     * @param Order $carted the order of payment
-     * @param int   $index  the number of the payment to retrieve during acceptance
+     * @param Order  $carted  the order of payment
+     * @param int    $index   the number of the payment to retrieve during acceptance
+     * @param string $gateway the gateway code
      */
     private function createPayment(Order $carted, int $index, string $gateway = 'paypal-express-checkout'): Payment
     {

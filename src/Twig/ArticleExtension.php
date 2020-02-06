@@ -41,19 +41,6 @@ class ArticleExtension extends AbstractExtension
     }
 
     /**
-     * List of filters.
-     */
-    public function getFilters(): array
-    {
-        return [
-            new TwigFilter('article', [$this, 'articleTranslate']),
-            // If your filter generates SAFE HTML, you should add a third
-            // parameter: ['is_safe' => ['html']]
-            // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
-        ];
-    }
-
-    /**
      * Return the translated name of article.
      *
      * @param mixed $value value to evaluate
@@ -71,6 +58,19 @@ class ArticleExtension extends AbstractExtension
             $this->getNature($value),
             $value->getCredit()
             ));
+    }
+
+    /**
+     * List of filters.
+     */
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('article', [$this, 'articleTranslate']),
+            // If your filter generates SAFE HTML, you should add a third
+            // parameter: ['is_safe' => ['html']]
+            // Reference: https://twig.symfony.com/doc/2.x/advanced.html#automatic-escaping
+        ];
     }
 
     /**

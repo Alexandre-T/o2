@@ -569,7 +569,6 @@ class MoneticoPayment
         $data['MAC'] = $this->getMac();
         $data['TPE'] = $this->getTpe();
 
-
         $configuration = $tpeConfig->getConfiguration();
         $api = new Api();
         $api->setConfig($configuration);
@@ -600,13 +599,9 @@ class MoneticoPayment
      */
     public function setAmount($amount): self
     {
-        if (is_float($amount)) {
-            $this->amount = $amount;
-        } else {
-            $matches = preg_match('|^[0-9]+(\.[0-9]{1,2})?|', (string) $amount);
-            if (false !== $matches && is_array($matches) && count($matches) > 0) {
-                $this->amount = (float) $matches[0];
-            }
+        $matches = preg_match('|^[0-9]+(\.[0-9]{1,2})?|', (string) $amount);
+        if (false !== $matches && is_array($matches) && count($matches) > 0) {
+            $this->amount = (float) $matches[0];
         }
 
         return $this;

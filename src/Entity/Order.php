@@ -396,11 +396,27 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     }
 
     /**
+     * Is this an order to upgrade CMD Slave.
+     */
+    public function isCmd(): bool
+    {
+        return OrderInterface::NATURE_CMD === $this->getNature();
+    }
+
+    /**
      * Status credit getter.
      */
     public function isCredited(): ?bool
     {
         return $this->statusCredit;
+    }
+
+    /**
+     * Is this an order to get OLSX credit.
+     */
+    public function isOlsx(): bool
+    {
+        return OrderInterface::NATURE_OLSX === $this->getNature();
     }
 
     /**
@@ -417,6 +433,14 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     public function isPending(): bool
     {
         return OrderInterface::STATUS_PENDING === $this->statusOrder;
+    }
+
+    /**
+     * Is this an order to get standard credit.
+     */
+    public function isStandard(): bool
+    {
+        return OrderInterface::NATURE_CREDIT === $this->getNature();
     }
 
     /**
@@ -632,35 +656,5 @@ class Order implements EntityInterface, OrderInterface, PriceInterface
     private function generateUuid(): void
     {
         $this->uuid = uniqid('', true);
-    }
-
-    /**
-     * Is this an order to upgrade CMD Slave.
-     *
-     * @return bool
-     */
-    public function isCmd(): bool
-    {
-        return OrderInterface::NATURE_CMD === $this->getNature();
-    }
-
-    /**
-     * Is this an order to get standard credit.
-     *
-     * @return bool
-     */
-    public function isStandard(): bool
-    {
-        return OrderInterface::NATURE_CREDIT === $this->getNature();
-    }
-
-    /**
-     * Is this an order to get OLSX credit.
-     *
-     * @return bool
-     */
-    public function isOlsx(): bool
-    {
-        return OrderInterface::NATURE_OLSX === $this->getNature();
     }
 }

@@ -100,34 +100,6 @@ class CustomerCest
     }
 
     /**
-     * Try to order olsx.
-     *
-     * @param AcceptanceTester $you acceptance tester
-     */
-    public function tryToOrderOlsxWithMonetico(AcceptanceTester $you): void
-    {
-        $you->wantTo('connect as customer and try to order a cmd slave with cb');
-        $you->login('olsx-1');
-        $you->click('Acheter des crédits OLSX');
-        $you->seeCurrentUrlEquals('/customer/order-olsx');
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('Crédits OLSX supplémentaires');
-        $you->fillField('Lot(s) de 10 crédits', 1);
-        $you->fillField('Lot(s) de 50 crédits', 2);
-        $you->fillField('Lot(s) de 100 crédits', 3);
-        $you->fillField('Lot(s) de 500 crédits', 4);
-        $you->click('Enregistrer votre commande');
-        $you->seeResponseCodeIsSuccessful();
-        $identifier = $you->grabFromCurrentUrl('~/payment/method-choose/(\d+)~');
-        $you->seeCurrentUrlEquals('/payment/method-choose/'.$identifier);
-        $you->selectOption('choose_payment_method[method]', 'monetico');
-        $you->click('Poursuivre');
-        $you->seeResponseCodeIsSuccessful();
-        $token = $you->grabFromCurrentUrl('~/payment/capture/([\w|-]+)~');
-        $you->seeCurrentUrlEquals('/payment/capture/'.$token);
-    }
-
-    /**
      * Try to order cmd slave with paypal.
      *
      * @param AcceptanceTester $you acceptance tester
@@ -159,6 +131,34 @@ class CustomerCest
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/payment/method-choose/1');
         $you->see('Poursuivre');
+    }
+
+    /**
+     * Try to order olsx.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToOrderOlsxWithMonetico(AcceptanceTester $you): void
+    {
+        $you->wantTo('connect as customer and try to order a cmd slave with cb');
+        $you->login('olsx-1');
+        $you->click('Acheter des crédits OLSX');
+        $you->seeCurrentUrlEquals('/customer/order-olsx');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Crédits OLSX supplémentaires');
+        $you->fillField('Lot(s) de 10 crédits', 1);
+        $you->fillField('Lot(s) de 50 crédits', 2);
+        $you->fillField('Lot(s) de 100 crédits', 3);
+        $you->fillField('Lot(s) de 500 crédits', 4);
+        $you->click('Enregistrer votre commande');
+        $you->seeResponseCodeIsSuccessful();
+        $identifier = $you->grabFromCurrentUrl('~/payment/method-choose/(\d+)~');
+        $you->seeCurrentUrlEquals('/payment/method-choose/'.$identifier);
+        $you->selectOption('choose_payment_method[method]', 'monetico');
+        $you->click('Poursuivre');
+        $you->seeResponseCodeIsSuccessful();
+        $token = $you->grabFromCurrentUrl('~/payment/capture/([\w|-]+)~');
+        $you->seeCurrentUrlEquals('/payment/capture/'.$token);
     }
 
     /**
