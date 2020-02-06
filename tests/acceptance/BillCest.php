@@ -40,7 +40,7 @@ class BillCest
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/customer/bill/list');
         $you->seeResponseCodeIsSuccessful();
-        $you->see('480');
+        $you->see('576');
         $you->see('Payée');
         $you->click('Consulter', 'a.btn');
         $billId = $you->grabFromCurrentUrl('~(\d+)~');
