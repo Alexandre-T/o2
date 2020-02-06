@@ -124,17 +124,17 @@ class AccountantCest
         $you->click('2', '.page-link');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/accountant/bill?sort=number&direction=asc&page=2');
-        $you->click('Créditer le client');
-        $you->seeResponseCodeIsSuccessful();
-        $billId = $you->grabFromCurrentUrl('~highlight=(\d+)~');
-        $uri = '/accountant/bill?page=2&sort=number&highlight='.$billId.'&direction=asc&color=success';
-        $you->seeCurrentUrlEquals($uri);
-        $you->see('Les crédits de cette commande viennent d’être versés au client');
-        $you->wantToTest('that accountant cannot refresh and credit twice a user');
-        $you->areOnPage('/accountant/bill/credit/'.$billId);
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('Les crédits de cette commande ont déjà été versé à ce client.');
-        $uri = '/accountant/bill?page=1&sort=number&highlight='.$billId.'&direction=asc&color=warning';
-        $you->seeCurrentUrlEquals($uri);
+//        $you->click('Créditer le client');
+//        $you->seeResponseCodeIsSuccessful();
+//        $billId = $you->grabFromCurrentUrl('~highlight=(\d+)~');
+//        $uri = '/accountant/bill?page=2&sort=number&highlight='.$billId.'&direction=asc&color=success';
+//        $you->seeCurrentUrlEquals($uri);
+//        $you->see('Les crédits de cette commande viennent d’être versés au client');
+//        $you->wantToTest('that accountant cannot refresh and credit twice a user');
+//        $you->areOnPage('/accountant/bill/credit/'.$billId);
+//        $you->seeResponseCodeIsSuccessful();
+//        $you->see('Les crédits de cette commande ont déjà été versé à ce client.');
+//        $uri = '/accountant/bill?page=1&sort=number&highlight='.$billId.'&direction=asc&color=warning';
+//        $you->seeCurrentUrlEquals($uri);
     }
 }
