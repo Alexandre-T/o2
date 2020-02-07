@@ -45,11 +45,32 @@ class AccountantCest
     }
 
     /**
+     * Try to credit order.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToCreditOrder(AcceptanceTester $you): void
+    {
+        $you->wantTo('credit an olsx order');
+        $you->login('accountant');
+        $you->areOnPage('/accountant/orders/paid');
+        $you->seeResponseCodeIsSuccessful();
+        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 6)); //44444
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Les crédits de cette commande viennent d’être versés au client');
+        $you->wantTo('credit a standard order');
+        $you->seeResponseCodeIsSuccessful();
+        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 1));
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Les crédits de cette commande viennent d’être versés au client');
+    }
+
+    /**
      * Try to list bills.
      *
      * @param AcceptanceTester $you acceptance tester
      */
-    public function tryToCreateBill(AcceptanceTester $you): void
+    public function tryToGenerateBill(AcceptanceTester $you): void
     {
         $you->wantTo('list users and create a bill');
         $you->login('accountant');
@@ -82,27 +103,6 @@ class AccountantCest
         $you->wantToTest('print page');
         $you->areOnPage('/accountant/bill/print/'.$billId);
         $you->seeResponseCodeIsSuccessful();
-    }
-
-    /**
-     * Try to credit order.
-     *
-     * @param AcceptanceTester $you acceptance tester
-     */
-    public function tryToCreditOrder(AcceptanceTester $you): void
-    {
-        $you->wantTo('credit an olsx order');
-        $you->login('accountant');
-        $you->areOnPage('/accountant/orders/paid');
-        $you->seeResponseCodeIsSuccessful();
-        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 6)); //44444
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('Les crédits de cette commande viennent d’être versés au client');
-        $you->wantTo('credit a standard order');
-        $you->seeResponseCodeIsSuccessful();
-        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 1));
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('Les crédits de cette commande viennent d’être versés au client');
     }
 
     /**
