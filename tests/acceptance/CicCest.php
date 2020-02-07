@@ -35,8 +35,8 @@ class CicCest
         $you->areOnPage('/customer/orders/pending');
         $you->seeResponseCodeIsSuccessful();
         $you->see('288');
-        $you->see('2212 crédits');
-        $you->dontSee('2232 crédits');
+        $you->see('2 crédits');
+        $you->dontSee('22 crédits');
         $you->wantTo('simulate a cic return with a good reference but no return code');
         $you->areOnPage('/retour-cic?TPE=1234567&reference=42&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04');
         $you->see('version=2');
@@ -44,8 +44,8 @@ class CicCest
         $you->areOnPage('/customer/orders/pending');
         $you->seeResponseCodeIsSuccessful();
         $you->see('288,00');
-        $you->see('2212 crédits');
-        $you->dontSee('2232 crédits');
+        $you->see('2 crédits');
+        $you->dontSee('22 crédits');
         $you->wantTo('simulate a cic return with a good reference but a code paiement');
         $you->areOnPage('/retour-cic?TPE=1234567&reference=42&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&code-retour=paiement');
         $you->see('version=2');
@@ -54,7 +54,7 @@ class CicCest
         $you->seeResponseCodeIsSuccessful();
         $you->dontSee('288,00');
         $you->see('Aucune commande dont le paiement est en attente de confirmation');
-        $you->see('2232 crédits');
+        $you->see('22 crédits');
     }
 
     /**

@@ -95,12 +95,12 @@ class AccountantCest
         $you->login('accountant');
         $you->areOnPage('/accountant/orders/paid');
         $you->seeResponseCodeIsSuccessful();
-        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 3));
+        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 6)); //44444
         $you->seeResponseCodeIsSuccessful();
         $you->see('Les crédits de cette commande viennent d’être versés au client');
         $you->wantTo('credit a standard order');
         $you->seeResponseCodeIsSuccessful();
-        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 9));
+        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 1));
         $you->seeResponseCodeIsSuccessful();
         $you->see('Les crédits de cette commande viennent d’être versés au client');
     }
