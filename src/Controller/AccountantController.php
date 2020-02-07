@@ -136,7 +136,7 @@ class AccountantController extends AbstractPaginateController
     public function cancel(OrderManager $orderManager, Order $order): RedirectResponse
     {
         if (!$order->isPending()) {
-            $this->addFlash('danger', 'flash.order.not-pending');
+            $this->addFlash('error', 'flash.order.not-pending');
 
             return $this->redirectToRoute('accountant_orders_pending');
         }
@@ -181,8 +181,8 @@ class AccountantController extends AbstractPaginateController
             $this->addFlash('success', 'flash.order.credited');
             $parameters['color'] = 'success';
         } catch (EvcException $evcException) {
-            $this->addFlash('danger', 'flash.evc.error');
-            $this->addFlash('danger', $evcException->getMessage());
+            $this->addFlash('error', 'flash.evc.error');
+            $this->addFlash('error', $evcException->getMessage());
             $parameters['color'] = 'danger';
         }
 
@@ -304,7 +304,7 @@ class AccountantController extends AbstractPaginateController
     public function pay(OrderManager $orderManager, Order $order): RedirectResponse
     {
         if (!$order->isPending()) {
-            $this->addFlash('danger', 'flash.order.not-pending');
+            $this->addFlash('error', 'flash.order.not-pending');
 
             return $this->redirectToRoute('accountant_orders_pending');
         }
