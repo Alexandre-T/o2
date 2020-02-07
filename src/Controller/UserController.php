@@ -76,31 +76,31 @@ class UserController extends AbstractPaginateController
      *
      * @Route("/{id}", name="delete", methods={"delete"})
      *
-     * @param User                $user    The user entity
-     * @param Request             $request The request
-     * @param UserManager         $manager The user manager
-     * @param TranslatorInterface $trans   The translator
+     * @param User                $customer The user entity
+     * @param Request             $request  The request
+     * @param UserManager         $manager  The user manager
+     * @param TranslatorInterface $trans    The translator
      */
     public function delete(
-        User $user,
+        User $customer,
         Request $request,
         UserManager $manager,
         TranslatorInterface $trans
     ): RedirectResponse {
-        $form = $this->createForm(DeleteFormType::class, $user);
+        $form = $this->createForm(DeleteFormType::class, $customer);
         $form->handleRequest($request);
 
-        $isDeletable = $manager->isDeletable($user);
+        $isDeletable = $manager->isDeletable($customer);
 
         if ($isDeletable && $form->isSubmitted() && $form->isValid()) {
-            $manager->delete($user);
-            $message = $trans->trans('entity.user.deleted %name%', ['%name%' => $user->getLabel()]);
+            $manager->delete($customer);
+            $message = $trans->trans('entity.user.deleted %name%', ['%name%' => $customer->getLabel()]);
             $this->addFlash('success', $message);
         } elseif (!$isDeletable) {
-            $message = $trans->trans('entity.user.deleted %name%', ['%name%' => $user->getLabel()]);
+            $message = $trans->trans('entity.user.deleted %name%', ['%name%' => $customer->getLabel()]);
             $this->addFlash('warning', $message);
 
-            return $this->redirectToRoute('administration_user_show', ['id' => $user->getId()]);
+            return $this->redirectToRoute('administration_user_show', ['id' => $customer->getId()]);
         }
 
         return $this->redirectToRoute('administration_user_index');
@@ -111,35 +111,35 @@ class UserController extends AbstractPaginateController
      *
      * @Route("/{id}/edit", name="edit", methods={"get", "post"})
      *
-     * @param User                $user        The user entity
+     * @param User                $customer    The user entity
      * @param Request             $request     The request
      * @param UserManager         $userManager the user manager
      * @param TranslatorInterface $trans       the translator
      *
      * @return RedirectResponse|Response
      */
-    public function edit(User $user, Request $request, UserManager $userManager, TranslatorInterface $trans): Response
+    public function edit(User $customer, Request $request, UserManager $userManager, TranslatorInterface $trans): Response
     {
-        $deleteForm = $this->createForm(DeleteFormType::class, $user, [
-            'action' => $this->generateUrl('administration_user_delete', ['id' => $user->getId()]),
+        $deleteForm = $this->createForm(DeleteFormType::class, $customer, [
+            'action' => $this->generateUrl('administration_user_delete', ['id' => $customer->getId()]),
         ]);
-        $editForm = $this->createForm(UserFormType::class, $user, ['update' => true]);
+        $editForm = $this->createForm(UserFormType::class, $customer, ['update' => true]);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $userManager->save($user);
-            $message = $trans->trans('entity.user.updated %name%', ['%name%' => $user->getLabel()]);
+            $userManager->save($customer);
+            $message = $trans->trans('entity.user.updated %name%', ['%name%' => $customer->getLabel()]);
             $this->addFlash('success', $message);
 
-            return $this->redirectToRoute('administration_user_show', ['id' => $user->getId()]);
+            return $this->redirectToRoute('administration_user_show', ['id' => $customer->getId()]);
         }
 
-        $logs = $userManager->retrieveLogs($user);
+        $logs = $userManager->retrieveLogs($customer);
 
         return $this->render('administration/user/edit.html.twig', [
-            'deletable' => $userManager->isDeletable($user),
+            'deletable' => $userManager->isDeletable($customer),
             'logs' => $logs,
-            'information' => $user,
-            'user' => $user,
+            'information' => $customer,
+            'user' => $customer,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -182,35 +182,35 @@ class UserController extends AbstractPaginateController
      *
      * @Route("/{id}/password", name="password", methods={"get", "post"})
      *
-     * @param User                $user    The user entity
-     * @param Request             $request The request
-     * @param UserManager         $manager The user manager
-     * @param TranslatorInterface $trans   The translator
+     * @param User                $customer The user entity
+     * @param Request             $request  The request
+     * @param UserManager         $manager  The user manager
+     * @param TranslatorInterface $trans    The translator
      *
      * @return RedirectResponse|Response
      */
-    public function password(User $user, Request $request, UserManager $manager, TranslatorInterface $trans): Response
+    public function password(User $customer, Request $request, UserManager $manager, TranslatorInterface $trans): Response
     {
-        $deleteForm = $this->createForm(DeleteFormType::class, $user, [
-            'action' => $this->generateUrl('administration_user_delete', ['id' => $user->getId()]),
+        $deleteForm = $this->createForm(DeleteFormType::class, $customer, [
+            'action' => $this->generateUrl('administration_user_delete', ['id' => $customer->getId()]),
         ]);
-        $passwordForm = $this->createForm(PasswordAdminFormType::class, $user);
+        $passwordForm = $this->createForm(PasswordAdminFormType::class, $customer);
         $passwordForm->handleRequest($request);
         if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
-            $manager->save($user);
-            $message = $trans->trans('entity.user.password %name%', ['%name%' => $user->getLabel()]);
+            $manager->save($customer);
+            $message = $trans->trans('entity.user.password %name%', ['%name%' => $customer->getLabel()]);
             $this->addFlash('success', $message);
 
-            return $this->redirectToRoute('administration_user_show', ['id' => $user->getId()]);
+            return $this->redirectToRoute('administration_user_show', ['id' => $customer->getId()]);
         }
 
-        $logs = $manager->retrieveLogs($user);
+        $logs = $manager->retrieveLogs($customer);
 
         return $this->render('administration/user/password.html.twig', [
-            'deletable' => $manager->isDeletable($user),
+            'deletable' => $manager->isDeletable($customer),
             'logs' => $logs,
-            'information' => $user,
-            'user' => $user,
+            'information' => $customer,
+            'user' => $customer,
             'password_form' => $passwordForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -221,18 +221,18 @@ class UserController extends AbstractPaginateController
      *
      * @Route("/{id}", name="show", methods={"get"})
      *
-     * @param User        $user        The user to display
+     * @param User        $customer    The user to display
      * @param UserManager $userManager The user manager
      */
-    public function show(User $user, UserManager $userManager): Response
+    public function show(User $customer, UserManager $userManager): Response
     {
-        $deleteForm = $this->createForm(DeleteFormType::class, $user);
-        $logs = $userManager->retrieveLogs($user);
+        $deleteForm = $this->createForm(DeleteFormType::class, $customer);
+        $logs = $userManager->retrieveLogs($customer);
 
         return $this->render('administration/user/show.html.twig', [
             'logs' => $logs,
-            'user' => $user,
-            'deletable' => $userManager->isDeletable($user),
+            'user' => $customer,
+            'deletable' => $userManager->isDeletable($customer),
             'delete_form' => $deleteForm->createView(),
         ]);
     }

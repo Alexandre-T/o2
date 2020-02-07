@@ -388,12 +388,12 @@ class AccountantController extends AbstractPaginateController
     /**
      * Create the payment.
      *
-     * @param Payum                 $payum Payum manager
-     * @param AccountantCreditOrder $model the data model
-     * @param Bill                  $bill  the bill to get amount
-     * @param User                  $user  the user to get identifier
+     * @param Payum                 $payum    Payum manager
+     * @param AccountantCreditOrder $model    the data model
+     * @param Bill                  $bill     the bill to get amount
+     * @param User                  $customer the user to get identifier
      */
-    private function createPayment(Payum $payum, AccountantCreditOrder $model, Bill $bill, User $user): Payment
+    private function createPayment(Payum $payum, AccountantCreditOrder $model, Bill $bill, User $customer): Payment
     {
         $storage = $payum->getStorage(Payment::class);
 
@@ -403,8 +403,8 @@ class AccountantController extends AbstractPaginateController
         $payment->setCurrencyCode('EUR');
         $payment->setDescription($model->getMethod());
         $payment->setTotalAmount($bill->getAmount());
-        $payment->setClientId($user->getId());
-        $payment->setClientEmail($user->getMail());
+        $payment->setClientId($customer->getId());
+        $payment->setClientEmail($customer->getMail());
 
         $storage->update($payment);
 
