@@ -25,6 +25,25 @@ class AccountantCest
     private const PAID_ORDER = 1;
     private const CANCELED_ORDER = 42;
 
+    /**
+     * Accountant tries to list canceled then paid then pending orders.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToCancelNonPendingOrder(AcceptanceTester $you): void
+    {
+        $you->wantToTest('that accountant cannot cancel pending orders');
+        $you->login('accountant');
+        $you->areOnPage('/accountant/pay-order/5');
+        $you->seeCurrentUrlEquals('/accountant/orders/pending');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Seules les commandes en attente de paiement peuvent être modifiée par le comptable');
+        $you->wantToTest('that accountant cannot cancel pending orders');
+        $you->areOnPage('/accountant/pay-order/6');
+        $you->seeCurrentUrlEquals('/accountant/orders/pending');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Seules les commandes en attente de paiement peuvent être modifiée par le comptable');
+    }
 
     /**
      * Try to list bills.
@@ -63,6 +82,29 @@ class AccountantCest
         $you->wantToTest('print page');
         $you->areOnPage('/accountant/bill/print/'.$billId);
         $you->seeResponseCodeIsSuccessful();
+    }
+
+    /**
+     * Try to credit order.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToCreditOrder(AcceptanceTester $you): void
+    {
+        $you->wantTo('credit a standard order');
+        $you->login('accountant');
+        $you->areOnPage('/accountant/orders/paid');
+        $you->seeResponseCodeIsSuccessful();
+        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 3));
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Les crédits de cette commande viennent d’être versés au client');
+        $you->wantTo('credit an olsx order');
+        $you->login('accountant');
+        $you->areOnPage('/accountant/orders/paid');
+        $you->seeResponseCodeIsSuccessful();
+        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 3));
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Les crédits de cette commande viennent d’être versés au client');
     }
 
     /**
@@ -131,38 +173,27 @@ class AccountantCest
     }
 
     /**
-     * Try to list pending order.
+     * Accountant tries to list canceled then paid then pending orders.
      *
-     * @param AcceptanceTester $you acceptance tester
+     * @param AcceptanceTester $you the acceptance tester
      */
-    public function tryToListPendingOrder(AcceptanceTester $you): void
+    public function tryToListOrders(AcceptanceTester $you): void
     {
         $you->login('accountant');
-        $you->areOnPage('/accountant/orders/pending');
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('');
-        $you->click('', '');
+        $you->click('Commandes annulées', 'nav.adminbar');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/accountant/orders/canceled');
-        $you->see('Commandes des clients');
-        $you->see('Commandes annulées');
-        $you->see('Annulée');
-        $you->see('Non créditée');
-        $you->see('Commande de crédits OLSX');
-        $you->see('Commande pour la mise à jour du CMD slave');
-
-        $you->areOnPage('/accountant/orders/pending');
+        $you->click('Commandes payées', 'nav.adminbar');
         $you->seeResponseCodeIsSuccessful();
-//        $you->see('');
-//        $you->click('', '');
-//        $you->seeResponseCodeIsSuccessful();
-//        $you->seeCurrentUrlEquals('/accountant/orders/canceled');
-//        $you->see('');
-
-        //Try to paid a paid order
-        $you->areOnPage('/accountant/pay-order/'.self::PAID_ORDER);
-        //Try to cancel a canceled order
-        $you->areOnPage('/accountant/cancel-order/'.self::CANCELED_ORDER);
-
+        $you->seeCurrentUrlEquals('/accountant/orders/paid');
+        $you->click('Commandes en attente', 'nav.adminbar');
+        $you->seeResponseCodeIsSuccessful();
+        $you->seeCurrentUrlEquals('/accountant/orders/pending');
+        $you->click('Valider la commande');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Cette commande est notée comme payée, le client a été crédité');
+        $you->click('Annuler la commande');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Cette commande est notée comme annulée');
     }
 }

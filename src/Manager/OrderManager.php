@@ -85,7 +85,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
             $this->entityManager->persist($customer);
         }
 
-        if ($order->isOlsx()){
+        if ($order->isOlsx()) {
             $evc->addCredit($customer->getOlsxIdentifier(), $order->getCredits());
         }
 
@@ -210,34 +210,6 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
-     * Paginate pending orders with optional criteria on user.
-     *
-     * @param int       $page      number of page
-     * @param int       $limit     limit of bills per page
-     * @param string    $sortField sort field
-     * @param string    $sortOrder sort order
-     * @param User|null $user      User criteria
-     *
-     * @throws QueryException when criteria is not valid
-     */
-    public function paginatePending(
-        int $page,
-        int $limit,
-        string $sortField,
-        string $sortOrder,
-        User $user = null
-    ): PaginationInterface {
-        return $this->paginateByStatus(
-            OrderInterface::STATUS_PENDING,
-            $page,
-            $limit,
-            $sortField,
-            $sortOrder,
-            $user
-        );
-    }
-
-    /**
      * Paginate cancel orders with optional criteria on user.
      *
      * @param int       $page      number of page
@@ -285,6 +257,34 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     ): PaginationInterface {
         return $this->paginateByStatus(
             OrderInterface::STATUS_PAID,
+            $page,
+            $limit,
+            $sortField,
+            $sortOrder,
+            $user
+        );
+    }
+
+    /**
+     * Paginate pending orders with optional criteria on user.
+     *
+     * @param int       $page      number of page
+     * @param int       $limit     limit of bills per page
+     * @param string    $sortField sort field
+     * @param string    $sortOrder sort order
+     * @param User|null $user      User criteria
+     *
+     * @throws QueryException when criteria is not valid
+     */
+    public function paginatePending(
+        int $page,
+        int $limit,
+        string $sortField,
+        string $sortOrder,
+        User $user = null
+    ): PaginationInterface {
+        return $this->paginateByStatus(
+            OrderInterface::STATUS_PENDING,
             $page,
             $limit,
             $sortField,
@@ -438,7 +438,9 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     public function validateCanBePaid(Order $order, User $user): bool
     {
         if ($user->getId() !== $order->getCustomer()->getId()) {
-            throw new NoOrderException(sprintf('User %d want to pay Order %d owned by customer %d', $user->getId(), $order->getId(), $order->getCustomer()->getId(), ));
+            // phpcs:disable Generic.Files.LineLength.MaxExceeded
+            throw new NoOrderException(sprintf('User %d want to pay Order %d owned by customer %d', $user->getId(), $order->getId(), $order->getCustomer()->getId()));
+            // phpcs:enable
         }
 
         if ($order->isPaid()) {
@@ -454,6 +456,21 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         }
 
         return true;
+    }
+
+    /**
+     * Hidden file for sorting.
+     *
+     * @param QueryBuilder $queryBuilder the query builder to add some fields
+     */
+    protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
+    {
+        return $queryBuilder
+            ->innerJoin('o.customer', 'c')
+            ->addSelect('o.identifier as HIDDEN identifier')
+            ->addSelect('o.price as HIDDEN price')
+            ->addSelect('c.name as HIDDEN customer')
+        ;
     }
 
     /**
@@ -520,6 +537,45 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         $order->addOrderedArticle($orderedArticle);
 
         return $orderedArticle;
+    }
+
+    /**
+     * Paginate orders of provided type with optional criteria on user.
+     *
+     * @param int       $status    status order
+     * @param int       $page      number of page
+     * @param int       $limit     limit of bills per page
+     * @param string    $sortField sort field
+     * @param string    $sortOrder sort order
+     * @param User|null $user      User criteria
+     *
+     * @throws QueryException when criteria is not valid
+     */
+    private function paginateByStatus(
+        int $status,
+        int $page,
+        int $limit,
+        string $sortField,
+        string $sortOrder,
+        User $user = null
+    ): PaginationInterface {
+        $clauses = [];
+        if (null !== $user) {
+            $clauses[] = Criteria::expr()->eq('customer', $user);
+        }
+
+        $clauses[] = Criteria::expr()->eq('statusOrder', $status);
+
+        $criteria = Criteria::create();
+        $criteria->where(new CompositeExpression(CompositeExpression::TYPE_AND, $clauses));
+
+        return $this->paginateWithCriteria(
+            $criteria,
+            $page,
+            $limit,
+            $sortField,
+            $sortOrder
+        );
     }
 
     /**
@@ -620,59 +676,5 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
             $orderedArticle->setVat($orderedArticle->getPrice() * $vateRate);
             $order->setVat($order->getVat() + $orderedArticle->getVat());
         }
-    }
-
-    /**
-     * Hidden file for sorting.
-     *
-     * @param QueryBuilder $queryBuilder the query builder to add some fields
-     */
-    protected function addHiddenField(QueryBuilder $queryBuilder): QueryBuilder
-    {
-        return $queryBuilder
-            ->innerJoin('o.customer', 'c')
-            ->addSelect('o.identifier as HIDDEN identifier')
-            ->addSelect('o.price as HIDDEN price')
-            ->addSelect('c.name as HIDDEN customer');
-    }
-
-
-    /**
-     * Paginate orders of provided type with optional criteria on user.
-     *
-     * @param int       $status    status order
-     * @param int       $page      number of page
-     * @param int       $limit     limit of bills per page
-     * @param string    $sortField sort field
-     * @param string    $sortOrder sort order
-     * @param User|null $user      User criteria
-     *
-     * @throws QueryException when criteria is not valid
-     */
-    private function paginateByStatus(
-        int $status,
-        int $page,
-        int $limit,
-        string $sortField,
-        string $sortOrder,
-        User $user = null
-    ): PaginationInterface {
-        $clauses = [];
-        if (null !== $user) {
-            $clauses[] = Criteria::expr()->eq('customer', $user);
-        }
-
-        $clauses[] = Criteria::expr()->eq('statusOrder', $status);
-
-        $criteria = Criteria::create();
-        $criteria->where(new CompositeExpression(CompositeExpression::TYPE_AND, $clauses));
-
-        return $this->paginateWithCriteria(
-            $criteria,
-            $page,
-            $limit,
-            $sortField,
-            $sortOrder
-        );
     }
 }

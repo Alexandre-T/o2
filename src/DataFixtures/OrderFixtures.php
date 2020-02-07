@@ -90,7 +90,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             //Customer had clicked on order-credit and select monetico.
             $customer = $this->getReference('user_customer-2');
             $carted = $this->createCreditOrder($customer, 2, 0, 0);
-            $carted->setStatusOrder(OrderInterface::STATUS_CANCELED);
+            $carted->setStatusOrder(OrderInterface::STATUS_PENDING);
             $payment = $this->createPayment($carted, 42, 'monetico');
             $manager->persist($carted);
             $manager->persist($payment);
@@ -119,12 +119,14 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($payment);
 
             //Customer had clicked on order-credit and select paypal_express and validate payment but paypal said: paid.
-            $customer = $this->getReference('user_customer-7');
-            $carted = $this->createCreditOrder($customer, 2, 0, 0);
-            $payment = $this->createPayment($carted, 1007);
-            $carted->setStatusOrder(OrderInterface::STATUS_PENDING); //ID 7
-            $manager->persist($carted);
-            $manager->persist($payment);
+            foreach (range(1, 2) as $index) {
+                $customer = $this->getReference('user_customer-7');
+                $carted = $this->createCreditOrder($customer, 1 + $index, 0, 0);
+                $payment = $this->createPayment($carted, 1006 + $index);
+                $carted->setStatusOrder(OrderInterface::STATUS_PENDING); //ID 7 and 8
+                $manager->persist($carted);
+                $manager->persist($payment);
+            }
 
             //Customer had clicked on order-credit and select paypal_express and paid.
             $customer = $this->getReference('user_customer-4');
@@ -266,8 +268,9 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
     /**
      * Create a payment where number is index.
      *
-     * @param Order $carted the order of payment
-     * @param int   $index  the number of the payment to retrieve during acceptance
+     * @param Order  $carted  the order of payment
+     * @param int    $index   the number of the payment to retrieve during acceptance
+     * @param string $gateway the gateway code
      */
     private function createPayment(Order $carted, int $index, string $gateway = 'paypal-express-checkout'): Payment
     {

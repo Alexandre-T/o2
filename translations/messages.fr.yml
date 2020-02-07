@@ -524,7 +524,7 @@ flash:
     canceled: 'Cette commande est notée comme annulée'
     credited: 'Les crédits de cette commande viennent d’être versés au client.'
     no-step1: 'Votre commande n’a pas été retrouvée. Veuillez la ressaisir.'
-    not-pending: 'Seule les commande en attente de paiement peuvent être modifiée par le comptable'
+    not-pending: 'Seules les commandes en attente de paiement peuvent être modifiée par le comptable'
     paid: 'Cette commande est notée comme payée, le client a été crédité'
     pending:
       paypal_express_checkout: 'Votre paiement Paypal est enregistré, vous serez automatiquement crédité dès que nous serons notifiés de la validité du paiment par Paypal.'

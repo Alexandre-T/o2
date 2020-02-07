@@ -135,15 +135,16 @@ class AccountantController extends AbstractPaginateController
      */
     public function cancel(OrderManager $orderManager, Order $order): RedirectResponse
     {
-        if ($order->isPending()) {
-            $orderManager->setCancel($order);
-            $orderManager->save($order);
-            $this->addFlash('success', 'flash.order.paid');
+        if (!$order->isPending()) {
+            $this->addFlash('danger', 'flash.order.not-pending');
 
             return $this->redirectToRoute('accountant_orders_pending');
         }
 
-        $this->addFlash('danger', 'flash.order.not-pending');
+        $orderManager->setCancel($order);
+        $orderManager->save($order);
+        $this->addFlash('success', 'flash.order.canceled');
+
         return $this->redirectToRoute('accountant_orders_pending');
     }
 
@@ -166,7 +167,7 @@ class AccountantController extends AbstractPaginateController
         $parameters['page'] = $request->get('page', 1);
         $parameters['sort'] = $this->getSortedField($request, 'number');
         $parameters['highlight'] = $order->getId();
-        $parameters['direction'] = $this->getOrder($request);
+        $parameters['direction'] = $this->getOrder($request, 'desc');
         $parameters['color'] = 'warning';
 
         if ($order->isCredited()) {
@@ -302,17 +303,17 @@ class AccountantController extends AbstractPaginateController
      */
     public function pay(OrderManager $orderManager, Order $order): RedirectResponse
     {
-        if ($order->isPending()) {
-            $orderManager->validateAfterPaymentComplete($order);
-            $orderManager->save($order);
-            $this->addFlash('success', 'flash.order.paid');
+        if (!$order->isPending()) {
+            $this->addFlash('danger', 'flash.order.not-pending');
 
-            return $this->redirectToRoute('accountant_orders_paid');
+            return $this->redirectToRoute('accountant_orders_pending');
         }
 
-        $this->addFlash('danger', 'flash.order.not-pending');
-        return $this->redirectToRoute('accountant_orders_pending');
+        $orderManager->validateAfterPaymentComplete($order);
+        $orderManager->save($order);
+        $this->addFlash('success', 'flash.order.paid');
 
+        return $this->redirectToRoute('accountant_orders_pending');
     }
 
     /**

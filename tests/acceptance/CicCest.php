@@ -25,6 +25,67 @@ namespace App\Tests;
 class CicCest
 {
     /**
+     * Try to validate the pending order of customer-2.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryFullProcess(AcceptanceTester $you): void
+    {
+        $you->login('customer-2');
+        $you->areOnPage('/customer/orders/pending');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('288');
+        $you->see('2212 crédits');
+        $you->dontSee('2232 crédits');
+        $you->wantTo('simulate a cic return with a good reference but no return code');
+        $you->areOnPage('/retour-cic?TPE=1234567&reference=42&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04');
+        $you->see('version=2');
+        $you->see('cdr=0');
+        $you->areOnPage('/customer/orders/pending');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('288,00');
+        $you->see('2212 crédits');
+        $you->dontSee('2232 crédits');
+        $you->wantTo('simulate a cic return with a good reference but a code paiement');
+        $you->areOnPage('/retour-cic?TPE=1234567&reference=42&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&code-retour=paiement');
+        $you->see('version=2');
+        $you->see('cdr=0');
+        $you->areOnPage('/customer/orders/pending');
+        $you->seeResponseCodeIsSuccessful();
+        $you->dontSee('288,00');
+        $you->see('Aucune commande dont le paiement est en attente de confirmation');
+        $you->see('2232 crédits');
+    }
+
+    /**
+     * Try to pay a canceled order of customer-7.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToPayCanceledOrder(AcceptanceTester $you): void
+    {
+        $you->login('customer-7');
+        $you->wantTo('pay a canceled order of customer-7');
+        $you->areOnPage('/retour-cic?code-retour=cancel&TPE=1234567&reference=1005&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04');
+        $you->see('version=2');
+        $you->see('cdr=0');
+    }
+
+    /**
+     * Try to pay a paid order of customer-7.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToPayPaidOrder(AcceptanceTester $you): void
+    {
+        $you->login('customer-7');
+        $you->wantTo('pay a paid order of customer-7');
+        $you->areOnPage('/retour-cic?code-retour=payement&TPE=1234567&reference=1005&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04');
+        $you->see('version=2');
+        $you->see('cdr=0');
+    }
+
+    /**
      * Try to simulate some cic notifications.
      *
      * @param AcceptanceTester $you acceptance tester
@@ -49,68 +110,6 @@ class CicCest
         $you->see('version=2');
         $you->see('cdr=0');
     }
-
-    /**
-     * Try to validate the pending order of customer-2
-     *
-     * @param AcceptanceTester $you the acceptance tester
-     */
-    public function tryFullProcess(AcceptanceTester $you)
-    {
-        $you->login('customer-2');
-        $you->areOnPage('/customer/pending');
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('288');
-        $you->see('2 crédits');
-        $you->dontSee('22 crédits');
-        $you->wantTo('simulate a cic return with a good reference but no return code');
-        $you->areOnPage('/retour-cic?TPE=1234567&reference=42&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04');
-        $you->see('version=2');
-        $you->see('cdr=0');
-        $you->areOnPage('/customer/pending');
-        $you->seeResponseCodeIsSuccessful();
-        $you->see('288');
-        $you->see('2212 crédits');
-        $you->dontSee('22 crédits');
-        $you->wantTo('simulate a cic return with a good reference but a code paiement');
-        $you->areOnPage('/retour-cic?TPE=1234567&reference=42&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&code-retour=paiement');
-        $you->see('version=2');
-        $you->see('cdr=0');
-        $you->areOnPage('/customer/pending');
-        $you->seeResponseCodeIsSuccessful();
-        $you->dontSee('288');
-        $you->see('Aucune commande dont le paiement serait en attente de confirmation');
-        $you->see('2232 crédits');
-    }
-
-    /**
-     * Try to pay a canceled order of customer-7
-     *
-     * @param AcceptanceTester $you the acceptance tester
-     */
-    public function tryToPayCanceledOrder(AcceptanceTester $you)
-    {
-        $you->login('customer-7');
-        $you->wantTo('pay a canceled order of customer-7');
-        $you->areOnPage('/retour-cic?code-retour=cancel&TPE=1234567&reference=1005&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04');
-        $you->see('version=2');
-        $you->see('cdr=0');
-    }
-
-    /**
-     * Try to pay a paid order of customer-7
-     *
-     * @param AcceptanceTester $you the acceptance tester
-     */
-    public function tryToPayPaidOrder(AcceptanceTester $you)
-    {
-        $you->login('customer-7');
-        $you->wantTo('pay a paid order of customer-7');
-        $you->areOnPage('/retour-cic?code-retour=payement&TPE=1234567&reference=1005&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04');
-        $you->see('version=2');
-        $you->see('cdr=0');
-    }
-
 }
 
 // phpcs:enable

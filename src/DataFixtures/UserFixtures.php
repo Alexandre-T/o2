@@ -208,7 +208,7 @@ class UserFixtures extends Fixture
      */
     private function createOlsx(int $index): User
     {
-        $userOlsx = $this->createUser("OLSX-{$index}", "olsx{$index}");
+        $userOlsx = $this->createUser("OLSX-{$index}", "olsx-{$index}");
         $userOlsx
             ->setOlsxIdentifier(11111 * $index)
             ->setRegistered()
