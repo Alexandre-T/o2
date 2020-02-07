@@ -55,6 +55,10 @@ class CicCest
         $you->dontSee('288,00');
         $you->see('Aucune commande dont le paiement est en attente de confirmation');
         $you->see('22 crédits');
+        $you->wantToTest('application when the same notifications is received twice');
+        $you->areOnPage('/retour-cic?TPE=1234567&reference=42&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&code-retour=paiement');
+        $you->see('version=2');
+        $you->see('cdr=0');
     }
 
     /**
@@ -107,6 +111,10 @@ class CicCest
 
         $you->wantTo('simulate a cic return with a good MAC');
         $you->areOnPage('retour-cic?TPE=1234567&date=05%2f12%2f2006%5fa%5f11%3a55%3a23&montant=62%2e75EUR&reference=ref0001&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&texte-libre=LeTexteLibre&code-retour=Annulation&cvx=oui&vld=1208&brand=VI&status3ds=1&motifrefus=Refus&originecb=FRA&bincb=010101&hpancb=74E94B03C22D786E0F2C2CADBFC1C00B004B7C45&ipclient=127%2e0%2e0%2e1&originetr=FRA');
+        $you->see('version=2');
+        $you->see('cdr=0');
+        $you->wantToTest('application when the reference does not exists');
+        $you->areOnPage('/retour-cic?TPE=1234567&reference=foobarteam&MAC=e4359a2c18d86cf2e4b0e646016c202e89947b04&code-retour=paiement');
         $you->see('version=2');
         $you->see('cdr=0');
     }

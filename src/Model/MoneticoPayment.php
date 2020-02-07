@@ -84,7 +84,7 @@ class MoneticoPayment
      *
      * @var bool
      */
-    private $cbSaved;
+    private $cbSaved = false;
 
     /**
      * The result of payment.
@@ -443,7 +443,7 @@ class MoneticoPayment
     /**
      * Hash getter.
      */
-    public function getHash(): string
+    public function getHash(): ?string
     {
         return $this->hash;
     }
@@ -451,7 +451,7 @@ class MoneticoPayment
     /**
      * IP client getter.
      */
-    public function getIpClient(): string
+    public function getIpClient(): ?string
     {
         return $this->ipClient;
     }
@@ -509,7 +509,7 @@ class MoneticoPayment
     /**
      * Validity getter.
      */
-    public function getValidity(): string
+    public function getValidity(): ?string
     {
         return $this->validity;
     }
@@ -517,7 +517,7 @@ class MoneticoPayment
     /**
      * VisualCryptogram getter.
      */
-    public function getVisualCryptogram(): string
+    public function getVisualCryptogram(): ?string
     {
         return $this->visualCryptogram;
     }
@@ -599,7 +599,7 @@ class MoneticoPayment
      */
     public function setAmount($amount): self
     {
-        $matches = preg_match('|^[0-9]+(\.[0-9]{1,2})?|', (string) $amount);
+        preg_match('|^[0-9]+(\.[0-9]{1,2})?|', (string) $amount, $matches);
         if (false !== $matches && is_array($matches) && count($matches) > 0) {
             $this->amount = (float) $matches[0];
         }
@@ -778,7 +778,7 @@ class MoneticoPayment
      */
     public function setEcard($ecard): self
     {
-        $this->ecard = $ecard;
+        $this->ecard = (bool) $ecard;
 
         return $this;
     }
