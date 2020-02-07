@@ -63,8 +63,9 @@ class AccountantCest
         $you->seeResponseCodeIsSuccessful();
         $you->areOnPage('/accountant/user');
         $you->seeResponseCodeIsSuccessful();
+        $you->click('2');
         $you->see('Society 17');
-        $you->click('Nouvelle facture', 'a.user-5');
+        $you->click('Nouvelle facture', 'a.user-18');
         $you->seeResponseCodeIsSuccessful();
         $userId = $you->grabFromCurrentUrl('~(\d+)~');
         $you->seeCurrentUrlEquals('/accountant/bill/new/'.$userId);
