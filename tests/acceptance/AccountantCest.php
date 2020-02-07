@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use Codeception\Util\Locator;
+
 /**
  * Accountant Cest.
  *
@@ -22,9 +24,6 @@ namespace App\Tests;
  */
 class AccountantCest
 {
-    private const PAID_ORDER = 1;
-    private const CANCELED_ORDER = 42;
-
     /**
      * Accountant tries to list canceled then paid then pending orders.
      *

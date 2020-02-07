@@ -79,15 +79,15 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $this->fiveHundred = $this->getReference('article_500');
 
             //Customer had only clicked on order-credit.
-            $carted = $this->createCreditOrder($customer, 0);
+            $carted = $this->createCreditOrder($customer, 0); //ID1
             $manager->persist($carted);
 
-            //Customer had clicked on order-credit and select some items.
+            //Customer had clicked on order-credit and select some items. //ID2
             $customer = $this->getReference('user_customer-1');
             $carted = $this->createCreditOrder($customer, 1, 2, 3);
             $manager->persist($carted);
 
-            //Customer had clicked on order-credit and select monetico.
+            //Customer had clicked on order-credit and select monetico.//ID3
             $customer = $this->getReference('user_customer-2');
             $carted = $this->createCreditOrder($customer, 2, 0, 0);
             $carted->setStatusOrder(OrderInterface::STATUS_PENDING);
@@ -95,7 +95,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($carted);
             $manager->persist($payment);
 
-            //Customer had clicked on order-credit and select paypal_express and canceled payment.
+            //Customer had clicked on order-credit and select paypal_express and canceled payment. //ID4
             $customer = $this->getReference('user_customer-7');
             $carted = $this->createCreditOrder($customer, 3, 0, 0);
             $payment = $this->createPayment($carted, 666);
@@ -130,7 +130,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
 
             //Customer had clicked on order-credit and select paypal_express and paid.
             $customer = $this->getReference('user_customer-4');
-            foreach (range(1, 30) as $index) {
+            foreach (range(1, 30) as $index) { // ID 9 to 38
                 $quantity = ($index % 8) + 1;
                 $carted = $this->createCreditOrder($customer, $quantity, 0, 0);
                 $payment = $this->createPayment($carted, $index);
@@ -148,16 +148,15 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             }
 
             //Create 6 Cmd order
-            foreach (range(1, 6) as $index) {
+            foreach (range(1, 6) as $index) { //ID 39-44
                 $customer = $this->getReference('user_customer-1'. $index);
                 $order = $this->createCmdOrder($customer);
                 $manager->persist($order);
             }
 
-            //Create 3 olsx orders for each olsx customer
+            //Create 3 olsx orders for each olsx customer //ID 45-68
             foreach (range(1, 24) as $index) {
-
-                $customer = $this->getReference('user_olsx-'. $index % 6);
+                $customer = $this->getReference('user_olsx-'. ($index % 6 + 1));
                 $order = $this->createOlsxOrder($customer, $index, $index % 3);
                 $manager->persist($order);
             }
