@@ -220,7 +220,7 @@ class OlsxCest
     public function tryToSubscribeTwice(AcceptanceTester $you): void
     {
         $you->wantTo('access to the OLSX  Subscription form with a olsx account.');
-        $you->login('olsx1');
+        $you->login('olsx-1');
         $you->amOnPage('/olsx/register');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('');
