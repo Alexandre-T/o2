@@ -157,7 +157,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             //Create 3 olsx orders for each olsx customer //ID 45-68
             foreach (range(1, 24) as $index) {
                 $customer = $this->getReference('user_olsx-'. ($index % 6 + 1));
-                $order = $this->createOlsxOrder($customer, $index, $index % 3);
+                $order = $this->createOlsxOrder($customer, $index, $index % 4);
                 $manager->persist($order);
             }
 

@@ -91,18 +91,16 @@ class AccountantCest
      */
     public function tryToCreditOrder(AcceptanceTester $you): void
     {
-        $you->wantTo('credit a standard order');
+        $you->wantTo('credit an olsx order');
         $you->login('accountant');
         $you->areOnPage('/accountant/orders/paid');
         $you->seeResponseCodeIsSuccessful();
         $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 3));
         $you->seeResponseCodeIsSuccessful();
         $you->see('Les crédits de cette commande viennent d’être versés au client');
-        $you->wantTo('credit an olsx order');
-        $you->login('accountant');
-        $you->areOnPage('/accountant/orders/paid');
+        $you->wantTo('credit a standard order');
         $you->seeResponseCodeIsSuccessful();
-        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 3));
+        $you->click('Créditer le client', Locator::elementAt('//table/tbody/tr', 9));
         $you->seeResponseCodeIsSuccessful();
         $you->see('Les crédits de cette commande viennent d’être versés au client');
     }
