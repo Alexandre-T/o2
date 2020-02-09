@@ -227,6 +227,44 @@ class SecurityCest
     }
 
     /**
+     * Test OLSX customer access.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToTestOlsxAccess(AcceptanceTester $you): void
+    {
+        $you->wantTo('be connected as olsx.');
+        $you->login('olsx-3');
+        //We are connected as olsx  and are on home page
+        $you->wantToTest('customer do not see credits');
+        $you->seeLink('Acheter des crédits OLSX');
+        $you->dontSee('42');
+        $you->click('Consulter votre solde de crédits OLSX');
+        $you->seeResponseCodeIsSuccessful();
+        $you->areOnPage('/?olsx=1');
+        $you->see('42');
+    }
+
+    /**
+     * Test OLSX customer error.
+     *
+     * @param AcceptanceTester $you the acceptance tester
+     */
+    public function tryToTestOlsxError(AcceptanceTester $you): void
+    {
+        $you->wantTo('be connected as olsx-5.');
+        $you->login('olsx-5');
+        //We are connected as olsx  and are on home page
+        $you->wantToTest('customer do not see credits');
+        $you->seeLink('Acheter des crédits OLSX');
+        $you->click('Consulter votre solde de crédits OLSX');
+        $you->seeResponseCodeIsSuccessful();
+        $you->areOnPage('/?olsx=1');
+        $you->dontSee('42');
+        $you->see('Les serveurs OLSX de nos partenaires ne nous ont pas répondu.');
+    }
+
+    /**
      * Test programmer access.
      *
      * @param AcceptanceTester $you the acceptance tester

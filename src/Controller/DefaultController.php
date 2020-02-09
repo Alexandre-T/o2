@@ -15,6 +15,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Alexandre\EvcBundle\Exception\CredentialException;
+use Alexandre\EvcBundle\Exception\LogicException;
+use Alexandre\EvcBundle\Exception\NetworkException;
+use Alexandre\EvcBundle\Service\EvcServiceInterface;
 use App\Entity\User;
 use App\Exception\SettingsException;
 use App\Manager\BillManager;
@@ -22,6 +26,7 @@ use App\Manager\ProgrammationManager;
 use App\Manager\SettingsManager;
 use App\Manager\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -44,13 +49,18 @@ class DefaultController extends AbstractController
      * @param BillManager          $billManager          bill manager
      * @param ProgrammationManager $programmationManager programmation manager
      * @param UserManager          $userManager          user manager
+     * @param EvcServiceInterface  $evcService           the evc service
+     * @param Request              $request              the request to get OLSX information
      */
     public function index(
         BillManager $billManager,
         ProgrammationManager $programmationManager,
-        UserManager $userManager
+        UserManager $userManager,
+        EvcServiceInterface $evcService,
+        Request $request
     ): Response {
         $parameters = [];
+        $olsxAsked = $request->get('olsx', false);
 
         if ($this->isGranted('ROLE_ADMIN')) {
             $parameters = [
@@ -72,6 +82,16 @@ class DefaultController extends AbstractController
 
         if ($this->isGranted('ROLE_USER')) {
             $parameters = array_merge($parameters, $this->getUserParameters());
+        }
+
+        if ($olsxAsked && $this->isGranted('ROLE_OLSX')) {
+            $parameters = array_merge($parameters, $this->getOlsxParameters($evcService));
+        }
+
+        if (!$olsxAsked && $this->isGranted('ROLE_OLSX')) {
+            $parameters = array_merge($parameters, [
+                'olsx_credits' => '??',
+            ]);
         }
 
         return $this->render('default/index.html.twig', $parameters);
@@ -135,5 +155,33 @@ class DefaultController extends AbstractController
             'credits' => $user->getCredit(),
             'programmations' => count($user->getProgrammations()),
         ];
+    }
+
+    /**
+     * Return the parameters of olsx customers.
+     *
+     * @param EvcServiceInterface $evcService the evc service to get OLSX credits on personnal account
+     *
+     */
+    private function getOlsxParameters(EvcServiceInterface $evcService)
+    {
+        /** @var User $customer */
+        $customer = $this->getUser();
+        if (empty($customer->getOlsxIdentifier())) {
+            return [];
+        }
+
+        $message = $credit = null;
+        try {
+            $credit = $evcService->checkAccount($customer->getOlsxIdentifier());
+        } catch (CredentialException | LogicException | NetworkException $exception) {
+            $this->addFlash('warning', 'flash.evc.error');
+            $message = $exception->getMessage();
+        } finally {
+            return [
+                'olsx_credits' => $credit,
+                'olsx_error' => $message,
+            ];
+        }
     }
 }

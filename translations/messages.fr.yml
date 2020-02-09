@@ -496,6 +496,8 @@ flash:
     accepted: 'Le changement de taux de TVA a été accepté.'
     rejected: 'Le changement de taux de TVA a été rejeté.'
     sent: 'La demande de changement de taux de TVA a bien été envoyée à notre service comptable.'
+  evc:
+    error: 'Les serveurs OLSX de nos partenaires ne nous ont pas répondu. Veuillez réessayer ultérieurement !'
   language:
     french: 'L’application est désormais en français'
     english: 'L’application est désormais en anglais'
@@ -745,6 +747,9 @@ nav:
       canceled:
         title: 'Consulter mes commandes annulées'
         text: 'Commandes annulées'
+      show-olsx:
+        text: 'Consulter votre solde de crédits OLSX'
+        title: 'Cliquez sur la roue pour interroger les serveurs de notre partenaire et connaitre votre solde de crédits OLSX'
   lost-password:
     text: 'Mot de passe perdu'
   olsx:
@@ -1058,8 +1063,10 @@ home:
   accountant-bills: 'Factures'
   pending-programmation %count%: '{0}Aucune programmation en attente|{1}Une programmation en attente|]1,Inf[ %count% programmations en attente'
   credits: 'Crédits'
+  credits-olsx: 'Crédits OLSX'
   pending-programmations: 'Programmations en attente'
   credits %count%: '{0}Aucun crédit|{1} %count% crédit |]1,Inf[ %count% crédits'
+  credits-olsx %count%: '{0}Aucun crédit OLSX|{1} %count% crédit OLSX|]1,Inf[ %count% crédits OLSX'
 payment %number%: 'Paiement numéro %number%'
 service:
   status:

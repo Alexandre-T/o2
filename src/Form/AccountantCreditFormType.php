@@ -16,8 +16,8 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Form\Model\AccountantCreditOrder;
+use App\Form\Type\FullPaymentMethodType;
 use App\Form\Type\PaidType;
-use App\Form\Type\PaymentMethodType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -44,7 +44,7 @@ class AccountantCreditFormType extends CreditFormType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('method', PaymentMethodType::class)
+            ->add('method', FullPaymentMethodType::class)
             ->add('credit', PaidType::class)
         ;
     }
