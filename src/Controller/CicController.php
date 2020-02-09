@@ -63,6 +63,7 @@ class CicController
         BillManager $billManager
     ): Response {
         $moneticoPayment = $this->payment($request);
+        $this->log->debug('SIMPLE LOG : '. $moneticoPayment->formatLog());
 
         //TODO Add a test to verify request is not valid
 
@@ -75,7 +76,7 @@ class CicController
         if (null === $moneticoPayment->getReference()) {
             $this->log->warning('Monetico request is not complete');
 
-            return new Response(Api::NOTIFY_FAILURE);
+            return new Response(Api::NOTIFY_SUCCESS);
         }
 
         $payumPayment = $paymentRepository->findOneByReference($moneticoPayment->getReference());

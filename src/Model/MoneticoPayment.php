@@ -216,6 +216,11 @@ class MoneticoPayment
     private $tpe;
 
     /**
+     * @var string
+     */
+    private $usage;
+
+    /**
      * Validity.
      *
      * @var string
@@ -504,6 +509,14 @@ class MoneticoPayment
     public function getTpe(): ?string
     {
         return $this->tpe;
+    }
+
+    /**
+     * Usage getter.
+     */
+    public function getUsage(): ?string
+    {
+        return $this->usage;
     }
 
     /**
@@ -973,6 +986,20 @@ class MoneticoPayment
     public function setTpe(string $tpe): self
     {
         $this->tpe = $tpe;
+
+        return $this;
+    }
+
+    /**
+     * Usage.
+     *
+     * @param string $usage usage
+     *
+     * @return MoneticoPayment
+     */
+    public function setUsage(string $usage): self
+    {
+        $this->tpe = $usage;
 
         return $this;
     }
