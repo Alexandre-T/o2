@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use Alexandre\EvcBundle\Exception\EvcException;
+use Alexandre\EvcBundle\Service\EvcServiceInterface;
 use App\Entity\Article;
 use App\Entity\EntityInterface;
 use App\Entity\Order;
@@ -33,11 +34,13 @@ use App\Repository\ArticleRepository;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\CompositeExpression;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ObjectRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * order Manager.
@@ -46,10 +49,31 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
  */
 class OrderManager extends AbstractRepositoryManager implements ManagerInterface
 {
+
+    /**
+     * @var EvcServiceInterface
+     */
+    private $evcService;
+
     /**
      * Const for the alias query.
      */
     public const ALIAS = 'o';
+
+    /**
+     * OrderManager constructor.
+     * @param EntityManagerInterface $entityManager Entity Manager
+     * @param PaginatorInterface     $paginator     Paginator
+     * @param EvcServiceInterface    $evcService    Evc service manager
+     */
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        EvcServiceInterface $evcService
+    ) {
+        parent::__construct($entityManager, $paginator);
+        $this->evcService = $evcService;
+    }
 
     /**
      * Accountant validate an order.
