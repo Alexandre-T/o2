@@ -41,10 +41,10 @@ class ArticleFixtures extends Fixture
         $manager->persist($this->create('cmd_slave', 'cmdslave', 700, 0));
 
         //OLSX credit articles
-        $manager->persist($this->create('olsx_10', 'OLSX0010', 120, 10));
-        $manager->persist($this->create('olsx_50', 'OLSX0050', 500, 50));
-        $manager->persist($this->create('olsx_100', 'OLSX0100', 1000, 100));
-        $manager->persist($this->create('olsx_500', 'OLSX0500', 4500, 500));
+        $manager->persist($this->create('olsx_10', 'OLSX0010', 100, 10));
+        $manager->persist($this->create('olsx_50', 'OLSX0050', 400, 50));
+        $manager->persist($this->create('olsx_100', 'OLSX0100', 700, 100));
+        $manager->persist($this->create('olsx_500', 'OLSX0500', 3000, 500));
 
         $manager->flush();
     }
