@@ -23,6 +23,7 @@ use App\Form\Type\CreditType;
 use App\Form\Type\FamilyNameType;
 use App\Form\Type\GivenNameType;
 use App\Form\Type\LocalityType;
+use App\Form\Type\OlsxCodeType;
 use App\Form\Type\PersonType;
 use App\Form\Type\PlainPasswordType;
 use App\Form\Type\PostalCodeType;
@@ -72,6 +73,10 @@ class UserFormType extends AbstractType
         $builder
             ->add('roles', RoleType::class)
             ->add('credit', CreditType::class)
+            ->add('olsxIdentifier', OlsxCodeType::class, [
+                'required' => false,
+                'help' => 'form.help.olsx-admin'
+            ])
             ->add('type', PersonType::class)
             ->add('givenName', GivenNameType::class)
             ->add('name', FamilyNameType::class)

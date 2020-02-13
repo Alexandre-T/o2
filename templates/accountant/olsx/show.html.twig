@@ -106,14 +106,18 @@
         </div>
         <div class="col-sm-6">
             <dl class="row">
-                <dt class="col-sm-2 text-truncate text-right">
+                <dt class="col-sm-4 text-truncate text-right">
                     <span class="fas fa-at"></span>
                 </dt>
-                <dd class="col-sm-10">{{ customer.mail }}</dd>
-                <dt class="col-sm-2 text-truncate text-right">
+                <dd class="col-sm-8">{{ customer.mail }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">
                     <span class="fas fa-phone"></span>
                 </dt>
-                <dd class="col-sm-10">{{ customer.telephone }}</dd>
+                <dd class="col-sm-8">{{ customer.telephone }}</dd>
+                <dt class="col-sm-4 text-truncate text-right">
+                    {{ 'form.field.olsx' | trans }}
+                </dt>
+                <dd class="col-sm-8">{{ customer.olsxIdentifier }}</dd>
             </dl>
         </div>
     </div>

@@ -42,6 +42,7 @@ class RoleType extends AbstractType
                 'form.field.role.option.accountant' => 'ROLE_ACCOUNTANT',
                 'form.field.role.option.admin' => 'ROLE_ADMIN',
                 'form.field.role.option.programmer' => 'ROLE_PROGRAMMER',
+                'form.field.role.option.olsx' => 'ROLE_OLSX',
             ],
             'required' => true,
             'attr' => ['class' => 'form-check p-0 pt-2 m-0'],

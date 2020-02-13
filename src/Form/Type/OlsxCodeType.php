@@ -35,6 +35,7 @@ class OlsxCodeType extends AbstractType
 
         $resolver->setDefaults([
             'label' => 'form.field.olsx',
+            'help' => 'form.help.olsx',
             'required' => true,
         ]);
     }
