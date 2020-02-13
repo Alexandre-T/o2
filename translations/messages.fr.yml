@@ -156,7 +156,14 @@ article:
     text: 'Lot de 100 crédits'
   CRED0500:
     text: 'Lot de 500 crédits'
-
+  OLSX0010:
+    text: 'Lot de 10 crédits OLSX'
+  OLSX0050:
+    text: 'Lot de 50 crédits OLSX'
+  OLSX0100:
+    text: 'Lot de 100 crédits OLSX'
+  OLSX0500:
+    text: 'Lot de 500 crédits OLSX'
 bill:
   base: 'Base'
   canceled: 'Annulée'
@@ -347,6 +354,7 @@ form:
       option:
         admin: 'Administrateur pouvant gérer les privilèges des utilisateurs.'
         accountant: 'Comptable pouvant gérer les crédits et les factures.'
+        olsx: 'Client OLSX'
         programmer: 'Programmateur pouvant agir sur les fichiers.'
         user: 'Client standard.'
       title:
@@ -398,11 +406,13 @@ form:
     locality: 'Entrez la ville'
     new-password: 'Entrez votre nouveau mot de passe'
     old-password: 'Entrez votre ancien mot de passe'
+    olsx: 'Entrez votre code client OLSX'
+    olsx-admin: 'Attention, ne modifiez ce code que si vous savez ce que vous faites ! Si la valeur est vide, ne la renseignez pas !'
     password: 'Entrez votre mot de passe'
     person-type: 'Êtes-vous un professionnel ou un particulier ?'
     postal-code: 'Entrez le code postal'
     repeat-password: 'Confirmez votre mot de passe'
-    roles: 'Sélectionnez le rôle de l’utilisateur'
+    roles: 'Sélectionnez le rôle de l’utilisateur. Modifier la valeur OLSX est déconseillé. Passez par le menu du comptable.'
     vat: 'Taux de TVA propre à ce client'
     setting:
       bill-complement: 'Entrez la seconde ligne de l’adresse qui apparaîtra sur toutes vos factures'
