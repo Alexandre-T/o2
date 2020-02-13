@@ -76,7 +76,7 @@ class CicController
         if (null === $moneticoPayment->getReference()) {
             $this->log->warning('Monetico request is not complete');
 
-            return new Response(Api::NOTIFY_SUCCESS);
+            return new Response(Api::NOTIFY_FAILURE);
         }
 
         $payumPayment = $paymentRepository->findOneByReference($moneticoPayment->getReference());
