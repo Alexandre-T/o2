@@ -189,6 +189,10 @@ class AccountantCest
         $you->seeCurrentUrlEquals('/accountant/orders/pending');
         $you->click('Valider la commande');
         $you->seeResponseCodeIsSuccessful();
+        $you->see('Les serveurs OLSX de nos partenaires ne nous ont pas');
+        $you->see('Logic exception: you called the 77777 customer');
+        $you->click('Valider la commande', Locator::elementAt('//table/tbody/tr',4)); //44444
+        $you->seeResponseCodeIsSuccessful();
         $you->see('Cette commande est notée comme payée, le client a été crédité');
         $you->click('Annuler la commande');
         $you->seeResponseCodeIsSuccessful();

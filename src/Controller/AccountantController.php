@@ -16,7 +16,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Alexandre\EvcBundle\Exception\EvcException;
-use Alexandre\EvcBundle\Service\EvcServiceInterface;
 use App\Entity\AskedVat;
 use App\Entity\Bill;
 use App\Entity\Order;
@@ -156,13 +155,11 @@ class AccountantController extends AbstractPaginateController
      * @param Order               $order        The bill to display
      * @param OrderManager        $orderManager The order manager
      * @param Request             $request      The request to recover page, and current sort
-     * @param EvcServiceInterface $evcService   The Evc service to credit OLSX Orders
      */
     public function creditAndRedirect(
         Order $order,
         OrderManager $orderManager,
-        Request $request,
-        EvcServiceInterface $evcService
+        Request $request
     ): RedirectResponse {
         $parameters['page'] = $request->get('page', 1);
         $parameters['sort'] = $this->getSortedField($request, 'number');
@@ -177,7 +174,7 @@ class AccountantController extends AbstractPaginateController
         }
 
         try {
-            $orderManager->credit($order, $evcService);
+            $orderManager->credit($order);
             $this->addFlash('success', 'flash.order.credited');
             $parameters['color'] = 'success';
         } catch (EvcException $evcException) {
@@ -309,9 +306,14 @@ class AccountantController extends AbstractPaginateController
             return $this->redirectToRoute('accountant_orders_pending');
         }
 
-        $orderManager->validateAfterPaymentComplete($order);
-        $orderManager->save($order);
-        $this->addFlash('success', 'flash.order.paid');
+        try{
+            $orderManager->validateAfterPaymentComplete($order);
+            $orderManager->save($order);
+            $this->addFlash('success', 'flash.order.paid');
+        } catch (EvcException $exception) {
+            $this->addFlash('error', 'flash.evc.error');
+            $this->addFlash('error', $exception->getMessage());
+        }
 
         return $this->redirectToRoute('accountant_orders_pending');
     }
