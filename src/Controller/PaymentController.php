@@ -16,7 +16,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Alexandre\EvcBundle\Exception\EvcException;
-use Alexandre\EvcBundle\Service\EvcServiceInterface;
 use App\Entity\Bill;
 use App\Entity\Order;
 use App\Entity\Payment;
@@ -164,15 +163,14 @@ class PaymentController extends AbstractController
      *
      * @Route("/done", name="payment_done")
      *
-     * @param Request             $request         Request for form
-     * @param BillManager         $billManager     bill manager
-     * @param OrderManager        $orderManager    order manager
-     * @param SettingsManager     $settingsManager setting manager
-     * @param LoggerInterface     $logger          the logger to log
-     * @param MailerInterface     $mailer          the mailer interface to send command completed
-     * @param EvcServiceInterface $evcService      Evc Service to credit OLSX orders
-     * @param Payum               $payum           Payum manager
-     * @param LoggerInterface     $log             the logger
+     * @param Request         $request         Request for form
+     * @param BillManager     $billManager     bill manager
+     * @param OrderManager    $orderManager    order manager
+     * @param SettingsManager $settingsManager setting manager
+     * @param LoggerInterface $logger          the logger to log
+     * @param MailerInterface $mailer          the mailer interface to send command completed
+     * @param Payum           $payum           Payum manager
+     * @param LoggerInterface $log             the logger
      *
      * @return redirectResponse|Response
      *
@@ -185,7 +183,6 @@ class PaymentController extends AbstractController
         SettingsManager $settingsManager,
         LoggerInterface $logger,
         MailerInterface $mailer,
-        EvcServiceInterface $evcService,
         Payum $payum,
         LoggerInterface $log
     ): Response {
@@ -214,7 +211,7 @@ class PaymentController extends AbstractController
             $message = sprintf('Order already paid and credited for Order %d', $order->getId());
             if (!$order->isCredited()) {
                 try {
-                    $orderManager->credit($order, $evcService);
+                    $orderManager->credit($order);
                     $logger->warn('This order was paid but not credited. Order credited');
                 } catch (EvcException $exception) {
                     $level = LogLevel::ERROR;
@@ -233,28 +230,27 @@ class PaymentController extends AbstractController
                 $message = sprintf('Order %d already paid because of monetico notification', $order->getId());
             }
 
-            $bill = $billManager->getLastBill($order);
-            if ($bill instanceof Bill) {
-                $logger->log($level, $message);
+            $logger->log($level, $message);
 
-                return $this->redirectToRoute('customer_bill_show', ['id' => $bill->getId()]);
-            }
-
-            //No bill !
-            $logger->warning(sprintf(
-                'No bill for order %d of customer %s',
-                $order->getId(),
-                $order->getCustomer()->getLabel()
-            ));
-
-            return $this->redirectToRoute('customer_bill_list');
+            return $this->renderComplete($gatewayName, $order);
         }
 
         if ($status->isAuthorized() || $status->isCaptured()) {
-            $orderManager->validateAfterPaymentComplete($order);
-            $bill = $billManager->retrieveOrCreateBill($order, $order->getCustomer());
-            $orderManager->save($order);
-            $billManager->save($bill);
+            try {
+                $orderManager->validateAfterPaymentComplete($order);
+            } catch (EvcException $exception) {
+                $logger->error(sprintf(
+                    'Service OLSX enable to add %d credits to user "%s": %s',
+                    $order->getCredits(),
+                    $order->getCustomer()->getLabel(),
+                    $exception->getMessage()
+                ));
+            } finally {
+                $bill = $billManager->retrieveOrCreateBill($order, $order->getCustomer());
+                $orderManager->save($order);
+                $billManager->save($bill);
+            }
+
             if ($token instanceof TokenInterface) {
                 $payum->getHttpRequestVerifier()->invalidate($token);
             }
@@ -262,10 +258,7 @@ class PaymentController extends AbstractController
             //Mail sending
             $this->prepareAndSendMail($logger, $mailer, $settingsManager, $order, $bill);
 
-            return $this->render('payment/complete.html.twig', [
-                'paymentSystemName' => $gatewayName,
-                'order' => $order,
-            ]);
+            return $this->renderComplete($gatewayName, $order);
         }
 
         if ($status->isPending() || $status->isNew() && 'monetico' === $gatewayName) {
@@ -365,5 +358,21 @@ class PaymentController extends AbstractController
         }
 
         return $this->redirectToRoute($route);
+    }
+
+    /**
+     * Render complete.
+     *
+     * @param string $gatewayName the name of the gateway
+     * @param Order  $order       the paid order
+     *
+     * @return Response
+     */
+    private function renderComplete(string $gatewayName, Order $order): Response
+    {
+        return $this->render('payment/complete.html.twig', [
+            'paymentSystemName' => $gatewayName,
+            'order' => $order,
+        ]);
     }
 }

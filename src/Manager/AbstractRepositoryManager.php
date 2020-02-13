@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace App\Manager;
 
+use Alexandre\EvcBundle\Service\EvcServiceInterface;
 use App\Entity\EntityInterface;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,6 +40,11 @@ abstract class AbstractRepositoryManager implements ManagerInterface
     protected $entityManager;
 
     /**
+     * @var EvcServiceInterface
+     */
+    protected $evcService;
+
+    /**
      * @var LogEntryRepository
      */
     protected $logRepository;
@@ -58,13 +64,18 @@ abstract class AbstractRepositoryManager implements ManagerInterface
      *
      * @param EntityManagerInterface $entityManager entity manager provided by dependency injection
      * @param PaginatorInterface     $paginator     paginator provided by dependency injection
+     * @param EvcServiceInterface    $evcService    Evc service manager
      */
-    public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
+        EvcServiceInterface $evcService
+    ) {
         $this->entityManager = $entityManager;
         $this->logRepository = $entityManager->getRepository(LogEntry::class);
         $this->paginator = $paginator;
         $this->repository = $this->getMainRepository();
+        $this->evcService = $evcService;
     }
 
     /**

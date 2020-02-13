@@ -16,7 +16,6 @@ declare(strict_types=1);
 namespace App\Manager;
 
 use Alexandre\EvcBundle\Exception\EvcException;
-use Alexandre\EvcBundle\Service\EvcServiceInterface;
 use App\Entity\Article;
 use App\Entity\EntityInterface;
 use App\Entity\Order;
@@ -73,11 +72,10 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * Credit a customer.
      *
      * @param Order               $order order to credit customer
-     * @param EvcServiceInterface $evc   the evc service
      *
      * @throws EvcException on any error with olsx service
      */
-    public function credit(Order $order, EvcServiceInterface $evc): void
+    public function credit(Order $order): void
     {
         $customer = $order->getCustomer();
         if ($order->isStandard()) {
@@ -86,7 +84,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
         }
 
         if ($order->isOlsx()) {
-            $evc->addCredit($customer->getOlsxIdentifier(), $order->getCredits());
+            $this->evcService->addCredit($customer->getOlsxIdentifier(), $order->getCredits());
         }
 
         $order->setStatusCredit(OrderInterface::CREDITED_ALREADY);
@@ -389,16 +387,16 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * Set order as paid and credits user.
      *
      * @param Order $order order to put at paid
+     *
+     * @throws EvcException when an error occurred when Evc Service
      */
     public function setPaid(Order $order): void
     {
-        $order->setStatusOrder(OrderInterface::STATUS_PAID);
-
-        $user = $order->getCustomer();
         if (!$order->isCredited()) {
-            $user->setCredit($user->getCredit() + $order->getCredits());
-            $order->setStatusCredit(true);
+            $this->credit($order);
         }
+
+        $order->setStatusOrder(OrderInterface::STATUS_PAID);
     }
 
     /**
@@ -415,6 +413,8 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
      * Validate payment after payment complete.
      *
      * @param Order $order order to validate
+     *
+     * @throws EvcException when evc service is not available
      */
     public function validateAfterPaymentComplete(Order $order): void
     {
