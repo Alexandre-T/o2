@@ -60,7 +60,7 @@ class DefaultController extends AbstractController
         Request $request
     ): Response {
         $parameters = [];
-        $olsxAsked = $request->get('olsx', false);
+        $olsxAsked = $request->get('olsx', true);
 
         if ($this->isGranted('ROLE_ADMIN')) {
             $parameters = [
