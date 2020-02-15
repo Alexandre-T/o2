@@ -1,6 +1,15 @@
 {
     "alexandret/evc-bundle": {
-        "version": "dev-master"
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "32f4cc1f12a640985710762638f18dfdbb68d7df"
+        },
+        "files": [
+            "./config/packages/alexandre_evc.yaml"
+        ]
     },
     "antishov/doctrine-extensions-bundle": {
         "version": "1.4",
