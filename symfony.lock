@@ -393,13 +393,12 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "4.7",
-            "ref": "89239f0cf2759efccc76b9944083bfcc4d180f9d"
+            "ref": "00fdb38c318774cd39f475a753028a5e8d25d47c"
         },
         "files": [
             "./.env.test",
             "./phpunit.xml.dist",
-            "./config/bootstrap.php",
-            "./tests/.gitignore"
+            "./tests/bootstrap.php"
         ]
     },
     "psr/cache": {
