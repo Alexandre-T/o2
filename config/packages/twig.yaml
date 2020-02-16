@@ -3,5 +3,4 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes: ['_form.html.twig']
-    #Added for Symfony 4.4
     exception_controller: null
