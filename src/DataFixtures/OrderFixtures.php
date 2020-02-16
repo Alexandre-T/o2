@@ -71,7 +71,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        if (in_array($_ENV('APP_ENV'), ['dev', 'test'], true)) {
+        if (in_array($_ENV['APP_ENV'], ['dev', 'test'], true)) {
             /** @var User $customer */
             $customer = $this->getReference('user_customer');
             $this->ten = $this->getReference('article_10');

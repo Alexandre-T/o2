@@ -57,7 +57,7 @@ class ProgrammationFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        if (in_array($_ENV('APP_ENV'), ['dev', 'test'], true)) {
+        if (in_array($_ENV['APP_ENV'], ['dev', 'test'], true)) {
             foreach (range(1, 40) as $index) {
                 /** @var File $file */
                 $programmation = $this->createProgrammation($index);
