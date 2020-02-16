@@ -45,7 +45,7 @@ class UserFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        if (in_array(getenv('APP_ENV'), ['dev', 'test'], true)) {
+        if (in_array($_ENV['APP_ENV'], ['dev', 'test'], true)) {
             //Admin
             $userAdministrator = $this->createAdmin('Admin', 'administrator');
 

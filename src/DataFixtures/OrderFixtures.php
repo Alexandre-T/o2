@@ -71,7 +71,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager): void
     {
-        if (in_array(getenv('APP_ENV'), ['dev', 'test'], true)) {
+        if (in_array($_ENV('APP_ENV'), ['dev', 'test'], true)) {
             /** @var User $customer */
             $customer = $this->getReference('user_customer');
             $this->ten = $this->getReference('article_10');
@@ -149,7 +149,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
 
             //Create 6 Cmd order
             foreach (range(1, 6) as $index) { //ID 39-44
-                $customer = $this->getReference('user_customer-1'. $index);
+                $customer = $this->getReference('user_customer-'. $index);
                 $order = $this->createCmdOrder($customer);
                 $manager->persist($order);
             }
