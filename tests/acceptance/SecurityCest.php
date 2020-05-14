@@ -238,11 +238,13 @@ class SecurityCest
         //We are connected as olsx  and are on home page
         $you->wantToTest('customer do not see credits');
         $you->seeLink('Acheter des crédits OLSX');
-        $you->dontSee('42');
+        $you->see('42'); //By default we see them
         $you->click('Consulter votre solde de crédits OLSX');
         $you->seeResponseCodeIsSuccessful();
         $you->areOnPage('/?olsx=1');
         $you->see('42');
+        $you->areOnPage('/?olsx=0');
+        $you->dontSee('42');
     }
 
     /**
