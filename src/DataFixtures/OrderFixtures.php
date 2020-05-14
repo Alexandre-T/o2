@@ -144,7 +144,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($payment);
                 //DO NOT REMOVE IT
                 $manager->flush();
-
             }
 
             //Create 6 Cmd order

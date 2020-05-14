@@ -95,7 +95,7 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     /**
      * Credit a customer.
      *
-     * @param Order               $order order to credit customer
+     * @param Order $order order to credit customer
      *
      * @throws EvcException on any error with olsx service
      */

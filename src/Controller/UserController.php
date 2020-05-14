@@ -118,8 +118,12 @@ class UserController extends AbstractPaginateController
      *
      * @return RedirectResponse|Response
      */
-    public function edit(User $customer, Request $request, UserManager $userManager, TranslatorInterface $trans): Response
-    {
+    public function edit(
+        User $customer,
+        Request $request,
+        UserManager $userManager,
+        TranslatorInterface $trans
+    ): Response {
         $deleteForm = $this->createForm(DeleteFormType::class, $customer, [
             'action' => $this->generateUrl('administration_user_delete', ['id' => $customer->getId()]),
         ]);
@@ -189,8 +193,12 @@ class UserController extends AbstractPaginateController
      *
      * @return RedirectResponse|Response
      */
-    public function password(User $customer, Request $request, UserManager $manager, TranslatorInterface $trans): Response
-    {
+    public function password(
+        User $customer,
+        Request $request,
+        UserManager $manager,
+        TranslatorInterface $trans
+    ): Response {
         $deleteForm = $this->createForm(DeleteFormType::class, $customer, [
             'action' => $this->generateUrl('administration_user_delete', ['id' => $customer->getId()]),
         ]);

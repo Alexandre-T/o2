@@ -152,9 +152,9 @@ class AccountantController extends AbstractPaginateController
      *
      * @Route("/order/credit/{order}", name="order_credit", methods={"get"})
      *
-     * @param Order               $order        The bill to display
-     * @param OrderManager        $orderManager The order manager
-     * @param Request             $request      The request to recover page, and current sort
+     * @param Order        $order        The bill to display
+     * @param OrderManager $orderManager The order manager
+     * @param Request      $request      The request to recover page, and current sort
      */
     public function creditAndRedirect(
         Order $order,
