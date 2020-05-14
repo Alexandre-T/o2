@@ -25,9 +25,6 @@ use Twig\TwigFilter;
  */
 class ArticleExtension extends AbstractExtension
 {
-    /**
-     * @var TranslatorInterface
-     */
     private TranslatorInterface $translator;
 
     /**

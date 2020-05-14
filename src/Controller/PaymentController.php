@@ -365,8 +365,6 @@ class PaymentController extends AbstractController
      *
      * @param string $gatewayName the name of the gateway
      * @param Order  $order       the paid order
-     *
-     * @return Response
      */
     private function renderComplete(string $gatewayName, Order $order): Response
     {

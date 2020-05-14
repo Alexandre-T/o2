@@ -63,7 +63,7 @@ class CicController
         BillManager $billManager
     ): Response {
         $moneticoPayment = $this->payment($request);
-        $this->log->debug('SIMPLE LOG : '. $moneticoPayment->formatLog());
+        $this->log->debug('SIMPLE LOG : '.$moneticoPayment->formatLog());
 
         //TODO Add a test to verify request is not valid
 

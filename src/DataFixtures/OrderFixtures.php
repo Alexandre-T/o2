@@ -148,15 +148,15 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
 
             //Create 6 Cmd order
             foreach (range(1, 6) as $index) { //ID 39-44
-                $customer = $this->getReference('user_customer-'. $index);
+                $customer = $this->getReference('user_customer-'.$index);
                 $order = $this->createCmdOrder($customer);
                 $manager->persist($order);
             }
 
             //Create 3 olsx orders for each olsx customer //ID 45-68
             foreach (range(1, UserFixtures::OLSX + 1) as $index) {
-                $customer = $this->getReference('user_olsx-'. ($index));
-                foreach(range(0, 4)as $status) {
+                $customer = $this->getReference('user_olsx-'.($index));
+                foreach (range(0, 4)as $status) {
                     $order = $this->createOlsxOrder($customer, $index, $status);
                     $manager->persist($order);
                 }
@@ -171,6 +171,29 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();
+    }
+
+    /**
+     * Create a CMD order.
+     *
+     * @param User $customer Associated customer
+     */
+    private function createCmdOrder(
+        User $customer
+    ): Order {
+        $vatRate = (float) $customer->getVat();
+        $order = new Order();
+        $order->setCustomer($customer);
+        $order->setStatusOrder($customer->getId() % 3);
+        /* @var Article $cmd This is a CMD Slave */
+        $cmd = $this->getReference('cmd_slave');
+        $order->addOrderedArticle($this->createOrdered($cmd, 1, $vatRate));
+        $order->setCredits(0);
+        $order->setNature(OrderInterface::NATURE_CMD);
+        $order->refreshPrice();
+        $order->refreshVat();
+
+        return $order;
     }
 
     /**
@@ -196,29 +219,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         $order->addOrderedArticle($this->createOrdered($this->fiveHundred, $fiveHundred, $vatRate));
         $order->setCredits($ten * 10 + $hundred * 100 + $fiveHundred * 500);
         $order->setNature(OrderInterface::NATURE_CREDIT);
-        $order->refreshPrice();
-        $order->refreshVat();
-
-        return $order;
-    }
-
-    /**
-     * Create a CMD order.
-     *
-     * @param User $customer Associated customer
-     */
-    private function createCmdOrder(
-        User $customer
-    ): Order {
-        $vatRate = (float) $customer->getVat();
-        $order = new Order();
-        $order->setCustomer($customer);
-        $order->setStatusOrder($customer->getId() % 3);
-        /* @var Article $cmd This is a CMD Slave */
-        $cmd = $this->getReference('cmd_slave');
-        $order->addOrderedArticle($this->createOrdered($cmd, 1, $vatRate));
-        $order->setCredits(0);
-        $order->setNature(OrderInterface::NATURE_CMD);
         $order->refreshPrice();
         $order->refreshVat();
 

@@ -29,14 +29,8 @@ abstract class AbstractConvertAction
 {
     use GatewayAwareTrait;
 
-    /**
-     * @var TranslatorInterface
-     */
     protected TranslatorInterface $translator;
 
-    /**
-     * @var UrlGeneratorInterface
-     */
     protected UrlGeneratorInterface $urlGenerator;
 
     /**

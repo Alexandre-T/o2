@@ -75,7 +75,7 @@ class UserFormType extends AbstractType
             ->add('credit', CreditType::class)
             ->add('olsxIdentifier', OlsxCodeType::class, [
                 'required' => false,
-                'help' => 'form.help.olsx-admin'
+                'help' => 'form.help.olsx-admin',
             ])
             ->add('type', PersonType::class)
             ->add('givenName', GivenNameType::class)

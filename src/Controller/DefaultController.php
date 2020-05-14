@@ -143,25 +143,9 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * Return parameters for users.
-     */
-    private function getUserParameters(): array
-    {
-        /** @var User $user */
-        $user = $this->getUser();
-
-        return [
-            'bills' => count($user->getBills()),
-            'credits' => $user->getCredit(),
-            'programmations' => count($user->getProgrammations()),
-        ];
-    }
-
-    /**
      * Return the parameters of olsx customers.
      *
      * @param EvcServiceInterface $evcService the evc service to get OLSX credits on personnal account
-     *
      */
     private function getOlsxParameters(EvcServiceInterface $evcService)
     {
@@ -183,5 +167,20 @@ class DefaultController extends AbstractController
                 'olsx_error' => $message,
             ];
         }
+    }
+
+    /**
+     * Return parameters for users.
+     */
+    private function getUserParameters(): array
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        return [
+            'bills' => count($user->getBills()),
+            'credits' => $user->getCredit(),
+            'programmations' => count($user->getProgrammations()),
+        ];
     }
 }

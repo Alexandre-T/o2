@@ -306,7 +306,7 @@ class AccountantController extends AbstractPaginateController
             return $this->redirectToRoute('accountant_orders_pending');
         }
 
-        try{
+        try {
             $orderManager->validateAfterPaymentComplete($order);
             $orderManager->save($order);
             $this->addFlash('success', 'flash.order.paid');

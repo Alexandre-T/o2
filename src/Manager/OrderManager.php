@@ -49,6 +49,10 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class OrderManager extends AbstractRepositoryManager implements ManagerInterface
 {
+    /**
+     * Const for the alias query.
+     */
+    public const ALIAS = 'o';
 
     /**
      * @var EvcServiceInterface
@@ -56,12 +60,8 @@ class OrderManager extends AbstractRepositoryManager implements ManagerInterface
     private $evcService;
 
     /**
-     * Const for the alias query.
-     */
-    public const ALIAS = 'o';
-
-    /**
      * OrderManager constructor.
+     *
      * @param EntityManagerInterface $entityManager Entity Manager
      * @param PaginatorInterface     $paginator     Paginator
      * @param EvcServiceInterface    $evcService    Evc service manager

@@ -36,6 +36,14 @@ class Kernel extends BaseKernel
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
     /**
+     * Return the project director.
+     */
+    public function getProjectDir(): string
+    {
+        return \dirname(__DIR__);
+    }
+
+    /**
      * Register all bundles declared in bundles.php file.
      */
     public function registerBundles(): iterable
@@ -46,14 +54,6 @@ class Kernel extends BaseKernel
                 yield new $class();
             }
         }
-    }
-
-    /**
-     * Return the project director.
-     */
-    public function getProjectDir(): string
-    {
-        return \dirname(__DIR__);
     }
 
     /**
