@@ -267,23 +267,11 @@
     "myclabs/deep-copy": {
         "version": "1.8.1"
     },
-    "nette/application": {
-        "version": "v3.0.3"
-    },
-    "nette/component-model": {
-        "version": "v3.0.0"
-    },
     "nette/finder": {
         "version": "v2.5.2"
     },
-    "nette/http": {
-        "version": "v3.0.3"
-    },
     "nette/robot-loader": {
         "version": "v3.2.1"
-    },
-    "nette/routing": {
-        "version": "v3.0.0"
     },
     "nette/utils": {
         "version": "v3.1.0"
@@ -359,6 +347,9 @@
     },
     "phpstan/phpdoc-parser": {
         "version": "0.4.2"
+    },
+    "phpstan/phpstan": {
+        "version": "0.12.25"
     },
     "phpunit/php-code-coverage": {
         "version": "6.1.4"
@@ -858,11 +849,20 @@
     "symplify/coding-standard": {
         "version": "v7.2.0"
     },
+    "symplify/console-color-diff": {
+        "version": "v7.3.16"
+    },
     "symplify/easy-coding-standard": {
         "version": "v7.2.0"
     },
     "symplify/package-builder": {
         "version": "v7.2.0"
+    },
+    "symplify/parameter-name-guard": {
+        "version": "v7.3.16"
+    },
+    "symplify/phpstan-extensions": {
+        "version": "v7.3.16"
     },
     "symplify/set-config-resolver": {
         "version": "v7.2.0"

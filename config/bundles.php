@@ -33,4 +33,5 @@ return [
     Ekyna\Bundle\PayumMoneticoBundle\EkynaPayumMoneticoBundle::class => ['all' => true],
     Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
     Alexandre\EvcBundle\AlexandreEvcBundle::class => ['all' => true],
+    Symplify\ParameterNameGuard\ParameterNameGuardBundle::class => ['dev' => true, 'test' => true],
 ];
