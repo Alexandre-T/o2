@@ -1,0 +1,25 @@
+version: '3'
+services:
+  db:
+    image: mysql:5
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_USER: 'root'
+    volumes:
+      - ./var/data/mysql:/varsymfony/lib/mysql
+
+  maildev:
+    image: djfarrelly/maildev
+    ports:
+      - "8002:80"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
