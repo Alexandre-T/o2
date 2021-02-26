@@ -71,7 +71,7 @@ class ProgrammationCommand extends Command
      * @param InputInterface  $input  Input interface to handle data
      * @param OutputInterface $output Output interface
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $droppedOriginalFiles = $droppedFinalFiles = 0;
         $inOut = new SymfonyStyle($input, $output);
@@ -103,5 +103,7 @@ class ProgrammationCommand extends Command
             $droppedOriginalFiles,
             $droppedFinalFiles
         ));
+
+        return 1;
     }
 }

@@ -70,7 +70,7 @@ class UserCommand extends Command
      * @param InputInterface  $input  Input interface to handle data
      * @param OutputInterface $output Output interface
      */
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $inOut = new SymfonyStyle($input, $output);
         $inOut->note('Process launched...');
@@ -108,5 +108,7 @@ class UserCommand extends Command
         $this->manager->flush();
 
         $inOut->success($message);
+
+        return 1;
     }
 }
