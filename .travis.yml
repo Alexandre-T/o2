@@ -41,7 +41,7 @@ install:
   # Integration
   - php bin/console doctrine:query:sql "UPDATE ext_log_entries SET username = 'Intégrateur' WHERE username IS NULL"
   # Install assets
-  - nvm install
+  - npm install
   - yarn install
   - yarn encore dev
   # Warm-up cache to avoid maximum execution time errors.
