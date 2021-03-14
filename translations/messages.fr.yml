@@ -946,6 +946,7 @@ title:
       main: 'Formulaire de test pour envoyer un mail'
     olsx:
       test: 'Test du service OLSX'
+  news: 'Informations'
   order:
     details: 'Détails de la commande'
     details %label%: 'Détail de la commande n°%label%'

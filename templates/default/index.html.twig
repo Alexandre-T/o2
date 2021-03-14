@@ -36,6 +36,26 @@
     {% endif %}
 
     <div class="row">
+        {% if app.user.language is defined %}
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-info h-100">
+                    <div class="card-body bg-info">
+                        <div class="rotate">
+                            <span class="text-white">
+                                <i class="fas fa-info-circle fa-4x"></i>
+                                <span class="sr-only">{{ 'title.news' | trans }}</span>
+                            </span>
+                        </div>
+                        <h6 class="text-uppercase">{{ 'title.news' | trans }}</h6>
+                        {% if app.user.language == 'gb' %}
+                            <p class="">{{ settings('welcome-en') }}</p>
+                        {% else %}
+                            <p class="">{{ settings('welcome-fr') }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
         {% if users is defined %}
             <div class="col-xl-3 col-sm-6 py-2">
                 <div class="card text-white bg-info h-100">

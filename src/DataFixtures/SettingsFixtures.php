@@ -19,7 +19,7 @@ use App\Entity\Settings;
 use App\Model\ServiceStatusInterface;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Exception;
 
 /**
@@ -105,6 +105,12 @@ class SettingsFixtures extends Fixture
         //Service is close until...
         $manager->persist($this->createSettings('service-until', new DateTimeImmutable()));
 
+        //FR Welcome message...
+        $manager->persist($this->createSettings('welcome-fr', 'Bienvenue dans le File-Service'));
+
+        //EN Welcome message...
+        $manager->persist($this->createSettings('welcome-en', 'Welcome in the File-Service'));
+
         $manager->flush();
     }
 
@@ -112,7 +118,7 @@ class SettingsFixtures extends Fixture
      * Setting factory.
      *
      * @param string $code      the settings code
-     * @param string $value     the settings value
+     * @param mixed  $value     the settings value
      * @param bool   $updatable set to true if administrator can change value
      */
     private function createSettings(string $code, $value, $updatable = true): Settings

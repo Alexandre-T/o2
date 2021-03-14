@@ -683,6 +683,15 @@ nav:
         english: 'English' #Do not translate
   customer:
     submenu:
+      canceled:
+        text: 'Canceled orders'
+        title: 'Show my canceled orders'
+      paid:
+        text: 'Paid orders'
+        title: 'Show my paid orders'
+      pending:
+        text: 'Pending orders'
+        title: 'Show my pending orders'
       bills:
         text: 'My bills'
         title: 'Show all your bills'
@@ -832,6 +841,7 @@ title:
       new: 'New bill'
       show %number%: 'Bill %number%'
     bill-new: 'New bill'
+    news: 'News'
     registering:
       list: 'Register on OLSX service'
     society:
@@ -901,6 +911,7 @@ title:
   purpose: 'We offer a file sending service, but also to OLS owners the ability to download files via the interface of ols. We link your account to our database. You will be able to compare and download modified files at any time.'
   how-many: 'More than 20,000 files available. With a data base updated regularly, and for all types of formats, cmd, alientech, autotuner, etc.'
   img: 'Tunning file service | Tunning files | OLS X | WinOLS | Database chiptuning file service'
+  news: 'News'
   programmer:
     programmation:
       list: 'Programmations'
