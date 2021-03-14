@@ -16,7 +16,10 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Settings;
+use App\Exception\SettingsException;
+use App\Form\Model\WelcomeModel;
 use App\Form\SettingsFormType;
+use App\Form\WelcomeFormType;
 use App\Manager\SettingsManager;
 use Doctrine\ORM\Query\QueryException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -124,6 +127,54 @@ class SettingsController extends AbstractPaginateController
 
         return $this->render('administration/settings/list.html.twig', [
             'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * Set the welcome message.
+     *
+     * @Route("/welcome-message", name="welcome", methods={"get", "post"})
+     *
+     * @param SettingsManager     $settingsManager the settings manage to paginate settings
+     * @param Request             $request         the requests to handle page and sorting
+     * @param TranslatorInterface $trans           the  translator
+     *
+     * @throws SettingsException this should not happen because welcome-en and welcome-fr are set
+     *
+     * @return Response|RedirectResponse
+     */
+    public function welcome(SettingsManager $settingsManager, Request $request, TranslatorInterface $trans): Response
+    {
+        $welcomeEn = $settingsManager->getSetting('welcome-en');
+        $welcomeFr = $settingsManager->getSetting('welcome-fr');
+
+        $welcomeModel = new WelcomeModel();
+        $welcomeModel->setEnglish($welcomeEn->getValue());
+        $welcomeModel->setFrench($welcomeFr->getValue());
+
+        $welcomeForm = $this->createForm(WelcomeFormType::class, $welcomeModel);
+        $welcomeForm->handleRequest($request);
+
+        if ($welcomeForm->isSubmitted() && $welcomeForm->isValid()) {
+            $welcomeEn->setValue($welcomeModel->getEnglish());
+            $welcomeFr->setValue($welcomeModel->getFrench());
+            $settingsManager->save($welcomeFr);
+            $settingsManager->save($welcomeEn);
+            $label = $trans->trans($welcomeEn->getCode());
+            $message = $trans->trans('entity.settings.updated %label%', ['%label%' => $label]);
+            $this->addFlash('success', $message);
+            $label = $trans->trans($welcomeFr->getCode());
+            $message = $trans->trans('entity.settings.updated %label%', ['%label%' => $label]);
+            $this->addFlash('success', $message);
+
+            return $this->redirectToRoute('administration_settings_welcome');
+        }
+
+        $logs = $settingsManager->retrieveLogs($welcomeFr);
+
+        return $this->render('administration/settings/welcome.html.twig', [
+            'form' => $welcomeForm->createView(),
+            'logs' => $logs,
         ]);
     }
 }

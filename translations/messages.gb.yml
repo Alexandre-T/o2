@@ -298,12 +298,14 @@ form:
     egr-fap-off: 'EGR and FAP Off: 5 credits'
     egr-stopped: 'EGR stopped'
     email: 'Email address'
+    english-welcome: 'English message'
     ethanol: 'Ethanol (only): 10 credits'
     ethanol-done: 'Ethanol done'
     fap-off: 'FAP Off: 5 credits'
     fap-stopped: 'FAP stopped'
     family-name: 'Family name'
     final-file: 'Final file'
+    french-welcome: 'French message'
     gear: 'Gear'
     gear-done: 'Gear done'
     given-name: 'Given name'
@@ -369,6 +371,8 @@ form:
     cat-off: 'CAT Off: 5 crédits'
     gear-off: 'Gear: 10 crédits'
   help:
+    english-welcome: 'Write the english message here. This message will be display to all english users.'
+    french-welcome: 'Write the french message here. This message will be display to all french users.'
     article-10: 'Select the quantity of 10 credits packs'
     article-50: 'Select the quantity of 50 credits packs'
     article-100: 'Select the quantity of 100 credits packs'
@@ -624,6 +628,9 @@ nav:
     title: 'Administration features'
     text: 'Administrator'
     submenu:
+      welcome:
+        text: 'Welcome message'
+        title: 'Welcome message settings'
       settings:
         text: 'Settings'
         title: 'Application settings'

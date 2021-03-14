@@ -103,8 +103,15 @@
                                    title="{{ 'nav.admin.submenu.users.title' | trans }}" data-placement="right">
                                     <span class="fas fa-fw fa-users-cog"></span>
                                     {{ 'nav.admin.submenu.users.text' | trans }}</a>
+                                {# Welcome message #}
+                                <a class="dropdown-item {{ route == 'administration_settings_welcome' ? 'active' }}"
+                                   href="{{ path('administration_settings_welcome') }}" data-toggle="tooltip"
+                                   data-placement="right" title="{{ 'nav.admin.submenu.welcome.title' | trans }}" >
+                                    <span class="fas fa-fw fa-info-circle"></span>
+                                    {{ 'nav.admin.submenu.welcome.text' | trans }}
+                                </a>
                                 {# Settings #}
-                                <a class="dropdown-item {{ route starts with 'administration_settings' ? 'active' }}"
+                                <a class="dropdown-item {{ route == 'administration_settings_list' ? 'active' }}"
                                    href="{{ path('administration_settings_list') }}" data-toggle="tooltip"
                                    data-placement="right" title="{{ 'nav.admin.submenu.settings.title' | trans }}" >
                                     <span class="fas fa-fw fa-cogs"></span>

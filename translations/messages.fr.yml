@@ -292,6 +292,8 @@ form:
     loading:
       service: 'Une erreur est survenue en chargeant les services de cette organisation.'
   field:
+    french-welcome: 'Message en français'
+    english-welcome: 'Message en anglais'
     amount: 'Montant TTC'
     article-cmd-0: 'Mise à jour du CMD Slave'
     article-credit-10: 'Lot(s) de 10 crédits'
@@ -391,6 +393,8 @@ form:
     gear-off: 'Boîte : 10 crédits'
     nature: 'Objet de la commande'
   help:
+    english-welcome: 'Entrez ici le message d’accueil en anglais. Il sera affiché à tous les utilisateurs anglophones.'
+    french-welcome: 'Entrez ici le message d’accueil en français. Il sera affiché à tous les utilisateurs francophones.'
     article-10: 'Sélectionnez la quantité de lots de 10 crédits'
     article-50: 'Sélectionnez la quantité de lots de 50 crédits'
     article-100: 'Sélectionnez la quantité de lots de 100 crédits'
@@ -671,6 +675,9 @@ nav:
       olsx:
         title: 'Tester le bon fonctionnement du service OLSX'
         text: 'Outil de test OLSX'
+      welcome:
+        text: 'Message d‘accueil'
+        title: 'Configuration du message d‘accueil'
   accountant:
     title: 'Outils du comptable'
     text: 'Comptable'

@@ -91,16 +91,6 @@ abstract class AbstractRepositoryManager implements ManagerInterface
     }
 
     /**
-     * Return default alias.
-     */
-    abstract public function getDefaultAlias(): string;
-
-    /**
-     * Get the default field for ordering data.
-     */
-    abstract public function getDefaultSortField(): string;
-
-    /**
      * Return the Query builder needed by the paginator.
      *
      * @return QueryBuilder
@@ -216,6 +206,16 @@ abstract class AbstractRepositoryManager implements ManagerInterface
     {
         return $queryBuilder;
     }
+
+    /**
+     * Return default alias.
+     */
+    abstract public function getDefaultAlias(): string;
+
+    /**
+     * Get the default field for ordering data.
+     */
+    abstract public function getDefaultSortField(): string;
 
     /**
      * Main repository getter.
