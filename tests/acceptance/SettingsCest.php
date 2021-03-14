@@ -91,4 +91,27 @@ class SettingsCest
         $you->seeResponseCodeIsSuccessful();
         $you->see('En vacances');
     }
+
+    /**
+     * Try to update welcome message.
+     *
+     * @param AcceptanceTester $you acceptance tester
+     */
+    public function tryToUpdateWelcomeMessage(AcceptanceTester $you): void
+    {
+        $you->wantTo('try to update welcome message');
+        $you->login('administrator');
+        $you->areOnPage('/administration/settings/welcome-message');
+        $you->seeResponseCodeIsSuccessful();
+        $you->fillField('welcome_form[french]', 'Nouveau message de bienvenue');
+        $you->fillField('welcome_form[english]', 'New welcome message');
+        $you->click('Éditer', 'button.btn');
+        $you->seeResponseCodeIsSuccessful();
+        $you->see('Le paramètre « welcome-fr » a été mis à jour');
+        $you->see('Le paramètre « welcome-en » a été mis à jour');
+
+        $you->wantTo('verify the welcome message');
+        $you->areOnPage('/');
+        $you->see('Nouveau message de bienvenue');
+    }
 }
