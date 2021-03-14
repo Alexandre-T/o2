@@ -17,12 +17,16 @@ cache:
 php:
   - "7.4"
 
+node:
+  - 10
+
 matrix:
   fast_finish: true
 
 before_install:
   - mkdir -p build/logs
   - export COMPOSER_PROCESS_TIMEOUT=3000
+  - nvm install 10
 install:
   # Database creation
   - mysql -e 'CREATE DATABASE symfony;'
@@ -37,6 +41,7 @@ install:
   # Integration
   - php bin/console doctrine:query:sql "UPDATE ext_log_entries SET username = 'Intégrateur' WHERE username IS NULL"
   # Install assets
+  - nvm install
   - yarn install
   - yarn encore dev
   # Warm-up cache to avoid maximum execution time errors.
