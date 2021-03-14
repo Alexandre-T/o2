@@ -17,6 +17,10 @@ cache:
 php:
   - "7.4"
 
+env:
+  global:
+    - XDEBUG_MODE=coverage
+
 node:
   - 10
 
