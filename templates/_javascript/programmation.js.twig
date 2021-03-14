@@ -1,12 +1,14 @@
 var updateCheckbox = function () {
   //unique price
   let cat_off = $('#tool_cat_off');
+  let dtc_off = $('#tool_dtc_off');
   let edc_off = $('#tool_edc_off');
   let egr_off = $('#tool_egr_off');
   let ethanol = $('#tool_ethanol');
   let fap_off = $('#tool_fap_off');
   let gear = $('#tool_gear');
   let stage_one = $('#tool_stage_one');
+  let truck_file = $('#tool_truck_file');
 
   //promotion
   let egr_fap_off = $('#tool_egr_fap_off');
@@ -49,20 +51,24 @@ var updateCheckbox = function () {
 
   //Standalone
   if (cat_off.is(':checked')) credit += 5;
+  if (dtc_off.is(':checked')) credit += 2;
   if (edc_off.is(':checked')) credit += 5;
   if (egr_off.is(':checked')) credit += 5;
   if (ethanol.is(':checked')) credit += 10;
   if (fap_off.is(':checked')) credit += 5;
   if (gear.is(':checked')) credit += 10;
   if (stage_one.is(':checked')) credit += 10;
+  if (truck_file.is(':checked')) credit += 25;
 
   $('#programmation_form_catOff').val(cat_off.is(':checked')?1:0);
+  $('#programmation_form_dtcOff').val(dtc_off.is(':checked')?1:0);
   $('#programmation_form_edcOff').val(edc_off.is(':checked')?1:0);
   $('#programmation_form_egrOff').val((egr_off.is(':checked') || egr_fap_off.is(':checked'))?1:0);
   $('#programmation_form_ethanol').val((ethanol.is(':checked') || stage_one_ethanol.is(':checked'))?1:0);
   $('#programmation_form_fapOff').val((fap_off.is(':checked') || egr_fap_off.is(':checked'))?1:0);
   $('#programmation_form_gear').val(gear.is(':checked')?1:0);
   $('#programmation_form_stageOne').val((stage_one.is(':checked') || stage_one_ethanol.is(':checked'))?1:0);
+  $('#programmation_form_truckFile').val(truck_file.is(':checked')?1:0);
 
   $('#credit').html(toCredit(credit));
 }
@@ -72,6 +78,7 @@ $(updateCheckbox);
 
 //After each change update...
 $('#tool_cat_off').change(updateCheckbox);
+$('#tool_dtc_off').change(updateCheckbox);
 $('#tool_edc_off').change(updateCheckbox);
 $('#tool_egr_off').change(updateCheckbox);
 $('#tool_ethanol').change(updateCheckbox);
@@ -80,6 +87,7 @@ $('#tool_gear').change(updateCheckbox);
 $('#tool_stage_one').change(updateCheckbox);
 $('#tool_egr_fap_off').change(updateCheckbox);
 $('#tool_stage_one_ethanol').change(updateCheckbox);
+$('#tool_truck_file').change(updateCheckbox);
 
 var toFloat = function (value) {
   return parseFloat(value).toLocaleString(window.document.documentElement.lang);

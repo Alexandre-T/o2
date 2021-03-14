@@ -39,6 +39,13 @@ class CostCalculator
     private $credit;
 
     /**
+     * DTC.
+     *
+     * @var bool
+     */
+    private $dtc;
+
+    /**
      * EDC15.
      *
      * @var bool
@@ -81,6 +88,13 @@ class CostCalculator
     private $stageOne;
 
     /**
+     * Stage1.
+     *
+     * @var bool
+     */
+    private $truckFile;
+
+    /**
      * CostCalculator constructor.
      *
      * @param ProgrammationInterface $programmation programmation which you want to estimate cost
@@ -89,12 +103,14 @@ class CostCalculator
     {
         $this->credit = 0;
         $this->cat = $programmation->isCatOff();
+        $this->dtc = $programmation->isDtcOff();
         $this->edc = $programmation->isEdcOff();
         $this->egr = $programmation->isEgrOff();
         $this->ethanol = $programmation->isEthanol();
         $this->fap = $programmation->isFapOff();
         $this->gear = $programmation->isGear();
         $this->stageOne = $programmation->isStageOne();
+        $this->truckFile = $programmation->isTruckFile();
     }
 
     /**
@@ -119,12 +135,14 @@ class CostCalculator
     private function addUnitCost(): self
     {
         $this->credit += $this->cat ? ProgrammationInterface::CREDIT_CAT : 0;
+        $this->credit += $this->dtc ? ProgrammationInterface::CREDIT_DTC : 0;
         $this->credit += $this->edc ? ProgrammationInterface::CREDIT_EDC : 0;
         $this->credit += $this->egr ? ProgrammationInterface::CREDIT_EGR : 0;
         $this->credit += $this->ethanol ? ProgrammationInterface::CREDIT_ETHANOL : 0;
         $this->credit += $this->fap ? ProgrammationInterface::CREDIT_FAP : 0;
         $this->credit += $this->gear ? ProgrammationInterface::CREDIT_GEAR : 0;
         $this->credit += $this->stageOne ? ProgrammationInterface::CREDIT_STAGE_ONE : 0;
+        $this->credit += $this->truckFile ? ProgrammationInterface::CREDIT_TRUCK_FILE : 0;
 
         return $this;
     }

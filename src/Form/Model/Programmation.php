@@ -65,6 +65,13 @@ class Programmation implements ProgrammationInterface
     private $cylinderCapacity;
 
     /**
+     * DTC off.
+     *
+     * @var bool
+     */
+    private $dtcOff = false;
+
+    /**
      * Edc off.
      *
      * @var bool
@@ -237,6 +244,13 @@ class Programmation implements ProgrammationInterface
     private $stageOne = false;
 
     /**
+     * File truck.
+     *
+     * @var bool
+     */
+    private $truckFile = false;
+
+    /**
      * Vehicle version.
      *
      * @Assert\NotBlank(message="error.version.blank")
@@ -282,6 +296,7 @@ class Programmation implements ProgrammationInterface
             ->setComment($this->getComment())
             ->setCylinderCapacity($this->getCylinderCapacity())
             ->setCatOff($this->isCatOff())
+            ->setDtcOff($this->isDtcOff())
             ->setEdcOff($this->isEdcOff())
             ->setEgrOff($this->isEgrOff())
             ->setEthanol($this->isEthanol())
@@ -298,6 +313,7 @@ class Programmation implements ProgrammationInterface
             ->setReaderTool($this->getReaderTool())
             ->setSerial($this->getSerial())
             ->setStageOne($this->isStageOne())
+            ->setTruckFile($this->isTruckFile())
             ->setVersion($this->getVersion())
             ->setYear($this->getYear())
         ;
@@ -470,6 +486,14 @@ class Programmation implements ProgrammationInterface
     }
 
     /**
+     * DTC Off getter.
+     */
+    public function isDtcOff(): bool
+    {
+        return $this->dtcOff;
+    }
+
+    /**
      * EdcOff getter.
      */
     public function isEdcOff(): bool
@@ -526,6 +550,14 @@ class Programmation implements ProgrammationInterface
     }
 
     /**
+     * File truck getter.
+     */
+    public function isTruckFile(): bool
+    {
+        return $this->truckFile;
+    }
+
+    /**
      * Cat off fluent setter.
      *
      * @param bool $catOff catalytic asked
@@ -577,6 +609,20 @@ class Programmation implements ProgrammationInterface
     public function setCylinderCapacity($cylinderCapacity): self
     {
         $this->cylinderCapacity = $cylinderCapacity;
+
+        return $this;
+    }
+
+    /**
+     * Dtc OFF setter.
+     *
+     * @param bool $dtcOff dtc off is ordered
+     *
+     * @return Programmation
+     */
+    public function setDtcOff(bool $dtcOff): self
+    {
+        $this->dtcOff = $dtcOff;
 
         return $this;
     }
@@ -827,6 +873,20 @@ class Programmation implements ProgrammationInterface
     public function setStageOne(bool $stageOne): self
     {
         $this->stageOne = $stageOne;
+
+        return $this;
+    }
+
+    /**
+     * File truck setter.
+     *
+     * @param bool $truckFile the file truck is ordered
+     *
+     * @return Programmation
+     */
+    public function setTruckFile(bool $truckFile): self
+    {
+        $this->truckFile = $truckFile;
 
         return $this;
     }

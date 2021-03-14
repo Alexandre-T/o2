@@ -292,6 +292,8 @@ form:
     loading:
       service: 'Une erreur est survenue en chargeant les services de cette organisation.'
   field:
+    dtc-stopped: 'DTC effectué'
+    truck-file-done: 'Fichier camion effectué'
     french-welcome: 'Message en français'
     english-welcome: 'Message en anglais'
     amount: 'Montant TTC'
@@ -392,6 +394,8 @@ form:
     cat-off: 'CAT Off : 5 crédits'
     gear-off: 'Boîte : 10 crédits'
     nature: 'Objet de la commande'
+    dtc-off: 'DTC Off : 2 crédits'
+    truck-file: 'Fichier camion : 25 crédits'
   help:
     english-welcome: 'Entrez ici le message d’accueil en anglais. Il sera affiché à tous les utilisateurs anglophones.'
     french-welcome: 'Entrez ici le message d’accueil en français. Il sera affiché à tous les utilisateurs francophones.'
@@ -1038,6 +1042,8 @@ programmation:
     response: 'Réponse de notre équipe :'
     cat-off: 'CAT Off'
     gear: 'Boîte'
+    dtc-off: 'DTC Off'
+    truck-file: 'Fichier camion'
   customer: 'Client'
 common:
   accepted: 'Accepté'

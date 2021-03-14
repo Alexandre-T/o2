@@ -277,6 +277,8 @@ form:
     loading:
       service: 'An error occurred while loading the services of this organization.'
   field:
+    dtc-stopped: 'DTC done'
+    truck-file-done: 'Truck file done'
     amount: 'Amount'
     article-10: 'Pack(s) of 10 credits'
     article-50: 'Pack(s) of 50 credits'
@@ -368,8 +370,10 @@ form:
     vat-default: 'Normal rate (20%)'
     vat-europe: 'European rate (0%)'
     vat-domtom: 'DOM-TOM rate (8,5%)'
-    cat-off: 'CAT Off: 5 crédits'
-    gear-off: 'Gear: 10 crédits'
+    cat-off: 'CAT Off: 5 credits'
+    gear-off: 'Gear: 10 credits'
+    dtc-off: 'DTC Off : 2 credits'
+    truck-file: 'Truck file : 25 credits'
   help:
     english-welcome: 'Write the english message here. This message will be display to all english users.'
     french-welcome: 'Write the french message here. This message will be display to all french users.'
@@ -985,6 +989,8 @@ programmation:
     response: 'Team answer:'
     cat-off: 'CAT Off'
     gear: 'Gear'
+    dtc-off: 'DTC Off'
+    truck-file: 'Truck file'
   customer: 'Customer'
 common:
   accepted: 'Accepted'

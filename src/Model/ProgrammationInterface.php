@@ -22,6 +22,8 @@ interface ProgrammationInterface
      */
     public const CREDIT_CAT = 5;
 
+    public const CREDIT_DTC = 2;
+
     public const CREDIT_EDC = 5;
 
     public const CREDIT_EGR = 5;
@@ -33,6 +35,8 @@ interface ProgrammationInterface
     public const CREDIT_GEAR = 10;
 
     public const CREDIT_STAGE_ONE = 10;
+
+    public const CREDIT_TRUCK_FILE = 25;
 
     /**
      * Constant for GEAR field.

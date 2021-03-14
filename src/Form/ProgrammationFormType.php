@@ -19,6 +19,7 @@ use App\Form\Model\Programmation;
 use App\Form\Type\CatOffType;
 use App\Form\Type\CommentType;
 use App\Form\Type\CylinderCapacityType;
+use App\Form\Type\DtcOffType;
 use App\Form\Type\EdcOffType;
 use App\Form\Type\EgrOffType;
 use App\Form\Type\EthanolType;
@@ -36,6 +37,7 @@ use App\Form\Type\ReaderToolType;
 use App\Form\Type\ReadType;
 use App\Form\Type\SerialType;
 use App\Form\Type\StageOneType;
+use App\Form\Type\TruckFileType;
 use App\Form\Type\VersionType;
 use App\Form\Type\YearType;
 use Symfony\Component\Form\AbstractType;
@@ -77,12 +79,14 @@ class ProgrammationFormType extends AbstractType
             ->add('read', ReadType::class)
             ->add('odb', OdbType::class)
             ->add('catOff', CatOffType::class)
+            ->add('dtcOff', DtcOffType::class)
             ->add('edcOff', EdcOffType::class)
             ->add('egrOff', EgrOffType::class)
             ->add('ethanol', EthanolType::class)
             ->add('fapOff', FapOffType::class)
             ->add('gear', GearType::class)
             ->add('stageOne', StageOneType::class)
+            ->add('truckFile', TruckFileType::class)
             ->add('originalFile', OriginalFileType::class)
             ->add('comment', CommentType::class)
         ;

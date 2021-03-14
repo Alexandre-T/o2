@@ -38,6 +38,13 @@ class UploadProgrammation
     private $catStopped = false;
 
     /**
+     * DTC off.
+     *
+     * @var bool
+     */
+    private $dtcStopped = false;
+
+    /**
      * Edc off.
      *
      * @var bool
@@ -111,6 +118,13 @@ class UploadProgrammation
     private $stageOneDone = false;
 
     /**
+     * Truck file.
+     *
+     * @var bool
+     */
+    private $truckFileDone = false;
+
+    /**
      * Upload programmation model constructor.
      *
      * I provide programmation and I copy "what is ask" to "what is done".
@@ -120,12 +134,14 @@ class UploadProgrammation
     public function __construct(Programmation $programmation)
     {
         $this->setCatStopped($programmation->isCatOff());
+        $this->setDtcStopped($programmation->isDtcOff());
         $this->setEdcStopped($programmation->isEdcOff());
         $this->setEgrStopped($programmation->isEgrOff());
         $this->setEthanolDone($programmation->isEthanol());
         $this->setFapStopped($programmation->isFapOff());
         $this->setGearDone($programmation->isGear());
         $this->setStageOneDone($programmation->isStageOne());
+        $this->setTruckFileDone($programmation->isTruckFile());
     }
 
     /**
@@ -149,12 +165,14 @@ class UploadProgrammation
         $programmation
             ->setResponse($this->getResponse())
             ->setCatStopped($this->isCatStopped())
+            ->setDtcStopped($this->isDtcStopped())
             ->setEdcStopped($this->isEdcStopped())
             ->setEgrStopped($this->isEgrStopped())
             ->setEthanolDone($this->isEthanolDone())
             ->setFapStopped($this->isFapStopped())
             ->setGearDone($this->isGearDone())
             ->setStageOneDone($this->isStageOneDone())
+            ->setTruckFileDone($this->isTruckFileDone())
         ;
     }
 
@@ -194,6 +212,14 @@ class UploadProgrammation
     public function isCatStopped(): bool
     {
         return $this->catStopped;
+    }
+
+    /**
+     * DtcStopped getter.
+     */
+    public function isDtcStopped(): bool
+    {
+        return $this->dtcStopped;
     }
 
     /**
@@ -245,6 +271,14 @@ class UploadProgrammation
     }
 
     /**
+     * TruckFile getter.
+     */
+    public function isTruckFileDone(): bool
+    {
+        return $this->truckFileDone;
+    }
+
+    /**
      * Cat stopped fluent setter.
      *
      * @param bool $catStopped CAT15 asked
@@ -254,6 +288,20 @@ class UploadProgrammation
     public function setCatStopped(bool $catStopped): self
     {
         $this->catStopped = $catStopped;
+
+        return $this;
+    }
+
+    /**
+     * Dtc stopped fluent setter.
+     *
+     * @param bool $dtcStopped DTC15 asked
+     *
+     * @return UploadProgrammation
+     */
+    public function setDtcStopped(bool $dtcStopped): self
+    {
+        $this->dtcStopped = $dtcStopped;
 
         return $this;
     }
@@ -380,6 +428,20 @@ class UploadProgrammation
     public function setStageOneDone(bool $stageOneDone): self
     {
         $this->stageOneDone = $stageOneDone;
+
+        return $this;
+    }
+
+    /**
+     * Stage one done fluent setter.
+     *
+     * @param bool $truckFileDone Stage1 reprogrammation
+     *
+     * @return UploadProgrammation
+     */
+    public function setTruckFileDone(bool $truckFileDone): self
+    {
+        $this->truckFileDone = $truckFileDone;
 
         return $this;
     }

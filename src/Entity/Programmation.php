@@ -117,6 +117,24 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $deliveredAt;
 
     /**
+     * DTC off.
+     *
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $dtcOff = false;
+
+    /**
+     * DTC Stopped.
+     *
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $dtcStopped = false;
+
+    /**
      * Edc off.
      *
      * @var bool
@@ -361,6 +379,24 @@ class Programmation implements EntityInterface, ProgrammationInterface
     private $stageOneDone = false;
 
     /**
+     * Truck file ordered.
+     *
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $truckFile = false;
+
+    /**
+     * Truck File done.
+     *
+     * @var bool
+     *
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $truckFileDone = false;
+
+    /**
      * Vehicle version.
      *
      * @var string
@@ -597,6 +633,22 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
+     * DTC getter.
+     */
+    public function isDtcOff(): bool
+    {
+        return $this->dtcOff;
+    }
+
+    /**
+     * DTC stopped getter.
+     */
+    public function isDtcStopped(): bool
+    {
+        return $this->dtcStopped;
+    }
+
+    /**
      * Is EDC off.
      */
     public function isEdcOff(): ?bool
@@ -711,6 +763,22 @@ class Programmation implements EntityInterface, ProgrammationInterface
     }
 
     /**
+     * Truck file getter.
+     */
+    public function isTruckFile(): bool
+    {
+        return $this->truckFile;
+    }
+
+    /**
+     * Truck file done getter.
+     */
+    public function isTruckFileDone(): bool
+    {
+        return $this->truckFileDone;
+    }
+
+    /**
      * Refresh the cost corresponding to programmation options selected.
      *
      * @return Programmation
@@ -804,6 +872,34 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function setDeliveredAt(?DateTimeInterface $deliveredAt): self
     {
         $this->deliveredAt = $deliveredAt;
+
+        return $this;
+    }
+
+    /**
+     * DTC fluent setter.
+     *
+     * @param bool $dtcOff is true when dtc off is ordered
+     *
+     * @return Programmation
+     */
+    public function setDtcOff(bool $dtcOff): self
+    {
+        $this->dtcOff = $dtcOff;
+
+        return $this;
+    }
+
+    /**
+     * DTC stopped fluent setter.
+     *
+     * @param bool $dtcStopped is true when DTC is stopped
+     *
+     * @return Programmation
+     */
+    public function setDtcStopped(bool $dtcStopped): self
+    {
+        $this->dtcStopped = $dtcStopped;
 
         return $this;
     }
@@ -1154,6 +1250,34 @@ class Programmation implements EntityInterface, ProgrammationInterface
     public function setStageOneDone(bool $stageOneDone): self
     {
         $this->stageOneDone = $stageOneDone;
+
+        return $this;
+    }
+
+    /**
+     * Truck file setter.
+     *
+     * @param bool $truckFile truck file is true when ordered
+     *
+     * @return Programmation
+     */
+    public function setTruckFile(bool $truckFile): self
+    {
+        $this->truckFile = $truckFile;
+
+        return $this;
+    }
+
+    /**
+     * Truck file done setter.
+     *
+     * @param bool $truckFileDone truck file is done when true, undone when false
+     *
+     * @return Programmation
+     */
+    public function setTruckFileDone(bool $truckFileDone): self
+    {
+        $this->truckFileDone = $truckFileDone;
 
         return $this;
     }
