@@ -199,14 +199,16 @@ class CustomerCest
         $you->fillField('programmation_form[egrOff]', true); //HIDDEN
         $you->fillField('programmation_form[ethanol]', true); //HIDDEN
         $you->fillField('programmation_form[fapOff]', true); //HIDDEN
+        $you->fillField('programmation_form[dtcOff]', true); //HIDDEN
+        $you->fillField('programmation_form[truckFile]', true); //HIDDEN
         $you->fillField('programmation_form[gear]', true); //HIDDEN
         $you->attachFile('programmation_form[originalFile][file]', 'upload.txt');
         $you->click('Commander', 'button');
         $you->seeResponseCodeIsSuccessful();
         $programmationId = $you->grabFromCurrentUrl('~(\d+)~');
         $you->seeCurrentUrlEquals('/customer/programmation/'.$programmationId);
-        $you->seeNumberOfElements('span.badge.badge-success', 6);
-        $you->seeNumberOfElements('span.badge.badge-secondary', 8);
+        $you->seeNumberOfElements('span.badge.badge-success', 8);
+        $you->seeNumberOfElements('span.badge.badge-secondary', 10);
         $you->click('Mes fichiers');
         $you->seeResponseCodeIsSuccessful();
         $you->seeCurrentUrlEquals('/customer/programmation/list');
