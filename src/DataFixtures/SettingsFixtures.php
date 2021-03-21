@@ -106,10 +106,10 @@ class SettingsFixtures extends Fixture
         $manager->persist($this->createSettings('service-until', new DateTimeImmutable()));
 
         //FR Welcome message...
-        $manager->persist($this->createSettings('welcome-fr', 'Bienvenue dans le File-Service'));
+        $manager->persist($this->createSettings('welcome-fr', 'Bienvenue dans le File-Service', false));
 
         //EN Welcome message...
-        $manager->persist($this->createSettings('welcome-en', 'Welcome in the File-Service'));
+        $manager->persist($this->createSettings('welcome-en', 'Welcome in the File-Service', false));
 
         $manager->flush();
     }
