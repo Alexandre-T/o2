@@ -1,0 +1,29 @@
+version: "3.6"
+services:
+    php7:
+        container_name: "o2-php"
+        depends_on:
+            -   database-mysql5
+        build:
+            context: ./docker/php
+        volumes:
+            - ./:/var/www
+        ports:
+            -   "8000:8000"
+    database-mysql5:
+        image: mysql:5.7
+        container_name: "o2-mysql"
+        restart: always
+        environment:
+            MYSQL_DATABASE: main
+            MYSQL_USER: main
+            MYSQL_PASSWORD: main
+            MYSQL_ROOT_PASSWORD: main
+            MYSQL_PORT: 3306
+        ports:
+            - "3306:3306"
+    maildev:
+        image: djfarrelly/maildev
+        ports:
+            - "8002:80"
+            - "8025:25"
